@@ -1,0 +1,176 @@
+plugins {
+    id 'checkstyle'
+    id 'io.spring.dependency-management' version '1.0.6.RELEASE'
+    id 'org.springframework.boot' version '2.5.6'
+    id 'com.github.ben-manes.versions' version '0.38.0'
+    id 'java-library'
+    id 'maven-publish'
+}
+
+def buildNumber = System.getenv("RELEASE_VERSION")?.replace("refs/tags/", "") ?: "DEV-SNAPSHOT"
+
+group 'uk.gov.hmcts.reform'
+version buildNumber
+
+checkstyle {
+    maxWarnings = 0
+    toolVersion = '8.5'
+}
+
+sourceCompatibility = 1.8
+
+compileJava {
+    options.compilerArgs << '-parameters' << '-Xlint:deprecation'
+}
+
+compileTestJava {
+    options.compilerArgs << '-Xlint:deprecation'
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': project.name, 'Implementation-Version': project.version
+    }
+}
+
+task printVersion {
+    doLast {
+        print project.version
+    }
+}
+
+def pomConfig = {
+    licenses {
+        license {
+            name "MIT License"
+            url "http://www.opensource.org/licenses/mit-license.php"
+            distribution "repo"
+        }
+    }
+
+    scm {
+        url "https://github.com/hmcts/ccd-client"
+    }
+}
+
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+def gitRepo = "https://github.com/hmcts/ccd-client"
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = 'Core case data store client'
+                description = 'Core case data store client'
+                url = gitRepo
+                licenses {
+                    license {
+                        name = 'MIT License, Copyright (c) 2019 HM Courts & Tribunals Service'
+                        url = "http://www.opensource.org/licenses/mit-license.php"
+                    }
+                }
+                scm {
+                    url = gitRepo
+                }
+            }
+        }
+    }
+}
+
+ext {
+    lombokVersion = '1.18.16'
+    springCloudVersion = '2020.0.4'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+sourceSets {
+    functionalTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+configurations {
+    functionalTestImplementation.extendsFrom testImplementation
+    functionalTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+task functionalTest(type: Test) {
+    description = 'Runs functional tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
+}
+
+dependencies {
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation group: 'io.github.openfeign', name: 'feign-jackson'
+
+    implementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.1'
+
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testImplementation group: 'com.github.tomakehurst', name: 'wiremock-standalone', version: '2.27.2'
+    testImplementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
+
+    testImplementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+
+    functionalTestImplementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '2.0.1'
+    functionalTestImplementation group: 'uk.gov.hmcts.reform', name: 'idam-client', version: '1.3.0'
+    functionalTestImplementation group: 'org.assertj', name: 'assertj-core', version: '3.21.0'
+    functionalTestCompileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+    functionalTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+
+    functionalTestImplementation group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names', version: '2.13.0'
+}
+
+wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+    archiveClassifier = ''
+}
