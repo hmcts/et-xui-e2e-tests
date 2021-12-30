@@ -1,61 +1,38 @@
-# Core case data client
-[![Download](https://jitpack.io/v/hmcts/ccd-client.svg) ](https://jitpack.io/#hmcts/ccd-client)
+# Employment Tribunal CCD End2End Journey Tests 
 
-This is a client library for interacting with the core case data store application. The two main responsibilities are:
- - start event for new case
- - submit case to core case data app
+Not in use as we integrated the tests in CCD definition project itself.
 
-## Getting started
+## Purpose
+
+This service is to help people to run End2End Journey Tests for Employment Tribunal.
+
+## Getting Started
 
 ### Prerequisites
 
-- [JDK 8](https://www.oracle.com/java)
-- [Docker](https://www.docker.com)
+Running the application requires the following tools to be installed in your environment:
 
-## Usage
+- [Node.js](https://nodejs.org/) v7.2.0 or later
+- [yarn](https://yarnpkg.com/)
 
-Just include the library as your dependency and you will be to use the client class. Health check for CCD service is provided as well.
+### Running the application
 
-Components provided by this library will get automatically configured in a Spring context if `core_case_data.api.url` configuration property is defined and does not equal `false`. 
+Install dependencies by executing the following command:
 
-## Building
-
-The project uses [Gradle](https://gradle.org) as a build tool but you don't have install it locally since there is a
-`./gradlew` wrapper script.  
-
-To build project please execute the following command:
-
-```bash
-    ./gradlew build
+```
+$ yarn install
 ```
 
-## Developing
+### Running the End To End tests for Consented & Contested Journeys
 
-### Coding style tests
-
-To run all checks (including unit tests) please execute the following command:
-
-```bash
-    ./gradlew check
 ```
 
-## Functional Tests
-
-The functional tests rely on CCD and Idam and need to be configured with appropriate user roles and events.
-Before running the functional test on a local environment run the following:
-```bash
-    ./scripts/create-role.sh
-    ./scripts/import-definintion.sh
 ```
 
-## Versioning
+(If you want to view the tests as they run in Chromium then remove the “--headless“ flag from codecept.e2e.test.conf.js)
 
-We use [SemVer](http://semver.org/) for versioning.
-For the versions available, see the tags on this repository.
+## Verification
 
-To release a new version add a tag with the version number and push this up to the origin repository. This will then 
-build and publish the release to maven.
+### Eslint is included and will verify the config is properly formatted:
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
+`$ yarn lint`
