@@ -1,0 +1,4 @@
+node_modules/*
+docs/*
+govuk_modules/*
+functional-output/*
