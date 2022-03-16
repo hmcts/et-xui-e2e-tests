@@ -8,7 +8,7 @@ setHeadlessWhen(process.env.HEADLESS);
 setCommonPlugins();
 
 exports.config = {
-  tests: './test/*_test.js',
+  tests: './test/**/**/*_test.js',
   output: './output',
   helpers: {
     WebDriver: {

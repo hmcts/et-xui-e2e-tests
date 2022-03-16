@@ -1,4 +1,4 @@
-
+node_modules/
 .idea
 *.ipr
 *.iml
@@ -16,3 +16,12 @@
 .idea/
 .vscode/
 *.iml
+
+.project
+.settings/
+dist/
+public/
+coverage/
+output/
+package-lock.json
+.vscode
