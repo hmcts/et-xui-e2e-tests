@@ -8,8 +8,8 @@
     "license": "hmcts",
     "private": true,
     "dependencies": {
-        "@wdio/crossbrowsertesting-service": "7.17.4",
-        "@wdio/sauce-service": "7.17.4",
+        "@wdio/crossbrowsertesting-service": "7.17.3",
+        "@wdio/sauce-service": "7.17.3",
         "@wdio/selenium-standalone-service": "7.16.16"
     },
     "scripts": {
