@@ -12,7 +12,7 @@ exports.config = {
   output: './output',
   helpers: {
     WebDriver: {
-      url: 'https://et-sya.aat.platform.hmcts.net/',
+      url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
       browser: 'chrome'
     }
   },
