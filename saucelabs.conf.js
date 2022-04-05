@@ -1,15 +1,12 @@
-/* eslint-disable no-process-env */
 
-const config = require('config');
-const supportedBrowsers = require('./test/e2e/crossbrowsers');
-const logger = require('logger');
+const supportedBrowsers = require('./test/e2e/crossbrowsers/supportedBrowsers');
 
-const logPath = 'saucelabs.conf.js';
-const evidenceUploadEnabled = config.get('features.evidenceUpload.enabled');
+//const evidenceUploadEnabled = config.get('features.evidenceUpload.enabled');
 
 const defaultSauceOptions = {
-    username: process.env.SAUCE_USERNAME || config.get('saucelabs.username'),
-    accessKey: process.env.SAUCE_ACCESS_KEY || config.get('saucelabs.key'),
+    username: process.env.SAUCE_USERNAME,
+    accessKey: process.env.SAUCE_ACCESS_KEY,
+    tunnelIdentifier: process.env.TUNNEL_IDENTIFIER || 'reformtunnel',
     acceptSslCerts: true,
     tags: ['ET']
 };
@@ -43,43 +40,30 @@ const pauseFor = seconds => {
 };
 
 const setupConfig = {
-    tests: './test/*_test.js',
-    output: config.get('saucelabs.outputDir'),
-    features: {
-        evidenceUpload: {
-            enabled: evidenceUploadEnabled
-        }
-    },
+    tests: './test/**/**/*_test.js',
+    output: 'e2e/output',
     helpers: {
-        WebDriver: {
-            url: process.env.TEST_URL || config.get('e2e.frontendUrl'),
-            browser: process.env.SAUCE_BROWSER || config.get('saucelabs.browser'),
-            smartWait: parseInt(config.get('saucelabs.smartWait')),
-            cssSelectorsEnabled: 'true',
-            host: 'ondemand.eu-central-1.saucelabs.com',
-            port: 80,
+        "WebDriver": {
+            "url": process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
+            "browser": process.env.SAUCE_BROWSER || '',
+            host: process.env.HOST || 'saucelabs',
+            "cssSelectorsEnabled": 'true',
+            "host": 'ondemand.eu-central-1.saucelabs.com',
+            "port": 80,
             region: 'eu',
             capabilities: {}
         },
-        MyHelper: {
-            require: './helpers/helper.js',
-            url: config.get('e2e.frontendUrl')
+        "MyHelper": {
+            "require": './test/helper.js',
+            "url":process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
         },
-        SauceLabsReportingHelper: { require: './helpers/SauceLabsReportingHelper.js' }
+    
     },
     include: {
-        I: './steps_file.js'
+        I: './steps_file.js',
+        basePage: './test/pages/basepage.page.js',
     },
-    bootstrapAll: done => {
-        fileAcceptor.bootstrap(done);
-    },
-    teardownAll: done => {
-        // Pause to allow SauceLabs to finish updating before Jenkins queries it for results
-        logger.trace('Wait for 30 seconds before Jenkins queries SauceLabs results...'
-            , logPath);
-        pauseFor(30);
-        fileAcceptor.teardown(done);
-    },
+    bootstrap: null,
     mocha: {
         reporterOptions: {
             'codeceptjs-cli-reporter': {
@@ -87,9 +71,9 @@ const setupConfig = {
                 options: { steps: true }
             },
             mochawesome: {
-                stdout: './functional-output/console.log',
+                stdout: 'e2e/output/console.log',
                 options: {
-                    reportDir: config.get('saucelabs.outputDir'),
+                    reportDir: '',
                     reportName: 'index',
                     inlineAssets: true
                 }
@@ -102,9 +86,6 @@ const setupConfig = {
         },
         firefox: {
             browsers: getBrowserConfig('firefox')
-        },
-        safari: {
-            browsers: getBrowserConfig('safari')
         },
         safari: {
             browsers: getBrowserConfig('safari')

@@ -11,9 +11,9 @@ exports.config = {
   tests: './test/**/**/*_test.js',
   output: './output',
   helpers: {
-    WebDriver: {
-      url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
-      browser: 'chrome'
+    "WebDriver": {
+      "url": process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
+      "browser": "chrome"
     }
   },
   include: {
@@ -21,8 +21,28 @@ exports.config = {
     basePage: './test/pages/basepage.page.js',
   },
   bootstrap: null,
-  mocha: {},
+  mocha: {
+    "reporterOptions": {
+      "reportDir": "./output",
+      "reportFilename": "testReport"
+  }
+  },
   name: 'et-ccd-e2e-tests',
+  multiple: {
+    "chrome": {
+      "browsers": ["chrome"]
+    },
+    "firefox": {
+      "browsers": ["firefox"]
+    },
+    "safari": {
+      "browsers": ["safari"]
+    },
+    parallel: {
+      chunks: 2,
+      "browsers": ["chrome", "firefox", "safari"]
+    }
+  },
   plugins: {
     retryFailedStep: {
       enabled: true
@@ -31,8 +51,12 @@ exports.config = {
       enabled: true
     },
     wdio: {
-      enabled: true,
-      services: ['selenium-standalone']
+      enabled: true, 
+      services: ['sauce', 'selenium-standalone'],
+      username: process.env.SAUCE_USERNAME ||'username',
+      accessKey: process.env.SAUCE_ACCESS_KEY || 'privatekey',
+      acceptSslCerts: true,
+  
     }
   }
 }
