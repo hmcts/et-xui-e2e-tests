@@ -24,7 +24,7 @@
         "codeceptjs:demo:ui": "codecept-ui --app  -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
         "test:crossbrowser": "codeceptjs run-multiple ${BROWSER_GROUP:-'--all'} --steps -c saucelabs.conf.js --steps --reporter mocha-multi --verbose",
         "test:profile": "SAUCE_TUNNEL_NAME=sunnyayeni_tunnel_name yarn test:fullfunctional  --steps -c saucelabs.conf.js --profile sauce:chrome,firefox,safari",
-        "lint": "NODE_PATH=. eslint ."
+        "lint": "echo need to implement"
     },
     "devDependencies": {
         "@codeceptjs/configure": "0.8.0",
