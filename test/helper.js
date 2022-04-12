@@ -1,15 +1,17 @@
+const assert = require('assert');
+
 const Helper = require('@codeceptjs/helper');
 
 // use any assertion library you like
-const assert = require('assert');
 
 class MyHelper extends Helper {
   /**
    * checks that authentication cookie is set
    */
+  // eslint-disable-next-line
   async seeAuthentication() {
     // access current browser of WebDriver helper
-    const { WebDriver } = this.helpers
+    const { WebDriver } = this.helpers;
     const { browser } = WebDriver;
 
     // get all cookies according to https://webdriver.io/api/protocol/cookie.html
@@ -19,11 +21,13 @@ class MyHelper extends Helper {
     let cookies = res.value;
     for (let k in cookies) {
       // check for a cookie
-      if (cookies[k].name != 'logged_in') continue;
+      if (cookies[k].name !== 'logged_in') {
+        continue;
+      }
       assert.equal(cookies[k].value, 'yes');
       return;
     }
-    assert.fail(cookies, 'logged_in', "Auth cookie not set");
+    assert.fail(cookies, 'logged_in', 'Auth cookie not set');
   }
 }
 
