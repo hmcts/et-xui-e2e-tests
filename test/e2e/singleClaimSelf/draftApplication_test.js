@@ -1,4 +1,4 @@
-Feature('draftApplication');
+Feature('daftApplication');
 
 Scenario('Make Draft Application', async ({ I, basePage }) => {
   I.amOnPage('/');
