@@ -15,6 +15,12 @@ exports.config = {
     WebDriver: {
       url:testUrl,
       browser: 'chrome',
+      windowSize: '1920x1680',
+      desiredCapabilities: {
+        chromeOptions: {
+          args: [ '--headless', '--disable-gpu', '--no-sandbox' ]
+        }
+      }
     },
     SauceHelper: {
       require: 'codeceptjs-saucehelper',
@@ -58,8 +64,8 @@ exports.config = {
     wdio: {
       enabled: true,
       services: ['sauce', 'selenium-standalone'],
-      username: process.env.SAUCE_USERNAME || 'username',
-      accessKey: process.env.SAUCE_ACCESS_KEY || 'privatekey',
+      username: process.env.SAUCE_USERNAME,
+      accessKey: process.env.SAUCE_ACCESS_KEY,
       acceptSslCerts: true,
     },
   },
