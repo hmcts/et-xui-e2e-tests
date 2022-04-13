@@ -22,10 +22,6 @@ exports.config = {
         }
       }
     },
-    SauceHelper: {
-      require: 'codeceptjs-saucehelper',
-    },
-    REST: {},
   },
   include: {
     I: './steps_file.js',
@@ -63,9 +59,7 @@ exports.config = {
     },
     wdio: {
       enabled: true,
-      services: ['sauce', 'selenium-standalone'],
-      username: process.env.SAUCE_USERNAME,
-      accessKey: process.env.SAUCE_ACCESS_KEY,
+      services: ['selenium-standalone'],
       acceptSslCerts: true,
     },
   },
