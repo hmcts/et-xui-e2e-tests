@@ -15,6 +15,8 @@ exports.config = {
     WebDriver: {
       url:testUrl,
       browser: 'chrome',
+      host: '127.0.0.1',
+      port: 4444,
       windowSize: '1920x1680',
       desiredCapabilities: {
         chromeOptions: {
