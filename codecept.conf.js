@@ -1,4 +1,5 @@
 const { setHeadlessWhen, setCommonPlugins } = require('@codeceptjs/configure');
+const testUrl =  process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/';
 
 // turn on headless mode when running with HEADLESS=true environment variable
 // export HEADLESS=true && npx codeceptjs run
@@ -12,7 +13,7 @@ exports.config = {
   output: './output',
   helpers: {
     WebDriver: {
-      url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
+      url:testUrl,
       browser: 'chrome',
     },
     SauceHelper: {
