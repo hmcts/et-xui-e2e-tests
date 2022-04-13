@@ -1,5 +1,5 @@
-# et-ux-ui-e2e-tests
-Employment Tribunal UX UI E2E Tests
+# et-xui-e2e-tests
+Employment Tribunal XUI E2E Tests
 
 
 ## Getting Started
