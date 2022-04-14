@@ -12,17 +12,24 @@ exports.config = {
   tests: './test/**/**/*_test.js',
   output: './output',
   helpers: {
-    WebDriver: {
+    Puppeteer: {
       url:testUrl,
-      browser: 'chrome',
-      host: '127.0.0.1',
-      port: 4444,
-      windowSize: '1920x1680',
-      desiredCapabilities: {
-        chromeOptions: {
-          args: [ '--headless', '--disable-gpu', '--no-sandbox' ]
-        }
+      waitForNavigation: 'load',
+      getPageTimeout: 60000,
+      show: false,
+      windowSize: '1000x1000',
+      chrome: {
+        ignoreHTTPSErrors: true,
+        args: [
+            '--headless',
+            '--disable-gpu',
+            '--disable-dev-shm-usage',
+            '--no-sandbox',
+            '--allow-running-insecure-content',
+            '--ignore-certificate-errors'
+        ]
       }
+
     },
   },
   include: {
@@ -58,11 +65,6 @@ exports.config = {
     },
     screenshotOnFail: {
       enabled: true,
-    },
-    wdio: {
-      enabled: true,
-      services: ['selenium-standalone'],
-      acceptSslCerts: true,
-    },
-  },
+    }
+  }
 };
