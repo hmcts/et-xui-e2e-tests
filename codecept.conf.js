@@ -1,4 +1,5 @@
 const { setHeadlessWhen, setCommonPlugins } = require('@codeceptjs/configure');
+const testUrl =  process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/';
 
 // turn on headless mode when running with HEADLESS=true environment variable
 // export HEADLESS=true && npx codeceptjs run
@@ -11,10 +12,25 @@ exports.config = {
   tests: './test/**/**/*_test.js',
   output: './output',
   helpers: {
-    "WebDriver": {
-      "url": process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
-      "browser": "chrome"
-    }
+    Puppeteer: {
+      url:testUrl,
+      waitForNavigation: 'load',
+      getPageTimeout: 60000,
+      show: false,
+      windowSize: '1000x1000',
+      chrome: {
+        ignoreHTTPSErrors: true,
+        args: [
+            '--headless',
+            '--disable-gpu',
+            '--disable-dev-shm-usage',
+            '--no-sandbox',
+            '--allow-running-insecure-content',
+            '--ignore-certificate-errors'
+        ]
+      }
+
+    },
   },
   include: {
     I: './steps_file.js',
@@ -22,41 +38,33 @@ exports.config = {
   },
   bootstrap: null,
   mocha: {
-    "reporterOptions": {
-      "reportDir": "./output",
-      "reportFilename": "testReport"
-  }
+    reporterOptions: {
+      reportDir: './output',
+      reportFilename: 'testReport',
+    },
   },
   name: 'et-ccd-e2e-tests',
   multiple: {
-    "chrome": {
-      "browsers": ["chrome"]
+    chrome: {
+      browsers: ['chrome'],
     },
-    "firefox": {
-      "browsers": ["firefox"]
+    firefox: {
+      browsers: ['firefox'],
     },
-    "safari": {
-      "browsers": ["safari"]
+    safari: {
+      browsers: ['safari'],
     },
     parallel: {
       chunks: 2,
-      "browsers": ["chrome", "firefox", "safari"]
-    }
+      browsers: ['chrome', 'firefox', 'safari'],
+    },
   },
   plugins: {
     retryFailedStep: {
-      enabled: true
+      enabled: true,
     },
     screenshotOnFail: {
-      enabled: true
-    },
-    wdio: {
-      enabled: true, 
-      services: ['sauce', 'selenium-standalone'],
-      username: process.env.SAUCE_USERNAME ||'username',
-      accessKey: process.env.SAUCE_ACCESS_KEY || 'privatekey',
-      acceptSslCerts: true,
-  
+      enabled: true,
     }
   }
-}
+};
