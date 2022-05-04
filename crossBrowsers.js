@@ -69,7 +69,7 @@ const setupConfig = {
         options: { steps: true },
       },
       mochawesome: {
-        stdout: './functional-output/console.log',
+        stdout: './e2e-output/console.log',
         options: {
           reportDir: config.get('saucelabs.outputDir'),
           reportName: 'index',

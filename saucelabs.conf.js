@@ -33,7 +33,7 @@ function getBrowserConfig(browserGroup) {
 
 const setupConfig = {
   tests: './test/**/**/*_test.js',
-  output: 'e2e/output',
+  output: config.get('saucelabs.outputDir'),
   helpers: {
     WebDriver: {
       url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
@@ -65,9 +65,9 @@ const setupConfig = {
         options: { steps: true },
       },
       mochawesome: {
-        stdout: 'e2e/output/console.log',
+        stdout: './e2e-output/console.log',
         options: {
-          reportDir: '',
+          reportDir: config.get('saucelabs.outputDir'),
           reportName: 'index',
           inlineAssets: true,
         },
