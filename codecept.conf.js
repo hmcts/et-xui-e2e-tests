@@ -10,7 +10,7 @@ setCommonPlugins();
 
 exports.config = {
   tests: './test/**/**/*_test.js',
-  output: './output',
+  output: './e2e-output',
   helpers: {
     Puppeteer: {
       url:testUrl,
@@ -39,11 +39,11 @@ exports.config = {
   bootstrap: null,
   mocha: {
     reporterOptions: {
-      reportDir: './output',
+      reportDir: './e2e-output',
       reportFilename: 'testReport',
     },
   },
-  name: 'et-ccd-e2e-tests',
+  name: 'et-xui-e2e-tests',
   multiple: {
     chrome: {
       browsers: ['chrome'],
