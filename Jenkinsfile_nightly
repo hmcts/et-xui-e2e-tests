@@ -37,6 +37,11 @@ withNightlyPipeline("nodejs", product, component) {
     enableCrossBrowserTest()
     //enableFortifyScan()
 
+    after('crossBrowserTest') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+    }
+
+    
     after('fullFunctionalTest') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
 
@@ -44,8 +49,8 @@ withNightlyPipeline("nodejs", product, component) {
                 allowMissing : true,
                 alwaysLinkToLastBuild: true,
                 keepAll : true,
-                reportDir : "functional-output",
-                reportFiles : "et-e2e-result.html",
+                reportDir : "functional-output/e2e/reports",
+                reportFiles : "ET-XUI-E2E.html",
                 reportName : "ET E2E tests result"
         ]
     }
