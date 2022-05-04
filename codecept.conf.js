@@ -10,7 +10,7 @@ setCommonPlugins();
 
 exports.config = {
   tests: './test/**/**/*_test.js',
-  output: './e2e-output',
+  output: './functional-output/e2e/',
   helpers: {
     Puppeteer: {
       url:testUrl,
@@ -38,9 +38,27 @@ exports.config = {
   },
   bootstrap: null,
   mocha: {
+    reporterEnabled: 'codeceptjs-cli-reporter, mochawesome',
     reporterOptions: {
-      reportDir: './e2e-output',
-      reportFilename: 'testReport',
+      'codeceptjs-cli-reporter': {
+        stdout: '-',
+        options:{
+          verbose: false,
+          steps: true
+        }
+      },
+      mochawesome:{
+        stdout: './functional-output/e2e/console.log',
+        options: {
+          includeScreenshots: true,
+          reportDir: './functional-output/e2e/reports',
+          reportFilename: 'ET-XUI-E2E',
+          inline:true,
+          html:true,
+          json:true
+        }
+      }
+
     },
   },
   name: 'et-xui-e2e-tests',
@@ -60,6 +78,11 @@ exports.config = {
     },
   },
   plugins: {
+    stepByStepReport:{
+      enabled: true,
+      fullPageScreenshots: true,
+      deleteSuccessful: false,
+    },
     retryFailedStep: {
       enabled: true,
     },

@@ -22,7 +22,7 @@ node_modules/
 dist/
 public/
 coverage/
-output/
+functional-output/
 package-lock.json
 .vscode
 yarn-error.log
