@@ -1,5 +1,5 @@
 const { setHeadlessWhen, setCommonPlugins } = require('@codeceptjs/configure');
-const testUrl =  process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/';
+const testUrl = process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/';
 
 // turn on headless mode when running with HEADLESS=true environment variable
 // export HEADLESS=true && npx codeceptjs run
@@ -9,11 +9,11 @@ setHeadlessWhen(process.env.HEADLESS);
 setCommonPlugins();
 
 exports.config = {
-  tests: './test/**/**/*_test.js',
+  tests: './test/**/**/*.js',
   output: './functional-output/e2e/',
   helpers: {
     Puppeteer: {
-      url:testUrl,
+      url: testUrl,
       waitForNavigation: 'load',
       getPageTimeout: 60000,
       show: false,
@@ -21,16 +21,16 @@ exports.config = {
       chrome: {
         ignoreHTTPSErrors: true,
         args: [
-            '--headless',
-            '--disable-gpu',
-            '--disable-dev-shm-usage',
-            '--no-sandbox',
-            '--allow-running-insecure-content',
-            '--ignore-certificate-errors'
-        ]
-      }
-
+          '--headless',
+          '--disable-gpu',
+          '--disable-dev-shm-usage',
+          '--no-sandbox',
+          '--allow-running-insecure-content',
+          '--ignore-certificate-errors',
+        ],
+      },
     },
+    REST: {},
   },
   include: {
     I: './steps_file.js',
@@ -42,23 +42,22 @@ exports.config = {
     reporterOptions: {
       'codeceptjs-cli-reporter': {
         stdout: '-',
-        options:{
+        options: {
           verbose: false,
-          steps: true
-        }
+          steps: true,
+        },
       },
-      mochawesome:{
+      mochawesome: {
         stdout: './functional-output/e2e/console.log',
         options: {
           includeScreenshots: true,
           reportDir: './functional-output/e2e/reports',
           reportFilename: 'ET-XUI-E2E',
-          inline:true,
-          html:true,
-          json:true
-        }
-      }
-
+          inline: true,
+          html: true,
+          json: true,
+        },
+      },
     },
   },
   name: 'et-xui-e2e-tests',
@@ -78,7 +77,7 @@ exports.config = {
     },
   },
   plugins: {
-    stepByStepReport:{
+    stepByStepReport: {
       enabled: true,
       fullPageScreenshots: true,
       deleteSuccessful: false,
@@ -88,6 +87,6 @@ exports.config = {
     },
     screenshotOnFail: {
       enabled: true,
-    }
-  }
+    },
+  },
 };

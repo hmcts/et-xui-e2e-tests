@@ -1,0 +1,23 @@
+{
+  "headers": {
+    "Authorization": "Bearer eyJraWQiOiIyMzQ1Njc4OSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJDQ0RfU3R1YiIsImlzcyI6Imh0dHA6XC9cL2ZyLWFtOjgwODBcL29wZW5hbVwvb2F1dGgyXC9obWN0cyIsInRva2VuTmFtZSI6ImFjY2Vzc190b2tlbiIsImV4cCI6MTY0NjkyODkyMiwiaWF0IjoxNjQ2OTE0NTyfQ.EWoQPo59p6DlGkaNTw50qUP_j6e7BZgCulyVkzGlef0HixKsQXiFWnvIOEbmKA1fAzegL2ggoGuhkCE1vmmkQue6c2W4mlE1In53w_vUEs6wBd1_7AW9rzd5YloqIe6mbzYEEB1F5WVYh1h17N_YaAOCdVZu8VHn9uXd39EzKvVYcF2KG9hQcfRq8SY6zU1-4FXyBAe1ET2Zol3c4Ki86pzp7Qq1IaSYk5whccRMq3unSK5B13DHI71JaPaWvXJf_p3jJYEVEobrheLQkyfazOl-8a0s7U4xh6wKxkSHcpQWBauv-CVivpyYjN1MW4SkviLMGf2aF3r5-N3wFiBTnA",
+    "Content-Type": "application/x-www-form-urlencoded"
+  },
+  "ew_url": "http://et-sya-api-aat.service.core-compute-aat.internal/case-type/ET_EnglandWales/event-type/initiateCaseDraft/case",
+  "idam_url": "https://idam-api.aat.platform.hmcts.net/loginUser",
+  "idam_payload": {
+    "username": "newCase.demo@hmcts.net",
+    "password": "Nagoya0102"
+  },
+  "draft_case_payload": {
+    "caseType": "Single",
+    "caseSource": "Manually Created",
+    "claimantIndType": {
+      "claimant_title1": "Sir",
+      "claimant_first_names": "Marc",
+      "claimant_last_name": "Judge",
+      "claimant_sex": "Female",
+      "claimant_gender_identity": "Not sure"
+    }
+  }
+}

@@ -1268,7 +1268,7 @@ chai-deep-match@^1.2.1:
     lodash "^4.17.10"
     lodash-pickdeep "^1.0.2"
 
-chai@^4.3.6:
+chai@4.3.6, chai@^4.3.6:
   version "4.3.6"
   resolved "https://registry.npmjs.org/chai/-/chai-4.3.6.tgz#ffe4ba2d9fa9d6680cc0b370adae709ec9011e9c"
   integrity sha512-bbcp3YfHCUzMOvKqsztczerVgBKSsEijCySNlHHbX3VG1nskvqjz5Rfso1gGwD6w6oOV3eI60pKuMOV5MV7p3Q==
