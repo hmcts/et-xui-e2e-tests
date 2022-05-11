@@ -1,26 +1,33 @@
 Feature('Create Draft Cases from CCD backend');
+const querystring = require('querystring');
+
 const { expect } = require('chai');
 
 const request = require('../../data/request.json');
-Scenario('get token from idam', async ({ I }) => {
-  let url = JSON.stringify(request.idam_url);
-  let payload = JSON.stringify(request.idam_payload);
-  let headers = JSON.stringify(request.headers);
-  const res = await I.sendPostRequest(url, payload, headers);
-  expect(res.status).to.eql(201);
-  return res.access_token;
-}).tag('@test');
 
 Scenario('England: create single draft case via api', async ({ I }) => {
-  // to retest after fixing 400 error
-  let url = JSON.stringify(request.ew_url);
-  let access_token = res.access_token;
-  let headers = {
+  // get idam token
+  let url = request.idam_url;
+  let payload = querystring.stringify({
+    username: request.username,
+    password: request.password,
+  });
+  let header = { 'Content-Type': 'application/x-www-form-urlencoded' };
+  let res = await I.sendPostRequest(url, payload, header);
+  expect(res.status).to.eql(200);
+  //use token to make draft application
+  await res;
+  //console.log (res);
+  let new_url = JSON.stringify(request.ew_url);
+  let access_token = res.data.access_token;
+  //console.log(access_token);
+  let new_header = {
     Authorization: `Bearer ${access_token}`,
-    content_type: 'application/json',
+    'Content-Type': 'application/json',
   };
-  let payload = JSON.stringify(request.draft_case_payload);
-  const res = await I.sendPostRequest(url, payload, headers);
-  expect(res.status).to.eql(201);
-  return res;
+  let new_payload = `${request.draft_case_payload}`;
+  let result = await I.sendPostRequest(new_url, new_payload, new_header);
+  //console.log (result);
+  expect(result.status).to.eql(201);
+  return result;
 }).tag('@test');

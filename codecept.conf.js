@@ -30,7 +30,9 @@ exports.config = {
         ],
       },
     },
-    REST: {},
+    REST: {
+      endpoint: 'https://idam-api.aat.platform.hmcts.net/loginUser',
+    },
   },
   include: {
     I: './steps_file.js',
