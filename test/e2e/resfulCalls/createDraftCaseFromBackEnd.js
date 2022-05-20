@@ -18,16 +18,18 @@ Scenario('England: create single draft case via api', async ({ I }) => {
   //use token to make draft application
   await res;
   //console.log (res);
-  let new_url = JSON.stringify(request.ew_url);
+  //let new_url = request.ew_url;
+  let new_url = 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/initiate-case/';
   let access_token = res.data.access_token;
   //console.log(access_token);
   let new_header = {
     Authorization: `Bearer ${access_token}`,
     'Content-Type': 'application/json',
   };
-  let new_payload = `${request.draft_case_payload}`;
+  let new_payload = `${JSON.stringify(request.draft_case_payload)}`;
+  console.log(new_payload);
   let result = await I.sendPostRequest(new_url, new_payload, new_header);
-  //console.log (result);
-  expect(result.status).to.eql(201);
-  return result;
+  console.log(result);
+  expect(result.status).to.eql(200);
+  await result;
 }).tag('@test');
