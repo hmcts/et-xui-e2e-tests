@@ -24,11 +24,11 @@
         "test/**/*.{js,jsx,ts,tsx}": "eslint"
     },
     "dependencies": {
-        "@wdio/cli": "7.19.5",
-        "@wdio/crossbrowsertesting-service": "7.17.3",
-        "@wdio/sauce-service": "7.17.3",
-        "@wdio/selenium-standalone-service": "7.16.16",
-        "@wdio/types": "7.19.1",
+        "@wdio/cli": "7.19.7",
+        "@wdio/crossbrowsertesting-service": "7.19.7",
+        "@wdio/sauce-service": "7.19.7",
+        "@wdio/selenium-standalone-service": "7.19.5",
+        "@wdio/types": "7.19.5",
         "codeceptjs-saucehelper": "1.4.0",
         "eslint": "8.15.0",
         "eslint-config-prettier": "8.5.0",
