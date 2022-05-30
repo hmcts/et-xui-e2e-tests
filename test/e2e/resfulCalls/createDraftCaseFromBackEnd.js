@@ -7,10 +7,10 @@ const request = require('../../data/request.json');
 
 Scenario('England: create single draft case via api', async ({ I }) => {
   // get idam token
-  let url = request.idam_url;
+  let url = process.env.IDAM_URL;
   let payload = querystring.stringify({
-    username: request.username,
-    password: request.password,
+    username: process.env.USER_NAME,
+    password: process.env.PASSWORD,
   });
   let header = { 'Content-Type': 'application/x-www-form-urlencoded' };
   let res = await I.sendPostRequest(url, payload, header);
@@ -19,7 +19,7 @@ Scenario('England: create single draft case via api', async ({ I }) => {
   await res;
   //console.log (res);
   //let new_url = request.ew_url;
-  let new_url = 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/initiate-case/';
+  let new_url = process.env.ET_CASE_API_URL;
   let access_token = res.data.access_token;
   //console.log(access_token);
   let new_header = {

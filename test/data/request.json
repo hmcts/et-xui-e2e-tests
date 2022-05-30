@@ -2,10 +2,6 @@
   "headers": {
     "Content-Type": "application/x-www-form-urlencoded"
   },
-  "ew_url": "http://et-sya-api-aat.service.core-compute-aat.internal/cases/initiate-case/",
-  "idam_url": "https://idam-api.aat.platform.hmcts.net/loginUser",
-  "username": "retest1078@testmail.com",
-  "password": "Adventure2019",
   "draft_case_payload": {
   "post_code": "BH1 1AL",
   "case_data": {
