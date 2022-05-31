@@ -37,11 +37,11 @@ withNightlyPipeline("nodejs", product, component) {
     env.TEST_URL = params.URL_TO_TEST
     env.IDAM_URL = params.IDAM_URL
     env.ET_CASE_API_URL = param.ET_CASE_API_URL
-    env.USER_NAME = 'retest1078@testmail.com'
-    env.PASSWORD = 'Adventure2019'
+    env.USER_NAME =
+    env.PASSWORD = 
     env.RUNNING_ENV = params.ENVIRONMENT
 
-    //loadVaultSecrets(secrets)
+    loadVaultSecrets(secrets)
     enableFullFunctionalTest()
     enableCrossBrowserTest()
     //enableFortifyScan()
