@@ -37,7 +37,7 @@
         "eslint-plugin-mocha": "10.0.5",
         "eslint-plugin-prettier": "4.0.0",
         "faker": "6.6.6",
-        "lint-staged": "12.4.3",
+        "lint-staged": "12.5.0",
         "mocha": "10.0.0",
         "mocha-multi": "1.1.6",
         "mochawesome": "7.1.3",
