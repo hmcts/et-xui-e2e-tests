@@ -30,7 +30,7 @@
         "@wdio/selenium-standalone-service": "7.19.5",
         "@wdio/types": "7.19.5",
         "codeceptjs-saucehelper": "1.4.0",
-        "eslint": "8.16.0",
+        "eslint": "8.17.0",
         "eslint-config-prettier": "8.5.0",
         "eslint-plugin-codeceptjs": "1.3.0",
         "eslint-plugin-import": "2.26.0",
