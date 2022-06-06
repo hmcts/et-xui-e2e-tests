@@ -1,0 +1,12 @@
+{
+  "headers": {
+    "Content-Type": "application/x-www-form-urlencoded"
+  },
+  "draft_case_payload": {
+  "post_code": "BH1 1AL",
+  "case_data": {
+    "caseType": "Single",
+    "caseSource": "Manually Created"
+  }
+  }
+}
