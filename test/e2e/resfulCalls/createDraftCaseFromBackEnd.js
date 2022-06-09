@@ -9,11 +9,18 @@ Scenario('England: create single draft case via api', async ({ I }) => {
   // get idam token
   let url = process.env.IDAM_URL;
   let payload = querystring.stringify({
-    username: process.env.USER_NAME,
-    password: process.env.PASSWORD,
+    // eslint-disable-next-line no-undef
+    username: TEST_CASE_USERNAME,
+    // eslint-disable-next-line no-undef
+    password: TEST_CASE_PASSWORD,
   });
   let header = { 'Content-Type': 'application/x-www-form-urlencoded' };
-  let res = await I.sendPostRequest(url, payload, header);
+  let res = await I.sendPostRequest(
+    url,
+
+    payload,
+    header,
+  );
   expect(res.status).to.eql(200);
   //use token to make draft application
   await res;
