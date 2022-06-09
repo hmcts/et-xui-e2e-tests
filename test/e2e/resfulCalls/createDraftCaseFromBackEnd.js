@@ -17,7 +17,6 @@ Scenario('England: create single draft case via api', async ({ I }) => {
   let header = { 'Content-Type': 'application/x-www-form-urlencoded' };
   let res = await I.sendPostRequest(
     url,
-
     payload,
     header,
   );
