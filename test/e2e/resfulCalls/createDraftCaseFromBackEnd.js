@@ -15,11 +15,7 @@ Scenario('England: create single draft case via api', async ({ I }) => {
     password: TEST_CASE_PASSWORD,
   });
   let header = { 'Content-Type': 'application/x-www-form-urlencoded' };
-  let res = await I.sendPostRequest(
-    url,
-    payload,
-    header,
-  );
+  let res = await I.sendPostRequest(url, payload, header);
   expect(res.status).to.eql(200);
   //use token to make draft application
   await res;
