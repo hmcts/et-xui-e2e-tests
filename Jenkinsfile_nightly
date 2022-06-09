@@ -18,7 +18,7 @@ def product = "et"
 def component = "frontend"
 
 def secrets = [
-    'et-${env}': [
+    'et-aat': [
         secret('test-username', 'TEST_CASE_USERNAME'),
         secret('test-password', 'TEST_CASE_PASSWORD')
     ]
@@ -37,8 +37,6 @@ withNightlyPipeline("nodejs", product, component) {
     env.TEST_URL = params.URL_TO_TEST
     env.IDAM_URL = params.IDAM_URL
     env.ET_CASE_API_URL = param.ET_CASE_API_URL
-    env.USER_NAME = TEST_CASE_USERNAME
-    env.PASSWORD = TEST_CASE_PASSWORD
     env.RUNNING_ENV = params.ENVIRONMENT
 
     loadVaultSecrets(secrets)
