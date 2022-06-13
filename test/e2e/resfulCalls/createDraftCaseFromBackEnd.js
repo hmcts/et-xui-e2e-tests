@@ -1,5 +1,4 @@
 Feature('Create Draft Cases from CCD backend');
-
 const querystring = require('querystring');
 
 const { expect } = require('chai');
