@@ -17,7 +17,7 @@ Scenario('England: create single draft case via api', async ({ I }) => {
   });
 
   let header = { 'Content-Type': 'application/x-www-form-urlencoded' };
-  console.log(`${process.env.TEST_CASE_USERNAME}`);
+  console.log(`${request.username}`, `${request.username}`);
   let res = await I.sendPostRequest(url, payload, header);
   expect(res.status).to.eql(200);
   //use token to make draft application
