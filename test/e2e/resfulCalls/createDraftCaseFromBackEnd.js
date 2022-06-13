@@ -1,9 +1,13 @@
 Feature('Create Draft Cases from CCD backend');
+
 const querystring = require('querystring');
 
 const { expect } = require('chai');
 
 const request = require('../../data/request.json');
+const test_case_username = request.username;
+const test_case_password = request.password;
+const case_payload = request.draft_case_payload;
 
 Scenario('England: create single draft case via api', async ({ I }) => {
   // get idam token
@@ -11,13 +15,13 @@ Scenario('England: create single draft case via api', async ({ I }) => {
 
   let payload = querystring.stringify({
     // eslint-disable-next-line no-undef
-    username: request.username,
+    username: test_case_username,
     // eslint-disable-next-line no-undef
-    password: request.password,
+    password: test_case_password,
   });
 
   let header = { 'Content-Type': 'application/x-www-form-urlencoded' };
-  console.log(`${process.env.TEST_CASE_USERNAME}`);
+  console.log(`${test_case_username}`, `${test_case_password}`);
   let res = await I.sendPostRequest(url, payload, header);
   expect(res.status).to.eql(200);
   //use token to make draft application
@@ -30,7 +34,7 @@ Scenario('England: create single draft case via api', async ({ I }) => {
     Authorization: `Bearer ${access_token}`,
     'Content-Type': 'application/json',
   };
-  let new_payload = `${JSON.stringify(request.draft_case_payload)}`;
+  let new_payload = `${JSON.stringify(case_payload)}`;
   console.log(new_payload);
   let result = await I.sendPostRequest(new_url, new_payload, new_header);
   console.log(result);
