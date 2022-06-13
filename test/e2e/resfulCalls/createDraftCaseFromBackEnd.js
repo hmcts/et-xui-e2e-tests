@@ -8,12 +8,12 @@ const request = require('../../data/request.json');
 Scenario('England: create single draft case via api', async ({ I }) => {
   // get idam token
   let url = process.env.IDAM_URL;
-  //let url = 'https://idam-api.aat.platform.hmcts.net/loginUser';
+
   let payload = querystring.stringify({
     // eslint-disable-next-line no-undef
-    username: process.env.TEST_CASE_USERNAME,
+    username: request.username,
     // eslint-disable-next-line no-undef
-    password: process.env.TEST_CASE_USERNAME,
+    password: request.password,
   });
 
   let header = { 'Content-Type': 'application/x-www-form-urlencoded' };
@@ -23,7 +23,6 @@ Scenario('England: create single draft case via api', async ({ I }) => {
   //use token to make draft application
   await res;
   //console.log (res);
-  //let new_url = 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/initiate-case/';
   let new_url = process.env.ET_CASE_API_URL;
   let access_token = res.data.access_token;
   //console.log(access_token);

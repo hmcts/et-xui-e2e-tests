@@ -43,8 +43,6 @@ withNightlyPipeline("nodejs", product, component) {
     env.IDAM_URL = params.IDAM_URL
     env.ET_CASE_API_URL = params.ET_CASE_API_URL
     env.RUNNING_ENV = params.ENVIRONMENT
-    env.TEST_CASE_USERNAME = secrets.test-username
-    env.TEST_CASE_PASSWORD = secrets.test-password
 
     after('crossBrowserTest') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
