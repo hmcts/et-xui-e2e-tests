@@ -8,19 +8,22 @@ const request = require('../../data/request.json');
 Scenario('England: create single draft case via api', async ({ I }) => {
   // get idam token
   let url = process.env.IDAM_URL;
+  //let url = 'https://idam-api.aat.platform.hmcts.net/loginUser';
   let payload = querystring.stringify({
     // eslint-disable-next-line no-undef
-    username: TEST_CASE_USERNAME,
+    username: process.env.TEST_CASE_USERNAME,
     // eslint-disable-next-line no-undef
-    password: TEST_CASE_PASSWORD,
+    password: process.env.TEST_CASE_USERNAME,
   });
+
   let header = { 'Content-Type': 'application/x-www-form-urlencoded' };
+  console.log(`${process.env.TEST_CASE_USERNAME}`);
   let res = await I.sendPostRequest(url, payload, header);
   expect(res.status).to.eql(200);
   //use token to make draft application
   await res;
   //console.log (res);
-  //let new_url = request.ew_url;
+  //let new_url = 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/initiate-case/';
   let new_url = process.env.ET_CASE_API_URL;
   let access_token = res.data.access_token;
   //console.log(access_token);
