@@ -34,15 +34,15 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withNightlyPipeline("nodejs", product, component) {
-    env.TEST_URL = params.URL_TO_TEST
-    env.IDAM_URL = params.IDAM_URL
-    env.ET_CASE_API_URL = params.ET_CASE_API_URL
-    env.RUNNING_ENV = params.ENVIRONMENT
-
     loadVaultSecrets(secrets)
     enableFullFunctionalTest()
     enableCrossBrowserTest()
     //enableFortifyScan()
+
+    env.TEST_URL = params.URL_TO_TEST
+    env.IDAM_URL = params.IDAM_URL
+    env.ET_CASE_API_URL = params.ET_CASE_API_URL
+    env.RUNNING_ENV = params.ENVIRONMENT
 
     after('crossBrowserTest') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'

@@ -2,6 +2,8 @@
   "headers": {
     "Content-Type": "application/x-www-form-urlencoded"
   },
+  "username": "TEST_CASE_USERNAME",
+  "password": "TEST_CASE_PASSWORD",
   "draft_case_payload": {
     "post_code": "BH1 1AL",
     "case_data": {
