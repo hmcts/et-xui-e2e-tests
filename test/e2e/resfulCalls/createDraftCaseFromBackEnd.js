@@ -5,7 +5,7 @@ const { expect } = require('chai');
 
 const request = require('../../data/request.json');
 let test_case_username = process.env.TEST_CASE_USERNAME;
-let test_case_password = process.env.TEST_CASE_USERNAME;
+let test_case_password = process.env.TEST_CASE_PASSWORD;
 const case_payload = request.draft_case_payload;
 
 Scenario('England: create single draft case via api', async ({ I }) => {
