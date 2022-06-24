@@ -315,10 +315,10 @@
   resolved "https://registry.npmjs.org/@ungap/promise-all-settled/-/promise-all-settled-1.1.2.tgz#aa58042711d6e3275dd37dc597e5d31e8c290a44"
   integrity sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==
 
-"@wdio/cli@7.20.4":
-  version "7.20.4"
-  resolved "https://registry.yarnpkg.com/@wdio/cli/-/cli-7.20.4.tgz#05f0d23bd8f703281088db6f7973b115eb46124b"
-  integrity sha512-dldxEE7Bo1j0iHrbt+/QGuXb5Fes/hoF4JiHTl+0dIVxEdBu0IUniOWYjLZkA+xNCwCHPC+R7NbYpkvKI+8QSg==
+"@wdio/cli@7.20.5":
+  version "7.20.5"
+  resolved "https://registry.yarnpkg.com/@wdio/cli/-/cli-7.20.5.tgz#28b9d18e72aaa0db61440b944390559bad6a36ba"
+  integrity sha512-gv8Q9/LLW52l/cUQ2wnUiiylPrjCCVXfA+xTpB/4hAxU6n30wnL7CTF+tYmnXA7T1h1AUqBxu9Iqhm7xSJZoTA==
   dependencies:
     "@types/ejs" "^3.0.5"
     "@types/fs-extra" "^9.0.4"
@@ -345,7 +345,7 @@
     lodash.union "^4.6.0"
     mkdirp "^1.0.4"
     recursive-readdir "^2.2.2"
-    webdriverio "7.20.4"
+    webdriverio "7.20.5"
     yargs "^17.0.0"
     yarn-install "^1.0.0"
 
@@ -360,17 +360,17 @@
     deepmerge "^4.0.0"
     glob "^8.0.3"
 
-"@wdio/crossbrowsertesting-service@7.20.4":
-  version "7.20.4"
-  resolved "https://registry.yarnpkg.com/@wdio/crossbrowsertesting-service/-/crossbrowsertesting-service-7.20.4.tgz#a0a9e4c343cb3ee7013366ebb127f00444be0a0a"
-  integrity sha512-pHA41wibCXw6hS6+/aVty95X6P46nydZLUiQSK7WeP/uLE8wJ6HaZ1RkNvvRBWjqfbXMQzprLqqX245UhYJJYg==
+"@wdio/crossbrowsertesting-service@7.20.5":
+  version "7.20.5"
+  resolved "https://registry.yarnpkg.com/@wdio/crossbrowsertesting-service/-/crossbrowsertesting-service-7.20.5.tgz#78502a725e8144d20da7758da36b0cd9a121b69b"
+  integrity sha512-FDL/ncj04v+KMBypxnO/IxvJ2+nwV0tqmK0C8DQbiELjqSuzikLjbLOf/IeGiAyksNWf1FdFONZg9O4gn5SLNw==
   dependencies:
     "@types/node" "^18.0.0"
     "@wdio/logger" "7.19.0"
     "@wdio/types" "7.20.3"
     cbt_tunnels "^1.2.2"
     got "^11.0.2"
-    webdriverio "7.20.4"
+    webdriverio "7.20.5"
 
 "@wdio/logger@7.19.0":
   version "7.19.0"
@@ -394,17 +394,17 @@
   dependencies:
     "@wdio/utils" "7.20.3"
 
-"@wdio/sauce-service@7.20.4":
-  version "7.20.4"
-  resolved "https://registry.yarnpkg.com/@wdio/sauce-service/-/sauce-service-7.20.4.tgz#b7d91e522e81c1c69ff5906afd9f9c2e2c04614d"
-  integrity sha512-nIHO36idS8y152a+9krCDv8moeRjwgo1J3uUuBpyxN964zQF/aMoyfFdoAOIKIUY8Khj9npL4il69dhvl9fJjw==
+"@wdio/sauce-service@7.20.5":
+  version "7.20.5"
+  resolved "https://registry.yarnpkg.com/@wdio/sauce-service/-/sauce-service-7.20.5.tgz#ced2c806a338925a03816cf40538ffc87cd5ac4e"
+  integrity sha512-p7c4L7pX9e/kmudi0+N2Y3rXLAr/FwK3+k0B+bMNSOgNO/t44eOOXFttqsu/UAfCJAxomleKTxP/M0v9+/omMA==
   dependencies:
     "@types/node" "^18.0.0"
     "@wdio/logger" "7.19.0"
     "@wdio/types" "7.20.3"
     "@wdio/utils" "7.20.3"
     saucelabs "^7.1.3"
-    webdriverio "7.20.4"
+    webdriverio "7.20.5"
 
 "@wdio/selenium-standalone-service@7.20.3":
   version "7.20.3"
@@ -6863,10 +6863,10 @@ webdriver@7.20.4:
     ky "^0.30.0"
     lodash.merge "^4.6.1"
 
-webdriverio@7.20.4:
-  version "7.20.4"
-  resolved "https://registry.yarnpkg.com/webdriverio/-/webdriverio-7.20.4.tgz#5754a76d1b6a1e45ce82303341ffef3336a45493"
-  integrity sha512-hX6MNRHBaU2KDzQJ0SFWYh/hZi16lorqNrECeMYHsN4kUYNawyOFGktIrhfiuSJOnmreOLHtCGzRu1+kRmMSiw==
+webdriverio@7.20.5:
+  version "7.20.5"
+  resolved "https://registry.yarnpkg.com/webdriverio/-/webdriverio-7.20.5.tgz#55e0b702bacb0214a7cb20c8155924f4a28c3deb"
+  integrity sha512-GcONsT2eOTXnjwMxvilc95uWTUlzWRBpdbxC1M+664uTfzomCFDMHMsa+evPSKG5+pFMSCrEL67nwRtoLXhh9Q==
   dependencies:
     "@types/aria-query" "^5.0.0"
     "@types/node" "^18.0.0"
