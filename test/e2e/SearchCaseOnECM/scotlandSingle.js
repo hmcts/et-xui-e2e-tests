@@ -9,7 +9,7 @@ const hearingcaseDetailsUrl = `https://manage-case.aat.platform.hmcts.net/cases/
 Scenario('Judgement Event For Single Case List', async ({ I, caseListPage }) => {
   I.amOnPage(aat_ecm_url);
   ecmLogin.signInWithCredentials();
-  await caseListPage.searchEngWalesSingleApp('Scotland - Singles (RET)');
+  await caseListPage.searchCaseApplication('Scotland - Singles (RET)');
   I.amOnPage(judgementcaseDetailsUrl);
   await caseListPage.selectNextEvent('Judgement');
 }).tag('@ecmtest');
@@ -17,7 +17,7 @@ Scenario('Judgement Event For Single Case List', async ({ I, caseListPage }) => 
 Scenario('Hearing Details Event For Single Case List', async ({ I, caseListPage }) => {
   I.amOnPage(aat_ecm_url);
   ecmLogin.signInWithCredentials();
-  await caseListPage.searchEngWalesSingleApp('Scotland - Singles (RET)');
+  await caseListPage.searchCaseApplication('Scotland - Singles (RET)');
   I.amOnPage(hearingcaseDetailsUrl);
   await caseListPage.selectNextEvent('Hearing Details');
 }).tag('@ecmtest');
