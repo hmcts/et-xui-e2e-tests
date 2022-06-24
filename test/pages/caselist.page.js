@@ -27,10 +27,11 @@ module.exports = {
   },
 
   async selectNextEvent(option) {
-    I.waitForElement(this.nextEventDropdown, 60);
-    I.waitForVisible(this.nextEventDropdown);
+    //I.waitForElement(this.nextEventDropdown, 60);
+    I.waitForEnabled(this.nextEventDropdown, 60);
+    await I.click(this.nextEventDropdown);
     await I.selectOption(this.nextEventDropdown, option);
-    I.wait(5);
     await I.click(this.submitEventButton);
+    I.wait(15);
   },
 };

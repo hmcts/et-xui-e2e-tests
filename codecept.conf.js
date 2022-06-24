@@ -38,6 +38,7 @@ exports.config = {
     I: './steps_file.js',
     basePage: './test/pages/basepage.page.js',
     caseListPage: './test/pages/caselist.page.js',
+    judgementCollectionPage: './test/pages/judgementCollection.page.js',
   },
   bootstrap: null,
   mocha: {
