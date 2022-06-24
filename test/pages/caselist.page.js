@@ -19,7 +19,7 @@ module.exports = {
   nextEventDropdown: '#next-step',
   submitEventButton: '[type="submit"]',
 
-  async searchEngWalesSingleApp(option) {
+  async searchCaseApplication(option) {
     I.see(this.caseListText);
     I.waitForElement(this.caseTypeDropdown, 60);
     I.selectOption(this.caseTypeDropdown, option);
