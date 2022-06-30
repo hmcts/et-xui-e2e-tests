@@ -8,18 +8,18 @@ module.exports = {
   judgementTypeDropdown: '#judgementCollection_0_judgement_type',
   liabilityDropdown: '#judgementCollection_0_liability_optional',
   jurisdictionText: 'Jurisdiction',
-  addNewJurisdictionButton: '[class="button"]',
-  addNewJurisdictionDropdown: 'judgementCollection_0_jurisdictionCodes_0_juridictionCodesList',
-  judgementMadeDay: '#date_judgment_made-day',
-  judgementMadeMonth: '#date_judgment_made-month',
+  addNewJurisdictionButton: '#judgementCollection_0_jurisdictionCodes > div > button:nth-child(2)',
+  addNewJurisdictionDropdown: '#judgementCollection_0_jurisdictionCodes_0_juridictionCodesList',
+  judgmentMadeDay: '#date_judgment_made-day',
+  judgmentMadeMonth: '#date_judgment_made-month',
   judgmentMadeYear: '#date_judgment_made-year',
-  judgementSentDay: '#date_judgment_sent-day',
+  judgmentSentDay: '#date_judgment_sent-day',
   judgmentSentMonth: '#date_judgment_sent-month',
   judgmentSentYear: '#date_judgment_sent-year',
   submitJudgeCollectionButton: '[type="submit"]',
 
-  async fillJurisdictiondata(hearing_details, judgementOption, jurisdictionOption) {
-    await I.waitForEnabled(this.judgementTypeDropdown, 45);
+  async fillJurisdictionData(hearing_details, judgementOption, jurisdictionOption) {
+    await I.waitForEnabled(this.judgementTypeDropdown, 5);
     await I.checkOption(this.nonHearingJudgementNoOption);
     await I.selectOption(this.optionalHearingDetails, hearing_details);
     await I.selectOption(this.judgementTypeDropdown, judgementOption);
@@ -28,14 +28,14 @@ module.exports = {
   },
 
   async fillJudgementMadeDates(day, month, year) {
-    await I.fillField(this.judgementMadeDay, day);
-    await I.fillField(this.judgementMadeMonth, month);
+    await I.fillField(this.judgmentMadeDay, day);
+    await I.fillField(this.judgmentMadeMonth, month);
     await I.fillField(this.judgmentMadeYear, year);
   },
 
   async fillJudgementSentDates(day, month, year) {
-    await I.fillField(this.judgementSent, day);
-    await I.fillField(this.judgementSentMonth, month);
+    await I.fillField(this.judgmentSentDay, day);
+    await I.fillField(this.judgmentSentMonth, month);
     await I.fillField(this.judgmentSentYear, year);
   },
 

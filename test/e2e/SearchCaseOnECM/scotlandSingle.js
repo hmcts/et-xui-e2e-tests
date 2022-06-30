@@ -12,7 +12,7 @@ Scenario('Judgement Event For Single Case List', async ({ I, caseListPage, judge
   await caseListPage.searchCaseApplication('Scotland - Singles (RET)');
   I.amOnPage(judgementcaseDetailsUrl);
   await caseListPage.selectNextEvent('Judgment');
-  await judgementCollectionPage.fillJurisdictiondata('No Hearings', 'Judgement', 'COM');
+  await judgementCollectionPage.fillJurisdictionData('No Hearings', 'Judgment', 'COM');
   await judgementCollectionPage.fillJudgementMadeDates(21, 3, 2022);
   await judgementCollectionPage.fillJudgementSentDates(23, 3, 2022);
   await judgementCollectionPage.submitForm;
