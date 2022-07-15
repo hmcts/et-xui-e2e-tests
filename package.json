@@ -24,10 +24,10 @@
         "test/**/*.{js,jsx,ts,tsx}": "eslint"
     },
     "dependencies": {
-        "@wdio/cli": "7.20.5",
-        "@wdio/crossbrowsertesting-service": "7.20.5",
-        "@wdio/sauce-service": "7.20.5",
-        "@wdio/selenium-standalone-service": "7.20.3",
+        "@wdio/cli": "7.20.6",
+        "@wdio/crossbrowsertesting-service": "7.20.6",
+        "@wdio/sauce-service": "7.20.6",
+        "@wdio/selenium-standalone-service": "7.20.6",
         "@wdio/types": "7.20.3",
         "codeceptjs-saucehelper": "1.4.0",
         "eslint": "8.18.0",
@@ -51,6 +51,6 @@
         "@codeceptjs/ui": "0.4.6",
         "codeceptjs": "3.3.3",
         "husky": "8.0.1",
-        "webdriverio": "7.20.5"
+        "webdriverio": "7.20.6"
     }
 }
