@@ -1,7 +1,7 @@
 const { I } = inject();
 
-let username = process.env.TEST_CASE_USERNAME || '';
-let password = process.env.TEST_CASE_PASSWORD || '';
+let username = process.env.TEST_CASE_USERNAME || 'employment_service@mailinator.com';
+let password = process.env.TEST_CASE_PASSWORD || 'Nagoya0102';
 
 async function signInWithCredentials() {
   I.waitForElement('#username', 30);
