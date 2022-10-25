@@ -1,5 +1,5 @@
 Feature('Search For Single Application -Scotland');
-const ecmLogin = require('../../util');
+const ecmLogin = require('../../../util');
 const aat_ecm_url = 'https://manage-case.aat.platform.hmcts.net/';
 let hearingDetailsCaseId = '1652878476111438';
 let judgementcaseId = '1656069102041894';
