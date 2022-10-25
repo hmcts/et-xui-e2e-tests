@@ -1,6 +1,6 @@
 /* eslint-disable no-process-env */
 
-const config = require('config');
+const config = require('test/e2e/config');
 
 const supportedBrowsers = require('./test/e2e/crossbrowsers');
 
