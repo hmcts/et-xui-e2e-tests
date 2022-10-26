@@ -51,7 +51,6 @@ module.exports = {
     I.see('What type of claim are you making?');
     I.checkOption('input[value=discrimination]');
     I.checkOption('input[value=whistleBlowing]');
-    I.click('#main-form-submit');
     I.click('Continue');
   },
 };

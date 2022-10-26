@@ -26,6 +26,7 @@ exports.config = {
   include: {
     I: './steps_file.js',
     basePage: '../pages/basepage.page.js',
+    loginPage: '../pages/login.page.js',
     caseListPage: './pages/caselist.page.js',
     judgementCollectionPage: './pages/judgementCollection.page.js',
   },
