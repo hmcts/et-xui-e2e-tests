@@ -29,6 +29,7 @@ exports.config = {
     loginPage: '../pages/login.page.js',
     taskListPage: '../pages/taskList.page.js',
     personalDetailsPage: '../pages/personalDetails.page.js',
+    employmentAndRespondentDetailsPage: '../pages/employmentAndRespondentDetails.page.js',
     caseListPage: './pages/caselist.page.js',
     judgementCollectionPage: './pages/judgementCollection.page.js',
   },
