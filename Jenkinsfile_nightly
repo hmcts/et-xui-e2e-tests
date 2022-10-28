@@ -26,10 +26,6 @@ def secrets = [
         secret('et-caseworker-username', 'ET_CASEWORKER_USER_NAME'),
         secret('et-caseworker-password', 'ET_CASEWORKER_PASSWORD'),
     ]
-    "et-cos-${env}": [
-        secret('et-caseworker-username', 'ET_CASEWORKER_USER_NAME'),
-        secret('et-caseworker-password', 'ET_CASEWORKER_PASSWORD'),
-    ]
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
