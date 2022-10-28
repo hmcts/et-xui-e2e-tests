@@ -1,34 +1,23 @@
-const { setHeadlessWhen, setCommonPlugins } = require('@codeceptjs/configure');
-const testUrl = process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/';
+const { setCommonPlugins } = require('@codeceptjs/configure');
 
-// turn on headless mode when running with HEADLESS=true environment variable
-// export HEADLESS=true && npx codeceptjs run
-setHeadlessWhen(process.env.HEADLESS);
+const testConfig = require('./config.js');
 
 // enable all common plugins https://github.com/codeceptjs/configure#setcommonplugins
 setCommonPlugins();
 
 exports.config = {
-  tests: './test/**/**/*.js',
-  output: './functional-output/e2e/',
+  tests: testConfig.TestsPathToRun,
+  output: `${process.cwd()}/${testConfig.TestReportFolder}`,
   helpers: {
-    Puppeteer: {
-      url: testUrl,
-      waitForNavigation: 'load',
-      getPageTimeout: 60000,
-      show: false,
-      windowSize: '1000x1000',
-      chrome: {
-        ignoreHTTPSErrors: true,
-        args: [
-          '--headless',
-          '--disable-gpu',
-          '--disable-dev-shm-usage',
-          '--no-sandbox',
-          '--allow-running-insecure-content',
-          '--ignore-certificate-errors',
-        ],
-      },
+    Playwright: {
+      url: testConfig.TestUrl,
+      show: testConfig.TestShowBrowserWindow,
+      restart: false,
+      timeout: 5000,
+      waitForNavigation: 'domcontentloaded',
+      waitForTimeout: 10000,
+      ignoreHTTPSErrors: true,
+      windowSize: '1920x1080',
     },
     REST: {
       endpoint: 'https://idam-api.aat.platform.hmcts.net/loginUser',
@@ -36,9 +25,18 @@ exports.config = {
   },
   include: {
     I: './steps_file.js',
-    basePage: './test/pages/basepage.page.js',
-    caseListPage: './test/pages/caselist.page.js',
-    judgementCollectionPage: './test/pages/judgementCollection.page.js',
+    basePage: '../pages/basepage.page.js',
+    loginPage: '../pages/login.page.js',
+    taskListPage: '../pages/taskList.page.js',
+    personalDetailsPage: '../pages/personalDetails.page.js',
+    employmentAndRespondentDetailsPage: '../pages/employmentAndRespondentDetails.page.js',
+    claimDetailsPage: '../pages/claimDetail.page.js',
+    submitClaimPage: '../pages/submitClaim.page.js',
+    caseListPage: '../pages/caselist.page.js',
+    et1CaseVettingPages: '../pages/et1casevetting.pages.js',
+    et1CaseServingPages: '../pages/et1caseserving.pages.js',
+    citizenHubPages: '../pages/citizenhub.pages.js',
+    judgementCollectionPage: './pages/judgementCollection.page.js',
   },
   bootstrap: null,
   mocha: {
@@ -82,7 +80,7 @@ exports.config = {
   },
   plugins: {
     stepByStepReport: {
-      enabled: true,
+      enabled: false,
       fullPageScreenshots: true,
       deleteSuccessful: false,
     },
