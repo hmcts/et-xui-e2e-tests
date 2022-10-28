@@ -91,7 +91,7 @@ module.exports = {
     await this.verifyET1CasePageHeading(caseNumber);
     I.see('Listing details');
     I.checkOption(this.locators.suggest_hearing_venue_yes_option);
-    I.selectOption(this.locators.hearing_venues_options, '4: Dumfries HC');
+    I.selectOption(this.locators.hearing_venues_options, '5: Leeds');
     await I.click(Continue);
   },
 
@@ -139,7 +139,6 @@ module.exports = {
     I.see('Is this location correct?');
     I.see('Do you want to suggest a hearing venue?');
     I.see('Hearing venue selected');
-    I.see('Dumfries Sheriff Court');
     I.see('Is the respondent a government agency or a major employer?');
     I.see('Are reasonable adjustments required?');
     I.see('Can the claimant attend a video hearing?');

@@ -12,6 +12,9 @@ Scenario(
     employmentAndRespondentDetailsPage,
     claimDetailsPage,
     submitClaimPage,
+    caseListPage,
+    et1CaseVettingPages,
+    et1CaseServingPages,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication();
@@ -20,16 +23,13 @@ Scenario(
     await personalDetailsPage.processPersonalDetails();
     await employmentAndRespondentDetailsPage.processStillWorkingJourney();
     await claimDetailsPage.processClaimDetails();
-    await submitClaimPage.submitClaim();
-  },
-).tag('@RET-BAT');
+    const submissionReference = await submitClaimPage.submitClaim();
+    I.click('Sign out');
 
-Scenario(
-  'Login the Manage Case and Submit and ET1 Vetting',
-  async ({ I, loginPage, caseListPage, et1CaseVettingPages, et1CaseServingPages }) => {
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('2: Object', '1666901323048647');
+    await caseListPage.searchCaseApplicationWithSubmissionReference('3: Object', submissionReference);
+    I.wait(5);
     let caseNumber = await caseListPage.processCaseFromCaseList();
     console.log('The value of the Case Number ' + caseNumber);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
@@ -38,5 +38,9 @@ Scenario(
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //await caseListPage.verifyCaseDetailsPage(true);
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    I.click('Sign out');
+    //To be Enabled and Retested after Defect RET-2735 is fixed.
+    //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
+    //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
   },
-).tag('@RET-WIP');
+).tag('@RET-BAT');

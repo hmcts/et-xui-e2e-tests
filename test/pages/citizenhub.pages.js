@@ -2,8 +2,15 @@ const testConfig = require('../e2e/config');
 const { I } = inject();
 
 module.exports = {
-  async verifyCitizenHubCaseOverviewPage(caseNumber, submissionReference) {
+  processLogin(test_case_username, test_case_password, submissionReference) {
     I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
+    I.waitForElement('#username', 10);
+    I.fillField('#username', test_case_username);
+    I.fillField('#password', test_case_password);
+    I.click('[type="submit"]');
+  },
+
+  async verifyCitizenHubCaseOverviewPage(caseNumber) {
     I.see('Case overview - ');
     I.see('Case number ' + caseNumber);
 
