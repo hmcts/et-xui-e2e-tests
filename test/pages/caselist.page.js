@@ -55,7 +55,7 @@ module.exports = {
   },
 
   async verifyCaseDetailsPage(et1VettingFlag = false) {
-    I.see('Case Details');
+    I.waitForText('Case Details', 30);
     I.see('Claimant');
     I.see('Respondent');
     I.see('Jurisdictions');
