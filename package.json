@@ -49,7 +49,7 @@
         "@codeceptjs/configure": "0.8.0",
         "@codeceptjs/examples": "1.2.1",
         "@codeceptjs/ui": "0.4.7",
-        "codeceptjs": "3.3.4",
+        "codeceptjs": "3.3.6",
         "husky": "8.0.1",
         "webdriverio": "7.25.4"
     }
