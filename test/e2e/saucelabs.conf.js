@@ -1,4 +1,4 @@
-const supportedBrowsers = require('./test/e2e/crossbrowsers/supportedBrowsers');
+const supportedBrowsers = require('./crossbrowsers/supportedBrowsers');
 
 //const evidenceUploadEnabled = config.get('features.evidenceUpload.enabled');
 
@@ -32,8 +32,8 @@ function getBrowserConfig(browserGroup) {
 }
 
 const setupConfig = {
-  tests: './test/e2e/**/*.js',
-  output: './e2e-output',
+  tests: './**/*.js',
+  output: './crossbrowser-output',
   helpers: {
     WebDriver: {
       url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
@@ -65,7 +65,7 @@ const setupConfig = {
     et1CaseVettingPages: '../pages/et1casevetting.pages.js',
     et1CaseServingPages: '../pages/et1caseserving.pages.js',
     citizenHubPages: '../pages/citizenhub.pages.js',
-    judgementCollectionPage: './pages/judgementCollection.page.js',
+    judgementCollectionPage: '../pages/judgementCollection.page.js',
   },
   bootstrap: null,
   mocha: {
@@ -95,7 +95,7 @@ const setupConfig = {
       browsers: getBrowserConfig('safari'),
     },
   },
-  name: 'Employment Tribunal Crossbrowser Tests',
+  name: 'Employment Tribunal Front End and XUI  End To End Crossbrowser Tests',
 };
 
 exports.config = setupConfig;
