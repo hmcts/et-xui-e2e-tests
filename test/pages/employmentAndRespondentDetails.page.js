@@ -139,7 +139,7 @@ module.exports = {
   //confirm completed section for employment and respondent details
   async completeEmploymentAndRespondentDetails() {
     await I.see('Have you completed this section?');
-    await I.seeElement('#tasklist-check');
+    await I.waitForElement('#tasklist-check', 30);
     await I.checkOption('#tasklist-check');
     await I.click('Save and continue');
   },
