@@ -7,7 +7,15 @@
   resolved "https://registry.npmjs.org/@babel/parser/-/parser-7.17.9.tgz#9c94189a6062f0291418ca021077983058e171ef"
   integrity sha512-vqUSBLP8dQHFPdPi9bc5GK9vRkYHJ49fsZdtoJ8EQ8ibpwk5rPKfvNIwChB0KVXcIjcepEBBd2VHC5r9Gy8ueg==
 
-"@codeceptjs/configure@0.8.0", "@codeceptjs/configure@^0.8.0":
+"@codeceptjs/configure@0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@codeceptjs/configure/-/configure-0.10.0.tgz#f7d57fcea2c9f1f32d13cbc73753486272867a2e"
+  integrity sha512-MxuXmvpZQuUalyU8YPCPTN7fHPLyzBNxJmktqmwsqlNQzh3h5S51Z7SCewZrG0qu6QG5BW3dahMjXq/z6v1Brg==
+  dependencies:
+    lodash.merge "^4.6.2"
+    lodash.mergewith "^4.6.2"
+
+"@codeceptjs/configure@^0.8.0":
   version "0.8.0"
   resolved "https://registry.npmjs.org/@codeceptjs/configure/-/configure-0.8.0.tgz#5eba9dae3cfe8f8fd0049d157aff1a793ddf93bf"
   integrity sha512-fwB44Ww1/dVX5l0ZKL8/bDcAcmgTMqKDMr3hNTItyKeD0kcoLIEQWHGlVpgkZzCrRzmgMnywAuOA7t7AWxcvGw==
