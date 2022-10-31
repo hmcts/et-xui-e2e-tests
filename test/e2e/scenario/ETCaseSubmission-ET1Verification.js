@@ -43,4 +43,6 @@ Scenario(
     //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
   },
-).tag('@RET-BAT');
+)
+  .tag('@RET-BAT')
+  .tag('@RET-XB');
