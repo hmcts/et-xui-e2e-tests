@@ -21,10 +21,10 @@ def secrets = [
     'et-${env}': [
         secret('test-username', 'TEST_CASE_USERNAME'),
         secret('test-password', 'TEST_CASE_PASSWORD')
-    ]
-    "et-cos-${env}": [
-        secret('et-caseworker-username', 'ET_CASEWORKER_USER_NAME'),
-        secret('et-caseworker-password', 'ET_CASEWORKER_PASSWORD'),
+    ],
+    'et-cos-${env}': [
+        secret('et-caseworker-email', 'ET_CASEWORKER_USER_NAME'),
+        secret('et-caseworker-pwd', 'ET_CASEWORKER_PASSWORD'),
     ]
 ]
 
