@@ -32,13 +32,12 @@ function getBrowserConfig(browserGroup) {
 }
 
 const setupConfig = {
-  tests: './test/**/**/*_test.js',
+  tests: './test/e2e/**/*.js',
   output: './e2e-output',
   helpers: {
     WebDriver: {
       url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
       browser: process.env.SAUCE_BROWSER || '',
-      //host: process.env.HOST || 'saucelabs',
       cssSelectorsEnabled: 'true',
       host: 'ondemand.eu-central-1.saucelabs.com',
       port: 80,
@@ -55,7 +54,18 @@ const setupConfig = {
   },
   include: {
     I: './steps_file.js',
-    basePage: './test/pages/basepage.page.js',
+    basePage: '../pages/basepage.page.js',
+    loginPage: '../pages/login.page.js',
+    taskListPage: '../pages/taskList.page.js',
+    personalDetailsPage: '../pages/personalDetails.page.js',
+    employmentAndRespondentDetailsPage: '../pages/employmentAndRespondentDetails.page.js',
+    claimDetailsPage: '../pages/claimDetail.page.js',
+    submitClaimPage: '../pages/submitClaim.page.js',
+    caseListPage: '../pages/caselist.page.js',
+    et1CaseVettingPages: '../pages/et1casevetting.pages.js',
+    et1CaseServingPages: '../pages/et1caseserving.pages.js',
+    citizenHubPages: '../pages/citizenhub.pages.js',
+    judgementCollectionPage: './pages/judgementCollection.page.js',
   },
   bootstrap: null,
   mocha: {
