@@ -89,7 +89,7 @@ module.exports = {
 
   async processListingDetailsPage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Listing details');
+    I.waitForText('Listing details');
     I.checkOption(this.locators.suggest_hearing_venue_yes_option);
     I.selectOption(this.locators.hearing_venues_options, '5: Leeds');
     await I.click(Continue);
