@@ -27,10 +27,10 @@ module.exports = {
   },
 
   async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
+    I.selectOption(this.caseTypeDropdown, option);
     I.waitForElement(this.submissionReferenceLocator, 60);
     I.see(this.caseListText);
-    I.waitForElement(this.caseTypeDropdown, 60);
-    I.selectOption(this.caseTypeDropdown, option);
+    //I.waitForElement(this.caseTypeDropdown, 60);
     I.fillField(this.submissionReferenceLocator, submissionReference);
     await I.click(this.applyButton);
   },
