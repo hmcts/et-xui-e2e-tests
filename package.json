@@ -16,7 +16,7 @@
         "codeceptjs:demo": "codeceptjs run --steps -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
         "codeceptjs:demo:headless": "HEADLESS=true codeceptjs run --steps -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
         "codeceptjs:demo:ui": "codecept-ui --app  -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
-        "test:crossbrowser": "codeceptjs run-multiple ${BROWSER_GROUP:-'--all'} --steps -c saucelabs.conf.js --steps --reporter mocha-multi --verbose",
+        "test:crossbrowser": "codeceptjs run-multiple ${BROWSER_GROUP:-'--all'} -c saucelabs.conf.js --grep @RET-XB --steps --reporter mocha-multi --verbose",
         "test:profile": "SAUCE_TUNNEL_NAME=sunnyayeni_tunnel_name yarn test:fullfunctional  --steps -c saucelabs.conf.js --profile sauce:chrome,firefox,safari",
         "prepare": "husky install"
     },
