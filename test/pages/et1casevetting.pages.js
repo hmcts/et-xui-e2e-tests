@@ -49,7 +49,7 @@ module.exports = {
 
   async processMinimumRequiredInformationPage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Before you start');
+    I.waitForText('Before you start', 30);
     I.checkOption(this.locators.can_we_serve_claim_yes_option);
     await I.click(Continue);
   },
