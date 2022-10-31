@@ -87,7 +87,7 @@ module.exports = {
   //enter Pension contribution on /pension page
   async enterPensionContribution() {
     await I.see('Did the respondent make any contributions to your pension? (optional)');
-    await I.seeElement('#pension');
+    await I.waitForElement('#pension', 30);
     await I.checkOption('input[id=pension]');
     await I.fillField('#pension-contributions', '200');
     await I.click('Save and continue');
