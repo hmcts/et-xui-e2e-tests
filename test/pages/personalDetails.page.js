@@ -40,7 +40,7 @@ module.exports = {
     await I.dontSeeElement('#address1');
     await I.fillField('#postcode', 'LS9 9HE');
     await I.click('#findAddressButton');
-    await I.waitForVisible('#selectAddressInput');
+    await I.waitForVisible('#selectAddressInput', 30);
     await I.selectOption(
       '#selectAddressInput',
       '{"fullAddress":"3, SKELTON AVENUE, LEEDS, LS9 9HE","street1":"3 SKELTON AVENUE","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS9 9HE","country":"ENGLAND"}',
