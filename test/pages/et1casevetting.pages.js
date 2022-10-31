@@ -43,7 +43,7 @@ module.exports = {
 
   async processBeforeYourStartPage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Before you start');
+    I.waitForText('Before you start', 30);
     await I.click(Continue);
   },
 
