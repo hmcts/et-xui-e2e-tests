@@ -3,7 +3,7 @@ const querystring = require('querystring');
 
 const { expect } = require('chai');
 
-const request = require('../../data/request.json');
+const request = require('../../../data/request.json');
 let test_case_username = process.env.TEST_CASE_USERNAME;
 let test_case_password = process.env.TEST_CASE_PASSWORD;
 const et_manage_case_url = 'https://manage-case.aat.platform.hmcts.net/cases';
