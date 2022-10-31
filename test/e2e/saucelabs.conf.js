@@ -45,7 +45,7 @@ const setupConfig = {
       capabilities: {},
     },
     MyHelper: {
-      require: './test/helper.js',
+      require: '../helper.js',
       url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
     },
     SauceHelper: {
