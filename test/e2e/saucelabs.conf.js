@@ -82,12 +82,12 @@ const setupConfig = {
     chrome: {
       browsers: getBrowserConfig('chrome'),
     },
-    firefox: {
+    /*firefox: {
       browsers: getBrowserConfig('firefox'),
     },
     safari: {
       browsers: getBrowserConfig('safari'),
-    },
+    },*/
   },
   name: 'Employment Tribunal Front End and XUI  End To End Crossbrowser Tests',
 };
