@@ -1,7 +1,4 @@
 const supportedBrowsers = require('./crossbrowsers/supportedBrowsers');
-
-//const evidenceUploadEnabled = config.get('features.evidenceUpload.enabled');
-
 const defaultSauceOptions = {
   username: process.env.SAUCE_USERNAME,
   accessKey: process.env.SAUCE_ACCESS_KEY,
@@ -36,7 +33,7 @@ const setupConfig = {
   output: './crossbrowser-output',
   helpers: {
     WebDriver: {
-      url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
+      url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net',
       browser: process.env.SAUCE_BROWSER || '',
       cssSelectorsEnabled: 'true',
       host: 'ondemand.eu-central-1.saucelabs.com',
@@ -45,11 +42,8 @@ const setupConfig = {
       capabilities: {},
     },
     MyHelper: {
-      require: '../helper.js',
-      url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
-    },
-    SauceHelper: {
-      require: 'codeceptjs-saucehelper',
+      require: './saucelabsHelper.js',
+      url: 'https://et-sya.aat.platform.hmcts.net',
     },
   },
   include: {
