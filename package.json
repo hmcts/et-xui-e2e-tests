@@ -46,7 +46,7 @@
         "typescript": "4.7.4"
     },
     "devDependencies": {
-        "@codeceptjs/configure": "0.8.0",
+        "@codeceptjs/configure": "0.10.0",
         "@codeceptjs/examples": "1.2.1",
         "@codeceptjs/ui": "0.4.7",
         "codeceptjs": "3.3.4",
