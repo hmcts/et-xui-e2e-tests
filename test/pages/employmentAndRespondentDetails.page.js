@@ -109,7 +109,7 @@ module.exports = {
     await I.see('What is the address of Henry Marsh?');
     await I.fillField('#postcode', 'LS7 4QE');
     await I.click('#findAddressButton');
-    await I.waitForVisible('#selectAddressInput');
+    await I.waitForVisible('#selectAddressInput', 30);
     await I.selectOption(
       '#selectAddressInput',
       '{"fullAddress":"7, VALLEY GARDENS, LEEDS, LS7 4QE","street1":"7 VALLEY GARDENS","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS7 4QE","country":"ENGLAND"}',
