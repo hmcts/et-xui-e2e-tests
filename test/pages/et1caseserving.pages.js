@@ -15,7 +15,7 @@ module.exports = {
   },
 
   async processPreAcceptancePage(caseNumber) {
-    I.see('Accept/Reject Case');
+    I.waitForText('Accept/Reject Case', 30);
     I.see('Pre-Acceptance');
     I.see('Case Number: ' + caseNumber);
     I.checkOption(this.locators.pre_accept_case_yes_option);
@@ -26,7 +26,7 @@ module.exports = {
   },
 
   async processAcceptRejectCase(caseNumber) {
-    I.see('Case Number: ' + caseNumber);
+    I.waitForText('Case Number: ' + caseNumber, 30);
     I.click('Submit');
   },
 };
