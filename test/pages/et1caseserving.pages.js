@@ -28,6 +28,6 @@ module.exports = {
   async processAcceptRejectCase(caseNumber) {
     I.waitForText('Case Number: ' + caseNumber, 30);
     I.waitForElement("[type='submit']", 30);
-    I.click('Submit');
+    I.forceClick('Submit');
   },
 };

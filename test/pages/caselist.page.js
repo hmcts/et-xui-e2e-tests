@@ -21,15 +21,16 @@ module.exports = {
 
   async searchCaseApplication(option) {
     I.see(this.caseListText);
-    I.waitForElement(this.caseTypeDropdown, 60);
+    I.waitForElement(this.caseTypeDropdown, 30);
     I.selectOption(this.caseTypeDropdown, option);
     await I.click(this.applyButton);
   },
 
   async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
-    I.waitForElement(this.caseTypeDropdown, 60);
+    I.waitForInvisible('.spinner-container', 30);
+    I.waitForElement(this.caseTypeDropdown, 30);
     I.selectOption(this.caseTypeDropdown, option);
-    I.waitForElement(this.submissionReferenceLocator, 60);
+    I.waitForElement(this.submissionReferenceLocator, 30);
     I.see(this.caseListText);
     I.fillField(this.submissionReferenceLocator, submissionReference);
     await I.click(this.applyButton);
