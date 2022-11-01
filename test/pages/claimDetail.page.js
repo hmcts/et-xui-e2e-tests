@@ -1,60 +1,61 @@
 const { I } = inject();
 
 module.exports = {
-  async processClaimDetails() {
-    await this.clickClaimDetailsLink();
-    await this.selectClaimTypeDiscrimination();
-    await this.describeWhatHappened();
-    await this.tellUsWhatYouWant();
-    await this.compensation();
-    await this.tribunalRecommendation();
-    await this.whistleBlowingClaims();
-    await this.claimDetailsCheck();
+  processClaimDetails() {
+    this.clickClaimDetailsLink();
+    this.selectClaimTypeDiscrimination();
+    this.describeWhatHappened();
+    this.tellUsWhatYouWant();
+    this.compensation();
+    this.tribunalRecommendation();
+    this.whistleBlowingClaims();
+    this.claimDetailsCheck();
   },
   //clicks on the claim details link
-  async clickClaimDetailsLink() {
-    await I.click('[href="/claim-type-discrimination"]');
-    await I.see('What type of discrimination are you');
+  clickClaimDetailsLink() {
+    I.click('[href="/claim-type-discrimination"]');
+    I.see('What type of discrimination are you');
   },
-  async selectClaimTypeDiscrimination() {
-    await I.see('What type of discrimination are you');
-    await I.checkOption('#age');
-    await I.checkOption('#disability');
-    await I.click('Save and continue');
+  selectClaimTypeDiscrimination() {
+    I.see('What type of discrimination are you');
+    I.checkOption('#age');
+    I.checkOption('#disability');
+    I.click('Save and continue');
   },
-  async describeWhatHappened() {
-    await I.see('Describe what happened to you');
-    await I.fillField('#claim-summary-text', 'Discrimination, Dismissal and Pay Cut.');
-    await I.click('Save and continue');
+  describeWhatHappened() {
+    I.see('Describe what happened to you');
+    I.fillField('#claim-summary-text', 'Discrimination, Dismissal and Pay Cut.');
+    I.click('Save and continue');
   },
-  async tellUsWhatYouWant() {
-    await I.see('What do you want if your claim is successful? (optional)');
-    await I.checkOption('#compensationOnly');
-    await I.checkOption('#tribunalRecommendation');
-    await I.checkOption('#oldJob');
-    await I.click('Save and continue');
+  tellUsWhatYouWant() {
+    I.see('What do you want if your claim is successful? (optional)');
+    I.checkOption('#compensationOnly');
+    I.checkOption('#tribunalRecommendation');
+    I.checkOption('#oldJob');
+    I.click('Save and continue');
   },
-  async compensation() {
-    await I.see('What compensation are you seeking? (optional)');
-    await I.fillField('#compensationOutcome', 'Seeking months wage and job back');
-    await I.fillField('#compensation-amount', '2000');
-    await I.click('Save and continue');
+  compensation() {
+    I.see('What compensation are you seeking? (optional)');
+    I.fillField('#compensationOutcome', 'Seeking months wage and job back');
+    I.fillField('#compensation-amount', '2000');
+    I.click('Save and continue');
   },
-  async tribunalRecommendation() {
-    await I.see('What tribunal recommendation would you like to make? (optional)');
-    await I.fillField('#tribunalRecommendationRequest', 'Get Job back and my boss to say sorry');
-    await I.click('Save and continue');
+  tribunalRecommendation() {
+    I.see('What tribunal recommendation would you like to make? (optional)');
+    I.fillField('#tribunalRecommendationRequest', 'Get Job back and my boss to say sorry');
+    I.click('Save and continue');
   },
-  async whistleBlowingClaims() {
-    await I.see('Whistleblowing claims (optional)');
-    await I.checkOption('#whistleblowing-claim');
-    await I.waitForElement('#whistleblowing-entity-name');
-    await I.fillField('#whistleblowing-entity-name', 'Rupert Regulator');
-    await I.click('Save and continue');
+  whistleBlowingClaims() {
+    I.see('Whistleblowing claims (optional)');
+    I.checkOption('#whistleblowing-claim');
+    I.waitForElement('#whistleblowing-entity-name');
+    I.fillField('#whistleblowing-entity-name', 'Rupert Regulator');
+    I.click('Save and continue');
   },
-  async claimDetailsCheck() {
-    await I.see('Have you completed this section?');
-    await I.checkOption('#claim-details-check');
-    await I.click('Save and continue');
+
+  claimDetailsCheck() {
+    I.see('Have you completed this section?');
+    I.checkOption('#claim-details-check');
+    I.click('Save and continue');
   },
 };
