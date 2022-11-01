@@ -29,6 +29,7 @@ module.exports = {
   async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
     I.waitForInvisible('.spinner-container', 30);
     I.waitForElement(this.caseTypeDropdown, 30);
+    I.wait(7);
     I.selectOption(this.caseTypeDropdown, option);
     I.waitForElement(this.submissionReferenceLocator, 30);
     I.see(this.caseListText);
