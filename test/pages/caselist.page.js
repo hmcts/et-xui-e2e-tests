@@ -36,7 +36,7 @@ module.exports = {
   },
 
   async processCaseFromCaseList() {
-    I.waitForText('Your cases');
+    I.waitForText('Your cases', 30);
     let caseNumber = I.grabTextFrom(
       '//html[1]/body[1]/exui-root[1]/exui-case-home[1]/div[1]/exui-case-list[1]/exui-page-wrapper[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[2]/div[2]/ccd-search-result[1]/table[1]/tbody[1]/tr[1]/td[1]/a[1]/ccd-field-read[1]/div[1]/ccd-field-read-label[1]/div[1]/ng-component[1]/span[1]',
     );
