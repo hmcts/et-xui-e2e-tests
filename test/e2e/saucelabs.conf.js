@@ -82,10 +82,10 @@ const setupConfig = {
     chrome: {
       browsers: getBrowserConfig('chrome'),
     },
-    /*firefox: {
+    firefox: {
       browsers: getBrowserConfig('firefox'),
     },
-    safari: {
+    /*safari: {
       browsers: getBrowserConfig('safari'),
     },*/
   },
