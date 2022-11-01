@@ -37,8 +37,8 @@ module.exports = {
   },
 
   async verifyET1CasePageHeading(caseNumber) {
-    I.see(et1CaseVetting);
-    I.see('Case Number: ' + caseNumber);
+    I.waitForText(et1CaseVetting, 30);
+    I.waitForText('Case Number: ' + caseNumber, 30);
   },
 
   async processBeforeYourStartPage(caseNumber) {
@@ -63,27 +63,27 @@ module.exports = {
 
   async processPossibleSubstantiveDefectsPage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Possible substantive defects (Optional)');
+    I.waitForText('Possible substantive defects (Optional)', 30);
     await I.click(Continue);
   },
 
   async processJurisdictionCodePage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Jurisdiction Codes');
+    I.waitForText('Jurisdiction Codes', 30);
     I.checkOption(this.locators.are_these_codes_correct_yes_option);
     await I.click(Continue);
   },
 
   async processTrackAllocationPage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Track allocation');
+    I.waitForText('Track allocation', 30);
     I.checkOption(this.locators.is_track_allocation_correct_yes_option);
     await I.click(Continue);
   },
 
   async processTribunalLocationPage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Tribunal location');
+    I.waitForText('Tribunal location', 30);
     I.checkOption(this.locators.is_location_correct_yes_option);
     await I.click(Continue);
   },
@@ -98,7 +98,7 @@ module.exports = {
 
   async processFurtherQuestionsPage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Further questions');
+    I.waitForText('Further questions', 30);
     I.checkOption(this.locators.is_the_respondent_a_major_government_agency_no_option);
     I.checkOption(this.locators.reasonable_adjustment_questions_no_option);
     I.checkOption(this.locators.can_claimant_attend_a_video_hearing_yes_option);
@@ -107,31 +107,31 @@ module.exports = {
 
   async processPossibleReferralToACaseOfficerPage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Possible referral to a judge or legal officer');
+    I.waitForText('Possible referral to a judge or legal officer', 30);
     await I.click(Continue);
   },
 
   async processPossibleReferralToARegionalEmploymentJudgeOrPresidentPage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Possible referral to Regional Employment Judge or Vice-President');
+    I.waitForText('Possible referral to Regional Employment Judge or Vice-President', 30);
     await I.click(Continue);
   },
 
   async processOtherFactorsPage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Other factors');
+    I.waitForText('Other factors', 30);
     await I.click(Continue);
   },
 
   async processFinalNotesPage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Final notes');
+    I.waitForText('Final notes', 30);
     await I.click(Continue);
   },
 
   async processCheckYourAnswersPage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Check your answers');
+    I.waitForText('Check your answers', 30);
     I.see('Check the information below carefully.');
     I.see('Contact Details');
     I.see('Can we serve the claim with these contact details?');
