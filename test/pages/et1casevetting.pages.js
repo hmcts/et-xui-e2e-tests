@@ -56,6 +56,7 @@ module.exports = {
 
   async processACASCertificatePage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
+    I.waitForElement(this.locators.is_there_an_acas_certificate_yes_option, 30);
     I.checkOption(this.locators.is_there_an_acas_certificate_yes_option);
     await I.click(Continue);
   },
@@ -147,7 +148,7 @@ module.exports = {
 
   async processET1CaseVettingPage(caseNumber) {
     await this.verifyET1CasePageHeading(caseNumber);
-    I.see('Do this next');
+    I.waitForText('Do this next', 30);
     I.see('You must accept or reject the case or refer the case.');
     I.click("//a[contains(text(),'accept or reject the case')]");
   },
