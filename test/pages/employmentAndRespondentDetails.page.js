@@ -87,7 +87,9 @@ module.exports = {
   },
   //enter Pension contribution on /pension page
   enterPensionContribution() {
-    I.waitForText('Did the respondent make any contributions to your pension? (optional)', 30);
+    I.waitForText('Did the respondent make any ', 30);
+    I.see('contributions to your');
+    I.see('pension? (optional)');
     I.waitForElement('#pension', 30);
     I.checkOption('input[id=pension]');
     I.fillField('#pension-contributions', '200');
