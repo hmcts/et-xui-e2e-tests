@@ -9,7 +9,8 @@ module.exports = {
   },
   //user clicks check your answers link
   async clickCheckYourAnswersLink() {
-    await I.click('[href="/pcq"]');
+    I.waitForElement('[href="/pcq"]', 30);
+    I.click('[href="/pcq"]');
   },
   //
   async noPcqQuestions() {
