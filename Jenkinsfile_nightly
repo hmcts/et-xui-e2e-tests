@@ -49,7 +49,8 @@ withNightlyPipeline("nodejs", product, component) {
     env.RUNNING_ENV = params.ENVIRONMENT
 
     after('crossBrowserTest') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*',
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/e2e-output/**/*'
     }
 
     
