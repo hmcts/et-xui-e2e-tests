@@ -10,7 +10,7 @@ module.exports = {
     I.click('[type="submit"]');
   },
 
-  async verifyCitizenHubCaseOverviewPage(caseNumber) {
+  verifyCitizenHubCaseOverviewPage(caseNumber) {
     I.see('Case overview - ');
     I.see('Case number ' + caseNumber);
 
