@@ -17,17 +17,20 @@ Scenario(
     et1CaseServingPages,
   }) => {
     I.amOnPage('/');
-    await basePage.processPreLoginPagesForTheDraftApplication();
+    await basePage.processPreLoginPagesForTheDraftApplication(); //Submission in the sya front end.
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails();
+    I.wait(5);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney();
+    I.wait(5);
     await claimDetailsPage.processClaimDetails();
+    I.wait(5);
     const submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
 
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword); //Manage Case Application
     await caseListPage.searchCaseApplicationWithSubmissionReference('3: Object', submissionReference);
     I.wait(5);
     let caseNumber = await caseListPage.processCaseFromCaseList();
