@@ -34,7 +34,8 @@ module.exports = {
   },
 
   processAreYouMakingTheClaimOnYourOwnPage() {
-    I.waitForText('Are you making a claim on your own or with others?', 30);
+    I.waitForText('Are you making a claim on your own or with ', 30);
+    I.see('others?');
     I.checkOption('input[id=single-or-multiple-claim]');
     I.click('Continue');
   },
