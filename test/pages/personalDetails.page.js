@@ -15,7 +15,6 @@ module.exports = {
   //click personal details link and enter details
   clickPersonalDetailsLink() {
     I.click('[href="/dob-details"]');
-    I.see('What is your date of birth?');
   },
   enterDob() {
     //enter date of birth
@@ -55,26 +54,30 @@ module.exports = {
   },
   selectHowToBeContacted() {
     //select option for how to be contacted
-    I.see('How would you like to be contacted about your claim?');
+    I.waitForText('How would you like to be contacted', 30);
+    I.see(' about your claim?');
     I.checkOption('#update-preference');
     I.click('Save and continue');
   },
   selectHearingPreference() {
     //Select hearing preference option - video hearing
+    I.waitForText('Would you be able to take part in hearings by', 30);
+    I.see('video and phone?');
     I.checkOption('#hearingPreferences');
     I.click('Save and continue');
   },
   selectReasonableAdjustment() {
     //Select No to reasonable adjustment question
-    I.see(
-      'Do you have a physical, mental or learning disability or long term health condition that means you need support during your case?',
-    );
+    I.waitForText('Do you have a physical, mental or learning');
+    I.see('disability or long term health condition that');
+    I.see('means you need support during your case?');
     I.checkOption('#reasonableAdjustments-2');
     I.click('Save and continue');
   },
   confirmCompletedPersonalDetailsQuestions() {
     //confirm completed personal details question
-    I.see('Have you completed this section?');
+    I.waitForText('Have you completed this');
+    I.see('section?');
     I.checkOption('#tasklist-check');
     I.click('Save and continue');
     I.see('Steps to making your claim');

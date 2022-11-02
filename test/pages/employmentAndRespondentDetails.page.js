@@ -24,7 +24,9 @@ module.exports = {
   //clicks employment status link
   clickEmploymentStatusLink() {
     I.click('[href="/past-employer"]');
-    I.waitForText('Did you work for the organisation or person you’re making your claim against?', 30);
+    I.waitForText('Did you work for the', 30);
+    I.see('organisation or person you’re');
+    I.see('making your claim against?');
   },
 
   //function to click yes worked for organisation on /past-employer page
@@ -34,7 +36,9 @@ module.exports = {
   },
   //selects still working for respondent on /are-you-still-working page
   stillWorkingForOrganisation() {
-    I.waitForText("Are you still working for the organisation or person you're making your claim against?", 30);
+    I.waitForText('Are you still working for the', 30);
+    I.see("organisation or person you're");
+    I.see('making your claim against?');
     I.click('#still-working');
     I.click('Save and continue');
   },
@@ -55,25 +59,30 @@ module.exports = {
   },
   //select yes to notice period on /got-a-notice-period page
   selectYesNoticePeriod() {
-    I.waitForText('Do you have a written contract with a notice period? (optional)', 30);
+    I.waitForText('Do you have a written', 30);
+    I.see('contract with a notice');
+    I.see('period? (optional)');
     I.checkOption('input[id=notice-period]');
     I.click('Save and continue');
   },
   //select weeks for notice type on /notice-type page
   selectNoticeType() {
-    I.waitForText('Is your notice period in weeks or months? (optional)', 30);
+    I.waitForText('Is your notice period in', 30);
+    I.see('weeks or months? (optional)');
     I.checkOption('input[id=notice-type]');
     I.click('Save and continue');
   },
   //enter notice length on /notice-length page
   enterNoticePeriodLength() {
-    I.waitForText('How many weeks in your notice period? (optional)', 30);
+    I.waitForText('How many weeks in your', 30);
+    I.see('notice period? (optional)');
     I.fillField('input[id=notice-length]', '4');
     I.click('Save and continue');
   },
   //enter average weekly hours
   enterAverageWeeklyHours() {
-    I.waitForText('What are your average weekly hours? (optional)', 30);
+    I.waitForText('What are your', 30);
+    I.see('average weekly hours? (optional)');
     I.fillField('#avg-weekly-hrs', '20');
     I.click('Save and continue');
   },
@@ -97,13 +106,17 @@ module.exports = {
   },
   //enter employee benefits on /benefits page
   enterEmployeeBenefits() {
-    I.waitForText('Do or did you receive any employee benefits? (optional)', 30);
+    I.waitForText('Do or did you receive any', 30);
+    I.see('employee benefits?');
+    I.see('(optional)');
     I.checkOption('input[id=employee-benefits]');
     I.click('Save and continue');
   },
   //verify user is on respondent-name page and then enters a respondent name
   enterRespondentName() {
-    I.waitForText("What is the name of the respondent you're making the claim against?", 30);
+    I.waitForText('What is the name of the', 30);
+    I.see("respondent you're making");
+    I.see('the claim against?');
     I.fillField('#respondentName', 'Henry Marsh');
     I.click('Save and continue');
   },
@@ -127,7 +140,8 @@ module.exports = {
   },
   //selects no option for acas cerificate question on /acas-cer-num page
   selectNoToAcas() {
-    I.waitForText('Do you have an Acas certificate number for Henry Marsh?', 30);
+    I.waitForText('Do you have an Acas', 30);
+    I.see('certificate number for Henry Marsh?');
     I.checkOption('#acasCert-2');
     I.click('Save and continue');
     I.see('Why do you not have an Acas number?');
@@ -141,7 +155,8 @@ module.exports = {
   },
   //confirm completed section for employment and respondent details
   completeEmploymentAndRespondentDetails() {
-    I.waitForText('Have you completed this section?', 30);
+    I.waitForText('Have you completed this', 30);
+    I.see('section?');
     I.waitForElement('#tasklist-check', 30);
     I.checkOption('#tasklist-check');
     I.click('Save and continue');
