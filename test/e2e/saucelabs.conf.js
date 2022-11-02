@@ -1,4 +1,5 @@
 const supportedBrowsers = require('./crossbrowsers/supportedBrowsers');
+const browser = process.env.BROWSER_GROUP || 'chrome';
 const defaultSauceOptions = {
   username: process.env.SAUCE_USERNAME,
   accessKey: process.env.SAUCE_ACCESS_KEY,
@@ -34,7 +35,7 @@ const setupConfig = {
   helpers: {
     WebDriver: {
       url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net',
-      browser: process.env.SAUCE_BROWSER || '',
+      browser,
       cssSelectorsEnabled: 'true',
       host: 'ondemand.eu-central-1.saucelabs.com',
       port: 80,
@@ -75,7 +76,7 @@ const setupConfig = {
         options: {
           reportDir: './functional-output',
           reportName: 'index',
-          reportTitle: 'Crossbrowser results for: ' + process.env.BROWSER_GROUP,
+          reportTitle: 'Crossbrowser results for: ' + browser.toUpperCase(),
           inlineAssets: true,
         },
       },
