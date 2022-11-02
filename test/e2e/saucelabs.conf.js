@@ -66,13 +66,22 @@ const setupConfig = {
     reporterOptions: {
       'codeceptjs-cli-reporter': {
         stdout: '-',
-        options: { steps: true },
+        options: {
+          steps: true,
+        },
+      },
+      'mocha-junit-reporter': {
+        stdout: '-',
+        options: {
+          mochaFile: './functional-output/result.xml',
+        },
       },
       mochawesome: {
-        stdout: './e2e-output/console.log',
+        stdout: './functional-output/console.log',
         options: {
-          reportDir: './e2e-output',
+          reportDir: './functional-output',
           reportName: 'index',
+          reportTitle: 'Crossbrowser results for: ' + process.env.BROWSER_GROUP,
           inlineAssets: true,
         },
       },
