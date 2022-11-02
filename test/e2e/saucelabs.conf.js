@@ -30,7 +30,7 @@ function getBrowserConfig(browserGroup) {
 
 const setupConfig = {
   tests: './**/*.js',
-  output: './crossbrowser-output',
+  output: './functional-output',
   helpers: {
     WebDriver: {
       url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net',
