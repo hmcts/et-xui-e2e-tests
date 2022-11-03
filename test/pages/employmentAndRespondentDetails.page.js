@@ -150,9 +150,6 @@ module.exports = {
     I.checkOption('input[id=notice-type]');
     I.click('Save and continue');
   },
-  test() {
-    I.wait(5);
-  },
   //enter notice length on /notice-length page
   enterNoticePeriodLength() {
     I.waitForText('How many weeks in your', 30);
