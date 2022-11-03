@@ -71,7 +71,9 @@ module.exports = {
   //clicks employment status link
   clickEmploymentStatusLink() {
     I.click('[href="/past-employer"]');
-    I.see('Did you work for the organisation or person you’re making your claim against?');
+    I.waitForText('Did you work for the', 30);
+    I.see('organisation or person you’re');
+    I.see('making your claim against?');
   },
   //function to click yes worked for organisation on /past-employer page
   workedForOrganisation() {
@@ -80,7 +82,9 @@ module.exports = {
   },
   //selects still working for respondent on /are-you-still-working page
   stillWorkingForOrganisation() {
-    I.see("Are you still working for the organisation or person you're making your claim against?");
+    I.waitForText('Are you still working for the', 30);
+    I.see("organisation or person you're");
+    I.see('making your claim against?');
     I.click('#still-working');
     I.click('Save and continue');
   },
@@ -98,14 +102,14 @@ module.exports = {
   },
   //check page title and enter job title
   enterEmploymentJobTitle() {
-    I.see('Employment details');
+    I.waitForText('Employment details', 30);
     I.seeElement('#jobTitle');
     I.fillField('#jobTitle', 'Tester');
     I.click('Save and continue');
   },
   //employment start date page
   enterEmploymentStartDate() {
-    I.see('Employment start date');
+    I.waitForText('Employment start date', 30);
     I.fillField('#startDate-day', '20');
     I.fillField('#startDate-month', '04');
     I.fillField('#startDate-year', '2014');
@@ -113,7 +117,9 @@ module.exports = {
   },
   //select yes to notice period on /got-a-notice-period page
   selectYesNoticePeriod() {
-    I.see('Do you have a written contract with a notice period? (optional)');
+    I.waitForText('Do you have a written', 30);
+    I.see('contract with a notice');
+    I.see('period? (optional)');
     I.checkOption('input[id=notice-period]');
     I.click('Save and continue');
   },
@@ -139,13 +145,18 @@ module.exports = {
   },
   //select weeks for notice type on /notice-type page
   selectNoticeType() {
-    I.see('Is your notice period in weeks or months? (optional)');
+    I.waitForText('Is your notice period in', 30);
+    I.see('weeks or months? (optional)');
     I.checkOption('input[id=notice-type]');
     I.click('Save and continue');
   },
+  test() {
+    I.wait(5);
+  },
   //enter notice length on /notice-length page
   enterNoticePeriodLength() {
-    I.see('How many weeks in your notice period? (optional)');
+    I.waitForText('How many weeks in your', 30);
+    I.see('notice period? (optional)');
     I.fillField('input[id=notice-length]', '4');
     I.click('Save and continue');
   },
@@ -163,13 +174,14 @@ module.exports = {
   },
   //enter average weekly hours
   enterAverageWeeklyHours() {
-    I.see('What were your average weekly hours? (optional)');
+    I.waitForText('What are your', 30);
+    I.see('average weekly hours? (optional)');
     I.fillField('#avg-weekly-hrs', '20');
     I.click('Save and continue');
   },
   //enters pay on the /pay page
   enterPay() {
-    I.see('Your pay (optional)');
+    I.waitForText('Your pay (optional)', 30);
     I.fillField('#pay-before-tax', '40000');
     I.fillField('#pay-after-tax', '35000');
     I.checkOption('input[id=pay-interval]');
@@ -177,15 +189,19 @@ module.exports = {
   },
   //enter Pension contribution on /pension page
   enterPensionContribution() {
-    I.see('Did the respondent make any contributions to your pension? (optional)');
-    I.seeElement('#pension');
+    I.waitForText('Did the respondent make any', 30);
+    I.see('contributions to your');
+    I.see('pension? (optional)');
+    I.waitForElement('#pension', 30);
     I.checkOption('input[id=pension]');
     I.fillField('#pension-contributions', '200');
     I.click('Save and continue');
   },
   //enter employee benefits on /benefits page
   enterEmployeeBenefits() {
-    //I.see('Do or did you receive any employee benefits? (optional)');
+    I.waitForText('Do or did you receive any', 30);
+    I.see('employee benefits?');
+    I.see('(optional)');
     I.checkOption('input[id=employee-benefits]');
     I.click('Save and continue');
   },
@@ -212,16 +228,18 @@ module.exports = {
   },
   //verify user is on respondent-name page and then enters a respondent name
   enterRespondentName() {
-    I.see("What is the name of the respondent you're making the claim against?");
+    I.waitForText('What is the name of the', 30);
+    I.see("respondent you're making");
+    I.see('the claim against?');
     I.fillField('#respondentName', 'Henry Marsh');
     I.click('Save and continue');
   },
   //enters address for respondent
   enterRespondentAddress() {
-    I.see('What is the address of Henry Marsh?');
+    I.waitForText('What is the address of Henry Marsh?', 30);
     I.fillField('#postcode', 'LS7 4QE');
     I.click('#findAddressButton');
-    I.waitForVisible('#selectAddressInput');
+    I.waitForVisible('#selectAddressInput', 30);
     I.selectOption(
       '#selectAddressInput',
       '{"fullAddress":"7, VALLEY GARDENS, LEEDS, LS7 4QE","street1":"7 VALLEY GARDENS","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS7 4QE","country":"ENGLAND"}',
@@ -230,13 +248,14 @@ module.exports = {
   },
   //selects yes to working at respondent address
   selectYesToWorkingAtRespondentAddress() {
-    I.see('Did you work at 7 VALLEY GARDENS?');
+    I.waitForText('Did you work at 7 VALLEY GARDENS?', 30);
     I.checkOption('#work-address');
     I.click('Save and continue');
   },
-  //selects no option for acas certificate question on /acas-cer-num page
+  //selects no option for acas cerificate question on /acas-cer-num page
   selectNoToAcas() {
-    I.see('Do you have an Acas certificate number for Henry Marsh?');
+    I.waitForText('Do you have an Acas', 30);
+    I.see('certificate number for Henry Marsh?');
     I.checkOption('#acasCert-2');
     I.click('Save and continue');
     I.see('Why do you not have an Acas number?');
@@ -245,13 +264,14 @@ module.exports = {
   },
   //check respondent details page
   checkRespondentDetails() {
-    I.see('Check the respondent details');
+    I.waitForText('Check the respondent details', 30);
     I.click('Save and continue');
   },
   //confirm completed section for employment and respondent details
   completeEmploymentAndRespondentDetails() {
-    I.see('Have you completed this section?');
-    I.seeElement('#tasklist-check');
+    I.waitForText('Have you completed this', 30);
+    I.see('section?');
+    I.waitForElement('#tasklist-check', 30);
     I.checkOption('#tasklist-check');
     I.click('Save and continue');
   },

@@ -9,13 +9,13 @@ module.exports = {
     date_accepted_year: { css: '#dateAccepted-year' },
   },
 
-  async processET1CaseServingPages(caseNumber) {
-    await this.processPreAcceptancePage(caseNumber);
-    await this.processAcceptRejectCase(caseNumber);
+  processET1CaseServingPages(caseNumber) {
+    this.processPreAcceptancePage(caseNumber);
+    this.processAcceptRejectCase(caseNumber);
   },
 
-  async processPreAcceptancePage(caseNumber) {
-    I.see('Accept/Reject Case');
+  processPreAcceptancePage(caseNumber) {
+    I.waitForText('Accept/Reject Case', 30);
     I.see('Pre-Acceptance');
     I.see('Case Number: ' + caseNumber);
     I.checkOption(this.locators.pre_accept_case_yes_option);
@@ -25,8 +25,9 @@ module.exports = {
     I.click('Continue');
   },
 
-  async processAcceptRejectCase(caseNumber) {
-    I.see('Case Number: ' + caseNumber);
-    I.click('Submit');
+  processAcceptRejectCase(caseNumber) {
+    I.waitForText('Case Number: ' + caseNumber, 30);
+    I.waitForElement("[type='submit']", 30);
+    I.forceClick("[type='submit']");
   },
 };

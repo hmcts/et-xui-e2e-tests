@@ -19,24 +19,26 @@ module.exports = {
   nextEventDropdown: '#next-step',
   submitEventButton: '[type="submit"]',
 
-  async searchCaseApplication(option) {
+  searchCaseApplication(option) {
     I.see(this.caseListText);
-    I.waitForElement(this.caseTypeDropdown, 60);
+    I.waitForElement(this.caseTypeDropdown, 30);
     I.selectOption(this.caseTypeDropdown, option);
-    await I.click(this.applyButton);
+    I.click(this.applyButton);
   },
 
-  async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
+  searchCaseApplicationWithSubmissionReference(option, submissionReference) {
+    I.waitForInvisible('.spinner-container', 30);
+    I.waitForElement(this.caseTypeDropdown, 30);
+    I.wait(7);
     I.selectOption(this.caseTypeDropdown, option);
-    I.waitForElement(this.submissionReferenceLocator, 60);
+    I.waitForElement(this.submissionReferenceLocator, 30);
     I.see(this.caseListText);
-    //I.waitForElement(this.caseTypeDropdown, 60);
     I.fillField(this.submissionReferenceLocator, submissionReference);
-    await I.click(this.applyButton);
+    I.click(this.applyButton);
   },
 
-  async processCaseFromCaseList() {
-    I.waitForText('Your cases');
+  processCaseFromCaseList() {
+    I.waitForText('Your cases', 30);
     let caseNumber = I.grabTextFrom(
       '//html[1]/body[1]/exui-root[1]/exui-case-home[1]/div[1]/exui-case-list[1]/exui-page-wrapper[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[2]/div[2]/ccd-search-result[1]/table[1]/tbody[1]/tr[1]/td[1]/a[1]/ccd-field-read[1]/div[1]/ccd-field-read-label[1]/div[1]/ng-component[1]/span[1]',
     );
@@ -46,16 +48,16 @@ module.exports = {
     return caseNumber;
   },
 
-  async selectNextEvent(option) {
+  selectNextEvent(option) {
     //I.waitForElement(this.nextEventDropdown, 60);
     I.waitForEnabled(this.nextEventDropdown, 60);
     //await I.click(this.nextEventDropdown);
-    await I.selectOption(this.nextEventDropdown, option);
-    await I.click(this.submitEventButton);
+    I.selectOption(this.nextEventDropdown, option);
+    I.click(this.submitEventButton);
   },
 
-  async verifyCaseDetailsPage(et1VettingFlag = false) {
-    I.see('Case Details');
+  verifyCaseDetailsPage(et1VettingFlag = false) {
+    I.waitForText('Case Details', 30);
     I.see('Claimant');
     I.see('Respondent');
     I.see('Jurisdictions');
