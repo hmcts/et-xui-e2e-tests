@@ -1,6 +1,7 @@
 const { I } = inject();
 
 module.exports = {
+  //still working for organisation/person scenario
   processStillWorkingJourney() {
     this.clickEmploymentStatusLink();
     this.workedForOrganisation();
@@ -21,6 +22,52 @@ module.exports = {
     this.checkRespondentDetails();
     this.completeEmploymentAndRespondentDetails();
   },
+  //working notice period for organisation/person scenario
+  processWorkingNoticePeriodJourney() {
+    this.clickEmploymentStatusLink();
+    this.workedForOrganisation();
+    this.workingNoticePeriodForOrganisation();
+    this.enterEmploymentJobTitle();
+    this.enterEmploymentStartDate();
+    this.noticePeriodEndDate();
+    this.selectNoticeType();
+    this.enterNoticePeriodLength();
+    this.enterAverageWeeklyHours();
+    this.enterPay();
+    this.enterPensionContribution();
+    this.enterEmployeeBenefits();
+    this.enterRespondentName();
+    this.enterRespondentAddress();
+    this.selectYesToWorkingAtRespondentAddress();
+    this.selectNoToAcas();
+    this.checkRespondentDetails();
+    this.completeEmploymentAndRespondentDetails();
+  },
+  //No longer working for organisation/person scenario
+  processNoLongerWorkingForOrgJourney() {
+    this.clickEmploymentStatusLink();
+    this.workedForOrganisation();
+    this.noLongerWorkingForOrganisation();
+    this.enterEmploymentJobTitle();
+    this.enterEmploymentStartDate();
+    this.enterEmploymentEndDate();
+    this.selectYesNoticePeriodNoLongerWorking();
+    this.selectNoticeTypeNoLongerWorking();
+    this.enterNoticePeriodLengthNoLongerWorking();
+    this.enterAverageWeeklyHours();
+    this.enterPay();
+    this.enterPensionContribution();
+    this.enterEmployeeBenefits();
+    this.newJob();
+    this.enterNewJobStartDates();
+    this.enterNewJobPay();
+    this.enterRespondentName();
+    this.enterRespondentAddress();
+    this.selectYesToWorkingAtRespondentAddress();
+    this.selectNoToAcas();
+    this.checkRespondentDetails();
+    this.completeEmploymentAndRespondentDetails();
+  },
   //clicks employment status link
   clickEmploymentStatusLink() {
     I.click('[href="/past-employer"]');
@@ -28,7 +75,6 @@ module.exports = {
     I.see('organisation or person you’re');
     I.see('making your claim against?');
   },
-
   //function to click yes worked for organisation on /past-employer page
   workedForOrganisation() {
     I.click('#past-employer');
@@ -40,6 +86,18 @@ module.exports = {
     I.see("organisation or person you're");
     I.see('making your claim against?');
     I.click('#still-working');
+    I.click('Save and continue');
+  },
+  //selects working notice period for respondent on /are-you-still-working page
+  workingNoticePeriodForOrganisation() {
+    I.see("Are you still working for the organisation or person you're making your claim against?");
+    I.click('#still-working-2');
+    I.click('Save and continue');
+  },
+  //selects i'm no longer working for respondent on /are-you-still-working page
+  noLongerWorkingForOrganisation() {
+    I.see("Are you still working for the organisation or person you're making your claim against?");
+    I.click('#still-working-3');
     I.click('Save and continue');
   },
   //check page title and enter job title
@@ -65,6 +123,26 @@ module.exports = {
     I.checkOption('input[id=notice-period]');
     I.click('Save and continue');
   },
+  //selects yes to did you have or work a notice period on /got-a-notice-period page
+  selectYesNoticePeriodNoLongerWorking() {
+    I.see('Did you have or work a notice period? (optional)');
+    I.checkOption('input[id=notice-period]');
+    I.click('Save and continue');
+  },
+  //enters notice period end date
+  noticePeriodEndDate() {
+    I.fillField('#notice-dates-day', '20');
+    I.fillField('#notice-dates-month', '04');
+    I.fillField('#notice-dates-year', '2024');
+    I.click('Save and continue');
+  },
+  //Enters employment end date dates
+  enterEmploymentEndDate() {
+    I.fillField('#end-date-day', '20');
+    I.fillField('#end-date-month', '04');
+    I.fillField('#end-date-year', '2022');
+    I.click('Save and continue');
+  },
   //select weeks for notice type on /notice-type page
   selectNoticeType() {
     I.waitForText('Is your notice period in', 30);
@@ -76,6 +154,18 @@ module.exports = {
   enterNoticePeriodLength() {
     I.waitForText('How many weeks in your', 30);
     I.see('notice period? (optional)');
+    I.fillField('input[id=notice-length]', '4');
+    I.click('Save and continue');
+  },
+  //select yes for did you have or work a notice period question
+  selectNoticeTypeNoLongerWorking() {
+    I.see('Was your notice period in weeks or months? (optional)');
+    I.checkOption('input[id=notice-type]');
+    I.click('Save and continue');
+  },
+  //enter notice length on /notice-length page
+  enterNoticePeriodLengthNoLongerWorking() {
+    I.see('How many weeks in your notice period? (optional)');
     I.fillField('input[id=notice-length]', '4');
     I.click('Save and continue');
   },
@@ -110,6 +200,27 @@ module.exports = {
     I.see('employee benefits?');
     I.see('(optional)');
     I.checkOption('input[id=employee-benefits]');
+    I.click('Save and continue');
+  },
+  //Selects yes to new job on /new-job page
+  newJob() {
+    I.seeElement('#new-job');
+    I.checkOption('#new-job');
+    I.click('Save and continue');
+  },
+  //enter start date for new job
+  enterNewJobStartDates() {
+    I.seeElement('#new-job-start-date-day');
+    I.fillField('#new-job-start-date-day', '20');
+    I.fillField('#new-job-start-date-month', '08');
+    I.fillField('#new-job-start-date-year', '2024');
+    I.click('Save and continue');
+  },
+  //enter new job pay
+  enterNewJobPay() {
+    I.seeElement('#new-pay-before-tax');
+    I.fillField('#new-pay-before-tax', '50000');
+    I.checkOption('#new-job-pay-interval-3');
     I.click('Save and continue');
   },
   //verify user is on respondent-name page and then enters a respondent name
