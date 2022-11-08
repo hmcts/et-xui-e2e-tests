@@ -27,7 +27,7 @@ Scenario(
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('3: Object', submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('2: Object', submissionReference);
     I.wait(5);
     let caseNumber = await caseListPage.processCaseFromCaseList();
     console.log('The value of the Case Number ' + caseNumber);
@@ -70,7 +70,7 @@ Scenario(
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('3: Object', submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('2: Object', submissionReference);
     I.wait(5);
     let caseNumber = await caseListPage.processCaseFromCaseList();
     console.log('The value of the Case Number ' + caseNumber);
@@ -113,7 +113,7 @@ Scenario(
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('3: Object', submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('2: Object', submissionReference);
     I.wait(5);
     let caseNumber = await caseListPage.processCaseFromCaseList();
     console.log('The value of the Case Number ' + caseNumber);
