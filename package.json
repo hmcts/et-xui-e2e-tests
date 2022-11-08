@@ -50,7 +50,7 @@
         "@codeceptjs/examples": "1.2.1",
         "@codeceptjs/ui": "0.4.7",
         "codeceptjs": "3.3.6",
-        "husky": "8.0.1",
+        "husky": "8.0.2",
         "webdriverio": "7.25.4"
     }
 }
