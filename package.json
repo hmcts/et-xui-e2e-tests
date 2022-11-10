@@ -13,6 +13,7 @@
         "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
         "lint-staged": "lint-staged",
         "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix && prettier --check ./test",
+        "fortifyScan": "./src/test/java/gradlew -p src/test/java fortifyScan",
         "codeceptjs:demo": "codeceptjs run --steps -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
         "codeceptjs:demo:headless": "HEADLESS=true codeceptjs run --steps -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
         "codeceptjs:demo:ui": "codecept-ui --app  -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
