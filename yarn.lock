@@ -4649,10 +4649,10 @@ mocha-junit-reporter@1.23.1:
     strip-ansi "^4.0.0"
     xml "^1.0.0"
 
-mocha-multi@1.1.6:
-  version "1.1.6"
-  resolved "https://registry.npmjs.org/mocha-multi/-/mocha-multi-1.1.6.tgz#f9386098038b75eabf53e40061f420ddad89c3b2"
-  integrity sha512-hMVmd9C1h4PEiFNwHxn8aa5/EgGLg0UswdOrlrq1Y8ieKmot8hZLYaiESIgg/He3E4oxwaXPWT1V1PJ0qNJlUQ==
+mocha-multi@1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/mocha-multi/-/mocha-multi-1.1.7.tgz#0f94d00c22ae39d20c253545d8eee0d2c4420205"
+  integrity sha512-SXZRgHy0XiRTASyOp0p6fjOkdj+R62L6cqutnYyQOvIjNznJuUwzykxctypeRiOwPd+gfn4yt3NRulMQyI8Tzg==
   dependencies:
     debug "^4.1.1"
     is-string "^1.0.4"
@@ -6728,10 +6728,10 @@ typedarray@^0.0.6:
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@4.8.4:
-  version "4.8.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.4.tgz#c464abca159669597be5f96b8943500b238e60e6"
-  integrity sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==
+typescript@4.9.3:
+  version "4.9.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.3.tgz#3aea307c1746b8c384435d8ac36b8a2e580d85db"
+  integrity sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==
 
 ua-parser-js@^1.0.1:
   version "1.0.2"
