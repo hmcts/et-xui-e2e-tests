@@ -41,7 +41,8 @@ withNightlyPipeline("nodejs", product, component) {
     loadVaultSecrets(secrets)
     enableFullFunctionalTest()
     enableCrossBrowserTest()
-    enableFortifyScan()
+    //enableFortifyScan()
+    enableSecurityScan()
 
     env.TEST_URL = params.URL_TO_TEST
     env.IDAM_URL = params.IDAM_URL
