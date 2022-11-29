@@ -44,7 +44,7 @@ module.exports = {
       '#selectAddressInput',
       '{"fullAddress":"3, SKELTON AVENUE, LEEDS, LS9 9HE","street1":"3 SKELTON AVENUE","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS9 9HE","country":"ENGLAND"}',
     );
-    I.click('#main-form-submit');
+    I.forceClick('#main-form-submit');
   },
   enterTelephoneNumber() {
     //Enter telephone number
