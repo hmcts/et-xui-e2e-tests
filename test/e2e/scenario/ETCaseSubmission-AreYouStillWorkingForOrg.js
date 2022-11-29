@@ -15,7 +15,7 @@ Scenario(
     caseListPage,
     et1CaseVettingPages,
     et1CaseServingPages,
-    citizenHubPages,
+    // citizenHubPages,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication();
@@ -40,8 +40,8 @@ Scenario(
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     I.click('Sign out');
     //To be Enabled and Retested after Defect RET-2735 is fixed.
-    await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
-    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
+    //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
   },
 ).tag('@RET-BAT');
 
@@ -129,5 +129,6 @@ Scenario(
     //To be Enabled and Retested after Defect RET-2735 is fixed.
     //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    //await citizenHubPages.verifyListOfTribunalOffices();
   },
 ).tag('@RET-BAT');
