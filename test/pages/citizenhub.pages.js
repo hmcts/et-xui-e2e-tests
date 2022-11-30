@@ -19,7 +19,7 @@ module.exports = {
     I.see('In busy periods it may take longer.');
   },
 
-  verifyListOfTribunalOffices() {
+  verifyFormType() {
     I.click('//a[contains(.,"Contact the tribunal about my case")]');
     I.see('Contact the tribunal about your case');
     I.click('.govuk-accordion__show-all-text');
@@ -32,6 +32,10 @@ module.exports = {
     I.see('Order the respondent to do something');
     I.see('Order a witness to attend to give evidence');
     I.see('Tell the tribunal the respondent has not complied with an order');
-    //To do
+    I.see('Apply to restrict publicity');
+    I.see('Strike out all or part of the response');
+    I.see('Contact the tribunal about something else');
+    I.see('Submit documents for a hearing');
+    I.see('Call the Employment Tribunal customer contact centre');
   },
 };

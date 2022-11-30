@@ -42,6 +42,7 @@ Scenario(
     //To be Enabled and Retested after Defect RET-2735 is fixed.
     //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    // await citizenHubPages.VerifyFormType();
   },
 ).tag('@RET-BAT');
 
@@ -85,7 +86,7 @@ Scenario(
     //To be Enabled and Retested after Defect RET-2735 is fixed.
     //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    //await citizenHubPages.verifyListOfTribunalOffices();
+    //await citizenHubPages.VerifyFormType();
   },
 ).tag('@RET-BAT');
 
@@ -129,6 +130,6 @@ Scenario(
     //To be Enabled and Retested after Defect RET-2735 is fixed.
     //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    //await citizenHubPages.verifyListOfTribunalOffices();
+    //await citizenHubPages.VerifyFormType();
   },
 ).tag('@RET-BAT');
