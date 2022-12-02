@@ -4,7 +4,7 @@ module.exports = {
   //still working for organisation/person scenario
   processStillWorkingJourney() {
     this.clickEmploymentStatusLink();
-    this.workedForOrganisation();
+    this.workedForOrganisation('Yes');
     this.stillWorkingForOrganisation();
     this.enterEmploymentJobTitle();
     this.enterEmploymentStartDate();
@@ -25,7 +25,7 @@ module.exports = {
   //working notice period for organisation/person scenario
   processWorkingNoticePeriodJourney() {
     this.clickEmploymentStatusLink();
-    this.workedForOrganisation();
+    this.workedForOrganisation('Yes');
     this.workingNoticePeriodForOrganisation();
     this.enterEmploymentJobTitle();
     this.enterEmploymentStartDate();
@@ -46,7 +46,7 @@ module.exports = {
   //No longer working for organisation/person scenario
   processNoLongerWorkingForOrgJourney() {
     this.clickEmploymentStatusLink();
-    this.workedForOrganisation();
+    this.workedForOrganisation('Yes');
     this.noLongerWorkingForOrganisation();
     this.enterEmploymentJobTitle();
     this.enterEmploymentStartDate();
@@ -68,6 +68,16 @@ module.exports = {
     this.checkRespondentDetails();
     this.completeEmploymentAndRespondentDetails();
   },
+  //Did not work for organisation scenario
+  processDidNotWorkForOrganisationMakingClaimAgainst() {
+    this.clickEmploymentStatusLink();
+    this.workedForOrganisation('No');
+    this.enterRespondentName();
+    this.enterRespondentAddress();
+    this.selectNoToAcas();
+    this.checkRespondentDetails();
+    this.completeEmploymentAndRespondentDetails();
+  },
   //clicks employment status link
   clickEmploymentStatusLink() {
     I.click('[href="/past-employer"]');
@@ -76,9 +86,12 @@ module.exports = {
     I.see('making your claim against?');
   },
   //function to click yes worked for organisation on /past-employer page
-  workedForOrganisation() {
-    I.click('#past-employer');
-    I.click('Save and continue');
+  workedForOrganisation(workedForOrg) {
+    if (workedForOrg === 'Yes') {
+      I.click('#past-employer');
+    } else if (workedForOrg === 'No') {
+      I.click('#past-employer-2');
+    }
   },
   //selects still working for respondent on /are-you-still-working page
   stillWorkingForOrganisation() {
