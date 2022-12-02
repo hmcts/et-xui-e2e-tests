@@ -2,7 +2,7 @@ const testConfig = require('../e2e/config');
 const { I } = inject();
 
 module.exports = {
-  processLogin(test_case_username, test_case_password, submissionReference) {
+  processCitizenHubLogin(test_case_username, test_case_password, submissionReference) {
     I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
     I.waitForElement('#username', 10);
     I.fillField('#username', test_case_username);
@@ -18,7 +18,11 @@ module.exports = {
     I.see('We aim to process your claim by');
     I.see('In busy periods it may take longer.');
   },
-
+  
+clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference) {
+    I.click(`[href="/citizen-hub/${submissionReference}"]`);
+  },
+  
   verifyFormType() {
     I.click('//a[contains(.,"Contact the tribunal about my case")]');
     I.see('Contact the tribunal about your case');
@@ -37,5 +41,6 @@ module.exports = {
     I.see('Contact the tribunal about something else');
     I.see('Submit documents for a hearing');
     I.see('Call the Employment Tribunal customer contact centre');
+ 
   },
 };

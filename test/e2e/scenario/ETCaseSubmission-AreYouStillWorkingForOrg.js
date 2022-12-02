@@ -39,10 +39,15 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     I.click('Sign out');
-    //To be Enabled and Retested after Defect RET-2735 is fixed.
-    //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
-    //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    // await citizenHubPages.VerifyFormType();
+    /*    await citizenHubPages.processCitizenHubLogin(
+      testConfig.TestEnvETUser,
+      testConfig.TestEnvETPassword,
+      submissionReference,
+    );
+    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
+    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.VerifyFormType();
+    */
   },
 ).tag('@RET-BAT');
 
@@ -60,6 +65,7 @@ Scenario(
     caseListPage,
     et1CaseVettingPages,
     et1CaseServingPages,
+    //citizenHubPages,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication();
@@ -83,10 +89,15 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     I.click('Sign out');
-    //To be Enabled and Retested after Defect RET-2735 is fixed.
-    //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
-    //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    //await citizenHubPages.VerifyFormType();
+    /*    await citizenHubPages.processCitizenHubLogin(
+      testConfig.TestEnvETUser,
+      testConfig.TestEnvETPassword,
+      submissionReference,
+    );
+    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
+    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.VerifyFormType();
+    */
   },
 ).tag('@RET-BAT');
 
@@ -104,6 +115,7 @@ Scenario(
     caseListPage,
     et1CaseVettingPages,
     et1CaseServingPages,
+    //citizenHubPages,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication();
@@ -127,9 +139,14 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     I.click('Sign out');
-    //To be Enabled and Retested after Defect RET-2735 is fixed.
-    //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
-    //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    //await citizenHubPages.VerifyFormType();
+    /*    await citizenHubPages.processCitizenHubLogin(
+      testConfig.TestEnvETUser,
+      testConfig.TestEnvETPassword,
+      submissionReference,
+    );
+    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
+    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.VerifyFormType();
+    */
   },
 ).tag('@RET-BAT');
