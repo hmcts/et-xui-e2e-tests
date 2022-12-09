@@ -7,6 +7,9 @@
     "author": "sunday.ayeni@hmcts.net",
     "license": "hmcts",
     "private": true,
+    "engines": {
+        "node": ">=18.0.0"
+    },
     "scripts": {
         "test:fullfunctional": "codeceptjs run --steps -c test/e2e/codecept.conf.js --steps --reporter mocha-multi --grep @RET-BAT",
         "parallel": "codeceptjs run --steps -c test/e2e/codecept.conf.js run-multiple parallel",
