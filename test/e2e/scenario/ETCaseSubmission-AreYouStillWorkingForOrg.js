@@ -15,7 +15,7 @@ Scenario(
     caseListPage,
     et1CaseVettingPages,
     et1CaseServingPages,
-    //citizenHubPages,
+    // citizenHubPages,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication();
@@ -45,7 +45,9 @@ Scenario(
       submissionReference,
     );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
-    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);*/
+    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.VerifyFormType();
+    */
   },
 ).tag('@RET-BAT');
 
@@ -93,7 +95,9 @@ Scenario(
       submissionReference,
     );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
-    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);*/
+    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.VerifyFormType();
+    */
   },
 ).tag('@RET-BAT');
 
@@ -141,6 +145,8 @@ Scenario(
       submissionReference,
     );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
-    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);*/
+    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.VerifyFormType();
+    */
   },
 ).tag('@RET-BAT');
