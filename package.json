@@ -22,7 +22,8 @@
         "codeceptjs:demo:ui": "codecept-ui --app  -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
         "test:crossbrowser": "codeceptjs run-multiple ${BROWSER_GROUP:-'--all'} -c test/e2e/saucelabs.conf.js --grep @RET-XB --steps --reporter mocha-multi --verbose",
         "test:profile": "SAUCE_TUNNEL_NAME=sunnyayeni_tunnel_name yarn test:fullfunctional  --steps -c saucelabs.conf.js --profile sauce:chrome,firefox,safari",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "test:nsp": "nsp check --ignore-server-errors"
     },
     "lint-staged": {
         "test/**/*.{js,jsx,ts,tsx}": "eslint"
@@ -45,6 +46,7 @@
         "mocha": "10.1.0",
         "mocha-multi": "1.1.7",
         "mochawesome": "7.1.3",
+        "nsp": "^3.2.1",
         "playwright": "^1.27.1",
         "prettier": "2.8.1",
         "typescript": "4.9.4"

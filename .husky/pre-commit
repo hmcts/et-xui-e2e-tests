@@ -3,3 +3,4 @@
 
 yarn lint-staged
 yarn check --verify-tree
+yarn test:nsp
