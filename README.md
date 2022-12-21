@@ -36,3 +36,9 @@ To check any linting issue, please run
 ```
 $ yarn lint
 ```
+For the nsp check to work as part of the git pre commit hook  it requires  running
+```
+$ npm  install -g nsp
+$ yarn test:nsp
+These are one time task only -- the step is already included in the git precommit step
+```
