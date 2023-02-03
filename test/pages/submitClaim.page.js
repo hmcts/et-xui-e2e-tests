@@ -9,8 +9,8 @@ module.exports = {
   },
   //user clicks check your answers link
   clickCheckYourAnswersLink() {
-    I.waitForElement('[href="/pcq"]', 30);
-    I.click('[href="/pcq"]');
+    I.waitForElement('[href="/pcq?lng=en"]', 30);
+    I.click('[href="/pcq?lng=en"]');
   },
   //
   noPcqQuestions() {

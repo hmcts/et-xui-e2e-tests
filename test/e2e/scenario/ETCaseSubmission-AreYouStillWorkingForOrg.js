@@ -117,18 +117,18 @@ Scenario(
     et1CaseServingPages,
     //citizenHubPages,
   }) => {
-    I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication();
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails();
+    //pause();
     await employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney();
     await claimDetailsPage.processClaimDetails();
     const submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('2: Object', submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('11: Object', submissionReference);
     I.wait(5);
     let caseNumber = await caseListPage.processCaseFromCaseList();
     console.log('The value of the Case Number ' + caseNumber);

@@ -16,7 +16,6 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
   }) => {
-    I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(); //Submission in the sya front end.
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();

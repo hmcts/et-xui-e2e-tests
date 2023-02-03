@@ -13,7 +13,7 @@ module.exports = {
   },
   //clicks on the claim details link
   clickClaimDetailsLink() {
-    I.click('[href="/claim-type-discrimination"]');
+    I.click('[href="/claim-type-discrimination?lng=en"]');
   },
   selectClaimTypeDiscrimination() {
     I.waitForText('What type of discrimination are you', 30);

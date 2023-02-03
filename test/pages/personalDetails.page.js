@@ -14,7 +14,7 @@ module.exports = {
   },
   //click personal details link and enter details
   clickPersonalDetailsLink() {
-    I.click('[href="/dob-details"]');
+    I.click('[href="/dob-details?lng=en"]');
   },
   enterDob() {
     //enter date of birth
@@ -42,7 +42,7 @@ module.exports = {
     I.waitForVisible('#selectAddressInput', 30);
     I.selectOption(
       '#selectAddressInput',
-      '{"fullAddress":"3, SKELTON AVENUE, LEEDS, LS9 9HE","street1":"3 SKELTON AVENUE","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS9 9HE","country":"ENGLAND"}',
+      '{"fullAddress":"3, SKELTON AVENUE, LEEDS, LS9 9HE","street1":"3, SKELTON AVENUE","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS9 9HE","country":"ENGLAND"}',
     );
     I.waitForVisible('#main-form-submit', 30);
     I.click('Save and continue');
@@ -55,9 +55,13 @@ module.exports = {
   },
   selectHowToBeContacted() {
     //select option for how to be contacted
-    I.waitForText('How would you like to be contacted', 30);
-    I.see(' about your claim?');
+    //the communication preference combination should be tested in functional-test
+    I.waitForText('Communication preference', 30);
+    I.see('What format would you like to be contacted in?');
+    I.see('What language do you want us to use when we contact you?');
+    I.see('If a hearing is required, what language do you want to speak at a hearing?');
     I.checkOption('#update-preference');
+    I.checkOption('#update-preference-language-2');
     I.click('Save and continue');
   },
   selectHearingPreference() {

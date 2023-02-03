@@ -80,7 +80,7 @@ module.exports = {
   },
   //clicks employment status link
   clickEmploymentStatusLink() {
-    I.click('[href="/past-employer"]');
+    I.click('[href="/past-employer?lng=en"]');
     I.waitForText('Did you work for the', 30);
     I.see('organisation or person you’re');
     I.see('making your claim against?');
@@ -92,9 +92,11 @@ module.exports = {
     } else if (workedForOrg === 'No') {
       I.click('#past-employer-2');
     }
+    I.click('#main-form-submit');
   },
   //selects still working for respondent on /are-you-still-working page
   stillWorkingForOrganisation() {
+    I.waitForVisible('[class="govuk-fieldset__heading"]', 15);
     I.waitForText('Are you still working for the', 30);
     I.see("organisation or person you're");
     I.see('making your claim against?');
@@ -103,15 +105,19 @@ module.exports = {
   },
   //selects working notice period for respondent on /are-you-still-working page
   workingNoticePeriodForOrganisation() {
-    I.see("Are you still working for the organisation or person you're making your claim against?");
+    I.waitForVisible('[class="govuk-fieldset__heading"]', 15);
+    // I.see("Are you still working for the organisation or person you’re making your claim against?");
     I.click('#still-working-2');
-    I.click('Save and continue');
+    I.wait(3);
+    I.click('#main-form-submit');
   },
   //selects i'm no longer working for respondent on /are-you-still-working page
   noLongerWorkingForOrganisation() {
-    I.see("Are you still working for the organisation or person you're making your claim against?");
+    //I.see("Are you still working for the organisation or person you’re making your claim against?");
+    I.waitForVisible('[class="govuk-fieldset__heading"]', 15);
     I.click('#still-working-3');
-    I.click('Save and continue');
+    I.wait(3);
+    I.click('#main-form-submit');
   },
   //check page title and enter job title
   enterEmploymentJobTitle() {
@@ -184,8 +190,8 @@ module.exports = {
   },
   //enter average weekly hours
   enterAverageWeeklyHours() {
-    I.waitForText('What are your', 30);
-    I.see('average weekly hours? (optional)');
+    I.waitForVisible('[class="govuk-grid-column-two-thirds"]', 30);
+    I.see('What are your average weekly hours? (optional)');
     I.fillField('#avg-weekly-hrs', '20');
     I.click('Save and continue');
   },
@@ -209,10 +215,9 @@ module.exports = {
   },
   //enter employee benefits on /benefits page
   enterEmployeeBenefits() {
-    I.waitForText('Do or did you receive any', 30);
-    I.see('employee benefits?');
-    I.see('(optional)');
-    I.checkOption('input[id=employee-benefits]');
+    I.waitForElement('.govuk-fieldset__legend', 30);
+    //I.see('Did you or did you receive any employee benefits? (optional)');
+    I.checkOption('#employee-benefits');
     I.click('Save and continue');
   },
   //Selects yes to new job on /new-job page
@@ -252,13 +257,13 @@ module.exports = {
     I.waitForVisible('#selectAddressInput', 30);
     I.selectOption(
       '#selectAddressInput',
-      '{"fullAddress":"7, VALLEY GARDENS, LEEDS, LS7 4QE","street1":"7 VALLEY GARDENS","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS7 4QE","country":"ENGLAND"}',
+      '{"fullAddress":"7, VALLEY GARDENS, LEEDS, LS7 4QE","street1":"7, VALLEY GARDENS","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS7 4QE","country":"ENGLAND"}',
     );
     I.click('Save and continue');
   },
   //selects yes to working at respondent address
   selectYesToWorkingAtRespondentAddress() {
-    I.waitForText('Did you work at 7 VALLEY GARDENS?', 30);
+    I.waitForText('Did you work at 7, VALLEY GARDENS?', 30);
     I.checkOption('#work-address');
     I.click('Save and continue');
   },

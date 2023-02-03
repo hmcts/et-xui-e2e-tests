@@ -12,6 +12,7 @@ module.exports = {
   },
 
   startDraftApplication() {
+    I.amOnPage('https://et-sya.demo.platform.hmcts.net');
     I.waitForText('Make a claim to an employment tribunal', 30);
     I.click('Start now');
   },
@@ -22,7 +23,7 @@ module.exports = {
   },
 
   processWhatsThePostCodeYouHaveWorkedForPage() {
-    I.waitForText('What’s the postcode where');
+    I.waitForText('What’s the postcode where', 15);
     I.see('you worked or work?');
     I.fillField('#workPostcode', 'LS9 6EP');
     I.click('Continue');
@@ -51,6 +52,7 @@ module.exports = {
   },
 
   processWhatKindOfClaimAreYouMaking() {
+    I.waitForElement('.govuk-fieldset__legend', 10);
     I.waitForText('What type of claim are you making?', 30);
     I.checkOption('input[value=discrimination]');
     I.checkOption('input[value=whistleBlowing]');
