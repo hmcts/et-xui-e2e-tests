@@ -12,7 +12,7 @@ module.exports = {
   },
 
   startDraftApplication() {
-    I.amOnPage('https://et-sya.demo.platform.hmcts.net');
+    I.amOnPage('/');
     I.waitForText('Make a claim to an employment tribunal', 30);
     I.click('Start now');
   },

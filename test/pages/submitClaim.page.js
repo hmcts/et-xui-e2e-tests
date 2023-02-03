@@ -19,6 +19,7 @@ module.exports = {
   },
   clickSubmitOnCheckYourAnswers() {
     I.waitForText('Check your answers', 30);
+    I.wait(5);
     I.click('Submit');
   },
   async verifyClaimSubmitted() {

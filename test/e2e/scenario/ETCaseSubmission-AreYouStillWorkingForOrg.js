@@ -28,8 +28,7 @@ Scenario(
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('2: Object', submissionReference);
-    I.wait(5);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('10: Object', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList();
     console.log('The value of the Case Number ' + caseNumber);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
@@ -78,8 +77,7 @@ Scenario(
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('2: Object', submissionReference);
-    I.wait(5);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('10: Object', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList();
     console.log('The value of the Case Number ' + caseNumber);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
@@ -128,8 +126,7 @@ Scenario(
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('11: Object', submissionReference);
-    I.wait(5);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('10: Object', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList();
     console.log('The value of the Case Number ' + caseNumber);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
