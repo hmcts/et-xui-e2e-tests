@@ -5,7 +5,7 @@ module.exports = {
     this.clickCheckYourAnswersLink();
     this.noPcqQuestions();
     this.clickSubmitOnCheckYourAnswers();
-    return await this.verifyClaimSubmitted();
+    await this.verifyClaimSubmitted();
   },
   //user clicks check your answers link
   clickCheckYourAnswersLink() {

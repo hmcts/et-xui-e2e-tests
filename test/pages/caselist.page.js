@@ -31,10 +31,12 @@ module.exports = {
     I.waitForElement(this.caseTypeDropdown, 30);
     I.waitForElement(this.submissionReferenceLocator, 30);
     I.refreshPage();
-    I.waitForElement(this.submissionReferenceLocator, 55);
+    I.wait(5);
+    I.waitForElement(this.caseTypeDropdown, 55);
     I.see(this.caseListText);
     I.selectOption(this.caseTypeDropdown, option);
-    I.wait(5);
+    I.scrollPageToBottom();
+
     I.fillField(this.submissionReferenceLocator, submissionReference);
     I.click(this.applyButton);
   },

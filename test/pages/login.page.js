@@ -5,6 +5,8 @@ module.exports = {
     I.waitForElement('#username', 30);
     I.fillField('#username', test_case_username);
     I.fillField('#password', test_case_password);
+    I.wait(5);
     I.click('[type="submit"]');
+    //I.waitForVisible('.hmcts-header__navigation-link', 50);
   },
 };

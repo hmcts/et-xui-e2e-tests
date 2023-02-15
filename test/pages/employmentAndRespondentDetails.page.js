@@ -2,7 +2,7 @@ const { I } = inject();
 
 module.exports = {
   //still working for organisation/person scenario
-  processStillWorkingJourney() {
+  processStillWorkingJourney(workPostcode, selectedWorkAddress) {
     this.clickEmploymentStatusLink();
     this.workedForOrganisation('Yes');
     this.stillWorkingForOrganisation();
@@ -16,14 +16,14 @@ module.exports = {
     this.enterPensionContribution();
     this.enterEmployeeBenefits();
     this.enterRespondentName();
-    this.enterRespondentAddress();
+    this.enterRespondentAddress(workPostcode, selectedWorkAddress);
     this.selectYesToWorkingAtRespondentAddress();
     this.selectNoToAcas();
     this.checkRespondentDetails();
     this.completeEmploymentAndRespondentDetails();
   },
   //working notice period for organisation/person scenario
-  processWorkingNoticePeriodJourney() {
+  processWorkingNoticePeriodJourney(workPostcode, selectedWorkAddress) {
     this.clickEmploymentStatusLink();
     this.workedForOrganisation('Yes');
     this.workingNoticePeriodForOrganisation();
@@ -37,14 +37,14 @@ module.exports = {
     this.enterPensionContribution();
     this.enterEmployeeBenefits();
     this.enterRespondentName();
-    this.enterRespondentAddress();
+    this.enterRespondentAddress(workPostcode, selectedWorkAddress);
     this.selectYesToWorkingAtRespondentAddress();
     this.selectNoToAcas();
     this.checkRespondentDetails();
     this.completeEmploymentAndRespondentDetails();
   },
   //No longer working for organisation/person scenario
-  processNoLongerWorkingForOrgJourney() {
+  processNoLongerWorkingForOrgJourney(workPostcode, selectedWorkAddress) {
     this.clickEmploymentStatusLink();
     this.workedForOrganisation('Yes');
     this.noLongerWorkingForOrganisation();
@@ -62,7 +62,7 @@ module.exports = {
     this.enterNewJobStartDates();
     this.enterNewJobPay();
     this.enterRespondentName();
-    this.enterRespondentAddress();
+    this.enterRespondentAddress(workPostcode, selectedWorkAddress);
     this.selectYesToWorkingAtRespondentAddress();
     this.selectNoToAcas();
     this.checkRespondentDetails();
@@ -250,15 +250,12 @@ module.exports = {
     I.click('Save and continue');
   },
   //enters address for respondent
-  enterRespondentAddress() {
+  enterRespondentAddress(workPostcode, selectedWorkAddress) {
     I.waitForText('What is the address of Henry Marsh?', 30);
-    I.fillField('#postcode', 'LS7 4QE');
+    I.fillField('#postcode', workPostcode);
     I.click('#findAddressButton');
     I.waitForVisible('#selectAddressInput', 30);
-    I.selectOption(
-      '#selectAddressInput',
-      '{"fullAddress":"7, VALLEY GARDENS, LEEDS, LS7 4QE","street1":"7, VALLEY GARDENS","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS7 4QE","country":"ENGLAND"}',
-    );
+    I.selectOption('#selectAddressInput', selectedWorkAddress);
     I.click('Save and continue');
   },
   //selects yes to working at respondent address

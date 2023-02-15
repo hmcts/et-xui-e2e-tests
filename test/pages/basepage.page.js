@@ -1,10 +1,10 @@
 const { I } = inject();
 
 module.exports = {
-  processPreLoginPagesForTheDraftApplication() {
+  processPreLoginPagesForTheDraftApplication(postcode) {
     this.startDraftApplication();
     this.processBeforeYourContinuePage();
-    this.processWhatsThePostCodeYouHaveWorkedForPage();
+    this.processWhatsThePostCodeYouHaveWorkedForPage(postcode);
     this.processAreYouMakingTheClaimForYourselfPage();
     this.processAreYouMakingTheClaimOnYourOwnPage();
     this.processDoYouHaveAnACASEarlyConciliation();
@@ -22,15 +22,15 @@ module.exports = {
     I.click('Continue');
   },
 
-  processWhatsThePostCodeYouHaveWorkedForPage() {
+  processWhatsThePostCodeYouHaveWorkedForPage(postcode) {
     I.waitForText('What’s the postcode where', 15);
     I.see('you worked or work?');
-    I.fillField('#workPostcode', 'LS9 6EP');
+    I.fillField('#workPostcode', postcode);
     I.click('Continue');
   },
 
   processAreYouMakingTheClaimForYourselfPage() {
-    I.waitForText('Are you making the claim for yourself, or');
+    I.waitForText('Are you making the claim for yourself, or', 25);
     I.see('representing someone else?');
     I.checkOption('input[id=lip-or-representative]');
     I.click('Continue');

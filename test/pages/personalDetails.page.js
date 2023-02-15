@@ -1,16 +1,37 @@
 const { I } = inject();
 
 module.exports = {
-  async processPersonalDetails() {
-    this.clickPersonalDetailsLink();
-    this.enterDob();
-    this.selectSexAndTitle();
-    this.enterPostcode();
-    this.enterTelephoneNumber();
-    this.selectHowToBeContacted();
-    this.selectHearingPreference();
-    this.selectReasonableAdjustment();
-    this.confirmCompletedPersonalDetailsQuestions();
+  async processPersonalDetails(postcode, location, addressOption) {
+    switch (location) {
+      case 'England':
+      case 'Wales':
+      case 'England & Wales':
+        this.clickPersonalDetailsLink();
+        this.enterDob();
+        this.selectSexAndTitle();
+        this.enterPostcode(postcode, addressOption);
+        this.enterTelephoneNumber();
+        this.selectHowToBeContacted();
+        this.selectHearingPreference();
+        this.selectReasonableAdjustment();
+        this.confirmCompletedPersonalDetailsQuestions();
+        break;
+      case 'Scotland':
+        this.clickPersonalDetailsLink();
+        this.enterDob();
+        this.selectSexAndTitle();
+        this.enterPostcode(postcode, addressOption);
+        this.enterTelephoneNumber();
+        this.communicationPreferenceScotland();
+        this.selectHearingPreference();
+        this.selectReasonableAdjustment();
+        this.confirmCompletedPersonalDetailsQuestions();
+        break;
+      default:
+        throw new Error(
+          '... check the provided location. you have not specified a valid location such as England, Wales or Scotland',
+        );
+    }
   },
   //click personal details link and enter details
   clickPersonalDetailsLink() {
@@ -31,19 +52,17 @@ module.exports = {
     I.fillField('#preferredTitle', 'Mr');
     I.click('Save and continue');
   },
-  enterPostcode() {
+  enterPostcode(postcode, addressOption) {
     //Enter postcode for claimant address
     I.see('What is your contact or home address?');
     I.refreshPage();
     I.waitToHide('#address1', 10);
     I.dontSeeElement('#address1');
-    I.fillField('#postcode', 'LS9 9HE');
+    I.fillField('#postcode', postcode);
     I.click('#findAddressButton');
     I.waitForVisible('#selectAddressInput', 30);
-    I.selectOption(
-      '#selectAddressInput',
-      '{"fullAddress":"3, SKELTON AVENUE, LEEDS, LS9 9HE","street1":"3, SKELTON AVENUE","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS9 9HE","country":"ENGLAND"}',
-    );
+    I.click('#selectAddressInput');
+    I.selectOption('#selectAddressInput', addressOption);
     I.waitForVisible('#main-form-submit', 30);
     I.click('Save and continue');
   },
@@ -62,6 +81,12 @@ module.exports = {
     I.see('If a hearing is required, what language do you want to speak at a hearing?');
     I.checkOption('#update-preference');
     I.checkOption('#update-preference-language-2');
+    I.click('Save and continue');
+  },
+  communicationPreferenceScotland() {
+    I.waitForText('Communication preference', 30);
+    I.see('What format would you like to be contacted in?');
+    I.checkOption('#update-preference');
     I.click('Save and continue');
   },
   selectHearingPreference() {
