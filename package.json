@@ -53,5 +53,6 @@
         "codeceptjs": "3.4.1",
         "husky": "8.0.3",
         "webdriverio": "8.6.7"
-    }
+    },
+    "packageManager": "yarn@3.4.1"
 }
