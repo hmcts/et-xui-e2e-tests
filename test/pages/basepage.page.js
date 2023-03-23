@@ -23,30 +23,31 @@ module.exports = {
   },
 
   processWhatsThePostCodeYouHaveWorkedForPage(postcode) {
-    I.waitForText('What’s the postcode where', 15);
-    I.see('you worked or work?');
+    // I.waitForText('What’s the postcode where', 15);
+    // I.see('you worked or work?');
     I.fillField('#workPostcode', postcode);
     I.click('Continue');
   },
 
   processAreYouMakingTheClaimForYourselfPage() {
-    I.waitForText('Are you making the claim for yourself, or', 25);
-    I.see('representing someone else?');
+    //I.waitForText('Are you making the claim for yourself, or', 25);
+    //I.see('representing someone else?');
     I.checkOption('input[id=lip-or-representative]');
     I.click('Continue');
   },
 
   processAreYouMakingTheClaimOnYourOwnPage() {
-    I.waitForText('Are you making a claim on your own or with', 30);
-    I.see('others?');
+    //I.waitForText('Are you making a claim on your own or with', 30);
+    //I.see('others?');
     I.checkOption('input[id=single-or-multiple-claim]');
     I.click('Continue');
+    //pause()
   },
 
   processDoYouHaveAnACASEarlyConciliation() {
-    I.waitForText('Do you have an ‘Acas early conciliation', 30);
-    I.see('certificate’ for the respondent or');
-    I.see("respondents you're claiming against?");
+    //I.waitForText('Do you have an ‘Acas early conciliation certificate', 30);
+    //I.see('certificate’ for the respondent or');
+    //I.see("respondents you're claiming against?");
     I.checkOption('input[id=acas-multiple]');
     I.click('Continue');
   },

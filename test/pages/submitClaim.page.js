@@ -5,7 +5,7 @@ module.exports = {
     this.clickCheckYourAnswersLink();
     this.noPcqQuestions();
     this.clickSubmitOnCheckYourAnswers();
-    await this.verifyClaimSubmitted();
+    return this.verifyClaimSubmitted();
   },
   //user clicks check your answers link
   clickCheckYourAnswersLink() {
@@ -26,6 +26,7 @@ module.exports = {
     I.waitForText('Your claim has been submitted', 30);
     const submissionRef = (await I.grabTextFrom('//*[@id="main-content"]/div[1]/div/dl[1]/div[1]/dd')).trim();
     console.log(submissionRef);
+    I.wait(5);
     return submissionRef;
   },
 };

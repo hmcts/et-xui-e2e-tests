@@ -11,6 +11,7 @@ module.exports = {
     is_track_allocation_correct_yes_option: { xpath: "//input[@id='isTrackAllocationCorrect-Yes']" },
     is_location_correct_yes_option: { xpath: "//input[@id='isLocationCorrect-Yes']" },
     do_you_want_to_suggest_a_hearing_venue_yes_option: { xpath: "//input[@id='et1SuggestHearingVenue_Yes']" },
+    do_you_want_to_suggest_a_hearing_venue_no_option: { xpath: "//input[@id='et1SuggestHearingVenue_No']" },
     hearing_venues_options: { xpath: "//select[@id='et1HearingVenues']" },
     is_the_respondent_a_major_government_agency_no_option: { xpath: "//input[@id='et1GovOrMajorQuestion_No']" },
     reasonable_adjustment_questions_no_option: { xpath: "//input[@id='et1ReasonableAdjustmentsQuestion_No']" },
@@ -91,8 +92,8 @@ module.exports = {
   processListingDetailsPage(caseNumber) {
     this.verifyET1CasePageHeading(caseNumber);
     I.waitForText('Listing details', 30);
-    I.checkOption(this.locators.suggest_hearing_venue_yes_option);
-    I.selectOption(this.locators.hearing_venues_options, '5: Leeds');
+    I.checkOption(this.locators.do_you_want_to_suggest_a_hearing_venue_no_option);
+    //I.selectOption(this.locators.hearing_venues_options, '5: Leeds');
     I.click(Continue);
   },
 
@@ -139,7 +140,7 @@ module.exports = {
     I.see('Is the track allocation correct?');
     I.see('Is this location correct?');
     I.see('Do you want to suggest a hearing venue?');
-    I.see('Hearing venue selected');
+    //I.see('Hearing venue selected');
     I.see('Is the respondent a government agency or a major employer?');
     I.see('Are reasonable adjustments required?');
     I.see('Can the claimant attend a video hearing?');

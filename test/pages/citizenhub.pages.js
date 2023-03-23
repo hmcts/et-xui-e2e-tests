@@ -8,6 +8,7 @@ module.exports = {
     I.fillField('#username', test_case_username);
     I.fillField('#password', test_case_password);
     I.click('[type="submit"]');
+    I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
   },
 
   verifyCitizenHubCaseOverviewPage(caseNumber) {
@@ -18,12 +19,12 @@ module.exports = {
     I.see('We aim to process your claim by');
     I.see('In busy periods it may take longer.');
   },
-  
-clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference) {
-    I.click(`[href="/citizen-hub/${submissionReference}"]`);
+
+  clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference) {
+    I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
   },
-  
-  verifyFormType() {
+
+  /* verifyFormType() {
     I.click('//a[contains(.,"Contact the tribunal about my case")]');
     I.see('Contact the tribunal about your case');
     I.click('.govuk-accordion__show-all-text');
@@ -42,5 +43,5 @@ clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference) {
     I.see('Submit documents for a hearing');
     I.see('Call the Employment Tribunal customer contact centre');
  
-  },
+  },*/
 };

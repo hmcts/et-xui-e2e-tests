@@ -34,21 +34,21 @@ module.exports = {
     I.wait(5);
     I.waitForElement(this.caseTypeDropdown, 55);
     I.see(this.caseListText);
+    I.wait(5);
     I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
-
+    I.click(this.submissionReferenceLocator);
+    console.log(submissionReference);
     I.fillField(this.submissionReferenceLocator, submissionReference);
     I.click(this.applyButton);
   },
 
-  processCaseFromCaseList() {
+  processCaseFromCaseList(submissionReference) {
     I.waitForText('Your cases', 30);
-    let caseNumber = I.grabTextFrom(
-      '//html[1]/body[1]/exui-root[1]/exui-case-home[1]/div[1]/exui-case-list[1]/exui-page-wrapper[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[2]/div[2]/ccd-search-result[1]/table[1]/tbody[1]/tr[1]/td[1]/a[1]/ccd-field-read[1]/div[1]/ccd-field-read-label[1]/div[1]/ng-component[1]/span[1]',
-    );
-    I.click(
-      '//html[1]/body[1]/exui-root[1]/exui-case-home[1]/div[1]/exui-case-list[1]/exui-page-wrapper[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[2]/div[2]/ccd-search-result[1]/table[1]/tbody[1]/tr[1]/td[1]/a[1]/ccd-field-read[1]/div[1]/ccd-field-read-label[1]/div[1]/ng-component[1]/span[1]',
-    );
+    let text = `/cases/case-details/${submissionReference}`;
+    let caseNumber = I.grabTextFrom(`[href="${text}"]`);
+    console.log('case number is' + caseNumber);
+    I.click(`[href="${text}"]`);
     return caseNumber;
   },
 
@@ -61,6 +61,7 @@ module.exports = {
   },
 
   verifyCaseDetailsPage(et1VettingFlag = false) {
+    //I.click('[class="text-16"]');
     I.waitForText('Case Details', 30);
     I.see('Claimant');
     I.see('Respondent');

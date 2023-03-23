@@ -2,7 +2,7 @@ const { I } = inject();
 
 module.exports = {
   //still working for organisation/person scenario
-  processStillWorkingJourney(workPostcode, selectedWorkAddress) {
+  processStillWorkingJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
     this.clickEmploymentStatusLink();
     this.workedForOrganisation('Yes');
     this.stillWorkingForOrganisation();
@@ -17,13 +17,13 @@ module.exports = {
     this.enterEmployeeBenefits();
     this.enterRespondentName();
     this.enterRespondentAddress(workPostcode, selectedWorkAddress);
-    this.selectYesToWorkingAtRespondentAddress();
+    this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
     this.selectNoToAcas();
     this.checkRespondentDetails();
     this.completeEmploymentAndRespondentDetails();
   },
   //working notice period for organisation/person scenario
-  processWorkingNoticePeriodJourney(workPostcode, selectedWorkAddress) {
+  processWorkingNoticePeriodJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
     this.clickEmploymentStatusLink();
     this.workedForOrganisation('Yes');
     this.workingNoticePeriodForOrganisation();
@@ -38,13 +38,13 @@ module.exports = {
     this.enterEmployeeBenefits();
     this.enterRespondentName();
     this.enterRespondentAddress(workPostcode, selectedWorkAddress);
-    this.selectYesToWorkingAtRespondentAddress();
+    this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
     this.selectNoToAcas();
     this.checkRespondentDetails();
     this.completeEmploymentAndRespondentDetails();
   },
   //No longer working for organisation/person scenario
-  processNoLongerWorkingForOrgJourney(workPostcode, selectedWorkAddress) {
+  processNoLongerWorkingForOrgJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
     this.clickEmploymentStatusLink();
     this.workedForOrganisation('Yes');
     this.noLongerWorkingForOrganisation();
@@ -63,7 +63,7 @@ module.exports = {
     this.enterNewJobPay();
     this.enterRespondentName();
     this.enterRespondentAddress(workPostcode, selectedWorkAddress);
-    this.selectYesToWorkingAtRespondentAddress();
+    this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
     this.selectNoToAcas();
     this.checkRespondentDetails();
     this.completeEmploymentAndRespondentDetails();
@@ -168,6 +168,7 @@ module.exports = {
     I.see('weeks or months? (optional)');
     I.checkOption('input[id=notice-type]');
     I.click('Save and continue');
+    I.wait(5);
   },
   //enter notice length on /notice-length page
   enterNoticePeriodLength() {
@@ -202,6 +203,7 @@ module.exports = {
     I.fillField('#pay-after-tax', '35000');
     I.checkOption('input[id=pay-interval]');
     I.click('Save and continue');
+    I.wait(5);
   },
   //enter Pension contribution on /pension page
   enterPensionContribution() {
@@ -259,8 +261,8 @@ module.exports = {
     I.click('Save and continue');
   },
   //selects yes to working at respondent address
-  selectYesToWorkingAtRespondentAddress() {
-    I.waitForText('Did you work at 7, VALLEY GARDENS?', 30);
+  selectYesToWorkingAtRespondentAddress(firstLineOfAddress) {
+    I.waitForText(firstLineOfAddress, 30);
     I.checkOption('#work-address');
     I.click('Save and continue');
   },
@@ -278,6 +280,7 @@ module.exports = {
   checkRespondentDetails() {
     I.waitForText('Check the respondent details', 30);
     I.click('Save and continue');
+    I.wait(5);
   },
   //confirm completed section for employment and respondent details
   completeEmploymentAndRespondentDetails() {

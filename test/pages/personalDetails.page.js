@@ -36,6 +36,7 @@ module.exports = {
   //click personal details link and enter details
   clickPersonalDetailsLink() {
     I.click('[href="/dob-details?lng=en"]');
+    I.wait(10);
   },
   enterDob() {
     //enter date of birth
@@ -88,6 +89,7 @@ module.exports = {
     I.see('What format would you like to be contacted in?');
     I.checkOption('#update-preference');
     I.click('Save and continue');
+    I.wait(5);
   },
   selectHearingPreference() {
     //Select hearing preference option - video hearing
