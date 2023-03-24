@@ -9,6 +9,7 @@
     "private": true,
     "scripts": {
         "test:fullfunctional": "codeceptjs run --steps -c test/e2e/codecept.conf.js --steps --reporter mocha-multi --grep @RET-BAT",
+        "test:local": "codeceptjs run --steps -c test/e2e/codecept.conf.js --steps --reporter mocha-multi",
         "parallel": "codeceptjs run --steps -c test/e2e/codecept.conf.js run-multiple parallel",
         "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
         "lint-staged": "lint-staged",
@@ -37,7 +38,6 @@
         "eslint-plugin-import": "2.27.5",
         "eslint-plugin-mocha": "10.1.0",
         "eslint-plugin-prettier": "4.2.1",
-        "faker": "6.6.6",
         "lint-staged": "13.2.0",
         "mocha": "10.2.0",
         "mocha-multi": "1.1.7",
@@ -53,5 +53,21 @@
         "codeceptjs": "3.4.1",
         "husky": "8.0.3",
         "webdriverio": "8.6.7"
+    },
+    "packageManager": "yarn@3.4.1",
+    "resolutions": {
+        "mem": "4.0.0",
+        "faker": "^6.6.6",
+        "got": "12.1.0",
+        "ajv": "6.12.3",
+        "debug": "4.3.4",
+        "lodash": "4.17.21",
+        "log4js": "6.4.0",
+        "netmask": "2.0.1",
+        "qs": "6.2.4",
+        "degenerator": "3.0.1",
+        "pac-resolver": "5.0.0",
+        "ws": "7.4.6",
+        "http-cache-semantics": "4.1.1"
     }
 }
