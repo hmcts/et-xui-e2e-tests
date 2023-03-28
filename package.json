@@ -26,9 +26,9 @@
         "test/**/*.{js,jsx,ts,tsx}": "eslint"
     },
     "dependencies": {
-        "@wdio/cli": "8.6.8",
-        "@wdio/crossbrowsertesting-service": "8.6.8",
-        "@wdio/sauce-service": "8.6.8",
+        "@wdio/cli": "8.6.9",
+        "@wdio/crossbrowsertesting-service": "8.6.9",
+        "@wdio/sauce-service": "8.6.9",
         "@wdio/selenium-standalone-service": "8.6.8",
         "@wdio/types": "8.6.8",
         "codeceptjs-saucehelper": "1.4.0",
