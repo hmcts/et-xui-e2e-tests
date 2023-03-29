@@ -9,12 +9,13 @@ module.exports = {
   },
   //user clicks check your answers link
   clickCheckYourAnswersLink() {
-    I.waitForElement('[href="/pcq"]', 30);
-    I.click('[href="/pcq"]');
+    //I.waitForElement('[href="/pcq?lng=en"]', 30);
+    I.wait(5)
+    I.click('[href="/pcq?lng=en"]');
   },
   //
   noPcqQuestions() {
-    I.waitForText('Equality and diversity questions', 30);
+    I.see('Equality and diversity questions');
     I.click('[name=opt-out-button]');
   },
   clickSubmitOnCheckYourAnswers() {

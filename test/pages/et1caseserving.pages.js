@@ -20,8 +20,8 @@ module.exports = {
     I.see('Case Number: ' + caseNumber);
     I.checkOption(this.locators.pre_accept_case_yes_option);
     I.fillField(this.locators.date_accepted_day, '27');
-    I.fillField(this.locators.date_accepted_month, '10');
-    I.fillField(this.locators.date_accepted_year, '2022');
+    I.fillField(this.locators.date_accepted_month, '03');
+    I.fillField(this.locators.date_accepted_year, '2023');
     I.click('Continue');
   },
 
