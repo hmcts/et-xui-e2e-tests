@@ -1,5 +1,11 @@
 const testConfig = require('../config.js');
-
+const postcode = 'LS9 9HE';
+const workPostcode = 'LS7 4QE';
+const selectedWorkAddress =
+  '{"fullAddress":"7, VALLEY GARDENS, LEEDS, LS7 4QE","street1":"7, VALLEY GARDENS","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS7 4QE","country":"ENGLAND"}';
+const addressOption =
+  '{"fullAddress":"3, SKELTON AVENUE, LEEDS, LS9 9HE","street1":"3, SKELTON AVENUE","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS9 9HE","country":"ENGLAND"}';
+const firstLineOfAddress = '7, VALLEY GARDENS?';
 Feature('End To End Tests For an ET Case Submitted in the sya Front end and processed in the Manage Case Application');
 Scenario(
   'Create a claim for still working for organisation, submit and process within manage cases',
@@ -18,19 +24,22 @@ Scenario(
     // citizenHubPages,
   }) => {
     I.amOnPage('/');
-    await basePage.processPreLoginPagesForTheDraftApplication();
+    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails();
-    await employmentAndRespondentDetailsPage.processStillWorkingJourney();
+    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
+    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
+      workPostcode,
+      selectedWorkAddress,
+      firstLineOfAddress,
+    );
     await claimDetailsPage.processClaimDetails();
-    const submissionReference = await submitClaimPage.submitClaim();
+    let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('2: Object', submissionReference);
-    I.wait(5);
-    let caseNumber = await caseListPage.processCaseFromCaseList();
+    await caseListPage.searchCaseApplicationWithSubmissionReference('5: Object', submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
     await caseListPage.verifyCaseDetailsPage();
@@ -68,19 +77,20 @@ Scenario(
     //citizenHubPages,
   }) => {
     I.amOnPage('/');
-    await basePage.processPreLoginPagesForTheDraftApplication();
+    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails();
-    await employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney();
+    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
+    await employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney(workPostcode,
+      selectedWorkAddress,
+      firstLineOfAddress);
     await claimDetailsPage.processClaimDetails();
-    const submissionReference = await submitClaimPage.submitClaim();
+    let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('2: Object', submissionReference);
-    I.wait(5);
-    let caseNumber = await caseListPage.processCaseFromCaseList();
+    await caseListPage.searchCaseApplicationWithSubmissionReference('5: Object', submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
     await caseListPage.verifyCaseDetailsPage();
@@ -121,16 +131,19 @@ Scenario(
     await basePage.processPreLoginPagesForTheDraftApplication();
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails();
-    await employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney();
+    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
+    await employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(
+      workPostcode,
+      selectedWorkAddress,
+      firstLineOfAddress
+    );
     await claimDetailsPage.processClaimDetails();
-    const submissionReference = await submitClaimPage.submitClaim();
+    let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('2: Object', submissionReference);
-    I.wait(5);
-    let caseNumber = await caseListPage.processCaseFromCaseList();
+    await caseListPage.searchCaseApplicationWithSubmissionReference('5: Object', submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
     await caseListPage.verifyCaseDetailsPage();

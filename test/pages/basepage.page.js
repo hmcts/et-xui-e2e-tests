@@ -1,10 +1,10 @@
 const { I } = inject();
 
 module.exports = {
-  processPreLoginPagesForTheDraftApplication() {
+  processPreLoginPagesForTheDraftApplication(postcode) {
     this.startDraftApplication();
     this.processBeforeYourContinuePage();
-    this.processWhatsThePostCodeYouHaveWorkedForPage();
+    this.processWhatsThePostCodeYouHaveWorkedForPage(postcode);
     this.processAreYouMakingTheClaimForYourselfPage();
     this.processAreYouMakingTheClaimOnYourOwnPage();
     this.processDoYouHaveAnACASEarlyConciliation();
@@ -17,33 +17,38 @@ module.exports = {
   },
 
   processBeforeYourContinuePage() {
-    I.waitForText('Before you continue', 30);
+    I.waitForVisible('#main-content', 5);
+    I.see('Before you continue');
     I.click('Continue');
   },
 
   processWhatsThePostCodeYouHaveWorkedForPage() {
-    I.waitForText('What’s the postcode where');
+    I.waitForVisible('#main-content', 5);
+    I.see('What’s the postcode where');
     I.see('you worked or work?');
     I.fillField('#workPostcode', 'LS9 6EP');
     I.click('Continue');
   },
 
   processAreYouMakingTheClaimForYourselfPage() {
-    I.waitForText('Are you making the claim for yourself, or');
+    I.waitForVisible('#main-form', 5);
+    I.see('Are you making the claim for yourself, or');
     I.see('representing someone else?');
     I.checkOption('input[id=lip-or-representative]');
     I.click('Continue');
   },
 
   processAreYouMakingTheClaimOnYourOwnPage() {
-    I.waitForText('Are you making a claim on your own or with', 30);
+    I.waitForVisible('#main-form', 5);
+    I.see('Are you making a claim on your own or with');
     I.see('others?');
     I.checkOption('input[id=single-or-multiple-claim]');
     I.click('Continue');
   },
 
   processDoYouHaveAnACASEarlyConciliation() {
-    I.waitForText('Do you have an ‘Acas early conciliation', 30);
+    I.waitForVisible('#main-form', 5);
+    I.see('Do you have an ‘Acas early conciliation');
     I.see('certificate’ for the respondent or');
     I.see("respondents you're claiming against?");
     I.checkOption('input[id=acas-multiple]');
@@ -51,7 +56,8 @@ module.exports = {
   },
 
   processWhatKindOfClaimAreYouMaking() {
-    I.waitForText('What type of claim are you making?', 30);
+    I.waitForVisible('#typeOfClaim-hint', 5);
+    I.see('What type of claim are you making?');
     I.checkOption('input[value=discrimination]');
     I.checkOption('input[value=whistleBlowing]');
     I.click('Continue');
