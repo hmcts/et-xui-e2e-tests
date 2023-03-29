@@ -15,7 +15,8 @@ module.exports = {
   },
 
   processPreAcceptancePage(caseNumber) {
-    I.waitForText('Accept/Reject Case', 30);
+    I.waitForVisible('#caseEditForm', 10)
+    I.see('Accept/Reject Case');
     I.see('Pre-Acceptance');
     I.see('Case Number: ' + caseNumber);
     I.checkOption(this.locators.pre_accept_case_yes_option);
