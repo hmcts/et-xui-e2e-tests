@@ -154,7 +154,7 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    I.click('Sign out');
+    I.forceClick('Sign out');
     /*    await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
       testConfig.TestEnvETPassword,

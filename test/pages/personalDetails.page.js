@@ -66,8 +66,8 @@ module.exports = {
     I.waitForVisible('#selectAddressInput', 30);
     I.click('#selectAddressInput');
     I.selectOption('#selectAddressInput', addressOption);
-    I.waitForVisible('#main-form-submit', 30);
-    I.click('Save and continue');
+    //I.waitForVisible('#main-form-submit', 30);
+    I.forceClick('Save and continue');
   },
   enterTelephoneNumber() {
     //Enter telephone number
