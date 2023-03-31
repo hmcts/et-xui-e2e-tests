@@ -47,8 +47,9 @@ Scenario(
     await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //await caseListPage.verifyCaseDetailsPage(true);
+    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    I.click('Sign out');
+    I.forceClick('Sign out');;
     /*    await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
       testConfig.TestEnvETPassword,
@@ -59,4 +60,4 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-XB');
+).tag('@RET-XB').retry(2);

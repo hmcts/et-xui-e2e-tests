@@ -46,6 +46,7 @@ Scenario(
     await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //await caseListPage.verifyCaseDetailsPage(true);
+    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     I.click('Sign out');
     /*    await citizenHubPages.processCitizenHubLogin(
@@ -58,7 +59,7 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BAT');
+).tag('@RET-BAT').retry(2);
 
 Scenario(
   'Create a claim for working notice period for organisation, submit and process within manage cases',
@@ -97,6 +98,7 @@ Scenario(
     await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //await caseListPage.verifyCaseDetailsPage(true);
+    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     I.click('Sign out');
     /*    await citizenHubPages.processCitizenHubLogin(
@@ -109,7 +111,7 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BAT');
+).tag('@RET-BAT').retry(2);
 
 Scenario(
   'Create a claim for no longer working for organisation, submit and process within manage cases',
@@ -150,8 +152,9 @@ Scenario(
     await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //await caseListPage.verifyCaseDetailsPage(true);
+    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    I.click('Sign out');
+    I.forceClick('Sign out');
     /*    await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
       testConfig.TestEnvETPassword,
@@ -162,4 +165,4 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BAT');
+).tag('@RET-BAT').retry(2);

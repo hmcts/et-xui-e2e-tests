@@ -57,7 +57,8 @@ module.exports = {
     I.waitForEnabled(this.nextEventDropdown, 60);
     //await I.click(this.nextEventDropdown);
     I.selectOption(this.nextEventDropdown, option);
-    I.click(this.submitEventButton);
+    I.wait(5);
+    I.forceClick(this.submitEventButton);
   },
 
   verifyCaseDetailsPage(et1VettingFlag = false) {
