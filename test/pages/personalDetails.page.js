@@ -1,24 +1,46 @@
 const { I } = inject();
 
 module.exports = {
-  async processPersonalDetails() {
-    this.clickPersonalDetailsLink();
-    this.enterDob();
-    this.selectSexAndTitle();
-    this.enterPostcode();
-    this.enterTelephoneNumber();
-    this.selectHowToBeContacted();
-    this.selectHearingPreference();
-    this.selectReasonableAdjustment();
-    this.confirmCompletedPersonalDetailsQuestions();
+  async processPersonalDetails(postcode, location, addressOption) {
+    switch (location) {
+      case 'England':
+      case 'Wales':
+      case 'England & Wales':
+        this.clickPersonalDetailsLink();
+        this.enterDob();
+        this.selectSexAndTitle();
+        this.enterPostcode(postcode, addressOption);
+        this.enterTelephoneNumber();
+        this.selectHowToBeContacted();
+        this.selectHearingPreference();
+        this.selectReasonableAdjustment();
+        this.confirmCompletedPersonalDetailsQuestions();
+        break;
+      case 'Scotland':
+        this.clickPersonalDetailsLink();
+        this.enterDob();
+        this.selectSexAndTitle();
+        this.enterPostcode(postcode, addressOption);
+        this.enterTelephoneNumber();
+        this.communicationPreferenceScotland();
+        this.selectHearingPreference();
+        this.selectReasonableAdjustment();
+        this.confirmCompletedPersonalDetailsQuestions();
+        break;
+      default:
+        throw new Error(
+          '... check the provided location. you have not specified a valid location such as England, Wales or Scotland',
+        );
+    }
   },
   //click personal details link and enter details
   clickPersonalDetailsLink() {
-    I.click('[href="/dob-details"]');
+    I.click('[href="/dob-details?lng=en"]');
   },
   enterDob() {
     //enter date of birth
-    I.waitForText('What is your date of birth?', 30);
+    I.waitForVisible('#main-content', 5);
+    I.see('What is your date of birth?');
     I.fillField('#dobDate-day', '01');
     I.fillField('#dobDate-month', '01');
     I.fillField('#dobDate-year', '1989');
@@ -26,13 +48,15 @@ module.exports = {
   },
   selectSexAndTitle() {
     //select sex and enter title
-    I.waitForText('Sex and preferred title', 30);
+    I.waitForVisible('#main-content', 5);
+    I.see('Sex and preferred title');
     I.checkOption('#sex');
     I.fillField('#preferredTitle', 'Mr');
     I.click('Save and continue');
   },
-  enterPostcode() {
+  enterPostcode(postcode, addressOption) {
     //Enter postcode for claimant address
+    I.waitForVisible('#main-content', 5);
     I.see('What is your contact or home address?');
     I.refreshPage();
     I.waitToHide('#address1', 10);
@@ -40,36 +64,49 @@ module.exports = {
     I.fillField('#postcode', 'LS9 9HE');
     I.click('#findAddressButton');
     I.waitForVisible('#selectAddressInput', 30);
-    I.selectOption(
-      '#selectAddressInput',
-      '{"fullAddress":"3, SKELTON AVENUE, LEEDS, LS9 9HE","street1":"3 SKELTON AVENUE","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS9 9HE","country":"ENGLAND"}',
-    );
+    I.click('#selectAddressInput');
+    I.selectOption('#selectAddressInput', addressOption);
     I.waitForVisible('#main-form-submit', 30);
     I.click('Save and continue');
   },
   enterTelephoneNumber() {
     //Enter telephone number
+    I.waitForVisible('#main-content', 5);
     I.waitForText('What is your telephone number?', 30);
     I.fillField('#telephone-number', '07898787676');
     I.click('Save and continue');
   },
   selectHowToBeContacted() {
     //select option for how to be contacted
-    I.waitForText('How would you like to be contacted', 30);
-    I.see(' about your claim?');
+    //the communication preference combination should be tested in functional-test
+    I.waitForVisible('#main-content', 5);
+    I.see('Communication preference');
+    I.see('What format would you like to be contacted in?');
+    I.see('What language do you want us to use when we contact you?');
+    I.see('If a hearing is required, what language do you want to speak at a hearing?');
+    I.checkOption('#update-preference');
+    I.checkOption('#update-preference-language-2');
+    I.click('Save and continue');
+  },
+  communicationPreferenceScotland() {
+    I.waitForVisible('#main-content', 5);
+    I.waitForText('Communication preference', 30);
+    I.see('What format would you like to be contacted in?');
     I.checkOption('#update-preference');
     I.click('Save and continue');
   },
   selectHearingPreference() {
     //Select hearing preference option - video hearing
-    I.waitForText('Would you be able to take part in hearings by', 30);
+    I.waitForVisible('#main-content', 5);
+    I.see('Would you be able to take part in hearings by');
     I.see('video and phone?');
     I.checkOption('#hearingPreferences');
     I.click('Save and continue');
   },
   selectReasonableAdjustment() {
     //Select No to reasonable adjustment question
-    I.waitForText('Do you have a physical, mental or learning', 30);
+    I.waitForVisible('#main-content', 5);
+    I.see('Do you have a physical, mental or learning');
     I.see('disability or long term health condition that');
     I.see('means you need support during your case?');
     I.checkOption('#reasonableAdjustments-2');
@@ -77,7 +114,8 @@ module.exports = {
   },
   confirmCompletedPersonalDetailsQuestions() {
     //confirm completed personal details question
-    I.waitForText('Have you completed this', 30);
+    I.waitForVisible('#main-content', 5);
+    I.see('Have you completed this');
     I.see('section?');
     I.checkOption('#tasklist-check');
     I.click('Save and continue');
