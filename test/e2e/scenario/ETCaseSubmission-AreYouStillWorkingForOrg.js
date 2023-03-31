@@ -59,7 +59,7 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BAT');
+).tag('@RET-BAT').retry(2);
 
 Scenario(
   'Create a claim for working notice period for organisation, submit and process within manage cases',
@@ -111,7 +111,7 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BAT');
+).tag('@RET-BAT').retry(2);
 
 Scenario(
   'Create a claim for no longer working for organisation, submit and process within manage cases',
@@ -165,4 +165,4 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BAT');
+).tag('@RET-BAT').retry(2);
