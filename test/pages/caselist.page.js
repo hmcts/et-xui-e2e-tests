@@ -37,6 +37,7 @@ module.exports = {
     I.wait(5);
     I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
+    I.waitForVisible(this.submissionReferenceLocator,10)
     I.click(this.submissionReferenceLocator);
     console.log(submissionReference);
     I.fillField(this.submissionReferenceLocator, submissionReference);
