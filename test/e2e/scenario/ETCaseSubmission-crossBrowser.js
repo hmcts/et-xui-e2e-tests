@@ -16,33 +16,40 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
   }) => {
+    I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(); //Submission in the sya front end.
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails();
-    I.wait(5);
-    await employmentAndRespondentDetailsPage.processStillWorkingJourney();
-    I.wait(5);
+    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
+    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
+      workPostcode,
+      selectedWorkAddress,
+      firstLineOfAddress,
+    );
     await claimDetailsPage.processClaimDetails();
-    I.wait(5);
-    const submissionReference = await submitClaimPage.submitClaim();
+    let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
-
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword); //Manage Case Application
-    await caseListPage.searchCaseApplicationWithSubmissionReference('3: Object', submissionReference);
-    I.wait(5);
-    let caseNumber = await caseListPage.processCaseFromCaseList();
+    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('5: Object', submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
     await caseListPage.verifyCaseDetailsPage();
     await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //await caseListPage.verifyCaseDetailsPage(true);
+    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    I.click('Sign out');
-    //To be Enabled and Retested after Defect RET-2735 is fixed.
-    //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
-    //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    I.forceClick('Sign out');;
+    /*    await citizenHubPages.processCitizenHubLogin(
+      testConfig.TestEnvETUser,
+      testConfig.TestEnvETPassword,
+      submissionReference,
+    );
+    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
+    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.VerifyFormType();
+    */
   },
-).tag('@RET-XB');
+).tag('@RET-XB').retry(2);

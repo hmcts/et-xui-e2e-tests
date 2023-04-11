@@ -15,19 +15,22 @@ module.exports = {
   },
 
   processPreAcceptancePage(caseNumber) {
-    I.waitForText('Accept/Reject Case', 30);
+    I.waitForVisible('#caseEditForm', 10)
+    I.see('Accept/Reject Case');
     I.see('Pre-Acceptance');
     I.see('Case Number: ' + caseNumber);
     I.checkOption(this.locators.pre_accept_case_yes_option);
     I.fillField(this.locators.date_accepted_day, '27');
-    I.fillField(this.locators.date_accepted_month, '10');
-    I.fillField(this.locators.date_accepted_year, '2022');
+    I.fillField(this.locators.date_accepted_month, '06');
+    I.fillField(this.locators.date_accepted_year, '2023');
     I.click('Continue');
+
   },
 
   processAcceptRejectCase(caseNumber) {
+    I.waitForVisible("[type='submit']", 10);
     I.waitForText('Case Number: ' + caseNumber, 30);
-    I.waitForElement("[type='submit']", 30);
     I.forceClick("[type='submit']");
+    I.wait(5)
   },
 };

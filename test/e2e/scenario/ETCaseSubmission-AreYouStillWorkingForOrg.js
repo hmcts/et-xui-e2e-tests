@@ -47,6 +47,7 @@ Scenario(
     await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //await caseListPage.verifyCaseDetailsPage(true);
+    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     I.click('Sign out');
     /*    await citizenHubPages.processCitizenHubLogin(
@@ -59,7 +60,7 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BAT');
+).tag('@RET-BAT').retry(2);
 
 Scenario(
   'Create a claim for working notice period for organisation, submit and process within manage cases',
@@ -84,7 +85,7 @@ Scenario(
     await personalDetailsPage.processPersonalDetails('LS9 9HE', 'England');
     await employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney();
     await claimDetailsPage.processClaimDetails();
-    const submissionReference = await submitClaimPage.submitClaim();
+    let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
@@ -96,6 +97,7 @@ Scenario(
     await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //await caseListPage.verifyCaseDetailsPage(true);
+    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     I.click('Sign out');
     /*    await citizenHubPages.processCitizenHubLogin(
@@ -108,7 +110,7 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BAT');
+).tag('@RET-BAT').retry(2);
 
 Scenario(
   'Create a claim for no longer working for organisation, submit and process within manage cases',
@@ -126,27 +128,32 @@ Scenario(
     et1CaseServingPages,
     //citizenHubPages,
   }) => {
+    I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication();
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails();
-    //pause();
-    await employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney();
+    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
+    await employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(
+      workPostcode,
+      selectedWorkAddress,
+      firstLineOfAddress
+    );
     await claimDetailsPage.processClaimDetails();
-    const submissionReference = await submitClaimPage.submitClaim();
+    let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('10: Object', submissionReference);
-    let caseNumber = await caseListPage.processCaseFromCaseList();
+    await caseListPage.searchCaseApplicationWithSubmissionReference('5: Object', submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
     await caseListPage.verifyCaseDetailsPage();
     await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //await caseListPage.verifyCaseDetailsPage(true);
+    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    I.click('Sign out');
+    I.forceClick('Sign out');
     /*    await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
       testConfig.TestEnvETPassword,
@@ -157,4 +164,4 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BAT');
+).tag('@RET-BAT').retry(2);

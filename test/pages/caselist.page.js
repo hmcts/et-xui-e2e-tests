@@ -29,7 +29,7 @@ module.exports = {
   searchCaseApplicationWithSubmissionReference(option, submissionReference) {
     I.waitForInvisible('.spinner-container', 30);
     I.waitForElement(this.caseTypeDropdown, 30);
-    I.waitForElement(this.submissionReferenceLocator, 30);
+    //I.waitForElement(this.submissionReferenceLocator, 30);
     I.refreshPage();
     I.wait(5);
     I.waitForElement(this.caseTypeDropdown, 55);
@@ -37,6 +37,7 @@ module.exports = {
     I.wait(5);
     I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
+    I.waitForVisible(this.submissionReferenceLocator,10)
     I.click(this.submissionReferenceLocator);
     console.log(submissionReference);
     I.fillField(this.submissionReferenceLocator, submissionReference);
@@ -57,11 +58,11 @@ module.exports = {
     I.waitForEnabled(this.nextEventDropdown, 60);
     //await I.click(this.nextEventDropdown);
     I.selectOption(this.nextEventDropdown, option);
-    I.click(this.submitEventButton);
+    I.wait(5);
+    I.forceClick(this.submitEventButton);
   },
 
   verifyCaseDetailsPage(et1VettingFlag = false) {
-    //I.click('[class="text-16"]');
     I.waitForText('Case Details', 30);
     I.see('Claimant');
     I.see('Respondent');

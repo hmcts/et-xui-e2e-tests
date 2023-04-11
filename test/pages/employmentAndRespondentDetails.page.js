@@ -54,10 +54,10 @@ module.exports = {
     this.selectYesNoticePeriodNoLongerWorking();
     this.selectNoticeTypeNoLongerWorking();
     this.enterNoticePeriodLengthNoLongerWorking();
-    this.enterAverageWeeklyHours();
+    this.enterAverageWeeklyHoursNoLongerWorking();
     this.enterPay();
     this.enterPensionContribution();
-    this.enterEmployeeBenefits();
+    this.enterEmployeeBenefitsForNoLongerWorking();
     this.newJob();
     this.enterNewJobStartDates();
     this.enterNewJobPay();
@@ -105,30 +105,36 @@ module.exports = {
   },
   //selects working notice period for respondent on /are-you-still-working page
   workingNoticePeriodForOrganisation() {
-    I.waitForVisible('[class="govuk-fieldset__heading"]', 15);
-    // I.see("Are you still working for the organisation or person you’re making your claim against?");
+    I.waitForVisible('#main-form',5);
+    I.see('Are you still working for the');
+    I.see("organisation or person you're");
+    I.see('making your claim against?');
     I.click('#still-working-2');
     I.wait(3);
     I.click('#main-form-submit');
   },
   //selects i'm no longer working for respondent on /are-you-still-working page
   noLongerWorkingForOrganisation() {
-    //I.see("Are you still working for the organisation or person you’re making your claim against?");
-    I.waitForVisible('[class="govuk-fieldset__heading"]', 15);
+    I.waitForVisible('#main-form',5);
+    I.see('Are you still working for the');
+    I.see("organisation or person you're");
+    I.see('making your claim against?');
     I.click('#still-working-3');
     I.wait(3);
     I.click('#main-form-submit');
   },
   //check page title and enter job title
   enterEmploymentJobTitle() {
-    I.waitForText('Employment details', 30);
+    I.waitForVisible('#main-form',5);
+    I.see('Employment details');
     I.seeElement('#jobTitle');
     I.fillField('#jobTitle', 'Tester');
     I.click('Save and continue');
   },
   //employment start date page
   enterEmploymentStartDate() {
-    I.waitForText('Employment start date', 30);
+    I.waitForVisible('#main-form',5);
+    I.see('Employment start date');
     I.fillField('#startDate-day', '20');
     I.fillField('#startDate-month', '04');
     I.fillField('#startDate-year', '2014');
@@ -136,7 +142,8 @@ module.exports = {
   },
   //select yes to notice period on /got-a-notice-period page
   selectYesNoticePeriod() {
-    I.waitForText('Do you have a written', 30);
+    I.waitForVisible('#main-form',5);
+    I.see('Do you have a written');
     I.see('contract with a notice');
     I.see('period? (optional)');
     I.checkOption('input[id=notice-period]');
@@ -144,12 +151,14 @@ module.exports = {
   },
   //selects yes to did you have or work a notice period on /got-a-notice-period page
   selectYesNoticePeriodNoLongerWorking() {
+    I.waitForVisible('#main-form',5);
     I.see('Did you have or work a notice period? (optional)');
     I.checkOption('input[id=notice-period]');
     I.click('Save and continue');
   },
   //enters notice period end date
   noticePeriodEndDate() {
+    I.waitForVisible('#main-form',5);
     I.fillField('#notice-dates-day', '20');
     I.fillField('#notice-dates-month', '04');
     I.fillField('#notice-dates-year', '2024');
@@ -157,6 +166,7 @@ module.exports = {
   },
   //Enters employment end date dates
   enterEmploymentEndDate() {
+    I.waitForVisible('#main-form',5);
     I.fillField('#end-date-day', '20');
     I.fillField('#end-date-month', '04');
     I.fillField('#end-date-year', '2022');
@@ -164,6 +174,7 @@ module.exports = {
   },
   //select weeks for notice type on /notice-type page
   selectNoticeType() {
+    I.waitForVisible('#main-form',5);
     I.waitForText('Is your notice period in', 30);
     I.see('weeks or months? (optional)');
     I.checkOption('input[id=notice-type]');
@@ -191,23 +202,31 @@ module.exports = {
   },
   //enter average weekly hours
   enterAverageWeeklyHours() {
-    I.waitForVisible('[class="govuk-grid-column-two-thirds"]', 30);
+    I.waitForVisible('#main-form',5);
     I.see('What are your average weekly hours? (optional)');
+    I.fillField('#avg-weekly-hrs', '20');
+    I.click('Save and continue');
+  },
+  //enter average weekly hours for no longer working
+  enterAverageWeeklyHoursNoLongerWorking() {
+    I.waitForVisible('#main-form',5);
+    I.see('What were your average weekly hours? (optional)');
     I.fillField('#avg-weekly-hrs', '20');
     I.click('Save and continue');
   },
   //enters pay on the /pay page
   enterPay() {
-    I.waitForText('Your pay (optional)', 30);
+    I.waitForVisible('#main-form',5);
+    I.see('Your pay (optional)');
     I.fillField('#pay-before-tax', '40000');
     I.fillField('#pay-after-tax', '35000');
     I.checkOption('input[id=pay-interval]');
     I.click('Save and continue');
-    I.wait(5);
   },
   //enter Pension contribution on /pension page
   enterPensionContribution() {
-    I.waitForText('Did the respondent make any', 30);
+    I.waitForVisible('#main-form',5);
+    I.see('Did the respondent make any');
     I.see('contributions to your');
     I.see('pension? (optional)');
     I.waitForElement('#pension', 30);
@@ -217,9 +236,16 @@ module.exports = {
   },
   //enter employee benefits on /benefits page
   enterEmployeeBenefits() {
-    I.waitForElement('.govuk-fieldset__legend', 30);
-    //I.see('Did you or did you receive any employee benefits? (optional)');
-    I.checkOption('#employee-benefits');
+    I.waitForVisible('#main-form',5);
+    I.see('Do you or did you receive any employee benefits? (optional)');
+    I.checkOption('input[id=employee-benefits]');
+    I.click('Save and continue');
+  },
+  //enter employment benefir for no longer working different to flow on R1.1.2
+  enterEmployeeBenefitsForNoLongerWorking() {
+    I.waitForVisible('#main-form',5);
+    I.see('Did you receive any employee benefits? (optional)');
+    I.checkOption('input[id=employee-benefits]');
     I.click('Save and continue');
   },
   //Selects yes to new job on /new-job page
@@ -245,30 +271,31 @@ module.exports = {
   },
   //verify user is on respondent-name page and then enters a respondent name
   enterRespondentName() {
-    I.waitForText('What is the name of the', 30);
+    I.see('What is the name of the');
     I.see("respondent you're making");
     I.see('the claim against?');
     I.fillField('#respondentName', 'Henry Marsh');
     I.click('Save and continue');
   },
   //enters address for respondent
-  enterRespondentAddress(workPostcode, selectedWorkAddress) {
+  enterRespondentAddress() {
     I.waitForText('What is the address of Henry Marsh?', 30);
-    I.fillField('#postcode', workPostcode);
+    I.fillField('#postcode', 'LS7 4QE');
     I.click('#findAddressButton');
     I.waitForVisible('#selectAddressInput', 30);
     I.selectOption('#selectAddressInput', selectedWorkAddress);
     I.click('Save and continue');
   },
   //selects yes to working at respondent address
-  selectYesToWorkingAtRespondentAddress(firstLineOfAddress) {
-    I.waitForText(firstLineOfAddress, 30);
+  selectYesToWorkingAtRespondentAddress() {
+    I.waitForText('Did you work at 7 VALLEY GARDENS?', 30);
     I.checkOption('#work-address');
     I.click('Save and continue');
   },
   //selects no option for acas cerificate question on /acas-cer-num page
   selectNoToAcas() {
-    I.waitForText('Do you have an Acas', 30);
+    I.waitForVisible('#main-form',5);
+    I.see('Do you have an Acas');
     I.see('certificate number for Henry Marsh?');
     I.checkOption('#acasCert-2');
     I.click('Save and continue');
@@ -278,13 +305,14 @@ module.exports = {
   },
   //check respondent details page
   checkRespondentDetails() {
-    I.waitForText('Check the respondent details', 30);
+    I.waitForVisible('#main-form',5);
+    I.see('Check the respondent details');
     I.click('Save and continue');
-    I.wait(5);
   },
   //confirm completed section for employment and respondent details
   completeEmploymentAndRespondentDetails() {
-    I.waitForText('Have you completed this', 30);
+    I.waitForVisible('#main-form',5);
+    I.see('Have you completed this');
     I.see('section?');
     I.waitForElement('#tasklist-check', 30);
     I.checkOption('#tasklist-check');

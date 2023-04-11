@@ -151,6 +151,6 @@ module.exports = {
     this.verifyET1CasePageHeading(caseNumber);
     I.waitForText('Do this next', 30);
     I.see('You must accept or reject the case or refer the case.');
-    I.click("//a[contains(text(),'accept or reject the case')]");
+    I.click('[data-ng-click="submit()"]');
   },
 };

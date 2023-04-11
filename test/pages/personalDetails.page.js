@@ -40,7 +40,8 @@ module.exports = {
   },
   enterDob() {
     //enter date of birth
-    I.waitForText('What is your date of birth?', 30);
+    I.waitForVisible('#main-content', 5);
+    I.see('What is your date of birth?');
     I.fillField('#dobDate-day', '01');
     I.fillField('#dobDate-month', '01');
     I.fillField('#dobDate-year', '1989');
@@ -48,13 +49,15 @@ module.exports = {
   },
   selectSexAndTitle() {
     //select sex and enter title
-    I.waitForText('Sex and preferred title', 30);
+    I.waitForVisible('#main-content', 5);
+    I.see('Sex and preferred title');
     I.checkOption('#sex');
     I.fillField('#preferredTitle', 'Mr');
     I.click('Save and continue');
   },
   enterPostcode(postcode, addressOption) {
     //Enter postcode for claimant address
+    I.waitForVisible('#main-content', 5);
     I.see('What is your contact or home address?');
     I.refreshPage();
     I.waitToHide('#address1', 10);
@@ -69,6 +72,7 @@ module.exports = {
   },
   enterTelephoneNumber() {
     //Enter telephone number
+    I.waitForVisible('#main-content', 5);
     I.waitForText('What is your telephone number?', 30);
     I.fillField('#telephone-number', '07898787676');
     I.click('Save and continue');
@@ -93,14 +97,16 @@ module.exports = {
   },
   selectHearingPreference() {
     //Select hearing preference option - video hearing
-    I.waitForText('Would you be able to take part in hearings by', 30);
+    I.waitForVisible('#main-content', 5);
+    I.see('Would you be able to take part in hearings by');
     I.see('video and phone?');
     I.checkOption('#hearingPreferences');
     I.click('Save and continue');
   },
   selectReasonableAdjustment() {
     //Select No to reasonable adjustment question
-    I.waitForText('Do you have a physical, mental or learning', 30);
+    I.waitForVisible('#main-content', 5);
+    I.see('Do you have a physical, mental or learning');
     I.see('disability or long term health condition that');
     I.see('means you need support during your case?');
     I.checkOption('#reasonableAdjustments-2');
@@ -108,7 +114,8 @@ module.exports = {
   },
   confirmCompletedPersonalDetailsQuestions() {
     //confirm completed personal details question
-    I.waitForText('Have you completed this', 30);
+    I.waitForVisible('#main-content', 5);
+    I.see('Have you completed this');
     I.see('section?');
     I.checkOption('#tasklist-check');
     I.click('Save and continue');
