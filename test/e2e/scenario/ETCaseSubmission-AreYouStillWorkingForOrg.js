@@ -35,12 +35,11 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
-    console.log(submissionReference);
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('10: Object', submissionReference);
-    let caseNumber = await caseListPage.processCaseFromCaseList();
+    await caseListPage.searchCaseApplicationWithSubmissionReference('5: Object', submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
     await caseListPage.verifyCaseDetailsPage();
@@ -79,18 +78,20 @@ Scenario(
     //citizenHubPages,
   }) => {
     I.amOnPage('/');
-    await basePage.processPreLoginPagesForTheDraftApplication('LS9 9HE');
+    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails('LS9 9HE', 'England');
-    await employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney();
+    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
+    await employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney(workPostcode,
+      selectedWorkAddress,
+      firstLineOfAddress);
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('10: Object', submissionReference);
-    let caseNumber = await caseListPage.processCaseFromCaseList();
+    await caseListPage.searchCaseApplicationWithSubmissionReference('5: Object', submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
     await caseListPage.verifyCaseDetailsPage();
@@ -110,7 +111,7 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BAT').retry(2);
+).tag('@RET-WIP');
 
 Scenario(
   'Create a claim for no longer working for organisation, submit and process within manage cases',
@@ -129,15 +130,13 @@ Scenario(
     //citizenHubPages,
   }) => {
     I.amOnPage('/');
-    await basePage.processPreLoginPagesForTheDraftApplication();
+    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
-    await employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(
-      workPostcode,
+    await employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(workPostcode,
       selectedWorkAddress,
-      firstLineOfAddress
-    );
+      firstLineOfAddress);
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');

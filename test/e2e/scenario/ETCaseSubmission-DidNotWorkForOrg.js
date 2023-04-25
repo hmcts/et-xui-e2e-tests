@@ -41,4 +41,4 @@ Scenario(
     //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
   },
-).tag('@RET-WIP');
+).tag('@RET-TEST');

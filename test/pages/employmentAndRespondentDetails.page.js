@@ -81,7 +81,8 @@ module.exports = {
   //clicks employment status link
   clickEmploymentStatusLink() {
     I.click('[href="/past-employer?lng=en"]');
-    I.waitForText('Did you work for the', 30);
+    I.waitForVisible('#main-form',5);
+    I.see('Did you work for the');
     I.see('organisation or person you’re');
     I.see('making your claim against?');
   },
@@ -92,11 +93,11 @@ module.exports = {
     } else if (workedForOrg === 'No') {
       I.click('#past-employer-2');
     }
-    I.click('#main-form-submit');
+    I.click('Save and continue');
   },
   //selects still working for respondent on /are-you-still-working page
   stillWorkingForOrganisation() {
-    I.waitForVisible('[class="govuk-fieldset__heading"]', 15);
+    I.waitForVisible('#main-form',5);
     I.waitForText('Are you still working for the', 30);
     I.see("organisation or person you're");
     I.see('making your claim against?');
@@ -110,8 +111,7 @@ module.exports = {
     I.see("organisation or person you're");
     I.see('making your claim against?');
     I.click('#still-working-2');
-    I.wait(3);
-    I.click('#main-form-submit');
+    I.click('Save and continue');
   },
   //selects i'm no longer working for respondent on /are-you-still-working page
   noLongerWorkingForOrganisation() {
@@ -120,8 +120,7 @@ module.exports = {
     I.see("organisation or person you're");
     I.see('making your claim against?');
     I.click('#still-working-3');
-    I.wait(3);
-    I.click('#main-form-submit');
+    I.click('Save and continue');
   },
   //check page title and enter job title
   enterEmploymentJobTitle() {
@@ -179,11 +178,11 @@ module.exports = {
     I.see('weeks or months? (optional)');
     I.checkOption('input[id=notice-type]');
     I.click('Save and continue');
-    I.wait(5);
   },
   //enter notice length on /notice-length page
   enterNoticePeriodLength() {
-    I.waitForText('How many weeks in your', 30);
+    I.waitForVisible('#main-form',5);
+    I.see('How many weeks in your');
     I.see('notice period? (optional)');
     I.fillField('input[id=notice-length]', '4');
     I.click('Save and continue');
@@ -278,17 +277,19 @@ module.exports = {
     I.click('Save and continue');
   },
   //enters address for respondent
-  enterRespondentAddress() {
-    I.waitForText('What is the address of Henry Marsh?', 30);
-    I.fillField('#postcode', 'LS7 4QE');
+  enterRespondentAddress(workPostcode, selectedWorkAddress) {
+    //I.waitForVisible('#main-form',5);
+    I.see('What is the address of Henry Marsh?');
+    I.fillField('#postcode', workPostcode);
     I.click('#findAddressButton');
     I.waitForVisible('#selectAddressInput', 30);
     I.selectOption('#selectAddressInput', selectedWorkAddress);
     I.click('Save and continue');
   },
   //selects yes to working at respondent address
-  selectYesToWorkingAtRespondentAddress() {
-    I.waitForText('Did you work at 7 VALLEY GARDENS?', 30);
+  selectYesToWorkingAtRespondentAddress(firstLineOfAddress) {
+    I.waitForVisible('#main-form',5);
+    I.see(firstLineOfAddress);
     I.checkOption('#work-address');
     I.click('Save and continue');
   },

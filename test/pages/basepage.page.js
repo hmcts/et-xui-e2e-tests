@@ -22,11 +22,11 @@ module.exports = {
     I.click('Continue');
   },
 
-  processWhatsThePostCodeYouHaveWorkedForPage() {
+  processWhatsThePostCodeYouHaveWorkedForPage(postcode) {
     I.waitForVisible('#main-content', 5);
     I.see('What’s the postcode where');
     I.see('you worked or work?');
-    I.fillField('#workPostcode', 'LS9 6EP');
+    I.fillField('#workPostcode', postcode);
     I.click('Continue');
   },
 
