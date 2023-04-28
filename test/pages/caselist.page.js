@@ -35,6 +35,22 @@ module.exports = {
     I.waitForElement(this.caseTypeDropdown, 55);
     I.see(this.caseListText);
     I.wait(5);
+    try {
+      switch (option) {
+        case 'Eng/Wales - Singles':
+          I.selectOption( '//option[.="Eng/Wales - Singles"]');
+          break;
+        case 'Scotland':
+        case 'Scotland - Singles':
+          I.selectOption( '//option[.="Scotland - Singles (RET)"]');
+          break;
+        default:
+          throw new Error('... check you options or add new option');
+
+      }
+    }catch (e) {
+     console.error(error.message);
+    }
     I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
     I.waitForVisible(this.submissionReferenceLocator,10)
