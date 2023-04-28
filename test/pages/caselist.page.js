@@ -49,7 +49,7 @@ module.exports = {
 
       }
     }catch (e) {
-     console.error('invalid option', error.message);
+     console.log('invalid option', error.message);
     }
     I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
