@@ -48,8 +48,8 @@ module.exports = {
           throw new Error('... check you options or add new option');
 
       }
-    }catch (e) {
-     console.log('invalid option', error.message);
+    }catch (error) {
+     console.error('invalid option', error.message);
     }
     I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
