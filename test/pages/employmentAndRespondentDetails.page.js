@@ -278,12 +278,15 @@ module.exports = {
   },
   //enters address for respondent
   enterRespondentAddress(workPostcode, selectedWorkAddress) {
-    //I.waitForVisible('#main-form',5);
-    I.see('What is the address of Henry Marsh?');
-    I.fillField('#postcode', workPostcode);
-    I.click('#findAddressButton');
-    I.waitForVisible('#selectAddressInput', 30);
-    I.selectOption('#selectAddressInput', selectedWorkAddress);
+    I.waitForVisible('#main-form',5);
+    I.seeElement('#workEnterPostcode');
+    I.fillField('#workEnterPostcode', workPostcode);
+    I.click('Save and continue');
+    I.waitForVisible('#workAddressTypes', 30);
+
+    I.selectOption('#workAddressTypes', selectedWorkAddress);
+    I.click('Save and continue');
+    I.see('What address did you work at?');
     I.click('Save and continue');
   },
   //selects yes to working at respondent address

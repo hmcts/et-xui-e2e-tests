@@ -1,11 +1,10 @@
 const testConfig = require('../config.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
-const selectedWorkAddress =
-  '{"fullAddress":"7, VALLEY GARDENS, LEEDS, LS7 4QE","street1":"7, VALLEY GARDENS","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS7 4QE","country":"ENGLAND"}';
+const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE'
 const addressOption =
-  '{"fullAddress":"3, SKELTON AVENUE, LEEDS, LS9 9HE","street1":"3, SKELTON AVENUE","street2":"","town":"LEEDS","county":"LEEDS","postcode":"LS9 9HE","country":"ENGLAND"}';
-const firstLineOfAddress = '7, VALLEY GARDENS?';
+  '3, Skelton Avenue, Leeds, LS9 9HE';
+const firstLineOfAddress = '7, Valley Gardens?';
 Feature('End To End Tests For an ET Case Submitted in the sya Front end and processed in the Manage Case Application');
 Scenario(
   'Create a claim for still working for organisation, submit and process within manage cases',
