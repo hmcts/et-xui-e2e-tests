@@ -20,7 +20,7 @@ def component = "frontend"
 
 def secrets = [
     'et-${env}': [
-        secret('test-username', 'TEST_CASE_USERNAME'),
+        secret('et-citizen-1-username', 'TEST_CASE_USERNAME'),
         secret('test-password', 'TEST_CASE_PASSWORD')
     ],
     'et-cos-${env}': [
