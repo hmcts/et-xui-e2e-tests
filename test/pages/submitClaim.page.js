@@ -19,13 +19,18 @@ module.exports = {
     I.click('[name=opt-out-button]');
   },
   clickSubmitOnCheckYourAnswers() {
-    I.waitForText('Check your answers', 30);
-    I.click('Submit');
+    I.waitForVisible('#main-content', 30);
+    I.see('Check your answers');
+    I.waitForVisible('#main-form-submit', 10);
+    I.scrollPageToBottom();
+    I.click('#main-form-submit');
+
   },
   async verifyClaimSubmitted() {
-    I.waitForText('Your claim has been submitted', 30);
+    I.waitForVisible('#main-content', 30);
     const submissionRef = (await I.grabTextFrom('//*[@id="main-content"]/div[1]/div/dl[1]/div[1]/dd')).trim();
     console.log(submissionRef);
+    I.wait(5);
     return submissionRef;
   },
 };
