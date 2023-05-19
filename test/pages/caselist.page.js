@@ -38,11 +38,11 @@ module.exports = {
     try {
       switch (option) {
         case 'Eng/Wales - Singles':
-          I.selectOption( '//option[.="Eng/Wales - Singles"]');
+          I.selectOption(this.caseTypeDropdown, '[value="5: Object"]');
           break;
         case 'Scotland':
         case 'Scotland - Singles':
-          I.selectOption( '//option[.="Scotland - Singles (RET)"]');
+          I.selectOption( this.caseTypeDropdown, '[value="2: Object"]');
           break;
         default:
           throw new Error('... check you options or add new option');
