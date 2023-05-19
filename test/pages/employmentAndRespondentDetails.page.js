@@ -278,15 +278,16 @@ module.exports = {
   },
   //enters address for respondent
   enterRespondentAddress(workPostcode, selectedWorkAddress) {
-    I.waitForVisible('#main-form',5);
-    I.seeElement('#workEnterPostcode');
-    I.fillField('#workEnterPostcode', workPostcode);
+    I.waitForVisible('#main-form',10);
+    //pause();
+    I.see('Enter a UK postcode');
+    I.fillField('#respondentEnterPostcode', workPostcode);
     I.click('Save and continue');
-    I.waitForVisible('#workAddressTypes', 30);
-
-    I.selectOption('#workAddressTypes', selectedWorkAddress);
+    I.waitForVisible('#main-content', 15);
+    I.see('Select an address');
+    I.selectOption('#respondentAddressTypes', selectedWorkAddress);
     I.click('Save and continue');
-    I.see('What address did you work at?');
+    I.see('This should be the same respondent address given to Acas.');
     I.click('Save and continue');
   },
   //selects yes to working at respondent address
