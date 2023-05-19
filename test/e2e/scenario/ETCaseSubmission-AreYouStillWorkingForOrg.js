@@ -58,7 +58,7 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BATIST').retry(2);
+).tag('@RET-BAT').retry(2);
 
 Scenario(
   'Create a claim for working notice period for organisation, submit and process within manage cases',
