@@ -20,6 +20,8 @@ module.exports = {
   submitEventButton: '[type="submit"]',
 
   searchCaseApplication(option) {
+    I.click('[href="cases"]');
+    I.waitForElement(this.caseTypeDropdown, 30);
     I.see(this.caseListText);
     I.waitForElement(this.caseTypeDropdown, 30);
     I.selectOption(this.caseTypeDropdown, option);
