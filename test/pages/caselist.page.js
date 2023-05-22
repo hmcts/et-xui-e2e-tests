@@ -28,7 +28,7 @@ module.exports = {
   },
 
   searchCaseApplicationWithSubmissionReference(option, submissionReference) {
-    I.click('[href="cases"]');
+    I.click(this.caseListLink);
     I.waitForElement(this.caseTypeDropdown, 30);
     I.refreshPage();
     I.wait(5);
