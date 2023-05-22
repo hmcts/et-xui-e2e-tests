@@ -20,7 +20,6 @@ module.exports = {
   submitEventButton: '[type="submit"]',
 
   searchCaseApplication(option) {
-    I.click('[href="cases"]');
     I.waitForElement(this.caseTypeDropdown, 30);
     I.see(this.caseListText);
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -29,9 +28,8 @@ module.exports = {
   },
 
   searchCaseApplicationWithSubmissionReference(option, submissionReference) {
-    I.waitForInvisible('.spinner-container', 30);
+    I.click('[href="cases"]');
     I.waitForElement(this.caseTypeDropdown, 30);
-    //I.waitForElement(this.submissionReferenceLocator, 30);
     I.refreshPage();
     I.wait(5);
     I.waitForElement(this.caseTypeDropdown, 55);
