@@ -12,13 +12,13 @@ module.exports = {
   },
 
   startDraftApplication() {
-    I.amOnPage('/');
     I.waitForText('Make a claim to an employment tribunal', 30);
     I.click('Start now');
   },
 
   processBeforeYourContinuePage() {
-    I.waitForText('Before you continue', 30);
+    I.waitForVisible('#main-content', 5);
+    I.see('Before you continue');
     I.click('Continue');
   },
 
