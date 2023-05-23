@@ -36,7 +36,6 @@ module.exports = {
   //click personal details link and enter details
   clickPersonalDetailsLink() {
     I.click('[href="/dob-details?lng=en"]');
-    I.wait(10);
   },
   enterDob() {
     //enter date of birth
@@ -58,17 +57,18 @@ module.exports = {
   enterPostcode(postcode, addressOption) {
     //Enter postcode for claimant address
     I.waitForVisible('#main-content', 5);
-    I.see('What is your contact or home address?');
+    I.see('Enter a UK postcode');
     I.refreshPage();
-    I.waitToHide('#address1', 10);
     I.dontSeeElement('#address1');
-    I.fillField('#postcode', postcode);
-    I.click('#findAddressButton');
-    I.waitForVisible('#selectAddressInput', 30);
-    I.click('#selectAddressInput');
-    I.selectOption('#selectAddressInput', addressOption);
-    I.waitForVisible('#main-form-submit', 30);
-    I.forceClick('Save and continue');
+    I.fillField('#addressEnterPostcode', postcode);
+    I.click('Save and continue');
+    I.waitForVisible('#addressAddressTypes', 30);
+    I.see('Select an address');
+    I.see('Several addresses found');
+    I.selectOption('#addressAddressTypes', addressOption);
+    I.click('Save and continue');
+    I.see('What is your contact or home address?');
+    I.click('Save and continue');
   },
   enterTelephoneNumber() {
     //Enter telephone number
@@ -80,7 +80,8 @@ module.exports = {
   selectHowToBeContacted() {
     //select option for how to be contacted
     //the communication preference combination should be tested in functional-test
-    I.waitForText('Communication preference', 30);
+    I.waitForVisible('#main-content', 5);
+    I.see('Communication preference');
     I.see('What format would you like to be contacted in?');
     I.see('What language do you want us to use when we contact you?');
     I.see('If a hearing is required, what language do you want to speak at a hearing?');
@@ -89,11 +90,11 @@ module.exports = {
     I.click('Save and continue');
   },
   communicationPreferenceScotland() {
+    I.waitForVisible('#main-content', 5);
     I.waitForText('Communication preference', 30);
     I.see('What format would you like to be contacted in?');
     I.checkOption('#update-preference');
     I.click('Save and continue');
-    I.wait(5);
   },
   selectHearingPreference() {
     //Select hearing preference option - video hearing

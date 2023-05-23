@@ -26,7 +26,7 @@ Scenario(
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('2: Object', submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     I.wait(5);
     let caseNumber = await caseListPage.processCaseFromCaseList();
     console.log('The value of the Case Number ' + caseNumber);

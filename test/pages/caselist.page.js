@@ -20,6 +20,7 @@ module.exports = {
   submitEventButton: '[type="submit"]',
 
   searchCaseApplication(option) {
+    I.waitForElement(this.caseTypeDropdown, 30);
     I.see(this.caseListText);
     I.waitForElement(this.caseTypeDropdown, 30);
     I.selectOption(this.caseTypeDropdown, option);
@@ -27,14 +28,30 @@ module.exports = {
   },
 
   searchCaseApplicationWithSubmissionReference(option, submissionReference) {
-    I.waitForInvisible('.spinner-container', 30);
+    I.waitForElement(this.caseListLink, 30);
+    I.click(this.caseListLink);
     I.waitForElement(this.caseTypeDropdown, 30);
-    //I.waitForElement(this.submissionReferenceLocator, 30);
     I.refreshPage();
     I.wait(5);
     I.waitForElement(this.caseTypeDropdown, 55);
     I.see(this.caseListText);
     I.wait(5);
+    try {
+      switch (option) {
+        case 'Eng/Wales - Singles':
+          I.selectOption(this.caseTypeDropdown, '5: Object');
+          break;
+        case 'Scotland':
+        case 'Scotland - Singles':
+          I.selectOption( this.caseTypeDropdown, '2: Object');
+          break;
+        default:
+          throw new Error('... check you options or add new option');
+
+      }
+    }catch (error) {
+     console.error('invalid option', error.message);
+    }
     I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
     I.waitForVisible(this.submissionReferenceLocator,10)
@@ -54,9 +71,7 @@ module.exports = {
   },
 
   selectNextEvent(option) {
-    //I.waitForElement(this.nextEventDropdown, 60);
     I.waitForEnabled(this.nextEventDropdown, 60);
-    //await I.click(this.nextEventDropdown);
     I.selectOption(this.nextEventDropdown, option);
     I.wait(5);
     I.forceClick(this.submitEventButton);

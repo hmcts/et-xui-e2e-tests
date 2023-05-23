@@ -21,6 +21,7 @@ module.exports = {
     I.waitForVisible('#main-content', 30);
     I.see('Check your answers');
     I.waitForVisible('#main-form-submit', 10);
+    I.scrollPageToBottom();
     I.click('#main-form-submit');
 
   },
