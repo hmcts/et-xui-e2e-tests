@@ -16,7 +16,6 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
   }) => {
-    I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication();
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
@@ -42,4 +41,4 @@ Scenario(
     //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
   },
-).tag('@RET-WIP');
+).tag('@RET-TEST');

@@ -82,7 +82,7 @@ module.exports = {
   clickEmploymentStatusLink() {
     I.click('[href="/past-employer?lng=en"]');
     I.waitForVisible('#main-form',5);
-    I.waitForText('Did you work for the', 30);
+    I.see('Did you work for the');
     I.see('organisation or person you’re');
     I.see('making your claim against?');
   },
@@ -182,7 +182,7 @@ module.exports = {
   //enter notice length on /notice-length page
   enterNoticePeriodLength() {
     I.waitForVisible('#main-form',5);
-    I.waitForText('How many weeks in your', 30);
+    I.see('How many weeks in your');
     I.see('notice period? (optional)');
     I.fillField('input[id=notice-length]', '4');
     I.click('Save and continue');

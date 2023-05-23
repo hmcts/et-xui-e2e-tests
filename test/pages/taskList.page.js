@@ -8,6 +8,7 @@ module.exports = {
 
   //select continue on the /new-account-landing page
   newAccountLanding() {
+    I.waitForElement('#main-content .govuk-grid-column-two-thirds', 30);
     I.see('You do not have to complete your claim in one go');
     I.click('Continue');
   },

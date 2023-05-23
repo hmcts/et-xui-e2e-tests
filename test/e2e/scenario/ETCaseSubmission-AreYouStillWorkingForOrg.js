@@ -110,7 +110,7 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BAT').retry(2);
+).tag('@RET-WIP');
 
 Scenario(
   'Create a claim for no longer working for organisation, submit and process within manage cases',
@@ -129,15 +129,13 @@ Scenario(
     //citizenHubPages,
   }) => {
     I.amOnPage('/');
-    await basePage.processPreLoginPagesForTheDraftApplication();
+    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
-    await employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(
-      workPostcode,
+    await employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(workPostcode,
       selectedWorkAddress,
-      firstLineOfAddress
-    );
+      firstLineOfAddress);
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');

@@ -5,12 +5,11 @@ module.exports = {
     this.clickCheckYourAnswersLink();
     this.noPcqQuestions();
     this.clickSubmitOnCheckYourAnswers();
-    return await this.verifyClaimSubmitted();
+    return this.verifyClaimSubmitted();
   },
   //user clicks check your answers link
   clickCheckYourAnswersLink() {
-    //I.waitForElement('[href="/pcq?lng=en"]', 30);
-    I.wait(5)
+    I.waitForElement('[href="/pcq?lng=en"]', 30);
     I.click('[href="/pcq?lng=en"]');
   },
   //
