@@ -1,11 +1,8 @@
 const testConfig = require('../config.js');
 const postcode = 'FK15 9ET';
-const addressOption =
-  '{"fullAddress":"3E, STATION ROAD, DUNBLANE, FK15 9ET","street1":"3E, STATION ROAD","street2":"","town":"DUNBLANE","county":"STIRLING","postcode":"FK15 9ET","country":"SCOTLAND"}';
+const addressOption = '3E, Station Road, Dunblane, FK15 9ET';
 const workPostcode = 'EH45 9BU';
-const selectedWorkAddress =
-  '{"fullAddress":"UNIT 6, CHERRY COURT, CAVALRY PARK, PEEBLES, EH45 9BU","street1":"UNIT 6, CHERRY COURT, CAVALRY PARK","street2":"","town":"PEEBLES","county":"SCOTTISH BORDERS","postcode":"EH45 9BU","country":"SCOTLAND"}';
-
+const selectedWorkAddress ='Unit 6, Cherry Court, Calvary Park, Peebles, EH45 9BU';
 const firstLineOfAddress = 'UNIT 6, CHERRY COURT, CAVALRY PARK';
 
 Feature('End To End; Tests For Submit a Scottish Case');

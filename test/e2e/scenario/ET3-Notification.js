@@ -1,13 +1,11 @@
 Feature('End To End Tests For an ET3  Notification and Case Progression from Citizen Hub');
 const testConfig = require('../config.js');
-const postcode = 'FK15 9ET';
+const postcode = 'LS9 9HE';
+const workPostcode = 'LS7 4QE';
+const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE'
 const addressOption =
-  '{"fullAddress":"3E, STATION ROAD, DUNBLANE, FK15 9ET","street1":"3E, STATION ROAD","street2":"","town":"DUNBLANE","county":"STIRLING","postcode":"FK15 9ET","country":"SCOTLAND"}';
-const workPostcode = 'EH45 9BU';
-const selectedWorkAddress =
-  '{"fullAddress":"UNIT 6, CHERRY COURT, CAVALRY PARK, PEEBLES, EH45 9BU","street1":"UNIT 6, CHERRY COURT, CAVALRY PARK","street2":"","town":"PEEBLES","county":"SCOTTISH BORDERS","postcode":"EH45 9BU","country":"SCOTLAND"}';
-
-const firstLineOfAddress = 'UNIT 6, CHERRY COURT, CAVALRY PARK';
+  '3, Skelton Avenue, Leeds, LS9 9HE';
+const firstLineOfAddress = '7, Valley Gardens?';
 Scenario(
   'Verify ET3 Notification Banner -For Acknowledgment of Claim',
   async ({
@@ -23,6 +21,7 @@ Scenario(
            et1CaseVettingPages,
            et1CaseServingPages,
            citizenHubPages,
+           et3NotificationPages,
          }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
@@ -36,7 +35,7 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
-    I.click('Sign out');
+    //I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
@@ -49,6 +48,8 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    await caseListPage.selectNextEvent('24: Object'); //ET3NotificationEvent
+    await et3NotificationPages.uploadET3acceptanceLetter('single document');
     I.click('Sign out');
      await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
@@ -57,5 +58,6 @@ Scenario(
     );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.verifyET3RespondentResponseonCUI();
   },
-).tag('@RET-BAT').retry(2);
+).tag('@RET-ET3').retry(2);

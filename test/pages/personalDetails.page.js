@@ -72,8 +72,8 @@ module.exports = {
   },
   enterTelephoneNumber() {
     //Enter telephone number
-    I.waitForVisible('#main-content', 5);
-    I.waitForText('What is your telephone number?', 30);
+    I.waitForVisible('#main-content', 10);
+    I.see('What is your telephone number?');
     I.fillField('#telephone-number', '07898787676');
     I.click('Save and continue');
   },
@@ -115,7 +115,7 @@ module.exports = {
   },
   confirmCompletedPersonalDetailsQuestions() {
     //confirm completed personal details question
-    I.waitForVisible('#main-content', 5);
+    I.waitForVisible('#main-content', 10);
     I.see('Have you completed this');
     I.see('section?');
     I.checkOption('#tasklist-check');

@@ -1,14 +1,23 @@
 const testConfig = require('../e2e/config');
+const {expect} = require('chai');
 const { I } = inject();
 
 module.exports = {
+  veiwResponseLink: '[href="/case-document/response-acknowledgement"]',
+  statusBeforeView: '.govuk-tag--red',
+  statusAfterView: '//strong[contains(.,"Viewed")]',
+  backButton: '.govuk-back-link',
+  linkToAttachedDocument: '[class="govuk-link"]',
+  linkToET3Response: '[href="/case-document/response-from-respondent"]',
+
   processCitizenHubLogin(test_case_username, test_case_password, submissionReference) {
     I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
-    I.waitForElement('#username', 10);
-    I.fillField('#username', test_case_username);
-    I.fillField('#password', test_case_password);
-    I.click('[type="submit"]');
-    I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
+    //I.waitForElement('#username', 10);
+    //I.fillField('#username', test_case_username);
+    //I.fillField('#password', test_case_password);
+    //I.click('[type="submit"]');
+    I.waitForElement('#main-content', 20);
+    //I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
   },
 
   verifyCitizenHubCaseOverviewPage(caseNumber) {
@@ -21,27 +30,23 @@ module.exports = {
   },
 
   clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference) {
+    I.refreshPage();
     I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
+    I.waitForElement('#main-content', 20);
   },
 
-  /* verifyFormType() {
-    I.click('//a[contains(.,"Contact the tribunal about my case")]');
-    I.see('Contact the tribunal about your case');
-    I.click('.govuk-accordion__show-all-text');
-    I.see('Give notice that I want to withdraw all or part of my claim');
-    I.see('I want to change my personal details');
-    I.see('Apply to postpone my hearing');
-    I.see('Apply to vary or revoke an order');
-    I.see('Apply to have a decision considered afresh');
-    I.see('Apply to amend my claim');
-    I.see('Order the respondent to do something');
-    I.see('Order a witness to attend to give evidence');
-    I.see('Tell the tribunal the respondent has not complied with an order');
-    I.see('Apply to restrict publicity');
-    I.see('Strike out all or part of the response');
-    I.see('Contact the tribunal about something else');
-    I.see('Submit documents for a hearing');
-    I.see('Call the Employment Tribunal customer contact centre');
- 
-  },*/
+  verifyET3RespondentResponseonCUI() {
+    I.waitForElement(this.veiwResponseLink, 10)
+    I.see(`The tribunal has acknowledged the respondent's response.`);
+    let flagStatusBeforeView = I.grabTextFrom(this.statusBeforeView);
+    expect(flagStatusBeforeView).to.eql('Not viewed yet');
+    I.click(this.veiwResponseLink);
+    I.waitForElement(this.linkToAttachedDocument, 20);
+    I.see('Acknowledgement of response');
+    I.click(this.backButton);
+    I.waitForElement(this.linkToET3Response, 20);
+    let flagStatusAfterView = I.grabTextFrom(this.statusAfterView);
+    expect(flagStatusAfterView).to.eql('Viewed');
+
+  }
 };

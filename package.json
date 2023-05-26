@@ -31,6 +31,7 @@
         "@wdio/sauce-service": "8.10.2",
         "@wdio/selenium-standalone-service": "8.10.2",
         "@wdio/types": "8.10.2",
+        "chai": "4.3.7",
         "codeceptjs-saucehelper": "1.4.0",
         "eslint": "8.40.0",
         "eslint-config-prettier": "8.8.0",

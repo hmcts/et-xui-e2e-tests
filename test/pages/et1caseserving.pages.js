@@ -30,7 +30,8 @@ module.exports = {
   processAcceptRejectCase(caseNumber) {
     I.waitForVisible("[type='submit']", 10);
     I.waitForText('Case Number: ' + caseNumber, 30);
-    I.forceClick("[type='submit']");
-    I.wait(5)
+    I.wait(5);
+    I.forceClick('[type="submit"]');
+    I.waitForElement('[class="alert-message"]', 15)
   },
 };

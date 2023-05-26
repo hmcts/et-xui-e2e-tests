@@ -1862,7 +1862,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chai@npm:^4.3.6":
+"chai@npm:4.3.7, chai@npm:^4.3.6":
   version: 4.3.7
   resolution: "chai@npm:4.3.7"
   dependencies:
@@ -3904,6 +3904,7 @@ __metadata:
     "@wdio/sauce-service": 8.10.2
     "@wdio/selenium-standalone-service": 8.10.2
     "@wdio/types": 8.10.2
+    chai: 4.3.7
     codeceptjs: 3.4.1
     codeceptjs-saucehelper: 1.4.0
     eslint: 8.40.0
