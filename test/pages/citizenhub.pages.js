@@ -1,5 +1,6 @@
+const { expect } = require('chai');
+
 const testConfig = require('../e2e/config');
-const {expect} = require('chai');
 const { I } = inject();
 
 module.exports = {
@@ -36,8 +37,8 @@ module.exports = {
   },
 
   verifyET3RespondentResponseonCUI() {
-    I.waitForElement(this.veiwResponseLink, 10)
-    I.see(`The tribunal has acknowledged the respondent's response.`);
+    I.waitForElement(this.veiwResponseLink, 10);
+    I.see("The tribunal has acknowledged the respondent's response.");
     let flagStatusBeforeView = I.grabTextFrom(this.statusBeforeView);
     expect(flagStatusBeforeView).to.eql('Not viewed yet');
     I.click(this.veiwResponseLink);
@@ -47,6 +48,5 @@ module.exports = {
     I.waitForElement(this.linkToET3Response, 20);
     let flagStatusAfterView = I.grabTextFrom(this.statusAfterView);
     expect(flagStatusAfterView).to.eql('Viewed');
-
-  }
+  },
 };

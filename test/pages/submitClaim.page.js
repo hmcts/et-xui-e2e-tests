@@ -22,9 +22,8 @@ module.exports = {
     I.see('Check your answers');
     I.waitForVisible('#main-form-submit', 10);
     I.scrollPageToBottom();
-    I.wait(2)
+    I.wait(2);
     I.forceClick('#main-form-submit');
-
   },
   async verifyClaimSubmitted() {
     I.waitForVisible('#main-content', 30);

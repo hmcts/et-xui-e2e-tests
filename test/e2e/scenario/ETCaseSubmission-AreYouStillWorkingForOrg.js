@@ -1,9 +1,8 @@
 const testConfig = require('../config.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
-const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE'
-const addressOption =
-  '3, Skelton Avenue, Leeds, LS9 9HE';
+const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
+const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
 Feature('End To End Tests For an ET Case Submitted in the sya Front end and processed in the Manage Case Application');
 Scenario(
@@ -58,7 +57,9 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BATIST').retry(2);
+)
+  .tag('@RET-BATIST')
+  .retry(2);
 
 Scenario(
   'Create a claim for working notice period for organisation, submit and process within manage cases',
@@ -81,9 +82,11 @@ Scenario(
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
-    await employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney(workPostcode,
+    await employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney(
+      workPostcode,
       selectedWorkAddress,
-      firstLineOfAddress);
+      firstLineOfAddress,
+    );
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
@@ -133,9 +136,11 @@ Scenario(
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
-    await employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(workPostcode,
+    await employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(
+      workPostcode,
       selectedWorkAddress,
-      firstLineOfAddress);
+      firstLineOfAddress,
+    );
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
@@ -162,4 +167,6 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-BAT').retry(2);
+)
+  .tag('@RET-BAT')
+  .retry(2);

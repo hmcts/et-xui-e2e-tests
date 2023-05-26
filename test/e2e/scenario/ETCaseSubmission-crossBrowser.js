@@ -1,9 +1,8 @@
 const testConfig = require('../config.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
-const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE'
-const addressOption =
-  '3, Skelton Avenue, Leeds, LS9 9HE';
+const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
+const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
 
 Feature('End To End Tests For an ET Case Submitted in the sya Front end and processed in the Manage Case Application');
@@ -30,7 +29,8 @@ Scenario(
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
       workPostcode,
       selectedWorkAddress,
-      firstLineOfAddress);
+      firstLineOfAddress,
+    );
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
@@ -46,7 +46,7 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    I.forceClick('Sign out');;
+    I.forceClick('Sign out');
     /*    await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
       testConfig.TestEnvETPassword,
@@ -57,4 +57,6 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-XB').retry(2);
+)
+  .tag('@RET-XB')
+  .retry(2);

@@ -2,27 +2,26 @@ Feature('End To End Tests For an ET3  Notification and Case Progression from Cit
 const testConfig = require('../config.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
-const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE'
-const addressOption =
-  '3, Skelton Avenue, Leeds, LS9 9HE';
+const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
+const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
 Scenario(
   'Verify ET3 Notification Banner -For Acknowledgment of Claim',
   async ({
-           I,
-           basePage,
-           loginPage,
-           taskListPage,
-           personalDetailsPage,
-           employmentAndRespondentDetailsPage,
-           claimDetailsPage,
-           submitClaimPage,
-           caseListPage,
-           et1CaseVettingPages,
-           et1CaseServingPages,
-           citizenHubPages,
-           et3NotificationPages,
-         }) => {
+    I,
+    basePage,
+    loginPage,
+    taskListPage,
+    personalDetailsPage,
+    employmentAndRespondentDetailsPage,
+    claimDetailsPage,
+    submitClaimPage,
+    caseListPage,
+    et1CaseVettingPages,
+    et1CaseServingPages,
+    citizenHubPages,
+    et3NotificationPages,
+  }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
@@ -51,7 +50,7 @@ Scenario(
     await caseListPage.selectNextEvent('24: Object'); //ET3NotificationEvent
     await et3NotificationPages.uploadET3acceptanceLetter('single document');
     I.click('Sign out');
-     await citizenHubPages.processCitizenHubLogin(
+    await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
       testConfig.TestEnvETPassword,
       submissionReference,
@@ -60,4 +59,6 @@ Scenario(
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.verifyET3RespondentResponseonCUI();
   },
-).tag('@RET-ET3').retry(2);
+)
+  .tag('@RET-ET3')
+  .retry(2);

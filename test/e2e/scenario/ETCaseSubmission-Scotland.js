@@ -2,7 +2,7 @@ const testConfig = require('../config.js');
 const postcode = 'FK15 9ET';
 const addressOption = '3E, Station Road, Dunblane, FK15 9ET';
 const workPostcode = 'EH45 9BU';
-const selectedWorkAddress ='Unit 6, Cherry Court, Calvary Park, Peebles, EH45 9BU';
+const selectedWorkAddress = 'Unit 6, Cherry Court, Calvary Park, Peebles, EH45 9BU';
 const firstLineOfAddress = 'UNIT 6, CHERRY COURT, CAVALRY PARK';
 
 Feature('End To End; Tests For Submit a Scottish Case');
