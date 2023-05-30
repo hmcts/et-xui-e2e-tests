@@ -1,9 +1,9 @@
 const testConfig = require('../config.js');
 const postcode = 'FK15 9ET';
-const addressOption = '3E, Station Road, Dunblane, FK15 9ET';
+const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
 const workPostcode = 'EH45 9BU';
-const selectedWorkAddress = 'Unit 6, Cherry Court, Calvary Park, Peebles, EH45 9BU';
-const firstLineOfAddress = 'UNIT 6, CHERRY COURT, CAVALRY PARK';
+const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
+const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
 Feature('End To End; Tests For Submit a Scottish Case');
 Scenario(
@@ -37,7 +37,7 @@ Scenario(
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('19: Object', submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....

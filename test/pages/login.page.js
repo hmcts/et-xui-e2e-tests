@@ -7,6 +7,6 @@ module.exports = {
     I.fillField('#password', test_case_password);
     I.wait(5);
     I.click('[type="submit"]');
-    //I.waitForVisible('.hmcts-header__navigation-link', 50);
+    //I.waitForElement('#main-content', 50);
   },
 };
