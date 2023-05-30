@@ -55,8 +55,8 @@ module.exports = {
     I.scrollPageToBottom();
     I.waitForVisible(this.submissionReferenceLocator, 10);
     I.click(this.submissionReferenceLocator);
-    console.log(submissionReference);
     I.fillField(this.submissionReferenceLocator, submissionReference);
+    I.wait(3);
     I.click(this.applyButton);
   },
 
