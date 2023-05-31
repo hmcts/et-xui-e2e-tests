@@ -41,7 +41,6 @@ module.exports = {
         case 'Eng/Wales - Singles':
           I.selectOption(this.caseTypeDropdown, '3: Object');
           break;
-        case 'Scotland':
         case 'Scotland - Singles':
           I.selectOption(this.caseTypeDropdown, '6: Object');
           break;
@@ -51,7 +50,7 @@ module.exports = {
     } catch (error) {
       console.error('invalid option', error.message);
     }
-    I.selectOption(this.caseTypeDropdown, option);
+    //I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
     I.waitForVisible(this.submissionReferenceLocator, 10);
     I.click(this.submissionReferenceLocator);
