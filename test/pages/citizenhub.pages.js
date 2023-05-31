@@ -16,6 +16,7 @@ module.exports = {
     I.waitForElement('#username', 10);
     I.fillField('#username', test_case_username);
     I.fillField('#password', test_case_password);
+    I.wait(2)
     I.click('[type="submit"]');
     I.waitForElement('#main-content', 20);
     I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
