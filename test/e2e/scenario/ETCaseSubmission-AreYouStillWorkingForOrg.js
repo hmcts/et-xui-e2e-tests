@@ -19,7 +19,7 @@ Scenario(
     caseListPage,
     et1CaseVettingPages,
     et1CaseServingPages,
-    // citizenHubPages,
+    citizenHubPages,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
