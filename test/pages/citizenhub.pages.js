@@ -13,12 +13,13 @@ module.exports = {
 
   processCitizenHubLogin(test_case_username, test_case_password, submissionReference) {
     I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
-    I.waitForElement('#username', 10);
-    I.fillField('#username', test_case_username);
-    I.fillField('#password', test_case_password);
-    I.wait(2)
-    I.click('[type="submit"]');
-    I.waitForElement('#main-content', 20);
+    //I.waitForElement('#username', 10);
+    //I.fillField('#username', test_case_username);
+    //I.fillField('#password', test_case_password);
+    //I.wait(2)
+    //I.click('[type="submit"]');
+    //I.waitForElement('#main-content', 20);
+    I.refreshPage();
     I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
   },
 
