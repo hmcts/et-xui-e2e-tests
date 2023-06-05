@@ -21,6 +21,7 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
     citizenHubPages,
+    caseOverviewPage,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
@@ -60,5 +61,9 @@ Scenario(
     await citizenHubPages.rule92Question('yes');
     await citizenHubPages.cyaPageVerification();
     // record a decision by JCM
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
+    await caseOverviewPage.recordAdecisionOnAcase(submissionReference,'1 - Withdraw all/part of claim','granted','case management order','legal officer','both')
   },
 ).tag('@RET-BAT');

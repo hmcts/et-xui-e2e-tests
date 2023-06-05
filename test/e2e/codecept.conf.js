@@ -30,6 +30,7 @@ exports.config = {
     taskListPage: '../pages/taskList.page.js',
     personalDetailsPage: '../pages/personalDetails.page.js',
     employmentAndRespondentDetailsPage: '../pages/employmentAndRespondentDetails.page.js',
+    caseOverviewPage: '../pages/caseoverview.pages.js',
     claimDetailsPage: '../pages/claimDetail.page.js',
     submitClaimPage: '../pages/submitClaim.page.js',
     caseListPage: '../pages/caselist.page.js',
