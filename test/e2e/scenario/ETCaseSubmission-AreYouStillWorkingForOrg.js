@@ -19,6 +19,7 @@ Scenario(
     caseListPage,
     et1CaseVettingPages,
     et1CaseServingPages,
+    respondentRepresentativePage,
     citizenHubPages,
   }) => {
     I.amOnPage('/');
@@ -45,6 +46,7 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    await respondentRepresentativePage.addRespondentRepresentative('registered')
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
@@ -53,6 +55,9 @@ Scenario(
     );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.regAccountContactTribunal('withdraw all or part of my claim');
+    await citizenHubPages.rule92Question('yes');
+    await citizenHubPages.cyaPageVerification();
   },
 )
   .tag('@RET-BAT')

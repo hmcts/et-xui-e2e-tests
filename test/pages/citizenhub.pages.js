@@ -10,6 +10,24 @@ module.exports = {
   backButton: '.govuk-back-link',
   linkToAttachedDocument: '[class="govuk-link"]',
   linkToET3Response: '[href="/case-document/response-from-respondent"]',
+  contactTribunalLinkRegistered: '[href="/contact-the-tribunal"]',
+  showAllApplicationType: '.govuk-accordion__show-all-text',
+  withdrawClaimLink: '[href="/contact-the-tribunal/withdraw"]',
+  applicationTextField: '#Contact-Application-Text',
+  changePersonalDetail: '[href="/contact-the-tribunal/change-details"]',
+  postponeMyHearing: '[href="/contact-the-tribunal/postpone"]',
+  revokeAnOrder: '[href="/contact-the-tribunal/vary"]',
+  reconsiderDecision: '[href="/contact-the-tribunal/reconsider-decision"]',
+  amendClaim: '[href="/contact-the-tribunal/amend"]',
+  orderRespondent: '[href="/contact-the-tribunal/respondent"]',
+  orderWitness: '[href="/contact-the-tribunal/witness"]',
+  respondentNotComplied: '[href="/contact-the-tribunal/non-compliance"]',
+  restrictPublicity: '[href="/contact-the-tribunal/publicity"]',
+  strikeOutResponse: '[href="/contact-the-tribunal/strike"]',
+  reconsiderJudgment: '[href="/contact-the-tribunal/reconsider-judgement"]',
+  somethingElse: '[href="/contact-the-tribunal/other"]',
+  submitApplicationButton: '#main-form-submit',
+  returntoCUIcaseOverviewButton: '//a[contains(.,"Close and return to case overview")]',
 
   processCitizenHubLogin(test_case_username, test_case_password, submissionReference) {
     I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
@@ -51,4 +69,119 @@ module.exports = {
     let flagStatusAfterView = I.grabTextFrom(this.statusAfterView);
     expect(flagStatusAfterView).to.eql('Viewed');
   },
+  regAccountContactTribunal(applicationType) {
+    I.waitForElement(this.contactTribunalLinkRegistered, 20);
+    I.click(this.contactTribunalLinkRegistered);
+    I.waitForElement('#main-content', 20);
+    I.see('Contact the tribunal about your case');
+    I.see('Call the Employment Tribunal customer contact centre');
+    I.click(this.showAllApplicationType);
+    try {
+      switch (applicationType) {
+        case 'withdraw all or part of my claim':
+          I.waitForElement('#contact-options-content-1', 5);
+          I.click(this.withdrawClaimLink);
+          I.waitForElement('#main-content', 20);
+          I.see('I want to withdraw all or part of my claim');
+          break;
+        case 'change personal details':
+          I.waitForElement('#contact-options-content-2', 5);
+          I.click(this.changePersonalDetail);
+          I.waitForElement('#main-content', 20);
+          I.see('I want to change my personal details');
+          break;
+        case 'postpone hearing':
+          I.waitForElement('#contact-options-content-3', 5);
+          I.click(this.postponeMyHearing);
+          I.waitForElement('#main-content', 20);
+          I.see('Apply to postpone my hearing');
+          break;
+        case 'revoke an order':
+          I.waitForElement('#contact-options-content-4', 5);
+          I.click(this.revokeAnOrder);
+          I.waitForElement('#main-content', 20);
+          I.see('Apply to vary or revoke an order');
+          break;
+        case 'decision consider afresh':
+          I.waitForElement('#contact-options-content-5', 5);
+          I.click(this.reconsiderDecision);
+          I.waitForElement('#main-content', 20);
+          I.see('Apply to have a decision considered afresh');
+          break;
+        case 'amend my claim':
+          I.waitForElement('#contact-options-content-6', 5);
+          I.click(this.amendClaim);
+          I.waitForElement('#main-content', 20);
+          I.see('Apply to amend my claim');
+          break;
+        case 'order respondent':
+          I.waitForElement('#contact-options-content-7', 5);
+          I.click(this.orderRespondent);
+          I.waitForElement('#main-content', 20);
+          I.see('Order the respondent to do something');
+          break;
+        case 'order witness':
+          I.waitForElement('#contact-options-content-8', 5);
+          I.click(this.orderWitness);
+          I.waitForElement('#main-content', 20);
+          I.see('Order a witness to attend to give evidence');
+          break;
+        case 'respondent has not complied':
+          I.waitForElement('#contact-options-content-9', 5);
+          I.click(this.respondentNotComplied);
+          I.waitForElement('#main-content', 20);
+          I.see('Tell the tribunal the respondent has not complied with an order');
+          break;
+        case 'restrict publicity':
+          I.waitForElement('#contact-options-content-10', 5);
+          I.click(this.restrictPublicity);
+          I.waitForElement('#main-content', 20);
+          I.see('Apply to restrict publicity');
+          break;
+        case 'strike out response':
+          I.waitForElement('#contact-options-content-11', 5);
+          I.click(this.strikeOutResponse);
+          I.waitForElement('#main-content', 20);
+          I.see('Strike out all or part of the response');
+          break;
+        case 'reconsider judgment':
+          I.waitForElement('#contact-options-content-12', 5);
+          I.click(this.reconsiderJudgment);
+          I.waitForElement('#main-content', 20);
+          I.see('Apply for a judgment to be reconsidered');
+          break;
+        case 'contact tribunal about something else':
+          I.waitForElement('#contact-options-content-13', 5);
+          I.click(this.somethingElse);
+          I.waitForElement('#main-content', 20);
+          I.see('Contact the tribunal');
+          break;
+        default:
+          throw new Error('... invalid option, check you options');
+      }
+    }catch (e) {
+      console.error('invalid option', e.message);
+
+    }
+    I.scrollPageToBottom();
+    I.fillField(this.applicationTextField,'blah blah');
+    I.click('Continue');
+  },
+  rule92Question(option) {
+    I.checkOption('#copyToOtherPartyYesOrNo', option);
+    I.click('Continue');
+    I.waitForElement('#main-content', 20);
+  },
+  cyaPageVerification() {
+    I.see('Application type');
+    I.see('What do you want to tell or ask the tribunal?');
+    I.see('Supporting material');
+    I.see('Do you want to copy this correspondence to the other party to satisfy the Rules of Procedure?');
+    I.click(this.submitApplicationButton);
+    I.waitForElement('#main-content', 20);
+    I.see('You have sent your application to the tribunal');
+    I.click(this.returntoCUIcaseOverviewButton);
+    I.waitForElement('#main-content', 20);
+    I.see('Case overview');
+  }
 };

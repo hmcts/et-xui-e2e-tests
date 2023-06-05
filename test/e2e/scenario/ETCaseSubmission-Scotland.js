@@ -38,16 +38,17 @@ Scenario(
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
-    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    console.log('The value of the Case Number ' + caseNumber);
-    //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
+    console.log('The value of the Case Number ' + submissionReference);
+   //vet the case
     await caseListPage.verifyCaseDetailsPage();
     await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
-    //await caseListPage.verifyCaseDetailsPage(true);
+    //accept the case
     await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    I.forceClick('Sign out');
+    // add org to case to enable cui applications
+    await respondentRepresentativePage.addRespondentRepresentative('registered')
+    I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
       testConfig.TestEnvETPassword,
@@ -55,6 +56,9 @@ Scenario(
     );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    //await citizenHubPages.VerifyFormType();
+    await citizenHubPages.regAccountContactTribunal('withdraw all or part of my claim');
+    await citizenHubPages.rule92Question('yes');
+    await citizenHubPages.cyaPageVerification();
+    // record a decision by JCM
   },
 ).tag('@RET-BAT');

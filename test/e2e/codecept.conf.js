@@ -38,6 +38,7 @@ exports.config = {
     citizenHubPages: '../pages/citizenhub.pages.js',
     judgementCollectionPage: '../pages/judgementCollection.page.js',
     et3NotificationPages: '../pages/et3Notification.pages.js',
+    respondentRepresentativePage: '../pages/respondentRepresentative.page.js'
   },
   bootstrap: null,
   mocha: {
