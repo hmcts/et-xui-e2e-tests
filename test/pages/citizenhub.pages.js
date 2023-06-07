@@ -1,10 +1,9 @@
-const { expect } = require('chai');
-
 const testConfig = require('../e2e/config');
 const { I } = inject();
 
 module.exports = {
   veiwResponseLink: '[href="/case-document/response-acknowledgement"]',
+  et3ResponseLink: '[href="/case-document/response-from-respondent"]',
   statusBeforeView: '.govuk-tag--red',
   statusAfterView: '//strong[contains(.,"Viewed")]',
   backButton: '.govuk-back-link',
@@ -34,14 +33,6 @@ module.exports = {
 
   processCitizenHubLogin(test_case_username, test_case_password, submissionReference) {
     I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
-    //I.waitForElement('#username', 10);
-    //I.fillField('#username', test_case_username);
-    //I.fillField('#password', test_case_password);
-    //I.wait(2)
-    //I.click('[type="submit"]');
-    //I.waitForElement('#main-content', 20);
-    I.refreshPage();
-    I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
   },
 
   verifyCitizenHubCaseOverviewPage(caseNumber) {
@@ -62,15 +53,15 @@ module.exports = {
   verifyET3RespondentResponseonCUI() {
     I.waitForElement(this.veiwResponseLink, 10);
     I.see("The tribunal has acknowledged the respondent's response.");
-    let flagStatusBeforeView = I.grabTextFrom(this.statusBeforeView);
-    expect(flagStatusBeforeView).to.eql('Not viewed yet');
+    I.scrollTo(this.et3ResponseLink)
+    I.wait(2)
+    I.see('Not viewed yet',{css:this.statusBeforeView})
     I.click(this.veiwResponseLink);
     I.waitForElement(this.linkToAttachedDocument, 20);
     I.see('Acknowledgement of response');
     I.click(this.backButton);
     I.waitForElement(this.linkToET3Response, 20);
-    let flagStatusAfterView = I.grabTextFrom(this.statusAfterView);
-    expect(flagStatusAfterView).to.eql('Viewed');
+    I.see('Viewed',{css:this.statusAfterView})
   },
   regAccountContactTribunal(applicationType) {
     I.waitForElement(this.contactTribunalLinkRegistered, 20);

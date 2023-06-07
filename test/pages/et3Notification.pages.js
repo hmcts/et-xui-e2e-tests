@@ -17,6 +17,7 @@ module.exports = {
   uploadFile2: '#et3NotificationDocCollection_1_uploadedDocument',
   shortDescription2: '#et3NotificationDocCollection_1_shortDescription',
   removeButtonOne: '[aria-label="Remove Upload document PDF"]',
+  confirmationHeader: '#confirmation-header',
 
   uploadET3acceptanceLetter(option) {
     I.waitForElement(this.addNewButton, 30);
@@ -65,9 +66,8 @@ module.exports = {
     I.see('ET3 notification');
     I.see('Email Acas');
     I.click('Continue');
-    I.waitForElement('[class="govuk-heading-l"]', 10);
-    I.click('[type="submit"]');
-    I.waitForElement('#confirmation-header', 10);
+    I.waitForElement(this.confirmationHeader, 10);
     I.see('Documents submitted');
+    I.click('.button');
   },
 };

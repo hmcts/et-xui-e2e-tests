@@ -40,14 +40,12 @@ Scenario(
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
-    //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
     await caseListPage.verifyCaseDetailsPage();
     await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
-    //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    await caseListPage.selectNextEvent('24: Object'); //ET3NotificationEvent
+    await caseListPage.selectNextEvent('9: Object'); //ET3NotificationEvent
     await et3NotificationPages.uploadET3acceptanceLetter('single document');
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
@@ -60,4 +58,4 @@ Scenario(
     await citizenHubPages.verifyET3RespondentResponseonCUI();
   },
 )
-  .tag('@RET-BAT');
+  .tag('@RET-BAT1');
