@@ -3,7 +3,7 @@ const { I } = inject();
 module.exports = {
   async submitClaim() {
     this.clickCheckYourAnswersLink();
-    this.noPcqQuestions();
+    //this.noPcqQuestions();
     this.clickSubmitOnCheckYourAnswers();
     return this.verifyClaimSubmitted();
   },

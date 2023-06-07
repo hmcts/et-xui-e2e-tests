@@ -7,7 +7,7 @@ const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
 Feature('End To End; Tests For Submit a Scottish Case');
 Scenario(
-  'Submit a case from Scotland - Still working for organisation',
+  'Submit a case from Scotland - Progress the case after acceptance -record a decision as ECM',
   async ({
     I,
     basePage,
@@ -22,6 +22,8 @@ Scenario(
     et1CaseServingPages,
     citizenHubPages,
     caseOverviewPage,
+    respondentRepresentativePage,
+
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
@@ -35,19 +37,21 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     const submissionReference = await submitClaimPage.submitClaim();
-    I.click('Sign out');
+    //I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     console.log('The value of the Case Number ' + submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
    //vet the case
     await caseListPage.verifyCaseDetailsPage();
-    await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
+    await caseListPage.selectNextEvent('2: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //accept the case
-    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
+    await caseListPage.selectNextEvent('3: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     // add org to case to enable cui applications
+    await caseListPage.selectNextEvent('8: Object'); //Case acceptance or rejection Event
     await respondentRepresentativePage.addRespondentRepresentative('registered')
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
@@ -64,6 +68,7 @@ Scenario(
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
+    await caseListPage.processCaseFromCaseList(submissionReference);
     await caseOverviewPage.recordAdecisionOnAcase(submissionReference,'1 - Withdraw all/part of claim','granted','case management order','legal officer','both')
   },
-).tag('@RET-BAT');
+).tag('@RET-BAT') .retry(1);

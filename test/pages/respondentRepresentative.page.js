@@ -15,7 +15,7 @@ module.exports = {
   addRespondentRepresentative(regOption) {
     I.waitForElement(this.nonRegisteredLegalOrg,20);
     I.see('Respondent Representative');
-    I.selectOption(this.selectRespondent,'add_respondent name otherwise test fail'); // add respondent name from case creation
+    I.selectOption(this.selectRespondent,'Henry Marsh'); // add respondent name from case creation
     I.fillField(this.respondentRepresentativeName, 'Henry Marsh');
     I.fillField(this.respondentRepresentativePhoneNumber, '01234657895');
     I.fillField(this.respondentRepresentativeEmailAddress, 'et.tester@hmcts.net');
@@ -27,7 +27,7 @@ module.exports = {
           I.waitForElement(this.searchForRegisteredOrg,10);
           I.fillField(this.searchForRegisteredOrg,'ET Organisation');
           I.click(this.selectOrgFromSearchResult);
-          I.click('Continue')
+          //I.click('Continue')
           I.waitForElement('[type="submit"]',10);
           I.click('[type="submit"]');
           I.waitForVisible('.alert-message',10);

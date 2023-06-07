@@ -26,6 +26,9 @@ module.exports = {
   strikeOutResponse: '[href="/contact-the-tribunal/strike"]',
   reconsiderJudgment: '[href="/contact-the-tribunal/reconsider-judgement"]',
   somethingElse: '[href="/contact-the-tribunal/other"]',
+  yesOptionOnRule92: '#copyToOtherPartyYesOrNo',
+  noOptionOnRule92: '#copyToOtherPartyYesOrNo-2',
+  addInfoToNoOption: '#copyToOtherPartyText',
   submitApplicationButton: '#main-form-submit',
   returntoCUIcaseOverviewButton: '//a[contains(.,"Close and return to case overview")]',
 
@@ -168,7 +171,17 @@ module.exports = {
     I.click('Continue');
   },
   rule92Question(option) {
-    I.checkOption('#copyToOtherPartyYesOrNo', option);
+    switch (option) {
+      case 'yes':
+        I.checkOption(this.yesOptionOnRule92);
+        break;
+      case 'no':
+        I.checkOption(this.noOptionOnRule92);
+        I.fillField(this.addInfoToNoOption,'dont want other party to see this');
+        break;
+      default:
+        throw new Error( '... you can only select a yes or no option on rule 92 page');
+    }
     I.click('Continue');
     I.waitForElement('#main-content', 20);
   },

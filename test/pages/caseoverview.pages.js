@@ -1,7 +1,7 @@
 const { I } = inject();
 
 module.exports = {
-  applicationTab: '#mat-tab-label-0-7',
+  applicationTab: '#mat-tab-label-0-9',
   applicationDropdown: '#tseAdminSelectApplication',
   decisionForm: '#caseEditForm',
   notificationTitleDecisionPage: '#tseAdminEnterNotificationTitle',
@@ -10,19 +10,21 @@ module.exports = {
   decisionRefused: '#tseAdminDecision-Refused',
   otherDecision: '#tseAdminDecision-Other',
   judgementDecisionType: 'tseAdminTypeOfDecision-Judgment',
-  caseManagementDecisionType: '#tseAdminTypeOfDecision-Case management order',
+  caseManagementDecisionType: '[id="tseAdminTypeOfDecision-Case management order"]',
   additionalDecisionInformation: '#tseAdminAdditionalInformation',
-  madeByLegalOfficer: '#tseAdminDecisionMadeBy-Legal officer',
+  madeByLegalOfficer: '[id="tseAdminDecisionMadeBy-Legal officer"]',
+  isResponseRequired_No: '#tseAdminIsResponseRequired-No',
   madeByAJudge: '#tseAdminDecisionMadeBy-Judge',
-  bothParties: '#tseAdminSelectPartyNotify-Both parties',
-  claimantOnly: '#tseAdminSelectPartyNotify-Claimant only',
-  respondentOnly: '#tseAdminSelectPartyNotify-Respondent only',
+  bothParties: '[id="tseAdminSelectPartyNotify-Both parties"]',
+  claimantOnly: '[id="tseAdminSelectPartyNotify-Claimant only"]',
+  respondentOnly: '[id="tseAdminSelectPartyNotify-Respondent only"]',
   fullNameDecisionMaker: '#tseAdminDecisionMadeByFullName',
   confirmSubmission: '#confirmation-body',
   returnToCaseOverview: '//button[@class="button"]',
 
   recordAdecisionOnAcase (submissionReference, appOption, decision, decisionType, decisionMaker, respondingParties) {
      let recordDecisionLink = `/cases/case-details/${submissionReference}/trigger/tseAdmin/tseAdmin1`;
+     I.click(this.applicationTab);
      I.click(`[href="${recordDecisionLink}"]`);
      I.selectOption(this.applicationDropdown, appOption);
      I.click('Continue');
@@ -49,7 +51,10 @@ module.exports = {
         I.checkOption(this.judgementDecisionType);
         break;
       case 'case management order':
+        I.wait(2);
+        I.scrollPageToBottom();
         I.checkOption(this.caseManagementDecisionType);
+        I.checkOption(this.isResponseRequired_No);
         break;
       default:
         throw new Error('... decision type is invalid');

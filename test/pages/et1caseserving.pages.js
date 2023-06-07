@@ -23,7 +23,6 @@ module.exports = {
     I.fillField(this.locators.date_accepted_day, '27');
     I.fillField(this.locators.date_accepted_month, '06');
     I.fillField(this.locators.date_accepted_year, '2023');
-    I.click('Continue');
   },
 
   processAcceptRejectCase(caseNumber) {
