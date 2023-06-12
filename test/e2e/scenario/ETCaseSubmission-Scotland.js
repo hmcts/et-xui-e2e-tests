@@ -45,13 +45,13 @@ Scenario(
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
    //vet the case
     await caseListPage.verifyCaseDetailsPage();
-    await caseListPage.selectNextEvent('2: Object'); //Firing the ET1 Event.
+    await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //accept the case
-    await caseListPage.selectNextEvent('3: Object'); //Case acceptance or rejection Event
+    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     // add org to case to enable cui applications
-    await caseListPage.selectNextEvent('8: Object'); //Case acceptance or rejection Event
+    await caseListPage.selectNextEvent('6: Object'); //Case acceptance or rejection Event
     await respondentRepresentativePage.addRespondentRepresentative('registered')
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
@@ -69,6 +69,6 @@ Scenario(
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseOverviewPage.recordAdecisionOnAcase(submissionReference,'1 - Withdraw all/part of claim','granted','case management order','legal officer','both')
+    await caseOverviewPage.recordAdecisionOnAcase(submissionReference,'1 - Withdraw all/part of claim','granted','cmo-responding','legal officer','both')
   },
-).tag('@RET-BAT') .retry(1);
+).tag('@RET-TEST').retry(1);

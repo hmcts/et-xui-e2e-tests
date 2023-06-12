@@ -1,4 +1,5 @@
 Feature('End To End Tests For an ET3  Notification and Case Progression from Citizen Hub');
+const applicationsTabsPages = require('../../pages/applicationsTabs.pages.js');
 const testConfig = require('../config.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
@@ -6,7 +7,7 @@ const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
 const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
 Scenario(
-  'Verify ET3 Notification Banner -For Acknowledgment of Claim',
+  'Verify Send Notification Event by Caseworker - Verify by Claimant',
   async ({
     I,
     basePage,
@@ -20,9 +21,10 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
     citizenHubPages,
-    et3NotificationPages,
+    applicationsTabsPages,
+    sendNotificationPages,
   }) => {
-    I.amOnPage('/');
+    I.amOnPage('/', 20);
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
@@ -38,15 +40,19 @@ Scenario(
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+    //let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
+    console.log('The value of the Case Number ' + submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    console.log('The value of the Case Number ' + caseNumber);
+    //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
     await caseListPage.verifyCaseDetailsPage();
-    await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
+    await caseListPage.selectNextEvent('3: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
-    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
+    //await caseListPage.verifyCaseDetailsPage(true);
+    await caseListPage.selectNextEvent('4: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    await caseListPage.selectNextEvent('9: Object'); //ET3NotificationEvent
-    await et3NotificationPages.uploadET3acceptanceLetter('single document');
+    await applicationsTabsPages.selectNotificationLink();
+    await sendNotificationPages.sendNotificationLink('cmo', 'yes', 'Both parties', 'legal officer', 'both');
+
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
@@ -55,7 +61,8 @@ Scenario(
     );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPages.verifyET3RespondentResponseonCUI();
-  },
+    await citizenHubPages.verifySendNotification();
+  }
 )
-  .tag('@RET-TEST').retry(1);
+  .tag('@RET-BATE')
+  .retry(2);

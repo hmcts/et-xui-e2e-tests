@@ -1,0 +1,74 @@
+const { I } = inject();
+//do it for wait for element, clicks, fill fields, select options
+module.exports = {
+   ElementManageOrg : '.hmcts-header__link',
+   ClickAssignedCases: '//a[.="Assigned cases"]',
+   ClickUnassignedCases: '//a[.="Unassigned cases"]',
+   ClickShowCasesFilter: '.govuk-button--secondary',
+   ClickShowUnassignedCasesFilter: '.govuk-button',
+   AllAssigneesRadio: '[for="caa-filter-all-assignees"]',
+   ApplyFilterButton: '.govuk-button[_ngcontent-phi-c311]',
+   AssignedCasesElement: '.govuk-heading-xl',
+   AssigneeNameSearchBox: '#assignee-person',
+   AssigneeNameRadio: '[for="caa-filter-assignee-name"]',
+   CaseReferenceSearchBox: '#case-reference-number',
+
+
+   allAssignedCases () {
+    I.waitForElement(this.ElementManageOrg, 20);
+    I.see('Organisation');
+    I.see('Users');
+    I.see('Unassigned Cases');
+    I.see('Assigned Cases')
+    I.click(this.ClickAssignedCases);
+    I.see('Assigned Cases');
+    I.click(this.ClickShowCasesFilter);
+    I.see('Filter assigned cases');
+    I.see('All assignees');
+    I.click(this.AllAssigneesRadio);
+    I.click(this.ApplyFilterButton); 
+    //after assigning case, unassing it
+   },
+
+   filterByAssigneeName () {
+    I.waitForElement(this.AssignedCasesElement, 20);
+    I.see('Assignee name');
+    I.click(this.AssigneeNameRadio);
+    I.see('Type the name and select an available match option');
+    I.click(this.AssigneeNameSearchBox);
+    I.fillField
+    I.click(this.ApplyFilterButton);
+   },
+
+   filterByReferenceNumber () {
+    I.waitForElement(this.AssignedCasesElement, 20);
+    I.see('Case reference number');
+    I.see('Enter the 16-digit case reference number');
+    I.click(this.CaseReferenceSearchBox);
+    I.fillField
+    I.click(this.ApplyFilterButton);
+   },
+
+   unassignedCases () {
+    I.waitForElement(this.ElementManageOrg, 20);
+    I.click(this.ClickUnassignedCases)
+    I.see('Unassigned Cases');
+    I.see('Show unassigned cases filter');
+    I.click(this.ClickShowUnassignedCasesFilter);
+    I.see('Search for an unassigned case');
+    I.click('#case-reference-number');
+    I.fillField
+    I.click(this.ApplyFilterButton);
+   },
+
+   assignCaseToSolicitor () {
+    this.allAssignedCases
+    this.filterByAssigneeName
+    this.filterByReferenceNumber
+   },
+
+   unassignCaseFromSolicitor () {
+    this.unassignedCases
+   }
+
+}
