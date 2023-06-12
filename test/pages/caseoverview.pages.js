@@ -50,7 +50,13 @@ module.exports = {
       case 'judgment':
         I.checkOption(this.judgementDecisionType);
         break;
-      case 'case management order':
+      case 'cmo-responding':
+        I.wait(2);
+        I.scrollPageToBottom();
+        I.checkOption(this.caseManagementDecisionType);
+        I.checkOption(this.isResponseRequired_No);
+        break;
+      case 'cmo-no-response':
         I.wait(2);
         I.scrollPageToBottom();
         I.checkOption(this.caseManagementDecisionType);

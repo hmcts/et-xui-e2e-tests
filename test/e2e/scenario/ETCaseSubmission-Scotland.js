@@ -69,6 +69,6 @@ Scenario(
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseOverviewPage.recordAdecisionOnAcase(submissionReference,'1 - Withdraw all/part of claim','granted','case management order','legal officer','both')
+    await caseOverviewPage.recordAdecisionOnAcase(submissionReference,'1 - Withdraw all/part of claim','granted','cmo-responding','legal officer','both')
   },
-).tag('@RET-BATE') .retry(1);
+).tag('@RET-TEST').retry(1);
