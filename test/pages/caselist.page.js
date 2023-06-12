@@ -18,6 +18,8 @@ module.exports = {
   resetButton: '[aria-label="Reset filter"]',
   nextEventDropdown: '#next-step',
   submitEventButton: '[type="submit"]',
+  tab: '[role="tab"] div:contains("Applications")',
+
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -66,6 +68,8 @@ module.exports = {
     let text = `/cases/case-details/${submissionReference}`;
     let caseNumber = I.grabTextFrom(`[href="${text}"]`);
     console.log('case number is' + caseNumber);
+    I.waitForVisible(`[href="${text}"]`, 30);
+    I.wait(5);
     I.click(`[href="${text}"]`);
     return caseNumber;
   },
@@ -76,6 +80,18 @@ module.exports = {
     I.wait(5);
     I.forceClick(this.submitEventButton);
   },
+
+  selectTab(title){
+  I.wait(5);
+  I.waitForClickable(`//div[@role='tab']/div[contains(text(), '${title}')]`, 30);
+  I.forceClick(`//div[@role='tab']/div[contains(text(), '${title}')]`);
+  },
+
+ navigateToMakeAnApplication(submissionReference) {
+  let makeAnApplicationLink = `/cases/case-details/${submissionReference}/trigger/respondentTSE/respondentTSE1`;
+  I.wait(5);
+     I.click(`[href="${makeAnApplicationLink}"]`);
+ },
 
   verifyCaseDetailsPage(et1VettingFlag = false) {
     I.waitForText('Case Details', 30);

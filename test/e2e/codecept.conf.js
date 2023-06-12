@@ -37,6 +37,7 @@ exports.config = {
     et1CaseServingPages: '../pages/et1caseserving.pages.js',
     citizenHubPages: '../pages/citizenhub.pages.js',
     judgementCollectionPage: '../pages/judgementCollection.page.js',
+    makeanApplicationPage: '../pages/application.page.js',
   },
   bootstrap: null,
   mocha: {
