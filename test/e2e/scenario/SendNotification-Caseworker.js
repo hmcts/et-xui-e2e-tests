@@ -64,5 +64,5 @@ Scenario(
     await citizenHubPages.verifySendNotification();
   }
 )
-  .tag('@RET-BATE')
+  .tag('@RET-TEST')
   .retry(2);
