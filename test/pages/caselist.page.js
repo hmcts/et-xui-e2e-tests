@@ -39,25 +39,23 @@ module.exports = {
     try {
       switch (option) {
         case 'Eng/Wales - Singles':
-          I.selectOption(this.caseTypeDropdown, '5: Object');
+          I.selectOption(this.caseTypeDropdown, '0: Object');
           break;
-        case 'Scotland':
         case 'Scotland - Singles':
-          I.selectOption( this.caseTypeDropdown, '2: Object');
+          I.selectOption(this.caseTypeDropdown, '3: Object');
           break;
         default:
           throw new Error('... check you options or add new option');
-
       }
-    }catch (error) {
-     console.error('invalid option', error.message);
+    } catch (error) {
+      console.error('invalid option', error.message);
     }
-    I.selectOption(this.caseTypeDropdown, option);
+    //I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
-    I.waitForVisible(this.submissionReferenceLocator,10)
+    I.waitForVisible(this.submissionReferenceLocator, 10);
     I.click(this.submissionReferenceLocator);
-    console.log(submissionReference);
     I.fillField(this.submissionReferenceLocator, submissionReference);
+    I.wait(3);
     I.click(this.applyButton);
   },
 
