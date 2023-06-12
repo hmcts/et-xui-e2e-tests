@@ -26,6 +26,7 @@ module.exports = {
     I.see('Describe what happened to you');
     I.fillField('#claim-summary-text', 'Discrimination, Dismissal and Pay Cut.');
     I.click('Save and continue');
+    I.wait(5);
   },
   tellUsWhatYouWant() {
     I.see('What do you want if your claim is successful? (optional)');
