@@ -30,6 +30,16 @@ module.exports = {
   addInfoToNoOption: '#copyToOtherPartyText',
   submitApplicationButton: '#main-form-submit',
   returntoCUIcaseOverviewButton: '//a[contains(.,"Close and return to case overview")]',
+  notificationFlagBefore: '.govuk-tag--red',
+  notificationLink: '[href="/tribunal-orders-and-requests"]',
+  sendNotifButton: 'td:nth-of-type(2) > .govuk-link',
+  respondButton: '.govuk-template__body .govuk-grid-row .govuk-button',
+  tribunalResponseField: '#response-text',
+  noSupportingMaterialOption: '[for="supporting-material-yes-no-2"]',
+  responseSubmitButton: '#main-form-submit',
+  yesRule92Button: '[for="copyToOtherPartyYesOrNo-2"]',
+  returnOverviewButton: '.govuk-template__body > .govuk-width-container > .govuk-button-group > .govuk-button',
+  notificationFlagAfter: '.app-task-list > li:nth-of-type(5) .govuk-tag',
 
   processCitizenHubLogin(test_case_username, test_case_password, submissionReference) {
     I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
@@ -187,5 +197,32 @@ module.exports = {
     I.click(this.returntoCUIcaseOverviewButton);
     I.waitForElement('#main-content', 20);
     I.see('Case overview');
-  }
+  },
+
+  verifySendNotification() {
+    //I.waitForElement(this.veiwResponseLink, 10);
+    I.see('The tribunal has sent you a notification: Send Notification Title');
+    I.scrollTo(this.notificationLink);
+    I.wait(2);
+    I.see('Not started yet',{css:this.notificationFlagBefore});
+    I.click(this.notificationLink);
+    I.see('All orders and requests');
+    I.click(this.sendNotifButton);
+    I.see('Send Notification Title');
+    I.click(this.respondButton);
+    I.see('Your response');
+    I.see("What's your response to the tribunal?");
+    I.fillField(this.tribunalResponseField, 'Testing');
+    I.click(this.noSupportingMaterialOption);
+    I.click(this.responseSubmitButton);
+    I.see('Copy this correspondence to the other party');
+    I.click(this.yesOptionOnRule92);
+    I.click(this.responseSubmitButton);
+    I.see('Check your answers');
+    I.click(this.responseSubmitButton);
+    I.see('You have sent your response to the tribunal');
+    I.click(this.returnOverviewButton);
+    I.scrollTo(this.notificationLink);
+    I.see('Submitted',{css:this.notificationFlagAfter});
+  },
 };

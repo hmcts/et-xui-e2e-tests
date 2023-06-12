@@ -60,7 +60,7 @@ module.exports = {
   },
 
   processCaseFromCaseList(submissionReference) {
-    I.waitForText('Your cases', 30);
+    I.waitForElement('#search-result-heading__text', 30);
     let text = `/cases/case-details/${submissionReference}`;
     let caseNumber = I.grabTextFrom(`[href="${text}"]`);
     console.log('case number is' + caseNumber);
@@ -76,7 +76,7 @@ module.exports = {
   },
 
   verifyCaseDetailsPage(et1VettingFlag = false) {
-    I.waitForText('Case Details', 30);
+    I.waitForElement('[tabindex="0"]', 30);
     I.see('Claimant');
     I.see('Respondent');
     I.see('Jurisdictions');

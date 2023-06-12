@@ -1,4 +1,5 @@
 const { setCommonPlugins } = require('@codeceptjs/configure');
+//const manageorgPage = require('../pages/manageorg/index.js.js.js');
 
 const testConfig = require('./config.js');
 
@@ -39,7 +40,8 @@ exports.config = {
     citizenHubPages: '../pages/citizenhub.pages.js',
     judgementCollectionPage: '../pages/judgementCollection.page.js',
     et3NotificationPages: '../pages/et3Notification.pages.js',
-    respondentRepresentativePage: '../pages/respondentRepresentative.page.js'
+    applicationsTabsPages: '../pages/applicationsTabs.pages.js',
+    sendNotificationPages: '../pages/sendNotification.pages.js',
   },
   bootstrap: null,
   mocha: {
