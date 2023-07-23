@@ -7,7 +7,7 @@ const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
 Feature('End To End; Tests For Submit a Scottish Case');
 Scenario(
-  'Submit a case from Scotland - Progress the case after acceptance -record a decision as ECM',
+  'Submit a case from Scotland - Case Progressing Claimant Submit application -record a decision as ECM',
   async ({
     I,
     basePage,
@@ -22,7 +22,7 @@ Scenario(
     et1CaseServingPages,
     citizenHubPages,
     caseOverviewPage,
-    respondentRepresentativePage,
+    //respondentRepresentativePage,
 
   }) => {
     I.amOnPage('/');
@@ -52,7 +52,7 @@ Scenario(
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     // add org to case to enable cui applications
     await caseListPage.selectNextEvent('6: Object'); //Case acceptance or rejection Event
-    await respondentRepresentativePage.addRespondentRepresentative('registered')
+   // await respondentRepresentativePage.addRespondentRepresentative('registered')
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
@@ -71,4 +71,4 @@ Scenario(
     await caseListPage.processCaseFromCaseList(submissionReference);
     await caseOverviewPage.recordAdecisionOnAcase(submissionReference,'1 - Withdraw all/part of claim','granted','cmo-responding','legal officer','both')
   },
-).tag('@RET-TEST').retry(1);
+).tag('@RET-BATEST').retry(1);

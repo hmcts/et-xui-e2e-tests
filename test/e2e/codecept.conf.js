@@ -43,7 +43,8 @@ exports.config = {
     et3NotificationPages: '../pages/et3Notification.pages.js',
     applicationsTabsPages: '../pages/applicationsTabs.pages.js',
     sendNotificationPages: '../pages/sendNotification.pages.js',
-    respondentRepresentativePage: '../pages/respondentRepresentative.page.js',
+    legalRepNOCPages: '../pages/legalRep.pages.js',
+    respondentRepresentativePage: '../pages/respondentRepresentative.pages.js'
   },
   bootstrap: null,
   mocha: {
