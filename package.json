@@ -9,7 +9,7 @@
     "private": true,
     "scripts": {
         "test:fullfunctional": "codeceptjs run -c test/e2e/codecept.conf.js --grep @RET-BAT --steps --reporter mocha-multi --verbose",
-        "test:local": "codeceptjs run -c test/e2e/codecept.conf.js --steps --reporter mocha-multi --verbose",
+        "test:local": "codeceptjs run -c test/e2e/codecept.conf.js --steps --reporter mocha-multi --verbose --grep @RET-3687-WIP",
         "parallel": "codeceptjs run --steps -c test/e2e/codecept.conf.js run-multiple parallel",
         "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
         "lint-staged": "lint-staged",

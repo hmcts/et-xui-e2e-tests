@@ -7,6 +7,6 @@ module.exports = {
     I.fillField('#password', test_case_password);
     I.wait(5);
     I.click('[type="submit"]');
-    //I.waitForElement('#main-content', 50);
+    I.wait(5);
   },
 };

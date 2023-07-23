@@ -1,13 +1,13 @@
 const applicationPage = require('../../pages/application.page.js');
 const testConfig = require('../config.js');
-const postcode = 'FK15 9ET';
-const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
-const workPostcode = 'EH45 9BU';
-const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
-const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
+const postcode = 'LS9 9HE';
+const workPostcode = 'LS7 4QE';
+const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
+const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
+const firstLineOfAddress = '7, Valley Gardens?';
 
 Feature('End To End Tests For an ET Case Submitted in the sya Front end and processed in the Manage Case Application');
-Scenario(
+Scenario.only(
   'Submit and Respond to an application-- England and Wales - Singles',
   async ({
     I,
@@ -22,35 +22,35 @@ Scenario(
     makeanApplicationPage,
     et1CaseVettingPages,
     et1CaseServingPages,
-    // citizenHubPages,
+    citizenHubPages,
   }) => {
     I.amOnPage('/');
-    // await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    // await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
-    // await taskListPage.processPostLoginPagesForTheDraftApplication();
-    // await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
-    // await employmentAndRespondentDetailsPage.processStillWorkingJourney(
-    //   workPostcode,
-    //   selectedWorkAddress,
-    //   firstLineOfAddress,
-    // );
-    // await claimDetailsPage.processClaimDetails();
-    // let submissionReference = await submitClaimPage.submitClaim();
+    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
+    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    await taskListPage.processPostLoginPagesForTheDraftApplication();
+    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
+    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
+      workPostcode,
+      selectedWorkAddress,
+      firstLineOfAddress,
+    );
+    await claimDetailsPage.processClaimDetails();
+    let submissionReference = await submitClaimPage.submitClaim();
     // I.click('Sign out');
-    let submissionReference = '1684228875185777';
+    //let submissionReference = '1684228875185777';
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    // await loginPage.processLogin(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    // await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
-    // let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    // console.log('The value of the Case Number ' + caseNumber);
-    // await caseListPage.selectTab('Applications');
-    // await caseListPage.navigateToMakeAnApplication(submissionReference);
-    // await makeanApplicationPage.selectApplicationType('Amend response');
-    // await makeanApplicationPage.amendResponse('Amend response');
-    // await makeanApplicationPage.copyCorrespondance();
-    // await makeanApplicationPage.checkYourAnswersAndSybmit();
-    // await makeanApplicationPage.closeAndReturnToCaseDetails();
-    // I.click('Sign out');
+    await loginPage.processLogin(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
+    console.log('The value of the Case Number ' + caseNumber);
+    await caseListPage.selectTab('Applications');
+    await caseListPage.navigateToMakeAnApplication(submissionReference);
+    await makeanApplicationPage.selectApplicationType('Amend response');
+    await makeanApplicationPage.amendResponse('Amend response');
+    await makeanApplicationPage.copyCorrespondance();
+    await makeanApplicationPage.checkYourAnswersAndSybmit();
+    await makeanApplicationPage.closeAndReturnToCaseDetails();
+    I.click('Sign out');
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
@@ -161,7 +161,7 @@ Scenario(
     await citizenHubPages.VerifyFormType();
     */
   },
-).tag('@RET-3687-WIP');
+).tag('@RET-3687-WIP1').retry(2);
 
 Scenario(
   'Test name',

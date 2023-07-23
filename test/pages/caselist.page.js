@@ -32,7 +32,7 @@ module.exports = {
   searchCaseApplicationWithSubmissionReference(option, submissionReference) {
     I.waitForElement(this.caseListLink, 30);
     I.click(this.caseListLink);
-    I.waitForElement(this.caseTypeDropdown, 30);
+    I.waitForElement(this.caseTypeDropdown, 50);
     I.refreshPage();
     I.wait(5);
     I.waitForElement(this.caseTypeDropdown, 55);
@@ -52,7 +52,7 @@ module.exports = {
     } catch (error) {
       console.error('invalid option', error.message);
     }
-    //I.selectOption(this.caseTypeDropdown, option);
+    I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
     I.waitForVisible(this.submissionReferenceLocator, 10);
     I.click(this.submissionReferenceLocator);
@@ -87,8 +87,9 @@ module.exports = {
 
  navigateToMakeAnApplication(submissionReference) {
   let makeAnApplicationLink = `/cases/case-details/${submissionReference}/trigger/respondentTSE/respondentTSE1`;
-  I.wait(5);
-     I.click(`[href="${makeAnApplicationLink}"]`);
+  I.wait(10);
+  pause();
+  I.forceClick(`[href="${makeAnApplicationLink}"]`);
  },
 
   verifyCaseDetailsPage(et1VettingFlag = false) {
