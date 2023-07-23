@@ -8,11 +8,11 @@
 // citizen respond to application
 
 const testConfig = require('../config.js');
-const postcode = 'LS9 9HE';
-const workPostcode = 'LS7 4QE';
-const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
-const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
-const firstLineOfAddress = '7, Valley Gardens?';
+const postcode = 'FK15 9ET';
+const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
+const workPostcode = 'EH45 9BU';
+const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
+const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 const respondentName = 'Henry Mash';
 const ClaimantFirstName = 'etAutoesting';
 const ClaimantLastName = 'Manual'
@@ -39,7 +39,7 @@ Scenario(
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
+    await personalDetailsPage.processPersonalDetails(postcode, 'Scotland', addressOption);
     await employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney(
       workPostcode,
       selectedWorkAddress,
@@ -50,7 +50,7 @@ Scenario(
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     await caseListPage.verifyCaseDetailsPage();
@@ -65,7 +65,7 @@ Scenario(
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, ClaimantFirstName, ClaimantLastName);
+    await legalRepNOCPages.processNOC('Scotland - Singles', submissionReference, respondentName, ClaimantFirstName, ClaimantLastName);
     I.click('Sign out');
     //Case progression  -- applicant to respond to tribunal request
     await citizenHubPages.processCitizenHubLogin(
@@ -78,4 +78,4 @@ Scenario(
     await citizenHubPages.regAccountContactTribunal('withdraw all or part of my claim');
     await citizenHubPages.rule92Question('yes');
     await citizenHubPages.cyaPageVerification();
-  }).tag('@sample').retry(2);
+  }).tag('@nightly').retry(2);

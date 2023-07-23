@@ -4,6 +4,9 @@ const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
 const workPostcode = 'EH45 9BU';
 const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
+const respondentName = 'Henry Mash';
+const ClaimantFirstName = 'etAutoesting';
+const ClaimantLastName = 'Manual'
 
 Feature('End To End; Tests For Submit a Scottish Case');
 Scenario(
@@ -53,6 +56,10 @@ Scenario(
     // add org to case to enable cui applications
     await caseListPage.selectNextEvent('6: Object'); //Case acceptance or rejection Event
    // await respondentRepresentativePage.addRespondentRepresentative('registered')
+    I.click('Sign out');
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLogin(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await legalRepNOCPages.processNOC('Scotland', submissionReference, respondentName, ClaimantFirstName, ClaimantLastName);
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,

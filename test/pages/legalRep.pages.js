@@ -17,6 +17,7 @@ module.exports = {
   linkToCasesLegalRep: '[href="cases"]',
   caseListText: 'Case list',
   caseTypeDropdown: '#wb-case-type',
+  manageCasesLink: '.hmcts-header__link',
 
   submissionReferenceLocator: '#feeGroupReference',
   respondentTextfield: '#respondent',
@@ -28,21 +29,21 @@ module.exports = {
   // prevent NOC process from failing
   // NOC process tend to fail is existing applications are not loaded
   loadExistingApplications(option) {
-    I.waitForElement(this.linkToCasesLegalRep, 30);
-    I.click(this.linkToCasesLegalRep);
-    I.waitForElement(this.caseTypeDropdown, 30);
+    I.waitForElement(this.manageCasesLink, 30);
+    I.click(this.manageCasesLink);
     I.refreshPage();
     I.wait(5);
-    I.waitForElement(this.caseTypeDropdown, 55);
+    I.waitForElement(this.resetButton, 35);
     I.see(this.caseListText);
     I.wait(5);
     try {
       switch (option) {
         case 'Eng/Wales - Singles':
-          I.selectOption(this.caseTypeDropdown, '2: Object');
+          I.selectOption(this.caseTypeDropdown, 'Eng/Wales - Singles');
           break;
+        case 'Scotland':
         case 'Scotland - Singles':
-          I.selectOption(this.caseTypeDropdown, '5: Object');
+          I.selectOption(this.caseTypeDropdown, 'Scotland - Singles (RET)');
           break;
         default:
           throw new Error('... check you options or add new option');
@@ -52,9 +53,7 @@ module.exports = {
     }
     //I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
-    I.waitForVisible(this.submissionReferenceLocator, 10);
-    I.wait(3);
-    I.click(this.applyButton);
+    I.waitForVisible(this.resetButton, 10);
   },
 
   async processNOC(option, submissionReference,respondentName, ClaimantFirstName, ClaimantLastName) {
