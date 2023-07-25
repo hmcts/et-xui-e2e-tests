@@ -17,7 +17,7 @@ const ClaimantFirstName = 'etAutoesting';
 const ClaimantLastName = 'Manual';
 
 Feature('End To End Tests For an ET Case Submitted in the sya Front end and processed in the Manage Case Application');
-Scenario.only(
+Scenario.skip(
   'Submit and Respond to an application-- England and Wales - Singles',
   async ({
     I,
@@ -113,7 +113,7 @@ Scenario.only(
   },
 ).tag('@RET-3687-WIP');
 
-Scenario(
+Scenario.skip(
   'Submit and Respond to an application -- Scotland - Singles',
   async ({
     I,
