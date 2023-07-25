@@ -3,7 +3,7 @@ const { I } = inject();
 module.exports = {
   async submitClaim() {
     this.clickCheckYourAnswersLink();
-    //this.noPcqQuestions();
+    this.noPcqQuestions();
     this.clickSubmitOnCheckYourAnswers();
     return this.verifyClaimSubmitted();
   },
@@ -22,7 +22,7 @@ module.exports = {
     I.see('Check your answers');
     I.waitForVisible('#main-form-submit', 10);
     I.scrollPageToBottom();
-    I.wait(2);
+    I.wait(30);
     I.forceClick('#main-form-submit');
   },
   async verifyClaimSubmitted() {
