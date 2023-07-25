@@ -7,7 +7,7 @@ const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
 const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
 Scenario(
-  'Verify Send Notification Event by Caseworker - Verify by Claimant',
+  'Verify Send Notification Event by Caseworker Outside Application- Verify by Claimant',
   async ({
     I,
     basePage,

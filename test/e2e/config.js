@@ -8,4 +8,6 @@ module.exports = {
   TestEnvETPassword: process.env.TEST_CASE_PASSWORD || '',
   TestEnvETManageCaseUser: process.env.ET_CASEWORKER_USER_NAME || '',
   TestEnvETManageCasePassword: process.env.ET_CASEWORKER_PASSWORD || '',
+  TestEnvETLegalRepUser: process.env.TEST_LEGAL_REP_USERNAME || '',
+  TestEnvETLegalRepPassword: process.env.TEST_LEGAL_REP_PASSWORD || '',
 };
