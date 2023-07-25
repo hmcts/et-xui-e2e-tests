@@ -18,6 +18,8 @@ module.exports = {
   resetButton: '[aria-label="Reset filter"]',
   nextEventDropdown: '#next-step',
   submitEventButton: '[type="submit"]',
+  tab: '[role="tab"] div:contains("Applications")',
+
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -30,7 +32,7 @@ module.exports = {
   searchCaseApplicationWithSubmissionReference(option, submissionReference) {
     I.waitForElement(this.caseListLink, 30);
     I.click(this.caseListLink);
-    I.waitForElement(this.caseTypeDropdown, 30);
+    I.waitForElement(this.caseTypeDropdown, 50);
     I.refreshPage();
     I.wait(5);
     I.waitForElement(this.caseTypeDropdown, 55);
@@ -39,10 +41,10 @@ module.exports = {
     try {
       switch (option) {
         case 'Eng/Wales - Singles':
-          I.selectOption(this.caseTypeDropdown, '0: Object');
+          I.selectOption(this.caseTypeDropdown, '2: Object');
           break;
         case 'Scotland - Singles':
-          I.selectOption(this.caseTypeDropdown, '3: Object');
+          I.selectOption(this.caseTypeDropdown, '5: Object');
           break;
         default:
           throw new Error('... check you options or add new option');
@@ -50,7 +52,7 @@ module.exports = {
     } catch (error) {
       console.error('invalid option', error.message);
     }
-    //I.selectOption(this.caseTypeDropdown, option);
+    I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
     I.waitForVisible(this.submissionReferenceLocator, 10);
     I.click(this.submissionReferenceLocator);
@@ -64,6 +66,8 @@ module.exports = {
     let text = `/cases/case-details/${submissionReference}`;
     let caseNumber = I.grabTextFrom(`[href="${text}"]`);
     console.log('case number is' + caseNumber);
+    I.waitForVisible(`[href="${text}"]`, 30);
+    I.wait(5);
     I.click(`[href="${text}"]`);
     return caseNumber;
   },
@@ -74,6 +78,19 @@ module.exports = {
     I.wait(5);
     I.forceClick(this.submitEventButton);
   },
+
+  selectTab(title){
+  I.wait(5);
+  I.waitForClickable(`//div[@role='tab']/div[contains(text(), '${title}')]`, 30);
+  I.forceClick(`//div[@role='tab']/div[contains(text(), '${title}')]`);
+  },
+
+ navigateToMakeAnApplication(submissionReference) {
+  let makeAnApplicationLink = `/cases/case-details/${submissionReference}/trigger/respondentTSE/respondentTSE1`;
+  I.wait(10);
+  pause();
+  I.forceClick(`[href="${makeAnApplicationLink}"]`);
+ },
 
   verifyCaseDetailsPage(et1VettingFlag = false) {
     I.waitForElement('[tabindex="0"]', 30);
