@@ -132,7 +132,7 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
     citizenHubPages,
-    //respondentRepresentativePage,
+    respondentRepresentativePage,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
@@ -160,7 +160,7 @@ Scenario(
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     // add org to case to enable cui applications
     await caseListPage.selectNextEvent('8: Object'); //Case acceptance or rejection Event
-    //await respondentRepresentativePage.addRespondentRepresentative('registered')
+    await respondentRepresentativePage.addRespondentRepresentative('registered')
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
