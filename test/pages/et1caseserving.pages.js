@@ -24,6 +24,8 @@ module.exports = {
     I.fillField(this.locators.date_accepted_year, '2023');
     I.waitForVisible("[type='submit']", 10);
     I.forceClick('[type="submit"]');
+    I.wait(2);
+    I.forceClick('[type="submit"]');
     I.waitForElement('[class="alert-message"]', 15);
   }
 };
