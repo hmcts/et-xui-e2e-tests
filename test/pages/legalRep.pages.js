@@ -57,29 +57,29 @@ module.exports = {
     I.click(this.applyButton);
   },
 
-  async processNOC(option, submissionReference,respondentName, ClaimantFirstName, ClaimantLastName) {
-    this.loadExistingApplications(option)
+  async processNOC(option, submissionReference, respondentName, ClaimantFirstName, ClaimantLastName) {
+    this.loadExistingApplications(option);
     I.refreshPage();
     I.waitForVisible(this.applyButtonOnLegalRep, 35);
     I.click(this.nocLinkLegalRep);
-    I.waitForVisible(this.continueButtonLegalRep, 5)
+    I.waitForVisible(this.continueButtonLegalRep, 5);
     I.see('Notice of change');
-    I.fillField(this.caseidFillfield,submissionReference);
+    I.fillField(this.caseidFillfield, submissionReference);
     I.click(this.continueButtonLegalRep);
-    I.waitForVisible(this.fieldSetLegalRep,10);
+    I.waitForVisible(this.fieldSetLegalRep, 10);
     I.see('Enter details');
-    I.fillField(this.respondentDetailsLegalRep,respondentName)
-    I.fillField(this.claimantFirstNamelegalRep,ClaimantFirstName);
-    I.fillField(this.claimantLastNamelegalRep,ClaimantLastName)
+    I.fillField(this.respondentDetailsLegalRep, respondentName);
+    I.fillField(this.claimantFirstNamelegalRep, ClaimantFirstName);
+    I.fillField(this.claimantLastNamelegalRep, ClaimantLastName);
     I.wait(3);
     I.click(this.continueButtonLegalRep);
     I.waitForVisible(this.confirmdiv, 10);
     I.see('Check and submit');
     I.checkOption(this.detailConfirmationLegalRep);
-    I.checkOption(this.notifyPartyLegalRep)
+    I.checkOption(this.notifyPartyLegalRep);
     I.wait(2);
     I.click(this.continueButtonLegalRep);
-    I.waitForVisible(this.linkToCasesLegalRep,10);
+    I.waitForVisible(this.linkToCasesLegalRep, 10);
     I.see('Notice of change successful');
-  }
-}
+  },
+};

@@ -44,6 +44,10 @@ module.exports = {
           I.selectOption(this.nextEventDropdown, 'Amend response');
           I.click(this.submitButton);
           break;
+        case '1 - Amend response':
+            I.selectOption(this.applicationDropdown, '1 - Amend response');
+            I.click(this.submitButton);
+            break;
         case 'Postpone a hearing':
           I.waitForElement(this.applicationDropdown);
           I.selectOption(this.applicationDropdown, '1 - Postpone a hearing');

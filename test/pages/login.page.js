@@ -5,8 +5,8 @@ module.exports = {
     I.waitForVisible('#username', 30);
     I.fillField('#username', test_case_username);
     I.fillField('#password', test_case_password);
-    I.wait(5);
+    I.wait(10);
     I.click('[type="submit"]');
-    I.wait(5);
+    I.wait(15);
   },
 };
