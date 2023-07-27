@@ -25,7 +25,7 @@ Scenario(
     et1CaseServingPages,
     citizenHubPages,
     caseOverviewPage,
-    //respondentRepresentativePage,
+    respondentRepresentativePage,
 
   }) => {
     I.amOnPage('/');
@@ -78,4 +78,4 @@ Scenario(
     await caseListPage.processCaseFromCaseList(submissionReference);
     await caseOverviewPage.recordAdecisionOnAcase(submissionReference,'1 - Withdraw all/part of claim','granted','cmo-responding','legal officer','both')
   },
-).tag('@RET-BATEST').retry(1);
+).tag('@RET-BAT').retry(1);

@@ -18,6 +18,8 @@ module.exports = {
   resetButton: '[aria-label="Reset filter"]',
   nextEventDropdown: '#next-step',
   submitEventButton: '[type="submit"]',
+  tab: '[role="tab"] div:contains("Applications")',
+
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -74,6 +76,19 @@ module.exports = {
     I.wait(5);
     I.forceClick(this.submitEventButton);
   },
+
+  selectTab(title){
+  I.wait(5);
+  I.waitForClickable(`//div[@role='tab']/div[contains(text(), '${title}')]`, 30);
+  I.forceClick(`//div[@role='tab']/div[contains(text(), '${title}')]`);
+  },
+
+ navigateToMakeAnApplication(submissionReference) {
+  let makeAnApplicationLink = `/cases/case-details/${submissionReference}/trigger/respondentTSE/respondentTSE1`;
+  I.wait(10);
+  pause();
+  I.forceClick(`[href="${makeAnApplicationLink}"]`);
+ },
 
   verifyCaseDetailsPage(et1VettingFlag = false) {
     I.waitForElement('[tabindex="0"]', 30);

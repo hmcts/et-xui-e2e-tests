@@ -39,6 +39,7 @@ exports.config = {
     et1CaseServingPages: '../pages/et1caseserving.pages.js',
     citizenHubPages: '../pages/citizenhub.pages.js',
     judgementCollectionPage: '../pages/judgementCollection.page.js',
+    makeanApplicationPage: '../pages/application.page.js',
     et3NotificationPages: '../pages/et3Notification.pages.js',
     applicationsTabsPages: '../pages/applicationsTabs.pages.js',
     sendNotificationPages: '../pages/sendNotification.pages.js',
