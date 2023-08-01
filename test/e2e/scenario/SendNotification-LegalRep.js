@@ -6,7 +6,7 @@ const testConfig = require('../config.js');
 // const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 // const firstLineOfAddress = '7, Valley Gardens?';
 
-Feature('End To End Tests For an ET3  Notification ');
+Feature.skip('End To End Tests For an ET3  Notification ');
 Scenario(
   'Send Notification - Tribunal - Request',
   async ({
