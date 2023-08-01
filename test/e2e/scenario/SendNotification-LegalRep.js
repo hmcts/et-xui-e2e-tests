@@ -71,7 +71,7 @@ Scenario(
   .tag('@RET-TEST-NISH')
   .retry(2);
 
-Scenario.skip(
+Scenario(
   'Verify Respond to Notification-ManagementOrder - LegalRep',
   async ({
     I,
