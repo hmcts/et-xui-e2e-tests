@@ -88,7 +88,6 @@ module.exports = {
  navigateToMakeAnApplication(submissionReference) {
   let makeAnApplicationLink = `/cases/case-details/${submissionReference}/trigger/respondentTSE/respondentTSE1`;
   I.wait(10);
-  pause();
   I.forceClick(`[href="${makeAnApplicationLink}"]`);
  },
 
