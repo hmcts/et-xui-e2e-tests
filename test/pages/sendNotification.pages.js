@@ -67,7 +67,7 @@ module.exports = {
                 throw new Error ('you can either select yes or no');
                 break;
         }
-        pause();
+        //pause();
 
         //I.selectOption(this.dropdownRespondingParties,partyToRespond);
 
