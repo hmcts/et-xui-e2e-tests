@@ -41,10 +41,10 @@ module.exports = {
     try {
       switch (option) {
         case 'Eng/Wales - Singles':
-          I.selectOption(this.caseTypeDropdown, '2: Object');
+          I.selectOption(this.caseTypeDropdown, 'Eng/Wales - Singles');
           break;
         case 'Scotland - Singles':
-          I.selectOption(this.caseTypeDropdown, '5: Object');
+          I.selectOption(this.caseTypeDropdown, 'Scotland - Singles (RET)');
           break;
         default:
           throw new Error('... check you options or add new option');
@@ -52,7 +52,6 @@ module.exports = {
     } catch (error) {
       console.error('invalid option', error.message);
     }
-    I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
     I.waitForVisible(this.submissionReferenceLocator, 10);
     I.click(this.submissionReferenceLocator);
