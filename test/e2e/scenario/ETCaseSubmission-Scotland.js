@@ -23,7 +23,6 @@ Scenario(
     citizenHubPages,
     caseOverviewPage,
     respondentRepresentativePage,
-
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
@@ -40,10 +39,10 @@ Scenario(
     //I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles (RET)', submissionReference);
     console.log('The value of the Case Number ' + submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-   //vet the case
+    //vet the case
     await caseListPage.verifyCaseDetailsPage();
     await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
@@ -52,7 +51,7 @@ Scenario(
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     // add org to case to enable cui applications
     await caseListPage.selectNextEvent('6: Object'); //Case acceptance or rejection Event
-    await respondentRepresentativePage.addRespondentRepresentative('registered')
+    await respondentRepresentativePage.addRespondentRepresentative('registered');
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
@@ -67,8 +66,17 @@ Scenario(
     // record a decision by JCM
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles (RET)', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseOverviewPage.recordAdecisionOnAcase(submissionReference,'1 - Withdraw all/part of claim','granted','cmo-responding','legal officer','both')
+    await caseOverviewPage.recordAdecisionOnAcase(
+      submissionReference,
+      '1 - Withdraw all/part of claim',
+      'granted',
+      'cmo-responding',
+      'legal officer',
+      'both',
+    );
   },
-).tag('@RET-BAT').retry(1);
+)
+  .tag('@RET-BAT')
+  .retry(1);

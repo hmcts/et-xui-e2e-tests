@@ -1,27 +1,78 @@
-//const manageorgPage = require('../../pages/manageorg/index.js.js.js');
+//const manageorgPage = require('../../pages/manageOrg.pages.js/index.js.js.js');
+//Get case accepted
+const testConfig = require('../config.js');
+const postcode = 'FK15 9ET';
+const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
+const workPostcode = 'EH45 9BU';
+const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
+const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
-testConfig = require('../config.js');
-postcode = 'LS9 9HE';
-workPostcode = 'LS7 4QE';
-selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
-addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
-firstLineOfAddress = '7, Valley Gardens?';
-
-
-Feature('End to End Tests for Manage Organisation for Assigning and Non Assigning Cases');
+Feature('End To End; Share a Case Scotland');
 Scenario(
-  'Verify Assigned Cases for England and Wales',
+  'Assign a Scottish Case through Manage Org',
   async ({
     I,
-    manageOrgPage,
+    basePage,
     loginPage,
-  }) => {
-    I.amOnPage(testConfig.TestUrlForManageOrg);
-    await loginPage.processLogin(testConfig.TestEnvETManageOrgSuperUserName, testConfig.TestEnvETManageOrgSuperPassword);
-    await manageOrgPage.assignCaseToSolicitor();
-    await manageorgPage.unassignCaseFromSolicitor();
+    taskListPage,
+    personalDetailsPage,
+    employmentAndRespondentDetailsPage,
+    claimDetailsPage,
+    submitClaimPage,
+    caseListPage,
+    et1CaseVettingPages,
+    et1CaseServingPages,
+    caseOverviewPage,
+    respondentRepresentativePage,
+    manageOrgPage,
 
+  }) => {
+    I.amOnPage('/');
+    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
+    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    await taskListPage.processPostLoginPagesForTheDraftApplication();
+    await personalDetailsPage.processPersonalDetails(postcode, 'Scotland', addressOption);
+    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
+      workPostcode,
+      selectedWorkAddress,
+      firstLineOfAddress,
+    );
+    await claimDetailsPage.processClaimDetails();
+    const submissionReference = await submitClaimPage.submitClaim();
+    //I.click('Sign out');
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
+    console.log('The value of the Case Number ' + submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
+    //vet the case
+    await caseListPage.verifyCaseDetailsPage();
+    await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
+    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
+    //accept the case
+    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
+    await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    // add org to case to enable cui applications
+    await caseListPage.selectNextEvent('6: Object'); //Case acceptance or rejection Event
+    await respondentRepresentativePage.addRespondentRepresentative('registered', 'ET QA Test Solicitor');
+    I.click('Sign out');
+    //Share A Case Journey Through Manage Org
+    I.amOnPage(testConfig.TestUrlForManageOrgAAT);
+    await loginPage.processLogin(testConfig.TestEnvETSuperUserUsername, testConfig.TestEnvETSuperUserPassword);
+    await manageOrgPage.searchForUnassignedCaseUsingFilter(submissionReference);
+    await // record a decision by JCM
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
+    await caseListPage.processCaseFromCaseList(submissionReference);
+    await caseOverviewPage.recordAdecisionOnAcase(
+      submissionReference,
+      '1 - Withdraw all/part of claim',
+      'granted',
+      'cmo-responding',
+      'legal officer',
+      'both',
+    );
   },
-)
-  .tag('@RET-ETSC')
-  .retry(2);
+).tag('@RET-SC');
+//.retry(1);
