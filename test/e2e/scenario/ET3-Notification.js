@@ -58,5 +58,4 @@ Scenario(
     await citizenHubPages.verifyET3RespondentResponseonCUI();
   },
 )
-  .tag('@RET-BAT');
-  //.retry(1);
+  .tag('@nightly').retry(1);
