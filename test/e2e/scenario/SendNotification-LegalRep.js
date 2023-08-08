@@ -68,7 +68,7 @@ Scenario(
     await citizenHubPages.verifySendNotification();
   },
 )
-  .tag('@RET-TEST-NISH')
+  .tag('@RET-NISH')
   .retry(2);
 
 Scenario(
@@ -130,4 +130,5 @@ Scenario(
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.verifySendNotification();
   },
-);
+)  .tag('@nightly')
+  .retry(2);

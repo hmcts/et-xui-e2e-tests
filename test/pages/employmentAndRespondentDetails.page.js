@@ -69,11 +69,11 @@ module.exports = {
     this.completeEmploymentAndRespondentDetails();
   },
   //Did not work for organisation scenario
-  processDidNotWorkForOrganisationMakingClaimAgainst() {
+  processDidNotWorkForOrganisationMakingClaimAgainst(workPostcode, selectedWorkAddress) {
     this.clickEmploymentStatusLink();
     this.workedForOrganisation('No');
     this.enterRespondentName();
-    this.enterRespondentAddress();
+    this.enterRespondentAddress(workPostcode, selectedWorkAddress);
     this.selectNoToAcas();
     this.checkRespondentDetails();
     this.completeEmploymentAndRespondentDetails();
