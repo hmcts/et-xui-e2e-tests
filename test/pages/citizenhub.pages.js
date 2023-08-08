@@ -63,15 +63,15 @@ module.exports = {
   verifyET3RespondentResponseonCUI() {
     I.waitForElement(this.veiwResponseLink, 10);
     I.see("The tribunal has acknowledged the respondent's response.");
-    I.scrollTo(this.et3ResponseLink)
-    I.wait(2)
-    I.see('Not viewed yet',{css:this.statusBeforeView})
+    I.scrollTo(this.et3ResponseLink);
+    I.wait(2);
+    I.see('Not viewed yet', { css: this.statusBeforeView });
     I.click(this.veiwResponseLink);
     I.waitForElement(this.linkToAttachedDocument, 20);
     I.see('Acknowledgement of response');
     I.click(this.backButton);
     I.waitForElement(this.linkToET3Response, 20);
-    I.see('Viewed',{css:this.statusAfterView})
+    I.see('Viewed', { css: this.statusAfterView });
   },
   regAccountContactTribunal(applicationType) {
     I.waitForElement(this.contactTribunalLinkRegistered, 20);
@@ -163,12 +163,11 @@ module.exports = {
         default:
           throw new Error('... invalid option, check you options');
       }
-    }catch (e) {
+    } catch (e) {
       console.error('invalid option', e.message);
-
     }
     I.scrollPageToBottom();
-    I.fillField(this.applicationTextField,'blah blah');
+    I.fillField(this.applicationTextField, 'blah blah');
     I.click('Continue');
   },
   rule92Question(option) {
@@ -178,10 +177,10 @@ module.exports = {
         break;
       case 'no':
         I.checkOption(this.noOptionOnRule92);
-        I.fillField(this.addInfoToNoOption,'dont want other party to see this');
+        I.fillField(this.addInfoToNoOption, 'dont want other party to see this');
         break;
       default:
-        throw new Error( '... you can only select a yes or no option on rule 92 page');
+        throw new Error('... you can only select a yes or no option on rule 92 page');
     }
     I.click('Continue');
     I.waitForElement('#main-content', 20);
@@ -204,7 +203,7 @@ module.exports = {
     I.see('The tribunal has sent you a notification: Send Notification Title');
     I.scrollTo(this.notificationLink);
     I.wait(2);
-    I.see('Not started yet',{css:this.notificationFlagBefore});
+    I.see('Not started yet', { css: this.notificationFlagBefore });
     I.click(this.notificationLink);
     I.see('All orders and requests');
     I.click(this.sendNotifButton);
@@ -223,6 +222,6 @@ module.exports = {
     I.see('You have sent your response to the tribunal');
     I.click(this.returnOverviewButton);
     I.scrollTo(this.notificationLink);
-    I.see('Submitted',{css:this.notificationFlagAfter});
+    I.see('Submitted', { css: this.notificationFlagAfter });
   },
 };

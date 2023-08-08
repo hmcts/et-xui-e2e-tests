@@ -20,7 +20,6 @@ module.exports = {
   submitEventButton: '[type="submit"]',
   tab: '[role="tab"] div:contains("Applications")',
 
-
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
     I.see(this.caseListText);
@@ -78,17 +77,17 @@ module.exports = {
     I.forceClick(this.submitEventButton);
   },
 
-  selectTab(title){
-  I.wait(5);
-  I.waitForClickable(`//div[@role='tab']/div[contains(text(), '${title}')]`, 30);
-  I.forceClick(`//div[@role='tab']/div[contains(text(), '${title}')]`);
+  selectTab(title) {
+    I.wait(5);
+    I.waitForClickable(`//div[@role='tab']/div[contains(text(), '${title}')]`, 30);
+    I.forceClick(`//div[@role='tab']/div[contains(text(), '${title}')]`);
   },
 
- navigateToMakeAnApplication(submissionReference) {
-  let makeAnApplicationLink = `/cases/case-details/${submissionReference}/trigger/respondentTSE/respondentTSE1`;
-  I.wait(10);
-  I.forceClick(`[href="${makeAnApplicationLink}"]`);
- },
+  navigateToMakeAnApplication(submissionReference) {
+    let makeAnApplicationLink = `/cases/case-details/${submissionReference}/trigger/respondentTSE/respondentTSE1`;
+    I.wait(10);
+    I.forceClick(`[href="${makeAnApplicationLink}"]`);
+  },
 
   verifyCaseDetailsPage(et1VettingFlag = false) {
     I.waitForElement('[tabindex="0"]', 30);
