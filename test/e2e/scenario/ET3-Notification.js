@@ -58,4 +58,5 @@ Scenario(
     await citizenHubPages.verifyET3RespondentResponseonCUI();
   },
 )
-  .tag('@RET-TEST').retry(1);
+  .tag('@RET-TEST')
+  .retry(1);
