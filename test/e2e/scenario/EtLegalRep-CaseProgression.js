@@ -1,4 +1,3 @@
-
 // go through NOC
 // legal rep make application
 // click on banner notification
@@ -15,26 +14,26 @@ const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
 const respondentName = 'Henry Mash';
 const ClaimantFirstName = 'etAutoesting';
-const ClaimantLastName = 'Manual'
+const ClaimantLastName = 'Manual';
 
 Feature('End To End Tests For an ET Case progression with NOC and response to Tribunal request');
 Scenario(
   'Case Progression - assign case to legal rep and respond to tribunal -- legal rep',
   async ({
-           I,
-           basePage,
-           loginPage,
-           taskListPage,
-           personalDetailsPage,
-           employmentAndRespondentDetailsPage,
-           claimDetailsPage,
-           submitClaimPage,
-           caseListPage,
-           et1CaseVettingPages,
-           et1CaseServingPages,
-           citizenHubPages,
-           legalRepNOCPages,
-         }) => {
+    I,
+    basePage,
+    loginPage,
+    taskListPage,
+    personalDetailsPage,
+    employmentAndRespondentDetailsPage,
+    claimDetailsPage,
+    submitClaimPage,
+    caseListPage,
+    et1CaseVettingPages,
+    et1CaseServingPages,
+    citizenHubPages,
+    legalRepNOCPages,
+  }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
@@ -65,7 +64,13 @@ Scenario(
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, ClaimantFirstName, ClaimantLastName);
+    await legalRepNOCPages.processNOC(
+      'Eng/Wales - Singles',
+      submissionReference,
+      respondentName,
+      ClaimantFirstName,
+      ClaimantLastName,
+    );
     I.click('Sign out');
     //Case progression  -- applicant to respond to tribunal request
     await citizenHubPages.processCitizenHubLogin(
@@ -78,4 +83,7 @@ Scenario(
     await citizenHubPages.regAccountContactTribunal('withdraw all or part of my claim');
     await citizenHubPages.rule92Question('yes');
     await citizenHubPages.cyaPageVerification();
-  }).tag('@sample').retry(2);
+  },
+)
+  .tag('@sample')
+  .retry(2);

@@ -44,7 +44,7 @@ exports.config = {
     applicationsTabsPages: '../pages/applicationsTabs.pages.js',
     sendNotificationPages: '../pages/sendNotification.pages.js',
     legalRepNOCPages: '../pages/legalRep.pages.js',
-    respondentRepresentativePage: '../pages/respondentRepresentative.pages.js'
+    respondentRepresentativePage: '../pages/respondentRepresentative.pages.js',
   },
   bootstrap: null,
   mocha: {
