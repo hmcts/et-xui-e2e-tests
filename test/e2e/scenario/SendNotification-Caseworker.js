@@ -1,5 +1,4 @@
 Feature('End To End Tests For an ET3  Notification and Case Progression from Citizen Hub');
-const applicationsTabsPages = require('../../pages/applicationsTabs.pages.js');
 const testConfig = require('../config.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
@@ -62,7 +61,7 @@ Scenario(
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.verifySendNotification();
-  }
+  },
 )
   .tag('@RET-TEST')
   .retry(2);

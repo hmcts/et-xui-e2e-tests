@@ -20,7 +20,6 @@ module.exports = {
   submitEventButton: '[type="submit"]',
   tab: '[role="tab"] div:contains("Applications")',
 
-
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
     I.see(this.caseListText);
@@ -41,10 +40,10 @@ module.exports = {
     try {
       switch (option) {
         case 'Eng/Wales - Singles':
-          I.selectOption(this.caseTypeDropdown, '2: Object');
+          I.selectOption(this.caseTypeDropdown, 'Eng/Wales - Singles');
           break;
         case 'Scotland - Singles':
-          I.selectOption(this.caseTypeDropdown, '5: Object');
+          I.selectOption(this.caseTypeDropdown, 'Scotland - Singles (RET)');
           break;
         default:
           throw new Error('... check you options or add new option');
@@ -52,7 +51,6 @@ module.exports = {
     } catch (error) {
       console.error('invalid option', error.message);
     }
-    I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
     I.waitForVisible(this.submissionReferenceLocator, 10);
     I.click(this.submissionReferenceLocator);
@@ -79,18 +77,17 @@ module.exports = {
     I.forceClick(this.submitEventButton);
   },
 
-  selectTab(title){
-  I.wait(5);
-  I.waitForClickable(`//div[@role='tab']/div[contains(text(), '${title}')]`, 30);
-  I.forceClick(`//div[@role='tab']/div[contains(text(), '${title}')]`);
+  selectTab(title) {
+    I.wait(5);
+    I.waitForClickable(`//div[@role='tab']/div[contains(text(), '${title}')]`, 30);
+    I.forceClick(`//div[@role='tab']/div[contains(text(), '${title}')]`);
   },
 
- navigateToMakeAnApplication(submissionReference) {
-  let makeAnApplicationLink = `/cases/case-details/${submissionReference}/trigger/respondentTSE/respondentTSE1`;
-  I.wait(10);
-  pause();
-  I.forceClick(`[href="${makeAnApplicationLink}"]`);
- },
+  navigateToMakeAnApplication(submissionReference) {
+    let makeAnApplicationLink = `/cases/case-details/${submissionReference}/trigger/respondentTSE/respondentTSE1`;
+    I.wait(10);
+    I.forceClick(`[href="${makeAnApplicationLink}"]`);
+  },
 
   verifyCaseDetailsPage(et1VettingFlag = false) {
     I.waitForElement('[tabindex="0"]', 30);

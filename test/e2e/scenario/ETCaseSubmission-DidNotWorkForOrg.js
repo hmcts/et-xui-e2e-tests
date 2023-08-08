@@ -42,4 +42,6 @@ Scenario(
     //await citizenHubPages.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword, submissionReference);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
   },
-).tag('@RET-TEST').retry(1);
+)
+  .tag('@RET-TEST')
+  .retry(1);

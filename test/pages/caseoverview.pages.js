@@ -5,7 +5,7 @@ module.exports = {
   applicationDropdown: '#tseAdminSelectApplication',
   decisionForm: '#caseEditForm',
   notificationTitleDecisionPage: '#tseAdminEnterNotificationTitle',
-  decisionGranted : '#tseAdminDecision-Granted',
+  decisionGranted: '#tseAdminDecision-Granted',
   decisionGrantedInPart: '#tseAdminDecision-Granted in part',
   decisionRefused: '#tseAdminDecision-Refused',
   otherDecision: '#tseAdminDecision-Other',
@@ -22,14 +22,14 @@ module.exports = {
   confirmSubmission: '#confirmation-body',
   returnToCaseOverview: '//button[@class="button"]',
 
-  recordAdecisionOnAcase (submissionReference, appOption, decision, decisionType, decisionMaker, respondingParties) {
-     let recordDecisionLink = `/cases/case-details/${submissionReference}/trigger/tseAdmin/tseAdmin1`;
-     I.click(this.applicationTab);
-     I.click(`[href="${recordDecisionLink}"]`);
-     I.selectOption(this.applicationDropdown, appOption);
-     I.click('Continue');
-     I.waitForElement(this.decisionForm,15);
-     I.fillField(this.notificationTitleDecisionPage, 'adding a decision')
+  recordAdecisionOnAcase(submissionReference, appOption, decision, decisionType, decisionMaker, respondingParties) {
+    let recordDecisionLink = `/cases/case-details/${submissionReference}/trigger/tseAdmin/tseAdmin1`;
+    I.click(this.applicationTab);
+    I.click(`[href="${recordDecisionLink}"]`);
+    I.selectOption(this.applicationDropdown, appOption);
+    I.click('Continue');
+    I.waitForElement(this.decisionForm, 15);
+    I.fillField(this.notificationTitleDecisionPage, 'adding a decision');
     switch (decision) {
       case 'granted':
         I.checkOption(this.decisionGranted);
@@ -66,36 +66,36 @@ module.exports = {
         throw new Error('... decision type is invalid');
     }
     I.fillField(this.additionalDecisionInformation, '...test');
-     switch (decisionMaker) {
-       case 'legal officer':
-         I.checkOption(this.madeByLegalOfficer);
-         break;
-       case 'judge':
-         I.checkOption(this.madeByAJudge);
-         break;
-       default:
-         throw new Error('... please select who made the decision');
-     }
-     I.fillField(this.fullNameDecisionMaker, 'ET Tester')
-     switch (respondingParties) {
-       case 'both':
-         I.checkOption(this.bothParties);
-         break;
-       case 'claimant only':
-         I.checkOption(this.claimantOnly);
-         break;
-       case 'respondent only':
-         I.checkOption(this.respondentOnly);
-         break;
-       default:
-         throw new Error('... please party to respond');
-     }
-     I.click('Continue');
-     I.waitForElement('.form-table', 15);
-     I.see('Check your answers');
-     I.click('Submit');
-     I.waitForElement(this.confirmSubmission, 15);
-     I.see('What happens next');
-     I.click(this.returnToCaseOverview);
-  }
-}
+    switch (decisionMaker) {
+      case 'legal officer':
+        I.checkOption(this.madeByLegalOfficer);
+        break;
+      case 'judge':
+        I.checkOption(this.madeByAJudge);
+        break;
+      default:
+        throw new Error('... please select who made the decision');
+    }
+    I.fillField(this.fullNameDecisionMaker, 'ET Tester');
+    switch (respondingParties) {
+      case 'both':
+        I.checkOption(this.bothParties);
+        break;
+      case 'claimant only':
+        I.checkOption(this.claimantOnly);
+        break;
+      case 'respondent only':
+        I.checkOption(this.respondentOnly);
+        break;
+      default:
+        throw new Error('... please party to respond');
+    }
+    I.click('Continue');
+    I.waitForElement('.form-table', 15);
+    I.see('Check your answers');
+    I.click('Submit');
+    I.waitForElement(this.confirmSubmission, 15);
+    I.see('What happens next');
+    I.click(this.returnToCaseOverview);
+  },
+};

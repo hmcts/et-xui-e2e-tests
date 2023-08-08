@@ -13,9 +13,9 @@ module.exports = {
   respondentRepresentativeContactPreference: '#repCollection_0_representative_preference', // '1: Email'
 
   addRespondentRepresentative(regOption) {
-    I.waitForElement(this.nonRegisteredLegalOrg,20);
+    I.waitForElement(this.nonRegisteredLegalOrg, 20);
     I.see('Respondent Representative');
-    I.selectOption(this.selectRespondent,'Henry Marsh'); // add respondent name from case creation
+    I.selectOption(this.selectRespondent, 'Henry Marsh'); // add respondent name from case creation
     I.fillField(this.respondentRepresentativeName, 'Henry Marsh');
     I.fillField(this.respondentRepresentativePhoneNumber, '01234657895');
     I.fillField(this.respondentRepresentativeEmailAddress, 'et.tester@hmcts.net');
@@ -24,28 +24,22 @@ module.exports = {
       switch (regOption) {
         case 'registered':
           I.checkOption(this.registeredLegalOrg);
-          I.waitForElement(this.searchForRegisteredOrg,10);
-          I.fillField(this.searchForRegisteredOrg,'ET Organisation');
+          I.waitForElement(this.searchForRegisteredOrg, 10);
+          I.fillField(this.searchForRegisteredOrg, 'ET Organisation');
           I.click(this.selectOrgFromSearchResult);
           //I.click('Continue')
-          I.waitForElement('[type="submit"]',10);
+          I.waitForElement('[type="submit"]', 10);
           I.click('[type="submit"]');
-          I.waitForVisible('.alert-message',10);
+          I.waitForVisible('.alert-message', 10);
           break;
         case 'notRegisteredSingle':
         case 'partResgisteredMultiple':
           break;
         default:
           throw new Error('... check you options or add new option');
-
       }
-    }catch (e) {
+    } catch (e) {
       console.error('invalid option', e.message);
     }
-  }
-
-
-
-
-
-}
+  },
+};

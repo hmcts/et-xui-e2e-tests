@@ -27,5 +27,5 @@ module.exports = {
     I.wait(2);
     I.forceClick('[type="submit"]');
     I.waitForElement('[class="alert-message"]', 15);
-  }
+  },
 };

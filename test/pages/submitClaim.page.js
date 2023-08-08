@@ -9,7 +9,7 @@ module.exports = {
   },
   //user clicks check your answers link
   clickCheckYourAnswersLink() {
-    I.waitForElement('[href="/pcq?lng=en"]', 30);
+    I.waitForElement('[href="/pcq?lng=en"]', 15);
     I.click('[href="/pcq?lng=en"]');
   },
   //
@@ -18,11 +18,11 @@ module.exports = {
     I.click('[name=opt-out-button]');
   },
   clickSubmitOnCheckYourAnswers() {
-    I.waitForVisible('#main-content', 30);
+    I.waitForVisible('#main-content', 15);
     I.see('Check your answers');
     I.waitForVisible('#main-form-submit', 10);
     I.scrollPageToBottom();
-    I.wait(30);
+    I.wait(15);
     I.forceClick('#main-form-submit');
   },
   async verifyClaimSubmitted() {
