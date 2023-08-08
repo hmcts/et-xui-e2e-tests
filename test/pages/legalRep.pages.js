@@ -1,7 +1,6 @@
 const { I } = inject();
 
 module.exports = {
-
   applyButtonOnLegalRep: '.workbasket-filters-apply',
   manageCasesLinkLegalRep: 'hmcts-header__link',
   nocLinkLegalRep: '[href="/noc"]',
