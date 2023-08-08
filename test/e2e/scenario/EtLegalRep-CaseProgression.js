@@ -13,8 +13,8 @@ const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
 const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
 const respondentName = 'Henry Mash';
-const ClaimantFirstName = 'etAutoesting';
-const ClaimantLastName = 'Manual';
+const ClaimantFirstName = 'Alexa';
+const ClaimantLastName = 'Siri';
 
 Feature('End To End Tests For an ET Case progression with NOC and response to Tribunal request');
 Scenario(
@@ -32,6 +32,7 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
     citizenHubPages,
+    respondentRepresentativePage,
     legalRepNOCPages,
   }) => {
     I.amOnPage('/');
@@ -60,6 +61,7 @@ Scenario(
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     //Case acceptance or rejection Event
     await caseListPage.selectNextEvent('6: Object'); //Case acceptance or rejection Event
+    await respondentRepresentativePage.addRespondentRepresentative('registered', 'test solicitor firm');
     I.click('Sign out');
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
@@ -69,7 +71,7 @@ Scenario(
       submissionReference,
       respondentName,
       ClaimantFirstName,
-      ClaimantLastName,
+      ClaimantLastName
     );
     I.click('Sign out');
     //Case progression  -- applicant to respond to tribunal request
@@ -85,5 +87,5 @@ Scenario(
     await citizenHubPages.cyaPageVerification();
   },
 )
-  .tag('@sample')
-  .retry(2);
+  .tag('@nightly')
+  .retry(1);

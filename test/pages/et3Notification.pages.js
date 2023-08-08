@@ -18,6 +18,7 @@ module.exports = {
   shortDescription2: '#et3NotificationDocCollection_1_shortDescription',
   removeButtonOne: '[aria-label="Remove Upload document PDF"]',
   confirmationHeader: '#confirmation-header',
+  et3NotificationSubmitButton: '[type="submit"]',
 
   uploadET3acceptanceLetter(option) {
     I.waitForElement(this.addNewButton, 30);
@@ -58,16 +59,15 @@ module.exports = {
     } catch (e) {
       console.error('invalid option', e.message);
     }
-    I.waitForElement('#et3SendDocByFirstClass', 20);
+
+    I.waitForElement(this.et3NotificationSubmitButton, 10);
+    I.click(this.et3NotificationSubmitButton);
     I.see('ET3 notification');
-    I.see('Send documents');
-    I.click('Continue');
-    I.waitForElement('#et3EmailDocsToAcasTitle', 10);
-    I.see('ET3 notification');
-    I.see('Email Acas');
-    I.click('Continue');
+    I.see('Check your answers');
+    I.click(this.et3NotificationSubmitButton)
+    I.wait(2)
     I.waitForElement(this.confirmationHeader, 10);
     I.see('Documents submitted');
-    I.click('.button');
+    I.click(this.et3NotificationSubmitButton);
   },
 };
