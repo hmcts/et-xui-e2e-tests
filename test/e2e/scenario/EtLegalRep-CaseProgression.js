@@ -87,5 +87,5 @@ Scenario(
     await citizenHubPages.cyaPageVerification();
   },
 )
-  .tag('@nightly')
+  .tag('@sample')
   .retry(1);

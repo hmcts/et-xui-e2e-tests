@@ -28,6 +28,8 @@ def secrets = [
         secret('et-caseworker-5-password', 'ET_CASEWORKER_PASSWORD'),
         secret('et-legalrep-user-name', 'ET_LEGALREP_USER_NAME'),
         secret('et-legalrep-password', 'ET_LEGALREP_PASSWORD'),
+        secret('et-ctsc-admin-user-name', 'ET_CTSC_ADMIN_USER_NAME'),
+        secret('et-ctsc-admin-password', 'ET_CTSC_ADMIN_PASSWORD'),
     ]
 ]
 

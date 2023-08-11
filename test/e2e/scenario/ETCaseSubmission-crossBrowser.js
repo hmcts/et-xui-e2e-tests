@@ -47,15 +47,6 @@ Scenario(
     await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     I.forceClick('Sign out');
-    /*    await citizenHubPages.processCitizenHubLogin(
-      testConfig.TestEnvETUser,
-      testConfig.TestEnvETPassword,
-      submissionReference,
-    );
-    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
-    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPages.VerifyFormType();
-    */
   },
 )
   .tag('@RET-XB')

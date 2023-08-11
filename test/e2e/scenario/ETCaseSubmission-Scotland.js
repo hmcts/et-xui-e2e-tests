@@ -78,5 +78,5 @@ Scenario(
     );
   },
 )
-  .tag('@RET-BAT')
+  .tag('@nightly')
   .retry(1);

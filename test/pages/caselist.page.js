@@ -19,6 +19,12 @@ module.exports = {
   nextEventDropdown: '#next-step',
   submitEventButton: '[type="submit"]',
   tab: '[role="tab"] div:contains("Applications")',
+  myWorkLink: '[href="/work/my-work/list"]',
+  myTaskTab: '[aria-current="page"]',
+  availableTaskTab: '[href="/work/my-work/available"]',
+  myCasesTab: '[href="/work/my-work/my-cases"]',
+  accessTab: '[href="/work/my-work/my-access"]',
+  availableTaskRows: 'tbody > tr:nth-of-type(1)',
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -101,4 +107,18 @@ module.exports = {
       I.see('ET1Vetting');
     }
   },
+  proceedtoWATaskPage() {
+    I.waitForElement(this.resetButton, 20);
+    I.seeElement(this.myWorkLink);
+    I.click(this.myWorkLink);
+    I.waitForElement(this.myTaskTab, 10);
+    I.seeElement(this.availableTaskTab);
+    I.seeElement(this.myCasesTab);
+    I.seeElement(this.accessTab);
+  },
+  proceedToAvailableTask() {
+    I.click(this.availableTaskTab);
+    I.seeElement(this.availableTaskRows);
+  }
+
 };
