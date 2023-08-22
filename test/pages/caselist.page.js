@@ -19,12 +19,16 @@ module.exports = {
   nextEventDropdown: '#next-step',
   submitEventButton: '[type="submit"]',
   tab: '[role="tab"] div:contains("Applications")',
-  myWorkLink: '[href="/work/my-work/list"]',
-  myTaskTab: '[aria-current="page"]',
+  myWorkLink: 'div.hmcts-primary-navigation__nav ul > li:nth-child(1) > a',
+  myTaskTab: 'xuilib-hmcts-sub-navigation  ul > li:nth-child(1) > a',
   availableTaskTab: '[href="/work/my-work/available"]',
   myCasesTab: '[href="/work/my-work/my-cases"]',
   accessTab: '[href="/work/my-work/my-access"]',
   availableTaskRows: 'tbody > tr:nth-of-type(1)',
+  cancelTask: 'exui-case-task:nth-of-type(1) #action_cancel',
+  markAsDone: 'exui-case-task:nth-of-type(1) #action_complete',
+  reassignTask: 'exui-case-task:nth-of-type(1) #action_reassign',
+  unassignTask: 'exui-case-task:nth-of-type(1) #action_unclaim',
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -108,7 +112,8 @@ module.exports = {
     }
   },
   proceedtoWATaskPage() {
-    I.waitForElement(this.resetButton, 20);
+    //I.waitForElement(this.resetButton, 20);
+    I.waitForElement(this.myWorkLink, 20);
     I.seeElement(this.myWorkLink);
     I.click(this.myWorkLink);
     I.waitForElement(this.myTaskTab, 10);
@@ -119,6 +124,23 @@ module.exports = {
   proceedToAvailableTask() {
     I.click(this.availableTaskTab);
     I.seeElement(this.availableTaskRows);
-  }
+  },
 
+  proceedToMyTasks() {
+    I.click(this.myTaskTab);
+    I.waitForElement(this.myTaskTab, 20);
+  },
+
+  naviagtetoTask(caseNumber) {
+    I.wait(20);
+    I.forceClick(`[href="/cases/case-details/${caseNumber}/tasks"]`);
+  },
+
+  verifyWaTaskDetailsPage() {
+    I.waitForElement(this.cancelTask, 10);
+    I.seeElement(this.cancelTask);
+    I.seeElement(this.markAsDone);
+    I.seeElement(this.reassignTask);
+    I.seeElement(this.unassignTask);
+  },
 };
