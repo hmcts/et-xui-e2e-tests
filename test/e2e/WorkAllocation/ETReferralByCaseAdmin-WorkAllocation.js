@@ -1,13 +1,16 @@
 const testConfig = require('../config.js');
-const postcode = 'LS9 9HE';
-const workPostcode = 'LS7 4QE';
-const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
-const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
-const firstLineOfAddress = '7, Valley Gardens?';
+const postcode = 'FK15 9ET';
+const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
+const workPostcode = 'EH45 9BU';
+const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
+const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
-Feature('CTSC Admin Verify Task');
+
+
+
+Feature('End To End; Work Allocation - Submit a Referral');
 Scenario(
-  'Verify CTSC Admin can see created task from Available Task -Assign and Unassign to self',
+  'Submit a case from Scotland - Case Admin Submit',
   async ({
            I,
            basePage,
@@ -18,14 +21,17 @@ Scenario(
            claimDetailsPage,
            submitClaimPage,
            caseListPage,
-           workAllocationTaskPages,
            et1CaseVettingPages,
+           et1CaseServingPages,
+           respondentRepresentativePage,
+           referralPages,
+           workAllocationTaskPages,
          }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
+    await personalDetailsPage.processPersonalDetails(postcode, 'Scotland', addressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
       workPostcode,
       selectedWorkAddress,
@@ -33,11 +39,12 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
-    // login as cstc admin and check that the case is available under available task
+    I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETCstcAdminUser, testConfig.TestEnvETCstcAdminPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
+    //assign the case via work Allocation
     await caseListPage.proceedtoWATaskPage();
     await caseListPage.proceedToAvailableTask();
     await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All','Et1 Vetting')
@@ -45,7 +52,13 @@ Scenario(
     // vet the case
     await caseListPage.selectNextEvent('ET1 case vetting'); //Case acceptance or rejection Event
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
-  },
-)
-  .tag('@nighly')
-  .retry(2);
+    //accept the case
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
+    await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    // add org to case to enable cui applications
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Respondent Representative Event
+    await respondentRepresentativePage.addRespondentRepresentative('registered', 'ET Test3 Organisation');
+    //do referral as a admin case worker
+    await referralPages.submitAreferral('et.ctscworker010@justice.gov.uk','Admin','Test Referral by Admin','Yes',1);
+
+  }).tag('@nightly');

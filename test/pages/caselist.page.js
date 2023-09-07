@@ -1,5 +1,5 @@
 const { I } = inject();
-
+const newlyCreatedTask = testConfig.TestUrlForManageCaseAAT+ `/cases/case-details/`+`${submissionReference}` + `/tasks`;
 module.exports = {
   caseListText: 'Case list',
   caseListLink: '[href="/cases"]',
@@ -19,12 +19,23 @@ module.exports = {
   nextEventDropdown: '#next-step',
   submitEventButton: '[type="submit"]',
   tab: '[role="tab"] div:contains("Applications")',
-  myWorkLink: '[href="/work/my-work/list"]',
+  //.hmcts-primary-navigation__item:nth-child(1) > .hmcts-primary-navigation__link
+  myWorkLink: '//a[contains(.,"My work")]',
   myTaskTab: '[aria-current="page"]',
   availableTaskTab: '[href="/work/my-work/available"]',
   myCasesTab: '[href="/work/my-work/my-cases"]',
   accessTab: '[href="/work/my-work/my-access"]',
   availableTaskRows: 'tbody > tr:nth-of-type(1)',
+  allWorkTab: '[href="/work/all-work/tasks"]',
+  taskTabAllWork: '[aria-current="page"]',
+  selectAllLocationAllWork: '#radio_location_all',
+  searchTaskBySpecificPerson: '[id="radio_Specific person"]]',
+  searchTaskByAll: '#radio_All',
+  searchTaskByUnassigned: '[id="radio_None / Available tasks"]',
+  enterWAOfficerName: '#inputSelectPerson',
+  enterTaskName: '#inputSelectTaskName',
+  applyFilterButton: '#applyFilter',
+  taskByRoleType: '#select_taskType',
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -108,17 +119,50 @@ module.exports = {
     }
   },
   proceedtoWATaskPage() {
-    I.waitForElement(this.resetButton, 20);
+    //I.waitForElement(this.resetButton, 20);
     I.seeElement(this.myWorkLink);
     I.click(this.myWorkLink);
-    I.waitForElement(this.myTaskTab, 10);
+    I.waitForElement(this.myCasesTab, 10);
     I.seeElement(this.availableTaskTab);
     I.seeElement(this.myCasesTab);
     I.seeElement(this.accessTab);
   },
+
   proceedToAvailableTask() {
     I.click(this.availableTaskTab);
     I.seeElement(this.availableTaskRows);
+  },
+
+  searchTaskFromAllWorkAllLocation(taskTypeOption, taskByRole, taskName) {
+    I.waitForElement(this.allWorkTab, 20);
+    I.click(this.allWorkTab)
+    I.waitForElement(this.taskTabAllWork, 10);
+    I.scrollPageToBottom();
+    I.see('View and manage all tasks and cases.');
+    switch (taskTypeOption) {
+      case 'All':
+        I.checkOption(this.searchTaskByAll);
+        break;
+      case 'Unassigned':
+        I.checkOption(this.searchTaskByUnassigned);
+        break;
+      case 'Assigned to a person':
+        I.checkOption(this.searchTaskBySpecificPerson);
+        I.fillField(this.enterWAOfficerName, 'Lefity');
+        // provide a name
+        break;
+      default:
+        throw new Error('... check you options or add new option');
+    }
+    I.selectOption(this.taskByRoleType, taskByRole);
+    I.fillField(this.enterTaskName, taskName)
+    // possibly needed more time for the case to pop up on the ui
+    I.wait(15);
+    I.click(this.applyFilterButton);
+    I.wait(2);
+    let checkLink = I.grabAttributeFrom({ css: 'a' }, 'href');
+    checkLink.includes(newlyCreatedTask);
+
   }
 
 };

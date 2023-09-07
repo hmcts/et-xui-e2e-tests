@@ -45,6 +45,8 @@ exports.config = {
     sendNotificationPages: '../pages/sendNotification.pages.js',
     legalRepNOCPages: '../pages/legalRep.pages.js',
     respondentRepresentativePage: '../pages/respondentRepresentative.pages.js',
+    referralPages: '../pages/referrals.pages.js',
+    workAllocationTaskPages: '../pages/waTaskTab.pages.js',
   },
   bootstrap: null,
   mocha: {

@@ -285,7 +285,7 @@ module.exports = {
     I.click('Save and continue');
     I.waitForVisible('#main-content', 15);
     I.see('Select an address');
-    I.selectOption('#respondentAddressTypes', selectedWorkAddress);
+    I.selectOption("#respondentAddressTypes", selectedWorkAddress);
     I.click('Save and continue');
     I.see('This should be the same respondent address given to Acas.');
     I.click('Save and continue');

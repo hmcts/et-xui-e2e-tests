@@ -29,8 +29,6 @@ module.exports = {
           I.click(this.selectOrgFromSearchResult);
           I.waitForElement('[type="submit"]', 10);
           I.click('[type="submit"]');
-          I.wait(2);
-          I.click('[type="submit"]');
           I.waitForVisible('.alert-message', 10);
           break;
         case 'notRegisteredSingle':

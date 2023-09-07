@@ -36,6 +36,7 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     const submissionReference = await submitClaimPage.submitClaim();
+    pause();
     //I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
@@ -51,7 +52,7 @@ Scenario(
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     // add org to case to enable cui applications
     await caseListPage.selectNextEvent('6: Object'); //Case acceptance or rejection Event
-    await respondentRepresentativePage.addRespondentRepresentative('registered');
+    await respondentRepresentativePage.addRespondentRepresentative('registered','ET Test3 Organisation');
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
@@ -78,5 +79,5 @@ Scenario(
     );
   },
 )
-  .tag('@nightly')
+  .tag('@newTest')
   .retry(1);

@@ -63,6 +63,7 @@ const setupConfig = {
     judgementCollectionPage: '../pages/judgementCollection.page.js',
     et3NotificationPages: '../pages/et3Notification.pages.js',
     respondentRepresentativePage: '../pages/respondentRepresentative.pages.js',
+    referralPages: '../pages/referrals.pages.js',
   },
   bootstrap: null,
   mocha: {
