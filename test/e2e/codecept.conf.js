@@ -47,6 +47,9 @@ exports.config = {
     respondentRepresentativePage: '../pages/respondentRepresentative.pages.js',
     referralPages: '../pages/referrals.pages.js',
     workAllocationTaskPages: '../pages/waTaskTab.pages.js',
+    caseLinkPages: '../pages/caseLink.pages.js',
+    caseFlagPages: '../pages/caseFile.pages.js',
+    globalSearchPages: '../pages/globalsearch.pages.js',
   },
   bootstrap: null,
   mocha: {
@@ -93,6 +96,9 @@ exports.config = {
       enabled: false,
       fullPageScreenshots: true,
       deleteSuccessful: false,
+    },
+    heal: {
+      enabled: true
     },
     retryFailedStep: {
       enabled: true,

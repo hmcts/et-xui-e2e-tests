@@ -1,5 +1,5 @@
 const { I } = inject();
-const newlyCreatedTask = testConfig.TestUrlForManageCaseAAT+ `/cases/case-details/`+`${submissionReference}` + `/tasks`;
+const testConfig = require('../../test/e2e/config' );
 module.exports = {
   caseListText: 'Case list',
   caseListLink: '[href="/cases"]',
@@ -36,6 +36,7 @@ module.exports = {
   enterTaskName: '#inputSelectTaskName',
   applyFilterButton: '#applyFilter',
   taskByRoleType: '#select_taskType',
+  linkedCasesTab: '[aria-posinset="11"] > .mat-tab-label-content',
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -133,7 +134,7 @@ module.exports = {
     I.seeElement(this.availableTaskRows);
   },
 
-  searchTaskFromAllWorkAllLocation(taskTypeOption, taskByRole, taskName) {
+  searchTaskFromAllWorkAllLocation(taskTypeOption, taskByRole, taskName, submissionReference) {
     I.waitForElement(this.allWorkTab, 20);
     I.click(this.allWorkTab)
     I.waitForElement(this.taskTabAllWork, 10);
@@ -160,9 +161,15 @@ module.exports = {
     I.wait(15);
     I.click(this.applyFilterButton);
     I.wait(2);
+    let newlyCreatedTask = testConfig.TestUrlForManageCaseAAT + `/cases/case-details/` + `${submissionReference}` + `/tasks`;
     let checkLink = I.grabAttributeFrom({ css: 'a' }, 'href');
     checkLink.includes(newlyCreatedTask);
+  },
+  verifiedLinkedCasesFromCaseLinkTab(submissionReference) {
+    I.waitForElement(this.linkedCasesTab, 20);
+    I.click(this.linkedCasesTab);
+    let el = `[href="cases/case-details/${submissionReference}"]`
+    I.seeElement(el);
 
   }
-
 };

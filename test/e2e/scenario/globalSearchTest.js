@@ -5,9 +5,19 @@ const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
 const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
 
-Feature('CTSC Admin Verify Task');
+//Scotish Details
+const scotPostcode = 'FK15 9ET';
+const scotAddressOption = '3e, Station Road, Dunblane, FK15 9ET';
+const scotWorkPostcode = 'EH45 9BU';
+const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
+const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
+const respondentName = 'Henry Marsh';
+const ClaimantFirstName = 'Alexa';
+const ClaimantLastName = 'Siri';
+
+Feature('End To End Tests For an ET Case Linking');
 Scenario(
-  'Verify CTSC Admin can see created task from Available Task -Assign and Unassign to self',
+  'Global Search - Single Params -- England and Wales - Singles',
   async ({
            I,
            basePage,
@@ -17,10 +27,10 @@ Scenario(
            employmentAndRespondentDetailsPage,
            claimDetailsPage,
            submitClaimPage,
-           caseListPage,
-           workAllocationTaskPages,
-           et1CaseVettingPages,
+           globalSearchPages,
+
          }) => {
+    //case number 1
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
@@ -33,19 +43,9 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
-    // login as cstc admin and check that the case is available under available task
+    I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(testConfig.TestEnvETCstcAdminUser, testConfig.TestEnvETCstcAdminPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
-    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.proceedtoWATaskPage();
-    await caseListPage.proceedToAvailableTask();
-    await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All','Et1 Vetting')
-    await workAllocationTaskPages.verifyWAtaskTabPage(submissionReference);
-    // vet the case
-    await caseListPage.selectNextEvent('ET1 case vetting'); //Case acceptance or rejection Event
-    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
-  },
-)
-  .tag('@nightly')
-  .retry(2);
+    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    globalSearchPages.searchingWithOneParam('submission reference', submissionReference);
+  }
+  ).tag('@gsearch');
