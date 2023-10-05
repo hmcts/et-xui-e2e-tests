@@ -50,7 +50,7 @@
     "devDependencies": {
         "@codeceptjs/configure": "0.10.0",
         "@codeceptjs/examples": "1.2.1",
-        "@codeceptjs/ui": "0.6.1",
+        "@codeceptjs/ui": "0.7.0",
         "codeceptjs": "3.5.4",
         "husky": "8.0.3",
         "webdriverio": "8.16.3"
