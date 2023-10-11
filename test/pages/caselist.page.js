@@ -74,7 +74,7 @@ module.exports = {
     I.click(this.submissionReferenceLocator);
     I.fillField(this.submissionReferenceLocator, submissionReference);
     I.wait(3);
-    I.click(this.applyButton);
+    I.forceClick(this.applyButton);
   },
 
   processCaseFromCaseList(submissionReference) {

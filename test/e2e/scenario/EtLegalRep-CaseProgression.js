@@ -71,7 +71,7 @@ Scenario(
       submissionReference,
       respondentName,
       ClaimantFirstName,
-      ClaimantLastName
+      ClaimantLastName,
     );
     I.click('Sign out');
     //Case progression  -- applicant to respond to tribunal request
@@ -87,5 +87,6 @@ Scenario(
     await citizenHubPages.cyaPageVerification();
   },
 )
-  .tag('@sample')
+  .tag('@caseView')
+  .tag('@nightly')
   .retry(1);

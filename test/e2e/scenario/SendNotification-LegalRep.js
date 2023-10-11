@@ -1,58 +1,66 @@
 //const applicationsTabsPages = require('../../pages/applicationsTabs.pages.js');
 const testConfig = require('../config.js');
-// const postcode = 'LS9 9HE';
-// const workPostcode = 'LS7 4QE';
-// const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
-// const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
-// const firstLineOfAddress = '7, Valley Gardens?';
+const postcode = 'LS9 9HE';
+const workPostcode = 'LS7 4QE';
+const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
+const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
+const firstLineOfAddress = '7, Valley Gardens?';
+
+//Scotish Details
+const scotPostcode = 'FK15 9ET';
+const scotAddressOption = '3e, Station Road, Dunblane, FK15 9ET';
+const scotWorkPostcode = 'EH45 9BU';
+const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
+const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
 Feature('End To End Tests For an ET3  Notification ');
 Scenario(
   'Send Notification - Tribunal - Request',
   async ({
     I,
-    //basePage,
+    basePage,
     loginPage,
-    //taskListPage,
-    //personalDetailsPage,
-    //employmentAndRespondentDetailsPage,
-    //claimDetailsPage,
-    //submitClaimPage,
+    taskListPage,
+    personalDetailsPage,
+    employmentAndRespondentDetailsPage,
+    claimDetailsPage,
+    submitClaimPage,
     caseListPage,
-    //et1CaseVettingPages,
-    //et1CaseServingPages,
+    et1CaseVettingPages,
+    et1CaseServingPages,
     citizenHubPages,
     applicationsTabsPages,
     sendNotificationPages,
   }) => {
     I.amOnPage('/', 20);
-    // await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    // await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
-    // await taskListPage.processPostLoginPagesForTheDraftApplication();
-    // await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
-    // await employmentAndRespondentDetailsPage.processStillWorkingJourney(
-    //   workPostcode,
-    //   selectedWorkAddress,
-    //   firstLineOfAddress,
-    // );
-    // await claimDetailsPage.processClaimDetails();
-    // let submissionReference = await submitClaimPage.submitClaim();
-    // //I.click('Sign out');
-    const submissionReference = '1690815796919821';
+    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
+    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    await taskListPage.processPostLoginPagesForTheDraftApplication();
+    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
+    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
+      workPostcode,
+      selectedWorkAddress,
+      firstLineOfAddress,
+    );
+    await claimDetailsPage.processClaimDetails();
+    let submissionReference = await submitClaimPage.submitClaim();
+    pause();
+    //I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     //let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-
     console.log('The value of the Case Number ' + submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
     await caseListPage.verifyCaseDetailsPage();
-    // await caseListPage.selectNextEvent('3: Object'); //Firing the ET1 Event.
-    // await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
-    //await caseListPage.verifyCaseDetailsPage(true);
-    // await caseListPage.selectNextEvent('4: Object'); //Case acceptance or rejection Event
-    // await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    // case vetting
+    await caseListPage.selectNextEvent('ET1 case vetting');
+    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
+    // case acceptance
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
+    await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+
     await caseListPage.selectTab('Notifications');
     await applicationsTabsPages.SendNotification();
     await sendNotificationPages.sendNotificationLink('cmo', 'yes', 'Both parties', 'legal officer', 'both');
@@ -68,55 +76,57 @@ Scenario(
     await citizenHubPages.verifySendNotification();
   },
 )
-  .tag('@RET-NISH')
+  .tag('@SNotiEW')
+  .tag('@SendNoti')
+  .tag('@nightly')
   .retry(2);
 
 Scenario(
   'Verify Respond to Notification-ManagementOrder - LegalRep',
   async ({
     I,
-    //basePage,
+    basePage,
     loginPage,
-    //taskListPage,
-    //personalDetailsPage,
-    //employmentAndRespondentDetailsPage,
-    //claimDetailsPage,
-    //submitClaimPage,
+    taskListPage,
+    personalDetailsPage,
+    employmentAndRespondentDetailsPage,
+    claimDetailsPage,
+    submitClaimPage,
     caseListPage,
-    //et1CaseVettingPages,
-    //et1CaseServingPages,
+    et1CaseVettingPages,
+    et1CaseServingPages,
     citizenHubPages,
     applicationsTabsPages,
     //sendNotificationPages,
   }) => {
-    I.amOnPage('/', 20);
-    // await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    // await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
-    // await taskListPage.processPostLoginPagesForTheDraftApplication();
-    // await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
-    // await employmentAndRespondentDetailsPage.processStillWorkingJourney(
-    //   workPostcode,
-    //   selectedWorkAddress,
-    //   firstLineOfAddress,
-    // );
-    // await claimDetailsPage.processClaimDetails();
-    // let submissionReference = await submitClaimPage.submitClaim();
-    // //I.click('Sign out');
-    const submissionReference = '1690815796919821';
+    I.amOnPage('/');
+    await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
+    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    await taskListPage.processPostLoginPagesForTheDraftApplication();
+    await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);
+    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
+      scotWorkPostcode,
+      scotSelectedWorkAddress,
+      scotFirstLineOfAddress,
+    );
+    await claimDetailsPage.processClaimDetails();
+    let submissionReference = await submitClaimPage.submitClaim();
+    //I.click('Sign out');
+    pause();
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
-    //let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-
     console.log('The value of the Case Number ' + submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
     await caseListPage.verifyCaseDetailsPage();
-    // await caseListPage.selectNextEvent('3: Object'); //Firing the ET1 Event.
-    // await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
-    //await caseListPage.verifyCaseDetailsPage(true);
-    // await caseListPage.selectNextEvent('4: Object'); //Case acceptance or rejection Event
-    // await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    // case vetting
+    await caseListPage.selectNextEvent('ET1 case vetting');
+    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
+    // case acceptance
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
+    await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    //send notification
+    await caseListPage.selectTab('Notifications');
     await caseListPage.selectTab('Judgments, orders & notifications');
     await applicationsTabsPages.respondtoAnOrderOrNotification();
 
@@ -130,5 +140,8 @@ Scenario(
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.verifySendNotification();
   },
-)  .tag('@nightly')
+)
+  .tag('@SNotiScot')
+  .tag('@SendNoti')
+  .tag('@nightly')
   .retry(2);

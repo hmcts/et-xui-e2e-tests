@@ -32,6 +32,7 @@ module.exports = {
   respondentFlagTypeLackingCapacity: '#flag-type-11',
   otherRespondentOption: '#flag-type-12',
   firstCaseToDeActivate: '#flag-selection-0',
+  caseFlagLinkfromBanner: '//a[.="View case flags"]',
 
   setCaseFlagLevel(partyType) {
     I.see('Where should this flag be added?');
@@ -132,6 +133,19 @@ module.exports = {
     I.waitForElement(this.caseFlagSuccessAlert,10);
   },
 
+  viewCaseFlags() {
+    I.waitForElement(this.caseFlagLinkfromBanner, 10);
+    I.click(this.caseFlagLinkfromBanner);
+    I.see('Case flags');
+    I.see('Party level flags');
+    I.see('Comments');
+    I.see('Creation date');
+    I.see('Last modified');
+    I.see('Alexa Siri');
+    I.see('Henry Marsh');
+    I.see('Case level flags');
+  },
+
   deactivateCaseFlag() {
     I.waitForElement(this.nextButton, 10);
     I.checkOption(this.firstCaseToDeActivate);
@@ -142,7 +156,6 @@ module.exports = {
     I.see('Manage case flags');
     I.click(this.submitCaseFlag);
     I.waitForElement(this.caseFlagSuccessMsgDeactivate, 10);
-
   }
 
 }

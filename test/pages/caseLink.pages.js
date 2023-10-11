@@ -11,7 +11,7 @@ module.exports = {
   linkedForHearingOption: '#CLRC017',
   progressedAsPartofLeadCase: '#CLRC016',
   removeLinkedCase: '//a[.="Remove"]',
-  submitButton: '[type="submit"]',
+  submitButton: '//button[@class="button"]',
   checkedLinkedCases: '[name="linkedCases"]',
   cyaBody: '#fieldset-case-data',
   unlinkCasesSuccessMessageAlert: '//div[@class="alert-message"]',

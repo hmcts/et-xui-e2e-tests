@@ -4,7 +4,11 @@ module.exports = {
   notification_tab2: '[aria-posinset="11"]',
   notification_link: 'Send a notification',
   respondtoAnOrderOrNotificationLink: 'Respond to an order or request from the tribunal',
-  caseFlagsTab: '[aria-posinset="12"]',
+  caseFlagsTab: '[aria-posinset="10"]',
+  caseFileViewTab: '//div[12]',
+  searchDocumentFromCaseFileView: '#document-search',
+  uncategorisedDocument: '//span[.="Uncategorised documents"]',
+
   //caption[.='Alexa Siri']
 
   selectNotificationLink() {
@@ -26,6 +30,14 @@ module.exports = {
     I.see('Alexa Siri');
     I.see('Henry Marsh');
     I.see('Case level flags');
+  },
+
+  selectCaseFileView() {
+    I.click(this.caseFlagsTab);
+    I.seeElement('.govuk-heading-l')
+    I.see('Case file');
+    I.seeElement(this.searchDocumentFromCaseFileView);
+   // I.seeElement(this.uncategorisedDocument);
   }
 
 };
