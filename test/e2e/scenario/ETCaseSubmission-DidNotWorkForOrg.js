@@ -27,7 +27,7 @@ Scenario(
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processDidNotWorkForOrganisationMakingClaimAgainst(
       workPostcode,
-      selectedWorkAddress
+      selectedWorkAddress,
     );
 
     await claimDetailsPage.processClaimDetails();

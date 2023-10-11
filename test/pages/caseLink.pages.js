@@ -17,23 +17,23 @@ module.exports = {
   unlinkCasesSuccessMessageAlert: '//div[@class="alert-message"]',
 
   checksCaseLinktartingPage() {
-   I.waitForElement(this.nextButton, 10)
-    I.see('If a group of linked cases has a lead case, you must start from the lead case.')
-    I.see('If the cases to be linked has no lead, you can start the linking journey from any of those cases.')
+    I.waitForElement(this.nextButton, 10);
+    I.see('If a group of linked cases has a lead case, you must start from the lead case.');
+    I.see('If the cases to be linked has no lead, you can start the linking journey from any of those cases.');
     I.click(this.nextButton);
   },
   enterCaseLinkReferenceWithHearing(submissionReference) {
     I.waitForElement(this.caseLinkProposeButton, 10);
     I.see('Enter case reference');
-    I.see('Why should these cases be linked?')
-    I.fillField(this.caseReferenceField,submissionReference);
+    I.see('Why should these cases be linked?');
+    I.fillField(this.caseReferenceField, submissionReference);
     I.checkOption(this.bailOption);
     I.checkOption(this.samePartyOption);
     I.checkOption(this.sharedEvidenceOption);
     I.checkOption(this.guardianOption);
     I.checkOption(this.linkedForHearingOption);
     I.checkOption(this.progressedAsPartofLeadCase);
-    I.click(this.caseLinkProposeButton)
+    I.click(this.caseLinkProposeButton);
     // check the remove button is working
     I.click(this.nextButton);
     I.waitForElement(this.submitButton);
@@ -43,25 +43,25 @@ module.exports = {
   enterCaseLinkReferenceWithoutHearing(submissionReference) {
     I.waitForElement(this.caseLinkProposeButton, 10);
     I.see('Enter case reference');
-    I.see('Why should these cases be linked?')
-    I.fillField(this.caseReferenceField,submissionReference);
+    I.see('Why should these cases be linked?');
+    I.fillField(this.caseReferenceField, submissionReference);
     I.checkOption(this.bailOption);
     I.checkOption(this.samePartyOption);
     I.checkOption(this.sharedEvidenceOption);
     I.checkOption(this.guardianOption);
     I.checkOption(this.progressedAsPartofLeadCase);
-    I.click(this.caseLinkProposeButton)
+    I.click(this.caseLinkProposeButton);
     // check the remove button is working
-    I.waitForElement(this.removeLinkedCase,10)
+    I.waitForElement(this.removeLinkedCase, 10);
     //enter the details again
-    I.fillField(this.caseReferenceField,submissionReference);
+    I.fillField(this.caseReferenceField, submissionReference);
     I.checkOption(this.bailOption);
     I.checkOption(this.samePartyOption);
     I.checkOption(this.sharedEvidenceOption);
     I.checkOption(this.guardianOption);
     I.checkOption(this.linkedForHearingOption);
     I.checkOption(this.progressedAsPartofLeadCase);
-    I.click(this.caseLinkProposeButton)
+    I.click(this.caseLinkProposeButton);
     I.wait(2);
     I.click(this.nextButton);
     I.waitForElement(this.submitButton);
@@ -80,6 +80,6 @@ module.exports = {
     I.click(this.submitButton);
     I.wait(2);
     I.click(this.submitButton);
-    I.waitForElement(this.unlinkCasesSuccessMessageAlert,15)
-  }
-}
+    I.waitForElement(this.unlinkCasesSuccessMessageAlert, 15);
+  },
+};

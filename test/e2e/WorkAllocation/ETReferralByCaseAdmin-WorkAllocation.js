@@ -5,28 +5,25 @@ const workPostcode = 'EH45 9BU';
 const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
-
-
-
 Feature('End To End; Work Allocation - Submit a Referral');
 Scenario(
   'Submit a case from Scotland - Case Admin Submit',
   async ({
-           I,
-           basePage,
-           loginPage,
-           taskListPage,
-           personalDetailsPage,
-           employmentAndRespondentDetailsPage,
-           claimDetailsPage,
-           submitClaimPage,
-           caseListPage,
-           et1CaseVettingPages,
-           et1CaseServingPages,
-           respondentRepresentativePage,
-           referralPages,
-           workAllocationTaskPages,
-         }) => {
+    I,
+    basePage,
+    loginPage,
+    taskListPage,
+    personalDetailsPage,
+    employmentAndRespondentDetailsPage,
+    claimDetailsPage,
+    submitClaimPage,
+    caseListPage,
+    et1CaseVettingPages,
+    et1CaseServingPages,
+    respondentRepresentativePage,
+    referralPages,
+    workAllocationTaskPages,
+  }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
@@ -47,7 +44,7 @@ Scenario(
     //assign the case via work Allocation
     await caseListPage.proceedtoWATaskPage();
     await caseListPage.proceedToAvailableTask();
-    await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All','Et1 Vetting', submissionReference)
+    await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference);
     await workAllocationTaskPages.verifyWAtaskTabPage(submissionReference);
     // vet the case
     await caseListPage.selectNextEvent('ET1 case vetting'); //Case acceptance or rejection Event
@@ -59,6 +56,6 @@ Scenario(
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Respondent Representative Event
     await respondentRepresentativePage.addRespondentRepresentative('registered', 'ET Test3 Organisation');
     //do referral as a admin case worker
-    await referralPages.submitAreferral('et.ctscworker010@justice.gov.uk','Admin','Test Referral by Admin','Yes',1);
-
-  }).tag('@nightly');
+    await referralPages.submitAreferral('et.ctscworker010@justice.gov.uk', 'Admin', 'Test Referral by Admin', 'Yes', 1);
+  },
+).tag('@nightly');

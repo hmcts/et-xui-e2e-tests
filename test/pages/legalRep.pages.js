@@ -74,13 +74,13 @@ module.exports = {
     I.click(this.continueButtonLegalRep);
     //I.waitForVisible(this.confirmdiv, 10);
     I.see('Check and submit');
-    I.waitForElement(this.detailConfirmationCheckbox,10);
+    I.waitForElement(this.detailConfirmationCheckbox, 10);
     I.scrollTo(this.detailConfirmationCheckbox);
     I.checkOption(this.detailConfirmationCheckbox);
     I.checkOption(this.notifyPartyCheckbox);
     I.wait(2);
     I.forceClick(this.continueButtonLegalRep);
-    I.waitForElement(this.successfulMessageHeader,20);
+    I.waitForElement(this.successfulMessageHeader, 20);
     I.see('Notice of change successful');
   },
 };

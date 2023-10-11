@@ -58,4 +58,5 @@ Scenario(
     await citizenHubPages.verifyET3RespondentResponseonCUI();
   },
 )
-  .tag('@nightly').retry(1);
+  .tag('@nightly')
+  .retry(1);

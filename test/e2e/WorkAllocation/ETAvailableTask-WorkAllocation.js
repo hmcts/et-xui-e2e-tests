@@ -9,18 +9,18 @@ Feature('CTSC Admin Verify Task');
 Scenario(
   'Verify CTSC Admin can see created task from Available Task -Assign and Unassign to self',
   async ({
-           I,
-           basePage,
-           loginPage,
-           taskListPage,
-           personalDetailsPage,
-           employmentAndRespondentDetailsPage,
-           claimDetailsPage,
-           submitClaimPage,
-           caseListPage,
-           workAllocationTaskPages,
-           et1CaseVettingPages,
-         }) => {
+    I,
+    basePage,
+    loginPage,
+    taskListPage,
+    personalDetailsPage,
+    employmentAndRespondentDetailsPage,
+    claimDetailsPage,
+    submitClaimPage,
+    caseListPage,
+    workAllocationTaskPages,
+    et1CaseVettingPages,
+  }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
@@ -40,7 +40,7 @@ Scenario(
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.proceedtoWATaskPage();
     await caseListPage.proceedToAvailableTask();
-    await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All','Et1 Vetting')
+    await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting');
     await workAllocationTaskPages.verifyWAtaskTabPage(submissionReference);
     // vet the case
     await caseListPage.selectNextEvent('ET1 case vetting'); //Case acceptance or rejection Event
