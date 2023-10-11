@@ -65,6 +65,5 @@ Scenario(
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.verifySendNotification();
   },
-)
-  .tag('@nightly');
-  //.retry(2);
+).tag('@nightly');
+//.retry(2);

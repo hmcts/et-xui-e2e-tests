@@ -15,7 +15,7 @@ module.exports = {
   caseFlagSuccessAlert: '.hmcts-banner__message',
   caseOptionToDeactivate: '#conditional-radios-list',
   nextButton: '.button-primary',
-  updateFlagComment:'[for="flagComments"]',
+  updateFlagComment: '[for="flagComments"]',
   deactivateButton: 'ccd-update-flag .govuk-grid-row .button',
   caseFlagSuccessMsgDeactivate: '.hmcts-banner--success',
   respondentFlagTypeReasonableAdjustment: '#flag-type-0',
@@ -48,7 +48,6 @@ module.exports = {
         break;
       default:
         throw new Error('... check you options or add new option');
-
     }
     I.click(this.caseFlagNextButton);
   },
@@ -125,12 +124,12 @@ module.exports = {
   },
 
   caseFlagSubmission() {
-    I.see('Add comments for this flag')
+    I.see('Add comments for this flag');
     I.fillField(this.addCommentToFlag, 'Adding comment to a flagged case');
     I.click(this.caseFlagNextButton);
     I.wait(2);
     I.click(this.submitCaseFlag);
-    I.waitForElement(this.caseFlagSuccessAlert,10);
+    I.waitForElement(this.caseFlagSuccessAlert, 10);
   },
 
   viewCaseFlags() {
@@ -151,11 +150,10 @@ module.exports = {
     I.checkOption(this.firstCaseToDeActivate);
     I.click(this.nextButton);
     I.seeElement(this.updateFlagComment);
-    I.fillField(this.addCommentToFlag,'deactivating the flag');
+    I.fillField(this.addCommentToFlag, 'deactivating the flag');
     I.forceClick(this.nextButton);
     I.see('Manage case flags');
     I.click(this.submitCaseFlag);
     I.waitForElement(this.caseFlagSuccessMsgDeactivate, 10);
-  }
-
-}
+  },
+};

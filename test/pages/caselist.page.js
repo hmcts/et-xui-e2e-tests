@@ -1,5 +1,5 @@
 const { I } = inject();
-const testConfig = require('../../test/e2e/config' );
+const testConfig = require('../../test/e2e/config');
 module.exports = {
   caseListText: 'Case list',
   caseListLink: '[href="/cases"]',
@@ -134,7 +134,7 @@ module.exports = {
 
   searchTaskFromAllWorkAllLocation(taskTypeOption, taskByRole, taskName, submissionReference) {
     I.waitForElement(this.allWorkTab, 20);
-    I.click(this.allWorkTab)
+    I.click(this.allWorkTab);
     I.waitForElement(this.taskTabAllWork, 10);
     I.scrollPageToBottom();
     I.see('View and manage all tasks and cases.');
@@ -154,20 +154,20 @@ module.exports = {
         throw new Error('... check you options or add new option');
     }
     I.selectOption(this.taskByRoleType, taskByRole);
-    I.fillField(this.enterTaskName, taskName)
+    I.fillField(this.enterTaskName, taskName);
     // possibly needed more time for the case to pop up on the ui
     I.wait(15);
     I.click(this.applyFilterButton);
     I.wait(2);
-    let newlyCreatedTask = testConfig.TestUrlForManageCaseAAT + `/cases/case-details/` + `${submissionReference}` + `/tasks`;
+    let newlyCreatedTask =
+      testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + `${submissionReference}` + '/tasks';
     let checkLink = I.grabAttributeFrom({ css: 'a' }, 'href');
     checkLink.includes(newlyCreatedTask);
   },
   verifiedLinkedCasesFromCaseLinkTab(submissionReference) {
     I.waitForElement(this.linkedCasesTab, 20);
     I.click(this.linkedCasesTab);
-    let el = `[href="cases/case-details/${submissionReference}"]`
+    let el = `[href="cases/case-details/${submissionReference}"]`;
     I.seeElement(el);
-
-  }
+  },
 };

@@ -98,7 +98,7 @@ exports.config = {
       deleteSuccessful: false,
     },
     heal: {
-      enabled: true
+      enabled: true,
     },
     retryFailedStep: {
       enabled: true,

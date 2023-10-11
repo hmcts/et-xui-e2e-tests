@@ -34,10 +34,9 @@ module.exports = {
 
   selectCaseFileView() {
     I.click(this.caseFlagsTab);
-    I.seeElement('.govuk-heading-l')
+    I.seeElement('.govuk-heading-l');
     I.see('Case file');
     I.seeElement(this.searchDocumentFromCaseFileView);
-   // I.seeElement(this.uncategorisedDocument);
-  }
-
+    // I.seeElement(this.uncategorisedDocument);
+  },
 };

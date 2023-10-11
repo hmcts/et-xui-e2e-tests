@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 const { I } = inject();
 
 module.exports = {
@@ -22,11 +23,10 @@ module.exports = {
   referralDocDescription: '#referralDocument_0_shortDescription',
   ContinueButton: '[type="submit"]',
 
-
-  async submitAreferral(emailAddress, referralOption, details, urgency, number) {
+  async submitAreferral(emailAddress, referralOption, details, urgency) {
     await I.click(this.referals_tab);
-    pause();
-    I.waitForElement(this.referralLinks,10);
+
+    I.waitForElement(this.referralLinks, 10);
     await I.click(this.create_new_referral);
     I.waitForElement(this.ContinueButton, 10);
     try {
@@ -39,11 +39,11 @@ module.exports = {
           break;
         case 'Legal Officer':
           await I.checkOption(this.referCaseToLegalOfficer);
+          break;
         default:
           throw new Error('there are 3 options please choose from the options listed');
       }
-    }
-    catch (e) {
+    } catch (e) {
       console.error('invalid option', e.message);
     }
     await I.fillField(this.referralEmail, emailAddress);
@@ -59,9 +59,9 @@ module.exports = {
     }
     // number represent the referral subject from the dropdown
     // 1 for ET1
-    await I.selectOption(this.referralSubjectDropdown, "1: ET1");
+    await I.selectOption(this.referralSubjectDropdown, '1: ET1');
     I.forceClick(this.addReferralDoc);
-    I.scrollPageToBottom()
+    I.scrollPageToBottom();
     I.attachFile(this.uploadFileButton, '../data/RET_newBug.png');
     I.fillField(this.referralDocDescription, 'attach doc to referrals');
     I.wait(3);
@@ -72,6 +72,5 @@ module.exports = {
     await I.click(this.ContinueButton);
     I.wait(2);
     await I.click(this.ContinueButton);
-
-  }
-}
+  },
+};

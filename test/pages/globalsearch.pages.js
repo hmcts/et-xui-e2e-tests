@@ -2,7 +2,7 @@ const { I } = inject();
 
 module.exports = {
   searchPage: '//a[contains(.,"Search")]',
-  searchButton: `[type='submit']`,
+  searchButton: '[type="submit"]',
   submissionRefField: '#caseRef',
   otherRefField: '#otherRef',
   searchNameField: '#fullName',
@@ -58,7 +58,6 @@ module.exports = {
     I.waitForElement(this.changeSearchLink, 10);
     I.see('Search results');
     I.see('Employment');
-    I.see('Submitted')
-  }
-}
-
+    I.see('Submitted');
+  },
+};

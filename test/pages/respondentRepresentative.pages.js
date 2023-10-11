@@ -12,7 +12,7 @@ module.exports = {
   respondentRepresentativeEmailAddress: '#repCollection_0_representative_email_address',
   respondentRepresentativeContactPreference: '#repCollection_0_representative_preference', // '1: Email'
 
-  addRespondentRepresentative(regOption,orgName) {
+  addRespondentRepresentative(regOption, orgName) {
     I.waitForElement(this.nonRegisteredLegalOrg, 20);
     I.see('Respondent Representative');
     I.selectOption(this.selectRespondent, 'Henry Marsh'); // add respondent name from case creation
