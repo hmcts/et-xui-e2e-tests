@@ -48,4 +48,5 @@ Scenario(
   },
 )
   .tag('@nightly')
+  .tag('@postr1.2')
   .retry(1);

@@ -124,7 +124,7 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
     citizenHubPages,
-    //respondentRepresentativePage,
+    respondentRepresentativePage,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);

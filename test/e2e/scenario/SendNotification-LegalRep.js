@@ -142,6 +142,6 @@ Scenario(
   },
 )
   .tag('@SNotiScot')
-  .tag('@SendNoti')
+  .tag('@postr1.2')
   .tag('@nightly')
   .retry(2);
