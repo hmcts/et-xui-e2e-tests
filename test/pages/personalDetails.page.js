@@ -61,7 +61,7 @@ module.exports = {
     I.refreshPage();
     I.dontSeeElement('#address1');
     I.fillField('#addressEnterPostcode', postcode);
-    I.wait(2)
+    I.wait(2);
     I.click('Save and continue');
     I.waitForVisible('#addressAddressTypes', 30);
     I.see('Select an address');

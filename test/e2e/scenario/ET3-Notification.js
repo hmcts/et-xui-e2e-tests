@@ -48,14 +48,14 @@ Scenario(
     await caseListPage.selectNextEvent('9: Object'); //ET3NotificationEvent
     await et3NotificationPages.uploadET3acceptanceLetter('single document');
     I.click('Sign out');
-    await citizenHubPages.processCitizenHubLogin(
-      testConfig.TestEnvETUser,
-      testConfig.TestEnvETPassword,
-      submissionReference,
-    );
+    // await citizenHubPages.processCitizenHubLogin(
+    //   testConfig.TestEnvETUser,
+    //   testConfig.TestEnvETPassword,
+    //   submissionReference,
+    // );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.verifyET3RespondentResponseonCUI();
   },
 )
-  .tag('@RET-TEST').retry(1);
+  .tag('@nightly').retry(1);

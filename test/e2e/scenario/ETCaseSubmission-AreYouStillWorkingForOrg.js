@@ -46,7 +46,7 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    await respondentRepresentativePage.addRespondentRepresentative('registered')
+    await respondentRepresentativePage.addRespondentRepresentative('registered');
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
@@ -103,18 +103,10 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    I.click('Sign out');
-    /*    await citizenHubPages.processCitizenHubLogin(
-      testConfig.TestEnvETUser,
-      testConfig.TestEnvETPassword,
-      submissionReference,
-    );
-    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
-    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPages.VerifyFormType();
-    */
   },
-).tag('@RET-BAT').retry(2);
+)
+  .tag('@RET-BAT')
+  .retry(2);
 
 Scenario(
   'Create a claim for no longer working for organisation, submit and process within manage cases',
@@ -160,7 +152,7 @@ Scenario(
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     // add org to case to enable cui applications
     await caseListPage.selectNextEvent('8: Object'); //Case acceptance or rejection Event
-    //await respondentRepresentativePage.addRespondentRepresentative('registered')
+    await respondentRepresentativePage.addRespondentRepresentative('registered');
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
@@ -177,7 +169,14 @@ Scenario(
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseOverviewPage.recordAdecisionOnAcase(submissionReference,'1 - Withdraw all/part of claim','granted','case management order','legal officer','both')
+    await caseOverviewPage.recordAdecisionOnAcase(
+      submissionReference,
+      '1 - Withdraw all/part of claim',
+      'granted',
+      'case management order',
+      'legal officer',
+      'both',
+    );
   },
 )
   .tag('@RET-BAT')

@@ -12,7 +12,7 @@ module.exports = {
   },
 
   startDraftApplication() {
-    I.click('[class="govuk-button cookie-banner-reject-button"]');
+    //I.click('[class="govuk-button cookie-banner-reject-button"]');
     I.waitForText('Make a claim to an employment tribunal', 30);
     I.click('Start now');
   },

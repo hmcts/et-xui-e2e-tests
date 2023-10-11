@@ -62,7 +62,9 @@ const setupConfig = {
     citizenHubPages: '../pages/citizenhub.pages.js',
     judgementCollectionPage: '../pages/judgementCollection.page.js',
     et3NotificationPages: '../pages/et3Notification.pages.js',
-    respondentRepresentativePage: '../pages/respondentRepresentative.pages.js'
+    respondentRepresentativePage: '../pages/respondentRepresentative.pages.js',
+    referralPages: '../pages/referrals.pages.js',
+    caseLinkPages: '../pages/caseLink.pages.js',
   },
   bootstrap: null,
   mocha: {

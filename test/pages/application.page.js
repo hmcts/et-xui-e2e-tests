@@ -34,7 +34,6 @@ module.exports = {
   yesToTribunal: '#tseAdmReplyCmoIsResponseRequired > option:nth-child(2)',
   noToTribunal: '#tseAdmReplyCmoIsResponseRequired > option:nth-child(3)',
   selectBothParties: '#tseAdmReplySelectPartyNotify-Both parties',
-  claimantOnly: '#tseAdmReplySelectPartyNotify-Claimant only',
   respondentOnly: '#tseAdmReplySelectPartyNotify-Respondent only',
 
   selectApplicationType(applicationType) {
@@ -45,9 +44,9 @@ module.exports = {
           I.click(this.submitButton);
           break;
         case '1 - Amend response':
-            I.selectOption(this.applicationDropdown, '1 - Amend response');
-            I.click(this.submitButton);
-            break;
+          I.selectOption(this.applicationDropdown, '1 - Amend response');
+          I.click(this.submitButton);
+          break;
         case 'Postpone a hearing':
           I.waitForElement(this.applicationDropdown);
           I.selectOption(this.applicationDropdown, '1 - Postpone a hearing');
@@ -127,7 +126,7 @@ module.exports = {
     }
   },
 
-  respondToAnApplication(caseReference) {
+  respondToAnApplication() {
     I.click('Respond to an application');
   },
 
@@ -136,7 +135,7 @@ module.exports = {
     I.click(this.submitButton);
   },
   selectNextEvent(option) {
-    I.waitForEnabled(this.nextEventDropdown, 60);
+    I.waitForElement(this.nextEventDropdown, 60);
     I.selectOption(this.nextEventDropdown, option);
     I.wait(5);
     I.forceClick(this.submitButton);
@@ -151,22 +150,9 @@ module.exports = {
       case 'Judge':
         I.selectOption('#tseAdmReplyCmoMadeBy', option);
         I.fillField(this.fullName, 'Test Legal Officer');
-      default:
-        break;
-    }
-  },
-  selectPartyType() {
-    switch (option) {
-      case 'Both parties':
-        I.selectOption(this.selectBothParties, option);
-        break;
-      case 'Claimant only':
-        I.selectOption(this.claimantOnly, option);
-      case 'Respondant only':
-        I.selectOption(this.respondantOnly, option);
         break;
       default:
-        break;
+        throw new Error('... invalid option, check you options');
     }
   },
   selectResponseTotribunal(option) {
@@ -178,7 +164,7 @@ module.exports = {
         I.selectOption('#tseAdmReplyCmoIsResponseRequired', option);
         break;
       default:
-        break;
+        throw new Error('... invalid option, check you options');
     }
   },
   copyCorrespondance() {

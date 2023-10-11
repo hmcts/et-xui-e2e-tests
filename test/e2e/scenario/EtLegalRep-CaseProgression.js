@@ -1,4 +1,3 @@
-
 // go through NOC
 // legal rep make application
 // click on banner notification
@@ -14,27 +13,28 @@ const workPostcode = 'EH45 9BU';
 const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 const respondentName = 'Henry Mash';
-const ClaimantFirstName = 'etAutoesting';
-const ClaimantLastName = 'Manual'
+const ClaimantFirstName = 'Alexa';
+const ClaimantLastName = 'Siri';
 
 Feature('End To End Tests For an ET Case progression with NOC and response to Tribunal request');
 Scenario(
   'Case Progression - assign case to legal rep and respond to tribunal -- legal rep',
   async ({
-           I,
-           basePage,
-           loginPage,
-           taskListPage,
-           personalDetailsPage,
-           employmentAndRespondentDetailsPage,
-           claimDetailsPage,
-           submitClaimPage,
-           caseListPage,
-           et1CaseVettingPages,
-           et1CaseServingPages,
-           citizenHubPages,
-           legalRepNOCPages,
-         }) => {
+    I,
+    basePage,
+    loginPage,
+    taskListPage,
+    personalDetailsPage,
+    employmentAndRespondentDetailsPage,
+    claimDetailsPage,
+    submitClaimPage,
+    caseListPage,
+    et1CaseVettingPages,
+    et1CaseServingPages,
+    citizenHubPages,
+    respondentRepresentativePage,
+    legalRepNOCPages,
+  }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
@@ -61,11 +61,18 @@ Scenario(
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     //Case acceptance or rejection Event
     await caseListPage.selectNextEvent('6: Object'); //Case acceptance or rejection Event
+    await respondentRepresentativePage.addRespondentRepresentative('registered', 'test solicitor firm');
     I.click('Sign out');
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Scotland - Singles', submissionReference, respondentName, ClaimantFirstName, ClaimantLastName);
+    await legalRepNOCPages.processNOC(
+      'Eng/Wales - Singles',
+      submissionReference,
+      respondentName,
+      ClaimantFirstName,
+      ClaimantLastName,
+    );
     I.click('Sign out');
     //Case progression  -- applicant to respond to tribunal request
     await citizenHubPages.processCitizenHubLogin(
@@ -78,4 +85,8 @@ Scenario(
     await citizenHubPages.regAccountContactTribunal('withdraw all or part of my claim');
     await citizenHubPages.rule92Question('yes');
     await citizenHubPages.cyaPageVerification();
-  }).tag('@nightly').retry(2);
+  },
+)
+  .tag('@caseView')
+  .tag('@nightly')
+  .retry(1);

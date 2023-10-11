@@ -4,9 +4,6 @@ const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
 const workPostcode = 'EH45 9BU';
 const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
-const respondentName = 'Henry Mash';
-const ClaimantFirstName = 'etAutoesting';
-const ClaimantLastName = 'Manual'
 
 Feature('End To End; Tests For Submit a Scottish Case');
 Scenario(
@@ -26,7 +23,6 @@ Scenario(
     citizenHubPages,
     caseOverviewPage,
     respondentRepresentativePage,
-
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
@@ -40,13 +36,14 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     const submissionReference = await submitClaimPage.submitClaim();
+    pause();
     //I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     console.log('The value of the Case Number ' + submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-   //vet the case
+    //vet the case
     await caseListPage.verifyCaseDetailsPage();
     await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
@@ -55,11 +52,7 @@ Scenario(
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     // add org to case to enable cui applications
     await caseListPage.selectNextEvent('6: Object'); //Case acceptance or rejection Event
-   // await respondentRepresentativePage.addRespondentRepresentative('registered')
-    I.click('Sign out');
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Scotland', submissionReference, respondentName, ClaimantFirstName, ClaimantLastName);
+    await respondentRepresentativePage.addRespondentRepresentative('registered','ET Test3 Organisation');
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
@@ -76,6 +69,15 @@ Scenario(
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseOverviewPage.recordAdecisionOnAcase(submissionReference,'1 - Withdraw all/part of claim','granted','cmo-responding','legal officer','both')
+    await caseOverviewPage.recordAdecisionOnAcase(
+      submissionReference,
+      '1 - Withdraw all/part of claim',
+      'granted',
+      'cmo-responding',
+      'legal officer',
+      'both',
+    );
   },
-).tag('@RET-BAT').retry(1);
+)
+  .tag('@newTest')
+  .retry(1);
