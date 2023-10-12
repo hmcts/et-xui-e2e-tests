@@ -1,4 +1,5 @@
 const { setCommonPlugins } = require('@codeceptjs/configure');
+//const manageorgPage = require('../pages/manageorg/index.js.js.js');
 
 const testConfig = require('./config.js');
 
@@ -24,7 +25,7 @@ exports.config = {
     },
   },
   include: {
-    I: '../pages/steps_file.js',
+    I: './steps_file.js',
     basePage: '../pages/basepage.page.js',
     loginPage: '../pages/login.page.js',
     taskListPage: '../pages/taskList.page.js',
