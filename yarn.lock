@@ -324,9 +324,11 @@ __metadata:
   linkType: hard
 
 "@ljharb/through@npm:^2.3.9":
-  version: 2.3.10
-  resolution: "@ljharb/through@npm:2.3.10"
-  checksum: 0de3a042932545b5ef904d3be1b58980e5e393866875f2e167c6abb1840b407d745d54b418c3312b088bc569570700b0b8340084c4faa93f04be2bb81d682a7b
+  version: 2.3.11
+  resolution: "@ljharb/through@npm:2.3.11"
+  dependencies:
+    call-bind: ^1.0.2
+  checksum: 10502726028b8a4e0b270a2213e546821c04ed8d7fe411009a8e47497e4ae99c57eeb9ff3d13620ebdefd7c856b16fc873f27c433cad60465dc132fb4b997233
   languageName: node
   linkType: hard
 
