@@ -55,6 +55,9 @@ withNightlyPipeline("nodejs", product, component) {
 
     afterAlways('crossBrowserTest') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+        sh """
+           yarn playwright install
+        """
     }
 
     afterAlways('fullFunctionalTest') {
