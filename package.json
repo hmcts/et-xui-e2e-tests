@@ -8,9 +8,9 @@
     "license": "hmcts",
     "private": true,
     "scripts": {
-        "test:fullfunctional": "codeceptjs run -c test/e2e/codecept.conf.js --grep @postr1.2 --steps --reporter mocha-multi --verbose",
-        "test:local": "codeceptjs run -c test/e2e/codecept.conf.js --steps --reporter mocha-multi --verbose",
-        "parallel": "codeceptjs run --steps -c test/e2e/codecept.conf.js run-multiple parallel",
+        "test:fullfunctional": "codeceptjs run -c codecept.conf.js --grep @postr1.2 --steps --reporter mocha-multi --verbose",
+        "test:local": "codeceptjs run -c codecept.conf.js --steps --reporter mocha-multi --verbose",
+        "parallel": "codeceptjs run --steps -c codecept.conf.js run-multiple parallel",
         "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
         "lint-staged": "lint-staged",
         "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix && prettier --check ./test",
@@ -18,7 +18,7 @@
         "codeceptjs:demo": "codeceptjs run --steps -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
         "codeceptjs:demo:headless": "HEADLESS=true codeceptjs run --steps -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
         "codeceptjs:demo:ui": "codecept-ui --app  -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
-        "test:crossbrowser": "codeceptjs run-multiple ${BROWSER_GROUP:-'--all'} -c test/e2e/saucelabs.conf.js --grep @RET-XB --steps --reporter mocha-multi --verbose",
+        "test:crossbrowser": "codeceptjs run-multiple ${BROWSER_GROUP:-'--all'} -c saucelabs.conf.js --grep @RET-XB --steps --reporter mocha-multi --verbose",
         "test:profile": "SAUCE_TUNNEL_NAME=sunnyayeni_tunnel_name yarn test:fullfunctional  --steps -c saucelabs.conf.js --profile sauce:chrome,firefox,safari",
         "prepare": "husky install"
     },
@@ -52,6 +52,7 @@
         "@codeceptjs/examples": "1.2.1",
         "@codeceptjs/ui": "0.7.0",
         "codeceptjs": "3.5.5",
+        "config": "^3.3.9",
         "husky": "8.0.3",
         "webdriverio": "8.16.20"
     },

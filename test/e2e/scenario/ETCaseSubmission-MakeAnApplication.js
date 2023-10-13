@@ -1,5 +1,5 @@
 //const applicationPage = require('../../pages/application.page.js');
-const testConfig = require('../config.js');
+const testConfig = require('../../../config.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
 const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';

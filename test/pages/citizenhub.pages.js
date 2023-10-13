@@ -1,4 +1,4 @@
-const testConfig = require('../e2e/config');
+const testConfig = require('../../config');
 const { I } = inject();
 
 module.exports = {

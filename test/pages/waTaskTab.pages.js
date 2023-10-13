@@ -1,5 +1,5 @@
 const { I } = inject();
-const testConfig = require('../e2e/config');
+const testConfig = require('../../config');
 
 module.exports = {
   verifyWAtaskTabPage(submissionReference) {

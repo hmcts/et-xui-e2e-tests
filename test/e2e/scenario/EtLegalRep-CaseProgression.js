@@ -6,7 +6,7 @@
 // check status from application hub
 // citizen respond to application
 
-const testConfig = require('../config.js');
+const testConfig = require('../../../config.js');
 const postcode = 'FK15 9ET';
 const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
 const workPostcode = 'EH45 9BU';

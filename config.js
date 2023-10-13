@@ -1,5 +1,5 @@
 module.exports = {
-  TestUrl: process.env.TEST_URL || 'https://et-sya-pr-1022.preview.platform.hmcts.net/',
+  TestUrl: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net',
   TestUrlForManageCaseAAT: process.env.TEST_MANAGE_CASE_URL || 'https://manage-case.aat.platform.hmcts.net',
   TestShowBrowserWindow: process.env.SHOW_BROWSER_WINDOW || false,
   TestsPathToRun: process.env.E2E_TEST_PATH || './**/*.js',

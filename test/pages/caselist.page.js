@@ -1,5 +1,5 @@
 const { I } = inject();
-const testConfig = require('../../test/e2e/config');
+const testConfig = require('../../config');
 module.exports = {
   caseListText: 'Case list',
   caseListLink: '[href="/cases"]',
