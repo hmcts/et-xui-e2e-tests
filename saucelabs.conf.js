@@ -20,6 +20,19 @@ exports.config = {
       }
     }
   },
+  multiple: {
+    smoke: {
+      browsers: ['chrome', 'firefox', 'edge', 'safari'],  // List of browsers you want to run in parallel
+      windowSize: '1200x900',          // Set desired window size (optional)
+      delay: 2000                     // Delay between test starts (optional)
+    },
+    //regression: {
+    //  browsers: ['chrome', 'firefox'],  // List of browsers you want to run in parallel
+    //  windowSize: '1600x1200',         // Set desired window size (optional)
+   //   delay: 2000                      // Delay between test starts (optional)
+   // },
+
+  },
   include: {
     I: './test/pages/steps_file.js',
     basePage: './test/pages/basepage.page.js',
