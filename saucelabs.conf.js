@@ -1,6 +1,7 @@
+const testConfig = require("./config.js");
 exports.config = {
-  tests: './*_test.js',
-  output: './output',
+  tests: testConfig.TestsPathToRun,
+  output: `${process.cwd()}/${testConfig.TestReportFolder}`,
   helpers: {
     WebDriver: {
       url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net',
@@ -21,7 +22,7 @@ exports.config = {
     }
   },
   multiple: {
-    smoke: {
+    regression: {
       browsers: ['chrome', 'firefox', 'edge', 'safari'],  // List of browsers you want to run in parallel
       windowSize: '1200x900',          // Set desired window size (optional)
       delay: 2000                     // Delay between test starts (optional)
