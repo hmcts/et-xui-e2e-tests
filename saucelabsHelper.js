@@ -1,4 +1,4 @@
-const { Helper } = require('@codeceptjs/helper');
+const Helper = require('@codeceptjs/helper');
 
 class CustomHelper extends Helper {
 
