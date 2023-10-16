@@ -18,6 +18,12 @@ exports.config = {
         firefoxOptions: {
           // Add any Firefox-specific options here
         },
+        edgeOptions: {
+          // Add any Firefox-specific options here
+        },
+        safariOptions: {
+          // Add any Firefox-specific options here
+        },
       }
     }
   },
@@ -27,11 +33,6 @@ exports.config = {
       windowSize: '1200x900',          // Set desired window size (optional)
       delay: 2000                     // Delay between test starts (optional)
     },
-    //regression: {
-    //  browsers: ['chrome', 'firefox'],  // List of browsers you want to run in parallel
-    //  windowSize: '1600x1200',         // Set desired window size (optional)
-   //   delay: 2000                      // Delay between test starts (optional)
-   // },
 
   },
   include: {
@@ -63,6 +64,30 @@ exports.config = {
   },
 
   bootstrap: null,
-  mocha: {},
+  mocha: {
+    "reporterOptions": {
+      "codeceptjs-cli-reporter": {
+        "stdout": "-",
+        "options": {
+          "verbose": true,
+          "steps": true,
+        }
+      },
+      "mochawesome": {
+        "stdout": output/`console.log`,
+        "options": {
+          "reportDir": output,
+          "reportFilename": "report"
+        }
+      },
+      "mocha-junit-reporter": {
+        "stdout": output/`console.log`,
+        "options": {
+          "mochaFile": output/`output/result.xml`,
+          "attachments": true
+        }
+      }
+    }
+  },
   name: 'Employment Tribunal FE and XUI E2Ed Xbrowsers Tests'
 };
