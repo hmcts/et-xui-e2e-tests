@@ -3,6 +3,7 @@ const { I } = inject();
 module.exports = {
   nextButton: '#next-button',
   caseLinkProposeButton: '#propose',
+  beforeYouStartCaseLinking: '.govuk-heading-xl',
   caseReferenceField: '[name="width-20"]',
   bailOption: '#CLRC010',
   samePartyOption: '#CLRC003',
@@ -16,8 +17,10 @@ module.exports = {
   cyaBody: '#fieldset-case-data',
   unlinkCasesSuccessMessageAlert: '//div[@class="alert-message"]',
 
-  checksCaseLinktartingPage() {
+  checksCaseLinkStartingPage() {
     I.waitForElement(this.nextButton, 10);
+    I.waitForElement(this.beforeYouStartCaseLinking,10);
+    I.see('Before you start');
     I.see('If a group of linked cases has a lead case, you must start from the lead case.');
     I.see('If the cases to be linked has no lead, you can start the linking journey from any of those cases.');
     I.click(this.nextButton);

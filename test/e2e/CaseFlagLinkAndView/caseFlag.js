@@ -14,7 +14,7 @@ const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
 Feature('End To End Test -Case Linking ');
 Scenario(
-  'Link-2-Scottish-Cases - Multiple Reasons - Scotland',
+  'Case Flag - Claimant level - Scotland',
   async ({
            I,
            basePage,
@@ -26,9 +26,9 @@ Scenario(
            submitClaimPage,
            caseListPage,
            et1CaseVettingPages,
-           et1CaseServingPages,
+           caseFlagPages,
          }) => {
-    //case 1
+
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
@@ -41,22 +41,6 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
-    I.click('Sign out');
-    // case 2
-    I.amOnPage('/', 20);
-    I.clearCookie();
-    I.refreshPage();
-    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
-    await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
-    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
-      workPostcode,
-      selectedWorkAddress,
-      firstLineOfAddress,
-    );
-    await claimDetailsPage.processClaimDetails();
-    let submissionReference2 = await submitClaimPage.submitClaim();
     I.click('Sign out');
     //manage case
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
@@ -71,35 +55,27 @@ Scenario(
     await caseListPage.selectNextEvent('ET1 case vetting');
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     // case acceptance
-    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
+    await caseListPage.selectNextEvent('Accept/Reject Case');
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference2);
-    //let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    console.log('The value of the Case Number ' + submissionReference2);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
-    let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
-    await caseListPage.verifyCaseDetailsPage();
-    // case vetting
-    await caseListPage.selectNextEvent('ET1 case vetting');
-    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber2);
-    // case acceptance
-    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
-    await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
-    // link cases
-    await caseListPage.selectNextEvent('Link cases');
-    await caseLinkPages.checksCaseLinkStartingPage();
-    await caseLinkPages.enterCaseLinkReferenceWithoutHearing(submissionReference);
-    //unlink cases
-    await caseLinkPages.unlinkedCase();
+    // add case flag
+    await caseListPage.selectNextEvent('Create a case flag');
+    await caseFlagPages.setCaseFlagLevel('claimant level');
+    await caseFlagPages.caseFlagReasonsCaseLevel('Others');
+    await caseFlagPages.setCaseFlagReasonOptions('Others');
+    await caseFlagPages.caseFlagSubmission();
+    // view case flag
+    await caseFlagPages.viewCaseFlags();
+    //remove case flag
+    await caseFlagPages.deactivateCaseFlag();
   },
 )
-  .tag('@caseLink')
-  .tag('@cLinkEW')
+  .tag('@caseFlags')
+  .tag('@cFlagsSc')
   .tag('@nightly')
   .retry(1);
 
 Scenario(
-  'Link-2-Cases - Multiple Reasons - England & Wales',
+  'Case Flag - Respondent and Case Level- England & Wales',
   async ({
            I,
            basePage,
@@ -111,8 +87,8 @@ Scenario(
            submitClaimPage,
            caseListPage,
            et1CaseVettingPages,
-           et1CaseServingPages,
-           caseLinkPages,
+           caseFlagPages,
+
 
          }) => {
     //case 1
@@ -129,21 +105,6 @@ Scenario(
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
-    // case 2
-    I.amOnPage('/', 20);
-    I.clearCookie();
-    I.refreshPage();
-    await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
-    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
-    await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);
-    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
-      scotWorkPostcode,
-      scotSelectedWorkAddress,
-      scotFirstLineOfAddress,
-    );
-    await claimDetailsPage.processClaimDetails();
-    let submissionReference2 = await submitClaimPage.submitClaim();
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
     console.log('The value of the Case Number ' + submissionReference);
@@ -156,25 +117,28 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    // process case no 2
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference2);
-    let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
-    await caseListPage.verifyCaseDetailsPage();
-    // case vetting
-    await caseListPage.selectNextEvent('ET1 case vetting');
-    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber2);
-    // case acceptance
-    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
-    await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
-    // link cases
-    await caseListPage.selectNextEvent('Link cases');
-    await caseLinkPages.checksCaseLinkStartingPage();
-    await caseLinkPages.enterCaseLinkReferenceWithoutHearing(submissionReference);
-    //unlink cases
-    await caseLinkPages.unlinkedCase();
+    // add case flag
+    await caseListPage.selectNextEvent('Create a case flag');
+    await caseFlagPages.setCaseFlagLevel('claimant level');
+    await caseFlagPages.caseFlagReasonsCaseLevel('Others');
+    await caseFlagPages.setCaseFlagReasonOptions('Others');
+    await caseFlagPages.caseFlagSubmission();
+    // view case flag
+    await caseFlagPages.viewCaseFlags();
+    // create case level flag
+    await caseListPage.selectNextEvent('Create a case flag');
+    await caseFlagPages.setCaseFlagLevel('case level');
+    await caseFlagPages.caseFlagReasonsCaseLevel('Others');
+    await caseFlagPages.setCaseFlagReasonOptions('Others');
+    await caseFlagPages.caseFlagSubmission();
+    // view case flag
+    await caseFlagPages.viewCaseFlags();
+    // remove case flag
+    await caseFlagPages.deactivateCaseFlag();
+
   },
 )
-  .tag('@caseLink')
-  .tag('@cLinkEW')
+  .tag('@caseFlags')
+  .tag('@cFlagsEW')
   .tag('@nightly')
   .retry(1);

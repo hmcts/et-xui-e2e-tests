@@ -11,13 +11,14 @@ exports.config = {
   helpers: {
     Playwright: {
       url: testConfig.TestUrl,
+      browser:'chromium',
       show: testConfig.TestShowBrowserWindow,
       restart: false,
       timeout: 5000,
       waitForNavigation: 'domcontentloaded',
       waitForTimeout: 10000,
       ignoreHTTPSErrors: true,
-      windowSize: '1920x1080',
+      windowSize: 'maximize',
     },
     REST: {
       endpoint: 'https://idam-api.aat.platform.hmcts.net/loginUser',
@@ -47,7 +48,7 @@ exports.config = {
     referralPages: './test/pages/referrals.pages.js',
     workAllocationTaskPages: './test/pages/waTaskTab.pages.js',
     caseLinkPages: './test/pages/caseLink.pages.js',
-    caseFlagPages: './test/pages/caseFile.pages.js',
+    caseFlagPages: './test/pages/caseFlag.pages.js',
     globalSearchPages: './test/pages/globalsearch.pages.js',
   },
   bootstrap: null,
@@ -78,21 +79,7 @@ exports.config = {
     enableStackTrace: true,
   },
   name: 'et-xui-e2e-tests',
-  multiple: {
-    chrome: {
-      browsers: ['chrome'],
-    },
-    firefox: {
-      browsers: ['firefox'],
-    },
-    safari: {
-      browsers: ['safari'],
-    },
-    parallel: {
-      chunks: 2,
-      browsers: ['chrome', 'firefox', 'safari'],
-    },
-  },
+
   plugins: {
     stepByStepReport: {
       enabled: false,

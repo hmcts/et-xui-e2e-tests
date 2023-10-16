@@ -61,7 +61,7 @@ exports.config = {
     referralPages: './test/pages/referrals.pages.js',
     workAllocationTaskPages: './test/pages/waTaskTab.pages.js',
     caseLinkPages: './test/pages/caseLink.pages.js',
-    caseFlagPages: './test/pages/caseFile.pages.js',
+    caseFlagPages: './test/pages/caseFlag.pages.js',
     globalSearchPages: './test/pages/globalsearch.pages.js',
   },
 
