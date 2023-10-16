@@ -74,16 +74,16 @@ exports.config = {
         }
       },
       "mochawesome": {
-        "stdout": output/`console.log`,
+        "stdout": `${testConfig.TestReportFolder}/console.log`,
         "options": {
-          "reportDir": output,
+          "reportDir":`${testConfig.TestReportFolder}`,
           "reportFilename": "report"
         }
       },
       "mocha-junit-reporter": {
-        "stdout": output/`console.log`,
+        "stdout": `${testConfig.TestReportFolder}/console.log`,
         "options": {
-          "mochaFile": output/`output/result.xml`,
+          "mochaFile": `${testConfig.TestReportFolder}/output/result.xml`,
           "attachments": true
         }
       }
