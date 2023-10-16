@@ -74,7 +74,8 @@ exports.config = {
           "attachments": true
         }
       }
-    }
+    },
+    enableStackTrace: true,
   },
   name: 'et-xui-e2e-tests',
   multiple: {
@@ -94,7 +95,7 @@ exports.config = {
   },
   plugins: {
     stepByStepReport: {
-      enabled: true,
+      enabled: false,
       fullPageScreenshots: true,
       deleteSuccessful: false,
     },
