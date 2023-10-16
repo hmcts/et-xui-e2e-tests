@@ -96,7 +96,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codeceptjs/helper@npm:2.0.1":
+"@codeceptjs/helper@npm:2.0.1, @codeceptjs/helper@npm:^2.0.1":
   version: 2.0.1
   resolution: "@codeceptjs/helper@npm:2.0.1"
   checksum: f4dfc1a916943a708b19c172fb34bcb437734f15fa44b8804b794d31b919d3dad4de859c8b8aa1d1a2f40374044987fa6b6bc307258e0cebee2272bf755931ef
@@ -4117,6 +4117,7 @@ __metadata:
   dependencies:
     "@codeceptjs/configure": 0.10.0
     "@codeceptjs/examples": 1.2.1
+    "@codeceptjs/helper": ^2.0.1
     "@codeceptjs/ui": 0.7.0
     "@wdio/cli": 8.16.20
     "@wdio/crossbrowsertesting-service": 8.16.20

@@ -33,7 +33,9 @@ exports.config = {
       windowSize: '1200x900',          // Set desired window size (optional)
       delay: 2000                     // Delay between test starts (optional)
     },
-
+  },
+  CustomHelper: {
+    require: './saucelabsHelper.js',
   },
   include: {
     I: './test/pages/steps_file.js',

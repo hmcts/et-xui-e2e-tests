@@ -26,6 +26,7 @@
         "test/**/*.{js,jsx,ts,tsx}": "eslint"
     },
     "dependencies": {
+        "@codeceptjs/helper": "^2.0.1",
         "@wdio/cli": "8.16.20",
         "@wdio/crossbrowsertesting-service": "8.16.20",
         "@wdio/sauce-service": "8.16.20",
