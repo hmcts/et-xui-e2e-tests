@@ -52,27 +52,29 @@ exports.config = {
   },
   bootstrap: null,
   mocha: {
-    reporterEnabled: 'codeceptjs-cli-reporter, mochawesome',
-    reporterOptions: {
-      'codeceptjs-cli-reporter': {
-        stdout: '-',
-        options: {
-          verbose: false,
-          steps: true,
-        },
+    "reporterOptions": {
+      "codeceptjs-cli-reporter": {
+        "stdout": "-",
+        "options": {
+          "verbose": true,
+          "steps": true,
+        }
       },
-      mochawesome: {
-        stdout: './functional-output/e2e/console.log',
-        options: {
-          includeScreenshots: true,
-          reportDir: './functional-output/e2e/reports',
-          reportFilename: 'ET-XUI-E2E',
-          inline: true,
-          html: true,
-          json: true,
-        },
+      "mochawesome": {
+        "stdout": `${testConfig.TestReportFolder}/console.log`,
+        "options": {
+          "reportDir":`${testConfig.TestReportFolder}`,
+          "reportFilename": "report"
+        }
       },
-    },
+      "mocha-junit-reporter": {
+        "stdout": `${testConfig.TestReportFolder}/console.log`,
+        "options": {
+          "mochaFile": `${testConfig.TestReportFolder}/output/result.xml`,
+          "attachments": true
+        }
+      }
+    }
   },
   name: 'et-xui-e2e-tests',
   multiple: {
@@ -92,7 +94,7 @@ exports.config = {
   },
   plugins: {
     stepByStepReport: {
-      enabled: false,
+      enabled: true,
       fullPageScreenshots: true,
       deleteSuccessful: false,
     },
