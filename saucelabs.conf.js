@@ -6,7 +6,7 @@ exports.config = {
   helpers: {
     Playwright: {
       url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net',
-      show: true,
+      show: testConfig.TestShowBrowserWindow,
       browser: 'chromium', // This will be overridden
       emulate: {
         viewport: {
