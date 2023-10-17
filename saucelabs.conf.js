@@ -1,43 +1,21 @@
 const testConfig = require("./config.js");
+
 exports.config = {
   tests: testConfig.TestsPathToRun,
   output: `${process.cwd()}/${testConfig.TestReportFolder}`,
   helpers: {
-    WebDriver: {
+    Playwright: {
       url: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net',
-      browser: 'chrome',
-      host: 'hub.saucelabs.com',
-      port: 80,
-      user: process.env.SAUCE_USERNAME,
-      key: process.env.SAUCE_ACCESS_KEY,
-      tunnelIdentifier: process.env.TUNNEL_IDENTIFIER || 'reformtunnel',
-      acceptSslCerts: true,
-      tags: ['ET-E2E'],
-      desiredCapabilities: {
-        chromeOptions: {
-          // Add any Chrome-specific options here
+      show: true,
+      browser: 'chromium', // This will be overridden
+      emulate: {
+        viewport: {
+          width: 1920,
+          height: 1080,
         },
-        firefoxOptions: {
-          // Add any Firefox-specific options here
-        },
-        edgeOptions: {
-          // Add any Firefox-specific options here
-        },
-        safariOptions: {
-          // Add any Firefox-specific options here
-        },
-      }
-    }
-  },
-  multiple: {
-    regression: {
-      browsers: ['chrome', 'firefox', 'edge', 'safari'],  // List of browsers you want to run in parallel
-      windowSize: '1200x900',          // Set desired window size (optional)
-      delay: 2000                     // Delay between test starts (optional)
+        //userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
+      },
     },
-  },
-  CustomHelper: {
-    require: './saucelabsHelper.js',
   },
   include: {
     I: './test/pages/steps_file.js',
@@ -66,7 +44,6 @@ exports.config = {
     caseFlagPages: './test/pages/caseFlag.pages.js',
     globalSearchPages: './test/pages/globalsearch.pages.js',
   },
-
   bootstrap: null,
   mocha: {
     "reporterOptions": {
@@ -93,5 +70,41 @@ exports.config = {
       }
     }
   },
-  name: 'Employment Tribunal FE and XUI E2Ed Xbrowsers Tests'
+  name: 'ET-E2E Test',
+  plugins: {
+    saucelabs: {
+      enabled: true,
+      require: 'codeceptjs-saucelabs',
+      username:  process.env.SAUCE_USERNAME,
+      accessKey: process.env.SAUCE_ACCESS_KEY,
+      hostname: 'ondemand.eu-central-1.saucelabs.com',
+      region: 'eu-central-1',
+      tunnelIdentifier: process.env.TUNNEL_IDENTIFIER || 'reformtunnel',
+      acceptSslCerts: true,
+      tags: ['ET-E2E'],
+      browsers: [
+        {
+          browserName: 'firefox',
+          browserVersion: 'latest',
+          platformName: 'Windows 10',
+        },
+        {
+          browserName: 'firefox',
+          browserVersion: 'latest',
+          platformName: 'Windows 10',
+        },
+        {
+          browserName: 'MicrosoftEdge',
+          browserVersion: 'latest',
+          platformName: 'macOS 13',
+        },
+        {
+          browserName: 'safari',
+          browserVersion: 'latest',
+          platformName: 'macOS 13',
+        }
+
+      ],
+    },
+  },
 };
