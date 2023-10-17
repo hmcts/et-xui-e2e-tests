@@ -11,6 +11,8 @@ exports.config = {
       user: process.env.SAUCE_USERNAME,
       key: process.env.SAUCE_ACCESS_KEY,
       tunnelIdentifier: process.env.TUNNEL_IDENTIFIER || 'reformtunnel',
+      acceptSslCerts: true,
+      tags: ['ET-E2E'],
       desiredCapabilities: {
         chromeOptions: {
           // Add any Chrome-specific options here
