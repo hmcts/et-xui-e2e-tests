@@ -26,6 +26,7 @@ Scenario(
            submitClaimPage,
            caseListPage,
            et1CaseVettingPages,
+           et1CaseServingPages,
            caseFlagPages,
          }) => {
 
@@ -87,6 +88,7 @@ Scenario(
            submitClaimPage,
            caseListPage,
            et1CaseVettingPages,
+           et1CaseServingPages,
            caseFlagPages,
 
 
