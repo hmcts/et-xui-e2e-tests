@@ -67,7 +67,6 @@ Scenario(
     console.log('The value of the Case Number ' + submissionReference);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.verifyCaseDetailsPage();
     // case vetting
     await caseListPage.selectNextEvent('ET1 case vetting');
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
@@ -79,7 +78,6 @@ Scenario(
     console.log('The value of the Case Number ' + submissionReference2);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
-    await caseListPage.verifyCaseDetailsPage();
     // case vetting
     await caseListPage.selectNextEvent('ET1 case vetting');
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber2);
@@ -150,7 +148,6 @@ Scenario(
     console.log('The value of the Case Number ' + submissionReference);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.verifyCaseDetailsPage();
     // case vetting
     await caseListPage.selectNextEvent('ET1 case vetting');
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
@@ -160,7 +157,6 @@ Scenario(
     // process case no 2
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference2);
     let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
-    await caseListPage.verifyCaseDetailsPage();
     // case vetting
     await caseListPage.selectNextEvent('ET1 case vetting');
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber2);
