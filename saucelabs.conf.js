@@ -1,5 +1,5 @@
 const testConfig = require("./config.js");
-
+const codeceptjsSaucelabs = require("codeceptjs-saucelabs");
 exports.config = {
   tests: testConfig.TestsPathToRun,
   output: `${process.cwd()}/${testConfig.TestReportFolder}`,
@@ -74,7 +74,7 @@ exports.config = {
   plugins: {
     saucelabs: {
       enabled: true,
-      require: 'codeceptjs-saucelabs',
+      require: codeceptjsSaucelabs,
       username:  process.env.SAUCE_USERNAME,
       accessKey: process.env.SAUCE_ACCESS_KEY,
       hostname: 'ondemand.eu-central-1.saucelabs.com',
@@ -103,7 +103,6 @@ exports.config = {
           browserVersion: 'latest',
           platformName: 'macOS 13',
         }
-
       ],
     },
   },
