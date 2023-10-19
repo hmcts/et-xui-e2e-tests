@@ -1,5 +1,6 @@
 const testConfig = require("./config.js");
 const codeceptjsSaucelabs = require("codeceptjs-saucelabs");
+
 exports.config = {
   tests: testConfig.TestsPathToRun,
   output: `${process.cwd()}/${testConfig.TestReportFolder}`,
