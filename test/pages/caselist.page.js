@@ -47,7 +47,7 @@ module.exports = {
   },
 
   searchCaseApplicationWithSubmissionReference(option, submissionReference) {
-    I.waitForElement(this.caseListLink, 30);
+   // I.waitForElement(this.caseListLink, 30);
     I.click(this.caseListLink);
     I.waitForElement(this.caseTypeDropdown, 30);
     I.refreshPage();

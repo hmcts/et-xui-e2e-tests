@@ -18,7 +18,7 @@ exports.config = {
       waitForNavigation: 'domcontentloaded',
       waitForTimeout: 10000,
       ignoreHTTPSErrors: true,
-      windowSize: 'maximize',
+      windowSize: '1440x700',
     },
     REST: {
       endpoint: 'https://idam-api.aat.platform.hmcts.net/loginUser',

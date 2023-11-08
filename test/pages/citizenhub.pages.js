@@ -7,6 +7,7 @@ module.exports = {
   statusBeforeView: '.govuk-tag--blue',
   statusAfterView: '//strong[contains(.,"Viewed")]',
   backButton: '.govuk-back-link',
+  welshToggle: '//a[.="Cymraeg"]',
   linkToAttachedDocument: '[class="govuk-link"]',
   linkToET3Response: '[href="/case-document/response-from-respondent"]',
   contactTribunalLinkRegistered: '[href="/contact-the-tribunal"]',
@@ -227,4 +228,21 @@ module.exports = {
     I.scrollTo(this.notificationLink);
     I.see('Submitted', { css: this.notificationFlagAfter });
   },
+  verifyContentInWelsh() {
+    I.click(this.welshToggle);
+    I.see('Eich hawliad');
+    I.see('Yr ymateb');
+    I.see('Eich gwrandawiadau');
+    I.see('Ceisiadau i’r tribiwnlys');
+    I.see('Gorchmynion a cheisiadau gan y tribiwnlys');
+    I.see('Dyfarniadau gan y tribiwnlys');
+    I.see('Dogfennau’r achos');
+    I.seeInCurrentUrl('?lng=cy');
+    I.click(this.contactTribunalLinkRegistered);
+    I.see('Cuddio pob adran');
+    I.see('Ffonio canolfan gyswllt cwsmeriaid y Tribiwnlys Cyflogaeth');
+    I.see('Cymru a Lloegr');
+    I.see('Gwasanaeth Cymraeg');
+
+  }
 };

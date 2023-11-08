@@ -65,7 +65,6 @@ Scenario(
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     //let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + submissionReference);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     // case vetting
     await caseListPage.selectNextEvent('ET1 case vetting');
@@ -172,6 +171,6 @@ Scenario(
   },
 )
   .tag('@caseLink')
-  .tag('@cLinkEW')
+  .tag('@cLinkScot')
   .tag('@nightly')
   .retry(1);
