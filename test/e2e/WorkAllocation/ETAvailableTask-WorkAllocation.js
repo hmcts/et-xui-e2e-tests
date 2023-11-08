@@ -45,6 +45,8 @@ Scenario(
     // vet the case
     await caseListPage.selectNextEvent('ET1 case vetting'); //Case acceptance or rejection Event
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
+    //validate case not visible under all work tab
+    //TODO
   },
 )
   .tag('@nightly')

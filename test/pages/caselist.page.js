@@ -36,6 +36,7 @@ module.exports = {
   enterTaskName: '#inputSelectTaskName',
   applyFilterButton: '#applyFilter',
   taskByRoleType: '#select_taskType',
+  et1Vetting : '//*[@id="mat-option-0"]/span',
   linkedCasesTab: '[aria-posinset="11"] > .mat-tab-label-content',
 
   searchCaseApplication(option) {
@@ -151,18 +152,19 @@ module.exports = {
         // provide a name
         break;
       default:
-        throw new Error('... check you options or add new option');
+        throw new Error('... check your options or add new option');
     }
     I.selectOption(this.taskByRoleType, taskByRole);
     I.fillField(this.enterTaskName, taskName);
+    I.click(this.et1Vetting);
     // possibly needed more time for the case to pop up on the ui
     I.wait(15);
-    I.click(this.applyFilterButton);
+    I.forceClick(this.applyFilterButton);
     I.wait(2);
     let newlyCreatedTask =
       testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + `${submissionReference}` + '/tasks';
     let checkLink = I.grabAttributeFrom({ css: 'a' }, 'href');
-    checkLink.includes(newlyCreatedTask);
+    checkLink.toString().includes(newlyCreatedTask);
   },
   verifiedLinkedCasesFromCaseLinkTab(submissionReference) {
     I.waitForElement(this.linkedCasesTab, 20);
