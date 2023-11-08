@@ -9,21 +9,20 @@ Feature('End To End; Tests For Submit a Scottish Case');
 Scenario(
   'Submit a case from Scotland - Case Progressing Claimant Submit application -record a decision as ECM',
   async ({
-           I,
-           basePage,
-           loginPage,
-           taskListPage,
-           personalDetailsPage,
-           employmentAndRespondentDetailsPage,
-           claimDetailsPage,
-           submitClaimPage,
-           caseListPage,
-           et1CaseVettingPages,
-           et1CaseServingPages,
-           citizenHubPages,
-           caseOverviewPage,
-           respondentRepresentativePage,
-         }) => {
+    I,
+    basePage,
+    loginPage,
+    taskListPage,
+    personalDetailsPage,
+    employmentAndRespondentDetailsPage,
+    claimDetailsPage,
+    submitClaimPage,
+    caseListPage,
+    et1CaseVettingPages,
+    et1CaseServingPages,
+    citizenHubPages,
+    respondentRepresentativePage,
+  }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
@@ -36,7 +35,6 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     const submissionReference = await submitClaimPage.submitClaim();
-    pause();
     //I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
@@ -62,9 +60,9 @@ Scenario(
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     // change toggle to welsh and verify text changed to welsh
-    await citizenHubPages.verifyContentInWelsh()
-
-  })
+    await citizenHubPages.verifyContentInWelsh();
+  },
+)
   .tag('@welsh')
   .tag('@nightly')
   .retry(1);

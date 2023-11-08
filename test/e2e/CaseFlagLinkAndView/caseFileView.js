@@ -16,19 +16,17 @@ Feature('End To End Test -Case File View ');
 Scenario(
   'Case File View - Check ET 1 Claim in CFV folder - England',
   async ({
-           I,
-           basePage,
-           loginPage,
-           taskListPage,
-           personalDetailsPage,
-           employmentAndRespondentDetailsPage,
-           claimDetailsPage,
-           submitClaimPage,
-           caseListPage,
-           applicationsTabsPages,
-
-         }) => {
-
+    I,
+    basePage,
+    loginPage,
+    taskListPage,
+    personalDetailsPage,
+    employmentAndRespondentDetailsPage,
+    claimDetailsPage,
+    submitClaimPage,
+    caseListPage,
+    applicationsTabsPages,
+  }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
@@ -51,8 +49,7 @@ Scenario(
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
     // check case file view
-    await applicationsTabsPages.selectCaseFileView()
-
+    await applicationsTabsPages.selectCaseFileView();
   },
 )
   .tag('@caseFileView')
@@ -63,21 +60,17 @@ Scenario(
 Scenario(
   'Case File View - Check ET 1 Claim in CFV folder - Scotland',
   async ({
-           I,
-           basePage,
-           loginPage,
-           taskListPage,
-           personalDetailsPage,
-           employmentAndRespondentDetailsPage,
-           claimDetailsPage,
-           submitClaimPage,
-           caseListPage,
-           applicationsTabsPages,
-
-
-
-         }) => {
-
+    I,
+    basePage,
+    loginPage,
+    taskListPage,
+    personalDetailsPage,
+    employmentAndRespondentDetailsPage,
+    claimDetailsPage,
+    submitClaimPage,
+    caseListPage,
+    applicationsTabsPages,
+  }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
@@ -97,8 +90,7 @@ Scenario(
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
     // check case file view
-    await applicationsTabsPages.selectCaseFileView()
-
+    await applicationsTabsPages.selectCaseFileView();
   },
 )
   .tag('@caseFileView')

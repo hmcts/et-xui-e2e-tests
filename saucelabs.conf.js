@@ -1,5 +1,6 @@
-const testConfig = require("./config.js");
-const codeceptjsSaucelabs = require("codeceptjs-saucelabs");
+const codeceptjsSaucelabs = require('codeceptjs-saucelabs');
+
+const testConfig = require('./config.js');
 
 exports.config = {
   tests: testConfig.TestsPathToRun,
@@ -47,36 +48,36 @@ exports.config = {
   },
   bootstrap: null,
   mocha: {
-    "reporterOptions": {
-      "codeceptjs-cli-reporter": {
-        "stdout": "-",
-        "options": {
-          "verbose": true,
-          "steps": true,
-        }
+    reporterOptions: {
+      'codeceptjs-cli-reporter': {
+        stdout: '-',
+        options: {
+          verbose: true,
+          steps: true,
+        },
       },
-      "mochawesome": {
-        "stdout": `${testConfig.TestReportFolder}/console.log`,
-        "options": {
-          "reportDir":`${testConfig.TestReportFolder}`,
-          "reportFilename": "report"
-        }
+      mochawesome: {
+        stdout: `${testConfig.TestReportFolder}/console.log`,
+        options: {
+          reportDir: `${testConfig.TestReportFolder}`,
+          reportFilename: 'report',
+        },
       },
-      "mocha-junit-reporter": {
-        "stdout": `${testConfig.TestReportFolder}/console.log`,
-        "options": {
-          "mochaFile": `${testConfig.TestReportFolder}/output/result.xml`,
-          "attachments": true
-        }
-      }
-    }
+      'mocha-junit-reporter': {
+        stdout: `${testConfig.TestReportFolder}/console.log`,
+        options: {
+          mochaFile: `${testConfig.TestReportFolder}/output/result.xml`,
+          attachments: true,
+        },
+      },
+    },
   },
   name: 'ET-E2E Test',
   plugins: {
     saucelabs: {
       enabled: true,
       require: codeceptjsSaucelabs,
-      username:  process.env.SAUCE_USERNAME,
+      username: process.env.SAUCE_USERNAME,
       accessKey: process.env.SAUCE_ACCESS_KEY,
       hostname: 'ondemand.eu-central-1.saucelabs.com',
       region: 'eu-central-1',
@@ -103,7 +104,7 @@ exports.config = {
           browserName: 'safari',
           browserVersion: 'latest',
           platformName: 'macOS 13',
-        }
+        },
       ],
     },
   },

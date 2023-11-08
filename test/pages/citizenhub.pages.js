@@ -243,6 +243,5 @@ module.exports = {
     I.see('Ffonio canolfan gyswllt cwsmeriaid y Tribiwnlys Cyflogaeth');
     I.see('Cymru a Lloegr');
     I.see('Gwasanaeth Cymraeg');
-
-  }
+  },
 };

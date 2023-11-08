@@ -11,7 +11,7 @@ exports.config = {
   helpers: {
     Playwright: {
       url: testConfig.TestUrl,
-      browser:'chromium',
+      browser: 'chromium',
       show: testConfig.TestShowBrowserWindow,
       restart: false,
       timeout: 5000,
@@ -53,28 +53,28 @@ exports.config = {
   },
   bootstrap: null,
   mocha: {
-    "reporterOptions": {
-      "codeceptjs-cli-reporter": {
-        "stdout": "-",
-        "options": {
-          "verbose": true,
-          "steps": true,
-        }
+    reporterOptions: {
+      'codeceptjs-cli-reporter': {
+        stdout: '-',
+        options: {
+          verbose: true,
+          steps: true,
+        },
       },
-      "mochawesome": {
-        "stdout": `${testConfig.TestReportFolder}/console.log`,
-        "options": {
-          "reportDir":`${testConfig.TestReportFolder}`,
-          "reportFilename": "report"
-        }
+      mochawesome: {
+        stdout: `${testConfig.TestReportFolder}/console.log`,
+        options: {
+          reportDir: `${testConfig.TestReportFolder}`,
+          reportFilename: 'report',
+        },
       },
-      "mocha-junit-reporter": {
-        "stdout": `${testConfig.TestReportFolder}/console.log`,
-        "options": {
-          "mochaFile": `${testConfig.TestReportFolder}/output/result.xml`,
-          "attachments": true
-        }
-      }
+      'mocha-junit-reporter': {
+        stdout: `${testConfig.TestReportFolder}/console.log`,
+        options: {
+          mochaFile: `${testConfig.TestReportFolder}/output/result.xml`,
+          attachments: true,
+        },
+      },
     },
     enableStackTrace: true,
   },
