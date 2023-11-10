@@ -32,7 +32,6 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
     citizenHubPages,
-    respondentRepresentativePage,
     legalRepNOCPages,
   }) => {
     I.amOnPage('/');
@@ -59,9 +58,6 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    //Case acceptance or rejection Event
-    await caseListPage.selectNextEvent('6: Object'); //Case acceptance or rejection Event
-    await respondentRepresentativePage.addRespondentRepresentative('registered', 'test solicitor firm');
     I.click('Sign out');
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);

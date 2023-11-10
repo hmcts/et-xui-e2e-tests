@@ -1,12 +1,13 @@
-Feature('End To End Tests For an ET3  Notification and Case Progression from Citizen Hub');
 const testConfig = require('../../../config.js');
-const postcode = 'LS9 9HE';
-const workPostcode = 'LS7 4QE';
-const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
-const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
-const firstLineOfAddress = '7, Valley Gardens?';
+const postcode = 'FK15 9ET';
+const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
+const workPostcode = 'EH45 9BU';
+const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
+const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
+
+Feature('End To End; Tests For Submit a Scottish Case');
 Scenario(
-  'Verify ET3 Notification Banner -For Acknowledgment of Claim',
+  'Submit a case from Scotland - Case Progressing Claimant Submit application -record a decision as ECM',
   async ({
     I,
     basePage,
@@ -20,44 +21,48 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
     citizenHubPages,
-    et3NotificationPages,
+    respondentRepresentativePage,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
+    await personalDetailsPage.processPersonalDetails(postcode, 'Scotland', addressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
       workPostcode,
       selectedWorkAddress,
       firstLineOfAddress,
     );
     await claimDetailsPage.processClaimDetails();
-    let submissionReference = await submitClaimPage.submitClaim();
+    const submissionReference = await submitClaimPage.submitClaim();
     //I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
+    console.log('The value of the Case Number ' + submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    console.log('The value of the Case Number ' + caseNumber);
+    //vet the case
     await caseListPage.verifyCaseDetailsPage();
     await caseListPage.selectNextEvent('ET1 case vetting'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
+    //accept the case
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    await caseListPage.selectNextEvent('9: Object'); //ET3NotificationEvent
-    await et3NotificationPages.uploadET3acceptanceLetter('single document');
+    // add org to case to enable cui applications
+    await caseListPage.selectNextEvent('Respondent Representative'); //Case acceptance or rejection Event
+    await respondentRepresentativePage.addRespondentRepresentative('registered', 'ET Test3 Organisation');
     I.click('Sign out');
-    // await citizenHubPages.processCitizenHubLogin(
-    //   testConfig.TestEnvETUser,
-    //   testConfig.TestEnvETPassword,
-    //   submissionReference,
-    // );
+    await citizenHubPages.processCitizenHubLogin(
+      testConfig.TestEnvETUser,
+      testConfig.TestEnvETPassword,
+      submissionReference,
+    );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPages.verifyET3RespondentResponseonCUI();
+    // change toggle to welsh and verify text changed to welsh
+    await citizenHubPages.verifyContentInWelsh();
   },
 )
+  .tag('@welsh')
   .tag('@nightly')
-  .tag('@postr1.2')
   .retry(1);

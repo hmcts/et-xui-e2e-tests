@@ -36,7 +36,7 @@ module.exports = {
   enterTaskName: '#inputSelectTaskName',
   applyFilterButton: '#applyFilter',
   taskByRoleType: '#select_taskType',
-  et1Vetting : '//*[@id="mat-option-0"]/span',
+  et1Vetting: '//*[@id="mat-option-0"]/span',
   linkedCasesTab: '[aria-posinset="11"] > .mat-tab-label-content',
 
   searchCaseApplication(option) {
@@ -48,7 +48,7 @@ module.exports = {
   },
 
   searchCaseApplicationWithSubmissionReference(option, submissionReference) {
-    I.waitForElement(this.caseListLink, 30);
+    // I.waitForElement(this.caseListLink, 30);
     I.click(this.caseListLink);
     I.waitForElement(this.caseTypeDropdown, 30);
     I.refreshPage();
