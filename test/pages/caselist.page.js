@@ -133,7 +133,7 @@ module.exports = {
     I.seeElement(this.availableTaskRows);
   },
 
-  searchTaskFromAllWorkAllLocation(taskTypeOption, taskByRole, taskName, submissionReference) {
+  searchTaskFromAllWorkAllLocation(taskTypeOption, taskByRole, taskName, submissionReference, taskVisible) {
     I.waitForElement(this.allWorkTab, 20);
     I.click(this.allWorkTab);
     I.waitForElement(this.taskTabAllWork, 10);
@@ -160,12 +160,21 @@ module.exports = {
     // possibly needed more time for the case to pop up on the ui
     I.wait(15);
     I.forceClick(this.applyFilterButton);
-    I.wait(2);
+    I.wait(5);
+
     let newlyCreatedTask =
-      testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + `${submissionReference}` + '/tasks';
-    let checkLink = I.grabAttributeFrom({ css: 'a' }, 'href');
-    checkLink.toString().includes(newlyCreatedTask);
+      testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + submissionReference + '/tasks';
+    console.log('WA link is visible under All work tab: ' +newlyCreatedTask);
+    if (taskVisible) {
+     (newlyCreatedTask).includes(submissionReference);
+        I.amOnPage(newlyCreatedTask);
+
+    } else {
+      I.dontSee(newlyCreatedTask);
+      console.log('WA link is not visible under All work tab');
+    }
   },
+
   verifiedLinkedCasesFromCaseLinkTab(submissionReference) {
     I.waitForElement(this.linkedCasesTab, 20);
     I.click(this.linkedCasesTab);

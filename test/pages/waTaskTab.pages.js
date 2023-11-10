@@ -2,11 +2,12 @@ const { I } = inject();
 const testConfig = require('../../config');
 
 module.exports = {
+
+  et1VettingLink: '//a[contains(.,"ET1 Vetting")]',
+
   verifyWAtaskTabPage(submissionReference) {
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + `${submissionReference}` + '/tasks');
-    I.waitForElement('#action_claim', 20);
-    I.click('#action_claim');
+    I.waitForElement(this.et1VettingLink, 20);
+    I.click(this.et1VettingLink);
   },
 };
 
-// [href='/cases/case-details/1692870832932534/tasks']

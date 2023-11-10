@@ -40,14 +40,12 @@ Scenario(
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.proceedtoWATaskPage();
     await caseListPage.proceedToAvailableTask();
-    await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting');
+    await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, true);
     await workAllocationTaskPages.verifyWAtaskTabPage(submissionReference);
     // vet the case
-    await caseListPage.selectNextEvent('ET1 case vetting'); //Case acceptance or rejection Event
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //validate case not visible under all work tab
-    //TODO
+    await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, false);
   },
-)
-  .tag('@nightly')
+)  .tag('@nightly')
   .retry(2);

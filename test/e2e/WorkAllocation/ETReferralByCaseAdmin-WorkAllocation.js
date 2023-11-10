@@ -44,7 +44,7 @@ Scenario(
     //assign the case via work Allocation
     await caseListPage.proceedtoWATaskPage();
     await caseListPage.proceedToAvailableTask();
-    await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference);
+    await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, true);
     await workAllocationTaskPages.verifyWAtaskTabPage(submissionReference);
     // vet the case
     await caseListPage.selectNextEvent('ET1 case vetting'); //Case acceptance or rejection Event
