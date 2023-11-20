@@ -44,7 +44,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withNightlyPipeline("nodejs", product, component) {
     loadVaultSecrets(secrets)
-    enableFullFunctionalTest()
+    enableFullFunctionalTest(int timeout=120)
     enableCrossBrowserTest()
     //enableFortifyScan()
     //enableSecurityScan()
