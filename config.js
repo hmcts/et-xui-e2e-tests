@@ -1,6 +1,6 @@
 module.exports = {
-  TestUrl: process.env.TEST_URL || 'https://et-sya-et-ccd-definitions-admin-pr-206.preview.platform.hmcts.net',
-  TestUrlForManageCaseAAT: process.env.TEST_MANAGE_CASE_URL || 'https://xui-et-ccd-definitions-admin-pr-206.preview.platform.hmcts.net',
+  TestUrl: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net',
+  TestUrlForManageCaseAAT: process.env.TEST_MANAGE_CASE_URL || 'https://manage-case.aat.platform.hmcts.net',
   TestShowBrowserWindow: process.env.SHOW_BROWSER_WINDOW || false,
   TestsPathToRun: process.env.E2E_TEST_PATH || './**/*.js',
   TestReportFolder: process.env.E2E_OUTPUT_DIR || './functional-output/reports',
