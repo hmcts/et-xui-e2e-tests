@@ -1,5 +1,4 @@
 const { I } = inject();
-const testConfig = require('../../config');
 
 module.exports = {
 
@@ -7,7 +6,7 @@ module.exports = {
   assignToMe:'#action_claim',
   caseListText: 'Case list',
 
-  verifyWAtaskTabPage(submissionReference) {
+  verifyWAtaskTabPage() {
     I.waitForElement(this.et1VettingLink, 20);
     I.click(this.et1VettingLink);
   },
