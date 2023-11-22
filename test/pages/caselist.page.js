@@ -164,13 +164,14 @@ module.exports = {
 
     let newlyCreatedTask =
       testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + submissionReference + '/tasks';
-    console.log('WA link is visible under All work tab: ' +newlyCreatedTask);
+    console.info('WA link is visible under All work tab: ' +newlyCreatedTask);
+
     if (taskVisible) {
      (newlyCreatedTask).includes(submissionReference);
         I.amOnPage(newlyCreatedTask);
 
     } else {
-      I.dontSee(newlyCreatedTask);
+      I.dontSeeElement(newlyCreatedTask);
       console.log('WA link is not visible under All work tab');
     }
   },

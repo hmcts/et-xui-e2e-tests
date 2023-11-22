@@ -38,6 +38,9 @@ Scenario(
     await loginPage.processLogin(testConfig.TestEnvETCstcAdminUser, testConfig.TestEnvETCstcAdminPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
+    //assign task
+    await caseListPage.selectTab('Tasks');
+    await workAllocationTaskPages.clickAssignToMeLink();
     await caseListPage.proceedtoWATaskPage();
     await caseListPage.proceedToAvailableTask();
     await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, true);
