@@ -78,5 +78,5 @@ Scenario(
 )
   .tag('@bundle')
   .tag('@bundleLagalRep')
-  .tag('@nightly')
-  .retry(1);
+  .tag('@nightly');
+ // .retry(1);
