@@ -41,19 +41,20 @@ Scenario(
     await loginPage.processLogin(testConfig.TestEnvETCstcAdminUser, testConfig.TestEnvETCstcAdminPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    //assign the case via work Allocation
+    //assign the task
+    await caseListPage.selectTab('Tasks');
+    await workAllocationTaskPages.clickAssignToMeLink();
     await caseListPage.proceedtoWATaskPage();
     await caseListPage.proceedToAvailableTask();
     await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, true);
     await workAllocationTaskPages.verifyWAtaskTabPage(submissionReference);
     // vet the case
-    await caseListPage.selectNextEvent('ET1 case vetting'); //Case acceptance or rejection Event
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //accept the case
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    // add org to case to enable cui applications
-    await caseListPage.selectNextEvent('Accept/Reject Case'); //Respondent Representative Event
+    //add org to case to enable cui applications
+    await caseListPage.selectNextEvent('Respondent Representative');//Respondent Representative Event
     await respondentRepresentativePage.addRespondentRepresentative('registered', 'ET Test3 Organisation');
     //do referral as a admin case worker
     await referralPages.submitAreferral('et.ctscworker010@justice.gov.uk', 'Admin', 'Test Referral by Admin', 'Yes', 1);
