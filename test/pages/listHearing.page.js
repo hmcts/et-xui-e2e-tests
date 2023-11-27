@@ -28,10 +28,10 @@ module.exports = {
   async listCase() {
     I.see('Case Number');
     I.fillField(this.hearingNumber, '1');
-    //hearing type
-    I.selectOption(this.hearingOption, 'Expenses/Wasted Costs Hearing');
     // hearing format
     I.checkOption(this.hearingHybridOption);
+    //hearing type
+    I.selectOption(this.hearingOption, 'Expenses/Wasted Costs Hearing');
     I.selectOption(this.hearingVenueOption, '1');
     I.fillField(this.hearingLengthNum, '1');
     I.selectOption(this.dayHourMinutes,'1: Days');
