@@ -1,8 +1,11 @@
+const testConfig = require("../../config");
 const { I } = inject();
 
 module.exports = {
+  textHeader: '.govuk-heading-l',
   applyButtonOnLegalRep: '.workbasket-filters-apply',
   manageCasesLinkLegalRep: '[aria-label="Manage Cases"]',
+  continueButton: '.button',
   nocLinkLegalRep: '[href="/noc"]',
   continueButtonLegalRep: '.button',
   caseidFillfield: '#caseRef',
@@ -76,9 +79,9 @@ module.exports = {
   async processNOC(option, submissionReference, respondentName, ClaimantFirstName, ClaimantLastName) {
     this.loadExistingApplications(option);
     I.refreshPage();
-    I.waitForVisible(this.applyButtonOnLegalRep, 35);
+    I.waitForVisible(this.nocLinkLegalRep, 25);
     I.click(this.nocLinkLegalRep);
-    I.waitForVisible(this.continueButtonLegalRep, 5);
+    I.waitForElement(this.continueButton, 10);
     I.see('Notice of change');
     I.fillField(this.caseidFillfield, submissionReference);
     I.click(this.continueButtonLegalRep);
@@ -99,9 +102,13 @@ module.exports = {
     I.forceClick(this.continueButtonLegalRep);
     I.waitForElement(this.successfulMessageHeader, 20);
     I.see('Notice of change successful');
+    I.wait(2);
+    let newNOCapplication =  testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + submissionReference
+    I.amOnPage(newNOCapplication)
   },
 
   async submitDocumentForHearing(agreement,whoseDocu,docuType) {
+    I.waitForElement(this.textHeader, 10);
     I.see('Prepare and submit documents for a hearing');
     I.click(this.continueButtonLegalRep);
     I.waitForElement(this.prepareDocPageTwoHeader, 10);

@@ -8,7 +8,7 @@ const workPostcode = 'LS7 4QE';
 const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
 const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
-const respondentName = 'Henry Mash';
+const respondentName = 'Henry Marsh';
 const ClaimantFirstName = 'Alex';
 const ClaimantLastName = 'Bonfire';
 
@@ -69,7 +69,7 @@ Scenario(
       ClaimantLastName,
     );
     //submit a prepared document for hearing
-    await caseListPage.processCaseFromCaseList(submissionReference);
+    //await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.selectNextEvent('Prepare documents for hearing');
     await legalRepNOCPages.submitDocumentForHearing('Yes');
     //verify that the doc is visible --- tbc no story yet
