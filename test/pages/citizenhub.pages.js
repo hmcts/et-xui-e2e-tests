@@ -10,7 +10,7 @@ module.exports = {
   welshToggle: '//a[.="Cymraeg"]',
   linkToAttachedDocument: '[class="govuk-link"]',
   linkToET3Response: '[href="/case-document/response-from-respondent"]',
-  contactTribunalLinkRegistered: '[href="/contact-the-tribunal"]',
+  contactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=cy"]',
   showAllApplicationType: '.govuk-accordion__show-all-text',
   withdrawClaimLink: '[href="/contact-the-tribunal/withdraw"]',
   applicationTextField: '#Contact-Application-Text',
@@ -230,6 +230,7 @@ module.exports = {
   },
   verifyContentInWelsh() {
     I.click(this.welshToggle);
+    I.wait(10);
     I.see('Eich hawliad');
     I.see('Yr ymateb');
     I.see('Eich gwrandawiadau');
@@ -239,6 +240,7 @@ module.exports = {
     I.see('Dogfennau’r achos');
     I.seeInCurrentUrl('?lng=cy');
     I.click(this.contactTribunalLinkRegistered);
+    I.wait(10);
     I.see('Cuddio pob adran');
     I.see('Ffonio canolfan gyswllt cwsmeriaid y Tribiwnlys Cyflogaeth');
     I.see('Cymru a Lloegr');

@@ -13,7 +13,7 @@ module.exports = {
   respondentRepresentativeContactPreference: '#repCollection_0_representative_preference', // '1: Email'
 
   addRespondentRepresentative(regOption, orgName) {
-    I.waitForElement(this.nonRegisteredLegalOrg, 20);
+    I.waitForElement(this.nonRegisteredLegalOrg, 25);
     I.see('Respondent Representative');
     I.selectOption(this.selectRespondent, 'Henry Marsh'); // add respondent name from case creation
     I.fillField(this.respondentRepresentativeName, 'Henry Marsh');
@@ -24,12 +24,12 @@ module.exports = {
       switch (regOption) {
         case 'registered':
           I.checkOption(this.registeredLegalOrg);
-          I.waitForElement(this.searchForRegisteredOrg, 10);
+          I.waitForElement(this.searchForRegisteredOrg, 5);
           I.fillField(this.searchForRegisteredOrg, orgName);
           I.click(this.selectOrgFromSearchResult);
-          I.waitForElement('[type="submit"]', 10);
+          I.waitForElement('[type="submit"]', 5);
           I.click('[type="submit"]');
-          I.waitForVisible('.alert-message', 10);
+          I.waitForVisible('.alert-message', 20);
           break;
         case 'notRegisteredSingle':
         case 'partResgisteredMultiple':

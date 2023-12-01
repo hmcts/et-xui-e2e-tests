@@ -72,9 +72,7 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference2);
-    //let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    console.log('The value of the Case Number ' + submissionReference2);
+    // process cases number 2
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
     // case vetting

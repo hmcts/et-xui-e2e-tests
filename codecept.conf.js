@@ -91,7 +91,7 @@ exports.config = {
       enabled: true,
     },
     retryFailedStep: {
-      enabled: true,
+      enabled: false,
     },
     screenshotOnFail: {
       enabled: true,

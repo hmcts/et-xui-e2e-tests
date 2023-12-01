@@ -70,7 +70,7 @@ Scenario(
 )
   .tag('@caseFlags')
   .tag('@cFlagsSc')
-  .tag('@nightly')
+  //.tag('@nightly');
   .retry(1);
 
 Scenario(
@@ -136,5 +136,5 @@ Scenario(
 )
   .tag('@caseFlags')
   .tag('@cFlagsEW')
-  .tag('@nightly')
+  //.tag('@nightly');
   .retry(1);

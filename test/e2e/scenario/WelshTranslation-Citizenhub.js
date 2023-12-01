@@ -5,24 +5,25 @@ const workPostcode = 'EH45 9BU';
 const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
-Feature('End To End; Tests For Submit a Scottish Case');
+Feature('End To End; Happy Path for Welsh Translation on Citizen UI');
 Scenario(
-  'Submit a case from Scotland - Case Progressing Claimant Submit application -record a decision as ECM',
+  'Submit a case from Scotland - Verify Welsh toggle is working on CUI as expected',
   async ({
-    I,
-    basePage,
-    loginPage,
-    taskListPage,
-    personalDetailsPage,
-    employmentAndRespondentDetailsPage,
-    claimDetailsPage,
-    submitClaimPage,
-    caseListPage,
-    et1CaseVettingPages,
-    et1CaseServingPages,
-    citizenHubPages,
-    respondentRepresentativePage,
-  }) => {
+           I,
+           basePage,
+           loginPage,
+           taskListPage,
+           personalDetailsPage,
+           employmentAndRespondentDetailsPage,
+           claimDetailsPage,
+           submitClaimPage,
+           caseListPage,
+           et1CaseVettingPages,
+           et1CaseServingPages,
+           citizenHubPages,
+           caseOverviewPage,
+           respondentRepresentativePage,
+         }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
@@ -59,10 +60,8 @@ Scenario(
     );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    // change toggle to welsh and verify text changed to welsh
-    await citizenHubPages.verifyContentInWelsh();
-  },
-)
+    await citizenHubPages. verifyContentInWelsh();
+  })
   .tag('@welsh')
-  .tag('@nightly')
-  .retry(1);
+  .tag('@nightly');
+// .retry(1);
