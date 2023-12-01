@@ -21,7 +21,6 @@ Scenario(
            et1CaseVettingPages,
            et1CaseServingPages,
            citizenHubPages,
-           caseOverviewPage,
            respondentRepresentativePage,
          }) => {
     I.amOnPage('/');
