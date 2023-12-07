@@ -9,9 +9,11 @@ module.exports = {
   backButton: '.govuk-back-link',
   welshToggle: '//a[.="Cymraeg"]',
   linkToAttachedDocument: '[class="govuk-link"]',
+  contactTribunalAboutMyCase: '[href="/contact-the-tribunal"]',
   linkToET3Response: '[href="/case-document/response-from-respondent"]',
-  contactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=cy"]',
-  showAllApplicationType: '.govuk-accordion__show-all-text',
+  contactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=en"]',
+  welshContactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=cy"]',
+  showAllApplicationType: '//span[@class="govuk-accordion__show-all-text"]',
   withdrawClaimLink: '[href="/contact-the-tribunal/withdraw"]',
   applicationTextField: '#Contact-Application-Text',
   changePersonalDetail: '[href="/contact-the-tribunal/change-details"]',
@@ -26,6 +28,18 @@ module.exports = {
   strikeOutResponse: '[href="/contact-the-tribunal/strike"]',
   reconsiderJudgment: '[href="/contact-the-tribunal/reconsider-judgement"]',
   somethingElse: '[href="/contact-the-tribunal/other"]',
+  submitHearingDocument: '[href="/prepare-documents?lng=en"]',
+  startPreparingHearingDoc: '//a[contains(.,"Start now")]',
+  hearingDocAgreeDoc: '#bundlesRespondentAgreedDocWith',
+  continueButton: '#main-form-submit',
+  firstListedCase: '#about-hearing-documents1',
+  myDocumentOption: '[value="My hearing documents only"]',
+  witnessStatementOnly: '[value="Witness statements only"]',
+  uploadHearingDocButton: '#hearingDocument',
+  uploadHearingFile: '#upload',
+  quidanceTextPayload: '.govuk-template__body .govuk-grid-column-two-thirds > .govuk-body',
+  changeYourDocument: '//a[contains(.,"Change Your documents")]',
+  closeAndReturnButton: '//a[contains(.,"Close and return to case overview")]',
   yesOptionOnRule92: '#copyToOtherPartyYesOrNo',
   noOptionOnRule92: '#copyToOtherPartyYesOrNo-2',
   addInfoToNoOption: '#copyToOtherPartyText',
@@ -79,6 +93,8 @@ module.exports = {
   },
   regAccountContactTribunal(applicationType) {
     I.waitForElement(this.contactTribunalLinkRegistered, 20);
+    //I.click(this.contactTribunalLinkRegistered);
+    I.scrollPageToBottom();
     I.click(this.contactTribunalLinkRegistered);
     I.waitForElement('#main-content', 20);
     I.see('Contact the tribunal about your case');
@@ -91,78 +107,123 @@ module.exports = {
           I.click(this.withdrawClaimLink);
           I.waitForElement('#main-content', 20);
           I.see('I want to withdraw all or part of my claim');
+          I.scrollPageToBottom();
+          I.fillField(this.applicationTextField, 'blah blah');
+          I.click('Continue');
           break;
         case 'change personal details':
           I.waitForElement('#contact-options-content-2', 5);
           I.click(this.changePersonalDetail);
           I.waitForElement('#main-content', 20);
           I.see('I want to change my personal details');
+          I.scrollPageToBottom();
+          I.fillField(this.applicationTextField, 'blah blah');
+          I.click('Continue');
           break;
         case 'postpone hearing':
           I.waitForElement('#contact-options-content-3', 5);
           I.click(this.postponeMyHearing);
           I.waitForElement('#main-content', 20);
           I.see('Apply to postpone my hearing');
+          I.scrollPageToBottom();
+          I.fillField(this.applicationTextField, 'blah blah');
+          I.click('Continue');
           break;
         case 'revoke an order':
           I.waitForElement('#contact-options-content-4', 5);
           I.click(this.revokeAnOrder);
           I.waitForElement('#main-content', 20);
           I.see('Apply to vary or revoke an order');
+          I.scrollPageToBottom();
+          I.fillField(this.applicationTextField, 'blah blah');
+          I.click('Continue');
           break;
         case 'decision consider afresh':
           I.waitForElement('#contact-options-content-5', 5);
           I.click(this.reconsiderDecision);
           I.waitForElement('#main-content', 20);
           I.see('Apply to have a decision considered afresh');
+          I.scrollPageToBottom();
+          I.fillField(this.applicationTextField, 'blah blah');
+          I.click('Continue');
           break;
         case 'amend my claim':
           I.waitForElement('#contact-options-content-6', 5);
           I.click(this.amendClaim);
           I.waitForElement('#main-content', 20);
           I.see('Apply to amend my claim');
+          I.scrollPageToBottom();
+          I.fillField(this.applicationTextField, 'blah blah');
+          I.click('Continue');
           break;
         case 'order respondent':
           I.waitForElement('#contact-options-content-7', 5);
           I.click(this.orderRespondent);
           I.waitForElement('#main-content', 20);
           I.see('Order the respondent to do something');
+          I.scrollPageToBottom();
+          I.fillField(this.applicationTextField, 'blah blah');
+          I.click('Continue');
           break;
         case 'order witness':
           I.waitForElement('#contact-options-content-8', 5);
           I.click(this.orderWitness);
           I.waitForElement('#main-content', 20);
           I.see('Order a witness to attend to give evidence');
+          I.scrollPageToBottom();
+          I.fillField(this.applicationTextField, 'blah blah');
+          I.click('Continue');
           break;
         case 'respondent has not complied':
           I.waitForElement('#contact-options-content-9', 5);
           I.click(this.respondentNotComplied);
           I.waitForElement('#main-content', 20);
           I.see('Tell the tribunal the respondent has not complied with an order');
+          I.scrollPageToBottom();
+          I.fillField(this.applicationTextField, 'blah blah');
+          I.click('Continue');
           break;
         case 'restrict publicity':
           I.waitForElement('#contact-options-content-10', 5);
           I.click(this.restrictPublicity);
           I.waitForElement('#main-content', 20);
           I.see('Apply to restrict publicity');
+          I.scrollPageToBottom();
+          I.fillField(this.applicationTextField, 'blah blah');
+          I.click('Continue');
           break;
         case 'strike out response':
           I.waitForElement('#contact-options-content-11', 5);
           I.click(this.strikeOutResponse);
           I.waitForElement('#main-content', 20);
           I.see('Strike out all or part of the response');
+          I.scrollPageToBottom();
+          I.fillField(this.applicationTextField, 'blah blah');
+          I.click('Continue');
           break;
         case 'reconsider judgment':
           I.waitForElement('#contact-options-content-12', 5);
           I.click(this.reconsiderJudgment);
           I.waitForElement('#main-content', 20);
           I.see('Apply for a judgment to be reconsidered');
+          I.scrollPageToBottom();
+          I.fillField(this.applicationTextField, 'blah blah');
+          I.click('Continue');
           break;
         case 'contact tribunal about something else':
           I.waitForElement('#contact-options-content-13', 5);
           I.click(this.somethingElse);
           I.waitForElement('#main-content', 20);
           I.see('Contact the tribunal');
+          I.scrollPageToBottom();
+          I.fillField(this.applicationTextField, 'blah blah');
+          I.click('Continue');
+          break;
+        case 'submit document for hearing':
+          I.waitForElement(this.submitHearingDocument, 5);
+          I.click(this.submitHearingDocument);
+          I.waitForElement('#main-content', 20);
+          I.see('Prepare and submit documents for a hearing');
           break;
         default:
           throw new Error('... invalid option, check you options');
@@ -170,9 +231,7 @@ module.exports = {
     } catch (e) {
       console.error('invalid option', e.message);
     }
-    I.scrollPageToBottom();
-    I.fillField(this.applicationTextField, 'blah blah');
-    I.click('Continue');
+
   },
   rule92Question(option) {
     switch (option) {
@@ -246,4 +305,37 @@ module.exports = {
     I.see('Cymru a Lloegr');
     I.see('Gwasanaeth Cymraeg');
   },
+
+  submitDocumentForHearing() {
+    I.waitForElement(this.startPreparingHearingDoc, 10);
+    I.see('Prepare and submit documents for a hearing');
+    I.forceClick(this.startPreparingHearingDoc);
+    I.waitForElement(this.hearingDocAgreeDoc,5);
+    I.checkOption(this.hearingDocAgreeDoc);
+    I.click(this.continueButton);
+    I.waitForElement(this.firstListedCase,10);
+    I.checkOption(this.firstListedCase);
+    I.see('About your hearing documents');
+    I.scrollTo(this.myDocumentOption);
+    I.checkOption(this.myDocumentOption);
+    I.checkOption(this.witnessStatementOnly);
+    I.click(this.continueButton);
+    pause();
+    I.waitForElement(this.uploadHearingFile, 10);
+    I.see('Upload your file of documents')
+    I.attachFile(this.uploadHearingDocButton, '../et-xui-e2e-tests/test/data/welshTest.pdf');
+    I.wait(3);
+    I.click(this.uploadHearingFile)
+    I.wait(3);
+    I.click(this.continueButton);
+    I.waitForElement(this.changeYourDocument,10);
+    I.see('Check your answers');
+    I.click(this.submitApplicationButton);
+    I.waitForElement(this.closeAndReturnButton,10);
+    I.see('You have sent your hearing documents to the tribunal');
+    I.see('What happens next');
+    I.see('Your documents are now uploaded. The tribunal will let you know ' +
+      'if they have any questions about the documents you have submitted.');
+    I.click(this.closeAndReturnButton);
+  }
 };

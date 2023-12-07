@@ -1,6 +1,3 @@
-//noc
-//prepare &submit hearing doc myhmcts
-//prepare &submit hearing doc
 
 const testConfig = require('../../../config.js');
 const postcode = 'LS9 9HE';
@@ -9,8 +6,8 @@ const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
 const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
 const respondentName = 'Henry Marsh';
-const ClaimantFirstName = 'Alex';
-const ClaimantLastName = 'Bonfire';
+const ClaimantFirstName = 'Tutan';
+const ClaimantLastName = 'Khamum';
 
 
 Feature('End To End Test - Bundles');
@@ -44,7 +41,7 @@ Scenario(
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
-    //find case on manage case
+    // //find case on manage case
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
@@ -69,14 +66,87 @@ Scenario(
       ClaimantLastName,
     );
     //submit a prepared document for hearing
-    //await caseListPage.processCaseFromCaseList(submissionReference);
+    await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.selectNextEvent('Prepare documents for hearing');
-    await legalRepNOCPages.submitDocumentForHearing('Yes');
+    await legalRepNOCPages.submitDocumentForHearing('Yes', 'Both Parties','Witness statement only');
     //verify that the doc is visible --- tbc no story yet
 
   },
 )
   .tag('@bundle')
-  .tag('@bundleLagalRep')
+  .tag('@bundleLegalRep')
   .tag('@nightly');
  // .retry(1);
+
+Scenario(
+  'Bundles - Claimant Submitting hearing preparation document - England',
+  async ({
+           I,
+           basePage,
+           loginPage,
+           taskListPage,
+           personalDetailsPage,
+           employmentAndRespondentDetailsPage,
+           claimDetailsPage,
+           submitClaimPage,
+           caseListPage,
+           listHearingPages,
+           et1CaseVettingPages,
+           legalRepNOCPages,
+           et1CaseServingPages,
+           citizenHubPages,
+         }) => {
+    I.amOnPage('/');
+    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
+    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    I.wait(3);
+    await taskListPage.processPostLoginPagesForTheDraftApplication();
+    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
+    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
+      workPostcode,
+      selectedWorkAddress,
+      firstLineOfAddress,
+    );
+    await claimDetailsPage.processClaimDetails();
+    let submissionReference = await submitClaimPage.submitClaim();
+    //find case on manage case
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
+    // case vetting
+    await caseListPage.selectNextEvent('ET1 case vetting');
+    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
+    // case acceptance
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
+    await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    // list hearing
+    await caseListPage.selectNextEvent('List Hearing');
+    await listHearingPages.listCase();
+    I.click('Sign out');
+    // complete noc on the case
+    await loginPage.processLogin(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await legalRepNOCPages.processNOC(
+      'Eng/Wales - Singles',
+      submissionReference,
+      respondentName,
+      ClaimantFirstName,
+      ClaimantLastName,
+    );
+    // go to cui
+    await citizenHubPages.processCitizenHubLogin(
+      testConfig.TestEnvETUser,
+      testConfig.TestEnvETPassword,
+      submissionReference,
+    );
+    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
+    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.regAccountContactTribunal('submit document for hearing');
+    //submit a document for hearing
+    await citizenHubPages.  submitDocumentForHearing();
+
+  })
+  .tag('@bundle')
+  .tag('@bundleClaimant')
+  .tag('@nightly');
+// .retry(1);

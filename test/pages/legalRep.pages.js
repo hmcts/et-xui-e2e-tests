@@ -6,9 +6,11 @@ module.exports = {
   applyButtonOnLegalRep: '.workbasket-filters-apply',
   manageCasesLinkLegalRep: '[aria-label="Manage Cases"]',
   continueButton: '.button',
-  nocLinkLegalRep: '[href="/noc"]',
-  continueButtonLegalRep: '.button',
-  caseidFillfield: '#caseRef',
+  //nocLinkLegalRep: '[href="/noc"]',
+  nocLinkLegalRep: '//a[contains(.,"Notice of change")]',
+  continueLegalRepButton: '//button[@class="button"]',
+  submitButtonLegalRep: '//button[@class="button"]',
+  caseidFilfield: '#caseRef',
   respondentDetailsLegalRep: '#respondentName',
   fieldSetLegalRep: '#fieldset-q-and-a-form',
   claimantFirstNamelegalRep: '#claimantFirstName',
@@ -20,7 +22,8 @@ module.exports = {
   caseListText: 'Case list',
   caseTypeDropdown: '#wb-case-type',
   manageCasesLink: '.hmcts-header__link',
-
+  prepareDocContinueButton: '[type="submit"]',
+  changeDocuUploaded: '[aria-label="Change Upload document"]',
   submissionReferenceLocator: '#feeGroupReference',
   respondentTextfield: '#respondent',
   applyButton: '[aria-label="Apply filter"]',
@@ -81,25 +84,29 @@ module.exports = {
     I.refreshPage();
     I.waitForVisible(this.nocLinkLegalRep, 25);
     I.click(this.nocLinkLegalRep);
-    I.waitForElement(this.continueButton, 10);
+    I.wait(5);
+
+    //I.waitForElement(this.continueButton, 10);
     I.see('Notice of change');
-    I.fillField(this.caseidFillfield, submissionReference);
-    I.click(this.continueButtonLegalRep);
+    I.waitForElement(this.caseidFilfield,10);
+    I.fillField(this.caseidFilfield, submissionReference);
+    I.click(this.continueLegalRepButton);
     I.waitForVisible(this.fieldSetLegalRep, 10);
     I.see('Enter details');
     I.fillField(this.respondentDetailsLegalRep, respondentName);
     I.fillField(this.claimantFirstNamelegalRep, ClaimantFirstName);
     I.fillField(this.claimantLastNamelegalRep, ClaimantLastName);
     I.wait(3);
-    I.click(this.continueButtonLegalRep);
+    I.click(this.continueLegalRepButton);
     //I.waitForVisible(this.confirmdiv, 10);
+    I.wait(10);
     I.see('Check and submit');
     I.waitForElement(this.detailConfirmationCheckbox, 10);
     I.scrollTo(this.detailConfirmationCheckbox);
     I.checkOption(this.detailConfirmationCheckbox);
     I.checkOption(this.notifyPartyCheckbox);
     I.wait(2);
-    I.forceClick(this.continueButtonLegalRep);
+    I.forceClick(this.submitButtonLegalRep);
     I.waitForElement(this.successfulMessageHeader, 20);
     I.see('Notice of change successful');
     I.wait(2);
@@ -110,21 +117,26 @@ module.exports = {
   async submitDocumentForHearing(agreement,whoseDocu,docuType) {
     I.waitForElement(this.textHeader, 10);
     I.see('Prepare and submit documents for a hearing');
-    I.click(this.continueButtonLegalRep);
+    I.click(this.continueLegalRepButton);
     I.waitForElement(this.prepareDocPageTwoHeader, 10);
+    pause();
     I.see('Have you agreed these documents with the other party?');
+    I.scrollPageToBottom();
     try {
       switch (agreement) {
         case 'Yes':
           I.checkOption(this.prepDecYesOption);
+          I.click(this.prepareDocContinueButton);
           break;
         case 'Agreed':
           I.checkOption(this.prepDocAgreeWithRes);
           I.fillField(this.prepDocAgreeWithResTextField, 'Testing prep document for hearing -- Agree with Res');
+          I.click(this.prepareDocContinueButton);
           break;
         case 'NotAgreed':
           I.checkOption(this.prepDocNoAgreement);
-          I.fillField(this.prepDocNoAgreementTextField, 'Testing prep document for hearing -- No agreement')
+          I.fillField(this.prepDocNoAgreementTextField, 'Testing prep document for hearing -- No agreement');
+          I.click(this.prepareDocContinueButton);
           break;
         default:
           throw new Error('... check you options or add new option');
@@ -132,16 +144,18 @@ module.exports = {
     } catch (error) {
       console.error('invalid option', error.message);
     }
-    I.click(this.continueButtonLegalRep);
+    I.waitForElement(this.respondentDocOnly);
+    I.scrollPageToBottom();
+    I.see('About your hearing documents')
     I.selectOption(this.selectHearingFromDropdown, '1: 1');
     // Whose hearing documents are you uploading
     try {
       switch (whoseDocu) {
         case 'Respondent':
-          I.selectOption(this.respondentDocOnly)
+          I.checkOption(this.respondentDocOnly)
           break;
         case 'Both Parties':
-          I.selectOption(this.bothPartiesDoc)
+          I.checkOption(this.bothPartiesDoc)
           break;
         default:
           throw new Error('... check you options or add new option');
@@ -167,12 +181,15 @@ module.exports = {
     } catch (error) {
       console.error('invalid option', error.message);
     }
-    I.click(this.continueButtonLegalRep);
+    I.click(this.continueLegalRepButton);
+    I.wait(5)
+    I.scrollPageToBottom();
     I.see('Upload your file of documents')
-    I.attachFile(this.uploadBundleDocument, 'test/data/RET_newBug.png');
-    I.wait(2)
-    I.click(this.continueButtonLegalRep);
-    I.waitForElement()
+    I.attachFile(this.uploadBundleDocument, 'test/data/welshTest.pdf');
+    I.wait(2);
+    I.click(this.continueLegalRepButton);
+    I.scrollPageToBottom();
+    I.waitForElement(this.changeDocuUploaded);
     I.see('Check the information below carefully.');
     I.see('Prepare documents for hearing');
     I.see('Check your answers');
