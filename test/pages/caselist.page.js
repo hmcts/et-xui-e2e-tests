@@ -79,7 +79,8 @@ module.exports = {
   },
 
   processCaseFromCaseList(submissionReference) {
-    I.waitForElement('.pagination-top', 30);
+    I.scrollPageToBottom();
+    // I.waitForElement('//button[contains(.,"Hide Filter")]', 30);
     let text = `/cases/case-details/${submissionReference}`;
     let caseNumber = I.grabTextFrom(`[href="${text}"]`);
     console.log('case number is' + caseNumber);

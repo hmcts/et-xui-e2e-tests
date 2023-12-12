@@ -46,6 +46,9 @@ module.exports = {
   uploadBundleDocument: '#bundlesRespondentUploadFile',
   legalRepSubmit: '[type="submit"]',
   successfulmsgHeader: '.heading-h1',
+  hearingTabLegalRep: '//div[9]/div[@class="mat-tab-label-content"]',
+  closeAndReturnButton: '[type="submit"]',
+  loadingSpinner: '.spinner-container',
 
   // prevent NOC process from failing
   // NOC process tend to fail is existing applications are not loaded
@@ -106,6 +109,7 @@ module.exports = {
     I.checkOption(this.detailConfirmationCheckbox);
     I.checkOption(this.notifyPartyCheckbox);
     I.wait(2);
+    I.scrollPageToBottom();
     I.forceClick(this.submitButtonLegalRep);
     I.waitForElement(this.successfulMessageHeader, 20);
     I.see('Notice of change successful');
@@ -114,12 +118,13 @@ module.exports = {
     I.amOnPage(newNOCapplication)
   },
 
-  async submitDocumentForHearing(agreement,whoseDocu,docuType) {
+  async submitDocumentForHearingRespondent(agreement,whoseDocu,docuType) {
     I.waitForElement(this.textHeader, 10);
     I.see('Prepare and submit documents for a hearing');
     I.click(this.continueLegalRepButton);
-    I.waitForElement(this.prepareDocPageTwoHeader, 10);
-    pause();
+    I.waitForInvisible(this.loadingSpinner,10);
+    I.waitForElement(this.prepareDocPageTwoHeader, 15);
+    I.waitForInvisible(this.loadingSpinner,10);
     I.see('Have you agreed these documents with the other party?');
     I.scrollPageToBottom();
     try {
@@ -144,7 +149,8 @@ module.exports = {
     } catch (error) {
       console.error('invalid option', error.message);
     }
-    I.waitForElement(this.respondentDocOnly);
+    I.waitForInvisible(this.loadingSpinner,10);
+    I.waitForElement(this.respondentDocOnly,10);
     I.scrollPageToBottom();
     I.see('About your hearing documents')
     I.selectOption(this.selectHearingFromDropdown, '1: 1');
@@ -182,20 +188,32 @@ module.exports = {
       console.error('invalid option', error.message);
     }
     I.click(this.continueLegalRepButton);
-    I.wait(5)
+    I.waitForInvisible(this.loadingSpinner,10);
     I.scrollPageToBottom();
     I.see('Upload your file of documents')
     I.attachFile(this.uploadBundleDocument, 'test/data/welshTest.pdf');
     I.wait(2);
     I.click(this.continueLegalRepButton);
     I.scrollPageToBottom();
-    I.waitForElement(this.changeDocuUploaded);
+    I.waitForElement(this.changeDocuUploaded,10);
     I.see('Check the information below carefully.');
     I.see('Prepare documents for hearing');
     I.see('Check your answers');
     I.forceClick(this.legalRepSubmit);
     I.waitForElement(this.successfulmsgHeader, 10);
     I.see('You have sent your hearing documents to the tribunal');
+    I.scrollPageToBottom();
+    I.click(this.closeAndReturnButton);
+    I.waitForInvisible(this.loadingSpinner,10);
+    //I.see(' Respondent Hearing Documents');
+  },
+
+  verifyHearingDocumentTabLegalRep(){
+    I.waitForElement(this.hearingTabLegalRep, 10);
+    I.click(this.hearingTabLegalRep);
+    I.see('Hearing Documents');
+    I.see('Respondent Hearing Documents');
+
 
   }
 };

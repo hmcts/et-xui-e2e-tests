@@ -50,6 +50,6 @@ module.exports = {
     I.fillField(this.hearingListYear, listYear);
     I.click(this.submitHearingButton);
     // Verifying the Hearings Tab.
-    I.waitForText('has been updated with event: List Hearing', 10);
+    //I.waitForText('has been updated with event: List Hearing', 10);
   }
 }

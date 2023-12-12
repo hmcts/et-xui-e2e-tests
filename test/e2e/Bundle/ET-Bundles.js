@@ -66,10 +66,10 @@ Scenario(
       ClaimantLastName,
     );
     //submit a prepared document for hearing
-    await caseListPage.processCaseFromCaseList(submissionReference);
+    //await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.selectNextEvent('Prepare documents for hearing');
-    await legalRepNOCPages.submitDocumentForHearing('Yes', 'Both Parties','Witness statement only');
-    //verify that the doc is visible --- tbc no story yet
+    await legalRepNOCPages.submitDocumentForHearingRespondent('Yes', 'Both Parties','Witness statement only');
+    await legalRepNOCPages. verifyHearingDocumentTabLegalRep();
 
   },
 )
@@ -143,7 +143,7 @@ Scenario(
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.regAccountContactTribunal('submit document for hearing');
     //submit a document for hearing
-    await citizenHubPages.  submitDocumentForHearing();
+    await citizenHubPages.submitDocumentForHearingClaimant();
 
   })
   .tag('@bundle')

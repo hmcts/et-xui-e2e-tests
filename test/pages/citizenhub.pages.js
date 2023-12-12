@@ -306,7 +306,7 @@ module.exports = {
     I.see('Gwasanaeth Cymraeg');
   },
 
-  submitDocumentForHearing() {
+  submitDocumentForHearingClaimant() {
     I.waitForElement(this.startPreparingHearingDoc, 10);
     I.see('Prepare and submit documents for a hearing');
     I.forceClick(this.startPreparingHearingDoc);
