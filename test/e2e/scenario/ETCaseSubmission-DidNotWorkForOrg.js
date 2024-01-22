@@ -1,4 +1,4 @@
-const testConfig = require('../config.js');
+const testConfig = require('../../../config.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
 const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
@@ -27,7 +27,7 @@ Scenario(
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processDidNotWorkForOrganisationMakingClaimAgainst(
       workPostcode,
-      selectedWorkAddress
+      selectedWorkAddress,
     );
 
     await claimDetailsPage.processClaimDetails();
@@ -39,13 +39,14 @@ Scenario(
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.info('The value of the Case Number ' + caseNumber);
     await caseListPage.verifyCaseDetailsPage();
-    await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
+    await caseListPage.selectNextEvent('ET1 case vetting'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //await caseListPage.verifyCaseDetailsPage(true);
-    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     I.click('Sign out');
   },
 )
   .tag('@nightly')
+  .tag('@postr1.2')
   .retry(1);

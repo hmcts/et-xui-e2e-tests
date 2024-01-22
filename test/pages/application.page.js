@@ -135,7 +135,7 @@ module.exports = {
     I.click(this.submitButton);
   },
   selectNextEvent(option) {
-    I.waitForEnabled(this.nextEventDropdown, 60);
+    I.waitForElement(this.nextEventDropdown, 60);
     I.selectOption(this.nextEventDropdown, option);
     I.wait(5);
     I.forceClick(this.submitButton);

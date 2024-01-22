@@ -18,7 +18,8 @@ module.exports = {
     this.enterRespondentName();
     this.enterRespondentAddress(workPostcode, selectedWorkAddress);
     this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
-    this.selectNoToAcas();
+    //this.selectNoToAcas();
+    this.selectYesToAcas();
     this.checkRespondentDetails();
     this.completeEmploymentAndRespondentDetails();
   },
@@ -308,9 +309,18 @@ module.exports = {
     I.checkOption('#no-acas-reason');
     I.click('Save and continue');
   },
+  //
+  selectYesToAcas() {
+    I.see('Do you have an Acas');
+    I.see('certificate number for Henry Marsh?');
+    I.checkOption('#acasCert');
+    I.fillField('#acasCertNum', 'R444444/89/74');
+    I.wait(3);
+    I.click('Save and continue');
+  },
   //check respondent details page
   checkRespondentDetails() {
-    I.waitForVisible('#main-form', 5);
+    I.waitForVisible('#main-form', 10);
     I.see('Check the respondent details');
     I.click('Save and continue');
   },

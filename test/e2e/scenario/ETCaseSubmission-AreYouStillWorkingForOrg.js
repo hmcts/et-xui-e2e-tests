@@ -1,4 +1,4 @@
-const testConfig = require('../config.js');
+const testConfig = require('../../../config.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
 const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
@@ -41,11 +41,13 @@ Scenario(
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     await caseListPage.verifyCaseDetailsPage();
-    await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
+    await caseListPage.selectNextEvent('ET1 case vetting'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //await caseListPage.verifyCaseDetailsPage(true);
-    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    // add respondent representative
+    await caseListPage.selectNextEvent('Respondent Representative');
     await respondentRepresentativePage.addRespondentRepresentative('registered');
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
@@ -98,10 +100,10 @@ Scenario(
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     await caseListPage.verifyCaseDetailsPage();
-    await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
+    await caseListPage.selectNextEvent('ET1 case vetting'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //await caseListPage.verifyCaseDetailsPage(true);
-    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
   },
 )
@@ -145,13 +147,13 @@ Scenario(
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     await caseListPage.verifyCaseDetailsPage();
-    await caseListPage.selectNextEvent('2: Object'); //Firing the ET1 Event.
+    await caseListPage.selectNextEvent('ET1 case vetting'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //accept the case
-    await caseListPage.selectNextEvent('3: Object'); //Case acceptance or rejection Event
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     // add org to case to enable cui applications
-    await caseListPage.selectNextEvent('8: Object'); //Case acceptance or rejection Event
+    await caseListPage.selectNextEvent('Respondent Representative'); //Add representative
     await respondentRepresentativePage.addRespondentRepresentative('registered');
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(

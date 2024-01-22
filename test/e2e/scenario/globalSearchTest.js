@@ -5,9 +5,19 @@ const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
 const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
 
-Feature('End To End Tests For an ET Case Submitted in the sya Front end and processed in the Manage Case Application');
+//Scotish Details
+// const scotPostcode = 'FK15 9ET';
+// const scotAddressOption = '3e, Station Road, Dunblane, FK15 9ET';
+// const scotWorkPostcode = 'EH45 9BU';
+// const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
+// const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
+// const respondentName = 'Henry Marsh';
+// const ClaimantFirstName = 'Alexa';
+// const ClaimantLastName = 'Siri';
+
+Feature('End To End Tests For an ET Case Linking');
 Scenario(
-  'Create a claim for still working for organisation, submit and process within manage cases : Crossbrowser Tests',
+  'Global Search - Single Params -- England and Wales - Singles',
   async ({
     I,
     basePage,
@@ -17,10 +27,9 @@ Scenario(
     employmentAndRespondentDetailsPage,
     claimDetailsPage,
     submitClaimPage,
-    caseListPage,
-    et1CaseVettingPages,
-    et1CaseServingPages,
+    globalSearchPages,
   }) => {
+    //case number 1
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
@@ -36,18 +45,9 @@ Scenario(
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
-    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    console.log('The value of the Case Number ' + caseNumber);
-    //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
-    await caseListPage.verifyCaseDetailsPage();
-    await caseListPage.selectNextEvent('ET1 case vetting'); //Firing the ET1 Event.
-    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
-    //await caseListPage.verifyCaseDetailsPage(true);
-    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
-    await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    I.forceClick('Sign out');
+    globalSearchPages.searchingWithOneParam('submission reference', submissionReference);
   },
 )
-  .tag('@RET-XB')
-  .retry(2);
+  .tag('@gsearch')
+  .tag('@postr1.2')
+  .tag('@nightly');

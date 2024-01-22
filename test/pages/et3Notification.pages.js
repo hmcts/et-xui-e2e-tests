@@ -49,8 +49,10 @@ module.exports = {
           I.click(this.addNewButton);
           I.selectOption(this.typeofDocument2, this.letterOfEt3Acceptance);
           I.wait(3);
-          I.attachFile(this.uploadFileButton, 'test/data/RET_newBug.png');
-          I.fillField(this.shortDescription2, 'document 2'), I.wait(5); //for the document upload process to complete
+          I.attachFile(this.uploadFileButton, '../et-xui-e2e-tests/test/data/RET_newBug.png');
+          I.fillField(this.shortDescription2, 'document 2');
+          I.wait(5);
+          //for the document upload process to complete
           I.click('Continue');
           break;
         default:
@@ -64,8 +66,8 @@ module.exports = {
     I.click(this.et3NotificationSubmitButton);
     I.see('ET3 notification');
     I.see('Check your answers');
-    I.click(this.et3NotificationSubmitButton)
-    I.wait(2)
+    I.click(this.et3NotificationSubmitButton);
+    I.wait(2);
     I.waitForElement(this.confirmationHeader, 10);
     I.see('Documents submitted');
     I.click(this.et3NotificationSubmitButton);

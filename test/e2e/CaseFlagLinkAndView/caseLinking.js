@@ -1,4 +1,3 @@
-//const applicationsTabsPages = require('../../pages/applicationsTabs.pages.js');
 const testConfig = require('../../../config.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
@@ -13,9 +12,9 @@ const scotWorkPostcode = 'EH45 9BU';
 const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
-Feature('End To End Tests For an ET3  Notification ');
+Feature('End To End Test -Case Linking ');
 Scenario(
-  'Send Notification - Tribunal - Request',
+  'Link-2-Scottish-Cases - Multiple Reasons - Scotland',
   async ({
     I,
     basePage,
@@ -28,11 +27,10 @@ Scenario(
     caseListPage,
     et1CaseVettingPages,
     et1CaseServingPages,
-    citizenHubPages,
-    applicationsTabsPages,
-    sendNotificationPages,
+    caseLinkPages,
   }) => {
-    I.amOnPage('/', 20);
+    //case 1
+    I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
@@ -44,44 +42,60 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
-    //I.click('Sign out');
+    I.click('Sign out');
+    // case 2
+    I.amOnPage('/', 20);
+    I.clearCookie();
+    I.refreshPage();
+    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
+    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    await taskListPage.processPostLoginPagesForTheDraftApplication();
+    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
+    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
+      workPostcode,
+      selectedWorkAddress,
+      firstLineOfAddress,
+    );
+    await claimDetailsPage.processClaimDetails();
+    let submissionReference2 = await submitClaimPage.submitClaim();
+    I.click('Sign out');
+    //manage case
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     //let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + submissionReference);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.verifyCaseDetailsPage();
     // case vetting
     await caseListPage.selectNextEvent('ET1 case vetting');
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-
-    await caseListPage.selectTab('Notifications');
-    await applicationsTabsPages.SendNotification();
-    await sendNotificationPages.sendNotificationLink('cmo', 'yes', 'Both parties', 'legal officer', 'both');
-
-    I.click('Sign out');
-    await citizenHubPages.processCitizenHubLogin(
-      testConfig.TestEnvETUser,
-      testConfig.TestEnvETPassword,
-      submissionReference,
-    );
-    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
-    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPages.verifySendNotification();
+    // process cases number 2
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+    let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
+    // case vetting
+    await caseListPage.selectNextEvent('ET1 case vetting');
+    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber2);
+    // case acceptance
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
+    await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
+    // link cases
+    await caseListPage.selectNextEvent('Link cases');
+    await caseLinkPages.checksCaseLinkStartingPage();
+    await caseLinkPages.enterCaseLinkReferenceWithoutHearing(submissionReference);
+    //unlink cases
+    await caseLinkPages.unlinkedCase();
   },
 )
-  .tag('@SNotiEW')
-  .tag('@SendNoti')
+  .tag('@caseLink')
+  .tag('@cLinkEW')
   .tag('@nightly')
-  .retry(2);
+  .retry(1);
 
 Scenario(
-  'Verify Respond to Notification-ManagementOrder - LegalRep',
+  'Link-2-Cases - Multiple Reasons - England & Wales',
   async ({
     I,
     basePage,
@@ -94,10 +108,9 @@ Scenario(
     caseListPage,
     et1CaseVettingPages,
     et1CaseServingPages,
-    citizenHubPages,
-    applicationsTabsPages,
-    //sendNotificationPages,
+    caseLinkPages,
   }) => {
+    //case 1
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
     await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
@@ -110,36 +123,51 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
-    //I.click('Sign out');
+    I.click('Sign out');
+    // case 2
+    I.amOnPage('/', 20);
+    I.clearCookie();
+    I.refreshPage();
+    await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
+    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    await taskListPage.processPostLoginPagesForTheDraftApplication();
+    await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);
+    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
+      scotWorkPostcode,
+      scotSelectedWorkAddress,
+      scotFirstLineOfAddress,
+    );
+    await claimDetailsPage.processClaimDetails();
+    let submissionReference2 = await submitClaimPage.submitClaim();
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLogin(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
     console.log('The value of the Case Number ' + submissionReference);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.verifyCaseDetailsPage();
     // case vetting
     await caseListPage.selectNextEvent('ET1 case vetting');
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    //send notification
-    await caseListPage.selectTab('Notifications');
-    await caseListPage.selectTab('Judgments, orders & notifications');
-    await applicationsTabsPages.respondtoAnOrderOrNotification();
-
-    I.click('Sign out');
-    await citizenHubPages.processCitizenHubLogin(
-      testConfig.TestEnvETUser,
-      testConfig.TestEnvETPassword,
-      submissionReference,
-    );
-    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
-    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPages.verifySendNotification();
+    // process case no 2
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference2);
+    let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
+    // case vetting
+    await caseListPage.selectNextEvent('ET1 case vetting');
+    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber2);
+    // case acceptance
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
+    await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
+    // link cases
+    await caseListPage.selectNextEvent('Link cases');
+    await caseLinkPages.checksCaseLinkStartingPage();
+    await caseLinkPages.enterCaseLinkReferenceWithoutHearing(submissionReference);
+    //unlink cases
+    await caseLinkPages.unlinkedCase();
   },
 )
-  .tag('@SNotiScot')
-  .tag('@postr1.2')
+  .tag('@caseLink')
+  .tag('@cLinkScot')
   .tag('@nightly')
-  .retry(2);
+  .retry(1);

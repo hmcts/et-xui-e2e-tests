@@ -1,5 +1,5 @@
 Feature('End To End Tests For an ET3  Notification and Case Progression from Citizen Hub');
-const testConfig = require('../config.js');
+const testConfig = require('../../../config.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
 const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
@@ -65,6 +65,5 @@ Scenario(
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.verifySendNotification();
   },
-)
-  .tag('@nightly');
-  //.retry(2);
+).tag('@nightly');
+//.retry(2);
