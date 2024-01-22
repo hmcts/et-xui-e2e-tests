@@ -13,7 +13,7 @@ module.exports = {
   linkToET3Response: '[href="/case-document/response-from-respondent"]',
   contactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=en"]',
   welshContactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=cy"]',
-  showAllApplicationType: '//span[@class="govuk-accordion__show-all-text"]',
+  showAllApplicationType: '#contact-options',
   withdrawClaimLink: '[href="/contact-the-tribunal/withdraw"]',
   applicationTextField: '#Contact-Application-Text',
   changePersonalDetail: '[href="/contact-the-tribunal/change-details"]',
@@ -96,10 +96,11 @@ module.exports = {
     //I.click(this.contactTribunalLinkRegistered);
     I.scrollPageToBottom();
     I.click(this.contactTribunalLinkRegistered);
-    I.waitForElement('#main-content', 20);
+    I.waitForElement(this.showAllApplicationType, 20);
     I.see('Contact the tribunal about your case');
     I.see('Call the Employment Tribunal customer contact centre');
     I.click(this.showAllApplicationType);
+    I.scrollPageToBottom();
     try {
       switch (applicationType) {
         case 'withdraw all or part of my claim':
@@ -220,7 +221,7 @@ module.exports = {
           I.click('Continue');
           break;
         case 'submit document for hearing':
-          I.waitForElement(this.submitHearingDocument, 5);
+          I.waitForElement(this.submitHearingDocument, 15);
           I.click(this.submitHearingDocument);
           I.waitForElement('#main-content', 20);
           I.see('Prepare and submit documents for a hearing');

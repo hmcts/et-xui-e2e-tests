@@ -82,6 +82,19 @@ exports.config = {
   name: 'et-xui-e2e-tests',
 
   plugins: {
+    ai: {
+      model: 'gpt-3.5-turbo-16k',
+      temperature: 0.1,
+      html: {
+        maxLength: 50000,
+        simplify: true,
+        minify: true,
+        interactiveElements: ['a', 'input', 'button', 'select', 'textarea', 'option'],
+        textElements: ['label', 'h1', 'h2'],
+        allowedAttrs: ['id', 'for', 'class', 'name', 'type', 'value', 'tabindex', 'aria-labelledby', 'aria-label', 'label', 'placeholder', 'title', 'alt', 'src', 'role'],
+        allowedRoles: ['button', 'checkbox', 'search', 'textbox', 'tab'],
+      }
+    },
     stepByStepReport: {
       enabled: false,
       fullPageScreenshots: true,

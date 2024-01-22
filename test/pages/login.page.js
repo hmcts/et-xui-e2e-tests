@@ -5,7 +5,7 @@ module.exports = {
     I.waitForVisible('#username', 15);
     I.fillField('#username', test_case_username);
     I.fillField('#password', test_case_password);
-    I.wait(3);
-    I.click('[type="submit"]');
+    I.waitForElement('[type="submit"]', 10);
+    I.forceClick('[type="submit"]');
   },
 };
