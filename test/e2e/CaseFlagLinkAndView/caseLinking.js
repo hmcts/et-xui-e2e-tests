@@ -169,5 +169,4 @@ Scenario(
 )
   .tag('@caseLink')
   .tag('@cLinkScot')
-  .tag('@nightly')
   .retry(1);

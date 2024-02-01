@@ -45,12 +45,12 @@ Scenario(
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
     await caseListPage.verifyCaseDetailsPage();
-    await caseListPage.selectNextEvent('1: Object'); //Firing the ET1 Event.
+    await caseListPage.selectNextEvent('ET1 case vetting'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //await caseListPage.verifyCaseDetailsPage(true);
-    await caseListPage.selectNextEvent('2: Object'); //Case acceptance or rejection Event
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    await caseListPage.selectNextEvent('6: Object'); //Case acceptance or rejection Event
+    await caseListPage.selectNextEvent('Respondent Representative'); //Adding Respondent Representative
     await respondentRepresentativePage.addRespondentRepresentative('registered', 'ET Organisation');
     await applicationsTabsPages.selectNotificationLink();
     await sendNotificationPages.sendNotificationLink('cmo', 'yes', 'Both parties', 'legal officer', 'both');
@@ -64,6 +64,7 @@ Scenario(
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.verifySendNotification();
+    pause();
   },
-).tag('@nightly');
+).tag('@test101');
 //.retry(2);

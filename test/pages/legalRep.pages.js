@@ -49,6 +49,13 @@ module.exports = {
   hearingTabLegalRep: '//div[9]/div[@class="mat-tab-label-content"]',
   closeAndReturnButton: '[type="submit"]',
   loadingSpinner: '.spinner-container',
+  legalRepNotificationTab: '#mat-tab-label-0-6',
+  lrRespondToTribunal: '//a[.="Respond to an order or request from the tribunal"]',
+  responseNotificationDropdown: '#pseRespondentSelectOrderOrRequest',
+  casedetailsEditForm: '#caseEditForm',
+  lrAddCommentToResponse: '#pseRespondentOrdReqResponseText',
+  noSupportingMaterial: '#pseRespondentOrdReqHasSupportingMaterial_No',
+  legalRepYesOptionR92: '#pseRespondentOrdReqCopyToOtherParty-Yes',
 
   // prevent NOC process from failing
   // NOC process tend to fail is existing applications are not loaded
@@ -99,7 +106,7 @@ module.exports = {
     I.fillField(this.respondentDetailsLegalRep, respondentName);
     I.fillField(this.claimantFirstNamelegalRep, ClaimantFirstName);
     I.fillField(this.claimantLastNamelegalRep, ClaimantLastName);
-    I.wait(3);
+    I.wait(5);
     I.click(this.continueLegalRepButton);
     //I.waitForVisible(this.confirmdiv, 10);
     I.wait(10);
@@ -115,7 +122,8 @@ module.exports = {
     I.see('Notice of change successful');
     I.wait(2);
     let newNOCapplication =  testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + submissionReference
-    I.amOnPage(newNOCapplication)
+    I.amOnPage(newNOCapplication);
+    I.wait(10);
   },
 
   async submitDocumentForHearingRespondent(agreement,whoseDocu,docuType) {
@@ -214,6 +222,27 @@ module.exports = {
     I.see('Hearing Documents');
     I.see('Respondent Hearing Documents');
 
+
+  },
+  respondToNotificationFromTribunal() {
+    I.click(this.legalRepNotificationTab)
+    I.waitForElement(this.lrRespondToTribunal, 10);
+    I.click(this.lrRespondToTribunal);
+    I.waitForElement(this.responseNotificationDropdown,15);
+    I.selectOption(this.responseNotificationDropdown, '1:2');
+    I.wait(2);
+    I.click(this.continueButton)
+    I.waitForElement(this.casedetailsEditForm,10);
+    I.fillField(this.lrAddCommentToResponse, "test response to notification from Trib");
+    I.checkOption(this.noSupportingMaterial);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.legalRepYesOptionR92, 10);
+    I.checkOption(this.legalRepYesOptionR92);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.casedetailsEditForm,10);
+    I.see('Check your answers');
+    I.click(this.continueLegalRepButton);
+    I.seeElement('//button[@class="button"]');
 
   }
 };

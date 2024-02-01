@@ -91,7 +91,7 @@ module.exports = {
         throw new Error('you must select either both, claimant or respondent only parties');
     }
     I.click(this.ContinueButton);
-
+    I.wait(5)
     I.see('Check your answers');
     I.see('Enter notification title');
     I.see('Is there a letter to send out?');
