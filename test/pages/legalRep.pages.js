@@ -1,8 +1,6 @@
-const testConfig = require("../../config");
 const { I } = inject();
 
 module.exports = {
-  textHeader: '.govuk-heading-l',
   applyButtonOnLegalRep: '.workbasket-filters-apply',
   manageCasesLinkLegalRep: '[aria-label="Manage Cases"]',
   continueButton: '.button',

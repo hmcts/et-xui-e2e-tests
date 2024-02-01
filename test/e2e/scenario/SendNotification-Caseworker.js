@@ -64,7 +64,7 @@ Scenario(
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.verifySendNotification();
-    pause();
   },
-).tag('@test101');
-//.retry(2);
+)
+  .tag('@nightly');
+  //.retry(2);
