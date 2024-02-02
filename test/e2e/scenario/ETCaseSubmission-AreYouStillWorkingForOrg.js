@@ -83,6 +83,7 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
     //citizenHubPages,
+    idamHelper,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
