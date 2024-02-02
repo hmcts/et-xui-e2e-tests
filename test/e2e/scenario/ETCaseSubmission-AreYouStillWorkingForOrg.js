@@ -21,10 +21,13 @@ Scenario(
     et1CaseServingPages,
     respondentRepresentativePage,
     citizenHubPages,
+    idamHelper,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    await idamHelper.createCitizenAccount();
+    I.wait(5);
+    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
@@ -51,7 +54,7 @@ Scenario(
     await respondentRepresentativePage.addRespondentRepresentative('registered');
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
-      testConfig.TestEnvETUser,
+      testConfig.TestEnvETClaimantEmailAddress,
       testConfig.TestEnvETPassword,
       submissionReference,
     );
@@ -83,7 +86,9 @@ Scenario(
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    await idamHelper.createCitizenAccount();
+    I.wait(5);
+    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney(
@@ -130,7 +135,9 @@ Scenario(
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    await idamHelper.createCitizenAccount();
+    I.wait(5);
+    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(

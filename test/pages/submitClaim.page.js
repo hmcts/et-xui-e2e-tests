@@ -27,7 +27,7 @@ module.exports = {
     I.forceClick('#main-form-submit');
   },
   async verifyClaimSubmitted() {
-    I.waitForVisible('#main-content', 30);
+    I.waitForVisible('#main-content', 35);
     const submissionRef = (await I.grabTextFrom('//*[@id="main-content"]/div[1]/div/dl[1]/div[1]/dd')).trim();
     console.log(submissionRef);
     I.wait(5);

@@ -1,4 +1,5 @@
 const { I } = inject();
+const today = new Date();
 
 module.exports = {
   locators: {
@@ -19,9 +20,9 @@ module.exports = {
     I.see('Pre-Acceptance');
     I.see('Case Number: ' + caseNumber);
     I.checkOption(this.locators.pre_accept_case_yes_option);
-    I.fillField(this.locators.date_accepted_day, '06');
-    I.fillField(this.locators.date_accepted_month, '06');
-    I.fillField(this.locators.date_accepted_year, '2023');
+    I.fillField(this.locators.date_accepted_day, today.getDate());
+    I.fillField(this.locators.date_accepted_month, today.getMonth());
+    I.fillField(this.locators.date_accepted_year, today.getFullYear());
     I.waitForVisible("[type='submit']", 10);
     I.forceClick('[type="submit"]');
     I.wait(2);

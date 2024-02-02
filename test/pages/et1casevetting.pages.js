@@ -149,7 +149,7 @@ module.exports = {
 
   processET1CaseVettingPage(caseNumber) {
     this.verifyET1CasePageHeading(caseNumber);
-    I.waitForText('Do this next', 5);
+    I.waitForText('Do this next', 15);
     I.see('You must accept or reject the case or refer the case.');
     I.click('[data-ng-click="submit()"]');
   },
