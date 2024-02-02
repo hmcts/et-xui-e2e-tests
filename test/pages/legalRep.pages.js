@@ -1,4 +1,5 @@
 const { I } = inject();
+const testConfig = require('../../config');
 
 module.exports = {
   applyButtonOnLegalRep: '.workbasket-filters-apply',

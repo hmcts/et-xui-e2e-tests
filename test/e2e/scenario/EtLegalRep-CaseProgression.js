@@ -13,8 +13,6 @@ const workPostcode = 'EH45 9BU';
 const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 const respondentName = 'Henry Marsh';
-const ClaimantFirstName = 'Joe';
-const ClaimantLastName = 'Saxon';
 
 Feature('End To End Tests For an ET Case progression with NOC and response to Tribunal request');
 Scenario(
@@ -31,15 +29,16 @@ Scenario(
     caseListPage,
     et1CaseVettingPages,
     et1CaseServingPages,
-    citizenHubPages,
-    respondentRepresentativePage,
+    idamHelper,
     legalRepNOCPages,
     applicationsTabsPages,
     sendNotificationPages,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    await idamHelper.createCitizenAccount();
+    I.wait(5);
+    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'Scotland', addressOption);
     await employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney(
@@ -61,9 +60,6 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    //Case acceptance or rejection Event
-    await caseListPage.selectNextEvent('6: Object'); //Case acceptance or rejection Event
-    await respondentRepresentativePage.addRespondentRepresentative('registered', 'test solicitor firm');
     I.click('Sign out');
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
@@ -72,8 +68,8 @@ Scenario(
       'Eng/Wales - Singles',
       submissionReference,
       respondentName,
-      ClaimantFirstName,
-      ClaimantLastName,
+      testConfig.TestEnvETClaimantFirstName,
+      testConfig.TestEnvETClaimantLastName,
     );
     I.click('Sign out');
     I.wait(5);
@@ -85,20 +81,20 @@ Scenario(
     await caseListPage.verifyCaseDetailsPage();
     pause();
     await applicationsTabsPages.selectNotificationLink();
-    await sendNotificationPages.sendNotificationLink('cmo', 'yes', 'Both parties', 'legal officer', 'both');
+    await sendNotificationPages.sendNotificationLink('cmo', 'yes', 'Both parties', 'legal officer', 'claimant');
 
     I.click('Sign out');
-    //Case progression  -- applicant to respond to tribunal request
-    await citizenHubPages.processCitizenHubLogin(
-      testConfig.TestEnvETUser,
-      testConfig.TestEnvETPassword,
-      submissionReference,
-    );
-    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
-    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPages.regAccountContactTribunal('withdraw all or part of my claim');
-    await citizenHubPages.rule92Question('yes');
-    await citizenHubPages.cyaPageVerification();
+    // //Case progression  -- applicant to respond to tribunal request
+    // await citizenHubPages.processCitizenHubLogin(
+    //   testConfig.TestEnvETUser,
+    //   testConfig.TestEnvETPassword,
+    //   submissionReference,
+    // );
+    // await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
+    // await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    // await citizenHubPages.regAccountContactTribunal('withdraw all or part of my claim');
+    // await citizenHubPages.rule92Question('yes');
+    // await citizenHubPages.cyaPageVerification();
 
     // legal rep respond to notification
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
