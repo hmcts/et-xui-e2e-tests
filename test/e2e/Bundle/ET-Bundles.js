@@ -14,8 +14,7 @@ const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH
 const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
 const respondentName = 'Henry Marsh';
-const ClaimantFirstName = 'Tutan';
-const ClaimantLastName = 'Khamum';
+
 
 
 Feature('End To End Test - Bundles');
@@ -70,8 +69,8 @@ Scenario(
       'Eng/Wales - Singles',
       submissionReference,
       respondentName,
-      ClaimantFirstName,
-      ClaimantLastName,
+      testConfig.TestEnvETClaimantFirstName,
+      testConfig.TestEnvETClaimantLastName,
     );
     //submit a prepared document for hearing
     //await caseListPage.processCaseFromCaseList(submissionReference);
@@ -136,8 +135,8 @@ Scenario(
       'Scotland - Singles',
       submissionReference,
       respondentName,
-      ClaimantFirstName,
-      ClaimantLastName,
+      testConfig.TestEnvETClaimantFirstName,
+      testConfig.TestEnvETClaimantLastName,
     );
     //submit a prepared document for hearing
     //await caseListPage.processCaseFromCaseList(submissionReference);
@@ -204,12 +203,12 @@ Scenario(
       'Eng/Wales - Singles',
       submissionReference,
       respondentName,
-      ClaimantFirstName,
-      ClaimantLastName,
+      testConfig.TestEnvETClaimantFirstName,
+      testConfig.TestEnvETClaimantLastName,
     );
     // go to cui
     await citizenHubPages.processCitizenHubLogin(
-      testConfig.TestEnvETUser,
+      testConfig.TestEnvETClaimantEmailAddress,
       testConfig.TestEnvETPassword,
       submissionReference,
     );
