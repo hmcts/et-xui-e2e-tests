@@ -23,10 +23,13 @@ Scenario(
     respondentRepresentativePage,
     referralPages,
     workAllocationTaskPages,
+    idamHelper,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    await idamHelper.createCitizenAccount();
+    I.wait(5);
+    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'Scotland', addressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
@@ -54,7 +57,7 @@ Scenario(
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     //add org to case to enable cui applications
-    await caseListPage.selectNextEvent('Respondent Representative');//Respondent Representative Event
+    await caseListPage.selectNextEvent('Respondent Representative'); //Respondent Representative Event
     await respondentRepresentativePage.addRespondentRepresentative('registered', 'ET Test3 Organisation');
     //do referral as a admin case worker
     await referralPages.submitAreferral('et.ctscworker010@justice.gov.uk', 'Admin', 'Test Referral by Admin', 'Yes', 1);

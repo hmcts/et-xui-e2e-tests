@@ -20,10 +20,13 @@ Scenario(
     caseListPage,
     workAllocationTaskPages,
     et1CaseVettingPages,
+    idamHelper,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    await idamHelper.createCitizenAccount();
+    I.wait(5);
+    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
@@ -50,5 +53,6 @@ Scenario(
     //validate case not visible under all work tab
     await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, false);
   },
-)  .tag('@nightly')
+)
+  .tag('@nightly')
   .retry(2);

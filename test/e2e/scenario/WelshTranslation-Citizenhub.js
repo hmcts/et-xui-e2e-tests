@@ -9,23 +9,26 @@ Feature('End To End; Happy Path for Welsh Translation on Citizen UI');
 Scenario(
   'Submit a case from Scotland - Verify Welsh toggle is working on CUI as expected',
   async ({
-           I,
-           basePage,
-           loginPage,
-           taskListPage,
-           personalDetailsPage,
-           employmentAndRespondentDetailsPage,
-           claimDetailsPage,
-           submitClaimPage,
-           caseListPage,
-           et1CaseVettingPages,
-           et1CaseServingPages,
-           citizenHubPages,
-           respondentRepresentativePage,
-         }) => {
+    I,
+    basePage,
+    loginPage,
+    taskListPage,
+    personalDetailsPage,
+    employmentAndRespondentDetailsPage,
+    claimDetailsPage,
+    submitClaimPage,
+    caseListPage,
+    et1CaseVettingPages,
+    et1CaseServingPages,
+    citizenHubPages,
+    respondentRepresentativePage,
+    idamHelper,
+  }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await loginPage.processLogin(testConfig.TestEnvETUser, testConfig.TestEnvETPassword);
+    await idamHelper.createCitizenAccount();
+    I.wait(5);
+    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'Scotland', addressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
@@ -59,8 +62,9 @@ Scenario(
     );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPages. verifyContentInWelsh();
-  })
+    await citizenHubPages.verifyContentInWelsh();
+  },
+)
   .tag('@welsh')
   .tag('@nightly');
 // .retry(1);

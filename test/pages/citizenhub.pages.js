@@ -232,7 +232,6 @@ module.exports = {
     } catch (e) {
       console.error('invalid option', e.message);
     }
-
   },
   rule92Question(option) {
     switch (option) {
@@ -311,32 +310,33 @@ module.exports = {
     I.waitForElement(this.startPreparingHearingDoc, 10);
     I.see('Prepare and submit documents for a hearing');
     I.forceClick(this.startPreparingHearingDoc);
-    I.waitForElement(this.hearingDocAgreeDoc,5);
+    I.waitForElement(this.hearingDocAgreeDoc, 5);
     I.checkOption(this.hearingDocAgreeDoc);
     I.click(this.continueButton);
-    I.waitForElement(this.firstListedCase,10);
+    I.waitForElement(this.firstListedCase, 10);
     I.checkOption(this.firstListedCase);
     I.see('About your hearing documents');
     I.scrollTo(this.myDocumentOption);
     I.checkOption(this.myDocumentOption);
     I.checkOption(this.witnessStatementOnly);
     I.click(this.continueButton);
-    pause();
     I.waitForElement(this.uploadHearingFile, 10);
-    I.see('Upload your file of documents')
+    I.see('Upload your file of documents');
     I.attachFile(this.uploadHearingDocButton, '../et-xui-e2e-tests/test/data/welshTest.pdf');
     I.wait(3);
-    I.click(this.uploadHearingFile)
+    I.click(this.uploadHearingFile);
     I.wait(3);
     I.click(this.continueButton);
-    I.waitForElement(this.changeYourDocument,10);
+    I.waitForElement(this.changeYourDocument, 10);
     I.see('Check your answers');
     I.click(this.submitApplicationButton);
-    I.waitForElement(this.closeAndReturnButton,10);
+    I.waitForElement(this.closeAndReturnButton, 10);
     I.see('You have sent your hearing documents to the tribunal');
     I.see('What happens next');
-    I.see('Your documents are now uploaded. The tribunal will let you know ' +
-      'if they have any questions about the documents you have submitted.');
+    I.see(
+      'Your documents are now uploaded. The tribunal will let you know ' +
+        'if they have any questions about the documents you have submitted.',
+    );
     I.click(this.closeAndReturnButton);
-  }
+  },
 };

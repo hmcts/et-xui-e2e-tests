@@ -1,8 +1,7 @@
-const testConfig = require("../../config");
 const { I } = inject();
+const testConfig = require('../../config');
 
 module.exports = {
-  textHeader: '.govuk-heading-l',
   applyButtonOnLegalRep: '.workbasket-filters-apply',
   manageCasesLinkLegalRep: '[aria-label="Manage Cases"]',
   continueButton: '.button',
@@ -49,6 +48,13 @@ module.exports = {
   hearingTabLegalRep: '//div[9]/div[@class="mat-tab-label-content"]',
   closeAndReturnButton: '[type="submit"]',
   loadingSpinner: '.spinner-container',
+  legalRepNotificationTab: '#mat-tab-label-0-6',
+  lrRespondToTribunal: '//a[.="Respond to an order or request from the tribunal"]',
+  responseNotificationDropdown: '#pseRespondentSelectOrderOrRequest',
+  casedetailsEditForm: '#caseEditForm',
+  lrAddCommentToResponse: '#pseRespondentOrdReqResponseText',
+  noSupportingMaterial: '#pseRespondentOrdReqHasSupportingMaterial_No',
+  legalRepYesOptionR92: '#pseRespondentOrdReqCopyToOtherParty-Yes',
 
   // prevent NOC process from failing
   // NOC process tend to fail is existing applications are not loaded
@@ -91,7 +97,7 @@ module.exports = {
 
     //I.waitForElement(this.continueButton, 10);
     I.see('Notice of change');
-    I.waitForElement(this.caseidFilfield,10);
+    I.waitForElement(this.caseidFilfield, 10);
     I.fillField(this.caseidFilfield, submissionReference);
     I.click(this.continueLegalRepButton);
     I.waitForVisible(this.fieldSetLegalRep, 10);
@@ -99,7 +105,7 @@ module.exports = {
     I.fillField(this.respondentDetailsLegalRep, respondentName);
     I.fillField(this.claimantFirstNamelegalRep, ClaimantFirstName);
     I.fillField(this.claimantLastNamelegalRep, ClaimantLastName);
-    I.wait(3);
+    I.wait(5);
     I.click(this.continueLegalRepButton);
     //I.waitForVisible(this.confirmdiv, 10);
     I.wait(10);
@@ -114,17 +120,18 @@ module.exports = {
     I.waitForElement(this.successfulMessageHeader, 20);
     I.see('Notice of change successful');
     I.wait(2);
-    let newNOCapplication =  testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + submissionReference
-    I.amOnPage(newNOCapplication)
+    let newNOCapplication = testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + submissionReference;
+    I.amOnPage(newNOCapplication);
+    I.wait(10);
   },
 
-  async submitDocumentForHearingRespondent(agreement,whoseDocu,docuType) {
+  async submitDocumentForHearingRespondent(agreement, whoseDocu, docuType) {
     I.waitForElement(this.textHeader, 10);
     I.see('Prepare and submit documents for a hearing');
     I.click(this.continueLegalRepButton);
-    I.waitForInvisible(this.loadingSpinner,10);
+    I.waitForInvisible(this.loadingSpinner, 10);
     I.waitForElement(this.prepareDocPageTwoHeader, 15);
-    I.waitForInvisible(this.loadingSpinner,10);
+    I.waitForInvisible(this.loadingSpinner, 10);
     I.see('Have you agreed these documents with the other party?');
     I.scrollPageToBottom();
     try {
@@ -149,19 +156,19 @@ module.exports = {
     } catch (error) {
       console.error('invalid option', error.message);
     }
-    I.waitForInvisible(this.loadingSpinner,10);
-    I.waitForElement(this.respondentDocOnly,10);
+    I.waitForInvisible(this.loadingSpinner, 10);
+    I.waitForElement(this.respondentDocOnly, 10);
     I.scrollPageToBottom();
-    I.see('About your hearing documents')
+    I.see('About your hearing documents');
     I.selectOption(this.selectHearingFromDropdown, '1: 1');
     // Whose hearing documents are you uploading
     try {
       switch (whoseDocu) {
         case 'Respondent':
-          I.checkOption(this.respondentDocOnly)
+          I.checkOption(this.respondentDocOnly);
           break;
         case 'Both Parties':
-          I.checkOption(this.bothPartiesDoc)
+          I.checkOption(this.bothPartiesDoc);
           break;
         default:
           throw new Error('... check you options or add new option');
@@ -188,14 +195,14 @@ module.exports = {
       console.error('invalid option', error.message);
     }
     I.click(this.continueLegalRepButton);
-    I.waitForInvisible(this.loadingSpinner,10);
+    I.waitForInvisible(this.loadingSpinner, 10);
     I.scrollPageToBottom();
-    I.see('Upload your file of documents')
+    I.see('Upload your file of documents');
     I.attachFile(this.uploadBundleDocument, 'test/data/welshTest.pdf');
     I.wait(2);
     I.click(this.continueLegalRepButton);
     I.scrollPageToBottom();
-    I.waitForElement(this.changeDocuUploaded,10);
+    I.waitForElement(this.changeDocuUploaded, 10);
     I.see('Check the information below carefully.');
     I.see('Prepare documents for hearing');
     I.see('Check your answers');
@@ -204,16 +211,34 @@ module.exports = {
     I.see('You have sent your hearing documents to the tribunal');
     I.scrollPageToBottom();
     I.click(this.closeAndReturnButton);
-    I.waitForInvisible(this.loadingSpinner,10);
+    I.waitForInvisible(this.loadingSpinner, 10);
     //I.see(' Respondent Hearing Documents');
   },
 
-  verifyHearingDocumentTabLegalRep(){
+  verifyHearingDocumentTabLegalRep() {
     I.waitForElement(this.hearingTabLegalRep, 10);
     I.click(this.hearingTabLegalRep);
     I.see('Hearing Documents');
     I.see('Respondent Hearing Documents');
-
-
-  }
+  },
+  respondToNotificationFromTribunal() {
+    I.click(this.legalRepNotificationTab);
+    I.waitForElement(this.lrRespondToTribunal, 10);
+    I.click(this.lrRespondToTribunal);
+    I.waitForElement(this.responseNotificationDropdown, 15);
+    I.selectOption(this.responseNotificationDropdown, '1:2');
+    I.wait(2);
+    I.click(this.continueButton);
+    I.waitForElement(this.casedetailsEditForm, 10);
+    I.fillField(this.lrAddCommentToResponse, 'test response to notification from Trib');
+    I.checkOption(this.noSupportingMaterial);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.legalRepYesOptionR92, 10);
+    I.checkOption(this.legalRepYesOptionR92);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.casedetailsEditForm, 10);
+    I.see('Check your answers');
+    I.click(this.continueLegalRepButton);
+    I.seeElement('//button[@class="button"]');
+  },
 };

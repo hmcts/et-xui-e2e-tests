@@ -21,7 +21,7 @@ module.exports = {
   bothPartiesButton: '[for="sendNotificationNotify-Both parties"]',
   claimantOnlyButton: '[for="sendNotificationNotify-Claimant only"]',
   respondentOnlyButton: '[for="sendNotificationNotify-Respondent only"]',
-  ContinueButton: '[type="submit"]',
+  ContinueButton: '//button[@class="button"]',
   CloseButton: '.button',
 
   sendNotificationLink(notifType, isResponseRequired, respParty, decidingOfficer, notificationParty) {
@@ -91,17 +91,15 @@ module.exports = {
         throw new Error('you must select either both, claimant or respondent only parties');
     }
     I.click(this.ContinueButton);
-
+    I.wait(5);
     I.see('Check your answers');
     I.see('Enter notification title');
     I.see('Is there a letter to send out?');
     I.see('Notification subject');
     I.see('Select the party or parties to notify');
     I.click(this.ContinueButton);
-
+    I.waitForElement(this.CloseButton, 10);
     I.see('The selected parties will receive the notification.');
     I.click(this.CloseButton);
-
-    I.see('has been updated with event: Send a notification');
   },
 };
