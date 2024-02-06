@@ -31,6 +31,7 @@ Scenario(
     et1CaseVettingPages,
     legalRepNOCPages,
     et1CaseServingPages,
+    idamHelper,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
@@ -98,7 +99,6 @@ Scenario(
     et1CaseVettingPages,
     legalRepNOCPages,
     et1CaseServingPages,
-    idamHelper,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
