@@ -23,9 +23,12 @@ Scenario(
     citizenHubPages,
     caseOverviewPage,
     respondentRepresentativePage,
+    idamHelper,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
+    await idamHelper.createCitizenAccount();
+    I.wait(5);
     await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'Scotland', addressOption);

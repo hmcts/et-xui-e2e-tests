@@ -1,5 +1,5 @@
 const request = require('request');
-
+const {expect} = require('chai');
 const testConfig = require('../../config');
 
 module.exports = {
@@ -28,6 +28,7 @@ module.exports = {
         throw new Error(error);
       }
       console.log(response.body);
+      expect(response.status).to.eql(201);
     });
   },
 };

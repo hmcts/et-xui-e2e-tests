@@ -100,12 +100,9 @@ Scenario(
     citizenHubPages,
     applicationsTabsPages,
     //sendNotificationPages,
-    idamHelper,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
-    await idamHelper.createCitizenAccount();
-    I.wait(5);
     await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);
