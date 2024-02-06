@@ -53,6 +53,12 @@ exports.config = {
     listHearingPages: './test/pages/listHearing.page.js',
     idamHelper: './test/pages/idamHelper.js'
   },
+  restart: {
+    enabled: true
+  },
+  restart: {
+    enabled: true
+  },
   bootstrap: null,
   mocha: {
     reporterOptions: {
