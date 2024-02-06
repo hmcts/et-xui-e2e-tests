@@ -56,9 +56,6 @@ exports.config = {
   restart: {
     enabled: true
   },
-  restart: {
-    enabled: true
-  },
   bootstrap: null,
   mocha: {
     reporterOptions: {
