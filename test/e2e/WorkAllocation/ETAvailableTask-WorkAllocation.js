@@ -20,13 +20,11 @@ Scenario(
     caseListPage,
     workAllocationTaskPages,
     et1CaseVettingPages,
-    idamHelper,
   }) => {
     I.amOnPage('/');
+    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await idamHelper.createCitizenAccount();
-    I.wait(5);
-    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
+    await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
@@ -38,7 +36,7 @@ Scenario(
     let submissionReference = await submitClaimPage.submitClaim();
     // login as cstc admin and check that the case is available under available task
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(testConfig.TestEnvETCstcAdminUser, testConfig.TestEnvETCstcAdminPassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETCstcAdminUser, testConfig.TestEnvETCstcAdminPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     //assign task
@@ -53,5 +51,6 @@ Scenario(
     //validate case not visible under all work tab
     await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, false);
   },
-)  .tag('@nightly')
+)
+  .tag('@nightly')
   .retry(2);

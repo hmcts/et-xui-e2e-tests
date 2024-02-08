@@ -14,7 +14,7 @@ module.exports = {
   },
   //
   noPcqQuestions() {
-    I.waitForElement('[name=opt-out-button]',25);
+    I.waitForElement('[name=opt-out-button]', 25);
     I.see('Equality and diversity questions');
     I.click('[name=opt-out-button]');
   },

@@ -28,8 +28,9 @@ Scenario(
     applicationsTabsPages,
   }) => {
     I.amOnPage('/');
+    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
+    await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
@@ -42,7 +43,7 @@ Scenario(
     I.click('Sign out');
     //manage case
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
     // check case file view
@@ -69,8 +70,9 @@ Scenario(
     applicationsTabsPages,
   }) => {
     I.amOnPage('/');
-    await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
-    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
+    await loginPage.registerNewAccount();
+    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
+    await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
@@ -82,7 +84,7 @@ Scenario(
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     console.log('The value of the Case Number ' + submissionReference);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
