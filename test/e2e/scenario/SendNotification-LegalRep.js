@@ -31,7 +31,6 @@ Scenario(
     citizenHubPages,
     applicationsTabsPages,
     sendNotificationPages,
-    idamHelper,
   }) => {
     I.amOnPage('/', 20);
     await loginPage.registerNewAccount();
