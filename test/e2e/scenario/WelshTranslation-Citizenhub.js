@@ -22,7 +22,6 @@ Scenario(
     et1CaseServingPages,
     citizenHubPages,
     respondentRepresentativePage,
-    idamHelper,
   }) => {
     I.amOnPage('/');
     await loginPage.registerNewAccount();

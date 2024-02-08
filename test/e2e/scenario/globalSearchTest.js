@@ -28,7 +28,6 @@ Scenario(
     claimDetailsPage,
     submitClaimPage,
     globalSearchPages,
-    idamHelper,
   }) => {
     //case number 1
     I.amOnPage('/');

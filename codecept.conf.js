@@ -51,7 +51,6 @@ exports.config = {
     caseFlagPages: './test/pages/caseFlag.pages.js',
     globalSearchPages: './test/pages/globalsearch.pages.js',
     listHearingPages: './test/pages/listHearing.page.js',
-    idamHelper: './test/pages/idamHelper.js',
   },
   bootstrap: null,
   mocha: {

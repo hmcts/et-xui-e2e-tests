@@ -23,7 +23,6 @@ Scenario(
     applicationsTabsPages,
     sendNotificationPages,
     respondentRepresentativePage,
-    idamHelper,
   }) => {
     I.amOnPage('/', 20);
     await loginPage.registerNewAccount();

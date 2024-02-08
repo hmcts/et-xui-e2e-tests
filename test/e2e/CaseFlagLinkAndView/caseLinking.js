@@ -28,7 +28,6 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
     caseLinkPages,
-    idamHelper
   }) => {
     //case 1
     I.amOnPage('/');
