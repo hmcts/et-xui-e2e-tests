@@ -21,13 +21,11 @@ Scenario(
     et1CaseServingPages,
     citizenHubPages,
     et3NotificationPages,
-    idamHelper,
   }) => {
     I.amOnPage('/');
+    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await idamHelper.createCitizenAccount();
-    I.wait(5);
-    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
+    await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
@@ -39,7 +37,7 @@ Scenario(
     let submissionReference = await submitClaimPage.submitClaim();
     //I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
@@ -51,11 +49,9 @@ Scenario(
     await caseListPage.selectNextEvent('9: Object'); //ET3NotificationEvent
     await et3NotificationPages.uploadET3acceptanceLetter('single document');
     I.click('Sign out');
-    // await citizenHubPages.processCitizenHubLogin(
-    //   testConfig.TestEnvETUser,
-    //   testConfig.TestEnvETPassword,
-    //   submissionReference,
-    // );
+    await citizenHubPages.processCitizenHubLogin(
+      submissionReference,
+    );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.verifyET3RespondentResponseonCUI();
