@@ -106,6 +106,18 @@ exports.config = {
           platformName: 'macOS 13',
         },
       ],
+
+    },
+    multiple: {
+      // microsoft: {
+      //     browsers: getBrowserConfig('microsoft')
+      // },
+      chrome: {
+        browsers: 'chromium'
+      },
+      firefox: {
+        browsers:'firefox'
+      }
     },
   },
 };

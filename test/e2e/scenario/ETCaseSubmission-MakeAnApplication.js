@@ -34,10 +34,12 @@ Scenario(
     et1CaseServingPages,
     legalRepNOCPages,
     //citizenHubPages,
+
   }) => {
     I.amOnPage('/');
+    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
+    await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
@@ -50,7 +52,7 @@ Scenario(
     I.click('Sign out');
     //let submissionReference = '1684228875185777';
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.verifyCaseDetailsPage();
@@ -84,7 +86,7 @@ Scenario(
     await makeanApplicationPage.checkYourAnswersAndSybmit();
     await makeanApplicationPage.closeAndReturnToCaseDetails();
     I.click('Sign out');
-    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.selectTab('Applications');
@@ -180,7 +182,7 @@ Scenario(
     //   await makeanApplicationPage.checkYourAnswersAndSybmit();
     //   await makeanApplicationPage.closeAndReturnToCaseDetails();
     //   I.click('Sign out');
-    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference(
       'Scotland - Singles (RET)',
       scotishsubmissionReference,
