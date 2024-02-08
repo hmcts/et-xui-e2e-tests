@@ -8,7 +8,7 @@ module.exports = {
 
   //select continue on the /new-account-landing page
   newAccountLanding() {
-    I.waitForElement('#main-content', 10);
+    I.waitForElement('#main-content', 30);
     I.see('You do not have to complete your claim in one go');
     I.forceClick('Continue');
   },

@@ -163,13 +163,11 @@ module.exports = {
     I.forceClick(this.applyFilterButton);
     I.wait(5);
 
-    let newlyCreatedTask =
-      testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + submissionReference + '/tasks';
+    let newlyCreatedTask = testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + submissionReference + '/tasks';
 
     if (taskVisible) {
-      (newlyCreatedTask).includes(submissionReference);
+      newlyCreatedTask.includes(submissionReference);
       I.amOnPage(newlyCreatedTask);
-
     } else {
       //TODO- fix
       //I.dontSeeElement(newlyCreatedTask);
