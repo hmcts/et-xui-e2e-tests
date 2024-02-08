@@ -28,7 +28,6 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
     caseFlagPages,
-    //idamHelper,
   }) => {
     I.amOnPage('/');
     await loginPage.registerNewAccount();
