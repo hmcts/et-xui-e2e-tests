@@ -52,6 +52,9 @@ exports.config = {
     globalSearchPages: './test/pages/globalsearch.pages.js',
     listHearingPages: './test/pages/listHearing.page.js',
   },
+  restart: {
+    enabled: true
+  },
   bootstrap: null,
   mocha: {
     reporterOptions: {
