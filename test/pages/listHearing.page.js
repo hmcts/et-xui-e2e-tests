@@ -25,9 +25,8 @@ module.exports = {
   hearingListYear: '#listedDate-year',
   submitHearingButton: '[type="submit"]',
 
-
   async listCase() {
-    I.waitForElement(this.hearingNumber,10);
+    I.waitForElement(this.hearingNumber, 10);
     I.see('Case Number');
     I.fillField(this.hearingNumber, '1');
     // hearing format
@@ -37,7 +36,7 @@ module.exports = {
     I.checkOption(this.judicialMediationOption);
     I.selectOption(this.hearingVenueOption, '2: Hull');
     I.fillField(this.hearingLengthNum, '1');
-    I.selectOption(this.dayHourMinutes,'1: Days');
+    I.selectOption(this.dayHourMinutes, '1: Days');
     //sit alone or full panel
     I.checkOption(this.sitAlonePanel);
     I.selectOption(this.hearingStage, '1: Stage 1');
@@ -51,5 +50,5 @@ module.exports = {
     I.click(this.submitHearingButton);
     // Verifying the Hearings Tab.
     //I.waitForText('has been updated with event: List Hearing', 10);
-  }
-}
+  },
+};
