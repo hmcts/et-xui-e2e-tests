@@ -1,4 +1,4 @@
-const testConfig = require('../../../../config');
+const testConfig = require("../../../../config");
 
 const postcode = 'LS9 9HE';
 // const workPostcode = 'LS7 4QE';
@@ -10,6 +10,8 @@ Feature('AI Sample');
 
 Scenario('test ai features', async ({ I, basePage, loginPage }) => {
   I.amOnPage('/');
+  await loginPage.registerNewAccount();
   await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-  await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
+  await loginPage.processLoginWithNewAccount();
+  pause();
 }).tag('aisample');

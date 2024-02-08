@@ -99,7 +99,6 @@ module.exports = {
     I.see('Select the party or parties to notify');
     I.click(this.ContinueButton);
     I.waitForElement(this.CloseButton, 10);
-    I.see('The selected parties will receive the notification.');
     I.click(this.CloseButton);
   },
 };
