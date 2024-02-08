@@ -56,7 +56,7 @@ module.exports = {
   returnOverviewButton: '.govuk-template__body > .govuk-width-container > .govuk-button-group > .govuk-button',
   notificationFlagAfter: '.app-task-list > li:nth-of-type(5) .govuk-tag',
 
-  processCitizenHubLogin(test_case_username, test_case_password, submissionReference) {
+  processCitizenHubLogin(submissionReference) {
     I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
   },
 

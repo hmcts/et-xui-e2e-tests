@@ -23,13 +23,11 @@ Scenario(
     citizenHubPages,
     caseOverviewPage,
     respondentRepresentativePage,
-    idamHelper,
   }) => {
     I.amOnPage('/');
+    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await idamHelper.createCitizenAccount();
-    I.wait(5);
-    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
+    await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'Scotland', addressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
@@ -41,7 +39,7 @@ Scenario(
     const submissionReference = await submitClaimPage.submitClaim();
     //I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     console.log('The value of the Case Number ' + submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
@@ -56,11 +54,11 @@ Scenario(
     await caseListPage.selectNextEvent('6: Object'); //Case acceptance or rejection Event
     await respondentRepresentativePage.addRespondentRepresentative('registered', 'ET Test3 Organisation');
     I.click('Sign out');
-    await citizenHubPages.processCitizenHubLogin(
-      testConfig.TestEnvETUser,
-      testConfig.TestEnvETPassword,
-      submissionReference,
-    );
+    // await citizenHubPages.processCitizenHubLogin(
+    //   testConfig.TestEnvETUser,
+    //   testConfig.TestEnvETPassword,
+    //   submissionReference,
+    // );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.regAccountContactTribunal('withdraw all or part of my claim');
@@ -68,7 +66,7 @@ Scenario(
     await citizenHubPages.cyaPageVerification();
     // record a decision by JCM
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
     await caseOverviewPage.recordAdecisionOnAcase(

@@ -133,8 +133,6 @@ Scenario(
 
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(
-      testConfig.TestEnvETUser,
-      testConfig.TestEnvETPassword,
       submissionReference,
     );
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);

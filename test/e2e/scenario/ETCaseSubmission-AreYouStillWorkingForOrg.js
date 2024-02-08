@@ -135,8 +135,9 @@ Scenario(
     respondentRepresentativePage,
   }) => {
     I.amOnPage('/');
+    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
+    await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(
