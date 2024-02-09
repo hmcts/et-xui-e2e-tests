@@ -97,8 +97,6 @@ Scenario(
     et1CaseServingPages,
     citizenHubPages,
     applicationsTabsPages,
-    //sendNotificationPages,
-    idamHelper
   }) => {
     I.amOnPage('/');
     await loginPage.registerNewAccount();
