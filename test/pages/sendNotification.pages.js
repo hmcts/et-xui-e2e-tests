@@ -98,7 +98,7 @@ module.exports = {
     I.see('Notification subject');
     I.see('Select the party or parties to notify');
     I.click(this.ContinueButton);
-    I.waitForElement(this.CloseButton, 10);    
+    I.waitForElement(this.CloseButton, 10);
     I.click(this.CloseButton);
   },
 };

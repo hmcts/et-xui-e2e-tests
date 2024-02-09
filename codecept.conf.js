@@ -112,7 +112,7 @@ exports.config = {
           'role',
         ],
         allowedRoles: ['button', 'checkbox', 'search', 'textbox', 'tab'],
-      },
+      }
     },
     stepByStepReport: {
       enabled: false,

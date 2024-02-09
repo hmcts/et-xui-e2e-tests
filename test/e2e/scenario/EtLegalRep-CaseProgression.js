@@ -59,6 +59,7 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    const { firstName,lastName } = await et1CaseServingPages.getClaimantFirstName()
     I.click('Sign out');
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
@@ -67,8 +68,8 @@ Scenario(
       'Eng/Wales - Singles',
       submissionReference,
       respondentName,
-      testConfig.TestEnvETClaimantFirstName,
-      testConfig.TestEnvETClaimantLastName,
+      firstName,
+      lastName
     );
     I.click('Sign out');
     I.wait(5);
@@ -97,6 +98,8 @@ Scenario(
     // legal rep respond to notification
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
+    await caseListPage.processCaseFromCaseList(submissionReference);
     await legalRepNOCPages.respondToNotificationFromTribunal();
   },
 )
