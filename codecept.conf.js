@@ -51,10 +51,10 @@ exports.config = {
     caseFlagPages: './test/pages/caseFlag.pages.js',
     globalSearchPages: './test/pages/globalsearch.pages.js',
     listHearingPages: './test/pages/listHearing.page.js',
-    idamHelper: './test/pages/idamHelper.js'
+    idamHelper: './test/pages/idamHelper.js',
   },
   restart: {
-    enabled: true
+    enabled: true,
   },
   bootstrap: null,
   mocha: {
@@ -95,9 +95,25 @@ exports.config = {
         minify: true,
         interactiveElements: ['a', 'input', 'button', 'select', 'textarea', 'option'],
         textElements: ['label', 'h1', 'h2'],
-        allowedAttrs: ['id', 'for', 'class', 'name', 'type', 'value', 'tabindex', 'aria-labelledby', 'aria-label', 'label', 'placeholder', 'title', 'alt', 'src', 'role'],
+        allowedAttrs: [
+          'id',
+          'for',
+          'class',
+          'name',
+          'type',
+          'value',
+          'tabindex',
+          'aria-labelledby',
+          'aria-label',
+          'label',
+          'placeholder',
+          'title',
+          'alt',
+          'src',
+          'role',
+        ],
         allowedRoles: ['button', 'checkbox', 'search', 'textbox', 'tab'],
-      }
+      },
     },
     stepByStepReport: {
       enabled: false,
