@@ -32,7 +32,12 @@ async function registerNewAccount() {
     let idamResponse = await axios.post(aatUrl, idamData, { headers });
     console.log('Response:', idamResponse.data);
     console.log('.... completed account registration');
-    return idamResponse.data.email;
+    return {
+      email: idamResponse.data.email,
+      firstName: idamResponse.data.forename,
+      lastName: idamResponse.data.surname
+    };
+
   }catch (error) {
     console.error('Error:', error.message);
     return null;
@@ -41,7 +46,7 @@ async function registerNewAccount() {
 
 async function processLoginWithNewAccount() {
   console.log(`${await registerNewAccount()}`)
-  let email = await registerNewAccount();
+  const { email } = await registerNewAccount();
   I.waitForVisible('#username', 15);
   console.log('.... checking email address:', email)
   I.fillField('#username', email);
