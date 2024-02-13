@@ -52,7 +52,7 @@
         "typescript": "5.3.3"
     },
     "devDependencies": {
-        "@codeceptjs/configure": "0.10.0",
+        "@codeceptjs/configure": "1.0.0",
         "@codeceptjs/examples": "1.2.1",
         "@codeceptjs/ui": "0.7.0",
         "codeceptjs": "3.5.12",
