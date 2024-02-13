@@ -35,6 +35,7 @@ Scenario(
            applicationsTabsPages,
            sendNotificationPages,
            respondentEventPages,
+           citizenHubPages,
          }) => {
     I.amOnPage('/');
     await loginPage.registerNewAccount();
@@ -49,7 +50,6 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
-    I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
@@ -89,10 +89,15 @@ Scenario(
     await caseListPage.createEccCase(caseNumber,'Scotland - Singles (RET)');
     await caseListPage.findCasewithRefNumber(submissionReference);
     // update et3 response from respondent details
+    await caseListPage.selectNextEvent('Respondent Details');
     await respondentEventPages.updateET3ResponseOptionYes(respondentName, workPostcode)
     // create ecc case and link to existing case
     await applicationsTabsPages.selectNotificationLink();
     await sendNotificationPages.sendNotificationLink('ecc', 'yes', 'Both parties', 'legal officer', 'claimant');
+    // Claimant View and Respond to Ecc Notification
+    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
+    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.claimantViewAndRespondToECC();
     // legal rep respond to notification
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);

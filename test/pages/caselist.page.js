@@ -39,6 +39,7 @@ module.exports = {
   et1Vetting: '//*[@id="mat-option-0"]/span',
   linkedCasesTab: '[aria-posinset="11"] > .mat-tab-label-content',
   createCaseLink: '//a[contains(.,"Create case")]',
+  xuiJurisdiction: '#cc-jurisdiction',
   xuiCaseTypeDropdown: '#cc-case-type',
   xuiCaseEventDropdown: '#cc-event',
   startEccButton: '//button[@class="button"]',
@@ -196,6 +197,7 @@ module.exports = {
   createEccCase(caseNumber,caseLocation) {
     I.click(this.createCaseLink);
     I.waitForElement(this.xuiCaseTypeDropdown,10);
+    I.selectOption(this.xuiJurisdiction,'Employment');
     I.selectOption(this.xuiCaseTypeDropdown, caseLocation);
     I.selectOption(this.xuiCaseEventDropdown, 'Create Employer Contract Claim');
     I.click(this.startEccButton);
@@ -212,7 +214,7 @@ module.exports = {
 
   findCasewithRefNumber(submissionReference) {
     I.fillField(this.findCaseWithRef, submissionReference);
-    I.click(this.findButtoncaseList);
+    I.forceClick(this.findButtoncaseList);
     I.waitForElement(this.tabs, 5);
   }
 };
