@@ -5,7 +5,6 @@ const workPostcode = 'LS7 4QE';
 const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
 const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
-
 //Scotish Details
 const scotPostcode = 'FK15 9ET';
 const scotAddressOption = '3e, Station Road, Dunblane, FK15 9ET';
