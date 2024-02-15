@@ -1,13 +1,3 @@
-// submit_claim
-// vet and accept claim
-// noc
-// et3 response form
-// et3 notification
-// ecc claim
-// et3 processing
-// ecc notification
-
-
 const testConfig = require('../../../config.js');
 const postcode = 'FK15 9ET';
 const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
@@ -34,7 +24,6 @@ Scenario(
            legalRepNOCPages,
            applicationsTabsPages,
            sendNotificationPages,
-           respondentEventPages,
            citizenHubPages,
          }) => {
     I.amOnPage('/');
@@ -88,9 +77,9 @@ Scenario(
     // submit ECC application
     await caseListPage.createEccCase(caseNumber,'Scotland - Singles (RET)');
     await caseListPage.findCasewithRefNumber(submissionReference);
-    // update et3 response from respondent details
-    await caseListPage.selectNextEvent('Respondent Details');
-    await respondentEventPages.updateET3ResponseOptionYes(respondentName, workPostcode)
+    // update et3 response from respondent details not need as ET3 form has been returned
+    //await caseListPage.selectNextEvent('Respondent Details');
+    //await respondentEventPages.updateET3ResponseOptionYes(respondentName, workPostcode)
     // create ecc case and link to existing case
     await applicationsTabsPages.selectNotificationLink();
     await sendNotificationPages.sendNotificationLink('ecc', 'yes', 'Both parties', 'legal officer', 'claimant');
@@ -108,5 +97,5 @@ Scenario(
   },
 )
   .tag('@ecc')
-  .tag('@nightly');
+  .tag('@wip');
 //.retry(1);

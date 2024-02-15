@@ -1,7 +1,7 @@
 const { I } = inject();
 
 module.exports = {
-  notification_tab2: '[aria-posinset="11"]',
+  notification_tab2: '[aria-posinset="10"]',
   notification_link: 'Send a notification',
   respondtoAnOrderOrNotificationLink: 'Respond to an order or request from the tribunal',
   caseFlagsTab:
