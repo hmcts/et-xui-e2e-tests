@@ -12,7 +12,7 @@ To run the application on your pc, please ensure you have the followings:
   * [yarn](https://yarnpkg.com/)
 
 ### Running the application on local environment
-Please not the following before running the e2e test. The claimant is created on the fly , leveraging on API call to 
+Please note the following before running the e2e test. The claimant is created on the fly , leveraging on API call to 
 reduce the complexity around account creation. However, all other accounts including caseworker legal rep et al are 
 available as environmental variables. Therefore, `config.js` must be updated accordingly.
 Please install the dependencies with the following `cmd`:

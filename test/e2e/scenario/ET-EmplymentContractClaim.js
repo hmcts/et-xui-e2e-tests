@@ -77,7 +77,7 @@ Scenario(
     // submit ECC application
     await caseListPage.createEccCase(caseNumber,'Scotland - Singles (RET)');
     await caseListPage.findCasewithRefNumber(submissionReference);
-    // update et3 response from respondent details not need as ET3 form has been returned
+    // updating et3 response from respondent details is not needed if ET3 form has been returned
     //await caseListPage.selectNextEvent('Respondent Details');
     //await respondentEventPages.updateET3ResponseOptionYes(respondentName, workPostcode)
     // create ecc case and link to existing case
