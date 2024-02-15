@@ -38,6 +38,18 @@ module.exports = {
   taskByRoleType: '#select_taskType',
   et1Vetting: '//*[@id="mat-option-0"]/span',
   linkedCasesTab: '[aria-posinset="11"] > .mat-tab-label-content',
+  createCaseLink: '//a[contains(.,"Create case")]',
+  xuiJurisdiction: '#cc-jurisdiction',
+  xuiCaseTypeDropdown: '#cc-case-type',
+  xuiCaseEventDropdown: '#cc-event',
+  startEccButton: '//button[@class="button"]',
+  eccCaseNumberTextField: '#caseRefECC',
+  eccCurrentPosition:'#positionType',
+  concilliationTrackDropdown: '#conciliationTrack',
+  chooseClarkDropdown: '#clerkResponsible',
+  findCaseWithRef: '#caseReference',
+  findButtoncaseList: '.case-reference-container',
+  tabs: '[tabindex="0"]',
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -181,4 +193,28 @@ module.exports = {
     let el = `[href="cases/case-details/${submissionReference}"]`;
     I.seeElement(el);
   },
+
+  createEccCase(caseNumber,caseLocation) {
+    I.click(this.createCaseLink);
+    I.waitForElement(this.xuiCaseTypeDropdown,10);
+    I.selectOption(this.xuiJurisdiction,'Employment');
+    I.selectOption(this.xuiCaseTypeDropdown, caseLocation);
+    I.selectOption(this.xuiCaseEventDropdown, 'Create Employer Contract Claim');
+    I.click(this.startEccButton);
+    I.waitForElement(this.eccCaseNumberTextField,10);
+    I.fillField(this.eccCaseNumberTextField,caseNumber);
+    I.click(this.submitEventButton);
+    I.waitForElement(this.eccCurrentPosition,10);
+    I.selectOption(this.eccCurrentPosition, 'Awaiting listing for Preliminary Hearing');
+    I.selectOption(this.concilliationTrackDropdown,'Open track');
+    I.selectOption(this.chooseClarkDropdown, '1: A Clerk');
+    I.click(this.submitEventButton);
+    I.wait(4); //for loadiing spinner to disappear
+  },
+
+  findCasewithRefNumber(submissionReference) {
+    I.fillField(this.findCaseWithRef, submissionReference);
+    I.forceClick(this.findButtoncaseList);
+    I.waitForElement(this.tabs, 5);
+  }
 };
