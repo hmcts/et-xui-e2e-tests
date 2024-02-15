@@ -1,11 +1,3 @@
-// go through NOC
-// legal rep make application
-// click on banner notification
-// check status from Citizen hub
-// Tribunal makes a request/cmo
-// check status from application hub
-// citizen respond to application
-
 const testConfig = require('../../../config.js');
 const postcode = 'FK15 9ET';
 const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
@@ -14,26 +6,26 @@ const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9
 const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 const respondentName = 'Henry Marsh';
 
-Feature('End To End Tests For an ET Case progression with NOC and response to Tribunal request');
+Feature('End To End Tests For an ET Employment Contract Claim');
 Scenario(
-  'Case Progression - assign case to legal rep and respond to tribunal -- legal rep',
+  'ECC - Create ECC case and Check Notification on CUI -- Scotland',
   async ({
-    I,
-    basePage,
-    loginPage,
-    taskListPage,
-    personalDetailsPage,
-    employmentAndRespondentDetailsPage,
-    claimDetailsPage,
-    submitClaimPage,
-    caseListPage,
-    et1CaseVettingPages,
-    et1CaseServingPages,
-    //idamHelper,
-    legalRepNOCPages,
-    applicationsTabsPages,
-    sendNotificationPages,
-  }) => {
+           I,
+           basePage,
+           loginPage,
+           taskListPage,
+           personalDetailsPage,
+           employmentAndRespondentDetailsPage,
+           claimDetailsPage,
+           submitClaimPage,
+           caseListPage,
+           et1CaseVettingPages,
+           et1CaseServingPages,
+           legalRepNOCPages,
+           applicationsTabsPages,
+           sendNotificationPages,
+           citizenHubPages,
+         }) => {
     I.amOnPage('/');
     await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
@@ -47,7 +39,6 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
-    I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
@@ -59,6 +50,7 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    const { firstName,lastName } = await et1CaseServingPages.getClaimantFirstName()
     I.click('Sign out');
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
@@ -70,30 +62,31 @@ Scenario(
       firstName,
       lastName
     );
+    // submit ET3 response form
+    await caseListPage.selectNextEvent('ET3 - Respondent Details');
+    await legalRepNOCPages.completeDraftET3ResponseForm()
+    await caseListPage.selectNextEvent('Submit ET3 Form');
+    await legalRepNOCPages.submitET3ResponseForm();
     I.click('Sign out');
-    I.wait(5);
     // caseworker sends notification
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.verifyCaseDetailsPage();
+    // submit ECC application
+    await caseListPage.createEccCase(caseNumber,'Scotland - Singles (RET)');
+    await caseListPage.findCasewithRefNumber(submissionReference);
+    // updating et3 response from respondent details is not needed if ET3 form has been returned
+    //await caseListPage.selectNextEvent('Respondent Details');
+    //await respondentEventPages.updateET3ResponseOptionYes(respondentName, workPostcode)
+    // create ecc case and link to existing case
     await applicationsTabsPages.selectNotificationLink();
-    await sendNotificationPages.sendNotificationLink('cmo', 'yes', 'Both parties', 'legal officer', 'claimant');
-
-    I.click('Sign out');
-    // //Case progression  -- applicant to respond to tribunal request
-    // await citizenHubPages.processCitizenHubLogin(
-    //   testConfig.TestEnvETUser,
-    //   testConfig.TestEnvETPassword,
-    //   submissionReference,
-    // );
-    // await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
-    // await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    // await citizenHubPages.regAccountContactTribunal('withdraw all or part of my claim');
-    // await citizenHubPages.rule92Question('yes');
-    // await citizenHubPages.cyaPageVerification();
-
+    await sendNotificationPages.sendNotificationLink('ecc', 'yes', 'Both parties', 'legal officer', 'claimant');
+    // Claimant View and Respond to Ecc Notification
+    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
+    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.claimantViewAndRespondToECC();
     // legal rep respond to notification
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
@@ -103,6 +96,6 @@ Scenario(
     await legalRepNOCPages.respondToNotificationFromTribunal();
   },
 )
-  .tag('@legalRepTSE')
-  .tag('@nightly');
+  .tag('@ecc')
+  .tag('@wip');
 //.retry(1);

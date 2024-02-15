@@ -12,7 +12,9 @@ To run the application on your pc, please ensure you have the followings:
   * [yarn](https://yarnpkg.com/)
 
 ### Running the application on local environment
-
+Please note the following before running the e2e test. The claimant is created on the fly , leveraging on API call to 
+reduce the complexity around account creation. However, all other accounts including caseworker legal rep et al are 
+available as environmental variables. Therefore, `config.js` must be updated accordingly.
 Please install the dependencies with the following `cmd`:
 ```
 $ yarn install
@@ -22,6 +24,12 @@ To run the e2e test, use the following `cmd`:
 ```
 $ yarn run test:fullfunctional
 ```
+
+To run the e2e test with specific tag/tags, use the following `cmd`:
+```
+$ yarn test:local --grep @<your tag>
+```
+
 The above `cmd` is important because CI pipeline is configured to use the same `cmd` for jenkins job
 
 To run crossbrowser test on local environment, Please visit

@@ -11,6 +11,7 @@ module.exports = {
   cmoCheckbox: '[for="sendNotificationCaseManagement-Case management order"]',
   BothParties: '[for="sendNotificationNotify-Both parties"]',
   requestCheckbox: '[for="sendNotificationCaseManagement-Request"]',
+  eccCheckbox: '[id="sendNotificationSubject-Employer Contract Claim"]',
   responseRequiredYes: '[for="sendNotificationResponseTribunal-Yes - view document for details"]',
   responseRequiredNo: '[for="sendNotificationResponseTribunal-No"]',
   dropdownRespondingParties: '#sendNotificationSelectParties',
@@ -23,6 +24,7 @@ module.exports = {
   respondentOnlyButton: '[for="sendNotificationNotify-Respondent only"]',
   ContinueButton: '//button[@class="button"]',
   CloseButton: '.button',
+  eccNotificationCheckbox: '[id="sendNotificationEccQuestion-Notice of Employer Contract Claim"]',
 
   sendNotificationLink(notifType, isResponseRequired, respParty, decidingOfficer, notificationParty) {
     I.waitForElement(this.SendANotificationHeading, 20);
@@ -46,6 +48,11 @@ module.exports = {
         break;
       case 'request':
         I.checkOption(this.requestCheckbox);
+        break;
+      case 'ecc':
+        I.checkOption(this.cmoCheckbox);
+        I.checkOption(this.eccCheckbox);
+        I.checkOption(this.eccNotificationCheckbox);
         break;
       default:
         throw new Error('there must be 2 options, either CMO or Request');
