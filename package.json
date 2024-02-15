@@ -57,7 +57,7 @@
         "@codeceptjs/ui": "0.7.0",
         "codeceptjs": "3.5.12",
         "config": "^3.3.9",
-        "husky": "9.0.10",
+        "husky": "9.0.11",
         "webdriverio": "8.31.0"
     },
     "packageManager": "yarn@3.7.0"
