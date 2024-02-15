@@ -27,7 +27,7 @@ module.exports = {
   accessTab: '[href="/work/my-work/my-access"]',
   availableTaskRows: 'tbody > tr:nth-of-type(1)',
   allWorkTab: '[href="/work/all-work/tasks"]',
-  taskTabAllWork: '[aria-current="page"]',
+  taskTabAllWork: '[href="/work/all-work/cases"]',
   selectAllLocationAllWork: '#radio_location_all',
   searchTaskBySpecificPerson: '[id="radio_Specific person"]]',
   searchTaskByAll: '#radio_All',
@@ -50,6 +50,7 @@ module.exports = {
   findCaseWithRef: '#caseReference',
   findButtoncaseList: '.case-reference-container',
   tabs: '[tabindex="0"]',
+  taskTab: '[aria-posinset="1"] > .mat-tab-label-content',
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -148,12 +149,14 @@ module.exports = {
 
   searchTaskFromAllWorkAllLocation(taskTypeOption, taskByRole, taskName, submissionReference, taskVisible) {
     I.waitForElement(this.allWorkTab, 20);
-    I.click(this.allWorkTab);
-    I.waitForElement(this.taskTabAllWork, 10);
+    I.forceClick(this.allWorkTab);
+    I.wait(5);
+    //I.waitForElement(this.taskTabAllWork, 35);
     I.scrollPageToBottom();
     I.see('View and manage all tasks and cases.');
     switch (taskTypeOption) {
       case 'All':
+        I.checkOption(this.searchTaskByUnassigned);
         I.checkOption(this.searchTaskByAll);
         break;
       case 'Unassigned':
@@ -169,11 +172,11 @@ module.exports = {
     }
     I.selectOption(this.taskByRoleType, taskByRole);
     I.fillField(this.enterTaskName, taskName);
-    I.click(this.et1Vetting);
+    //I.click(this.et1Vetting);
     // possibly needed more time for the case to pop up on the ui
-    I.wait(15);
-    I.forceClick(this.applyFilterButton);
     I.wait(5);
+    I.forceClick(this.applyFilterButton);
+    I.wait(55);
 
     let newlyCreatedTask = testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + submissionReference + '/tasks';
 
@@ -185,6 +188,7 @@ module.exports = {
       //I.dontSeeElement(newlyCreatedTask);
       console.log('WA link is not visible under All work tab');
     }
+    pause();
   },
 
   verifiedLinkedCasesFromCaseLinkTab(submissionReference) {
@@ -216,5 +220,13 @@ module.exports = {
     I.fillField(this.findCaseWithRef, submissionReference);
     I.forceClick(this.findButtoncaseList);
     I.waitForElement(this.tabs, 5);
+  },
+
+  verifyWATaskFromTaskTab()  {
+    I.waitForElement(this.taskTab, 10);
+    I.click(this.taskTab);
+    I.wait(58); // for WA task to be created
+    I.refreshPage();
+    pause();
   }
 };
