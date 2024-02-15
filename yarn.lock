@@ -311,9 +311,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codeceptjs/ui@npm:0.7.0":
-  version: 0.7.0
-  resolution: "@codeceptjs/ui@npm:0.7.0"
+"@codeceptjs/ui@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@codeceptjs/ui@npm:1.0.1"
   dependencies:
     "@codeceptjs/configure": ^0.8.0
     axios: ^0.24.0
@@ -322,6 +322,7 @@ __metadata:
     chokidar: ^3.5.3
     commander: ^8.3.0
     core-js: 2.6.12
+    dayjs: ^1.11.10
     debug: ^4.3.4
     electron: ^15.5.5
     express: ^4.18.2
@@ -330,10 +331,10 @@ __metadata:
     socket.io: ^2.3.0
     socket.io-client: ^2.3.0
   peerDependencies:
-    codeceptjs: ^3.2.2
+    codeceptjs: 3.5.13-beta.3
   bin:
     codecept-ui: bin/codecept-ui.js
-  checksum: 915e3b68fce797b644a43bc3db8c2bdf4bdec08fa887a05b4c9774f07676acc43a25c9a0c893875fb73506a89e0dd120191d6e22e4ba1d87c5e8fb16c6874b04
+  checksum: 1c78550cb217c26da59f7e0ba4b1aabdd7abe71df0d904b85c9a352dcb2ec9cf476ec333eb109d589c7d3996cc69444e942210b9893a45e133b5897e4e75293f
   languageName: node
   linkType: hard
 
@@ -3697,6 +3698,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dayjs@npm:^1.11.10":
+  version: 1.11.10
+  resolution: "dayjs@npm:1.11.10"
+  checksum: a6b5a3813b8884f5cd557e2e6b7fa569f4c5d0c97aca9558e38534af4f2d60daafd3ff8c2000fed3435cfcec9e805bcebd99f90130c6d1c5ef524084ced588c4
+  languageName: node
+  linkType: hard
+
 "debug@npm:2.6.9, debug@npm:^2.6.9":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
@@ -5026,7 +5034,7 @@ __metadata:
   dependencies:
     "@codeceptjs/configure": 0.10.0
     "@codeceptjs/examples": 1.2.1
-    "@codeceptjs/ui": 0.7.0
+    "@codeceptjs/ui": 1.0.1
     "@wdio/cli": 8.31.0
     "@wdio/crossbrowsertesting-service": 8.31.0
     "@wdio/sauce-service": 8.31.0
