@@ -55,6 +55,38 @@ module.exports = {
   lrAddCommentToResponse: '#pseRespondentOrdReqResponseText',
   noSupportingMaterial: '#pseRespondentOrdReqHasSupportingMaterial_No',
   legalRepYesOptionR92: '#pseRespondentOrdReqCopyToOtherParty-Yes',
+  et3respondentFormDropdown: '#submitEt3Respondent',
+  contractClaimCorrectYesButton: '#et3ResponseIsClaimantNameCorrect_Yes',
+  respondentLegalname: '#et3ResponseRespondentLegalName',
+  et3postCodeInput: '#et3RespondentAddress_et3RespondentAddress_postcodeInput',
+  findAddressButton: '//button[@class="button button-30"]',
+  addressListDropdown: '#et3RespondentAddress_et3RespondentAddress_addressList',
+  et3ContactPreferenceEmail: '#et3ResponseContactPreference-Email',
+  hearingAttendanceRepresentative: '[field_id="et3ResponseHearingRepresentative"] [value="Phone hearings"]',
+  hearingAttendanceRespondent: '[field_id="et3ResponseHearingRespondent"] [value="Video hearings"]',
+  mentalHealthIssueNo: '#et3ResponseRespondentSupportNeeded-No',
+  cyaFirstChange: '[aria-label="Change Select which respondent this ET3 is for"]',
+  employmentDetailLink: '//a[.="ET3 - Employment Details"]',
+  whichRespondentDropdown: '#et3RepresentingRespondent_0_dynamicList',
+  respondentMultipleYes: '#et3ResponseMultipleSites_Yes',
+  claimantDateOfEmploymentCorrectYes: '#et3ResponseAreDatesCorrect-Yes',
+  employmentContinuingYes: '#et3ResponseContinuingEmployment-Yes',
+  jobTitleCorrectYes: '#et3ResponseIsJobTitleCorrect-Yes',
+  weeklyWorkingCorrectYes: '#et3ResponseClaimantWeeklyHours-Yes',
+  earningDetailsCorrectYes: '#et3ResponseEarningDetailsCorrect-Yes',
+  noticeCorrectYes: '#et3ResponseIsNoticeCorrect-Yes',
+  responsePensionDetailCorrectYes: '#et3ResponseIsPensionCorrect-Yes',
+  responseDetailLink:'//a[.="ET3 - Response Details"]',
+  respondentDetailDropDownList: '#et3RepresentingRespondent_0_dynamicList',
+  acasReconciliationOption: '#et3ResponseAcasAgree_Yes',
+  respondentContestClaim: '#et3ResponseRespondentContestClaim-No',
+  employmentContractClaimYes: '#et3ResponseEmployerClaim_Yes',
+  eccTextField: '#et3ResponseEmployerClaimDetails',
+  et3EccUploadButton: '#et3ResponseEmployerClaimDocument',
+  changeButtonOneCyaRespondentDetail: '[aria-label="Change Select which Respondent this ET3 Form is for"]',
+  closeReturnToCaseDetails: '//button[@class="button"]',
+  selectCompletedDraftET3: '#submitEt3Respondent',
+  checkConfirmationCheckbox: '#confirmEt3Submit-Yes',
 
   // prevent NOC process from failing
   // NOC process tend to fail is existing applications are not loaded
@@ -241,4 +273,133 @@ module.exports = {
     I.click(this.continueLegalRepButton);
     I.seeElement('//button[@class="button"]');
   },
+
+  completeDraftET3ResponseForm () {
+    I.waitForElement(this.legalRepSubmit, 10);
+    pause();
+    I.see('ET3 - Response to Employment tribunal claim (ET1)');
+    I.click(this.legalRepSubmit);
+    I.waitForElement(this.et3respondentFormDropdown, 10);
+    I.selectOption(this.et3respondentFormDropdown,'1: R: Henry Marsh');
+    I.wait(2);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.contractClaimCorrectYesButton,10);
+    I.see('Is this the correct claimant for the claim you\'re responding to?')
+    I.checkOption(this.contractClaimCorrectYesButton);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.respondentLegalname,10);
+    I.fillField(this.respondentLegalname, 'ET Test Org');
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.et3postCodeInput,10);
+    I.fillField(this.et3postCodeInput,'KA11 5DG');
+    I.click(this.findAddressButton);
+    I.waitForElement(this.addressListDropdown, 2);
+    I.selectOption(this.addressListDropdown, '1: Object');
+    I.click(this.continueLegalRepButton);
+    I.wait(5);
+    I.see('What is your contact phone number? (Optional)');
+    I.click(this.continueLegalRepButton);
+    I.wait(5);
+    I.see('What is your reference number? (Optional)');
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.et3ContactPreferenceEmail, 10);
+    I.see('How would you prefer to be contacted?');
+    I.checkOption(this.et3ContactPreferenceEmail);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.hearingAttendanceRepresentative,10);
+    I.see('Hearing format')
+    I.checkOption(this.hearingAttendanceRepresentative);
+    I.checkOption(this.hearingAttendanceRespondent);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.mentalHealthIssueNo,10);
+    I.checkOption(this.mentalHealthIssueNo);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.cyaFirstChange, 10)
+    I.click(this.continueLegalRepButton);
+    // Employment Details
+    I.waitForElement(this.employmentDetailLink, 10);
+    I.click(this.employmentDetailLink);
+    I.waitForElement(this.continueLegalRepButton,10);
+    I.see('ET3 - Response to Employment tribunal claim (ET1)');
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.whichRespondentDropdown,10);
+    I.selectOption(this.whichRespondentDropdown, 'Henry Marsh');
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.respondentMultipleYes,10);
+    I.see('Respondent\'s workforce');
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.claimantDateOfEmploymentCorrectYes,20);
+    I.checkOption(this.claimantDateOfEmploymentCorrectYes);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.employmentContinuingYes,10);
+    I.see('Is the claimant\'s employment with the respondent continuing?');
+    I.checkOption(this.employmentContinuingYes);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.jobTitleCorrectYes,10);
+    I.see('Is the claimant\'s description of their job or job title correct?');
+    I.checkOption(this.jobTitleCorrectYes);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.weeklyWorkingCorrectYes,10);
+    I.see('Are the claimant\'s total weekly work hours correct?');
+    I.checkOption(this.weeklyWorkingCorrectYes);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.earningDetailsCorrectYes,10);
+    I.see('Are the earnings details given by the claimant correct?');
+    I.checkOption(this.earningDetailsCorrectYes);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.noticeCorrectYes,10);
+    I.see('Is the information given by the claimant correct about their notice?')
+    I.checkOption(this.noticeCorrectYes);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.responsePensionDetailCorrectYes,10);
+    I.see('Are the details about pension and other benefits correct?');
+    I.checkOption(this.responsePensionDetailCorrectYes);
+    I.click(this.continueLegalRepButton);
+    I.wait(5);
+    I.see('Check your answers');
+    I.click(this.continueLegalRepButton);
+    // Employment Details
+    I.waitForElement(this.responseDetailLink,10);
+    I.click(this.responseDetailLink);
+    I.waitForElement(this.continueLegalRepButton,10);
+    I.see('How to fill in this form');
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.respondentDetailDropDownList,10);
+    I.selectOption(this.respondentDetailDropDownList,'Henry Marsh');
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.acasReconciliationOption,10);
+    I.checkOption(this.acasReconciliationOption);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.respondentContestClaim,10);
+    I.see('Does the respondent contest the claim?');
+    I.checkOption(this.respondentContestClaim);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.employmentContractClaimYes,10);
+    I.checkOption(this.employmentContractClaimYes);
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.eccTextField,10);
+    I.fillField(this.eccTextField,'ECC  Respondent Test');
+    I.attachFile(this.et3EccUploadButton, 'test/data/welshTest.pdf');
+    I.wait(5)
+    I.click(this.continueLegalRepButton);
+    I.wait(5);
+    I.see('Check your answers');
+    I.click(this.submitButtonLegalRep);
+    I.wait(5);
+    I.click(this.continueLegalRepButton);
+  },
+
+  submitET3ResponseForm () {
+    I.waitForElement(this.selectCompletedDraftET3,10);
+    I.selectOption(this.selectCompletedDraftET3,'Henry Marsh');
+    I.click(this.continueLegalRepButton);
+    I.waitForElement(this.checkConfirmationCheckbox,10);
+    I.see('Do you want to submit this ET3?');
+    I.checkOption(this.checkConfirmationCheckbox);
+    I.click(this.continueLegalRepButton);
+    I.wait(5);
+    I.click(this.continueLegalRepButton);
+    I.wait(5);
+    I.click(this.continueLegalRepButton);
+  }
 };

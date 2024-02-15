@@ -10,7 +10,6 @@ const scotAddressOption = '3e, Station Road, Dunblane, FK15 9ET';
 const scotWorkPostcode = 'EH45 9BU';
 const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
-
 const respondentName = 'Henry Marsh';
 
 Feature('End To End Test - Bundles');
