@@ -130,9 +130,7 @@ Scenario(
     await applicationsTabsPages.respondtoAnOrderOrNotification();
 
     I.click('Sign out');
-    await citizenHubPages.processCitizenHubLogin(
-      submissionReference,
-    );
+    await citizenHubPages.processCitizenHubLogin(submissionReference);
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.verifySendNotification();

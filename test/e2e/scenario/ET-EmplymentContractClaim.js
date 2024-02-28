@@ -10,22 +10,22 @@ Feature('End To End Tests For an ET Employment Contract Claim');
 Scenario(
   'ECC - Create ECC case and Check Notification on CUI -- Scotland',
   async ({
-           I,
-           basePage,
-           loginPage,
-           taskListPage,
-           personalDetailsPage,
-           employmentAndRespondentDetailsPage,
-           claimDetailsPage,
-           submitClaimPage,
-           caseListPage,
-           et1CaseVettingPages,
-           et1CaseServingPages,
-           legalRepNOCPages,
-           applicationsTabsPages,
-           sendNotificationPages,
-           citizenHubPages,
-         }) => {
+    I,
+    basePage,
+    loginPage,
+    taskListPage,
+    personalDetailsPage,
+    employmentAndRespondentDetailsPage,
+    claimDetailsPage,
+    submitClaimPage,
+    caseListPage,
+    et1CaseVettingPages,
+    et1CaseServingPages,
+    legalRepNOCPages,
+    applicationsTabsPages,
+    sendNotificationPages,
+    citizenHubPages,
+  }) => {
     I.amOnPage('/');
     await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
@@ -50,21 +50,15 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    const { firstName,lastName } = await et1CaseServingPages.getClaimantFirstName()
+    const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     I.click('Sign out');
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC(
-      'Eng/Wales - Singles',
-      submissionReference,
-      respondentName,
-      firstName,
-      lastName
-    );
+    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
     // submit ET3 response form
     await caseListPage.selectNextEvent('ET3 - Respondent Details');
-    await legalRepNOCPages.completeDraftET3ResponseForm()
+    await legalRepNOCPages.completeDraftET3ResponseForm();
     await caseListPage.selectNextEvent('Submit ET3 Form');
     await legalRepNOCPages.submitET3ResponseForm();
     I.click('Sign out');
@@ -75,7 +69,7 @@ Scenario(
     await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.verifyCaseDetailsPage();
     // submit ECC application
-    await caseListPage.createEccCase(caseNumber,'Scotland - Singles (RET)');
+    await caseListPage.createEccCase(caseNumber, 'Scotland - Singles (RET)');
     await caseListPage.findCasewithRefNumber(submissionReference);
     // updating et3 response from respondent details is not needed if ET3 form has been returned
     //await caseListPage.selectNextEvent('Respondent Details');

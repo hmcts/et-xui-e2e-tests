@@ -59,17 +59,12 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     I.click('Sign out');
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC(
-      'Eng/Wales - Singles',
-      submissionReference,
-      respondentName,
-      firstName,
-      lastName
-    );
+    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
     I.click('Sign out');
     I.wait(5);
     // caseworker sends notification
