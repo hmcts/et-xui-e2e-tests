@@ -53,7 +53,6 @@ Scenario(
     const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     I.click('Sign out');
     //NOC to assign a solicitor
-    const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
     await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
