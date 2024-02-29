@@ -1,11 +1,3 @@
-// go through NOC
-// legal rep make application
-// click on banner notification
-// check status from Citizen hub
-// Tribunal makes a request/cmo
-// check status from application hub
-// citizen respond to application
-
 const testConfig = require('../../../config.js');
 const postcode = 'FK15 9ET';
 const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
@@ -29,7 +21,6 @@ Scenario(
     caseListPage,
     et1CaseVettingPages,
     et1CaseServingPages,
-    //idamHelper,
     legalRepNOCPages,
     applicationsTabsPages,
     sendNotificationPages,
@@ -62,6 +53,7 @@ Scenario(
     const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     I.click('Sign out');
     //NOC to assign a solicitor
+    const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
     await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
