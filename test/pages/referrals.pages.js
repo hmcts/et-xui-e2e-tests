@@ -2,7 +2,7 @@
 const { I } = inject();
 
 module.exports = {
-  referals_tab: '//div[9]',
+  referals_tab: '//div[8]/div[@class="mat-tab-label-content"]',
   create_new_referral: '//a[.="Send a new referral"]',
   update_referral: '//a[.="Update a referral"]',
   reply_referral: '//a[.="Reply to a referral"]',
@@ -24,11 +24,11 @@ module.exports = {
   ContinueButton: '[type="submit"]',
 
   async submitAreferral(emailAddress, referralOption, details, urgency) {
-    await I.click(this.referals_tab);
-
-    I.waitForElement(this.referralLinks, 10);
+    I.waitForElement(this.referals_tab, 10);
+    I.click(this.referals_tab);
+    I.waitForElement(this.create_new_referral, 15);
     await I.click(this.create_new_referral);
-    I.waitForElement(this.ContinueButton, 10);
+    I.waitForElement(this.referCaseToJudge, 35);
     try {
       switch (referralOption) {
         case 'Judge':
@@ -59,14 +59,17 @@ module.exports = {
     }
     // number represent the referral subject from the dropdown
     // 1 for ET1
+    I.scrollPageToBottom();
+    I.waitForElement(this.referralSubjectDropdown, 15);
     await I.selectOption(this.referralSubjectDropdown, '1: ET1');
     I.forceClick(this.addReferralDoc);
     I.scrollPageToBottom();
-    I.attachFile(this.uploadFileButton, '../data/RET_newBug.png');
+    I.attachFile(this.uploadFileButton, '/test/data/RET_newBug.png');
     I.fillField(this.referralDocDescription, 'attach doc to referrals');
     I.wait(3);
     await I.fillField(this.referralDetails, details);
     await I.click(this.ContinueButton);
+    I.waitForText('Check your answers', 15);
     I.see('Check your answers');
     I.see('Check the information below carefully.');
     await I.click(this.ContinueButton);

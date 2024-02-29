@@ -1,3 +1,7 @@
+// add a judge to a case
+// assign a task to the judge
+// judge complete the task
+
 const testConfig = require('../../../config.js');
 const postcode = 'FK15 9ET';
 const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
@@ -5,7 +9,7 @@ const workPostcode = 'EH45 9BU';
 const selectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 const firstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
-Feature('End To End; Work Allocation - Submit a Referral ');
+Feature('End To End; Work Allocation - Assign a Judge to a case - review referral judicial');
 Scenario(
   'Submit a case from Scotland - Case Admin Submit',
   async ({
@@ -20,12 +24,13 @@ Scenario(
     caseListPage,
     et1CaseVettingPages,
     et1CaseServingPages,
-    respondentRepresentativePage,
-    referralPages,
+    // respondentRepresentativePage,
+    // referralPages,
     workAllocationTaskPages,
+    referralPages,
   }) => {
     I.amOnPage('/');
-    await loginPage.registerNewAccount();
+    //await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
@@ -42,22 +47,21 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETCstcAdminUser, testConfig.TestEnvETCstcAdminPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    //assign the task
-    await caseListPage.selectTab('Tasks');
-    await workAllocationTaskPages.clickAssignToMeLink();
-    await caseListPage.proceedtoWATaskPage();
-    await caseListPage.proceedToAvailableTask();
-    await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, true);
-    await workAllocationTaskPages.verifyWAtaskTabPage(submissionReference);
+    await caseListPage.selectTab('roles-and-access', submissionReference);
+    await caseListPage.allocateRolesToCase('judiciary');
+    await caseListPage.completeAddingJudicialRole('hearing judge', 'reserve to another person', 'indefinite', 'dhruv');
+    //await caseListPage.verifyWATaskFromTaskTab();
+    await caseListPage.selectTab('tasks', submissionReference);
+    await workAllocationTaskPages.clickAssignToMeLink('ET1 Vetting');
+    //await caseListPage.assignTaskToCaseWorkerFromTaskTab('ET1 Vetting');
+
     // vet the case
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
-    //accept the case
-    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
+    //Case acceptance or rejection Event
+    await caseListPage.selectNextEvent('Accept/Reject Case');
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    //add org to case to enable cui applications
-    await caseListPage.selectNextEvent('Respondent Representative'); //Respondent Representative Event
-    await respondentRepresentativePage.addRespondentRepresentative('registered', 'ET Test3 Organisation');
-    //do referral as to a judge
-    await referralPages.submitAreferral('et.ctscworker010@justice.gov.uk', 'Admin', 'Test Referral by Admin', 'Yes', 1);
+    //await caseListPage.selectTabLink('Referrals', submissionReference);
+    await referralPages.submitAreferral('dhruv.nolan@justice.gov.uk', 'Judge', 'Test referral to a judge', 'Yes', 1);
   },
-).tag('@nightly');
+).tag('@wawip');
+//accept the case

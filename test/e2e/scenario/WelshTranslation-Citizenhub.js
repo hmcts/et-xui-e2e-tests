@@ -53,9 +53,7 @@ Scenario(
     await caseListPage.selectNextEvent('Respondent Representative'); //Case acceptance or rejection Event
     await respondentRepresentativePage.addRespondentRepresentative('registered', 'ET Test3 Organisation');
     I.click('Sign out');
-    await citizenHubPages.processCitizenHubLogin(
-      submissionReference,
-    );
+    await citizenHubPages.processCitizenHubLogin(submissionReference);
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.verifyContentInWelsh();

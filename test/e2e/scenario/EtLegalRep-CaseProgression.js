@@ -50,6 +50,7 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     I.click('Sign out');
     //NOC to assign a solicitor
     const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
