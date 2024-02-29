@@ -46,6 +46,7 @@ Scenario(
     await caseListPage.proceedToAvailableTask();
     await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, true);
     await workAllocationTaskPages.verifyWAtaskTabPage(submissionReference);
+    await workAllocationTaskPages.clickAssignToMeLink;
     // vet the case
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     //validate case not visible under all work tab

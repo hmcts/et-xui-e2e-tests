@@ -11,5 +11,4 @@ Scenario('test ai features', async ({ I, basePage, loginPage }) => {
   await loginPage.registerNewAccount();
   await basePage.processPreLoginPagesForTheDraftApplication(postcode);
   await loginPage.processLoginWithNewAccount();
-  pause();
 }).tag('aisample');

@@ -1,5 +1,6 @@
 const { I } = inject();
 const testConfig = require('../../config');
+
 module.exports = {
   caseListText: 'Case list',
   caseListLink: '[href="/cases"]',
@@ -17,7 +18,7 @@ module.exports = {
   applyButton: '[aria-label="Apply filter"]',
   resetButton: '[aria-label="Reset filter"]',
   nextEventDropdown: '#next-step',
-  submitEventButton: '[type="submit"]',
+  submitEventButton: '//button[@class="button"]',
   tab: '[role="tab"] div:contains("Applications")',
   //.hmcts-primary-navigation__item:nth-child(1) > .hmcts-primary-navigation__link
   myWorkLink: '//a[contains(.,"My work")]',
@@ -27,7 +28,7 @@ module.exports = {
   accessTab: '[href="/work/my-work/my-access"]',
   availableTaskRows: 'tbody > tr:nth-of-type(1)',
   allWorkTab: '[href="/work/all-work/tasks"]',
-  taskTabAllWork: '[aria-current="page"]',
+  taskTabAllWork: '[href="/work/all-work/cases"]',
   selectAllLocationAllWork: '#radio_location_all',
   searchTaskBySpecificPerson: '[id="radio_Specific person"]]',
   searchTaskByAll: '#radio_All',
@@ -44,12 +45,35 @@ module.exports = {
   xuiCaseEventDropdown: '#cc-event',
   startEccButton: '//button[@class="button"]',
   eccCaseNumberTextField: '#caseRefECC',
-  eccCurrentPosition:'#positionType',
+  eccCurrentPosition: '#positionType',
   concilliationTrackDropdown: '#conciliationTrack',
   chooseClarkDropdown: '#clerkResponsible',
   findCaseWithRef: '#caseReference',
   findButtoncaseList: '.case-reference-container',
   tabs: '[tabindex="0"]',
+  taskTab:
+    '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Tasks"]',
+  roleAndAccessTab: '[aria-posinset="2"] > .mat-tab-label-content',
+  allocateJudicial: '//a[contains(.,"Allocate a judicial role")]',
+  allocateLegalOps: '//a[contains(.,"Allocate a legal ops role")]',
+  allocateAdmin: '//a[contains(.,"Allocate an admin role")]',
+  allocateCtsc: '//a[contains(.,"Allocate a CTSC role")]',
+  addToExclusionList: '//a[.="Add"]',
+  hearingJudgeCheckbox: '#hearing-judge',
+  leadJudgeCheckbox: '#lead-judge',
+  tribunalMemberOne: '#tribunal-member-1',
+  tribunalMemberTwo: '#tribunal-member-2',
+  reserveToMe: '#RESERVE_TO_ME',
+  reserveToAnother: '#ALLOCATE_TO_ANOTHER_PERSON',
+  addNametoField: '#inputSelectPerson',
+  durationPeriod7days: '#contact-1',
+  durationPeriodIndefinite: '#contact-2',
+  durationPeriodSpecific: '#contact-3',
+  continueButton: '//button[@class="govuk-button govuk-!-margin-right-3 ng-star-inserted"]',
+  populatedNameText: '.mat-option-text',
+  sideScrollbar:
+    '.column-full > .mat-tab-group > .mat-tab-header > .mat-tab-header-pagination-before > .mat-tab-header-pagination-chevron',
+  secondaryButton: '.govuk-hint',
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -101,16 +125,24 @@ module.exports = {
   },
 
   selectNextEvent(option) {
-    I.waitForEnabled(this.nextEventDropdown, 60);
+    I.waitForElement(this.nextEventDropdown, 15);
     I.selectOption(this.nextEventDropdown, option);
-    I.wait(5);
+    I.waitForElement(this.submitEventButton, 10);
     I.forceClick(this.submitEventButton);
   },
 
-  selectTab(title) {
-    I.wait(5);
-    I.waitForClickable(`//div[@role='tab']/div[contains(text(), '${title}')]`, 30);
-    I.forceClick(`//div[@role='tab']/div[contains(text(), '${title}')]`);
+  selectTab(title, submissionReference) {
+    let tabUrl = testConfig.TestUrlForManageCaseAAT + `/cases/case-details/${submissionReference}/${title}`;
+    I.amOnPage(tabUrl);
+    I.wait(15);
+  },
+
+  selectTabLink(title, submissionReference) {
+    //https://xui-et-ccd-definitions-admin-pr-353.preview.platform.hmcts.net/cases/case-details/1709055865954453#Respondent
+    let tabUrl = testConfig.TestUrlForManageCaseAAT + `/cases/case-details/${submissionReference}#${title}`;
+    console.log(tabUrl);
+    I.amOnPage(tabUrl);
+    I.wait(15);
   },
 
   navigateToMakeAnApplication(submissionReference) {
@@ -120,7 +152,7 @@ module.exports = {
   },
 
   verifyCaseDetailsPage(et1VettingFlag = false) {
-    I.waitForElement('[tabindex="0"]', 30);
+    I.waitForElement('[tabindex="0"]', 10);
     I.see('Claimant');
     I.see('Respondent');
     I.see('Jurisdictions');
@@ -148,12 +180,14 @@ module.exports = {
 
   searchTaskFromAllWorkAllLocation(taskTypeOption, taskByRole, taskName, submissionReference, taskVisible) {
     I.waitForElement(this.allWorkTab, 20);
-    I.click(this.allWorkTab);
-    I.waitForElement(this.taskTabAllWork, 10);
+    I.forceClick(this.allWorkTab);
+    I.wait(5);
+    //I.waitForElement(this.taskTabAllWork, 35);
     I.scrollPageToBottom();
     I.see('View and manage all tasks and cases.');
     switch (taskTypeOption) {
       case 'All':
+        I.checkOption(this.searchTaskByUnassigned);
         I.checkOption(this.searchTaskByAll);
         break;
       case 'Unassigned':
@@ -169,11 +203,11 @@ module.exports = {
     }
     I.selectOption(this.taskByRoleType, taskByRole);
     I.fillField(this.enterTaskName, taskName);
-    I.click(this.et1Vetting);
+    //I.click(this.et1Vetting);
     // possibly needed more time for the case to pop up on the ui
-    I.wait(15);
-    I.forceClick(this.applyFilterButton);
     I.wait(5);
+    I.forceClick(this.applyFilterButton);
+    I.wait(55);
 
     let newlyCreatedTask = testConfig.TestUrlForManageCaseAAT + '/cases/case-details/' + submissionReference + '/tasks';
 
@@ -194,19 +228,19 @@ module.exports = {
     I.seeElement(el);
   },
 
-  createEccCase(caseNumber,caseLocation) {
+  createEccCase(caseNumber, caseLocation) {
     I.click(this.createCaseLink);
-    I.waitForElement(this.xuiCaseTypeDropdown,10);
-    I.selectOption(this.xuiJurisdiction,'Employment');
+    I.waitForElement(this.xuiCaseTypeDropdown, 10);
+    I.selectOption(this.xuiJurisdiction, 'Employment');
     I.selectOption(this.xuiCaseTypeDropdown, caseLocation);
     I.selectOption(this.xuiCaseEventDropdown, 'Create Employer Contract Claim');
     I.click(this.startEccButton);
-    I.waitForElement(this.eccCaseNumberTextField,10);
-    I.fillField(this.eccCaseNumberTextField,caseNumber);
+    I.waitForElement(this.eccCaseNumberTextField, 10);
+    I.fillField(this.eccCaseNumberTextField, caseNumber);
     I.click(this.submitEventButton);
-    I.waitForElement(this.eccCurrentPosition,10);
+    I.waitForElement(this.eccCurrentPosition, 10);
     I.selectOption(this.eccCurrentPosition, 'Awaiting listing for Preliminary Hearing');
-    I.selectOption(this.concilliationTrackDropdown,'Open track');
+    I.selectOption(this.concilliationTrackDropdown, 'Open track');
     I.selectOption(this.chooseClarkDropdown, '1: A Clerk');
     I.click(this.submitEventButton);
     I.wait(4); //for loadiing spinner to disappear
@@ -216,5 +250,101 @@ module.exports = {
     I.fillField(this.findCaseWithRef, submissionReference);
     I.forceClick(this.findButtoncaseList);
     I.waitForElement(this.tabs, 5);
-  }
+  },
+
+  allocateRolesToCase(roleType) {
+    switch (roleType) {
+      case 'judiciary':
+        I.waitForElement(this.allocateJudicial, 10);
+        I.click(this.allocateJudicial);
+        I.waitForElement(this.hearingJudgeCheckbox, 10);
+
+        break;
+      case 'legalOps':
+        I.waitForElement(this.allocateLegalOps, 10);
+        I.click(this.allocateLegalOps);
+        break;
+      case 'admin':
+        I.waitForElement(this.allocateAdmin, 10);
+        I.click(this.allocateAdmin);
+        break;
+      case 'ctsc':
+        I.waitForElement(this.allocateCtsc, 10);
+        I.click(this.allocateCtsc);
+        break;
+      case 'exclusions':
+        I.waitForElement(this.allocateAdmin, 10);
+        I.click(this.allocateAdmin);
+        break;
+      default:
+        throw new Error('... check your options or add new option');
+    }
+  },
+
+  completeAddingJudicialRole(judgeType, reservationOption, roleDuration, partialName) {
+    switch (judgeType) {
+      case 'hearing judge':
+        I.checkOption(this.hearingJudgeCheckbox);
+        break;
+      case 'lead judge':
+        I.checkOption(this.hearingJudgeCheckbox);
+        break;
+      case 'tribunal member one':
+        I.checkOption(this.tribunalMemberOne);
+        break;
+      case 'tribunal member two':
+        I.checkOption(this.tribunalMemberTwo);
+        break;
+      default:
+        throw new Error('... check your options or add new option');
+    }
+    I.wait(2);
+    I.click(this.continueButton);
+
+    switch (reservationOption) {
+      case 'reserve to me':
+        I.waitForElement(this.reserveToMe, 10);
+        I.click(this.reserveToMe);
+        break;
+      case 'reserve to another person':
+        I.waitForElement(this.reserveToAnother, 10);
+        I.click(this.reserveToAnother);
+        break;
+      default:
+        throw new Error('... check your options or add new option');
+    }
+    I.click(this.continueButton);
+    I.waitForElement(this.addNametoField, 5);
+    I.fillField(this.addNametoField, partialName);
+    I.wait(2);
+    I.executeScript(function () {
+      document.getElementsByClassName(this.populatedNameText).hover;
+    });
+    I.wait(2);
+    I.forceClick(this.populatedNameText);
+    I.click(this.continueButton);
+
+    switch (roleDuration) {
+      case '7 days':
+        I.waitForElement(this.durationPeriod7days, 15);
+        I.click(this.durationPeriod7days);
+        break;
+      case 'indefinite':
+        I.waitForElement(this.durationPeriodIndefinite, 20);
+        I.click(this.durationPeriodIndefinite);
+        break;
+      case 'Specific period':
+        I.waitForElement(this.durationPeriodSpecific, 10);
+        I.click(this.durationPeriodSpecific);
+        break;
+      default:
+        throw new Error('... check your options or add new option');
+    }
+    I.wait(5);
+    I.click(this.continueButton);
+    I.waitForElement(this.secondaryButton, 10);
+    I.see('Check your answers');
+    I.click(this.submitEventButton);
+    I.wait(5);
+  },
 };
