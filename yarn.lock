@@ -325,9 +325,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codeceptjs/ui@npm:1.0.1":
-  version: 1.0.1
-  resolution: "@codeceptjs/ui@npm:1.0.1"
+"@codeceptjs/ui@npm:1.1.1":
+  version: 1.1.1
+  resolution: "@codeceptjs/ui@npm:1.1.1"
   dependencies:
     "@codeceptjs/configure": ^0.8.0
     axios: ^0.24.0
@@ -342,13 +342,13 @@ __metadata:
     express: ^4.18.2
     lodash.clonedeep: ^4.5.0
     nanoid: ^3.3.4
-    socket.io: ^2.3.0
+    socket.io: ^2.4.0
     socket.io-client: ^2.3.0
   peerDependencies:
-    codeceptjs: 3.5.13-beta.3
+    codeceptjs: 3.5.14
   bin:
     codecept-ui: bin/codecept-ui.js
-  checksum: 1c78550cb217c26da59f7e0ba4b1aabdd7abe71df0d904b85c9a352dcb2ec9cf476ec333eb109d589c7d3996cc69444e942210b9893a45e133b5897e4e75293f
+  checksum: ae1b1ae47bfcc02f216fa971af7d59419b683da14ec6188b41825742d065d5121d53aed825b5f04a1c62bb44ca82eb4630ddab40621e5d39e2f9986496257279
   languageName: node
   linkType: hard
 
@@ -5217,7 +5217,7 @@ __metadata:
   dependencies:
     "@codeceptjs/configure": 1.0.0
     "@codeceptjs/examples": 1.2.3
-    "@codeceptjs/ui": 1.0.1
+    "@codeceptjs/ui": 1.1.1
     "@wdio/cli": 8.32.0
     "@wdio/crossbrowsertesting-service": 8.32.0
     "@wdio/sauce-service": 8.32.0
@@ -11476,7 +11476,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"socket.io@npm:^2.3.0":
+"socket.io@npm:^2.4.0":
   version: 2.5.0
   resolution: "socket.io@npm:2.5.0"
   dependencies:
