@@ -35,6 +35,7 @@ module.exports = {
     this.processFinalNotesPage(caseNumber);
     this.processCheckYourAnswersPage(caseNumber);
     this.processET1CaseVettingPage(caseNumber);
+    I.wait(15);
   },
 
   verifyET1CasePageHeading(caseNumber) {
