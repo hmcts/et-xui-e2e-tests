@@ -57,7 +57,7 @@ Scenario(
     //add org to case to enable cui applications
     await caseListPage.selectNextEvent('Respondent Representative'); //Respondent Representative Event
     await respondentRepresentativePage.addRespondentRepresentative('registered', 'ET Test3 Organisation');
-    //do referral as a admin case worker
+    //do referral as to a judge
     await referralPages.submitAreferral('et.ctscworker010@justice.gov.uk', 'Admin', 'Test Referral by Admin', 'Yes', 1);
   },
 ).tag('@nightly');
