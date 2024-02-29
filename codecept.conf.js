@@ -54,7 +54,7 @@ exports.config = {
     respondentEventPages: './test/pages/respondentEvents.page.js',
   },
   restart: {
-    enabled: true
+    enabled: true,
   },
   bootstrap: null,
   mocha: {
@@ -113,7 +113,7 @@ exports.config = {
           'role',
         ],
         allowedRoles: ['button', 'checkbox', 'search', 'textbox', 'tab'],
-      }
+      },
     },
     stepByStepReport: {
       enabled: false,
