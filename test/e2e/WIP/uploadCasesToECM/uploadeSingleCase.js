@@ -8,7 +8,7 @@ let test_case_username = process.env.TEST_CASE_USERNAME;
 let test_case_password = process.env.TEST_CASE_PASSWORD;
 const et_manage_case_url = 'https://manage-case.aat.platform.hmcts.net/cases';
 const case_payload = request.case_payload;
-const sub_payload = request.sub_payload;
+//const sub_payload = request.sub_payload;
 
 Scenario('England: create single draft case via api', async ({ I }) => {
   // get idam token
