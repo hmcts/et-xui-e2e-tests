@@ -1,7 +1,8 @@
 const { I } = inject();
 const axios = require('axios');
-const testConfig = require('../../config');
 const chance = require('chance').Chance();
+
+const testConfig = require('../../config');
 //const firstName = chance.first();
 //const lastName = chance.last();
 //const emailAddress = firstName+'.'+lastName+'@mail.com';
@@ -11,7 +12,7 @@ async function registerNewAccount() {
   try {
     let firstName = chance.first();
     let lastName = chance.last();
-    let emailAddress = firstName+'.'+lastName+'@mail.com';
+    let emailAddress = firstName + '.' + lastName + '@mail.com';
     let idamData = JSON.stringify({
       forename: firstName,
       surname: lastName,
@@ -35,26 +36,25 @@ async function registerNewAccount() {
     return {
       email: idamResponse.data.email,
       firstName: idamResponse.data.forename,
-      lastName: idamResponse.data.surname
+      lastName: idamResponse.data.surname,
     };
-
-  }catch (error) {
+  } catch (error) {
     console.error('Error:', error.message);
     return null;
   }
-};
+}
 
 async function processLoginWithNewAccount() {
-  console.log(`${await registerNewAccount()}`)
+  console.log(`${await registerNewAccount()}`);
   const { email } = await registerNewAccount();
   I.waitForVisible('#username', 15);
-  console.log('.... checking email address:', email)
+  console.log('.... checking email address:', email);
   I.fillField('#username', email);
   I.fillField('#password', testConfig.TestEnvETPassword);
   I.waitForElement('[type="submit"]', 10);
   I.forceClick('[type="submit"]');
   I.wait(10);
-};
+}
 
 async function processLoginOnXui(username, password) {
   I.waitForVisible('#username', 15);
@@ -63,10 +63,10 @@ async function processLoginOnXui(username, password) {
   I.waitForElement('[type="submit"]', 10);
   await I.forceClick('[type="submit"]');
   I.wait(10);
-};
+}
 
 module.exports = {
   registerNewAccount,
   processLoginWithNewAccount,
-  processLoginOnXui
+  processLoginOnXui,
 };
