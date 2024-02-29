@@ -55,6 +55,10 @@ module.exports = {
     I.waitForElement('#whistleblowing-entity-name');
     I.fillField('#whistleblowing-entity-name', 'Rupert Regulator');
     I.click('Save and continue');
+    I.waitForElement('.govuk-heading-xl', 10);
+    I.see('Linked cases');
+    I.checkOption('#linkedCases');
+    I.click('Save and continue');
   },
 
   claimDetailsCheck() {
