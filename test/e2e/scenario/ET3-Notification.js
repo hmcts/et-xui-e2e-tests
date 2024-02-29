@@ -49,9 +49,7 @@ Scenario(
     await caseListPage.selectNextEvent('9: Object'); //ET3NotificationEvent
     await et3NotificationPages.uploadET3acceptanceLetter('single document');
     I.click('Sign out');
-    await citizenHubPages.processCitizenHubLogin(
-      submissionReference,
-    );
+    await citizenHubPages.processCitizenHubLogin(submissionReference);
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.verifyET3RespondentResponseonCUI();

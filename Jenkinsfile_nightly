@@ -30,6 +30,8 @@ def secrets = [
         secret('et-legalrep-password', 'ET_LEGALREP_PASSWORD'),
         secret('et-ctsc-admin-user-name', 'ET_CTSC_ADMIN_USER_NAME'),
         secret('et-ctsc-admin-password', 'ET_CTSC_ADMIN_PASSWORD'),
+        secret('et-hearing-judge-user-name', 'ET_HEARING_JUDGE_USER_NAME'),
+        secret('et-hearing-judge-password', 'ET_HEARING_JUDGE_PASSWORD'),
     ]
 ]
 

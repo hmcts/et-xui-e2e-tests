@@ -34,7 +34,6 @@ Scenario(
     et1CaseServingPages,
     legalRepNOCPages,
     //citizenHubPages,
-
   }) => {
     I.amOnPage('/');
     await loginPage.registerNewAccount();
