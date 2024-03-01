@@ -19,6 +19,7 @@ module.exports = {
     I.click('[name=opt-out-button]');
   },
   clickSubmitOnCheckYourAnswers() {
+    I.refreshPage();
     I.waitForVisible('#main-content', 15);
     I.see('Check your answers');
     I.waitForVisible('#main-form-submit', 10);

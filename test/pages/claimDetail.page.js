@@ -57,6 +57,7 @@ module.exports = {
     I.click('Save and continue');
     I.waitForElement('.govuk-heading-xl', 10);
     I.see('Linked cases');
+    // selecting no option for case link currently disable on exui
     I.checkOption('#linkedCases');
     I.click('Save and continue');
   },
@@ -66,5 +67,6 @@ module.exports = {
     I.see('section?');
     I.checkOption('#claim-details-check');
     I.click('Save and continue');
+    I.refreshPage();
   },
 };
