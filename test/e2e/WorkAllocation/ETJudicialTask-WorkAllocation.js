@@ -62,6 +62,13 @@ Scenario(
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     //await caseListPage.selectTabLink('Referrals', submissionReference);
     await referralPages.submitAreferral('dhruv.nolan@justice.gov.uk', 'Judge', 'Test referral to a judge', 'Yes', 1);
+    I.click('Sign out');
+    I.refreshPage();
+    I.wait(10);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUser, testConfig.TestEnvETHearingJudgePassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
+    await caseListPage.processCaseFromCaseList(submissionReference);
+    await referralPages.reviewReferral('Admin', 'et-hearing-admin-wa3@justice.gov.uk');
   },
 ).tag('@wawip');
 //accept the case

@@ -22,6 +22,17 @@ module.exports = {
   uploadFileButton: '[type="file"]',
   referralDocDescription: '#referralDocument_0_shortDescription',
   ContinueButton: '[type="submit"]',
+  selectReferral: '#selectReferral',
+  replyToAdmin: '#directionTo-Admin',
+  replyToJudge: '#directionTo-Judge',
+  replyToLegalOfficer: '//input[@id="directionTo-Legal officer"]',
+  replyEmailAddress: '#replyToEmailAddress',
+  isReplyUrgentNo: '#isUrgentReply_No',
+  attachDocumentToReply: '.write-collection-add-item__top',
+  replyNote: '#replyGeneralNotes',
+  directionDetailMsg: '#directionDetails',
+  replyUploadButton: '#replyDocument_0_uploadedDocument',
+  confirmationPage: '#confirmation-body',
 
   async submitAreferral(emailAddress, referralOption, details, urgency) {
     I.waitForElement(this.referals_tab, 10);
@@ -75,5 +86,46 @@ module.exports = {
     await I.click(this.ContinueButton);
     I.wait(2);
     await I.click(this.ContinueButton);
+  },
+
+  async reviewReferral(sentDirection, respEmail) {
+    I.waitForElement(this.referals_tab, 10);
+    I.click(this.referals_tab);
+    I.waitForElement(this.reply_referral, 15);
+    await I.click(this.reply_referral);
+    I.see('Refer to admin, legal officer or judge');
+    I.selectOption(this.selectReferral, '1 Amend claim');
+    I.wait(2);
+    I.click(this.ContinueButton);
+    I.waitForElement(this.replyToAdmin, 10);
+    // Who are you sending these directions to?
+    switch (sentDirection) {
+      case 'Admin':
+        await I.checkOption(this.replyToAdmin);
+        break;
+      case 'Judge':
+        await I.checkOption(this.replyToJudge);
+        break;
+      case 'Legal Officer':
+        await I.checkOption(this.replyToLegalOfficer);
+        break;
+      default:
+        throw new Error('You can only select Yes or No');
+    }
+    // add email address
+    I.fillField(this.replyEmailAddress, respEmail);
+    // urgency
+    I.checkOption(this.isReplyUrgentNo);
+    I.fillField(this.directionDetailMsg, 'approve');
+    // upload attach doc
+    I.click(this.attachDocumentToReply);
+    I.attachFile(this.replyUploadButton, '/test/data/RET_newBug.png');
+    I.fillField(this.replyNote, 'attach doc to referrals');
+    I.wait(3);
+    I.click(this.ContinueButton);
+    I.waitForText('Check your answers', 10);
+    I.click(this.continueButton);
+    I.waitForElement(this.confirmationPage, 10);
+    I.see('What happens next');
   },
 };
