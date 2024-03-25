@@ -3,7 +3,7 @@ const { I } = inject();
 module.exports = {
   notification_tab2: '[aria-posinset="10"]',
   notification_link: 'Send a notification',
-  respondtoAnOrderOrNotificationLink: 'Respond to an order or request from the tribunal',
+  respondToNotificationLink: 'Respond to an order or request from the tribunal',
   caseFlagsTab:
     '.mat-tab-label-container > .mat-tab-list > .mat-tab-labels > #mat-tab-label-0-10 > .mat-tab-label-content',
   caseFileViewTab: '//div[12]',
@@ -24,7 +24,7 @@ module.exports = {
   },
 
   respondtoAnOrderOrNotification() {
-    I.click(this.respondtoAnOrderOrNotificationLink);
+    I.click(this.respondToNotificationLink);
   },
 
   selectCaseFlagTabs() {

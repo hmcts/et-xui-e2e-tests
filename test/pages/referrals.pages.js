@@ -93,8 +93,9 @@ module.exports = {
     I.click(this.referals_tab);
     I.waitForElement(this.reply_referral, 15);
     await I.click(this.reply_referral);
-    I.see('Refer to admin, legal officer or judge');
-    I.selectOption(this.selectReferral, '1 Amend claim');
+    I.waitForText('Refer to admin, legal officer or judge', 15);
+    //I.see('Refer to admin, legal officer or judge');
+    I.selectOption(this.selectReferral, '1: 1');
     I.wait(2);
     I.click(this.ContinueButton);
     I.waitForElement(this.replyToAdmin, 10);
@@ -124,7 +125,8 @@ module.exports = {
     I.wait(3);
     I.click(this.ContinueButton);
     I.waitForText('Check your answers', 10);
-    I.click(this.continueButton);
+    I.wait(3);
+    I.click(this.ContinueButton);
     I.waitForElement(this.confirmationPage, 10);
     I.see('What happens next');
   },

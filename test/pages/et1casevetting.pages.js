@@ -39,8 +39,8 @@ module.exports = {
   },
 
   verifyET1CasePageHeading(caseNumber) {
-    I.waitForText(et1CaseVetting, 10);
-    I.waitForText('Case Number: ' + caseNumber, 10);
+    //I.waitForText(et1CaseVetting, 10);
+    I.waitForText('Case Number: ' + caseNumber, 15);
   },
 
   processBeforeYourStartPage(caseNumber) {

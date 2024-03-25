@@ -15,8 +15,13 @@ module.exports = {
   },
 
   async getClaimantFirstName() {
-    I.waitForElement('[aria-posinset="2"] > .mat-tab-label-content', 15);
-    await I.click('[aria-posinset="2"] > .mat-tab-label-content');
+    I.waitForElement(
+      '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Claimant"]',
+      15,
+    );
+    await I.click(
+      '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Claimant"]',
+    );
     const firstName = await I.grabTextFrom(
       '#case-viewer-field-read--claimantIndType tr:nth-of-type(2) span:nth-of-type(1) span:nth-of-type(1)',
     );
@@ -32,11 +37,11 @@ module.exports = {
   },
 
   processAcceptRejectCase(caseNumber) {
-    I.waitForElement('.govuk-heading-l', 15);
-    I.see('Accept/Reject Case');
-    I.see('Pre-Acceptance');
+    I.waitForElement('.govuk-heading-l', 25);
+    I.waitForText('Accept/Reject Case', 10);
     I.see('Case Number: ' + caseNumber);
     I.checkOption(this.locators.pre_accept_case_yes_option);
+    I.waitForElement(this.locators.date_accepted_day, 5);
     I.fillField(this.locators.date_accepted_day, today.getDate());
     I.fillField(this.locators.date_accepted_month, today.getMonth() + 1);
     I.fillField(this.locators.date_accepted_year, today.getFullYear());

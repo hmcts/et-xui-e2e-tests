@@ -107,6 +107,7 @@ module.exports = {
     } catch (error) {
       console.error('invalid option', error.message);
     }
+    I.wait(5);
     I.scrollPageToBottom();
     I.waitForVisible(this.submissionReferenceLocator, 10);
     I.click(this.submissionReferenceLocator);
@@ -130,6 +131,7 @@ module.exports = {
     I.selectOption(this.nextEventDropdown, option);
     I.waitForElement(this.submitEventButton, 10);
     I.forceClick(this.submitEventButton);
+    I.wait(10);
   },
 
   selectTab(title, submissionReference) {

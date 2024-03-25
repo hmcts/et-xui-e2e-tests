@@ -91,6 +91,7 @@ module.exports = {
   // prevent NOC process from failing
   // NOC process tend to fail is existing applications are not loaded
   async loadExistingApplications(option) {
+    I.refreshPage();
     I.waitForElement(this.nocLinkLegalRep, 30);
     I.click(this.linkToCasesLegalRep);
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -316,7 +317,7 @@ module.exports = {
     I.waitForElement(this.cyaFirstChange, 10);
     I.click(this.continueLegalRepButton);
     // Employment Details
-    I.waitForElement(this.employmentDetailLink, 10);
+    I.waitForElement(this.employmentDetailLink, 30);
     I.click(this.employmentDetailLink);
     I.waitForElement(this.continueLegalRepButton, 10);
     I.see('ET3 - Response to Employment tribunal claim (ET1)');
