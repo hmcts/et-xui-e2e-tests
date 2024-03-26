@@ -1,7 +1,3 @@
-// add a judge to a case
-// assign a task to the judge
-// judge complete the task
-
 const testConfig = require('../../../config.js');
 // Scotland
 const scotPostcode = 'FK15 9ET';
@@ -50,7 +46,7 @@ Scenario(
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETCstcAdminUser, testConfig.TestEnvETCstcAdminPassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.selectTab('roles-and-access', submissionReference);
@@ -67,14 +63,20 @@ Scenario(
     await caseListPage.selectNextEvent('Accept/Reject Case');
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     //await caseListPage.selectTabLink('Referrals', submissionReference);
-    await referralPages.submitAreferral('dhruv.nolan@justice.gov.uk', 'Judge', 'Test referral to a judge', 'Yes', 1);
+    await referralPages.submitAreferral(
+      testConfig.TestEnvETHearingJudgeUserScot,
+      'Judge',
+      'Test referral to a judge',
+      'Yes',
+      1,
+    );
     I.click('Sign out');
     I.refreshPage();
     I.wait(10);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUser, testConfig.TestEnvETHearingJudgePassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUserScot, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
-    await referralPages.reviewReferral('Admin', 'et-hearing-admin-wa3@justice.gov.uk');
+    await referralPages.reviewReferral('Admin', testConfig.TestEnvETAdminUserScot);
   },
 ).tag('@reviewReferralScot');
 //accept the case
@@ -111,7 +113,7 @@ Scenario(
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETCstcAdminUser, testConfig.TestEnvETCstcAdminPassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.selectTab('roles-and-access', submissionReference);
@@ -133,13 +135,19 @@ Scenario(
     await caseListPage.selectNextEvent('Accept/Reject Case');
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     //await caseListPage.selectTabLink('Referrals', submissionReference);
-    await referralPages.submitAreferral('jane.quinn@justice.gov.uk', 'Judge', 'Test referral to a judge', 'Yes', 1);
+    await referralPages.submitAreferral(
+      testConfig.TestEnvETHearingJudgeUserEng,
+      'Judge',
+      'Test referral to a judge',
+      'Yes',
+      1,
+    );
     I.click('Sign out');
     I.refreshPage();
     I.wait(10);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUser, testConfig.TestEnvETHearingJudgePassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUserEng, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
-    await referralPages.reviewReferral('Admin', 'et.hearingadminbristol@justice.gov.uk');
+    await referralPages.reviewReferral('Admin', testConfig.TestEnvETAdminUserEng);
   },
 ).tag('@reviewReferralEng');
