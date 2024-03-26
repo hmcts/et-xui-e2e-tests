@@ -19,6 +19,7 @@ module.exports = {
   resetButton: '[aria-label="Reset filter"]',
   nextEventDropdown: '#next-step',
   submitEventButton: '//button[@class="button"]',
+  confirmAllocationButton: '[type="button"]',
   tab: '[role="tab"] div:contains("Applications")',
   //.hmcts-primary-navigation__item:nth-child(1) > .hmcts-primary-navigation__link
   myWorkLink: '//a[contains(.,"My work")]',
@@ -347,7 +348,7 @@ module.exports = {
     I.click(this.continueButton);
     I.waitForElement(this.secondaryButton, 10);
     I.see('Check your answers');
-    I.click(this.submitEventButton);
+    I.click(this.confirmAllocationButton);
     I.wait(5);
   },
 };

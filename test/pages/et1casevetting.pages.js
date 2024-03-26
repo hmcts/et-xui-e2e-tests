@@ -1,6 +1,6 @@
 const { I } = inject();
 const Continue = 'Continue';
-const et1CaseVetting = 'ET1 case vetting';
+//const et1CaseVetting = 'ET1 case vetting';
 
 module.exports = {
   locators: {
@@ -39,7 +39,7 @@ module.exports = {
   },
 
   verifyET1CasePageHeading(caseNumber) {
-    //I.waitForText(et1CaseVetting, 10);
+    //I.waitForText(et1CaseVetting, 15);
     I.waitForText('Case Number: ' + caseNumber, 15);
   },
 
