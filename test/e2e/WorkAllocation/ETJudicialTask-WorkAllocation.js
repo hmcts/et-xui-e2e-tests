@@ -78,8 +78,9 @@ Scenario(
     await caseListPage.processCaseFromCaseList(submissionReference);
     await referralPages.reviewReferral('Admin', testConfig.TestEnvETAdminUserScot);
   },
-).tag('@reviewReferralScot');
-//accept the case
+)
+  .tag('@reviewReferralEng')
+  .tag('@nightly');
 
 Scenario(
   'Submit a case from Scotland - Assign referral To England/Wales judge - Judge review the referral',
@@ -150,4 +151,6 @@ Scenario(
     await caseListPage.processCaseFromCaseList(submissionReference);
     await referralPages.reviewReferral('Admin', testConfig.TestEnvETAdminUserEng);
   },
-).tag('@reviewReferralEng');
+)
+  .tag('@reviewReferralEng')
+  .tag('@nightly');
