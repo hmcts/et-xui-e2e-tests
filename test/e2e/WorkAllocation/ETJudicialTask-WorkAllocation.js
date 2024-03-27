@@ -79,11 +79,11 @@ Scenario(
     await referralPages.reviewReferral('Admin', testConfig.TestEnvETAdminUserScot);
   },
 )
-  .tag('@reviewReferralEng')
+  .tag('@reviewReferralScot')
   .tag('@nightly');
 
 Scenario(
-  'Submit a case from Scotland - Assign referral To England/Wales judge - Judge review the referral',
+  'Submit a case from England - Assign referral To England/Wales judge - Judge review the referral',
   async ({
     I,
     basePage,
