@@ -64,6 +64,8 @@ Scenario(
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+    await caseListPage.processCaseFromCaseList(submissionReference);
+    await caseListPage.verifyCaseDetailsPage();
     await caseListPage.selectNextEvent('ET3 notification'); //ET3NotificationEvent
     await et3NotificationPages.uploadET3acceptanceLetter('single document');
     I.click('Sign out');
