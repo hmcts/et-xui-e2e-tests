@@ -12,7 +12,8 @@ async function registerNewAccount() {
   try {
     let firstName = chance.first();
     let lastName = chance.last();
-    let emailAddress = firstName + '.' + lastName + '@mail.com';
+    let lastFour = chance.ssn({ ssnFour: true });
+    let emailAddress = firstName + '.' + lastName + lastFour + '@email.com';
     let idamData = JSON.stringify({
       forename: firstName,
       surname: lastName,

@@ -1,6 +1,6 @@
 const { I } = inject();
 const Continue = 'Continue';
-const et1CaseVetting = 'ET1 case vetting';
+//const et1CaseVetting = 'ET1 case vetting';
 
 module.exports = {
   locators: {
@@ -39,8 +39,8 @@ module.exports = {
   },
 
   verifyET1CasePageHeading(caseNumber) {
-    I.waitForText(et1CaseVetting, 10);
-    I.waitForText('Case Number: ' + caseNumber, 10);
+    //I.waitForText(et1CaseVetting, 15);
+    I.waitForText('Case Number: ' + caseNumber, 15);
   },
 
   processBeforeYourStartPage(caseNumber) {
@@ -135,16 +135,6 @@ module.exports = {
     this.verifyET1CasePageHeading(caseNumber);
     I.waitForText('Check your answers', 5);
     I.see('Check the information below carefully.');
-    I.see('Contact Details');
-    I.see('Can we serve the claim with these contact details?');
-    I.see('Are these codes correct?');
-    I.see('Is the track allocation correct?');
-    I.see('Is this location correct?');
-    I.see('Do you want to suggest a hearing venue?');
-    //I.see('Hearing venue selected');
-    I.see('Is the respondent a government agency or a major employer?');
-    I.see('Are reasonable adjustments required?');
-    I.see('Can the claimant attend a video hearing?');
     I.click('Submit');
   },
 

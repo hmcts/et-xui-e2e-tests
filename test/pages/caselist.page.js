@@ -19,6 +19,7 @@ module.exports = {
   resetButton: '[aria-label="Reset filter"]',
   nextEventDropdown: '#next-step',
   submitEventButton: '//button[@class="button"]',
+  confirmAllocationButton: '[type="button"]',
   tab: '[role="tab"] div:contains("Applications")',
   //.hmcts-primary-navigation__item:nth-child(1) > .hmcts-primary-navigation__link
   myWorkLink: '//a[contains(.,"My work")]',
@@ -107,6 +108,7 @@ module.exports = {
     } catch (error) {
       console.error('invalid option', error.message);
     }
+    I.wait(5);
     I.scrollPageToBottom();
     I.waitForVisible(this.submissionReferenceLocator, 10);
     I.click(this.submissionReferenceLocator);
@@ -130,6 +132,7 @@ module.exports = {
     I.selectOption(this.nextEventDropdown, option);
     I.waitForElement(this.submitEventButton, 10);
     I.forceClick(this.submitEventButton);
+    I.wait(10);
   },
 
   selectTab(title, submissionReference) {
@@ -345,7 +348,7 @@ module.exports = {
     I.click(this.continueButton);
     I.waitForElement(this.secondaryButton, 10);
     I.see('Check your answers');
-    I.click(this.submitEventButton);
+    I.click(this.confirmAllocationButton);
     I.wait(5);
   },
 };

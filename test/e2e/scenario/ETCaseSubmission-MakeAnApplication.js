@@ -13,8 +13,8 @@ const firstLineOfAddress = '7, Valley Gardens?';
 //const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 //const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 const respondentName = 'Henry Marsh';
-const ClaimantFirstName = 'etAutoesting';
-const ClaimantLastName = 'Manual';
+// const ClaimantFirstName = 'etAutoesting';
+//const ClaimantLastName = 'Manual';
 
 Feature('End To End Tests For an ET Case Submitted in the sya Front end and processed in the Manage Case Application');
 Scenario(
@@ -36,7 +36,7 @@ Scenario(
     //citizenHubPages,
   }) => {
     I.amOnPage('/');
-    await loginPage.registerNewAccount();
+    //await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
@@ -60,17 +60,12 @@ Scenario(
     //await caseListPage.verifyCaseDetailsPage(true);
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     I.click('Sign out');
     // //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     //   await loginPage.processLogin(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC(
-      'Eng/Wales - Singles',
-      submissionReference,
-      respondentName,
-      ClaimantFirstName,
-      ClaimantLastName,
-    );
+    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
     // I.click('Sign out');
     //let submissionReference = '1690114841176896';
     //console.log('The value of the Case Number ' + caseNumber);

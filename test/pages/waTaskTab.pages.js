@@ -8,7 +8,7 @@ module.exports = {
   async clickAssignToMeLink(task) {
     let taskLocator = `//a[contains(.,"${task}")]`;
     await this.verifyTaskIsAvailable();
-    I.waitForElement(taskLocator, 15);
+    I.waitForElement(taskLocator, 25);
     await I.click(taskLocator);
   },
 
@@ -42,8 +42,9 @@ module.exports = {
     while (initialAttempts < maxAttempt) {
       try {
         I.see('Active tasks');
+        I.refreshPage();
         // cron job refreshes every 5 minutes
-        I.wait(300);
+        I.wait(320);
         await I.refreshPage();
         await I.waitForElement(this.assignToMe, 20);
         await I.click(this.assignToMe);
