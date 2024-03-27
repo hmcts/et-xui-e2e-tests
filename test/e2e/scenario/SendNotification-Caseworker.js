@@ -64,5 +64,5 @@ Scenario(
   },
 )
   .tag('@nightly')
-  .tag('@sendNotiWip');
+  .tag('@sendNotification');
 //.retry(2);
