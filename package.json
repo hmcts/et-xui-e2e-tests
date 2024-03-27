@@ -26,7 +26,7 @@
         "test/**/*.{js,jsx,ts,tsx}": "eslint"
     },
     "dependencies": {
-        "@faker-js/faker": "5.5.3",
+        "@faker-js/faker": "8.4.1",
         "@wdio/cli": "8.35.1",
         "@wdio/crossbrowsertesting-service": "8.35.1",
         "@wdio/sauce-service": "8.35.1",

@@ -505,10 +505,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:5.5.3":
-  version: 5.5.3
-  resolution: "@faker-js/faker@npm:5.5.3"
-  checksum: d248a042e47ac00613d2d7cc29d4504cc5e5d843162454eede8c35f31c74b19a8fd7cecc0d5ea9e3fbbfc812abc51143c3699e51049fd64300e23e6588e76d39
+"@faker-js/faker@npm:8.4.1":
+  version: 8.4.1
+  resolution: "@faker-js/faker@npm:8.4.1"
+  checksum: d802d531f8929562715adc279cfec763c9a4bc596ec67b0ce43fd0ae61b285d2b0eec6f1f4aa852452a63721a842fe7e81926dce7bd92acca94b01e2a1f55f5a
   languageName: node
   linkType: hard
 
@@ -5283,7 +5283,7 @@ __metadata:
     "@codeceptjs/configure": 1.0.1
     "@codeceptjs/examples": 1.2.3
     "@codeceptjs/ui": 1.1.1
-    "@faker-js/faker": 5.5.3
+    "@faker-js/faker": 8.4.1
     "@wdio/cli": 8.35.1
     "@wdio/crossbrowsertesting-service": 8.35.1
     "@wdio/sauce-service": 8.35.1
