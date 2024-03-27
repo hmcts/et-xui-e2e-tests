@@ -263,7 +263,7 @@ module.exports = {
 
   verifySendNotification() {
     //I.waitForElement(this.veiwResponseLink, 10);
-    I.see('The tribunal has sent you a notification: Send Notification Title');
+    I.see('The tribunal requires some information from you.');
     I.scrollTo(this.notificationLink);
     I.wait(2);
     I.see('Not started yet', { css: this.notificationFlagBefore });

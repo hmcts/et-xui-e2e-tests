@@ -1,7 +1,8 @@
 const { I } = inject();
 
 module.exports = {
-  notification_tab2: '[aria-posinset="13"]',
+  notification_tab2:
+    '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Notifications"]',
   notification_link: 'Send a notification',
   respondToNotificationLink: 'Respond to an order or request from the tribunal',
   caseFlagsTab:
