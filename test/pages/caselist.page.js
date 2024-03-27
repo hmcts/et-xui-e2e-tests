@@ -130,7 +130,8 @@ module.exports = {
   selectNextEvent(option) {
     I.waitForElement(this.nextEventDropdown, 15);
     I.selectOption(this.nextEventDropdown, option);
-    I.waitForElement(this.submitEventButton, 10);
+    I.wait(3);
+    //I.waitForElement(this.submitEventButton, 10);
     I.forceClick(this.submitEventButton);
     I.wait(10);
   },

@@ -2042,9 +2042,9 @@ __metadata:
   linkType: hard
 
 "@tsconfig/node10@npm:^1.0.7":
-  version: 1.0.10
-  resolution: "@tsconfig/node10@npm:1.0.10"
-  checksum: 1204c05940c3669e897c1bcdf20668acc7fdbbeb41b4e8a3eb83ec486d6a442ba0f5d3b8122c93cb813fa498a232946ecb09e5a59a02828db3f1c27529563046
+  version: 1.0.11
+  resolution: "@tsconfig/node10@npm:1.0.11"
+  checksum: 51fe47d55fe1b80ec35e6e5ed30a13665fd3a531945350aa74a14a1e82875fb60b350c2f2a5e72a64831b1b6bc02acb6760c30b3738b54954ec2dea82db7a267
   languageName: node
   linkType: hard
 
@@ -6083,9 +6083,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.668":
-  version: 1.4.715
-  resolution: "electron-to-chromium@npm:1.4.715"
-  checksum: b3ccbd571ecaa3b74b2c098b705416e15e36f9338f75fea062ba48397ac379972f915c29437286914d05ea9d3454b0fa74e9606becd6c221879c6fc139a09284
+  version: 1.4.717
+  resolution: "electron-to-chromium@npm:1.4.717"
+  checksum: 6fe08272b79342170e02699a5d1ba495b0287b906743ca03dca4d4c930ee09fd9b12302c6447bc98ca96973d3aa684e1d930bfaf120774e172c892089138a61e
   languageName: node
   linkType: hard
 
@@ -7076,8 +7076,8 @@ __metadata:
   linkType: hard
 
 "express@npm:^4.18.2":
-  version: 4.19.1
-  resolution: "express@npm:4.19.1"
+  version: 4.19.2
+  resolution: "express@npm:4.19.2"
   dependencies:
     accepts: ~1.3.8
     array-flatten: 1.1.1
@@ -7110,7 +7110,7 @@ __metadata:
     type-is: ~1.6.18
     utils-merge: 1.0.1
     vary: ~1.1.2
-  checksum: c693d64e833118d2c156c671a924468b447cec1f147656a83eeabfa80916d6d5b582aec1ad200a6c0fdae907549d95cf88e6281247b391f42982b89c862902f3
+  checksum: 212dbd6c2c222a96a61bc927639c95970a53b06257080bb9e2838adb3bffdb966856551fdad1ab5dd654a217c35db94f987d0aa88d48fb04d306340f5f34dca5
   languageName: node
   linkType: hard
 
@@ -10114,13 +10114,13 @@ __metadata:
   linkType: hard
 
 "locate-app@npm:^2.1.0":
-  version: 2.2.25
-  resolution: "locate-app@npm:2.2.25"
+  version: 2.2.26
+  resolution: "locate-app@npm:2.2.26"
   dependencies:
-    n12: 1.8.28
+    n12: 1.8.29
     type-fest: 2.13.0
     userhome: 1.0.0
-  checksum: ab141fae81405dbde4205f38ec678dc7cfd9c1d4fb2af356dbfa9934f21e11acafba62ad04fa2d6ddbbeb1c16ddf109141d2134c7fa2facf71df1cc0298dd546
+  checksum: e6abbfd6fdf724dc73c5719f0fcf8e85ba46647408e6d0ce7d518c30d1e7d8c4b794d77b74954d92c99800b5ea5a1d73d4d2b6b9696e8c944ff99f988aaad357
   languageName: node
   linkType: hard
 
@@ -11417,10 +11417,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"n12@npm:1.8.28":
-  version: 1.8.28
-  resolution: "n12@npm:1.8.28"
-  checksum: af35e72f10f9f22a3705d78eba93ac4b9e918f8b1de4827cb83d30a197ae1a286d28f719aeb46a5dceabe014d9c4f391e85691b31aa450d2a873dadffb2e5ae0
+"n12@npm:1.8.29":
+  version: 1.8.29
+  resolution: "n12@npm:1.8.29"
+  checksum: 29cb408444e43f501306a93f2170e5f6675e61c88043a2a930ec69d0dafb5748bde4cd7fef4a8ce28fd7118049ae16ad53a1a28bec9bc18b54da152b02be2385
   languageName: node
   linkType: hard
 
@@ -11582,8 +11582,8 @@ __metadata:
   linkType: hard
 
 "node-gyp@npm:latest":
-  version: 10.0.1
-  resolution: "node-gyp@npm:10.0.1"
+  version: 10.1.0
+  resolution: "node-gyp@npm:10.1.0"
   dependencies:
     env-paths: ^2.2.0
     exponential-backoff: ^3.1.1
@@ -11597,7 +11597,7 @@ __metadata:
     which: ^4.0.0
   bin:
     node-gyp: bin/node-gyp.js
-  checksum: 60a74e66d364903ce02049966303a57f898521d139860ac82744a5fdd9f7b7b3b61f75f284f3bfe6e6add3b8f1871ce305a1d41f775c7482de837b50c792223f
+  checksum: 72e2ab4b23fc32007a763da94018f58069fc0694bf36115d49a2b195c8831e12cf5dd1e7a3718fa85c06969aedf8fc126722d3b672ec1cb27e06ed33caee3c60
   languageName: node
   linkType: hard
 
@@ -15072,7 +15072,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"terser@npm:^5.15.0":
+"terser@npm:^5.15.0, terser@npm:^5.15.1":
   version: 5.30.0
   resolution: "terser@npm:5.30.0"
   dependencies:
@@ -15083,20 +15083,6 @@ __metadata:
   bin:
     terser: bin/terser
   checksum: a5c3b35675ddc96f355e7d27c012c7408f5cb89c6cb47079817414e765ef594900439169f92641500b8f0b7abbbc61bc52c394e1a53dfea87b5ea01ff56eeadd
-  languageName: node
-  linkType: hard
-
-"terser@npm:^5.15.1":
-  version: 5.29.2
-  resolution: "terser@npm:5.29.2"
-  dependencies:
-    "@jridgewell/source-map": ^0.3.3
-    acorn: ^8.8.2
-    commander: ^2.20.0
-    source-map-support: ~0.5.20
-  bin:
-    terser: bin/terser
-  checksum: 2310d04e530903ed4da6168c4c90ab65965c5f1f8919733772119ff560e9e9be2def070c9659f7d96f2e28489c4378241c4cef1917f05b9524587436fdd5a802
   languageName: node
   linkType: hard
 
