@@ -55,7 +55,7 @@
         "@codeceptjs/configure": "1.0.1",
         "@codeceptjs/examples": "1.2.3",
         "@codeceptjs/ui": "1.1.1",
-        "codeceptjs": "3.5.14",
+        "codeceptjs": "3.5.15",
         "config": "^3.3.9",
         "husky": "9.0.11",
         "webdriverio": "8.35.1"
