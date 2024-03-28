@@ -100,7 +100,6 @@ Scenario(
     referralPages,
   }) => {
     I.amOnPage('/');
-    //await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();

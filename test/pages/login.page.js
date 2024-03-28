@@ -54,7 +54,7 @@ async function processLoginWithNewAccount() {
   I.fillField('#password', testConfig.TestEnvETPassword);
   I.waitForElement('[type="submit"]', 10);
   I.forceClick('[type="submit"]');
-  I.wait(10);
+  I.wait(15);
 }
 
 async function processLoginOnXui(username, password) {

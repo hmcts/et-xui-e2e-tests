@@ -33,7 +33,6 @@ Scenario(
     sendNotificationPages,
   }) => {
     I.amOnPage('/', 20);
-    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();

@@ -31,7 +31,6 @@ Scenario(
     et1CaseServingPages,
   }) => {
     I.amOnPage('/');
-    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
@@ -92,7 +91,6 @@ Scenario(
     et1CaseServingPages,
   }) => {
     I.amOnPage('/');
-    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
@@ -132,7 +130,7 @@ Scenario(
   },
 )
   .tag('@bundle')
-  .tag('@bundleLegalRep')
+  .tag('@bundleLegalRepScot')
   .tag('@bundleScot')
   .tag('@nightly');
 // .retry(1);
@@ -155,7 +153,6 @@ Scenario(
     citizenHubPages,
   }) => {
     I.amOnPage('/');
-    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
