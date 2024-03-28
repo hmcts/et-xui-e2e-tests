@@ -12,6 +12,7 @@ module.exports = {
   contactTribunalAboutMyCase: '[href="/contact-the-tribunal"]',
   linkToET3Response: '[href="/case-document/response-from-respondent"]',
   contactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=en"]',
+  openAllApplicationType: '//span[@class="govuk-accordion__show-all-text"]',
   welshContactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=cy"]',
   showAllApplicationType: '#contact-options',
   withdrawClaimLink: '[href="/contact-the-tribunal/withdraw"]',
@@ -100,6 +101,7 @@ module.exports = {
     I.see('Contact the tribunal about your case');
     I.see('Call the Employment Tribunal customer contact centre');
     I.click(this.showAllApplicationType);
+    I.click(this.openAllApplicationType);
     I.scrollPageToBottom();
     try {
       switch (applicationType) {
@@ -221,7 +223,7 @@ module.exports = {
           I.click('Continue');
           break;
         case 'submit document for hearing':
-          I.waitForElement(this.submitHearingDocument, 15);
+          I.waitForElement(this.submitHearingDocument, 20);
           I.click(this.submitHearingDocument);
           I.waitForElement('#main-content', 20);
           I.see('Prepare and submit documents for a hearing');

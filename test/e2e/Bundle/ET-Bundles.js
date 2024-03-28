@@ -1,3 +1,5 @@
+const { fi } = require('@faker-js/faker');
+
 const testConfig = require('../../../config.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
@@ -55,19 +57,14 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     // list hearing
     await caseListPage.selectNextEvent('List Hearing');
     await listHearingPages.listCase();
     I.click('Sign out');
     // complete noc on the case
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC(
-      'Eng/Wales - Singles',
-      submissionReference,
-      respondentName,
-      testConfig.TestEnvETClaimantFirstName,
-      testConfig.TestEnvETClaimantLastName,
-    );
+    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
     //submit a prepared document for hearing
     //await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.selectNextEvent('Prepare documents for hearing');
@@ -121,19 +118,14 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     // list hearing
     await caseListPage.selectNextEvent('List Hearing');
     await listHearingPages.listCase();
     I.click('Sign out');
     // complete noc on the case
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC(
-      'Scotland - Singles',
-      submissionReference,
-      respondentName,
-      testConfig.TestEnvETClaimantFirstName,
-      testConfig.TestEnvETClaimantLastName,
-    );
+    await legalRepNOCPages.processNOC('Scotland - Singles', submissionReference, respondentName, firstName, lastName);
     //submit a prepared document for hearing
     //await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.selectNextEvent('Prepare documents for hearing');
@@ -188,19 +180,14 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     // list hearing
     await caseListPage.selectNextEvent('List Hearing');
     await listHearingPages.listCase();
     I.click('Sign out');
     // complete noc on the case
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC(
-      'Eng/Wales - Singles',
-      submissionReference,
-      respondentName,
-      testConfig.TestEnvETClaimantFirstName,
-      testConfig.TestEnvETClaimantLastName,
-    );
+    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
     // go to cui
     await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETClaimantEmailAddress,
