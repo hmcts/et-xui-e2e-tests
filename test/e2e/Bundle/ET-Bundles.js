@@ -1,5 +1,3 @@
-const { fi } = require('@faker-js/faker');
-
 const testConfig = require('../../../config.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
