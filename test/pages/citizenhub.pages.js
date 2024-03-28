@@ -348,7 +348,7 @@ module.exports = {
     I.click(this.continueButton);
     I.waitForElement(this.uploadHearingFile, 10);
     I.see('Upload your file of documents');
-    I.attachFile(this.uploadHearingDocButton, '../et-xui-e2e-tests/test/data/welshTest.pdf');
+    I.attachFile(this.uploadHearingDocButton, 'test/data/welshTest.pdf');
     I.wait(3);
     I.click(this.uploadHearingFile);
     I.wait(3);
