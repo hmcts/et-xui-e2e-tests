@@ -28,7 +28,6 @@ Scenario(
     applicationsTabsPages,
   }) => {
     I.amOnPage('/');
-    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
@@ -52,8 +51,7 @@ Scenario(
 )
   .tag('@caseFileView')
   .tag('@caseFileViewEW')
-  .tag('@nightly')
-  .retry(1);
+  .tag('@nightly');
 
 Scenario(
   'Case File View - Check ET 1 Claim in CFV folder - Scotland',
@@ -70,7 +68,6 @@ Scenario(
     applicationsTabsPages,
   }) => {
     I.amOnPage('/');
-    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
@@ -94,5 +91,4 @@ Scenario(
 )
   .tag('@caseFileView')
   .tag('@caseFileViewScot')
-  .tag('@nightly')
-  .retry(1);
+  .tag('@nightly');
