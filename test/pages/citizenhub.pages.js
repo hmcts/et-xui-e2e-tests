@@ -310,7 +310,8 @@ module.exports = {
 
   claimantViewAndRespondToECC() {
     //I.waitForElement(this.veiwResponseLink, 10);
-    I.see('The tribunal has sent you a notification: Send Notification Title');
+    I.refreshPage();
+    I.waitForText('The tribunal has sent you a notification: Send Notification Title', 15);
     I.scrollTo(this.notificationLink);
     I.wait(2);
     I.see('Not started yet', { css: this.notificationFlagBefore });

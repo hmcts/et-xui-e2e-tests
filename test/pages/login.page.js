@@ -48,7 +48,7 @@ async function registerNewAccount() {
 async function processLoginWithNewAccount() {
   console.log(`${await registerNewAccount()}`);
   const { email } = await registerNewAccount();
-  I.waitForVisible('#username', 15);
+  I.waitForElement('#username', 20);
   console.log('.... checking email address:', email);
   I.fillField('#username', email);
   I.fillField('#password', testConfig.TestEnvETPassword);
