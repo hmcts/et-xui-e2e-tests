@@ -25,6 +25,7 @@ module.exports = {
   ContinueButton: '//button[@class="button"]',
   CloseButton: '.button',
   eccNotificationCheckbox: '[id="sendNotificationEccQuestion-Notice of Employer Contract Claim"]',
+  notificationConfirmationAlert: '//div[@class="alert-message"]',
 
   sendNotificationLink(notifType, isResponseRequired, respParty, decidingOfficer, notificationParty) {
     I.waitForElement(this.SendANotificationHeading, 20);
@@ -105,6 +106,8 @@ module.exports = {
     I.see('Notification subject');
     I.see('Select the party or parties to notify');
     I.click(this.ContinueButton);
-    //I.waitForElement(this.CloseButton, 10);
+    I.waitForText('What happens next');
+    I.click(this.ContinueButton);
+    I.waitForElement(this.notificationConfirmationAlert, 15);
   },
 };

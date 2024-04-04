@@ -40,8 +40,7 @@ async function registerNewAccount() {
       lastName: idamResponse.data.surname,
     };
   } catch (error) {
-    console.error('Error:', error.message);
-    return null;
+    return error.message;
   }
 }
 
