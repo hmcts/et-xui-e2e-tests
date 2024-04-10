@@ -24,6 +24,9 @@ module.exports = {
   hearingListMonth: '#listedDate-month',
   hearingListYear: '#listedDate-year',
   submitHearingButton: '[type="submit"]',
+  selectHearing: '#hearingDetailsHearing',
+  hearingStatus: '#hearingDetailsCollection_0_hearingDetailsStatus',
+  disposePartOfCase: '#hearingDetailsCollection_0_hearingDetailsCaseDisposed_No',
 
   async listCase() {
     I.waitForElement(this.hearingNumber, 10);
@@ -50,5 +53,21 @@ module.exports = {
     I.click(this.submitHearingButton);
     // Verifying the Hearings Tab.
     //I.waitForText('has been updated with event: List Hearing', 10);
+  },
+  async updateHearing() {
+    I.wait(5);
+    I.see('Hearing Details');
+    let option = I.grabTextFrom('select option:nth-child(2)');
+    I.selectOption(this.selectHearing, option);
+    //I.selectOption(this.selectHearing, 'Hearing 1, 27 March 2024 00:00');
+    I.click(this.submitHearingButton);
+    // Verifying the Hearings Tab.
+    I.selectOption(this.hearingStatus, '1');
+    I.waitForText('Hearing Status', 10);
+    I.checkOption(this.disposePartOfCase);
+    I.fillField('#hearingDetailsTimingStart-day', '21');
+    I.fillField('#hearingDetailsTimingFinish-day', '22');
+    I.click(this.submitHearingButton);
+    I.waitForText('has been updated with event: Hearing Details', 15);
   },
 };

@@ -1,8 +1,7 @@
 module.exports = {
-  TestUrl: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net',
-  TestUrlForManageCaseAAT: process.env.TEST_MANAGE_CASE_URL || 'https://manage-case.aat.platform.hmcts.net',
-  TestIdamUrlAAT: process.env.IDAM_URL || 'https://idam-api.aat.platform.hmcts.net/testing-support/accounts',
-  TestShowBrowserWindow: process.env.SHOW_BROWSER_WINDOW || false,
+  TestUrl: process.env.TEST_URL || 'https://et-sya.demo.platform.hmcts.net/',
+  TestUrlForManageCaseAAT: process.env.TEST_MANAGE_CASE_URL || 'https://manage-case.demo.platform.hmcts.net/',
+  TestShowBrowserWindow: process.env.SHOW_BROWSER_WINDOW || true,
   TestsPathToRun: process.env.E2E_TEST_PATH || './**/*.js',
   TestReportFolder: process.env.E2E_OUTPUT_DIR || './functional-output/reports',
   TestEnvETClaimantEmailAddress: '',

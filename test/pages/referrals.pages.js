@@ -2,7 +2,7 @@
 const { I } = inject();
 
 module.exports = {
-  referals_tab: '//div[@class="mat-tab-labels"]/div[.="Referrals"]',
+  referals_tab: '//div[9]/div[@class="mat-tab-label-content"]',
   create_new_referral: '//a[.="Send a new referral"]',
   update_referral: '//a[.="Update a referral"]',
   reply_referral: '//a[.="Reply to a referral"]',
