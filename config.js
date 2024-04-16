@@ -1,6 +1,6 @@
 module.exports = {
-  TestUrl: process.env.TEST_URL || 'https://et-sya.demo.platform.hmcts.net/',
-  TestUrlForManageCaseAAT: process.env.TEST_MANAGE_CASE_URL || 'https://manage-case.demo.platform.hmcts.net/',
+  TestUrl: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net/',
+  TestUrlForManageCaseAAT: process.env.TEST_MANAGE_CASE_URL || 'https://manage-case.aat.platform.hmcts.net/',
   TestShowBrowserWindow: process.env.SHOW_BROWSER_WINDOW || true,
   TestsPathToRun: process.env.E2E_TEST_PATH || './**/*.js',
   TestReportFolder: process.env.E2E_OUTPUT_DIR || './functional-output/reports',
@@ -8,6 +8,8 @@ module.exports = {
   TestEnvETPassword: process.env.TEST_CASE_PASSWORD || '',
   TestEnvETManageCaseUser: process.env.ET_LEGAL_OPS_USER_NAME || '',
   TestEnvETManageCasePassword: process.env.ET_LEGAL_OPS_PASSWORD || '',
+  TestEnvAdminETManageCaseUser: process.env.ET_ADMIN_USER_NAME || '',
+  TestEnvAdminETManageCasePassword: process.env.ET_ADMIN_PASSWORD || '',
   TestEnvETLegalRepUser: process.env.ET_LEGALREP_USER_NAME || '',
   TestEnvETLegalRepPassword: process.env.ET_LEGALREP_PASSWORD || '',
   TestEnvETLegalOpsUser: process.env.ET_CTSC_ADMIN_USER_NAME || '',
