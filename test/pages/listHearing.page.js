@@ -1,6 +1,8 @@
 const { I } = inject();
 const today = new Date();
 const listDay = today.getDate() + 1;
+const currentDay = today.getDate();
+const previousDay = today.getDate() - 1;
 const listMonth = today.getMonth() + 1;
 const listYear = today.getFullYear();
 
@@ -57,16 +59,17 @@ module.exports = {
   async updateHearing() {
     I.wait(5);
     I.see('Hearing Details');
-    let option = I.grabTextFrom('select option:nth-child(2)');
-    I.selectOption(this.selectHearing, option);
+    //let option = I.grabTextFrom('select option:nth-child(2)');
+    I.selectOption(this.selectHearing, 1);
     //I.selectOption(this.selectHearing, 'Hearing 1, 27 March 2024 00:00');
     I.click(this.submitHearingButton);
     // Verifying the Hearings Tab.
-    I.selectOption(this.hearingStatus, '1');
+    I.wait(10);
+    I.selectOption(this.hearingStatus, 'Heard');
     I.waitForText('Hearing Status', 10);
     I.checkOption(this.disposePartOfCase);
-    I.fillField('#hearingDetailsTimingStart-day', '21');
-    I.fillField('#hearingDetailsTimingFinish-day', '22');
+    I.fillField('#hearingDetailsTimingStart-day', previousDay);
+    I.fillField('#hearingDetailsTimingFinish-day', currentDay);
     I.click(this.submitHearingButton);
     I.waitForText('has been updated with event: Hearing Details', 15);
   },

@@ -22,8 +22,6 @@ Scenario(
     et1CaseVettingPages,
     et1CaseServingPages,
     listHearingPages,
-    respondentRepresentativePage,
-    referralPages,
     workAllocationTaskPages,
   }) => {
     I.amOnPage('/');
@@ -40,12 +38,15 @@ Scenario(
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
-    // let submissionReference = '1711629366155269';
+    //let submissionReference = '1712911072970606';
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETCstcAdminUser, testConfig.TestEnvETCstcAdminPassword);
+    await loginPage.processLoginOnXui(
+      testConfig.TestEnvAdminETManageCaseUser,
+      testConfig.TestEnvAdminETManageCasePassword,
+    );
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.processCaseFromCaseList(caseNumber);
+    await caseListPage.processCaseFromCaseList(submissionReference);
     //vet the case
     await caseListPage.verifyCaseDetailsPage();
     await caseListPage.selectNextEvent('ET1 case vetting'); //Firing the ET1 Event.
@@ -54,31 +55,32 @@ Scenario(
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     //List a Hearing for the case
+    I.wait(10);
     await caseListPage.selectNextEvent('List Hearing');
     await listHearingPages.listCase();
     //Update Hearing
     await caseListPage.selectNextEvent('Hearing Details');
     await listHearingPages.updateHearing();
-    // Create ReviewReferralAdmin Task
-    await referralPages.submitAreferral(
-      'et-hearing-admin-wa1@justice.gov.uk',
-      'Admin',
-      'Test Referral by Admin',
-      'Yes',
-      1,
-    );
-
-    //assign the task
     await caseListPage.selectTab('tasks', submissionReference);
-    await workAllocationTaskPages.clickAssignToMeLink();
-    await caseListPage.proceedtoWATaskPage();
-    await caseListPage.proceedToAvailableTask();
-    await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, true);
-    await workAllocationTaskPages.verifyWAtaskTabPage(submissionReference);
-    //add org to case to enable cui applications
-    await caseListPage.selectNextEvent('Respondent Representative'); //Respondent Representative Event
-    await respondentRepresentativePage.addRespondentRepresentative('registered', 'ET Test3 Organisation');
-    // //do referral as a admin case worker
-    await referralPages.submitAreferral('et.ctscworker010@justice.gov.uk', 'Admin', 'Test Referral by Admin', 'Yes', 1);
+    await workAllocationTaskPages.clickAssignToLink('Draft And Sign Judgment', 'JUDICIAL');
+    await workAllocationTaskPages.assignToAPerson('Owen Montes');
+
+    I.click('Sign out');
+    I.refreshPage();
+    I.wait(10);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUserEng, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+    await caseListPage.processCaseFromCaseList(submissionReference);
+    await caseListPage.selectTab('tasks', submissionReference);
+    // Issue Judgement
+    await workAllocationTaskPages.issueJudgeMent('Draft And Sign Judgment');
+
+    await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUserEng, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+    await caseListPage.processCaseFromCaseList(submissionReference);
+    await caseListPage.selectTab('tasks', submissionReference);
+    I.see('Issue Judgment', 10);
   },
-).tag('@RET-Nish');
+)
+  .tag('@issueJudgementEng')
+  .tag('@nightly');
