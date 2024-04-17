@@ -53,7 +53,7 @@ Scenario(
     await caseListPage.selectNextEvent('Respondent Representative'); //Adding Respondent Representative
     await respondentRepresentativePage.addRespondentRepresentative('registered', 'ET Organisation');
     await applicationsTabsPages.selectNotificationLink();
-    await sendNotificationPages.sendNotificationLink('cmo', 'yes', 'Both parties', 'legal officer', 'both');
+    await sendNotificationPages.sendNotificationLink('cmo both party to respond legal officer', 'both');
 
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(submissionReference);

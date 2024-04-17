@@ -6,7 +6,7 @@ const testConfig = require('../../config');
 //const firstName = chance.first();
 //const lastName = chance.last();
 //const emailAddress = firstName+'.'+lastName+'@mail.com';
-const aatUrl = 'https://idam-api.aat.platform.hmcts.net/testing-support/accounts';
+const aatUrl = testConfig.IdamAcccountUrl;
 
 async function registerNewAccount() {
   try {

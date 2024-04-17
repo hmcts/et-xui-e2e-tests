@@ -6,7 +6,6 @@ module.exports = {
   et3ResponseLink: '[href="/case-document/response-from-respondent"]',
   statusBeforeView: '.govuk-tag--blue',
   statusAfterView: '//strong[contains(.,"Viewed")]',
-  backButton: '.govuk-back-link',
   welshToggle: '//a[.="Cymraeg"]',
   linkToAttachedDocument: '[class="govuk-link"]',
   contactTribunalAboutMyCase: '[href="/contact-the-tribunal"]',
@@ -38,6 +37,7 @@ module.exports = {
   witnessStatementOnly: '[value="Witness statements only"]',
   uploadHearingDocButton: '#hearingDocument',
   uploadHearingFile: '#upload',
+  backButton: '//a[.="Back"]',
   quidanceTextPayload: '.govuk-template__body .govuk-grid-column-two-thirds > .govuk-body',
   changeYourDocument: '//a[contains(.,"Change Your documents")]',
   closeAndReturnButton: '//a[contains(.,"Close and return to case overview")]',
@@ -331,6 +331,19 @@ module.exports = {
     I.click(this.returnOverviewButton);
     I.scrollTo(this.notificationLink);
     I.see('Submitted', { css: this.notificationFlagAfter });
+  },
+
+  cliamantViewEccAcceptanceNotification() {
+    //I.waitForElement(this.veiwResponseLink, 10);
+    I.refreshPage();
+    I.waitForText('The tribunal has sent you a notification: Send Notification Title', 15);
+    I.scrollTo(this.notificationLink);
+    I.wait(2);
+    I.see('Not started yet', { css: this.notificationFlagBefore });
+    I.click(this.notificationLink);
+    I.see('All orders and requests');
+    I.click(this.sendNotifButton);
+    I.waitForText('Claimant only', 10);
   },
 
   submitDocumentForHearingClaimant() {

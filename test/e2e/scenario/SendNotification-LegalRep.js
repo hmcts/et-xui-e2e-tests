@@ -62,7 +62,7 @@ Scenario(
 
     await caseListPage.selectTab('Notifications');
     await applicationsTabsPages.SendNotification();
-    await sendNotificationPages.sendNotificationLink('cmo', 'yes', 'Both parties', 'legal officer', 'both');
+    await sendNotificationPages.sendNotificationLink('ecc-notification', 'claimant');
 
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(

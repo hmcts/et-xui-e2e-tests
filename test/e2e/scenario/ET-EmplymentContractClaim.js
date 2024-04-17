@@ -32,6 +32,7 @@ Scenario(
     applicationsTabsPages,
     sendNotificationPages,
     citizenHubPages,
+    referralPages,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
@@ -71,29 +72,31 @@ Scenario(
     // caseworker sends notification
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
-    await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.verifyCaseDetailsPage();
-    // submit ECC application
-    await caseListPage.createEccCase(caseNumber, 'Scotland - Singles (RET)');
+    //await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     await caseListPage.findCasewithRefNumber(submissionReference);
-    // updating et3 response from respondent details is not needed if ET3 form has been returned
-    //await caseListPage.selectNextEvent('Respondent Details');
-    //await respondentEventPages.updateET3ResponseOptionYes(respondentName, workPostcode)
-    // create ecc case and link to existing case
     await applicationsTabsPages.selectNotificationLink();
-    await sendNotificationPages.sendNotificationLink('ecc', 'yes', 'Both parties', 'legal officer', 'claimant');
+    await sendNotificationPages.sendNotificationLink('ecc-notification', 'claimant');
     // Claimant View and Respond to Ecc Notification
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.claimantViewAndRespondToECC();
-    // legal rep respond to notification
+    // admin send response notification to judge for review
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
-    await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.verifyCaseDetailsPage();
-    await legalRepNOCPages.respondToNotificationFromTribunal();
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.findCasewithRefNumber(submissionReference);
+    await referralPages.submitAreferral(
+      testConfig.TestEnvETHearingJudgeUserEng,
+      'Judge',
+      'Review Ecc response from claimant and give direction',
+      'Yes',
+      '2: ET3/ECC',
+    );
+    await applicationsTabsPages.selectNotificationLink();
+    await sendNotificationPages.sendNotificationLink('ecc-acceptance', 'claimant');
+    // Claimant View Ecc  Acceptance Notification
+    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
+    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.cliamantViewEccAcceptanceNotification();
   },
 )
   .tag('@ecc')
@@ -119,6 +122,7 @@ Scenario(
     applicationsTabsPages,
     sendNotificationPages,
     citizenHubPages,
+    referralPages,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
@@ -158,29 +162,31 @@ Scenario(
     // caseworker sends notification
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
-    await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.verifyCaseDetailsPage();
-    // submit ECC application
-    await caseListPage.createEccCase(caseNumber, 'Eng/Wales - Singles');
     await caseListPage.findCasewithRefNumber(submissionReference);
-    // updating et3 response from respondent details is not needed if ET3 form has been returned
-    //await caseListPage.selectNextEvent('Respondent Details');
-    //await respondentEventPages.updateET3ResponseOptionYes(respondentName, workPostcode)
-    // create ecc case and link to existing case
     await applicationsTabsPages.selectNotificationLink();
-    await sendNotificationPages.sendNotificationLink('ecc', 'yes', 'Both parties', 'legal officer', 'claimant');
+    await sendNotificationPages.sendNotificationLink('ecc-notification', 'claimant');
+    I.click('Sign out');
     // Claimant View and Respond to Ecc Notification
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.claimantViewAndRespondToECC();
-    // legal rep respond to notification
+    // refer claimant response to the judge
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
-    await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.verifyCaseDetailsPage();
-    await legalRepNOCPages.respondToNotificationFromTribunal();
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.findCasewithRefNumber(submissionReference);
+    await referralPages.submitAreferral(
+      testConfig.TestEnvETHearingJudgeUserEng,
+      'Judge',
+      'Review Ecc response from claimant and give direction',
+      'Yes',
+      '2: ET3/ECC',
+    );
+    await applicationsTabsPages.selectNotificationLink();
+    await sendNotificationPages.sendNotificationLink('ecc-acceptance', 'claimant');
+    // Claimant View Ecc  Acceptance Notification
+    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
+    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPages.cliamantViewEccAcceptanceNotification();
   },
 )
   .tag('@ecc')

@@ -141,6 +141,7 @@ Scenario(
       'Test referral to a judge',
       'Yes',
       1,
+      '1: ET1',
     );
     I.click('Sign out');
     I.refreshPage();

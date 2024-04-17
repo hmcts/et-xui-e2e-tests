@@ -50,8 +50,9 @@ module.exports = {
   concilliationTrackDropdown: '#conciliationTrack',
   chooseClarkDropdown: '#clerkResponsible',
   findCaseWithRef: '#caseReference',
-  findButtoncaseList: '.case-reference-container',
-  tabs: '[tabindex="0"]',
+  findButtoncaseList: '//button[@class="govuk-button govuk-button--secondary"]',
+  claimantTab:
+    '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Claimant"]',
   taskTab:
     '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Tasks"]',
   roleAndAccessTab: '[aria-posinset="2"] > .mat-tab-label-content',
@@ -254,7 +255,7 @@ module.exports = {
   findCasewithRefNumber(submissionReference) {
     I.fillField(this.findCaseWithRef, submissionReference);
     I.forceClick(this.findButtoncaseList);
-    I.waitForElement(this.tabs, 5);
+    I.waitForElement(this.claimantTab, 10);
   },
 
   allocateRolesToCase(roleType) {
