@@ -49,7 +49,7 @@
         "playwright": "^1.27.1",
         "prettier": "3.2.5",
         "request": "^2.88.2",
-        "typescript": "5.4.3"
+        "typescript": "5.4.5"
     },
     "devDependencies": {
         "@codeceptjs/configure": "1.0.1",
