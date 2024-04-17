@@ -124,6 +124,7 @@ module.exports = {
     let text = `/cases/case-details/${submissionReference}`;
     let caseNumber = I.grabTextFrom(`[href="${text}"]`);
     console.log('case number is' + caseNumber);
+    I.waitForElement(`[href="${text}"]`, 10);
     I.click(`[href="${text}"]`);
     return caseNumber;
   },
