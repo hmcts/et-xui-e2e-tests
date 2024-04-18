@@ -2,7 +2,7 @@ const { I } = inject();
 const axios = require('axios');
 const chance = require('chance').Chance();
 
-const testConfig = require('../../config');
+const testConfig = require('../../config.js');
 //const firstName = chance.first();
 //const lastName = chance.last();
 //const emailAddress = firstName+'.'+lastName+'@mail.com';
