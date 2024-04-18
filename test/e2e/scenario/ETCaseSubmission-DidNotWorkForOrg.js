@@ -21,7 +21,6 @@ Scenario(
     et1CaseServingPages,
   }) => {
     I.amOnPage('/');
-    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();

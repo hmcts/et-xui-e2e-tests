@@ -1,4 +1,4 @@
-/* eslint-disable no-fallthrough */
+ 
 const { I } = inject();
 
 module.exports = {
@@ -34,7 +34,7 @@ module.exports = {
   replyUploadButton: '#replyDocument_0_uploadedDocument',
   confirmationPage: '#confirmation-body',
 
-  async submitAreferral(emailAddress, referralOption, details, urgency) {
+  async submitAreferral(emailAddress, referralOption, details, urgency, referralType) {
     I.waitForElement(this.referals_tab, 10);
     I.click(this.referals_tab);
     I.waitForElement(this.create_new_referral, 15);
@@ -72,7 +72,7 @@ module.exports = {
     // 1 for ET1
     I.scrollPageToBottom();
     I.waitForElement(this.referralSubjectDropdown, 15);
-    await I.selectOption(this.referralSubjectDropdown, '1: ET1');
+    await I.selectOption(this.referralSubjectDropdown, referralType);
     I.forceClick(this.addReferralDoc);
     I.scrollPageToBottom();
     I.attachFile(this.uploadFileButton, '/test/data/RET_newBug.png');

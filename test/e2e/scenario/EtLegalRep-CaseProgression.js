@@ -26,7 +26,6 @@ Scenario(
     sendNotificationPages,
   }) => {
     I.amOnPage('/');
-    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
@@ -65,7 +64,7 @@ Scenario(
     await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.verifyCaseDetailsPage();
     await applicationsTabsPages.selectNotificationLink();
-    await sendNotificationPages.sendNotificationLink('cmo', 'yes', 'Both parties', 'legal officer', 'claimant');
+    await sendNotificationPages.sendNotificationLink('cmo both party to respond legal officer', 'claimant');
 
     I.click('Sign out');
     // //Case progression  -- applicant to respond to tribunal request

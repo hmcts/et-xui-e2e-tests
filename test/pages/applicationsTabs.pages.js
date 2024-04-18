@@ -6,8 +6,9 @@ module.exports = {
   notification_link: 'Send a notification',
   respondToNotificationLink: 'Respond to an order or request from the tribunal',
   caseFlagsTab:
-    '.mat-tab-label-container > .mat-tab-list > .mat-tab-labels > #mat-tab-label-0-10 > .mat-tab-label-content',
-  caseFileViewTab: '//div[12]',
+    '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Case File View"]',
+  caseFileViewTab:
+    '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Case File View"]',
   caseFileViewElement: '#case-file-view',
   searchDocumentFromCaseFileView: '#document-search',
   uncategorisedDocument: '//span[.="Uncategorised documents"]',

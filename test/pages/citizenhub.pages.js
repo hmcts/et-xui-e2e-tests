@@ -1,4 +1,4 @@
-const testConfig = require('../../config');
+const testConfig = require('../../config.js');
 const { I } = inject();
 
 module.exports = {
@@ -6,12 +6,12 @@ module.exports = {
   et3ResponseLink: '[href="/case-document/response-from-respondent"]',
   statusBeforeView: '.govuk-tag--blue',
   statusAfterView: '//strong[contains(.,"Viewed")]',
-  backButton: '.govuk-back-link',
   welshToggle: '//a[.="Cymraeg"]',
   linkToAttachedDocument: '[class="govuk-link"]',
   contactTribunalAboutMyCase: '[href="/contact-the-tribunal"]',
   linkToET3Response: '[href="/case-document/response-from-respondent"]',
   contactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=en"]',
+  openAllApplicationType: '//span[@class="govuk-accordion__show-all-text"]',
   welshContactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=cy"]',
   showAllApplicationType: '#contact-options',
   withdrawClaimLink: '[href="/contact-the-tribunal/withdraw"]',
@@ -37,6 +37,7 @@ module.exports = {
   witnessStatementOnly: '[value="Witness statements only"]',
   uploadHearingDocButton: '#hearingDocument',
   uploadHearingFile: '#upload',
+  backButton: '//a[.="Back"]',
   quidanceTextPayload: '.govuk-template__body .govuk-grid-column-two-thirds > .govuk-body',
   changeYourDocument: '//a[contains(.,"Change Your documents")]',
   closeAndReturnButton: '//a[contains(.,"Close and return to case overview")]',
@@ -100,6 +101,7 @@ module.exports = {
     I.see('Contact the tribunal about your case');
     I.see('Call the Employment Tribunal customer contact centre');
     I.click(this.showAllApplicationType);
+    I.click(this.openAllApplicationType);
     I.scrollPageToBottom();
     try {
       switch (applicationType) {
@@ -221,7 +223,7 @@ module.exports = {
           I.click('Continue');
           break;
         case 'submit document for hearing':
-          I.waitForElement(this.submitHearingDocument, 15);
+          I.waitForElement(this.submitHearingDocument, 20);
           I.click(this.submitHearingDocument);
           I.waitForElement('#main-content', 20);
           I.see('Prepare and submit documents for a hearing');
@@ -308,7 +310,8 @@ module.exports = {
 
   claimantViewAndRespondToECC() {
     //I.waitForElement(this.veiwResponseLink, 10);
-    I.see('The tribunal has sent you a notification: Send Notification Title');
+    I.refreshPage();
+    I.waitForText('The tribunal has sent you a notification: Send Notification Title', 15);
     I.scrollTo(this.notificationLink);
     I.wait(2);
     I.see('Not started yet', { css: this.notificationFlagBefore });
@@ -330,6 +333,19 @@ module.exports = {
     I.see('Submitted', { css: this.notificationFlagAfter });
   },
 
+  cliamantViewEccAcceptanceNotification() {
+    //I.waitForElement(this.veiwResponseLink, 10);
+    I.refreshPage();
+    I.waitForText('The tribunal has sent you a notification: Send Notification Title', 15);
+    I.scrollTo(this.notificationLink);
+    I.wait(2);
+    I.see('Not started yet', { css: this.notificationFlagBefore });
+    I.click(this.notificationLink);
+    I.see('All orders and requests');
+    I.click(this.sendNotifButton);
+    I.waitForText('Claimant only', 10);
+  },
+
   submitDocumentForHearingClaimant() {
     I.waitForElement(this.startPreparingHearingDoc, 10);
     I.see('Prepare and submit documents for a hearing');
@@ -346,7 +362,7 @@ module.exports = {
     I.click(this.continueButton);
     I.waitForElement(this.uploadHearingFile, 10);
     I.see('Upload your file of documents');
-    I.attachFile(this.uploadHearingDocButton, '../et-xui-e2e-tests/test/data/welshTest.pdf');
+    I.attachFile(this.uploadHearingDocButton, 'test/data/welshTest.pdf');
     I.wait(3);
     I.click(this.uploadHearingFile);
     I.wait(3);

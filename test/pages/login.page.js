@@ -2,11 +2,11 @@ const { I } = inject();
 const axios = require('axios');
 const chance = require('chance').Chance();
 
-const testConfig = require('../../config');
+const testConfig = require('../../config.js');
 //const firstName = chance.first();
 //const lastName = chance.last();
 //const emailAddress = firstName+'.'+lastName+'@mail.com';
-const aatUrl = 'https://idam-api.aat.platform.hmcts.net/testing-support/accounts';
+const aatUrl = testConfig.IdamAcccountUrl;
 
 async function registerNewAccount() {
   try {
@@ -40,21 +40,20 @@ async function registerNewAccount() {
       lastName: idamResponse.data.surname,
     };
   } catch (error) {
-    console.error('Error:', error.message);
-    return null;
+    return error.message;
   }
 }
 
 async function processLoginWithNewAccount() {
   console.log(`${await registerNewAccount()}`);
   const { email } = await registerNewAccount();
-  I.waitForVisible('#username', 15);
+  I.waitForElement('#username', 20);
   console.log('.... checking email address:', email);
   I.fillField('#username', email);
   I.fillField('#password', testConfig.TestEnvETPassword);
   I.waitForElement('[type="submit"]', 10);
   I.forceClick('[type="submit"]');
-  I.wait(10);
+  I.wait(15);
 }
 
 async function processLoginOnXui(username, password) {

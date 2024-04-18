@@ -5,6 +5,8 @@ const workPostcode = 'LS7 4QE';
 const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
 const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
+const respondentName = 'Henry Marsh';
+
 Scenario(
   'Verify ET3 Notification Banner -For Acknowledgment of Claim',
   async ({
@@ -21,9 +23,9 @@ Scenario(
     et1CaseServingPages,
     citizenHubPages,
     et3NotificationPages,
+    legalRepNOCPages,
   }) => {
     I.amOnPage('/');
-    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
@@ -42,11 +44,28 @@ Scenario(
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     await caseListPage.verifyCaseDetailsPage();
-    await caseListPage.selectNextEvent('ET1 case vetting'); //Firing the ET1 Event.
+    //ET1 Vetting
+    await caseListPage.selectNextEvent('ET1 case vetting');
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
-    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
+    //Case acceptance or rejection Event
+    await caseListPage.selectNextEvent('Accept/Reject Case');
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    await caseListPage.selectNextEvent('9: Object'); //ET3NotificationEvent
+    // Send ET3Notification Event
+    const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
+    I.click('Sign out');
+    //NOC to assign a solicitor
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
+    I.click('Sign out');
+    I.wait(5);
+
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+    await caseListPage.processCaseFromCaseList(submissionReference);
+    await caseListPage.verifyCaseDetailsPage();
+    await caseListPage.selectNextEvent('ET3 notification'); //ET3NotificationEvent
     await et3NotificationPages.uploadET3acceptanceLetter('single document');
     I.click('Sign out');
     await citizenHubPages.processCitizenHubLogin(submissionReference);
@@ -56,5 +75,5 @@ Scenario(
   },
 )
   .tag('@nightly')
-  .tag('@postr1.2')
-  .retry(1);
+  .tag('@et3NotificationBanner');
+//.retry(1);
