@@ -1,4 +1,4 @@
-/* eslint-disable no-fallthrough */
+ 
 const { I } = inject();
 
 module.exports = {
