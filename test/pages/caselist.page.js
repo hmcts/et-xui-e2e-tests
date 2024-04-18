@@ -1,5 +1,5 @@
 const { I } = inject();
-const testConfig = require('../../config');
+const testConfig = require('../../config.js');
 
 module.exports = {
   caseListText: 'Case list',

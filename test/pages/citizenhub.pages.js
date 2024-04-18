@@ -1,4 +1,4 @@
-const testConfig = require('../../config');
+const testConfig = require('../../config.js');
 const { I } = inject();
 
 module.exports = {

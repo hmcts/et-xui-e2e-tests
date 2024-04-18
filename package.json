@@ -60,6 +60,5 @@
         "husky": "9.0.11",
         "webdriverio": "8.36.0"
     },
-    "type": "module",
     "packageManager": "yarn@3.8.1"
 }

@@ -3,6 +3,7 @@ export default [{
    globals: {
      'process': true
    },
+
    parserOptions: {
      ecmaVersion: 'latest',
      sourceType
@@ -15,7 +16,12 @@ export default [{
        }
    }
  },
-
+  files: ["*.js", "*.jsx"],
+  rules: {
+    // Rules only for JavaScript files
+    "no-unused-vars": "warn",
+    "no-console": "off"
+  },
 plugins: {
    prettier: {
      useTabs: true,
