@@ -40,17 +40,16 @@ Scenario(
      let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     //assign task
     await caseListPage.selectTab('tasks', submissionReference);
-    await workAllocationTaskPages.clickAssignToMeLink('Et1 Vetting');
-    //TODO- fix test
-    //await caseListPage.proceedtoWATaskPage();
+    await workAllocationTaskPages.clickAssignToMeLink('ET1 Vetting');
+
+    // await caseListPage.proceedtoWATaskPage();
     // await caseListPage.proceedToAvailableTask();
-    // await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, true);
-    // await workAllocationTaskPages.verifyTaskIsAvailable(submissionReference);
-    // //provide task ref
-    // await workAllocationTaskPages.clickAssignToMeLink;
-    // // vet the case
-    // await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
-    // //validate case not visible under all work tab
+     //TODO- need fix- how can we find a task from multiple search results
+     //await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, true);
+
+    // vet the case
+    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
+    // TODO- validate case not visible under all work tab
     // await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, false);
   },
 )
