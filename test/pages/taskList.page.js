@@ -11,6 +11,7 @@ module.exports = {
 
   //select continue on the /new-account-landing page
   newAccountLanding() {
+    I.wait(5);
     I.refreshPage();
     I.waitForElement(this.bodycontent, 30);
     I.see('You do not have to complete your claim in one go');

@@ -45,6 +45,7 @@ module.exports = {
     I.fillField('#dobDate-month', '01');
     I.fillField('#dobDate-year', '1989');
     I.click('Save and continue');
+    I.wait(5);
   },
   selectSexAndTitle() {
     //select sex and enter title
@@ -61,7 +62,7 @@ module.exports = {
     I.refreshPage();
     I.dontSeeElement('#address1');
     I.fillField('#addressEnterPostcode', postcode);
-    I.wait(2);
+    I.wait(20);
     I.click('Save and continue');
     I.waitForVisible('#addressAddressTypes', 30);
     I.see('Select an address');
