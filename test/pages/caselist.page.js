@@ -277,7 +277,8 @@ module.exports = {
     I.waitForElement(this.leadCase, 10);
     I.fillField(this.leadCase, caseRef);
     I.waitForElement(this.submitEventButton, 10);
-    I.forceClick(this.submitEventButton);
+    I.click(this.submitEventButton);
+    I.wait(10);
   },
 
   findCasewithRefNumber(submissionReference) {

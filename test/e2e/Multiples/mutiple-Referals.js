@@ -20,6 +20,7 @@ Scenario(
     caseListPage,
     et1CaseVettingPages,
     et1CaseServingPages,
+    referralPages,
   }) => {
     //case 1
     I.amOnPage('/');
@@ -87,6 +88,16 @@ Scenario(
     await caseListPage.assignLeadCase(caseNumber2);
     I.see('Multiple Number');
 
-    // 2) come to referrals Tab and create a referal and review /close the referral (send/update and close) (WIP)
+    // 2) come to referrals Tab and create a referal and review /close the referral (send/update and close)
+    await referralPages.submitAreferral(
+      testConfig.TestEnvETHearingJudgeUserEng,
+      'Judge',
+      'Test referral to a judge',
+      'Yes',
+      1,
+    );
+    I.click('[type="submit"]');
+    await referralPages.reviewReferral('Admin', testConfig.TestEnvETAdminUserEng);
+    I.click('Sign out');
   },
 ).tag('@MutiplesEnW');
