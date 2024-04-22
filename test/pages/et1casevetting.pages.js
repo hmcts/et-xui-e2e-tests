@@ -45,7 +45,7 @@ module.exports = {
 
   processBeforeYourStartPage(caseNumber) {
     this.verifyET1CasePageHeading(caseNumber);
-    I.waitForText('Before you start', 5);
+    I.waitForText('Before you start', 10);
     I.click(Continue);
   },
 

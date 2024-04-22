@@ -40,7 +40,7 @@ module.exports = {
     this.enterRespondentName();
     this.enterRespondentAddress(workPostcode, selectedWorkAddress);
     this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
-    this.selectNoToAcas();
+    this.selectYesToAcas();
     this.checkRespondentDetails();
     this.completeEmploymentAndRespondentDetails();
   },

@@ -23,7 +23,6 @@ Scenario(
     citizenHubPages,
   }) => {
     I.amOnPage('/');
-    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
@@ -80,14 +79,10 @@ Scenario(
     caseListPage,
     et1CaseVettingPages,
     et1CaseServingPages,
-    //citizenHubPages,
-    idamHelper,
   }) => {
     I.amOnPage('/');
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
-    await idamHelper.createCitizenAccount();
-    I.wait(5);
-    await loginPage.processLogin(testConfig.TestEnvETClaimantEmailAddress, testConfig.TestEnvETPassword);
+    await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney(
@@ -133,7 +128,6 @@ Scenario(
     respondentRepresentativePage,
   }) => {
     I.amOnPage('/');
-    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();

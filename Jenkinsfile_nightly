@@ -22,6 +22,7 @@ def secrets = [
     'et-${env}': [
         secret('et-citizen-4-username', 'TEST_CASE_USERNAME'),
         secret('et-claimant-password', 'TEST_CASE_PASSWORD'),
+        secret('idam-account-url', 'IDAM_ACCOUNT_URL'),
     ],
     'et-cos-${env}': [
         secret('et-caseworker-5-username', 'ET_CASEWORKER_USER_NAME'),

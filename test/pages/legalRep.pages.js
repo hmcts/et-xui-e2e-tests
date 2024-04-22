@@ -1,5 +1,5 @@
 const { I } = inject();
-const testConfig = require('../../config');
+const testConfig = require('../../config.js');
 
 module.exports = {
   applyButtonOnLegalRep: '.workbasket-filters-apply',
@@ -45,7 +45,7 @@ module.exports = {
   uploadBundleDocument: '#bundlesRespondentUploadFile',
   legalRepSubmit: '[type="submit"]',
   successfulmsgHeader: '.heading-h1',
-  hearingTabLegalRep: '//div[9]/div[@class="mat-tab-label-content"]',
+  hearingTabLegalRep: '//div[8]',
   closeAndReturnButton: '[type="submit"]',
   loadingSpinner: '.spinner-container',
   legalRepNotificationTab: '#mat-tab-label-0-6',
@@ -159,8 +159,7 @@ module.exports = {
   },
 
   async submitDocumentForHearingRespondent(agreement, whoseDocu, docuType) {
-    I.waitForElement(this.textHeader, 10);
-    I.see('Prepare and submit documents for a hearing');
+    I.waitForText('Prepare and submit documents for a hearing', 10);
     I.click(this.continueLegalRepButton);
     I.waitForInvisible(this.loadingSpinner, 10);
     I.waitForElement(this.prepareDocPageTwoHeader, 15);
