@@ -179,6 +179,7 @@ module.exports = {
     I.see('weeks or months? (optional)');
     I.checkOption('input[id=notice-type]');
     I.click('Save and continue');
+    I.wait(10);
   },
   //enter notice length on /notice-length page
   enterNoticePeriodLength() {
