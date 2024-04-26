@@ -52,6 +52,7 @@ exports.config = {
     globalSearchPages: './test/pages/globalsearch.pages.js',
     listHearingPages: './test/pages/listHearing.page.js',
     respondentEventPages: './test/pages/respondentEvents.page.js',
+    multipleNotificationPages: './test/pages/multipleNotification.pages.js',
   },
   restart: {
     enabled: true,
