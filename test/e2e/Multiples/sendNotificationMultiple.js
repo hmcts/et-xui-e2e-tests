@@ -98,7 +98,7 @@ Scenario(
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Scotland - Singles', submissionReference, respondentName, firstNameTwo, lastNameTwo);
+    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstNameTwo, lastNameTwo);
     // submit ET3 response form
     // create multiple with 2 cases
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
@@ -112,7 +112,7 @@ Scenario(
 
   },
 )
-  .tag('@multiNotificationScot')
+  .tag('@multiNotificationEng')
   .tag('@cLinkEW')
   .tag('@nightly');
 
@@ -131,6 +131,7 @@ Scenario(
            et1CaseVettingPages,
            et1CaseServingPages,
            legalRepNOCPages,
+           multipleNotificationPages
          }) => {
     //case 1
     I.amOnPage('/');
@@ -187,11 +188,18 @@ Scenario(
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
     await legalRepNOCPages.processNOC('Scotland - Singles', submissionReference, respondentName, firstName, lastName);
-    // create multiple
+    // create multiple with 2 cases
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.createMutipleCase('Eng/Wales - Multiples');
+    await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
+    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    // send notification for multiple
+    await multipleNotificationPages.sendNotificationMultiple('general correspondence', 'Parties from lead case and sub cases both')
 
 
   },
 )
-  .tag('@caseLink')
-  .tag('@cLinkScot')
-  .retry(1);
+  .tag('@multiNotificationScot')
+  .tag('@cLinkEW')
+  .tag('@nightly');
