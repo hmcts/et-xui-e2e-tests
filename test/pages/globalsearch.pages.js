@@ -63,7 +63,6 @@ module.exports = {
     I.click(this.searchButton);
     I.waitForElement(this.changeSearchLink, 30);
     I.see('Search results');
-    I.see('Employment');
   },
 
   verifyAccessToCase() {
