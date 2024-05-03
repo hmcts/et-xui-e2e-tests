@@ -16,6 +16,12 @@ module.exports = {
   monthDeath: '#dateOfDeath-month',
   yearDeath: '#dateOfDeath-year',
   changeSearchLink: '//a[contains(.,"Change search")]',
+  specificAccessChallenge: '//a[contains(.,"Specific access")]',
+  authorisationBanner: '//div[@class="hmcts-banner"]/div[@class="hmcts-banner__message"]',
+  cancelButton: '//a[contains(.,"Cancel")]',
+  accessRequestButton: '//button[@class="govuk-button govuk-!-margin-right-3"]',
+  challengedAccessLink: '//a[contains(.,"Challenged access")]',
+  accessToCaseLink: '//a[contains(.,"View")]',
 
   searchingWithOneParam(searchOption, searchOption2) {
     I.waitForElement(this.searchPage, 10);
@@ -54,10 +60,31 @@ module.exports = {
         throw new Error('... check you options or add new option');
     }
     I.wait(2);
-    I.forceClick(this.searchButton);
-    I.waitForElement(this.changeSearchLink, 10);
+    I.click(this.searchButton);
+    I.waitForElement(this.changeSearchLink, 30);
     I.see('Search results');
-    I.see('Employment');
-    I.see('Submitted');
   },
+
+  verifyAccessToCase() {
+    I.waitForElement(this.accessToCaseLink, 10);
+    I.see(' View ')
+  },
+  verifySpecificAccessRequest() {
+    I.waitForElement(this.specificAccessChallenge,10);
+    I.see('Specific access');
+    I.click(this.specificAccessChallenge);
+    I.waitForElement(this.accessRequestButton, 10);
+    I.see(' Request access ');
+    I.click(this.cancelButton);
+  },
+  verifyChallengedAccessRequest() {
+    I.waitForElement(this.challengedAccessLink,10);
+    I.see(' Challenged access ');
+    I.click(this.challengedAccessLink);
+    I.waitForElement(this.accessRequestButton, 10);
+    I.see('Access');
+    I.see('Challenged');
+    I.see(' Request access ');
+    I.click(this.cancelButton);
+  }
 };

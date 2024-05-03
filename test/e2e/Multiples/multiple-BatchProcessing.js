@@ -13,9 +13,9 @@ const scotWorkPostcode = 'EH45 9BU';
 const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
-Feature('End To End Test - Multiples ');
+Feature('End To End Test - Batch Updates Multiples');
 Scenario(
-  'Send Notification - Claimant Reply - Scotland',
+  'Batch Update Cases - Scotland',
   async ({
            I,
            basePage,
@@ -29,7 +29,7 @@ Scenario(
            et1CaseVettingPages,
            et1CaseServingPages,
            legalRepNOCPages,
-           multipleNotificationPages
+           multipleCaseBatchUpdatePage,
          }) => {
     //case 1
     I.amOnPage('/');
@@ -93,31 +93,25 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
-    let { firstNameTwo, lastNameTwo } = await et1CaseServingPages.getClaimantFirstName();
-    I.click('Sign out');
-    //NOC to assign a solicitor
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstNameTwo, lastNameTwo);
-    // submit ET3 response form
+
     // create multiple with 2 cases
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Eng/Wales - Multiples');
     await caseListPage.createMutiple('MultipleNotification', 'Leeds');
     await caseListPage.addTwoCases(caseNumber, caseNumber2);
-    // send notification for multiple
-    await multipleNotificationPages.sendNotificationMultiple('general correspondence', 'Parties from lead case and sub cases both')
-
+    // send batch update
+    await caseListPage.selectNextEvent('Batch Update Cases');
+    await multipleCaseBatchUpdatePage.sendBatchUpdate('Batch transfer of cases to another multiple or submultiple');
 
   },
 )
-  .tag('@multiNotificationEng')
-  .tag('@multiNotification')
+  .tag('@bathUpdatesEng')
+  .tag('@bathUpdates')
   .tag('@nightly');
 
 Scenario(
-  'Send Notification - Respondent Reply - England & Wales',
+  'Batch Updates - Update cases with details of a case - clearMultiple',
   async ({
            I,
            basePage,
@@ -130,8 +124,8 @@ Scenario(
            caseListPage,
            et1CaseVettingPages,
            et1CaseServingPages,
-           legalRepNOCPages,
-           multipleNotificationPages
+           uploadDocumentsMultiplePage,
+           multipleCaseBatchUpdatePage,
          }) => {
     //case 1
     I.amOnPage('/');
@@ -182,114 +176,23 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
-    let { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     I.click('Sign out');
-    //NOC to assign a solicitor
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Scotland - Singles', submissionReference, respondentName, firstName, lastName);
     // create multiple with 2 cases
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Eng/Wales - Multiples');
     await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
     await caseListPage.addTwoCases(caseNumber, caseNumber2);
-    // send notification for multiple
-    await multipleNotificationPages.sendNotificationMultiple('general correspondence', 'Parties from lead case and sub cases both')
-
-
-  },
-)
-  .tag('@multiNotificationScot')
-  .tag('@multiNotification')
-  .tag('@nightly');
-
-
-Scenario(
-  'Send Notification -Batch Processing - England & Wales',
-  async ({
-           I,
-           basePage,
-           loginPage,
-           taskListPage,
-           personalDetailsPage,
-           employmentAndRespondentDetailsPage,
-           claimDetailsPage,
-           submitClaimPage,
-           caseListPage,
-           et1CaseVettingPages,
-           et1CaseServingPages,
-           legalRepNOCPages,
-           multipleNotificationPages
-         }) => {
-    //case 1
-    I.amOnPage('/');
-    await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
-    await loginPage.processLoginWithNewAccount();
-    await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);
-    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
-      scotWorkPostcode,
-      scotSelectedWorkAddress,
-      scotFirstLineOfAddress,
-    );
-    await claimDetailsPage.processClaimDetails();
-    let submissionReference = await submitClaimPage.submitClaim();
-    I.click('Sign out');
-    // case 2
-    I.amOnPage('/', 20);
-    I.clearCookie();
-    I.refreshPage();
-    await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
-    await loginPage.processLoginWithNewAccount();
-    await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);
-    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
-      scotWorkPostcode,
-      scotSelectedWorkAddress,
-      scotFirstLineOfAddress,
-    );
-    await claimDetailsPage.processClaimDetails();
-    let submissionReference2 = await submitClaimPage.submitClaim();
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    console.log('The value of the Case Number ' + submissionReference);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
-    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    // case vetting
-    await caseListPage.selectNextEvent('ET1 case vetting');
-    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
-    // case acceptance
-    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
-    await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    // process case no 2
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference2);
-    let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
-    // case vetting
-    await caseListPage.selectNextEvent('ET1 case vetting');
-    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber2);
-    // case acceptance
-    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
-    await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
-    let { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
-    I.click('Sign out');
-    //NOC to assign a solicitor
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
-    // create multiple with 2 cases
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.createMutipleCase('Eng/Wales - Multiples');
-    await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
-    // send notification for multiple
-    await multipleNotificationPages.sendNotificationMultiple('general correspondence', 'Batch processing all parties');
-
+    //upload multiple documents
+    await caseListPage.selectNextEvent('Upload Document');
+    await uploadDocumentsMultiplePage.uploadDocumentOnMultiple('Response to a claim');
+    //Batch case update
+    await caseListPage.selectNextEvent('Batch Update Cases');
+    await multipleCaseBatchUpdatePage.bathUpdateCasesWithDetailsOfaCase(caseNumber);
 
   },
 )
-  .tag('@multiNotificationBatch')
-  .tag('@multiNotification')
+  .tag('@bathUpdatesScot')
+  .tag('@bathUpdates')
   .tag('@nightly');
 

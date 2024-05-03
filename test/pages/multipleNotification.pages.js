@@ -34,8 +34,9 @@ module.exports = {
   grantEccAccessCheckbx: '[id="sendNotificationEccQuestion-Provide parties with access to ECC case view"]',
   notificationConfirmationAlert: '//div[@class="alert-message"]',
   generalCorrespondence: '[for="sendNotificationSubject-Other (General correspondence)"]',
-
-
+  batchProcessingOption: '[id="sendNotificationNotify-Selected cases"]',
+  batchAllPartiesFromSelectedCases: '[id="sendNotificationNotifySelected-Both parties"]',
+  flag4OnNextPageBatchProcessing: '//select[@class="form-control ccd-dropdown bottom-30 ng-pristine ng-valid ng-touched"]',
 
 
   sendNotificationMultiple(notifType, notificationParty) {
@@ -119,6 +120,13 @@ module.exports = {
       case 'Parties from lead case and sub cases respondent':
         I.checkOption(this.partiesFromLeadAndSub);
         I.checkOption(this.allRespondentFromLeadAndSub);
+        break;
+      case 'Batch processing all parties':
+        I.checkOption(this.batchProcessingOption);
+        I.checkOption(this.batchAllPartiesFromSelectedCases);
+        I.click(this.ContinueButton);
+        I.waitForElement(this.flag4OnNextPageBatchProcessing, 10);
+        I.see('Submultiple Name');
         break;
       default:
         throw new Error('you must select either both, claimant or respondent only parties');

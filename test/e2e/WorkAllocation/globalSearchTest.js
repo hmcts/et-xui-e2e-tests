@@ -7,7 +7,8 @@ Scenario(
     let submissionReference = '1712162489211214';
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    globalSearchPages.searchingWithOneParam('submission reference', submissionReference);
+    await globalSearchPages.searchingWithOneParam('submission reference', submissionReference);
+    await globalSearchPages.verifyAccessToCase();
   },
 )
   .tag('@gsearch')
