@@ -72,7 +72,6 @@ module.exports = {
         I.fillField(this.officerName, 'Sharif');
         break;
       case 'ecc-notification':
-        I.checkOption(this.cmoCheckbox);
         I.checkOption(this.eccCheckbox);
         I.checkOption(this.eccNoticeOfClaimCheckbox);
         I.checkOption(this.responseRequiredYes);
