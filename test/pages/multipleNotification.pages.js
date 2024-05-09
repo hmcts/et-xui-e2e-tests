@@ -1,6 +1,7 @@
 const { I } = inject();
 
 module.exports = {
+  multipleNotificationLink: '//a[.="Send a notification"]',
   multipleNotificationTitle:'#sendNotificationTitle',
   partiesFromLeadCase: '[id="sendNotificationNotify-Lead case"]',
   allPartiesFromLeadCase: '[id="sendNotificationNotifyLeadCase-Both parties"]',
@@ -37,9 +38,14 @@ module.exports = {
   batchProcessingOption: '[id="sendNotificationNotify-Selected cases"]',
   batchAllPartiesFromSelectedCases: '[id="sendNotificationNotifySelected-Both parties"]',
   flag4OnNextPageBatchProcessing: '//select[@class="form-control ccd-dropdown bottom-30 ng-pristine ng-valid ng-touched"]',
+  extractPrevNotification: '//a[.="Extract notifications"]',
+  extractedSpreadSheet: '//a[contains(.,"notifications_extract.xlsx")]',
+  multipleNotificationsTab: '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Notifications"]',
 
 
   sendNotificationMultiple(notifType, notificationParty) {
+    I.waitForElement(this.multipleNotificationLink, 10)
+    I.click(this.multipleNotificationLink);
     I.waitForElement(this.multipleNotificationTitle, 10);
     I.see('Use this service to send a notification to parties within this multiple. You can do this by uploading standard letter documents.');
     I.see('You can send multiple letters in one notification');
@@ -144,6 +150,22 @@ module.exports = {
     I.waitForText('What happens next');
     I.click(this.ContinueButton);
     I.waitForElement(this.notificationConfirmationAlert, 15);
+  },
+
+  extractNotificationInExcel() {
+    I.waitForElement(this.extractPrevNotification, 10);
+    I.click(this.extractPrevNotification);
+    I.waitForElement(this.ContinueButton, 10);
+    I.see('Submit the notification extract request below.');
+    I.click(this.ContinueButton);
+    I.waitForText('Extract task submitted', 10);
+    I.click(this.CloseButton);
+    // click notificationbar
+    I.waitForElement(this.extractedSpreadSheet, 10)
   }
 
+
+
 };
+
+

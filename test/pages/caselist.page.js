@@ -405,7 +405,5 @@ module.exports = {
   selectMultipleNotificationsTab() {
     I.waitForElement(this.multipleNotificationsTab, 10);
     I.click(this.multipleNotificationsTab);
-    I.waitForElement(this.multipleNotificationLink, 10)
-    I.click(this.multipleNotificationLink);
   }
 };

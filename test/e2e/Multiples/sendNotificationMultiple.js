@@ -163,7 +163,7 @@ Scenario(
     await claimDetailsPage.processClaimDetails();
     let submissionReference2 = await submitClaimPage.submitClaim();
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalOpsUser, testConfig.TestEnvETLegalRepPassword);
     console.log('The value of the Case Number ' + submissionReference);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
@@ -284,9 +284,10 @@ Scenario(
     await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
     await caseListPage.addTwoCases(caseNumber, caseNumber2);
     // send notification for multiple
+    await caseListPage.selectMultipleNotificationsTab();
     await multipleNotificationPages.sendNotificationMultiple('general correspondence', 'Batch processing all parties');
-
-
+    await caseListPage.selectMultipleNotificationsTab();
+    await multipleNotificationPages.extractNotificationInExcel()
   },
 )
   .tag('@multiNotificationBatch')
