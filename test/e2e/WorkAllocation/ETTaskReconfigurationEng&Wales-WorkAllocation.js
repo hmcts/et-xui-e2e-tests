@@ -6,9 +6,9 @@ const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
 const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
 
-Feature('End To End; Work Allocation - Submit a Referral ');
+Feature('End To End; Work Allocation - Reconfiguration Tasks --EnW/Scotland via case Transfer  ');
 Scenario(
-  'Submit a case from England & wales - Case Admin Submit and Create ReviewReferralAdmin Task',
+  'Submit a case from England & wales - Case Admin Submit and Reconfiguration Tasks',
   async ({
     I,
     basePage,
@@ -23,6 +23,7 @@ Scenario(
     et1CaseServingPages,
     listHearingPages,
     workAllocationTaskPages,
+    caseTransferPage,
   }) => {
     I.amOnPage('/');
     await loginPage.registerNewAccount();
@@ -38,13 +39,13 @@ Scenario(
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
-    //let submissionReference = '1712911072970606';
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(
       testConfig.TestEnvAdminETManageCaseUser,
       testConfig.TestEnvAdminETManageCasePassword,
     );
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.processCaseFromCaseList(submissionReference);
     //vet the case
@@ -64,23 +65,12 @@ Scenario(
     await caseListPage.selectTab('tasks', submissionReference);
     await workAllocationTaskPages.clickAssignToLink('Draft And Sign Judgment', 'JUDICIAL');
     await workAllocationTaskPages.assignToAPerson('Owen Montes');
-
-    I.click('Sign out');
+    //Task Reconfiguration -- Transfer a case
+    await caseTransferPage.transferCase('Case Transfer (Scotland)', 'Test Transfer');
     I.refreshPage();
+    await caseListPage.proceedtoWATaskPage();
     I.wait(10);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUserEng, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
-    await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.selectTab('tasks', submissionReference);
-    // Issue Judgement
-    await workAllocationTaskPages.issueJudgeMent('Draft And Sign Judgment');
-
-    await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUserEng, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
-    await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.selectTab('tasks', submissionReference);
-    I.see('Issue Judgment', 10);
+    //check Location being Re-configured
+    I.see('Glasgow');
   },
-)
-  .tag('@issueJudgementEng')
-  .tag('@nightly');
+).tag('@nightly');
