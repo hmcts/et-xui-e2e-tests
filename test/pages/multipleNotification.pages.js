@@ -1,12 +1,15 @@
-//do it for wait for element, clicks, fill fields, select options
 const { I } = inject();
 
 module.exports = {
-  //SendANotificationHeading : '[aria-posinset="10"] > .mat-tab-label-content',
-  SendANotificationHeading: '.govuk-heading-l',
-  content_tab2: '[aria-posinset="10"] > .mat-tab-label-content',
-  Notificationtitle: '#sendNotificationTitle',
-  RadioBoxNo: '#sendNotificationLetter_No',
+  multipleNotificationTitle:'#sendNotificationTitle',
+  partiesFromLeadCase: '[id="sendNotificationNotify-Lead case"]',
+  allPartiesFromLeadCase: '[id="sendNotificationNotifyLeadCase-Both parties"]',
+  claimantFromLeadCase: '[id="sendNotificationNotifyLeadCase-Claimant only"]',
+  respondentFromLeadCase: '[id="sendNotificationNotifyLeadCase-Respondent only"]',
+  partiesFromLeadAndSub: '[id="sendNotificationNotify-Lead and sub cases"]',
+  allPartiesFromLeadAndSub: '[id="sendNotificationNotifyAll-Both parties"]',
+  allClaimantFromLeadAndSub: '[id="sendNotificationNotifyAll-Claimant only"]',
+  allRespondentFromLeadAndSub: '[id="sendNotificationNotifyAll-Respondent only"]',
   NotifCheckboxCMO: '[for="sendNotificationSubject-Case management orders / requests"]',
   cmoCheckbox: '[for="sendNotificationCaseManagement-Case management order"]',
   BothParties: '[for="sendNotificationNotify-Both parties"]',
@@ -30,22 +33,16 @@ module.exports = {
   rejectEccNoticeCheckbox: '[id="sendNotificationEccQuestion-Rejection of ECC response"]',
   grantEccAccessCheckbx: '[id="sendNotificationEccQuestion-Provide parties with access to ECC case view"]',
   notificationConfirmationAlert: '//div[@class="alert-message"]',
+  generalCorrespondence: '[for="sendNotificationSubject-Other (General correspondence)"]',
+  batchProcessingOption: '[id="sendNotificationNotify-Selected cases"]',
+  batchAllPartiesFromSelectedCases: '[id="sendNotificationNotifySelected-Both parties"]',
+  flag4OnNextPageBatchProcessing: '//select[@class="form-control ccd-dropdown bottom-30 ng-pristine ng-valid ng-touched"]',
 
-  sendNotificationLink(notifType, notificationParty) {
-    I.waitForElement(this.SendANotificationHeading, 20);
-    I.see('Case Number:');
-    I.see(
-      'Use this service to notify one or both parties about this case. You can do this by uploading standard letter documents.',
-    );
+
+  sendNotificationMultiple(notifType, notificationParty) {
+    I.waitForElement(this.multipleNotificationTitle, 10);
+    I.see('Use this service to send a notification to parties within this multiple. You can do this by uploading standard letter documents.');
     I.see('You can send multiple letters in one notification');
-    I.see('Enter notification title');
-    I.fillField('#sendNotificationTitle', 'Send Notification Title');
-    I.see('Is there a letter to send out?');
-    I.checkOption(this.RadioBoxNo);
-    I.see('Notification subject');
-    I.checkOption(this.NotifCheckboxCMO);
-    I.see('Is this a case management order or request?');
-
     switch (notifType) {
       case 'cmo both party to respond legal officer':
         I.checkOption(this.cmoCheckbox);
@@ -93,23 +90,43 @@ module.exports = {
         I.checkOption(this.eccCheckbox);
         I.checkOption(this.grantEccAccessCheckbx);
         break;
+      case 'general correspondence':
+        I.checkOption(this.generalCorrespondence);
+        break;
       default:
         throw new Error('there must be 2 options, either CMO or Request');
     }
-
-    I.fillField(this.officerName, 'Sharif');
-    I.fillField(this.additionalNotifInfoField, 'Testing');
-
-    I.see('Select the party or parties to notify');
     switch (notificationParty) {
-      case 'both':
-        I.checkOption(this.bothPartiesButton);
+      case 'All parties from lead case':
+        I.checkOption(this.partiesFromLeadCase)
+        I.checkOption(this.allPartiesFromLeadCase);
         break;
-      case 'claimant':
-        I.checkOption(this.claimantOnlyButton);
+      case 'Claimant from lead case':
+        I.checkOption(this.partiesFromLeadCase);
+        I.checkOption(this.claimantFromLeadCase);
         break;
-      case 'respondent':
-        I.checkOption(this.respondentOnlyButton);
+      case 'Respondent from lead case':
+        I.checkOption(this.partiesFromLeadCase);
+        I.checkOption(this.respondentFromLeadCase);
+        break;
+      case 'Parties from lead case and sub cases both':
+        I.checkOption(this.partiesFromLeadAndSub);
+        I.checkOption(this.allPartiesFromLeadAndSub);
+        break;
+      case 'Parties from lead case and sub cases claimant':
+        I.checkOption(this.partiesFromLeadAndSub);
+        I.checkOption(this.allClaimantFromLeadAndSub);
+        break;
+      case 'Parties from lead case and sub cases respondent':
+        I.checkOption(this.partiesFromLeadAndSub);
+        I.checkOption(this.allRespondentFromLeadAndSub);
+        break;
+      case 'Batch processing all parties':
+        I.checkOption(this.batchProcessingOption);
+        I.checkOption(this.batchAllPartiesFromSelectedCases);
+        I.click(this.ContinueButton);
+        I.waitForElement(this.flag4OnNextPageBatchProcessing, 10);
+        I.see('Submultiple Name');
         break;
       default:
         throw new Error('you must select either both, claimant or respondent only parties');
@@ -127,6 +144,6 @@ module.exports = {
     I.waitForText('What happens next');
     I.click(this.ContinueButton);
     I.waitForElement(this.notificationConfirmationAlert, 15);
-  },
+  }
 
 };

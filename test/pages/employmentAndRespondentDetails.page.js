@@ -1,5 +1,10 @@
 const { I } = inject();
 
+const today = new Date();
+const listDay = today.getDate() + 1;
+const listMonth = today.getMonth() + 1;
+const listYear = today.getFullYear() + 1;
+
 module.exports = {
   //still working for organisation/person scenario
   processStillWorkingJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
@@ -159,9 +164,9 @@ module.exports = {
   //enters notice period end date
   noticePeriodEndDate() {
     I.waitForVisible('#main-form', 5);
-    I.fillField('#notice-dates-day', '20');
-    I.fillField('#notice-dates-month', '04');
-    I.fillField('#notice-dates-year', '2024');
+    I.fillField('#notice-dates-day', listDay);
+    I.fillField('#notice-dates-month', listMonth);
+    I.fillField('#notice-dates-year', listYear);
     I.click('Save and continue');
   },
   //Enters employment end date dates

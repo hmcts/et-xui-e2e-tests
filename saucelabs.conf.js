@@ -45,6 +45,9 @@ exports.config = {
     caseLinkPages: './test/pages/caseLink.pages.js',
     caseFlagPages: './test/pages/caseFlag.pages.js',
     globalSearchPages: './test/pages/globalsearch.pages.js',
+    listHearingPages: './test/pages/listHearing.page.js',
+    respondentEventPages: './test/pages/respondentEvents.page.js',
+    multipleNotificationPages: './test/pages/multipleNotification.page.js',
   },
   bootstrap: null,
   mocha: {

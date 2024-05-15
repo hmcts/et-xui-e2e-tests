@@ -52,6 +52,9 @@ exports.config = {
     globalSearchPages: './test/pages/globalsearch.pages.js',
     listHearingPages: './test/pages/listHearing.page.js',
     respondentEventPages: './test/pages/respondentEvents.page.js',
+    multipleNotificationPages: './test/pages/multipleNotification.pages.js',
+    uploadDocumentsMultiplePage: './test/pages/multipleDocumentUpload.pages.js',
+    multipleCaseBatchUpdatePage: './test/pages/batchUpdate.pages.js',
     caseTransferPage: './test/pages/caseTransfer.pages.js',
   },
   restart: {

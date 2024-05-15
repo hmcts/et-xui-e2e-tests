@@ -78,6 +78,11 @@ module.exports = {
   secondaryButton: '.govuk-hint',
   mutipleName: '#multipleName',
   leadCase: '#leadCase',
+  multipleNotificationsTab: '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Notifications"]',
+  multipleNotificationLink: '//a[.="Send a notification"]',
+  addCaseNumberTwo: '//button[@class="button write-collection-add-item__top"]',
+  removeAdditionalCaseButton: '//button[.="Remove"]',
+  addCaseNumberTextField: '//ccd-write-complex-type-field[@class="ng-star-inserted"]//input[@class="form-control bottom-30 ng-pristine ng-valid ng-touched"]',
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -282,6 +287,18 @@ module.exports = {
     I.click(this.submitEventButton);
     I.wait(10);
   },
+  addTwoCases(leadcase, case2) {
+    I.wait(5);
+    I.see('Lead Case (Optional)');
+    I.waitForElement(this.leadCase, 10);
+    I.fillField(this.leadCase, leadcase);
+    I.click(this.addCaseNumberTwo);
+    I.waitForElement(this.removeAdditionalCaseButton, 10);
+    I.waitForElement(this.submitEventButton, 10);
+    I.fillField(this.addCaseNumberTextField, case2)
+    I.click(this.submitEventButton);
+    I.wait(10);
+  },
 
   findCasewithRefNumber(submissionReference) {
     I.fillField(this.findCaseWithRef, submissionReference);
@@ -384,4 +401,11 @@ module.exports = {
     I.click(this.confirmAllocationButton);
     I.wait(5);
   },
+
+  selectMultipleNotificationsTab() {
+    I.waitForElement(this.multipleNotificationsTab, 10);
+    I.click(this.multipleNotificationsTab);
+    I.waitForElement(this.multipleNotificationLink, 10)
+    I.click(this.multipleNotificationLink);
+  }
 };
