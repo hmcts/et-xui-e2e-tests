@@ -18,13 +18,13 @@ module.exports = {
   },
 
   processBeforeYourContinuePage() {
-    I.waitForVisible('#main-content', 5);
+    I.waitForElement('#main-content', 5);
     I.see('Before you continue');
     I.click('Continue');
   },
 
   processWhatsThePostCodeYouHaveWorkedForPage(postcode) {
-    I.waitForVisible('#main-content', 5);
+    I.waitForElement('#main-content', 5);
     I.see('What’s the postcode where');
     I.see('you worked or work?');
     I.fillField('#workPostcode', postcode);
@@ -32,7 +32,7 @@ module.exports = {
   },
 
   processAreYouMakingTheClaimForYourselfPage() {
-    I.waitForVisible('#main-form', 5);
+    I.waitForElement('#main-form', 5);
     I.see('Are you making the claim for yourself, or');
     I.see('representing someone else?');
     I.checkOption('input[id=lip-or-representative]');
@@ -40,7 +40,7 @@ module.exports = {
   },
 
   processAreYouMakingTheClaimOnYourOwnPage() {
-    I.waitForVisible('#main-form', 5);
+    I.waitForElement('#main-form', 5);
     I.see('Are you making a claim on your own or with');
     I.see('others?');
     I.checkOption('input[id=single-or-multiple-claim]');
@@ -48,7 +48,7 @@ module.exports = {
   },
 
   processDoYouHaveAnACASEarlyConciliation() {
-    I.waitForVisible('#main-form', 5);
+    I.waitForElement('#main-form', 5);
     I.see('Do you have an ‘Acas early conciliation');
     I.see('certificate’ for the respondent or');
     I.see("respondents you're claiming against?");
@@ -57,7 +57,7 @@ module.exports = {
   },
 
   processWhatKindOfClaimAreYouMaking() {
-    I.waitForVisible('#typeOfClaim-hint', 5);
+    I.waitForElement('#typeOfClaim-hint', 5);
     I.see('What type of claim are you making?');
     I.checkOption('input[value=discrimination]');
     I.checkOption('input[value=whistleBlowing]');

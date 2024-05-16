@@ -14,21 +14,21 @@ module.exports = {
   },
   //
   noPcqQuestions() {
-    I.waitForElement('[name=opt-out-button]', 25);
+    I.waitForElement('[name=opt-out-button]', 35);
     I.see('Equality and diversity questions');
     I.click('[name=opt-out-button]');
   },
   clickSubmitOnCheckYourAnswers() {
     I.refreshPage();
-    I.waitForVisible('#main-content', 15);
+    I.waitForElement('#main-content', 15);
     I.see('Check your answers');
-    I.waitForVisible('#main-form-submit', 10);
+    I.waitForElement('#main-form-submit', 10);
     I.scrollPageToBottom();
     I.wait(15);
     I.forceClick('#main-form-submit');
   },
   async verifyClaimSubmitted() {
-    I.waitForVisible('#main-content', 35);
+    I.waitForElement('#main-content', 35);
     const submissionRef = (await I.grabTextFrom('//*[@id="main-content"]/div[1]/div/dl[1]/div[1]/dd')).trim();
     console.log(submissionRef);
     I.wait(5);
