@@ -4697,8 +4697,8 @@ __metadata:
   linkType: hard
 
 "codeceptjs@npm:^3.6.2-beta.1":
-  version: 3.6.2-beta.1
-  resolution: "codeceptjs@npm:3.6.2-beta.1"
+  version: 3.6.2
+  resolution: "codeceptjs@npm:3.6.2"
   dependencies:
     "@codeceptjs/configure": 1.0.1
     "@codeceptjs/detox-helper": 1.0.5
@@ -4731,7 +4731,7 @@ __metadata:
     glob: 6.0.1
     html-minifier-terser: 7.2.0
     inquirer: 6.5.2
-    joi: 17.12.3
+    joi: 17.13.0
     js-beautify: 1.15.1
     lodash.clonedeep: 4.5.0
     lodash.merge: 4.6.2
@@ -4752,7 +4752,7 @@ __metadata:
       optional: true
   bin:
     codeceptjs: bin/codecept.js
-  checksum: f8483ffab6f87e1c2e65a73bd6b59fa804e8b2e9c2d63364faaea84fcbb00a9486d63b921b942042b1e4417a902fd2986ee3244894730f69ed634bf7694c54b3
+  checksum: bd7fcbd7de73612d2de6439f86869a3fb1ae462f080bfd9f54230a9c9f6edc9a4778304edad3a027671948b4de637a942c950c8406b3f0f85fc1498839a0ab59
   languageName: node
   linkType: hard
 
@@ -9783,7 +9783,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"joi@npm:17.12.3, joi@npm:^17.2.1":
+"joi@npm:17.13.0":
+  version: 17.13.0
+  resolution: "joi@npm:17.13.0"
+  dependencies:
+    "@hapi/hoek": ^9.3.0
+    "@hapi/topo": ^5.1.0
+    "@sideway/address": ^4.1.5
+    "@sideway/formula": ^3.0.1
+    "@sideway/pinpoint": ^2.0.0
+  checksum: ecde54b0705f21929939a72e958d96ba7dd2a6578ba7bf711c060f54b765a081dc67d09f7f4761a76cc4d659f6d880dca72287200801dc51485a350795131f84
+  languageName: node
+  linkType: hard
+
+"joi@npm:^17.2.1":
   version: 17.12.3
   resolution: "joi@npm:17.12.3"
   dependencies:
