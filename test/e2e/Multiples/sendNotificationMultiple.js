@@ -163,7 +163,7 @@ Scenario(
     await claimDetailsPage.processClaimDetails();
     let submissionReference2 = await submitClaimPage.submitClaim();
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalOpsUser, testConfig.TestEnvETLegalRepPassword);
     console.log('The value of the Case Number ' + submissionReference);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
@@ -200,10 +200,99 @@ Scenario(
 
   },
 )
-  .tag('@multiNotificationScot')
+  .tag('@multiNotificationEng')
   .tag('@multiNotification')
   .tag('@nightly');
 
+
+Scenario(
+  'Send Notification -Batch Processing - Scotland',
+  async ({
+           I,
+           basePage,
+           loginPage,
+           taskListPage,
+           personalDetailsPage,
+           employmentAndRespondentDetailsPage,
+           claimDetailsPage,
+           submitClaimPage,
+           caseListPage,
+           et1CaseVettingPages,
+           et1CaseServingPages,
+           legalRepNOCPages,
+           multipleNotificationPages
+         }) => {
+    //case 1
+    I.amOnPage('/');
+    await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
+    await loginPage.processLoginWithNewAccount();
+    await taskListPage.processPostLoginPagesForTheDraftApplication();
+    await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);
+    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
+      scotWorkPostcode,
+      scotSelectedWorkAddress,
+      scotFirstLineOfAddress,
+    );
+    await claimDetailsPage.processClaimDetails();
+    let submissionReference = await submitClaimPage.submitClaim();
+    I.click('Sign out');
+    // case 2
+    I.amOnPage('/', 20);
+    I.clearCookie();
+    I.refreshPage();
+    await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
+    await loginPage.processLoginWithNewAccount();
+    await taskListPage.processPostLoginPagesForTheDraftApplication();
+    await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);
+    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
+      scotWorkPostcode,
+      scotSelectedWorkAddress,
+      scotFirstLineOfAddress,
+    );
+    await claimDetailsPage.processClaimDetails();
+    let submissionReference2 = await submitClaimPage.submitClaim();
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    console.log('The value of the Case Number ' + submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
+    // case vetting
+    await caseListPage.selectNextEvent('ET1 case vetting');
+    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
+    // case acceptance
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
+    await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    // process case no 2
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference2);
+    let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
+    // case vetting
+    await caseListPage.selectNextEvent('ET1 case vetting');
+    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber2);
+    // case acceptance
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
+    await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
+    let { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
+    I.click('Sign out');
+    //NOC to assign a solicitor
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
+    // create multiple with 2 cases
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.createMutipleCase('Eng/Wales - Multiples');
+    await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
+    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    // send notification for multiple
+    await caseListPage.selectMultipleNotificationsTab();
+    await multipleNotificationPages.sendNotificationMultiple('general correspondence', 'Batch processing all parties');
+    await caseListPage.selectMultipleNotificationsTab();
+    await multipleNotificationPages.extractNotificationInExcel();
+  },
+)
+  .tag('@multiNotificationBatchScot')
+  .tag('@multiNotification')
+  .tag('@nightly');
 
 Scenario(
   'Send Notification -Batch Processing - England & Wales',
@@ -289,7 +378,6 @@ Scenario(
 
   },
 )
-  .tag('@multiNotificationBatch')
+  .tag('@multiNotificationBatchEng')
   .tag('@multiNotification')
   .tag('@nightly');
-

@@ -55,7 +55,9 @@ exports.config = {
     multipleNotificationPages: './test/pages/multipleNotification.pages.js',
     uploadDocumentsMultiplePage: './test/pages/multipleDocumentUpload.pages.js',
     multipleCaseBatchUpdatePage: './test/pages/batchUpdate.pages.js',
+    multipleCaseNotePage: './test/pages/caseNoteTitle.pages.js',
     caseTransferPage: './test/pages/caseTransfer.pages.js',
+
   },
   restart: {
     enabled: true,
