@@ -1,5 +1,3 @@
-const codeceptjsSaucelabs = require('codeceptjs-saucelabs');
-
 const testConfig = require('./config.js');
 
 exports.config = {
@@ -82,7 +80,6 @@ exports.config = {
   plugins: {
     saucelabs: {
       enabled: true,
-      require: codeceptjsSaucelabs,
       username: process.env.SAUCE_USERNAME,
       accessKey: process.env.SAUCE_ACCESS_KEY,
       hostname: 'ondemand.eu-central-1.saucelabs.com',
