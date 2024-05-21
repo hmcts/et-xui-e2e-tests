@@ -77,7 +77,7 @@ exports.config = {
     },
   },
   name: 'ET-E2E Test',
-  plugins: {
+  service: {
     saucelabs: {
       enabled: true,
       username: process.env.SAUCE_USERNAME,
@@ -111,15 +111,32 @@ exports.config = {
       ],
     },
     multiple: {
-      // microsoft: {
-      //     browsers: getBrowserConfig('microsoft')
-      // },
-      chrome: {
-        browsers: 'chromium',
+      profile1: {
+        browsers: [
+          {
+            browser: "firefox",
+            desiredCapabilties: {
+              // override capabilties related to firefox
+            }
+          },
+          {
+            browser: "chrome",
+            desiredCapabilties: {
+              // override capabilties related to chrome
+            }
+          }
+        ]
       },
-      firefox: {
-        browsers: 'firefox',
-      },
+      profile2: {
+        browsers: [
+          {
+            browser: "safari",
+            desiredCapabilties: {
+              // override capabilties related to safari
+            }
+          }
+        ]
+      }
     },
   },
 };
