@@ -3,11 +3,10 @@ export default [{
     globals: {
       'process': true
     },
-
     parserOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-    }
+    },
 },
 files: ["*.js", "*.jsx"],
   rules: {

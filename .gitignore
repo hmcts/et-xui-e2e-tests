@@ -24,7 +24,7 @@ public/
 coverage/
 functional-output/
 node_modules/*
-package-lock.json
+yarn.lock
 .vscode
 yarn-error.log
 .github/
