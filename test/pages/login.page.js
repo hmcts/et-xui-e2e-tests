@@ -45,8 +45,9 @@ async function registerNewAccount() {
 }
 
 async function processLoginWithNewAccount() {
-  console.log(`${await registerNewAccount()}`);
-  const { email } = await registerNewAccount();
+  //console.log(`${await registerNewAccount()}`);
+ // const { email } = await registerNewAccount();
+  const email='et1.citizen@hmcts.net';
   I.waitForElement('#username', 20);
   console.log('.... checking email address:', email);
   I.fillField('#username', email);
