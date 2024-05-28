@@ -2,6 +2,8 @@ const { setCommonPlugins } = require('@codeceptjs/configure');
 
 const testConfig = require('./config.js');
 
+require('./heal');
+
 // enable all common plugins https://github.com/codeceptjs/configure#setcommonplugins
 setCommonPlugins();
 
