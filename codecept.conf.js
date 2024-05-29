@@ -94,9 +94,16 @@ exports.config = {
   name: 'et-xui-e2e-tests',
 
   plugins: {
-    ai: {
-      model: 'gpt-3.5-turbo-16k',
-      temperature: 0.1,
+    aiAssistant: {
+      request: async (messages) => {
+        const OpenAI = require('openai');
+        const openai = new OpenAI({ apiKey: testConfig.TestApiKey });
+        const completion = await openai.chat.completions.create({
+          model: 'gpt-3.5-turbo-0125',
+          messages,
+        });
+        return completion?.choices[0]?.message?.content;
+      },
       html: {
         maxLength: 50000,
         simplify: true,
