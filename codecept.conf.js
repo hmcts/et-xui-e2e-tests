@@ -129,6 +129,7 @@ exports.config = {
         ],
         allowedRoles: ['button', 'checkbox', 'search', 'textbox', 'tab'],
       },
+    }
     },
     stepByStepReport: {
       enabled: false,
@@ -144,5 +145,4 @@ exports.config = {
     screenshotOnFail: {
       enabled: true,
     },
-  },
 };
