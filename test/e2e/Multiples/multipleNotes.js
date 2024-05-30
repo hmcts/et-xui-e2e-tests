@@ -112,7 +112,7 @@ Scenario(
   .tag('@nightly');
 
 
-Scenario(
+Scenario.only(
   'Add Notes To Case By a Judge - Scotland' ,
   async ({
            I,

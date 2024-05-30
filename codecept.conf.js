@@ -2,7 +2,10 @@ const { setCommonPlugins } = require('@codeceptjs/configure');
 
 const testConfig = require('./config.js');
 
-require('./heal');
+//const aiRequest = require('./aiRequest');
+
+const groq = require('groq-sdk');
+require('./heal')
 
 // enable all common plugins https://github.com/codeceptjs/configure#setcommonplugins
 setCommonPlugins();
@@ -26,6 +29,27 @@ exports.config = {
       endpoint: 'https://idam-api.aat.platform.hmcts.net/loginUser',
     },
   },
+  ai: {
+    enabled: true,
+  //   request: async (messages) => {
+  //          const OpenAI = require('openai');
+  //          const openai = new OpenAI({ apiKey: testConfig.TestApiKey });
+  //          const completion = await openai.chat.completions.create({
+  //            model: 'gpt-3.5-turbo-0125',
+  //            messages,
+  //          });
+  //         return completion?.choices[0]?.message?.content;
+  // }
+
+    request: async (messages) => {
+      const chatCompletion = await groq.chat.completions.create({
+        messages,
+        model: "Gemma-7b-It",
+      });
+      return chatCompletion.choices[0]?.message?.content || "";
+    }
+  },
+
   include: {
     I: './test/pages/steps_file.js',
     basePage: './test/pages/basepage.page.js',
@@ -94,50 +118,49 @@ exports.config = {
   name: 'et-xui-e2e-tests',
 
   plugins: {
-    aiAssistant: {
-      request: async (messages) => {
-        const OpenAI = require('openai');
-        const openai = new OpenAI({ apiKey: testConfig.TestApiKey });
-        const completion = await openai.chat.completions.create({
-          model: 'gpt-3.5-turbo-0125',
-          messages,
-        });
-        return completion?.choices[0]?.message?.content;
-      },
-      html: {
-        maxLength: 50000,
-        simplify: true,
-        minify: true,
-        interactiveElements: ['a', 'input', 'button', 'select', 'textarea', 'option'],
-        textElements: ['label', 'h1', 'h2'],
-        allowedAttrs: [
-          'id',
-          'for',
-          'class',
-          'name',
-          'type',
-          'value',
-          'tabindex',
-          'aria-labelledby',
-          'aria-label',
-          'label',
-          'placeholder',
-          'title',
-          'alt',
-          'src',
-          'role',
-        ],
-        allowedRoles: ['button', 'checkbox', 'search', 'textbox', 'tab'],
-      },
-    }
+    heal: {
+      enabled: true,
     },
+    // aiAssistant: {
+    //   request: async (messages) => {
+    //     const OpenAI = require('openai');
+    //     const openai = new OpenAI({ apiKey: testConfig.TestApiKey });
+    //     const completion = await openai.chat.completions.create({
+    //       model: 'gpt-3.5-turbo-0125',
+    //       messages,
+    //     });
+    //     return completion?.choices[0]?.message?.content;
+    //   },
+    //   html: {
+    //     maxLength: 50000,
+    //     simplify: true,
+    //     minify: true,
+    //     interactiveElements: ['a', 'input', 'button', 'select', 'textarea', 'option'],
+    //     textElements: ['label', 'h1', 'h2'],
+    //     allowedAttrs: [
+    //       'id',
+    //       'for',
+    //       'class',
+    //       'name',
+    //       'type',
+    //       'value',
+    //       'tabindex',
+    //       'aria-labelledby',
+    //       'aria-label',
+    //       'label',
+    //       'placeholder',
+    //       'title',
+    //       'alt',
+    //       'src',
+    //       'role',
+    //     ],
+    //     allowedRoles: ['button', 'checkbox', 'search', 'textbox', 'tab'],
+    //   },
+    // },
     stepByStepReport: {
       enabled: false,
       fullPageScreenshots: true,
       deleteSuccessful: false,
-    },
-    heal: {
-      enabled: true,
     },
     retryFailedStep: {
       enabled: false,
@@ -145,4 +168,5 @@ exports.config = {
     screenshotOnFail: {
       enabled: true,
     },
+  }
 };
