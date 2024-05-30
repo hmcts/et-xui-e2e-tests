@@ -7,6 +7,8 @@ module.exports = {
   TestsPathToRun: process.env.E2E_TEST_PATH || './**/*.js',
   TestReportFolder: process.env.E2E_OUTPUT_DIR || './functional-output/reports',
   TestEnvETClaimantEmailAddress: '',
+  TestApiKey : process.env.API_KEY || '',
+  TestEnvETCaseWorkerUser: process.env.TEST_CASE_USER_NAME || '',
   TestEnvETPassword: process.env.TEST_CASE_PASSWORD || '',
   TestEnvETManageCaseUser: process.env.ET_LEGAL_OPS_USER_NAME || '',
   TestEnvETManageCasePassword: process.env.ET_LEGAL_OPS_PASSWORD || '',

@@ -15,7 +15,7 @@ module.exports = {
   receiptDateYear: '#receiptDate-year',
   submissionReferenceLocator: '#feeGroupReference',
   respondentTextfield: '#respondent',
-  applyButton: '[aria-label="Apply filter"]',
+  applyButton: '//button[@class="button workbasket-filters-apply"]',
   resetButton: '[aria-label="Reset filter"]',
   nextEventDropdown: '#next-step',
   submitEventButton: '//button[@class="button"]',
@@ -122,7 +122,8 @@ module.exports = {
     I.click(this.submissionReferenceLocator);
     I.fillField(this.submissionReferenceLocator, submissionReference);
     I.wait(3);
-    I.forceClick(this.applyButton);
+    I.click(this.applyButton);
+    I.wait(5)
   },
 
   processCaseFromCaseList(submissionReference) {
@@ -131,7 +132,8 @@ module.exports = {
     let text = `/cases/case-details/${submissionReference}`;
     let caseNumber = I.grabTextFrom(`[href="${text}"]`);
     console.log('case number is' + caseNumber);
-    I.waitForElement(`[href="${text}"]`, 10);
+    I.waitForElement(`[href="${text}"]`, 20);
+    I.seeElement(`[href="${text}"]`);
     I.click(`[href="${text}"]`);
     return caseNumber;
   },
