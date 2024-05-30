@@ -8,7 +8,7 @@
     "license": "hmcts",
     "private": true,
     "scripts": {
-        "test:fullfunctional": "rm -rf coverage .nyc_output functional-output && nyc --reporter=html &&  DEBUG='codeceptjs:heal' && codeceptjs run  --ai -c codecept.conf.js --verbose --reporter mocha-multi --grep @nightly",
+        "test:fullfunctional": "rm -rf coverage functional-output && DEBUG='codeceptjs:heal' && codeceptjs run  --ai -c codecept.conf.js --verbose --reporter mocha-multi --grep @nightly",
         "test:local": "rm -rf functional-output &&  DEBUG='codeceptjs:heal' && codeceptjs run --ai -c codecept.conf.js --verbose --reporter mocha-multi",
         "parallel": "codeceptjs run --steps -c codecept.conf.js run-multiple parallel",
         "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
