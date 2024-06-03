@@ -121,19 +121,19 @@ module.exports = {
     I.waitForVisible(this.submissionReferenceLocator, 10);
     I.click(this.submissionReferenceLocator);
     I.fillField(this.submissionReferenceLocator, submissionReference);
-    I.wait(3);
+    I.scrollPageToBottom();
     I.click(this.applyButton);
     I.wait(5)
   },
 
   processCaseFromCaseList(submissionReference) {
-    I.scrollPageToBottom();
     // I.waitForElement('//button[contains(.,"Hide Filter")]', 30);
     let text = `/cases/case-details/${submissionReference}`;
-    let caseNumber = I.grabTextFrom(`[href="${text}"]`);
-    console.log('case number is' + caseNumber);
     I.waitForElement(`[href="${text}"]`, 20);
     I.seeElement(`[href="${text}"]`);
+    I.refreshPage();
+    let caseNumber = I.grabTextFrom(`[href="${text}"]`);
+    console.log('case number is' + caseNumber);
     I.click(`[href="${text}"]`);
     return caseNumber;
   },
