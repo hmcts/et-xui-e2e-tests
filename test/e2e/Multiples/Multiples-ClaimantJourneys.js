@@ -14,7 +14,7 @@ const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH
 const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
 Feature('End To End Test - Multiples ');
-Scenario.only(
+Scenario(
   'Multiples - Citizen UI - Case Lead - Scotland',
   async ({
            I,
