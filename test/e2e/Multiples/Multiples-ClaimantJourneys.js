@@ -207,7 +207,7 @@ Scenario(
 
 
 Scenario(
-  'Send Notification -Batch Processing - Scotland',
+  'Multiple -Claimant Journey - WIP - Scotland',
   async ({
            I,
            basePage,
@@ -293,10 +293,10 @@ Scenario(
 )
   .tag('@multiNotificationBatchScot')
   .tag('@multiNotification')
-  .tag('@nightly');
+  .tag('@wip');
 
 Scenario(
-  'Send Notification -Batch Processing - England & Wales',
+  'Claimant - England & Wales',
   async ({
            I,
            basePage,
@@ -381,4 +381,4 @@ Scenario(
 )
   .tag('@multiNotificationBatchEng')
   .tag('@multiNotification')
-  .tag('@nightly');
+  .tag('@wip');

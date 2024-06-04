@@ -280,5 +280,5 @@ Scenario(
 
   },
 )
-.tag('@bathUpdatesScot')
+.tag('@caseLeadFlagMul')
   .tag('@nightly');
