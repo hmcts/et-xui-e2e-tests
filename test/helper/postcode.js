@@ -23,16 +23,6 @@ module.exports = {
     I.click(this.findAddress);
     I.waitForElement(this.addressListDropdown,5);
     I.selectOption(this.addressListDropdown, addressOption);
-    I.see('Select an address');
-    I.see('Building and Street');
-    I.see('Address Line 2');
-    I.see('Address Line 3');
-    I.see('Town or City');
-    I.see('County');
-    I.see('Country');
-    I.see('Postcode/Zipcode');
-    I.click('Submit');
-    I.wait(10);
   },
 
   enterClaimantPostcode(postcode, addressOption) {
@@ -41,25 +31,18 @@ module.exports = {
     I.click(this.claimantFindAddressButton);
     I.waitForElement(this.claimantAddressListDropdown,5);
     I.selectOption(this.claimantAddressListDropdown, addressOption);
-    I.see('Select an address');
-    I.see('Building and Street');
-    I.see('Address Line 2');
-    I.see('Address Line 3');
-    I.see('Town or City');
-    I.see('County');
-    I.see('Country');
-    I.see('Postcode/Zipcode');
-    I.click('Continue');
-    I.wait(10);
   },
 
   enterRespPostcode(postcode, addressOption){
     I.see('Enter a UK postcode');
     I.fillField(this.respPostcode, postcode);
     I.click(this.restFindAddressButton);
-    I.waitForElement(this .respAddressListDropdown,5);
+    I.waitForElement(this.respAddressListDropdown,5);
     I.selectOption(this.respAddressListDropdown, addressOption);
-    I.see('Select an address');
+  },
+
+  postcodeValidation(buttonType){
+    I.waitForText('Select an address');
     I.see('Building and Street');
     I.see('Address Line 2');
     I.see('Address Line 3');
@@ -67,7 +50,11 @@ module.exports = {
     I.see('County');
     I.see('Country');
     I.see('Postcode/Zipcode');
-    I.click('Continue');
+    if(buttonType=='Submit'){
+      I.click('Submit');
+    } else {
+      I.click('Continue');
+    }
     I.wait(10);
   }
 };

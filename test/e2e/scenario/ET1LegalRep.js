@@ -18,6 +18,7 @@ Scenario(
     await caseListPage.claimantRepCreateCase('Employment','Eng/Wales - Singles');
     await et1CreateDraftClaim.claimantWorkLocation();
     await postcodeHelper.enterPostcode(postcode, addressOption);
+    await postcodeHelper.postcodeValidation('Submit');
 
     await et1CreateDraftClaim.et1Section1();
     await et1CreateDraftClaim.et1Section2();

@@ -50,6 +50,7 @@ module.exports = {
 
     I.waitForText('Claimant contact address', 10);
     postcodeHelper.enterClaimantPostcode('LS121AA','The Deli, 1 Whitehall Place, Leeds');
+    postcodeHelper.postcodeValidation('Continue');
 
     I.waitForText('Hearing format');
     I.checkOption('#representativeAttendHearing-Phone');
@@ -141,6 +142,7 @@ module.exports = {
 
     I.waitForText('Respondent address', 10);
     postcodeHelper.enterRespPostcode('LS121AA', ' 6 Whitehall Place, Leeds ');
+    postcodeHelper.postcodeValidation('Continue');
 
     I.waitForText('Claimant work address', 10);
     I.checkOption('#didClaimantWorkAtSameAddress_Yes');
