@@ -47,10 +47,10 @@ async function registerNewAccount() {
 async function processLoginWithNewAccount() {
   //console.log(`${await registerNewAccount()}`);
  // const { email } = await registerNewAccount();
-  const email='et1.citizen@hmcts.net';
+  //const email='et1.citizen@hmcts.net';
   I.waitForElement('#username', 20);
-  console.log('.... checking email address:', email);
-  I.fillField('#username', email);
+  console.log('.... checking email address:', testConfig.TestEnvETClaimantEmailAddress);
+  I.fillField('#username', testConfig.TestEnvETClaimantEmailAddress);
   I.fillField('#password', testConfig.TestEnvETPassword);
   I.waitForElement('[type="submit"]', 10);
   I.forceClick('[type="submit"]');

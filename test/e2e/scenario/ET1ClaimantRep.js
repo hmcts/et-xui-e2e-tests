@@ -19,8 +19,10 @@ Scenario(
     await et1CreateDraftClaim.claimantWorkLocation();
     await postcodeHelper.enterPostcode(postcode, addressOption);
 
-    await et1CreateDraftClaim.et1Claim();
-
+    await et1CreateDraftClaim.et1Section1();
+    await et1CreateDraftClaim.et1Section2();
+    await et1CreateDraftClaim.et1Section3();
+    await et1CreateDraftClaim.et1SubmitClaim();
 
   },
 ).tag('@nk');
