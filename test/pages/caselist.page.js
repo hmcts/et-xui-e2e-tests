@@ -83,6 +83,9 @@ module.exports = {
   addCaseNumberTwo: '//button[@class="button write-collection-add-item__top"]',
   removeAdditionalCaseButton: '//button[.="Remove"]',
   addCaseNumberTextField: '//ccd-write-complex-type-field[@class="ng-star-inserted"]//input[@class="form-control bottom-30 ng-pristine ng-valid ng-touched"]',
+  jurisdictionDropdownLR: '#cc-jurisdiction',
+  casetypeDropdownLR: '#cc-case-type',
+  eventLR: '#cc-event',
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -407,5 +410,15 @@ module.exports = {
   selectMultipleNotificationsTab() {
     I.waitForElement(this.multipleNotificationsTab, 10);
     I.click(this.multipleNotificationsTab);
+  },
+
+  claimantRepCreateCase(jurisdiction, caseType) {
+    I.wait(10);
+    I.click(this.createCaseLink);
+    I.selectOption(this.jurisdictionDropdownLR, jurisdiction);
+    I.selectOption(this.casetypeDropdownLR, caseType);
+    I.selectOption(this.eventLR, 'Create draft claim');
+    I.waitForElement(this.submitEventButton, 10);
+    I.click(this.submitEventButton);
   }
 };
