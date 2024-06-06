@@ -6,7 +6,7 @@ const addressOption = ' Office 1 9 East Parade, Leeds';
 
 Feature('End To End Tests For an ET1 claimant Representative makes a claim in Manage Case application');
 Scenario(
-  'Claimant creates a claim (England and Wales - Singles) and submit',
+  'Claimant Representative creates a claim (England and Wales - Singles) and submit',
   async ({
            I,
            loginPage,
