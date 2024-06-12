@@ -120,10 +120,10 @@ module.exports = {
     }
     I.wait(5);
     I.scrollPageToBottom();
-    I.waitForVisible(this.submissionReferenceLocator, 10);
+    I.waitForElement(this.submissionReferenceLocator, 10);
     I.click(this.submissionReferenceLocator);
     I.fillField(this.submissionReferenceLocator, submissionReference);
-    I.scrollPageToBottom();
+    //I.scrollPageToBottom();
     I.click(this.applyButton);
     I.wait(5)
   },
