@@ -173,7 +173,7 @@ module.exports = {
     I.click(this.submitButton);
   },
 
-  checkYourAnswersAndSybmit() {
+  checkYourAnswersAndSubmit() {
     I.see('Check your answers');
     I.click(this.submitButton);
   },

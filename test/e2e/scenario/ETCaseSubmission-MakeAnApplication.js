@@ -77,7 +77,7 @@ Scenario(
     await makeanApplicationPage.selectApplicationType('Amend response');
     await makeanApplicationPage.amendResponse('Amend response');
     await makeanApplicationPage.copyCorrespondance();
-    await makeanApplicationPage.checkYourAnswersAndSybmit();
+    await makeanApplicationPage.checkYourAnswersAndSubmit();
     await makeanApplicationPage.closeAndReturnToCaseDetails();
     I.click('Sign out');
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
@@ -91,7 +91,7 @@ Scenario(
     await makeanApplicationPage.selectcaseManagementOrder('Legal officer');
     await makeanApplicationPage.selectResponseTotribunal('No');
     await makeanApplicationPage.submitApplication();
-    await makeanApplicationPage.checkYourAnswersAndSybmit();
+    await makeanApplicationPage.checkYourAnswersAndSubmit();
     await makeanApplicationPage.closeAndReturnToCaseDetails();
 
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....

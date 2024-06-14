@@ -29,7 +29,6 @@ Scenario(
            et1CaseVettingPages,
            et1CaseServingPages,
            legalRepNOCPages,
-           multipleCaseBatchUpdatePage,
            multipleCaseNotePage,
          }) => {
     //case 1
@@ -206,4 +205,105 @@ Scenario(
 )
   .tag('@notesJudge')
   .tag('@notes')
+  .tag('@nightly');
+
+Scenario(
+  'Upload Document And Grant Access to all parties - Scotland' ,
+  async ({
+           I,
+           basePage,
+           loginPage,
+           taskListPage,
+           personalDetailsPage,
+           employmentAndRespondentDetailsPage,
+           claimDetailsPage,
+           submitClaimPage,
+           caseListPage,
+           et1CaseVettingPages,
+           et1CaseServingPages,
+           legalRepNOCPages,
+           uploadDocumentsMultiplePage,
+           multipleDocumentAccessPage
+         }) => {
+    //case 1
+    I.amOnPage('/');
+    await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
+    await loginPage.processLoginWithNewAccount();
+    await taskListPage.processPostLoginPagesForTheDraftApplication();
+    await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);
+    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
+      scotWorkPostcode,
+      scotSelectedWorkAddress,
+      scotFirstLineOfAddress,
+    );
+    await claimDetailsPage.processClaimDetails();
+    let submissionReference = await submitClaimPage.submitClaim();
+    I.click('Sign out');
+    // case 2
+    I.amOnPage('/', 20);
+    I.clearCookie();
+    I.refreshPage();
+    await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
+    await loginPage.processLoginWithNewAccount();
+    await taskListPage.processPostLoginPagesForTheDraftApplication();
+    await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);
+    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
+      scotWorkPostcode,
+      scotSelectedWorkAddress,
+      scotFirstLineOfAddress,
+    );
+    await claimDetailsPage.processClaimDetails();
+    let submissionReference2 = await submitClaimPage.submitClaim();
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalOpsUser, testConfig.TestEnvETManageCasePassword);
+    console.log('The value of the Case Number ' + submissionReference);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
+    // case vetting
+    await caseListPage.selectNextEvent('ET1 case vetting');
+    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
+    // case acceptance
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
+    await et1CaseServingPages.processET1CaseServingPages(caseNumber);
+    // process case no 2
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference2);
+    let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
+    // case vetting
+    await caseListPage.selectNextEvent('ET1 case vetting');
+    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber2);
+    // case acceptance
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
+    // await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
+    // let { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
+    // I.click('Sign out');
+    // //NOC to assign a solicitor
+    // I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    // await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    // await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
+    // // create multiple with 2 cases
+    // I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    // await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    // await caseListPage.createMutipleCase('Eng/Wales - Multiples');
+    // await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
+    // await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    // //get multiple url
+    // const multipleUrl = await I.grabCurrentUrl();
+    // I.click('Sign out');
+    // // add a case note to multiple
+    // I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    // await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUserScot, testConfig.TestEnvETManageCasePassword);
+    // // go to url for multiple
+    // I.amOnPage(multipleUrl);
+    // Add a document to multiple
+    await caseListPage.selectNextEvent('Upload Document');
+    await uploadDocumentsMultiplePage.uploadDocumentOnMultiple('Starting a Claim')
+
+    // Grant access to both claimant and respondent
+    await caseListPage.selectNextEvent('Document Access');
+    await multipleDocumentAccessPage.grantAccessToDucment('Both');
+
+  },
+)
+  .tag('@uploadDocumentScot')
+  .tag('@docUpload')
   .tag('@nightly');

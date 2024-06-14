@@ -63,7 +63,6 @@ Scenario(
     await caseListPage.selectNextEvent('Submit ET3 Form');
     await legalRepNOCPages.submitET3ResponseForm();
     I.click('Sign out');
-    I.click('Sign out');
     // await citizenHubPages.processCitizenHubLogin(
     //   testConfig.TestEnvETUser,
     //   testConfig.TestEnvETPassword,

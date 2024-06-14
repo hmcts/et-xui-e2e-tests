@@ -83,6 +83,8 @@ module.exports = {
   addCaseNumberTwo: '//button[@class="button write-collection-add-item__top"]',
   removeAdditionalCaseButton: '//button[.="Remove"]',
   addCaseNumberTextField: '//ccd-write-complex-type-field[@class="ng-star-inserted"]//input[@class="form-control bottom-30 ng-pristine ng-valid ng-touched"]',
+  hyperlinkToMultipleCase: '#multipleLeadClaim [target="_blank"]',
+  multipleReference: '#multipleReference',
   jurisdictionDropdownLR: '#cc-jurisdiction',
   casetypeDropdownLR: '#cc-case-type',
   eventLR: '#cc-event',
@@ -121,22 +123,22 @@ module.exports = {
     }
     I.wait(5);
     I.scrollPageToBottom();
-    I.waitForVisible(this.submissionReferenceLocator, 10);
+    I.waitForElement(this.submissionReferenceLocator, 10);
     I.click(this.submissionReferenceLocator);
     I.fillField(this.submissionReferenceLocator, submissionReference);
-    I.wait(3);
+    //I.scrollPageToBottom();
     I.click(this.applyButton);
     I.wait(5)
   },
 
   processCaseFromCaseList(submissionReference) {
-    I.scrollPageToBottom();
     // I.waitForElement('//button[contains(.,"Hide Filter")]', 30);
     let text = `/cases/case-details/${submissionReference}`;
-    let caseNumber = I.grabTextFrom(`[href="${text}"]`);
-    console.log('case number is' + caseNumber);
     I.waitForElement(`[href="${text}"]`, 20);
     I.seeElement(`[href="${text}"]`);
+    I.refreshPage();
+    let caseNumber = I.grabTextFrom(`[href="${text}"]`);
+    console.log('case number is' + caseNumber);
     I.click(`[href="${text}"]`);
     return caseNumber;
   },
@@ -410,6 +412,45 @@ module.exports = {
   selectMultipleNotificationsTab() {
     I.waitForElement(this.multipleNotificationsTab, 10);
     I.click(this.multipleNotificationsTab);
+  },
+
+
+  getMultiplecaseNumber() {
+    I.waitForElement(this.hyperlinkToMultipleCase, 10);
+    return I.grabTextFrom(this.hyperlinkToMultipleCase);
+  },
+  searchMultipleCaseWithCaseNumber(option, caseNumberForMultiple) {
+    I.refreshPage();
+    I.waitForElement(this.caseListLink, 20);
+    I.click(this.caseListLink);
+    I.waitForElement(this.caseTypeDropdown, 30);
+    I.refreshPage();
+    I.wait(5);
+    I.waitForElement(this.caseTypeDropdown, 25);
+    I.see(this.caseListText);
+    I.wait(5);
+    try {
+      switch (option) {
+        case 'Eng/Wales - Multiples':
+          I.selectOption(this.caseTypeDropdown, 'Eng/Wales - Multiples');
+          break;
+        case 'Scotland - Multiples (RET)':
+          I.selectOption(this.caseTypeDropdown, 'Scotland - Multiples (RET)');
+          break;
+        default:
+          throw new Error('... check you options or add new option');
+      }
+    } catch (error) {
+      console.error('invalid option', error.message);
+    }
+    I.wait(5);
+    I.scrollPageToBottom();
+    I.waitForVisible(this.submissionReferenceLocator, 10);
+    I.click(this.multipleReference);
+    I.fillField(this.multipleReference,caseNumberForMultiple );
+    I.scrollPageToBottom();
+    I.click(this.applyButton);
+    I.wait(5)
   },
 
   claimantRepCreateCase(jurisdiction, caseType) {
