@@ -426,6 +426,7 @@ module.exports = {
     I.click(this.multipleNotificationsTab);
   },
 
+
   getMultiplecaseNumber() {
     I.waitForElement(this.hyperlinkToMultipleCase, 10);
     return I.grabTextFrom(this.hyperlinkToMultipleCase);

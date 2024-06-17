@@ -84,6 +84,7 @@ exports.config = {
     multipleCaseBatchUpdatePage: './test/pages/batchUpdate.pages.js',
     multipleCaseNotePage: './test/pages/caseNoteTitle.pages.js',
     caseTransferPage: './test/pages/caseTransfer.pages.js',
+    et1CreateDraftClaim: './test/pages/et1CreateDraftClaim.js'
 
   },
   restart: {
