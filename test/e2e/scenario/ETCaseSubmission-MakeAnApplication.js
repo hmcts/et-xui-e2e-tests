@@ -13,8 +13,6 @@ const scotWorkPostcode = 'EH45 9BU';
 const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 const respondentName = 'Henry Marsh';
-const ClaimantFirstName = 'etAutoesting';
-const ClaimantLastName = 'Manual';
 
 Feature('End To End Tests For an ET Case Submitted in the sya Front end and processed in the Manage Case Application');
 Scenario(

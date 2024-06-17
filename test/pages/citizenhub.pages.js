@@ -270,7 +270,7 @@ module.exports = {
     I.see('Case overview');
   },
 
-  verifySendNotification() {
+  respondToSendNotification() {
     //I.waitForElement(this.veiwResponseLink, 10);
     I.see('The tribunal requires some information from you.');
     I.scrollTo(this.notificationLink);
