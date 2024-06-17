@@ -8,6 +8,13 @@ module.exports = {
   statusAfterView: '//strong[contains(.,"Viewed")]',
   welshToggle: '//a[.="Cymraeg"]',
   linkToAttachedDocument: '[class="govuk-link"]',
+  linkToReplyRespondentApplications: '//a[contains(.,"Respondent\'s applications")]',
+  respondButton: '#respond-button',
+  responseTextElement: '.govuk-label--m',
+  providingMaterialYes: '#supporting-material-yes-no',
+  addTextToResponse: '#respond-to-application-text',
+  supportingMaterialAttachment: '#supportingMaterialFile',
+  uploadButton: '#upload',
   contactTribunalAboutMyCase: '[href="/contact-the-tribunal"]',
   linkToET3Response: '[href="/case-document/response-from-respondent"]',
   contactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=en"]',
@@ -379,4 +386,27 @@ module.exports = {
     );
     I.click(this.closeAndReturnButton);
   },
+
+  claimantReplyToRespondApplication(app_type) {
+    I.waitForElement(this.linkToReplyRespondentApplications, 10);
+    I.click(this.linkToReplyRespondentApplications);
+    const appToRep = `//tbody[@class='govuk-table__body']/tr[1]//a[contains(.,"${app_type}")]`;
+    console.log(appToRep);
+    I.click(appToRep);
+    I.waitForElement(this.respondButton, 10);
+    I.click(this.respondButton);
+    I.waitForElement(this.responseTextElement, 10);
+    I.see('What\'s your response to the application?');
+    I.fillField(this.responseTextElement, 'Testing Claimant Response to LR');
+    I.checkOption(this.providingMaterialYes);
+    I.click(this.continueButton);
+    I.waitForElement(this.supportingMaterialAttachment,10);
+    I.see('Provide supporting material');
+    I.attachFile(this.supportingMaterialAttachment, 'test/data/welshTest.pdf');
+    I.wait(2);
+    I.click(this.uploadButton);
+    I.waitForText('Remove', 10);
+    I.click(this.continueButton);
+
+  }
 };

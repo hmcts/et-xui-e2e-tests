@@ -85,6 +85,9 @@ module.exports = {
   addCaseNumberTextField: '//ccd-write-complex-type-field[@class="ng-star-inserted"]//input[@class="form-control bottom-30 ng-pristine ng-valid ng-touched"]',
   hyperlinkToMultipleCase: '#multipleLeadClaim [target="_blank"]',
   multipleReference: '#multipleReference',
+  jurisdictionDropdownLR: '#cc-jurisdiction',
+  casetypeDropdownLR: '#cc-case-type',
+  eventLR: '#cc-event',
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -139,6 +142,18 @@ module.exports = {
     I.click(`[href="${text}"]`);
     return caseNumber;
   },
+
+  // processCaseFromCaseList(submissionReference) {
+  //   // I.waitForElement('//button[contains(.,"Hide Filter")]', 30);
+  //   let text = `/cases/case-details/${submissionReference}`;
+  //   I.waitForElement(`[href="${text}"]`, 20);
+  //   I.seeElement(`[href="${text}"]`);
+  //   I.refreshPage();
+  //   let caseNumber = I.grabTextFrom(`'[href="${text}"]'`);
+  //   console.log('case number is' + caseNumber);
+  //   I.click(`[href="${text}"]`);
+  //   return caseNumber;
+  // },
 
   selectNextEvent(option) {
     I.waitForElement(this.nextEventDropdown, 15);
@@ -447,5 +462,15 @@ module.exports = {
     I.scrollPageToBottom();
     I.click(this.applyButton);
     I.wait(5)
+  },
+
+  claimantRepCreateCase(jurisdiction, caseType) {
+    I.wait(10);
+    I.click(this.createCaseLink);
+    I.selectOption(this.jurisdictionDropdownLR, jurisdiction);
+    I.selectOption(this.casetypeDropdownLR, caseType);
+    I.selectOption(this.eventLR, 'Create draft claim');
+    I.waitForElement(this.submitEventButton, 10);
+    I.click(this.submitEventButton);
   }
 };

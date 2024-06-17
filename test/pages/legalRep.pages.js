@@ -118,7 +118,7 @@ module.exports = {
     //I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
     I.wait(3);
-    I.click(this.applyButton);
+    await I.click(this.applyButton);
   },
 
   async processNOC(option, submissionReference, respondentName, ClaimantFirstName, ClaimantLastName) {

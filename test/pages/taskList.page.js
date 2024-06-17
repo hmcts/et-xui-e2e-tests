@@ -11,14 +11,13 @@ module.exports = {
 
   //select continue on the /new-account-landing page
   newAccountLanding() {
-    I.refreshPage();
-    I.waitForElement(this.bodycontent, 30);
-    I.see('You do not have to complete your claim in one go');
-    I.forceClick(this.continueButton);
+    I.waitForText('You do not have to complete your claim in one go', 30);
+    I.click(this.continueButton);
   },
 
   //Verify Steps to making your claim page
   stepsToMakeClaim() {
+    I.refreshPage();
     I.waitForText('Steps to making your claim', 10);
     I.see('Steps to making your claim');
   },

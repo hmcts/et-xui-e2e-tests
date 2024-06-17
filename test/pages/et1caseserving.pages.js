@@ -36,10 +36,9 @@ module.exports = {
     };
   },
 
-  processAcceptRejectCase(caseNumber) {
+  processAcceptRejectCase() {
     I.waitForElement('.govuk-heading-l', 25);
     I.waitForText('Accept/Reject Case', 10);
-    I.see('Case Number: ' + caseNumber);
     I.checkOption(this.locators.pre_accept_case_yes_option);
     I.waitForElement(this.locators.date_accepted_day, 5);
     I.fillField(this.locators.date_accepted_day, today.getDate());
@@ -49,8 +48,6 @@ module.exports = {
     I.forceClick('[type="submit"]');
     I.wait(2);
     I.forceClick('[type="submit"]');
-    //I.waitForElement('[class="alert-message"]', 15);
-    // The notification is no longer there and it takes around 12 sec for the page to load
     I.wait(15);
   },
 };
