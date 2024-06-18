@@ -123,8 +123,8 @@ Scenario( 'Verify Send Notification Event by Caseworker Outside Application - Re
   await sendNotificationPages.sendNotificationLink('request claimant respond to caseworker', 'claimant');
   // claimant reply to notification
   await citizenHubPages.processCitizenHubLogin(submissionReference);
-  pause();
   await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
+  await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
   await citizenHubPages.respondToSendNotification();
 
 })

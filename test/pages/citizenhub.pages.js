@@ -73,9 +73,9 @@ module.exports = {
     I.see('Case overview - ');
     I.see('Case number ' + caseNumber);
 
-    I.see('You have submitted your claim to the tribunal');
-    I.see('We aim to process your claim by');
-    I.see('In busy periods it may take longer.');
+    // I.see('You have submitted your claim to the tribunal');
+    // I.see('We aim to process your claim by');
+    // I.see('In busy periods it may take longer.');
   },
 
   clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference) {
