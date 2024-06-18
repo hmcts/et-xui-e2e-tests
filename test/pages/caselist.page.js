@@ -143,7 +143,7 @@ module.exports = {
     I.click(`[href="${text}"]`);
     return caseNumber;
   },
-  
+
   selectNextEvent(option) {
     I.waitForElement(this.nextEventDropdown, 15);
     I.selectOption(this.nextEventDropdown, option);
