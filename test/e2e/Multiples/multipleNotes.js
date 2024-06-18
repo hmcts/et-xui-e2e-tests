@@ -127,7 +127,7 @@ Scenario(
            et1CaseVettingPages,
            et1CaseServingPages,
            legalRepNOCPages,
-           multipleNotificationPages
+           multipleCaseNotePage
          }) => {
     //case 1
     I.amOnPage('/');
@@ -159,10 +159,10 @@ Scenario(
     await claimDetailsPage.processClaimDetails();
     let submissionReference2 = await submitClaimPage.submitClaim();
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalOpsUser, testConfig.TestEnvETManageCasePassword);
     console.log('The value of the Case Number ' + submissionReference);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
-    let caseNumber = await caseListPage.getCaseNumber(submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     // case vetting
     await caseListPage.selectNextEvent('ET1 case vetting');
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
@@ -171,7 +171,7 @@ Scenario(
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     // process case no 2
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference2);
-    let caseNumber2 = await caseListPage.getCaseNumber(submissionReference2);
+    let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
     // case vetting
     await caseListPage.selectNextEvent('ET1 case vetting');
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber2);
@@ -183,11 +183,11 @@ Scenario(
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
+    await legalRepNOCPages.processNOC('Scotland - Singles', submissionReference, respondentName, firstName, lastName);
     // create multiple with 2 cases
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.createMutipleCase('Eng/Wales - Multiples');
+    await caseListPage.createMutipleCase('Scotland - Multiples (RET)');
     await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
     await caseListPage.addTwoCases(caseNumber, caseNumber2);
     //get multiple url
@@ -198,10 +198,11 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUserScot, testConfig.TestEnvETManageCasePassword);
     // go to url for multiple
     I.amOnPage(multipleUrl);
-    // Add a note as a legal officer
+    // Add a note as a judge
     await caseListPage.selectNextEvent('Case: Add note');
     await multipleCaseNotePage.addNoteToMultiple();
     await multipleCaseNotePage.verifyAddedNoteIsVisible();
+
   },
 )
   .tag('@notesJudge')
@@ -279,11 +280,11 @@ Scenario(
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
+    await legalRepNOCPages.processNOC('Scotland - Singles', submissionReference, respondentName, firstName, lastName);
     // create multiple with 2 cases
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.createMutipleCase('Eng/Wales - Multiples');
+    await caseListPage.createMutipleCase('Scotland - Multiples (RET)');
     await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
     await caseListPage.addTwoCases(caseNumber, caseNumber2);
     //get multiple url

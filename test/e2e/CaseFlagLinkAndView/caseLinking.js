@@ -93,7 +93,7 @@ Scenario(
 )
   .tag('@caseLink')
   .tag('@cLinkEW')
-  .tag('@nightly')
+  .tag('@disabled')
   .retry(1);
 
 Scenario(
@@ -173,5 +173,5 @@ Scenario(
 )
   .tag('@caseLink')
   .tag('@cLinkScot')
-  .tag('@nightly')
+  .tag('@disabled')
   .retry(1);
