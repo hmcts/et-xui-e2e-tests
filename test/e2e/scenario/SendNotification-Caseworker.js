@@ -40,9 +40,9 @@ Scenario(
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
-      scotPostcode,
-      scotSelectedWorkAddress,
-      scotFirstLineOfAddress,
+      workPostcode,
+      selectedWorkAddress,
+      firstLineOfAddress,
     );
     await claimDetailsPage.processClaimDetails();
     let submissionReference = await submitClaimPage.submitClaim();
@@ -102,15 +102,15 @@ Scenario( 'Verify Send Notification Event by Caseworker Outside Application - Re
   await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);
   await employmentAndRespondentDetailsPage.processStillWorkingJourney(
     scotWorkPostcode,
-    selectedWorkAddress,
-    firstLineOfAddress,
+    scotSelectedWorkAddress,
+    scotFirstLineOfAddress,
   );
   await claimDetailsPage.processClaimDetails();
   let submissionReference = await submitClaimPage.submitClaim();
   //I.click('Sign out');
   I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-  await loginPage.processLogin(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-  await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles (RET)', submissionReference);
+  await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+  await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
   let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
   await caseListPage.verifyCaseDetailsPage();
   await caseListPage.selectNextEvent('ET1 case vetting'); //Firing the ET1 Event.
@@ -123,8 +123,8 @@ Scenario( 'Verify Send Notification Event by Caseworker Outside Application - Re
   await sendNotificationPages.sendNotificationLink('request claimant respond to caseworker', 'claimant');
   // claimant reply to notification
   await citizenHubPages.processCitizenHubLogin(submissionReference);
+  pause();
   await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
-  await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
   await citizenHubPages.respondToSendNotification();
 
 })

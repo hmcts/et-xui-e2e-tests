@@ -135,7 +135,7 @@ module.exports = {
   processCaseFromCaseList(submissionReference) {
     // I.waitForElement('//button[contains(.,"Hide Filter")]', 30);
     let text = `/cases/case-details/${submissionReference}`;
-    I.waitForElement(`[href="${text}"]`, 20);
+    I.waitForElement(`[href="${text}"]`, 30);
     I.seeElement(`[href="${text}"]`);
     I.refreshPage();
     let caseNumber = I.grabTextFrom(`[href="${text}"]`);

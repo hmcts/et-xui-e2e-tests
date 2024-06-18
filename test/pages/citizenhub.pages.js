@@ -55,6 +55,7 @@ module.exports = {
   returntoCUIcaseOverviewButton: '//a[contains(.,"Close and return to case overview")]',
   notificationFlagBefore: '.govuk-tag--red',
   notificationLink: '[href="/tribunal-orders-and-requests"]',
+  seeNotificationDetailsLink: 'td:nth-of-type(2) > .govuk-link',
   sendNotifButton: 'td:nth-of-type(2) > .govuk-link',
   respondButton: '.govuk-template__body .govuk-grid-row .govuk-button',
   tribunalResponseField: '#response-text',
@@ -279,7 +280,7 @@ module.exports = {
     I.click(this.notificationLink);
     I.see('All orders and requests');
     I.click(this.sendNotifButton);
-    I.see('Send Notification Title');
+    I.see('You must respond to the tribunal');
     I.click(this.respondButton);
     I.see('Your response');
     I.see("What's your response to the tribunal?");
