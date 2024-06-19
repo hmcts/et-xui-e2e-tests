@@ -236,7 +236,7 @@ module.exports = {
     I.scrollPageToBottom();
     I.waitForElement(this.changeDocuUploaded, 10);
     I.see('Check the information below carefully.');
-    I.see('Prepare documents for hearing');
+    I.see('Upload documents for hearing');
     I.see('Check your answers');
     I.forceClick(this.legalRepSubmit);
     I.waitForElement(this.successfulmsgHeader, 10);
@@ -401,4 +401,9 @@ module.exports = {
     I.wait(5);
     I.click(this.continueLegalRepButton);
   },
+
+  grantAccessToMultiples(caseNumber) {
+    I.see(caseNumber);
+    I.click(this.continueLegalRepButton);
+  }
 };

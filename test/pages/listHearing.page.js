@@ -30,31 +30,58 @@ module.exports = {
   hearingStatus: '#hearingDetailsCollection_0_hearingDetailsStatus',
   disposePartOfCase: '#hearingDetailsCollection_0_hearingDetailsCaseDisposed_No',
 
-  async listCase() {
-    I.waitForElement(this.hearingNumber, 10);
-    I.see('Case Number');
-    I.fillField(this.hearingNumber, '1');
-    // hearing format
-    I.checkOption(this.hearingHybridOption);
-    //hearing type
-    I.selectOption(this.hearingOption, '1: Costs Hearing');
-    I.checkOption(this.judicialMediationOption);
-    I.selectOption(this.hearingVenueOption, '2: Hull');
-    I.fillField(this.hearingLengthNum, '1');
-    I.selectOption(this.dayHourMinutes, '1: Days');
-    //sit alone or full panel
-    I.checkOption(this.sitAlonePanel);
-    I.selectOption(this.hearingStage, '1: Stage 1');
-    I.fillField(this.hearingNotes, 'The hearing should be help as soon as possible....');
-    I.scrollPageToBottom();
-    I.forceClick(this.dateSetUp);
-    I.wait(2);
-    I.fillField(this.hearingListDay, listDay);
-    I.fillField(this.hearingListMonth, listMonth);
-    I.fillField(this.hearingListYear, listYear);
-    I.click(this.submitHearingButton);
-    // Verifying the Hearings Tab.
-    //I.waitForText('has been updated with event: List Hearing', 10);
+  async listCase(location) {
+    switch (location) {
+      case 'EnglandWales':
+        I.waitForElement(this.hearingNumber, 10);
+        I.see('Case Number');
+        I.fillField(this.hearingNumber, '1');
+        // hearing format
+        I.checkOption(this.hearingHybridOption);
+        //hearing type
+        I.selectOption(this.hearingOption, '1: Costs Hearing');
+        I.checkOption(this.judicialMediationOption);
+        I.selectOption(this.hearingVenueOption, '2: Hull');
+        I.fillField(this.hearingLengthNum, '1');
+        I.selectOption(this.dayHourMinutes, '1: Days');
+        //sit alone or full panel
+        I.checkOption(this.sitAlonePanel);
+        I.selectOption(this.hearingStage, '1: Stage 1');
+        I.fillField(this.hearingNotes, 'The hearing should be help as soon as possible....');
+        I.scrollPageToBottom();
+        I.forceClick(this.dateSetUp);
+        I.wait(2);
+        I.fillField(this.hearingListDay, listDay);
+        I.fillField(this.hearingListMonth, listMonth);
+        I.fillField(this.hearingListYear, listYear);
+        I.click(this.submitHearingButton);
+        break;
+      case 'Scotland':
+        I.waitForElement(this.hearingNumber, 10);
+        I.see('Case Number');
+        I.fillField(this.hearingNumber, '01');
+        // hearing format
+        I.checkOption(this.hearingHybridOption);
+        //hearing type
+        I.selectOption(this.hearingOption, '1: Costs Hearing');
+        I.checkOption(this.judicialMediationOption);
+        I.selectOption(this.hearingVenueOption, '1: Glasgow');
+        I.fillField(this.hearingLengthNum, '1');
+        I.selectOption(this.dayHourMinutes, '1: Days');
+        //sit alone or full panel
+        I.checkOption(this.sitAlonePanel);
+        I.selectOption(this.hearingStage, '1: Stage 1');
+        I.fillField(this.hearingNotes, 'The hearing should be help as soon as possible....');
+        I.scrollPageToBottom();
+        I.forceClick(this.dateSetUp);
+        I.wait(2);
+        I.fillField(this.hearingListDay, listDay);
+        I.fillField(this.hearingListMonth, listMonth);
+        I.fillField(this.hearingListYear, listYear);
+        I.click(this.submitHearingButton);
+        break;
+
+    }
   },
   async updateHearing() {
     I.wait(5);

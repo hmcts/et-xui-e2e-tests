@@ -57,14 +57,14 @@ Scenario(
     const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     // list hearing
     await caseListPage.selectNextEvent('List Hearing');
-    await listHearingPages.listCase();
+    await listHearingPages.listCase('EnglandWales');
     I.click('Sign out');
     // complete noc on the case
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
     await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
     //submit a prepared document for hearing
     //await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.selectNextEvent('Prepare documents for hearing');
+    await caseListPage.selectNextEvent('Upload documents for hearing');
     await legalRepNOCPages.submitDocumentForHearingRespondent('Yes', 'Both Parties', 'Witness statement only');
     await legalRepNOCPages.verifyHearingDocumentTabLegalRep();
   },
@@ -91,7 +91,7 @@ Scenario(
     et1CaseServingPages,
   }) => {
     I.amOnPage('/');
-    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
+    await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);
@@ -117,14 +117,14 @@ Scenario(
     const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     // list hearing
     await caseListPage.selectNextEvent('List Hearing');
-    await listHearingPages.listCase();
+    await listHearingPages.listCase('Scotland');
     I.click('Sign out');
     // complete noc on the case
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
     await legalRepNOCPages.processNOC('Scotland - Singles', submissionReference, respondentName, firstName, lastName);
     //submit a prepared document for hearing
     //await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.selectNextEvent('Prepare documents for hearing');
+    await caseListPage.selectNextEvent('Upload documents for hearing');
     await legalRepNOCPages.submitDocumentForHearingRespondent('Yes', 'Both Parties', 'Witness statement only');
     await legalRepNOCPages.verifyHearingDocumentTabLegalRep();
   },

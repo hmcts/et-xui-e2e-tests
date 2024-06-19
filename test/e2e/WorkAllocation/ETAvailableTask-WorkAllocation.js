@@ -53,5 +53,5 @@ Scenario(
     // await caseListPage.searchTaskFromAllWorkAllLocation('All', 'All', 'Et1 Vetting', submissionReference, false);
   },
 )
-  .tag('@nightly')
+  .tag('@featureRemovedFromV1')
   .retry(2);

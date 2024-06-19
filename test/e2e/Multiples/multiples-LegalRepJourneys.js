@@ -15,7 +15,7 @@ const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
 Feature('End To End Test - Multiples ');
 Scenario(
-  'Legal Rep has access to multiples - Scotland',
+  'Grant Legal Rep access to multiples Cases - Scotland',
   async ({
              I,
              basePage,
@@ -84,27 +84,30 @@ Scenario(
       await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
       await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
       let { firstNameTwo, lastNameTwo } = await et1CaseServingPages.getClaimantFirstName();
-      // create multiples with 2 cases
+
+    // Complete NOC to assign a solicitor
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
+    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference2, respondentName, firstNameTwo, lastNameTwo);
+    I.click('Sign out');
+
+    // create multiples with 2 cases
       await caseListPage.createMutipleCase('Eng/Wales - Multiples');
       await caseListPage.createMutiple('MultipleNotification', 'Leeds');
-      await caseListPage.addTwoCases(caseNumber2, caseNumber1);
+      await caseListPage.addTwoCases(caseNumber2, caseNumber);
       // get multiple case number
       await caseListPage.findCaseWithRef(submissionReference2);
       const caseNumberForMultiple = await caseListPage.getMultiplecaseNumber();
       I.click('Sign out');
-      // Complete NOC to assign a solicitor
+
+      // LR get access to multiples
       I.amOnPage(testConfig.TestUrlForManageCaseAAT);
       await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-      await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
-      await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstNameTwo, lastNameTwo);
-      I.click('Sign out');
-
-      // create multiple with 2 cases
-      I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-      await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-
-      I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-      await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+      await caseListPage.searchMultipleCaseWithCaseNumber('Eng/Wales - Singles', submissionReference2);
+      await caseListPage.processCaseFromCaseList(submissionReference2);
+      await caseListPage.selectNextEvent('Add me to Multiple');
+      await legalRepNOCPages.grantAccessToMultiples(submissionReference2)
       await caseListPage.searchMultipleCaseWithCaseNumber('Eng/Wales - Multiples', caseNumberForMultiple);
       I.see('Multiple Cases');
   },
