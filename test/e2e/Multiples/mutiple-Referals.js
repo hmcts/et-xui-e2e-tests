@@ -100,4 +100,5 @@ Scenario(
     await referralPages.reviewReferral('Admin', testConfig.TestEnvETAdminUserEng);
     I.click('Sign out');
   },
-).tag('@MutiplesEnW');
+).tag('@MutiplesEnW')
+.tag('@unreleased');
