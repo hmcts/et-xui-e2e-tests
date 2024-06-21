@@ -127,9 +127,8 @@ module.exports = {
     I.click(this.submissionReferenceLocator);
     I.fillField(this.submissionReferenceLocator, submissionReference);
     //I.scrollPageToBottom();
-    I.wait(10);
     I.click(this.applyButton);
-    I.wait(5)
+    I.wait(15);
   },
 
   processCaseFromCaseList(submissionReference) {
@@ -141,6 +140,7 @@ module.exports = {
     let caseNumber = I.grabTextFrom(`[href="${text}"]`);
     console.log('case number is' + caseNumber);
     I.click(`[href="${text}"]`);
+    I.wait(5);
     return caseNumber;
   },
 

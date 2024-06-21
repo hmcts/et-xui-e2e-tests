@@ -9,12 +9,14 @@ const listYear = today.getFullYear();
 module.exports = {
   hearingElement: '#hearingCollection',
   hearingNumber: '#hearingCollection_0_hearingNumber',
-  //hearingOption: '#hearingCollection_0_Hearing_type',
+  hearingTypeOption: '#hearingCollection_0_Hearing_type',
   hearingOption: '#hearingCollection_0_Hearing_type',
   hearingFormatOption: '//input[@value="In person"]',
   hearingHybridOption: '#hearingCollection_0_hearingFormat-Hybrid',
   judicialMediationOption: '#hearingCollection_0_judicialMediation_No',
   hearingVenueOption: '#hearingCollection_0_Hearing_venue',
+  managingOffice: '#hearingCollection_0_Hearing_venue_Scotland',
+  hearingVenueOptionScotland: '#hearingCollection_0_Hearing_Glasgow',
   hearingLengthNum: '#hearingCollection_0_hearingEstLengthNum',
   dayHourMinutes: '#hearingCollection_0_hearingEstLengthNumType',
   sitAlonePanel: '#hearingCollection_0_hearingSitAlone-Sit\\ Alone',
@@ -29,6 +31,7 @@ module.exports = {
   selectHearing: '#hearingDetailsHearing',
   hearingStatus: '#hearingDetailsCollection_0_hearingDetailsStatus',
   disposePartOfCase: '#hearingDetailsCollection_0_hearingDetailsCaseDisposed_No',
+  completionSuccessMessage: '//div[@class="alert-message"]',
 
   async listCase(location) {
     switch (location) {
@@ -60,12 +63,13 @@ module.exports = {
         I.waitForElement(this.hearingNumber, 10);
         I.see('Case Number');
         I.fillField(this.hearingNumber, '01');
+        //hearing type
+        I.selectOption(this.hearingTypeOption, '1: Expenses/Wasted Costs Hearing');
         // hearing format
         I.checkOption(this.hearingHybridOption);
-        //hearing type
-        I.selectOption(this.hearingOption, '1: Costs Hearing');
         I.checkOption(this.judicialMediationOption);
-        I.selectOption(this.hearingVenueOption, '1: Glasgow');
+        I.selectOption(this.managingOffice, '1: Glasgow');
+        I.selectOption(this.hearingVenueOptionScotland, '1: Glasgow COET');
         I.fillField(this.hearingLengthNum, '1');
         I.selectOption(this.dayHourMinutes, '1: Days');
         //sit alone or full panel
@@ -80,8 +84,11 @@ module.exports = {
         I.fillField(this.hearingListYear, listYear);
         I.click(this.submitHearingButton);
         break;
-
+      default:
+        throw new Error('... check you options or add new option');
     }
+    I.waitForElement(this.completionSuccessMessage, 10);
+    I.see('has been updated with event: List Hearing');
   },
   async updateHearing() {
     I.wait(5);

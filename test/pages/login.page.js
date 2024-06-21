@@ -3,6 +3,7 @@ const axios = require('axios');
 const chance = require('chance').Chance();
 
 const testConfig = require('../../config.js');
+const { expect } = require("playwright/test");
 //const firstName = chance.first();
 //const lastName = chance.last();
 //const emailAddress = firstName+'.'+lastName+'@mail.com';
@@ -34,6 +35,7 @@ async function registerNewAccount() {
     let idamResponse = await axios.post(aatUrl, idamData, { headers });
     console.log('Response:', idamResponse.data);
     console.log('.... completed account registration');
+    expect(idamResponse.status).toBe(201);
     return {
       email: idamResponse.data.email,
       firstName: idamResponse.data.forename,
