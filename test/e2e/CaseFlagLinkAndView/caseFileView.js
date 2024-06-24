@@ -68,7 +68,7 @@ Scenario(
     applicationsTabsPages,
   }) => {
     I.amOnPage('/');
-    await basePage.processPreLoginPagesForTheDraftApplication(postcode);
+    await basePage.processPreLoginPagesForTheDraftApplication(scotPostcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(scotPostcode, 'Scotland', scotAddressOption);

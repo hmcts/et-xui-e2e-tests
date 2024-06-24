@@ -178,7 +178,7 @@ Scenario(
     const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     // list hearing
     await caseListPage.selectNextEvent('List Hearing');
-    await listHearingPages.listCase();
+    await listHearingPages.listCase('EnglandWales');
     I.click('Sign out');
     // complete noc on the case
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
