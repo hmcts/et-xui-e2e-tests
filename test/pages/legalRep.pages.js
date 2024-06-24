@@ -231,7 +231,7 @@ module.exports = {
     I.scrollPageToBottom();
     I.see('Upload your file of documents');
     I.attachFile(this.uploadBundleDocument, 'test/data/welshTest.pdf');
-    I.wait(2);
+    I.wait(10);
     I.click(this.continueLegalRepButton);
     I.scrollPageToBottom();
     I.waitForElement(this.changeDocuUploaded, 10);
