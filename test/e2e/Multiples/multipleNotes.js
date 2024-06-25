@@ -258,23 +258,24 @@ Scenario(
     let submissionReference2 = await submitClaimPage.submitClaim();
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalOpsUser, testConfig.TestEnvETManageCasePassword);
+    console.log('The value of the Case Number ' + submissionReference2);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     // case vetting
     await caseListPage.selectNextEvent('ET1 case vetting');
-    await et1CaseVettingPages.processET1CaseVettingPages();
+    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
-    await et1CaseServingPages.processET1CaseServingPages();
+    await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     // process case no 2
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference2);
     let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
     // case vetting
     await caseListPage.selectNextEvent('ET1 case vetting');
-    await et1CaseVettingPages.processET1CaseVettingPages();
+    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber2);
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
-    await et1CaseServingPages.processET1CaseServingPages();
+    await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
     let { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     I.click('Sign out');
     //NOC to assign a solicitor

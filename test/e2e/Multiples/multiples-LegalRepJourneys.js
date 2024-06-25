@@ -83,16 +83,14 @@ Scenario(
       // case acceptance
       await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
       await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
-      let { firstNameTwo, lastNameTwo } = await et1CaseServingPages.getClaimantFirstName();
-
-    // Complete NOC to assign a solicitor
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
-    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference2, respondentName, firstNameTwo, lastNameTwo);
-    I.click('Sign out');
-
-    // create multiples with 2 cases
+      let { firstNameTwo, lastNameTwo } = await et1CaseServingPages.getClaimantFirstName()
+      // Complete NOC to assign a solicitor
+      I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+      await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+      await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
+      await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference2, respondentName, firstNameTwo, lastNameTwo);
+      I.click('Sign out');
+     // create multiples with 2 cases
       await caseListPage.createMutipleCase('Eng/Wales - Multiples');
       await caseListPage.createMutiple('MultipleNotification', 'Leeds');
       await caseListPage.addTwoCases(caseNumber2, caseNumber);
@@ -100,7 +98,6 @@ Scenario(
       await caseListPage.findCaseWithRef(submissionReference2);
       const caseNumberForMultiple = await caseListPage.getMultiplecaseNumber();
       I.click('Sign out');
-
       // LR get access to multiples
       I.amOnPage(testConfig.TestUrlForManageCaseAAT);
       await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
