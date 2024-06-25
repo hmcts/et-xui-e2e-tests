@@ -20,7 +20,8 @@
         "codeceptjs:demo:ui": "codecept-ui --app  -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
         "test:crossbrowser": "codeceptjs run-workers 2 profile1 -c saucelabs.conf.js --grep @RET-XB --reporter mocha-multi --verbose",
         "test:profile": "SAUCE_TUNNEL_NAME=sunnyayeni_tunnel_name yarn test:fullfunctional  --steps -c saucelabs.conf.js --profile sauce:chrome,firefox,safari",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "tests:a11y": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=test LOG_LEVEL=ERROR mocha --exit --reporter mochawesome --require ts-node/register --require tsconfig-paths/register src/test/a11y/a11y.ts --timeout 60000 --reporter-options reportDir=functional-output/accessibility-report,reportFilename=a11y,inlineAssets=true,reportTitle=et-xui-e2e-tests"
     },
     "lint-staged": {
         "test/**/*.{js,jsx,ts,tsx}": "eslint"
