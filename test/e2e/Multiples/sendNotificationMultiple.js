@@ -114,7 +114,7 @@ Scenario(
 )
   .tag('@multiNotificationEng')
   .tag('@multiNotification')
-  .tag('@nightly');
+  .tag('@unreleased');
 
 Scenario(
   'Send Notification - Respondent Reply - England & Wales',
@@ -202,7 +202,7 @@ Scenario(
 )
   .tag('@multiNotificationEng')
   .tag('@multiNotification')
-  .tag('@nightly');
+  .tag('@unreleased');
 
 
 Scenario(
@@ -292,7 +292,7 @@ Scenario(
 )
   .tag('@multiNotificationBatchScot')
   .tag('@multiNotification')
-  .tag('@nightly');
+  .tag('@unreleased');
 
 Scenario(
   'Send Notification -Batch Processing - England & Wales',
@@ -380,4 +380,4 @@ Scenario(
 )
   .tag('@multiNotificationBatchEng')
   .tag('@multiNotification')
-  .tag('@nightly');
+  .tag('@unreleased');

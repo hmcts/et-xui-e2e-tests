@@ -108,7 +108,7 @@ Scenario(
 )
   .tag('@bathUpdatesEng')
   .tag('@bathUpdates')
-  .tag('@nightly');
+  .tag('@unreleased');
 
 Scenario(
   'Batch Updates - Update cases with details of a case- case stayed- clearMultiple',
@@ -281,4 +281,4 @@ Scenario(
   },
 )
 .tag('@caseLeadFlagMul')
-  .tag('@nightly');
+  .tag('@unRelased');

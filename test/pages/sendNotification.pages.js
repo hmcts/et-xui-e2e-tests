@@ -65,6 +65,13 @@ module.exports = {
         I.checkOption(this.judgeButton);
         I.fillField(this.officerName, 'Sharif');
         break;
+      case 'request claimant respond to caseworker':
+        I.checkOption(this.requestCheckbox);
+        I.checkOption(this.responseRequiredYes);
+        I.selectOption(this.dropdownRespondingParties, '2: Claimant only');
+        I.checkOption(this.caseworkerButton);
+        I.fillField(this.officerName, 'Sharif');
+        break;
       case 'request-no-response-caseworker':
         I.checkOption(this.requestCheckbox);
         I.checkOption(this.responseRequiredNo);

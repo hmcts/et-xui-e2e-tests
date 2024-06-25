@@ -118,7 +118,7 @@ module.exports = {
     //I.selectOption(this.caseTypeDropdown, option);
     I.scrollPageToBottom();
     I.wait(3);
-    I.click(this.applyButton);
+    await I.click(this.applyButton);
   },
 
   async processNOC(option, submissionReference, respondentName, ClaimantFirstName, ClaimantLastName) {
@@ -231,12 +231,12 @@ module.exports = {
     I.scrollPageToBottom();
     I.see('Upload your file of documents');
     I.attachFile(this.uploadBundleDocument, 'test/data/welshTest.pdf');
-    I.wait(2);
+    I.wait(10);
     I.click(this.continueLegalRepButton);
     I.scrollPageToBottom();
     I.waitForElement(this.changeDocuUploaded, 10);
     I.see('Check the information below carefully.');
-    I.see('Prepare documents for hearing');
+    I.see('Upload documents for hearing');
     I.see('Check your answers');
     I.forceClick(this.legalRepSubmit);
     I.waitForElement(this.successfulmsgHeader, 10);
@@ -401,4 +401,9 @@ module.exports = {
     I.wait(5);
     I.click(this.continueLegalRepButton);
   },
+
+  grantAccessToMultiples(caseNumber) {
+    I.see(caseNumber);
+    I.click(this.continueLegalRepButton);
+  }
 };

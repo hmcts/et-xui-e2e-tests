@@ -132,7 +132,7 @@ Scenario(
     await citizenHubPages.processCitizenHubLogin(submissionReference);
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPages.verifySendNotification();
+    await citizenHubPages.respondToSendNotification();
   },
 )
   .tag('@SNotiScot')

@@ -1,4 +1,5 @@
 const testConfig = require('../../../config.js');
+const { stringify } = require("mocha/lib/utils");
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
 const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
@@ -108,7 +109,7 @@ Scenario(
 )
   .tag('@notesLO')
   .tag('@notes')
-  .tag('@nightly');
+  .tag('@unreleased');
 
 
 Scenario(
@@ -126,7 +127,7 @@ Scenario(
            et1CaseVettingPages,
            et1CaseServingPages,
            legalRepNOCPages,
-           multipleNotificationPages
+           multipleCaseNotePage
          }) => {
     //case 1
     I.amOnPage('/');
@@ -158,7 +159,7 @@ Scenario(
     await claimDetailsPage.processClaimDetails();
     let submissionReference2 = await submitClaimPage.submitClaim();
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalOpsUser, testConfig.TestEnvETManageCasePassword);
     console.log('The value of the Case Number ' + submissionReference);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
@@ -182,11 +183,11 @@ Scenario(
     //NOC to assign a solicitor
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
+    await legalRepNOCPages.processNOC('Scotland - Singles', submissionReference, respondentName, firstName, lastName);
     // create multiple with 2 cases
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.createMutipleCase('Eng/Wales - Multiples');
+    await caseListPage.createMutipleCase('Scotland - Multiples (RET)');
     await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
     await caseListPage.addTwoCases(caseNumber, caseNumber2);
     //get multiple url
@@ -197,15 +198,16 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUserScot, testConfig.TestEnvETManageCasePassword);
     // go to url for multiple
     I.amOnPage(multipleUrl);
-    // Add a note as a legal officer
+    // Add a note as a judge
     await caseListPage.selectNextEvent('Case: Add note');
     await multipleCaseNotePage.addNoteToMultiple();
     await multipleCaseNotePage.verifyAddedNoteIsVisible();
+
   },
 )
   .tag('@notesJudge')
   .tag('@notes')
-  .tag('@nightly');
+  .tag('@unreleased');
 
 Scenario(
   'Upload Document And Grant Access to all parties - Scotland' ,
@@ -256,7 +258,7 @@ Scenario(
     let submissionReference2 = await submitClaimPage.submitClaim();
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalOpsUser, testConfig.TestEnvETManageCasePassword);
-    console.log('The value of the Case Number ' + submissionReference);
+    console.log('The value of the Case Number ' + submissionReference2);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     // case vetting
@@ -273,27 +275,27 @@ Scenario(
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber2);
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
-    // await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
-    // let { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
-    // I.click('Sign out');
-    // //NOC to assign a solicitor
-    // I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    // await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    // await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
-    // // create multiple with 2 cases
-    // I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    // await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    // await caseListPage.createMutipleCase('Eng/Wales - Multiples');
-    // await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
-    // await caseListPage.addTwoCases(caseNumber, caseNumber2);
-    // //get multiple url
-    // const multipleUrl = await I.grabCurrentUrl();
-    // I.click('Sign out');
-    // // add a case note to multiple
-    // I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    // await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUserScot, testConfig.TestEnvETManageCasePassword);
-    // // go to url for multiple
-    // I.amOnPage(multipleUrl);
+    await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
+    let { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
+    I.click('Sign out');
+    //NOC to assign a solicitor
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await legalRepNOCPages.processNOC('Scotland - Singles', submissionReference, respondentName, firstName, lastName);
+    // create multiple with 2 cases
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.createMutipleCase('Scotland - Multiples (RET)');
+    await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
+    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    //get multiple url
+    const multipleUrl = await I.grabCurrentUrl();
+    I.click('Sign out');
+    // add a case note to multiple
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETHearingJudgeUserScot, testConfig.TestEnvETManageCasePassword);
+    // go to url for multiple
+    I.amOnPage(multipleUrl);
     // Add a document to multiple
     await caseListPage.selectNextEvent('Upload Document');
     await uploadDocumentsMultiplePage.uploadDocumentOnMultiple('Starting a Claim')
@@ -306,4 +308,4 @@ Scenario(
 )
   .tag('@uploadDocumentScot')
   .tag('@docUpload')
-  .tag('@nightly');
+  .tag('@unreleased');

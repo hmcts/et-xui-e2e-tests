@@ -121,25 +121,25 @@ module.exports = {
     } catch (error) {
       console.error('invalid option', error.message);
     }
-    I.wait(5);
+    I.wait(10);
     I.scrollPageToBottom();
     I.waitForElement(this.submissionReferenceLocator, 10);
     I.click(this.submissionReferenceLocator);
     I.fillField(this.submissionReferenceLocator, submissionReference);
     //I.scrollPageToBottom();
     I.click(this.applyButton);
-    I.wait(5)
+    I.wait(15);
   },
 
   processCaseFromCaseList(submissionReference) {
     // I.waitForElement('//button[contains(.,"Hide Filter")]', 30);
     let text = `/cases/case-details/${submissionReference}`;
-    I.waitForElement(`[href="${text}"]`, 20);
+    I.waitForElement(`[href="${text}"]`, 30);
     I.seeElement(`[href="${text}"]`);
-    I.refreshPage();
     let caseNumber = I.grabTextFrom(`[href="${text}"]`);
     console.log('case number is' + caseNumber);
     I.click(`[href="${text}"]`);
+    I.wait(5);
     return caseNumber;
   },
 

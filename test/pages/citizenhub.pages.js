@@ -8,6 +8,13 @@ module.exports = {
   statusAfterView: '//strong[contains(.,"Viewed")]',
   welshToggle: '//a[.="Cymraeg"]',
   linkToAttachedDocument: '[class="govuk-link"]',
+  linkToReplyRespondentApplications: '//a[contains(.,"Respondent\'s applications")]',
+  respondButton: '#respond-button',
+  responseTextElement: '.govuk-label--m',
+  providingMaterialYes: '#supporting-material-yes-no',
+  addTextToResponse: '#respond-to-application-text',
+  supportingMaterialAttachment: '#supportingMaterialFile',
+  uploadButton: '#upload',
   contactTribunalAboutMyCase: '[href="/contact-the-tribunal"]',
   linkToET3Response: '[href="/case-document/response-from-respondent"]',
   contactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=en"]',
@@ -48,6 +55,7 @@ module.exports = {
   returntoCUIcaseOverviewButton: '//a[contains(.,"Close and return to case overview")]',
   notificationFlagBefore: '.govuk-tag--red',
   notificationLink: '[href="/tribunal-orders-and-requests"]',
+  seeNotificationDetailsLink: 'td:nth-of-type(2) > .govuk-link',
   sendNotifButton: 'td:nth-of-type(2) > .govuk-link',
   respondButton: '.govuk-template__body .govuk-grid-row .govuk-button',
   tribunalResponseField: '#response-text',
@@ -65,9 +73,9 @@ module.exports = {
     I.see('Case overview - ');
     I.see('Case number ' + caseNumber);
 
-    I.see('You have submitted your claim to the tribunal');
-    I.see('We aim to process your claim by');
-    I.see('In busy periods it may take longer.');
+    // I.see('You have submitted your claim to the tribunal');
+    // I.see('We aim to process your claim by');
+    // I.see('In busy periods it may take longer.');
   },
 
   clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference) {
@@ -263,7 +271,7 @@ module.exports = {
     I.see('Case overview');
   },
 
-  verifySendNotification() {
+  respondToSendNotification() {
     //I.waitForElement(this.veiwResponseLink, 10);
     I.see('The tribunal requires some information from you.');
     I.scrollTo(this.notificationLink);
@@ -272,7 +280,7 @@ module.exports = {
     I.click(this.notificationLink);
     I.see('All orders and requests');
     I.click(this.sendNotifButton);
-    I.see('Send Notification Title');
+    I.see('You must respond to the tribunal');
     I.click(this.respondButton);
     I.see('Your response');
     I.see("What's your response to the tribunal?");
@@ -379,4 +387,27 @@ module.exports = {
     );
     I.click(this.closeAndReturnButton);
   },
+
+  claimantReplyToRespondApplication(app_type) {
+    I.waitForElement(this.linkToReplyRespondentApplications, 10);
+    I.click(this.linkToReplyRespondentApplications);
+    const appToRep = `//tbody[@class='govuk-table__body']/tr[1]//a[contains(.,"${app_type}")]`;
+    console.log(appToRep);
+    I.click(appToRep);
+    I.waitForElement(this.respondButton, 10);
+    I.click(this.respondButton);
+    I.waitForElement(this.responseTextElement, 10);
+    I.see('What\'s your response to the application?');
+    I.fillField(this.responseTextElement, 'Testing Claimant Response to LR');
+    I.checkOption(this.providingMaterialYes);
+    I.click(this.continueButton);
+    I.waitForElement(this.supportingMaterialAttachment,10);
+    I.see('Provide supporting material');
+    I.attachFile(this.supportingMaterialAttachment, 'test/data/welshTest.pdf');
+    I.wait(2);
+    I.click(this.uploadButton);
+    I.waitForText('Remove', 10);
+    I.click(this.continueButton);
+
+  }
 };

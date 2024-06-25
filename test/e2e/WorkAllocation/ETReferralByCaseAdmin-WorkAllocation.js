@@ -38,7 +38,7 @@ Scenario(
     let submissionReference = await submitClaimPage.submitClaim();
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETCstcAdminUser, testConfig.TestEnvETCstcAdminPassword);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETAdminUserScot, testConfig.TestEnvAdminETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     //assign the task
