@@ -62,8 +62,12 @@ module.exports = {
   noSupportingMaterialOption: '[for="supporting-material-yes-no-2"]',
   responseSubmitButton: '#main-form-submit',
   yesRule92Button: '[for="copyToOtherPartyYesOrNo-2"]',
+  closeStoredApplication: '#main-content .govuk-button',
   returnOverviewButton: '.govuk-template__body > .govuk-width-container > .govuk-button-group > .govuk-button',
   notificationFlagAfter: '.app-task-list > li:nth-of-type(5) .govuk-tag',
+  closeAndReturnToCaseOverview: '#main-content .govuk-button',
+  viewCorrespondenceLink: '//a[.="View correspondence"]',
+  confirmedCopyCheckBox: '#confirmCopied',
 
   processCitizenHubLogin(submissionReference) {
     I.amOnPage(testConfig.TestUrl + '/citizen-hub/' + submissionReference);
@@ -271,8 +275,7 @@ module.exports = {
     I.see('Case overview');
   },
 
-  respondToSendNotification() {
-    //I.waitForElement(this.veiwResponseLink, 10);
+  respondToSendNotification(notificationType) {
     I.see('The tribunal requires some information from you.');
     I.scrollTo(this.notificationLink);
     I.wait(2);
@@ -290,12 +293,44 @@ module.exports = {
     I.see('Copy this correspondence to the other party');
     I.click(this.yesOptionOnRule92);
     I.click(this.responseSubmitButton);
-    I.see('Check your answers');
-    I.click(this.responseSubmitButton);
-    I.see('You have sent your response to the tribunal');
+    switch (notificationType) {
+      case 'cmo':
+       I.see('Check your answers');
+       I.click(this.responseSubmitButton);
+        I.see('You have sent your response to the tribunal');
+        break;
+      case 'request':
+        I.see('Respond to the tribunal');
+        I.click(this.responseSubmitButton);
+        I.see('You have stored your application');
+        I.click(this.closeStoredApplication);
+        I.see('You have stored correspondence which you have not submitted to the tribunal');
+        I.click(this.viewCorrespondenceLink);
+        I.see('Confirm you have copied this correspondence to the other party');
+        I.see('Have you copied this correspondence to the other party?');
+        I.checkOption(this.confirmedCopyCheckBox);
+        I.click(this.responseSubmitButton);
+        I.see('You have sent your application to the tribunal');
+        break;
+      default:
+        throw new Error('... invalid option, check you options');
+
+    }
+    //I.waitForElement(this.veiwResponseLink, 10);
+    I.waitForElement(this.returnOverviewButton, 10);
     I.click(this.returnOverviewButton);
     I.scrollTo(this.notificationLink);
-    I.see('Submitted', { css: this.notificationFlagAfter });
+    switch (notificationType) {
+      case 'cmo':
+        I.see('Submitted', { css: this.notificationFlagAfter });
+        break;
+      case 'request':
+        I.see('Viewed', { css: this.notificationFlagAfter });
+        break;
+      default:
+        throw new Error('... invalid option, check you options');
+
+    }
   },
   verifyContentInWelsh() {
     I.click(this.welshToggle);
