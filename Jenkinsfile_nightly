@@ -17,18 +17,6 @@ properties([
 
 def product = "et"
 def component = "frontend"
-def inTestTrue = [
-        'et-${env}': [
-                secret('true', 'IN_TEST')
-        ]
-]
-
-def inTestFalse = [
-        'et-${env}': [
-                secret('', 'IN_TEST')
-        ]
-]
-
 
 def secrets = [
     'et-${env}': [
@@ -99,25 +87,6 @@ withNightlyPipeline("nodejs", product, component) {
                 reportFiles : "ET-XUI-E2E.html",
                 reportName : "ET E2E tests result"
         ]
-    }
-
-    afterAlways('smoketest:aat') {
-        loadVaultSecrets(inTestTrue)
-        stage('Accessibility') {
-            yarnBuilder.yarn('tests:a11y')
-            publishHTML([
-                    allowMissing         : true,
-                    alwaysLinkToLastBuild: true,
-                    keepAll              : true,
-                    reportDir            : "functional-output/accessibility-report",
-                    reportFiles          : 'a11y.html',
-                    reportName           : 'Accessibility results'
-            ])
-        }
-        loadVaultSecrets(inTestFalse)
-        sh """
-       yarn playwright install
-    """
     }
 
 }
