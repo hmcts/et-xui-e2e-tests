@@ -70,7 +70,7 @@ Scenario(
     await citizenHubPages.processCitizenHubLogin(submissionReference);
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPages.respondToSendNotification();
+    await citizenHubPages.respondToSendNotification('cmo');
   },
 )
   .tag('@nightly')
@@ -125,7 +125,7 @@ Scenario( 'Verify Send Notification Event by Caseworker Outside Application - Re
   await citizenHubPages.processCitizenHubLogin(submissionReference);
   await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
   await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-  await citizenHubPages.respondToSendNotification();
+  await citizenHubPages.respondToSendNotification('request');
 
 })
   .tag('@nightly')
