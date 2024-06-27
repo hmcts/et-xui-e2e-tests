@@ -505,7 +505,8 @@ module.exports = {
     } catch (error) {
       console.error('invalid option', error.message);
     }
-
+    I.wait(2);
+    I.click(this.continueButton);
   }
   
 };
