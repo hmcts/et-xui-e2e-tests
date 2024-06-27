@@ -1,5 +1,4 @@
 const testConfig = require('../../../config.js');
-const citizenhubPages = require('../../pages/citizenhub.pages.js');
 const postcode = 'FK15 9ET';
 const addressOption = '3e, Station Road, Dunblane, FK15 9ET';
 const workPostcode = 'EH45 9BU';
@@ -126,6 +125,7 @@ Scenario(
     et1CaseServingPages,
     legalRepNOCPages,
     caseOverviewPage,
+    citizenhubPages,
     applicationsTabsPages,
     sendNotificationPages,
   }) => {
