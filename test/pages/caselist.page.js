@@ -91,6 +91,9 @@ module.exports = {
   allJudgementsOption: 'ccd-markdown a:nth-child(1)',
   viewJudgement: 'a:nth-child(3)',
   repondToOrder: 'a:nth-child(5)',
+  allJudgementsOption: 'ccd-markdown a:nth-child(1)',
+  viewJudgement: 'a:nth-child(3)',
+  repondToOrder: 'a:nth-child(5)',
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
