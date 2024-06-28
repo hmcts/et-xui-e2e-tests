@@ -380,4 +380,5 @@ Scenario(
 )
   .tag('@multiNotificationBatchEng')
   .tag('@multiNotification')
+  .tag('@nightly')
   .tag('@unreleased');
