@@ -5,6 +5,7 @@ module.exports = {
   veiwResponseLink: '[href="/case-document/response-acknowledgement"]',
   et3ResponseLink: '[href="/case-document/response-from-respondent"]',
   statusBeforeView: '.govuk-tag--blue',
+  statusInProgressView: '#main-content > div > div > div > div.govuk-grid-column-two-thirds-from-desktop > div > ol > li:nth-child(6) > ul > li > strong',
   statusAfterView: '//strong[contains(.,"Viewed")]',
   welshToggle: '//a[.="Cymraeg"]',
   linkToAttachedDocument: '[class="govuk-link"]',
@@ -65,6 +66,7 @@ module.exports = {
   closeStoredApplication: '#main-content .govuk-button',
   returnOverviewButton: '.govuk-template__body > .govuk-width-container > .govuk-button-group > .govuk-button',
   notificationFlagAfter: '.app-task-list > li:nth-of-type(5) .govuk-tag',
+  judgementsLink: '[href="/all-judgments"]',
   closeAndReturnToCaseOverview: '#main-content .govuk-button',
   viewCorrespondenceLink: '//a[.="View correspondence"]',
   confirmedCopyCheckBox: '#confirmCopied',
@@ -262,6 +264,7 @@ module.exports = {
     I.click('Continue');
     I.waitForElement('#main-content', 20);
   },
+  
   cyaPageVerification() {
     I.see('Application type');
     I.see('What do you want to tell or ask the tribunal?');
@@ -273,6 +276,16 @@ module.exports = {
     I.click(this.returntoCUIcaseOverviewButton);
     I.waitForElement('#main-content', 20);
     I.see('Case overview');
+  },
+
+  respondToJudgement() {
+    I.see('The tribunal requires some information from you.');
+    I.scrollTo(this.judgementsLink);
+    I.see('In progress', { css: this.statusInProgressView });
+    I.click(this.judgementsLink);
+    I.see('All judgments');
+    I.click('Test');
+    I.waitForElement('#main-content', 20);
   },
 
   respondToSendNotification(notificationType) {
