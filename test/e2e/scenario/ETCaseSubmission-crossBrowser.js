@@ -40,10 +40,10 @@ Scenario(
     let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
     console.log('The value of the Case Number ' + caseNumber);
     //await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber,'1666891874114742'); Test after the Citizen Hub Login is already in Session....
-    await caseListPage.verifyCaseDetailsPage();
-    await caseListPage.selectNextEvent('ET1 case vetting'); //Firing the ET1 Event.
+    await caseListPage.verifyCaseDetailsPage()
+    caseListPage.selectNextEvent('ET1 case vetting'); //Firing the ET1 Event.
     await et1CaseVettingPages.processET1CaseVettingPages(caseNumber);
-    //await caseListPage.verifyCaseDetailsPage(true);
+    //await caseListPage.verifyCaseDetailsPage(true);https://hmcts-reform.slack.com/archives/D06SFUW3N84/p1717579161584309
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
     I.forceClick('Sign out');

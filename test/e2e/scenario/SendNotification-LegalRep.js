@@ -13,7 +13,7 @@ const scotWorkPostcode = 'EH45 9BU';
 const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
-Feature('End To End Tests For an ET3  Notification ');
+Feature('End To End Tests For Send Notification  Legal Rep');
 Scenario(
   'Send Notification - Tribunal - Request',
   async ({

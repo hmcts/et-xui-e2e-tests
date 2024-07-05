@@ -1,4 +1,4 @@
-Feature('End To End Tests For an ET3  Notification and Case Progression from Citizen Hub');
+Feature('End To End Tests For Send Notification Claimant journey');
 const testConfig = require('../../../config.js');
 
 const postcode = 'LS9 9HE';

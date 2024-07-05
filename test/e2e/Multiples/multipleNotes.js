@@ -75,17 +75,8 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    let { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
-    I.click('Sign out');
-    //NOC to assign a solicitor
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
-    I.click('Sign out');
-    // submit ET3 response form
+
     // process cases number 2
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
     // case vetting
@@ -102,7 +93,7 @@ Scenario(
     await caseListPage.createMutiple('MultipleNotification', 'Leeds');
     await caseListPage.addTwoCases(caseNumber, caseNumber2);
     // Add a note as a legal officer
-    await caseListPage.selectNextEvent('Case: Add note');
+    await caseListPage.selectNextEvent('Add note');
     await multipleCaseNotePage.addNoteToMultiple();
     await multipleCaseNotePage.verifyAddedNoteIsVisible();
   },
@@ -178,12 +169,6 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
-    let { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
-    I.click('Sign out');
-    //NOC to assign a solicitor
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Scotland - Singles', submissionReference, respondentName, firstName, lastName);
     // create multiple with 2 cases
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
@@ -199,7 +184,7 @@ Scenario(
     // go to url for multiple
     I.amOnPage(multipleUrl);
     // Add a note as a judge
-    await caseListPage.selectNextEvent('Case: Add note');
+    await caseListPage.selectNextEvent('Add note');
     await multipleCaseNotePage.addNoteToMultiple();
     await multipleCaseNotePage.verifyAddedNoteIsVisible();
 
