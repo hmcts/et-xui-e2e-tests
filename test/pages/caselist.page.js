@@ -294,7 +294,7 @@ module.exports = {
     I.click(this.submitEventButton);
     I.wait(10);
   },
-  addTwoCases(leadcase, case2) {
+  addTwoCases(leadcase, case2, isCaseVetted) {
     I.wait(5);
     I.see('Lead Case (Optional)');
     I.waitForElement(this.leadCase, 10);
@@ -303,7 +303,19 @@ module.exports = {
     I.waitForElement(this.removeAdditionalCaseButton, 10);
     I.waitForElement(this.submitEventButton, 10);
     I.fillField(this.addCaseNumberTextField, case2)
-    I.click(this.submitEventButton);
+    switch (isCaseVetted) {
+      case 'true':
+        I.click(this.submitEventButton);
+        break;
+      case 'false':
+        I.click(this.submitEventButton);
+        I.see('Unable to proceed because there are one or more callback Errors or Warnings');
+        I.see('cases have not been Accepted, but are Submitted. If this is permissible please click Ignore and Continue');
+        I.click(this.submitEventButton);
+        break;
+        default:
+        throw new Error('... check your options or add new option');
+    }
     I.wait(10);
   },
 

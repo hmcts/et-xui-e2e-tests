@@ -72,7 +72,7 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Eng/Wales - Multiples');
     await caseListPage.createMutiple('None Vetted Multiples', 'Leeds');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     // verify event list is working for the unvetted cases
     await caseListPage.selectNextEvent('Batch Update Cases');
   },
@@ -149,7 +149,7 @@ Scenario(
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
     await caseListPage.createMutiple('Partly Vetted Multiples', 'Glasgow');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'false');
     // verify list events are working for partly vetted multiples
     await caseListPage.selectNextEvent('Upload Document');
 

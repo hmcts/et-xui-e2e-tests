@@ -105,7 +105,7 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Eng/Wales - Multiples');
     await caseListPage.createMutiple('MultipleNotification', 'Leeds');
-    await caseListPage.addTwoCases(caseNumber2, caseNumber1);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     // go back to citizen ui and verify that the lead case flag is displayed
     await citizenHubPages.processCitizenHubLogin(submissionReference);
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber2, submissionReference2);
