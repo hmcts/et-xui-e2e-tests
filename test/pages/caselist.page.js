@@ -454,7 +454,7 @@ module.exports = {
   },
 
   claimantRepCreateCase(jurisdiction, caseType) {
-    I.wait(10);
+    I.waitForElement(this.createCaseLink);
     I.click(this.createCaseLink);
     I.selectOption(this.jurisdictionDropdownLR, jurisdiction);
     I.selectOption(this.casetypeDropdownLR, caseType);

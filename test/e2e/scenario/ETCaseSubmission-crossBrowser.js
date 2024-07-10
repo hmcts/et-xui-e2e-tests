@@ -1,9 +1,9 @@
 const testConfig = require('../../../config.js');
-const postcode = 'LS9 9HE';
-const workPostcode = 'LS7 4QE';
-const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
-const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
-const firstLineOfAddress = '7, Valley Gardens?';
+  const postcode = 'SE1 0AL';
+const workPostcode = 'WD17 3EX';
+const selectedWorkAddress = 'Watford Borough Council, Town Hall, Watford, WD17 3EX';
+const addressOption = 'London Councils, 59 & A Half, Southwark Street, London, SE1 0AL';
+const firstLineOfAddress = 'Watford Borough Council, Town Hall?';
 
 Feature('End To End Tests For an ET Case Submitted in the sya Front end and processed in the Manage Case Application');
 Scenario(

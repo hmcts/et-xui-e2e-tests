@@ -18,7 +18,7 @@ module.exports = {
   caseDetailsTab:'#mat-tab-label-0-0',
 
   claimantWorkLocation() {
-    I.waitForElement(this.et1Postcode, 10);
+    I.waitForElement(this.et1Postcode,10);
     //TODO: validate 2 links
     I.click(this.et1Postcode);
   },
@@ -94,7 +94,7 @@ module.exports = {
     I.see('Steps to making a claim');
     I.click(this.et1Section2Link);
 
-    I.waitForText('employment status');
+    I.waitForText('Employment & Respondent Detail');
     I.click('Continue');
 
     I.waitForText('Did the claimant work for the respondent?', 10);
