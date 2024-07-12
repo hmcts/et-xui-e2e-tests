@@ -26,9 +26,16 @@ module.exports = {
           break;
         case 'Add cases to multiple':
           I.checkOption(this.fields.addCaseToMultiple);
+          I.waitForText('Press Continue to add cases to this Multiple on the next page', 10);
+          I.click(this.continueButtonButton);
+          I.waitForText('Case Numbers', 10);
+          I.click(this.fields.addNewButton);
+          I.waitForElement(this.fields.addCaseNumberTextField, 10);
+          I.fillField(this.fields.addCaseNumberTextField, caseNumber);
           break;
         case 'Remove cases from multiple':
           I.checkOption(this.fields.removeCaseFromMultiple);
+          I.waitForText('Press Continue to remove cases from this Multiple', 10);
           I.click(this.continueButtonButton);
           I.waitForText('Case Numbers', 10);
           I.click(this.fields.addNewButton);

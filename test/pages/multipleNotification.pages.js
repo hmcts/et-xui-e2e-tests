@@ -3,6 +3,7 @@ const { I } = inject();
 module.exports = {
   multipleNotificationLink: '//a[.="Send a notification"]',
   multipleNotificationTitle:'#sendNotificationTitle',
+  RadioBoxNo: '#sendNotificationLetter_No',
   partiesFromLeadCase: '[id="sendNotificationNotify-Lead case"]',
   allPartiesFromLeadCase: '[id="sendNotificationNotifyLeadCase-Both parties"]',
   claimantFromLeadCase: '[id="sendNotificationNotifyLeadCase-Claimant only"]',
@@ -46,6 +47,10 @@ module.exports = {
   sendNotificationMultiple(notifType, notificationParty) {
     I.waitForElement(this.multipleNotificationLink, 10)
     I.click(this.multipleNotificationLink);
+    I.fillField('#sendNotificationTitle', 'Send Notification Title');
+    I.see('Is there a letter to send out?');
+    I.checkOption(this.RadioBoxNo);
+    I.see('Notification subject');
     I.waitForElement(this.multipleNotificationTitle, 10);
     I.see('Use this service to send a notification to parties within this multiple. You can do this by uploading standard letter documents.');
     I.see('You can send multiple letters in one notification');

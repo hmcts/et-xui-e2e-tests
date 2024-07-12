@@ -93,7 +93,7 @@ Scenario(
      // create multiples with 2 cases
       await caseListPage.createMutipleCase('Eng/Wales - Multiples');
       await caseListPage.createMutiple('MultipleNotification', 'Leeds');
-      await caseListPage.addTwoCases(caseNumber2, caseNumber);
+      await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
       // get multiple case number
       await caseListPage.findCaseWithRef(submissionReference2);
       const caseNumberForMultiple = await caseListPage.getMultiplecaseNumber();

@@ -83,14 +83,17 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Eng/Wales - Multiples');
     await caseListPage.createMutiple('MultipleNotification', 'Leeds');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     // Remove a case
     await caseListPage.selectNextEvent('Amend Multiple Details');
     await amendMultipleCasePage.amendMultipleDetails ('Remove cases from multiple', caseNumber2);
+    // add case back to multiple
+    await caseListPage.selectNextEvent('Amend Multiple Details');
+    await amendMultipleCasePage.amendMultipleDetails ('Add cases to multiple', caseNumber2);
 
   },
 )
   .tag('@removeCaseFromMultiple')
-  .tag('@removeCases')
+  .tag('@nightly')
   .tag('@unreleased');
 

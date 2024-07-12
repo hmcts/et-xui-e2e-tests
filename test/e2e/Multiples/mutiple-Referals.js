@@ -85,7 +85,7 @@ Scenario(
 
     await caseListPage.createMutipleCase('Eng/Wales - Multiples');
     await caseListPage.createMutiple('Auto Test', 'Leeds');
-    await caseListPage.assignLeadCase(caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     I.see('Multiple Number');
 
     // 2) come to referrals Tab and create a referal and review /close the referral (send/update and close)

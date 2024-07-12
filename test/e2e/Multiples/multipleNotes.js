@@ -91,7 +91,7 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Eng/Wales - Multiples');
     await caseListPage.createMutiple('MultipleNotification', 'Leeds');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     // Add a note as a legal officer
     await caseListPage.selectNextEvent('Add note');
     await multipleCaseNotePage.addNoteToMultiple();
@@ -174,7 +174,7 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Scotland - Multiples (RET)');
     await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     //get multiple url
     const multipleUrl = await I.grabCurrentUrl();
     I.click('Sign out');
@@ -272,7 +272,7 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Scotland - Multiples (RET)');
     await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     //get multiple url
     const multipleUrl = await I.grabCurrentUrl();
     I.click('Sign out');
