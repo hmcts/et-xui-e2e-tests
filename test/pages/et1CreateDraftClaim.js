@@ -91,7 +91,7 @@ module.exports = {
     I.see('Steps to making a claim');
     I.click(this.et1Section2Link);
 
-    I.waitForText('Employment & Respondent Detail');
+    I.waitForText('Employment and respondent details');
     I.click('Continue');
 
     I.waitForText('Did the claimant work for the respondent?', 10);
@@ -202,7 +202,7 @@ module.exports = {
     I.click('Close and Return to case details');
   },
 
-  et1SubmitClaim(){
+  async et1SubmitClaim(){
     I.waitForText('ET1 Claim', 15);
     I.see('Steps to making a claim');
     I.click(this.submitClaimLink);
@@ -219,6 +219,11 @@ module.exports = {
 
     I.seeElement(this.caseDetailsTab);
     I.see('Submission Reference');
+
+    const submissionRef = (I.grabTextFrom('//*[@id="case-viewer-field-read--feeGroupReference"]'));
+    console.log(submissionRef);
+    I.wait(5);
+    return submissionRef;
   }
 
 };

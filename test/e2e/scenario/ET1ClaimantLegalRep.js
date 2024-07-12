@@ -23,7 +23,17 @@ Scenario(
     await et1CreateDraftClaim.et1Section1();
     await et1CreateDraftClaim.et1Section2();
     await et1CreateDraftClaim.et1Section3();
-    await et1CreateDraftClaim.et1SubmitClaim();
+
+    let submissionReference = await et1CreateDraftClaim.et1SubmitClaim();
+    I.click('Sign out');
+
+    I.wait(5);
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
+    console.log('The Case Number is:' + caseNumber);
 
   },
-).tag('@nightly');
+).tag('@nightly')
+  .retry(2);
