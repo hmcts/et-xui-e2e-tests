@@ -142,12 +142,7 @@ Scenario(
     console.log('The value of the Case Number ' + submissionReference2);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference2);
     let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
-    // case vetting
-    await caseListPage.selectNextEvent('ET1 case vetting');
-    await et1CaseVettingPages.processET1CaseVettingPages(caseNumber2);
-    // case acceptance
-    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
-    await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
+    // create multiple with on case accepted and the other submitted
     await caseListPage.createMutiple('Partly Vetted Multiples', 'Glasgow');
     await caseListPage.addTwoCases(caseNumber, caseNumber2, 'false');
     // verify list events are working for partly vetted multiples
