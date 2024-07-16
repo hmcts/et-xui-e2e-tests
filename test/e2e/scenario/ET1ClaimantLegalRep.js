@@ -11,7 +11,8 @@ Scenario(
            I,
            loginPage,
            et1CreateDraftClaim,
-           caseListPage
+           caseListPage,
+           makeanApplicationPage
          }) => {
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
@@ -25,14 +26,25 @@ Scenario(
     await et1CreateDraftClaim.et1Section3();
 
     let submissionReference = await et1CreateDraftClaim.et1SubmitClaim();
-    I.click('Sign out');
 
-    I.wait(5);
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
-    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    console.log('The Case Number is:' + caseNumber);
+    //Legal rep makes an application
+    await caseListPage.selectTabLink('Applications');
+    await caseListPage.navigateToClaimantRepMakeAnApplication(submissionReference);
+    await makeanApplicationPage.selectApplicationType('Amend claim', 'claimantRep');
+    await makeanApplicationPage.amendClaim('Amend claim');
+    await makeanApplicationPage.copyCorrespondanceR92();
+    await makeanApplicationPage.checkYourAnswersAndSubmit();
+    await makeanApplicationPage.claimantCloseAndReturnToCaseDetails();
+
+
+    // I.click('Sign out');
+    //
+    // I.wait(5);
+    // I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    // await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    // await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
+    // let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
+    // console.log('The Case Number is:' + caseNumber);
 
   },
 ).tag('@nightly')

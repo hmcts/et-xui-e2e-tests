@@ -172,6 +172,12 @@ module.exports = {
     I.forceClick(`[href="${makeAnApplicationLink}"]`);
   },
 
+  navigateToClaimantRepMakeAnApplication(submissionReference) {
+    let makeAnApplicationLink = `/cases/case-details/${submissionReference}/trigger/claimantTSE/claimantTSE1`;
+    I.wait(10);
+    I.forceClick(`[href="${makeAnApplicationLink}"]`);
+  },
+
   verifyCaseDetailsPage(et1VettingFlag = false) {
     I.waitForElement('[tabindex="0"]', 10);
     I.see('Claimant');

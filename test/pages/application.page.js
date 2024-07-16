@@ -19,9 +19,12 @@ module.exports = {
   nextEventDropdown: '#resTseSelectApplication',
   submitButton: '[type="submit"]',
   accompanyInformationTextBox: '#resTseTextBox1',
+  claimantAccompanyInformationTextBox:'#claimantTseTextBox1',
   resTseCopyToOtherPartyYes: '#resTseCopyToOtherPartyYesOrNo-Yes',
+  r92Yes: '#claimantTseRule92-Yes',
   postponeMyHearing: '#tseAdminSelectApplication > option:nth-child(2)',
   applicationDropdown: '#tseAdminSelectApplication',
+  claimantApplicationDropdown:'#claimantTseSelectApplication',
   caseManagementOrderRadioButton: '#tseAdmReplyIsCmoOrRequest-Case management order',
   requestRadioButton: '#tseAdmReplyIsCmoOrRequest-Request',
   neitherRadioButton: '#tseAdmReplyIsCmoOrRequest-Neither',
@@ -36,94 +39,53 @@ module.exports = {
   selectBothParties: '#tseAdmReplySelectPartyNotify-Both parties',
   respondentOnly: '#tseAdmReplySelectPartyNotify-Respondent only',
 
-  selectApplicationType(applicationType) {
-    try {
-      switch (applicationType) {
-        case 'Amend response':
-          I.selectOption(this.nextEventDropdown, 'Amend response');
-          I.click(this.submitButton);
-          break;
-        case '1 - Amend response':
-          I.selectOption(this.applicationDropdown, '1 - Amend response');
-          I.click(this.submitButton);
-          break;
-        case 'Postpone a hearing':
-          I.waitForElement(this.applicationDropdown);
-          I.selectOption(this.applicationDropdown, '1 - Postpone a hearing');
-          I.click(this.submitButton);
-          break;
-        case 'postpone hearing':
-          I.waitForElement('#contact-options-content-3', 5);
-          I.click(this.postponeMyHearing);
-          I.waitForElement('#main-content', 20);
-          I.see('Apply to postpone my hearing');
-          break;
-        case 'revoke an order':
-          I.waitForElement('#contact-options-content-4', 5);
-          I.click(this.revokeAnOrder);
-          I.waitForElement('#main-content', 20);
-          I.see('Apply to vary or revoke an order');
-          break;
-        case 'decision consider afresh':
-          I.waitForElement('#contact-options-content-5', 5);
-          I.click(this.reconsiderDecision);
-          I.waitForElement('#main-content', 20);
-          I.see('Apply to have a decision considered afresh');
-          break;
-        case 'amend my claim':
-          I.waitForElement('#contact-options-content-6', 5);
-          I.click(this.amendClaim);
-          I.waitForElement('#main-content', 20);
-          I.see('Apply to amend my claim');
-          break;
-        case 'order respondent':
-          I.waitForElement('#contact-options-content-7', 5);
-          I.click(this.orderRespondent);
-          I.waitForElement('#main-content', 20);
-          I.see('Order the respondent to do something');
-          break;
-        case 'order witness':
-          I.waitForElement('#contact-options-content-8', 5);
-          I.click(this.orderWitness);
-          I.waitForElement('#main-content', 20);
-          I.see('Order a witness to attend to give evidence');
-          break;
-        case 'respondent has not complied':
-          I.waitForElement('#contact-options-content-9', 5);
-          I.click(this.respondentNotComplied);
-          I.waitForElement('#main-content', 20);
-          I.see('Tell the tribunal the respondent has not complied with an order');
-          break;
-        case 'restrict publicity':
-          I.waitForElement('#contact-options-content-10', 5);
-          I.click(this.restrictPublicity);
-          I.waitForElement('#main-content', 20);
-          I.see('Apply to restrict publicity');
-          break;
-        case 'strike out response':
-          I.waitForElement('#contact-options-content-11', 5);
-          I.click(this.strikeOutResponse);
-          I.waitForElement('#main-content', 20);
-          I.see('Strike out all or part of the response');
-          break;
-        case 'reconsider judgment':
-          I.waitForElement('#contact-options-content-12', 5);
-          I.click(this.reconsiderJudgment);
-          I.waitForElement('#main-content', 20);
-          I.see('Apply for a judgment to be reconsidered');
-          break;
-        case 'contact tribunal about something else':
-          I.waitForElement('#contact-options-content-13', 5);
-          I.click(this.somethingElse);
-          I.waitForElement('#main-content', 20);
-          I.see('Contact the tribunal');
-          break;
-        default:
-          throw new Error('... invalid option, check you options');
+  selectApplicationType(applicationType, role) {
+    switch (role){
+      case 'respondent': {
+        try {
+          switch (applicationType) {
+            case 'Amend response':
+              I.selectOption(this.nextEventDropdown, 'Amend response');
+              I.click(this.submitButton);
+              break;
+            case '1 - Amend response':
+              I.selectOption(this.applicationDropdown, '1 - Amend response');
+              I.click(this.submitButton);
+              break;
+            case 'Postpone a hearing':
+              I.waitForElement(this.applicationDropdown);
+              I.selectOption(this.applicationDropdown, '1 - Postpone a hearing');
+              I.click(this.submitButton);
+              break;
+            default:
+              throw new Error('... invalid option, check you options');
+          }
+        } catch (e) {
+          console.error('invalid option', e.message);
+        }
+        break;
       }
-    } catch (e) {
-      console.error('invalid option', e.message);
+      case 'claimantRep': {
+        try {
+          switch (applicationType) {
+            case 'Amend claim':
+              I.waitForElement(this.claimantApplicationDropdown);
+              I.selectOption(this.claimantApplicationDropdown, 'Amend claim');
+              I.click(this.submitButton);
+              break;
+          }
+        }
+        catch (e) {
+            console.error('invalid option', e.message);
+          }
+          break;
+        }
+
+      break;
+      default:
+        throw new Error('... invalid option, define role to make an application ');
     }
+
   },
 
   respondToAnApplication() {
@@ -134,6 +96,12 @@ module.exports = {
     I.fillField(this.accompanyInformationTextBox, text);
     I.click(this.submitButton);
   },
+
+  amendClaim(text) {
+    I.fillField(this.claimantAccompanyInformationTextBox, text);
+    I.click(this.submitButton);
+  },
+
   selectNextEvent(option) {
     I.waitForElement(this.nextEventDropdown, 60);
     I.selectOption(this.nextEventDropdown, option);
@@ -173,6 +141,13 @@ module.exports = {
     I.click(this.submitButton);
   },
 
+  copyCorrespondanceR92() {
+    pause();
+    I.see('Copy this correspondence to the other party');
+    I.checkOption(this.r92Yes);
+    I.click(this.submitButton);
+  },
+
   checkYourAnswersAndSubmit() {
     I.see('Check your answers');
     I.click(this.submitButton);
@@ -180,6 +155,11 @@ module.exports = {
 
   closeAndReturnToCaseDetails() {
     I.see('What happens next');
+    I.click(this.submitButton);
+  },
+
+  claimantCloseAndReturnToCaseDetails() {
+    I.see('Copy this correspondence to the other party');
     I.click(this.submitButton);
   },
 

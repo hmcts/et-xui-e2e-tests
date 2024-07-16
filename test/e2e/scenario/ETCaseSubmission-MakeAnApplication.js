@@ -65,7 +65,7 @@ Scenario(
     // Legal Rep makes an application
     await caseListPage.selectTab('Applications');
     await caseListPage.navigateToMakeAnApplication(submissionReference);
-    await makeanApplicationPage.selectApplicationType('Amend response');
+    await makeanApplicationPage.selectApplicationType('Amend response', 'respondent');
     await makeanApplicationPage.amendResponse('Amend response');
     await makeanApplicationPage.copyCorrespondance();
     await makeanApplicationPage.checkYourAnswersAndSubmit();
@@ -83,7 +83,7 @@ Scenario(
     await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.selectTab('Applications');
     await makeanApplicationPage.respondToAnApplication(submissionReference);
-    await makeanApplicationPage.selectApplicationType('1 - Amend response');
+    await makeanApplicationPage.selectApplicationType('1 - Amend response','respondent');
     await makeanApplicationPage.selectcaseManagementOption('caseManagementOrder');
     await makeanApplicationPage.selectPartyType('bothParties');
     await makeanApplicationPage.selectcaseManagementOrder('Legal officer');
@@ -149,7 +149,7 @@ Scenario(
     await legalRepNOCPages.processNOC('Scotland - Singles (RET)', submissionReference, respondentName, firstName, lastName);
     await caseListPage.selectTab('Applications');
     await caseListPage.navigateToMakeAnApplication(submissionReference);
-    await makeanApplicationPage.selectApplicationType('Amend response');
+    await makeanApplicationPage.selectApplicationType('Amend response', 'respondent');
     await makeanApplicationPage.amendResponse('Amend response');
     await makeanApplicationPage.copyCorrespondance();
     await makeanApplicationPage.checkYourAnswersAndSubmit();
@@ -170,7 +170,7 @@ Scenario(
     await caseListPage.processCaseFromCaseList(submissionReference);
     await caseListPage.selectTab('Applications');
     await makeanApplicationPage.respondToAnApplication(submissionReference);
-    await makeanApplicationPage.selectApplicationType('1 - Amend response');
+    await makeanApplicationPage.selectApplicationType('1 - Amend response', 'respondent');
     await makeanApplicationPage.selectcaseManagementOption('caseManagementOrder');
     await makeanApplicationPage.selectPartyType('bothParties');
     await makeanApplicationPage.selectcaseManagementOrder('Legal officer');
