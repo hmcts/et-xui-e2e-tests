@@ -96,11 +96,10 @@ module.exports = {
     I.see('Ready to view', { css: this.statusBeforeView });
     I.click(this.veiwResponseLink);
     I.waitForElement(this.linkToAttachedDocument, 20);
-    I.see('Acknowledgement of response');
+    I.see('Response from the respondent (ET3)');
     I.click(this.linkToAttachedDocument);
-    I.wait(5);
-    I.click(this.backButton);
-    I.waitForElement(this.linkToET3Response, 20);
+    I.forceClick(this.backButton);
+    I.waitForElement(this.et3ResponseLink, 20);
     // the change of status is failing to be fixed by PET team
     //I.see('Viewed', { css: this.statusAfterView });
   },
