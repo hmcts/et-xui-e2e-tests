@@ -36,16 +36,6 @@ Scenario(
     await makeanApplicationPage.checkYourAnswersAndSubmit();
     await makeanApplicationPage.claimantCloseAndReturnToCaseDetails();
 
-
-    // I.click('Sign out');
-    //
-    // I.wait(5);
-    // I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    // await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    // await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
-    // let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
-    // console.log('The Case Number is:' + caseNumber);
-
   },
 ).tag('@nightly')
   .retry(2);
