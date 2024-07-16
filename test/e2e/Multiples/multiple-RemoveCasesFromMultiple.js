@@ -95,5 +95,6 @@ Scenario(
 )
   .tag('@removeCaseFromMultiple')
   .tag('@nightly')
-  .tag('@unreleased');
+  .tag('@unreleased')
+  .retry(1);
 

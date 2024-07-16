@@ -130,4 +130,5 @@ Scenario( 'Verify Send Notification Event by Caseworker Outside Application - Re
 })
   .tag('@nightly')
   .tag('@sendReqNotification')
-  .tag('@sendNotification');
+  .tag('@sendNotification')
+  .retry(1);

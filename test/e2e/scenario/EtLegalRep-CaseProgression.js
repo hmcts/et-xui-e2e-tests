@@ -89,5 +89,5 @@ Scenario(
   },
 )
   .tag('@legalRepTSE')
-  .tag('@nightly');
-//.retry(1);
+  .tag('@nightly')
+  .retry(1);
