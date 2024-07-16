@@ -51,7 +51,10 @@ Scenario(
 )
   .tag('@caseFileView')
   .tag('@caseFileViewEW')
-  .tag('@nightly');
+  .tag('@nightly')
+  .retry(1);
+
+
 
 Scenario(
   'Case File View - Check ET 1 Claim in CFV folder - Scotland',

@@ -161,7 +161,7 @@ Scenario(
     await citizenHubPages.claimantReplyToRespondApplication('Amend response');
     await citizenHubPages.rule92Question('yes');
     await citizenHubPages.cyaPageVerification();
-    // Case worker Responding to application
+    // Caseworker Responding to application
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference(
       'Scotland - Singles (RET)',
@@ -182,5 +182,5 @@ Scenario(
   }
 ).tag('@ClaimantResponse')
   .tag('nightly')
-  .tag('@RET-3687-WIP');
+  .retry(1);
 

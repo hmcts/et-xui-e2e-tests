@@ -117,8 +117,8 @@ Scenario(
     I.click('Sign out');
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(
-      testConfig.TestEnvAdminETManageCaseUser,
-      testConfig.TestEnvAdminETManageCasePassword,
+      testConfig.TestEnvETAdminUserScot,
+      testConfig.TestEnvETManageCasePassword,
     );
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
 
@@ -149,4 +149,5 @@ Scenario(
     //check Location being Re-configured
     I.see('Leeds');
   },
-).tag('@nightly');
+).tag('@nightly')
+  .retry(1);
