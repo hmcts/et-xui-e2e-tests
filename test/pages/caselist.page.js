@@ -148,8 +148,9 @@ module.exports = {
     I.selectOption(this.nextEventDropdown, option);
     I.wait(3);
     //I.waitForElement(this.submitEventButton, 10);
-    I.forceClick(this.submitEventButton);
+    I.click(this.submitEventButton);
     I.wait(10);
+    I.dontSee('Go');
   },
 
   selectTab(title, submissionReference) {
