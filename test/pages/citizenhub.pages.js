@@ -96,7 +96,7 @@ module.exports = {
     I.see('Ready to view', { css: this.statusBeforeView });
     I.click(this.veiwResponseLink);
     I.waitForElement(this.linkToAttachedDocument, 20);
-    I.see('Response from the respondent (ET3)');
+    I.see('Acknowledgement of response');
     I.click(this.linkToAttachedDocument);
     I.forceClick(this.backButton);
     I.waitForElement(this.et3ResponseLink, 20);

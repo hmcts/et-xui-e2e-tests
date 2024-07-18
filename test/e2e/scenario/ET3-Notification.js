@@ -58,13 +58,11 @@ Scenario(
     await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
     I.click('Sign out');
     I.wait(5);
-
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
-    await caseListPage.processCaseFromCaseList(submissionReference);
-    await caseListPage.verifyCaseDetailsPage();
-    await caseListPage.selectNextEvent('ET3 notification'); //ET3NotificationEvent
+    await caseListPage.findCasewithRefNumber(submissionReference);
+    await caseListPage.selectNextEvent('ET3 notification'); 
+    //ET3NotificationEvent
     await et3NotificationPages.uploadET3acceptanceLetter('single document');
     // Return to Citizen hub and verify ET3 notification banner
     await citizenHubPages.processCitizenHubLogin(submissionReference);

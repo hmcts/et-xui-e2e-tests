@@ -49,6 +49,8 @@ module.exports = {
   closeAndReturnButton: '[type="submit"]',
   loadingSpinner: '.spinner-container',
   legalRepNotificationTab: '#mat-tab-label-0-6',
+  viewJudgmentOrderOrNotificationLink: '//a[.="View a judgment, order or notification"]',
+  selectJudgmentOrderorNotificationDropdown: '#pseRespondentSelectJudgmentOrderNotification',
   lrRespondToTribunal: '//a[.="Respond to an order or request from the tribunal"]',
   responseNotificationDropdown: '#pseRespondentSelectOrderOrRequest',
   casedetailsEditForm: '#caseEditForm',
@@ -386,6 +388,16 @@ module.exports = {
     I.click(this.submitButtonLegalRep);
     I.wait(5);
     I.click(this.continueLegalRepButton);
+  },
+
+  legalRepViewJudgmentOrderorNotification() {
+    I.waitForElement(this.viewJudgmentOrderOrNotificationLink, 10);
+    I.click(this.viewJudgmentOrderOrNotificationLink);
+    I.see('View a judgment, order or notification');
+    I.selectOption(this.selectJudgmentOrderorNotificationDropdown, '1: 1');
+    I.wait(3);
+    I.click(this.continueLegalRepButton);
+    I.see('View Application');
   },
 
   submitET3ResponseForm() {
