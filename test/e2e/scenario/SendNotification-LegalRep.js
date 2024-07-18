@@ -82,7 +82,7 @@ Scenario(
   .retry(2);
 
 Scenario(
-  'Verify Response to Notification-ManagementOrder - LegalRep',
+  'Legal Rep view Notification from Legal ops - Scotland',
   async ({
     I,
     basePage,
