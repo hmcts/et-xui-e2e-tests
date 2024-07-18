@@ -143,7 +143,7 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
     await caseListPage.selectTab('Judgments, orders & notifications');
-    await legalRepPages.legalRepViewJudgementOrderorNotification();
+    await legalRepPages.legalRepViewJudgmentOrderorNotification();
     I.click('Sign out');
 
   },
