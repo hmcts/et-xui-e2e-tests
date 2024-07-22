@@ -1509,6 +1509,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@playwright/test@npm:^1.45.2":
+  version: 1.45.2
+  resolution: "@playwright/test@npm:1.45.2"
+  dependencies:
+    playwright: 1.45.2
+  bin:
+    playwright: cli.js
+  checksum: 7f916fde237e6f5a5461571da026a959f8730dccfad6b4ee01ed6566089c750b8079c3a9930c45875faf67a7418195a8b11e0cdb6134405805065f6c7ee347de
+  languageName: node
+  linkType: hard
+
 "@polka/url@npm:^0.5.0":
   version: 0.5.0
   resolution: "@polka/url@npm:0.5.0"
@@ -2149,6 +2160,15 @@ __metadata:
   dependencies:
     undici-types: ~5.26.4
   checksum: b6db87d095bc541d64a410fa323a35c22c6113220b71b608bbe810b2397932d0f0a51c3c0f3ef90c20d8180a1502d950a7c5314b907e182d9cc10b36efd2a44e
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.14.11":
+  version: 20.14.11
+  resolution: "@types/node@npm:20.14.11"
+  dependencies:
+    undici-types: ~5.26.4
+  checksum: 24396dea2bc803c2d2ebfdd31a3e6e93818ba1a5933d63cd0f64fad1e2955a8280ba09338a48ffe68cd84748eec8bee27135045f15661aa389656f67fe0b0924
   languageName: node
   linkType: hard
 
@@ -6342,6 +6362,8 @@ __metadata:
     "@codeceptjs/examples": 1.2.4
     "@codeceptjs/ui": 1.1.1
     "@faker-js/faker": 8.4.1
+    "@playwright/test": ^1.45.2
+    "@types/node": ^20.14.11
     "@wdio/cli": 8.36.0
     "@wdio/sauce-service": 8.36.0
     "@wdio/selenium-standalone-service": 8.15.0
@@ -11653,6 +11675,30 @@ __metadata:
   bin:
     playwright-core: cli.js
   checksum: 7bee257c830153578753a6dfb34b8216f8c552d750e24a0be6d3ba10baff013fb1320a1c3d487fbb0df9d1ce5d1f027ccf6e990d4514989da63691f177141ba4
+  languageName: node
+  linkType: hard
+
+"playwright-core@npm:1.45.2":
+  version: 1.45.2
+  resolution: "playwright-core@npm:1.45.2"
+  bin:
+    playwright-core: cli.js
+  checksum: 536423bfb320ad045b638498748df5681585dadda8bae1eff8995c70fcd6695761caf3c331c1e807e323e2af431bb15b0216142c5315d28f110b129f6e800b30
+  languageName: node
+  linkType: hard
+
+"playwright@npm:1.45.2":
+  version: 1.45.2
+  resolution: "playwright@npm:1.45.2"
+  dependencies:
+    fsevents: 2.3.2
+    playwright-core: 1.45.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    playwright: cli.js
+  checksum: ff37a27f85220363fcc6876389f58ea43f95946a1c26a8153b5f831e3a6693772e4ff45290e32dc193b4f64bc5053dbae3305432eaf5bd4a7dc6782e9b7b8e4a
   languageName: node
   linkType: hard
 
