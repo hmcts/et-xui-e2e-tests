@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test'
-import { BasePage } from "./basePage.ts"
+import { BasePage } from "./basePage"
 
 const axios = require('axios');
 const chance = require('chance').Chance();
@@ -10,11 +10,15 @@ export default class LoginPage extends BasePage{
     readonly username:Locator
     readonly password:Locator
     readonly submit:Locator
+
+
   constructor(page: Page) {
     super(page)
     this.username = this.page.getByLabel('Email address');
     this.password = this.page.getByLabel('password');
+    this.submit = this.page.getByRole('button', { name: 'Sign in' });
     }
+
   async registerNewAccount() {
     try {
       let firstName = chance.first();
@@ -53,13 +57,17 @@ export default class LoginPage extends BasePage{
   }
 
   async processLoginWithNewAccount() {
-    //console.log(`${await registerNewAccount()}`);
     const { email } = await this.registerNewAccount();
-    await this.username;
     console.log('.... checking email address:', email);
     await this.username.fill(testConfig.TestEnvETCaseWorkerUser);
     await this.password.fill(testConfig.TestEnvETPassword);
+    await this.submit.click;
+  }
 
+  async processLoginOnXui(username: string, password: string) {
+    await this.username.fill(testConfig.TestEnvETCaseWorkerUser);
+    await this.password.fill(testConfig.TestEnvETPassword);
+    await this.submit.click;
   }
 
 
