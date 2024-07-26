@@ -475,12 +475,15 @@ export default class CaseListPage extends BasePage{
   //     I.wait(5)
   //   },
 
-  async claimantRepCreateCase(jurisdiction, caseType) {
+  async claimantRepCreateCase(jurisdiction, caseType, postcode) {
       await this.elements.createCaseLink.click();
       await this.elements.jurisdictionDropdownLR.selectOption(jurisdiction);
       await this.elements.casetypeDropdownLR.selectOption(caseType);
       await this.elements.eventLR.selectOption('Create draft claim');
       await this.elements.submitEventButton.click();
+
+      await this.enterPostCode(postcode);
+      await this.submitButton();
     }
   }
 

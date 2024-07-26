@@ -1,7 +1,7 @@
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
 import { click } from "webdriverio/build/commands/element/click";
-const postcodeHelper = require('../helper/postcode.js');
+import PostcodeHelper from "../helper/postcode";
 
 export default class Et1CreateDraftClaim extends BasePage{
 
@@ -31,8 +31,8 @@ elements = {
   claimantStillWorking:this.page.locator('  #claimantStillWorking-Working'),
   claimantJobTitle:this.page.locator('#claimantJobTitle'),
   claimantStartDate:this.page.locator('#claimantStartDate-day'),
-  claimantStartDateMonth:this.page.locator('#claimantStartDateMonth'),
-  claimantStartDateYear:this.page.locator('#claimantStartDateYear'),
+  claimantStartDateMonth:this.page.locator('#claimantStartDate-month'),
+  claimantStartDateYear:this.page.locator('#claimantStartDate-year'),
   claimantStillWorkingNoticePeriodMonths:this.page.locator('#claimantStillWorkingNoticePeriod-Months'),
   claimantStillWorkingNoticePeriodMonthsText:this.page.locator('#claimantStillWorkingNoticePeriodMonths'),
   claimantAverageWeeklyWorkHours:this.page.locator('#claimantAverageWeeklyWorkHours'),
@@ -66,12 +66,12 @@ elements = {
     await this.page.getByLabel('Female').check();
     await this.page.getByLabel('What is the claimant’s').click();
     await this.page.getByLabel('What is the claimant’s').fill('miss');
-    await this.page.getByRole('button', { name: 'Continue' }).click();
     await this.clickContinue();
     //can check fields are optional
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Claimant contact address');
-    await postcodeHelper.enterClaimantPostcode('LS121AA','The Deli, 1 Whitehall Place, Leeds');
+    await this.enterPostCode('LS121AA');
+    await this.clickContinue();
 
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Hearing format');
@@ -83,7 +83,7 @@ elements = {
 
 
     await this.elements.claimantSupportQuestion.check();
-    await this.page.locator('claimantSupportQuestionReason').fill('disability access');
+    await this.page.locator('#claimantSupportQuestionReason').fill('disability access');
     await this.clickContinue();
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Your information (as the representative)');
@@ -137,7 +137,6 @@ elements = {
     await this.elements.claimantStillWorkingNoticePeriodMonthsText.fill('1');
     await this.clickContinue();
 
-    await expect(this.page.locator('label')).toContainText('Enter average weekly hours (Optional)');
     await this.elements.claimantAverageWeeklyWorkHours.fill('40');
     await this.clickContinue();
 
@@ -158,7 +157,8 @@ elements = {
     await this.clickContinue();
 
 
-    await postcodeHelper.enterRespPostcode('LS121AA', ' 6 Whitehall Place, Leeds ');
+    await this.enterPostCode('LS121AA');
+    await this.clickContinue();
 
     await this.page.locator('#didClaimantWorkAtSameAddress_Yes').check();
     await this.clickContinue();
@@ -178,67 +178,54 @@ elements = {
     await expect(this.page.locator('#confirmation-body')).toContainText('Your answers have been saved.');
     await this.closeAndReturn();
   }
-  //
-  // async et1Section3(){
-  //   I.waitForText('ET1 Claim', 15);
-  //   I.see('Steps to making a claim');
-  //   I.click(this.et1Section3Link);
-  //
-  //   I.waitForText('You’ll need to provide details of the claim. This can be uploaded in a document.');
-  //   I.click('Continue');
-  //
-  //   I.waitForText('Enter details of the claim', 10);
-  //   I.fillField('#et1SectionThreeClaimDetails', 'No supplemetary Details');
-  //   I.click('Continue');
-  //
-  //   I.waitForText('What type of claim is this?');
-  //   I.checkOption('#et1SectionThreeTypeOfClaim-discrimination');
-  //   I.waitForText('What type of discrimination are you claiming?');
-  //   I.checkOption('#discriminationTypesOfClaim-Age');
-  //   I.click('Continue');
-  //
-  //   I.waitForText('What does the claimant want if their claim is successful?');
-  //   I.checkOption('#claimSuccessful-compensation');
-  //   I.fillField('#compensationDetails', 'Compensation £40,000');
-  //   I.click('Continue');
-  //
-  //   I.waitForText('Linked cases');
-  //   I.checkOption('#linkedCasesYesNo-No');
-  //   I.click('Continue');
-  //
-  //   I.waitForText('Check your answers');
-  //   I.see('What type of claim is this?');
-  //   I.see('What type of discrimination are you claiming?');
-  //   I.see('What compensation is the claimant seeking?');
-  //   I.click('Save as draft');
-  //   I.waitForText('Your answers have been saved.');
-  //
-  //   I.click('Close and Return to case details');
-  // },
-  //
-  // async et1SubmitClaim(){
-  //   I.waitForText('ET1 Claim', 15);
-  //   I.see('Steps to making a claim');
-  //   I.click(this.submitClaimLink);
-  //   I.wait(10);
-  //
-  //   I.waitForText('Do you want to submit this ET1 claim?');
-  //   I.checkOption('#submitEt1Confirmation-Yes');
-  //   I.click('Submit');
-  //
-  //   I.waitForText('You have submitted the ET1 claim');
-  //   I.see('You have submitted the ET1 claim');
-  //   I.click('Close and Return to case details');
-  //   I.wait(10);
-  //
-  //   I.seeElement(this.caseDetailsTab);
-  //   I.see('Submission Reference');
-  //
-  //   const submissionRef = (I.grabTextFrom('//*[@id="case-viewer-field-read--feeGroupReference"]'));
-  //   console.log(submissionRef);
-  //   I.wait(5);
-  //   return submissionRef;
-  // }
+
+  async et1Section3(){
+    await expect(this.page.locator('#mat-tab-label-0-0')).toContainText('ET1 Claim');
+
+    await this.elements.et1Section3Link.click();
+
+    await this.clickContinue();
+
+    await this.page.locator('#et1SectionThreeClaimDetails').fill( 'No supplemetary Details');
+    await this.clickContinue();
+
+    await this.page.locator('#et1SectionThreeTypeOfClaim-discrimination').check();
+    await this.page.locator('#discriminationTypesOfClaim-Age').check();
+    await this.clickContinue();
+
+    await this.page.locator('#claimSuccessful-compensation').check();
+    await this.page.locator('#compensationDetails').fill( 'Compensation £40,000');
+    await this.clickContinue();
+
+    await this.page.locator('#linkedCasesYesNo-No').check();
+    await this.clickContinue();
+
+    await expect(this.page.locator('form')).toContainText('Check your answers');
+    await expect(this.page.locator('form')).toContainText('What type of claim is this?');
+    await expect(this.page.locator('form')).toContainText('What type of discrimination are you claiming?');
+    await expect(this.page.locator('form')).toContainText('What compensation is the claimant seeking?');
+    await this.saveAsDraft();
+
+    await expect(this.page.locator('#confirmation-body')).toContainText('Your answers have been saved.');
+    await this.closeAndReturn();
+  }
+
+  async et1SubmitClaim(){
+    await expect(this.page.locator('#mat-tab-label-0-0')).toContainText('ET1 Claim');
+
+    await this.elements.submitClaimLink.click();
+
+
+    await this.page.locator('#submitEt1Confirmation-Yes').check();
+    await this.submitButton();
+
+    await expect(this.page.locator('#confirmation-header')).toContainText('You have submitted the ET1 claim');
+    await this.closeAndReturn();
+
+    await this.elements.caseDetailsTab.isVisible();
+    const submissionRef =await this.page.locator('//*[@id="case-viewer-field-read--feeGroupReference"]').innerText();
+    return submissionRef;
+  }
 
 
 }
