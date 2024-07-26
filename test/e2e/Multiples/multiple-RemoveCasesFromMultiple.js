@@ -22,7 +22,6 @@ Scenario(
            caseListPage,
            et1CaseVettingPages,
            et1CaseServingPages,
-           legalRepNOCPages,
            amendMultipleCasePage,
 
          }) => {
