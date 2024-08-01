@@ -1,7 +1,6 @@
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
-import { click } from "webdriverio/build/commands/element/click";
-import PostcodeHelper from "../helper/postcode";
+
 
 export default class Et1CreateDraftClaim extends BasePage{
 
