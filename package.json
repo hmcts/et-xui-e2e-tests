@@ -8,8 +8,7 @@
   "license": "hmcts",
   "private": true,
   "scripts": {
-    "test:fullfunctional": "rm -rf functional-output &&  DEBUG='codeceptjs:heal' && codeceptjs run -c codecept.conf.js --verbose --reporter mocha-multi --grep @nightly",
-    "test:functional-chromium": "yarn playwright install chromium && yarn playwright install firefox && yarn playwright install webkit && yarn playwright test --project=chromium",
+    "test:fullfunctional": "yarn playwright install chromium && yarn playwright install firefox && yarn playwright install webkit && yarn playwright test --project=chromium",
     "test:local": "rm -rf functional-output &&  DEBUG='codeceptjs:heal' && codeceptjs run --ai -c codecept.conf.js --verbose --reporter mocha-multi",
     "parallel": "codeceptjs run --steps -c codecept.conf.js run-multiple parallel",
     "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
@@ -28,10 +27,6 @@
   },
   "dependencies": {
     "@faker-js/faker": "8.4.1",
-    "@wdio/cli": "8.36.0",
-    "@wdio/sauce-service": "8.36.0",
-    "@wdio/selenium-standalone-service": "8.15.0",
-    "@wdio/types": "8.36.0",
     "axios": "^1.6.7",
     "chance": "^1.1.11",
     "eslint": "9.3.0",
