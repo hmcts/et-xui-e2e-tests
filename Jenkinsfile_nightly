@@ -52,14 +52,14 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withNightlyPipeline("nodejs", product, component) {
     loadVaultSecrets(secrets)
-    enableFullFunctionalTest(int timeout=300)
+    enableFullFunctionalTest(int timeout = 300)
     enableCrossBrowserTest()
     //enableFortifyScan()
     //enableSecurityScan()
 
     env.TEST_URL = params.ET_SYA_URL_TO_TEST
     env.IDAM_URL = params.IDAM_URL
-     env.TESTMANAGE_CASE_URL = params.CCD_CALLBACK_URL
+    env.TESTMANAGE_CASE_URL = params.CCD_CALLBACK_URL
     env.ET_CASE_API_URL = params.ET_CASE_API_URL
     env.RUNNING_ENV = params.ENVIRONMENT
 
@@ -80,13 +80,37 @@ withNightlyPipeline("nodejs", product, component) {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
 
         publishHTML target: [
-                allowMissing : true,
+                allowMissing         : true,
                 alwaysLinkToLastBuild: true,
-                keepAll : true,
-                reportDir : "functional-output/e2e/reports",
-                reportFiles : "ET-XUI-E2E.html",
-                reportName : "ET E2E tests result"
+                keepAll              : true,
+                reportDir            : "functional-output/e2e/reports",
+                reportFiles          : "ET-XUI-E2E.html",
+                reportName           : "ET E2E tests result"
         ]
     }
 
+    afterAlways('fullFunctionalTest') {
+        stage('Functional UI tests chromium') {
+            try {
+                yarnBuilder.yarn('test:functional-chromium')
+            } catch (Error) {
+                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
+            } finally {
+                publishHTML([
+                        allowMissing         : true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll              : true,
+                        reportDir            : 'playwright-report',
+                        reportFiles          : 'index.html',
+                        reportName           : 'UITestChromiumReport'
+                ])
+                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/functionalTest/**/*'
+            }
+        }
+
+
+    }
 }
+
+
+
