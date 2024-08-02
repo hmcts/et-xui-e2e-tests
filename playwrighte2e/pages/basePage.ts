@@ -9,6 +9,7 @@ export abstract class BasePage {
   readonly submit:Locator;
   readonly postcode:Locator;
   readonly findAddress: Locator;
+  readonly signout:Locator;
 
 
 
@@ -20,6 +21,7 @@ export abstract class BasePage {
     this.submit = this.page.getByRole('button', { name: 'submit' });
     this.postcode = page.getByRole('textbox', { name: 'Enter a UK postcode' });
     this.findAddress = page.getByRole('button', { name: 'Find address' });
+    this.signout = page.getByText('Sign out');
   }
 
   async wait(time: number) {
@@ -48,7 +50,10 @@ export abstract class BasePage {
     await this.findAddress.click();
     await this.wait(3000);
     await this.page.getByLabel('Select an address').selectOption('1: Object');
+  }
 
+  async signoutButton(){
+    await this.signout.click();
   }
 
 }

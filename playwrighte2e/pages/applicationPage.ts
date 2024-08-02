@@ -57,5 +57,6 @@ export default class applicationPage extends BasePage {
     await expect(this.page.locator('h3')).toContainText('Download a copy of your application');
     await this.closeAndReturn();
     await expect(this.page.locator('cut-alert')).toContainText('Make an Application');
+    await this.signoutButton();
   }
 }

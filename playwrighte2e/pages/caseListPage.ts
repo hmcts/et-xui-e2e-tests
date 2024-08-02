@@ -8,7 +8,7 @@ export default class CaseListPage extends BasePage{
     caseListLink: this.page.locator('[href="/cases"]'),
     // hideFilterButton: '[class="govuk-button hmcts-button--secondary"]',
     // jurisdictionDropdown: '#wb-jurisdiction',
-    // caseTypeDropdown: '#wb-case-type',
+    // caseTypeDropdown: this.page.locator('#wb-case-type'),
     // stateDropdown: '#wb-case-state',
     // tribunalOffice: '#managingOffice',
     // caseNumberInputField: '#ethosCaseReference',

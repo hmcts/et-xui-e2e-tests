@@ -41,7 +41,7 @@ elements = {
   }
 
 
-  async et1Section1(){
+  async et1Section1(claimantsFirstName,claimantLastname ){
     await expect(this.page.getByLabel('case viewer table').getByRole('table')).toContainText('ET1 Section 1 - Claimant details');
     await expect(this.page.getByLabel('case viewer table').getByRole('table')).toContainText('ET1 Section 2 - Employment & respondent details');
     await expect(this.page.getByLabel('case viewer table').getByRole('table')).toContainText('ET1 Section 3 - Details of the claim');
@@ -52,8 +52,8 @@ elements = {
     await this.clickContinue();
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Claimant details');
-    await this.elements.claimantFirstName.fill('Jessamine');
-    await this.elements.claimantLastname.fill('Malcom');
+    await this.elements.claimantFirstName.fill(claimantsFirstName);
+    await this.elements.claimantLastname.fill(claimantLastname);
     await this.elements.date.fill('1');
     await this.elements.month.fill('11');
     await this.elements.year.fill('2000');
@@ -107,7 +107,7 @@ elements = {
     await this.closeAndReturn();
   }
 
-  async et1Section2(){
+  async et1Section2(respondentFirstName,respondentLastName){
     await expect(this.page.locator('#mat-tab-label-0-0')).toContainText('ET1 Claim');
 
     await this.elements.et1Section2Link.click();
@@ -151,8 +151,8 @@ elements = {
 
 
     await this.page.locator('#respondentType-Individual').check();
-    await this.page.locator('#respondentFirstName').fill( 'Mark');
-    await this.page.locator('#respondentLastName').fill( 'McDonald');
+    await this.page.locator('#respondentFirstName').fill( respondentFirstName);
+    await this.page.locator('#respondentLastName').fill( respondentLastName);
     await this.clickContinue();
 
 
