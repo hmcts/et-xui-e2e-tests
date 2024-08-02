@@ -50,9 +50,9 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withNightlyPipeline("nodejs", product, component) {
-    triggers {
-        cron(env.BRANCH_NAME == 'master' ? 'H 8 * * 1-5' : '')
-    }
+   // triggers {
+   //     cron(env.BRANCH_NAME == 'master' ? 'H 8 * * 1-5' : '')
+   // }
     loadVaultSecrets(secrets)
     enableFullFunctionalTest(int timeout = 300)
     enableCrossBrowserTest()
