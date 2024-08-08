@@ -11005,8 +11005,8 @@ __metadata:
   linkType: hard
 
 "openai@npm:^4.47.1":
-  version: 4.52.0
-  resolution: "openai@npm:4.52.0"
+  version: 4.55.3
+  resolution: "openai@npm:4.55.3"
   dependencies:
     "@types/node": ^18.11.18
     "@types/node-fetch": ^2.6.4
@@ -11015,10 +11015,14 @@ __metadata:
     form-data-encoder: 1.7.2
     formdata-node: ^4.3.2
     node-fetch: ^2.6.7
-    web-streams-polyfill: ^3.2.1
+  peerDependencies:
+    zod: ^3.23.8
+  peerDependenciesMeta:
+    zod:
+      optional: true
   bin:
     openai: bin/cli
-  checksum: 44bd3dfbe6aecc119d613477fa9701876b9450fa050e970bca0db7a7eb143ae2583ab9dd52e54897493896ad740f161b7ecc65600427c5fcd3569aa938a6c44d
+  checksum: bd30feb1f332577b3f18f80d52f6c11010d84d6c42ee5a7cf8bcd900b02fcd2e83d4e1a7b2ce92ecd4b060995bac1ac8bdfc4bb0cf3f5aed72a1bd3b9be15899
   languageName: node
   linkType: hard
 
