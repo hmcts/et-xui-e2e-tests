@@ -67,7 +67,7 @@ withNightlyPipeline("nodejs", product, component) {
     env.ET_CASE_API_URL = params.ET_CASE_API_URL
     env.RUNNING_ENV = params.ENVIRONMENT
 
-    before('crossBrowserTest') {
+    before('fullFunctionalTest') {
         sh """
            yarn playwright install
         """
