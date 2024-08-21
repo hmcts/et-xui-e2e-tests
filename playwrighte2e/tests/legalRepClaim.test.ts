@@ -22,7 +22,7 @@ test('Claimant Representative creates a claim (England and Wales - Singles) and 
 
 
     await page.goto(params.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+    await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
     await caseListPage.claimantRepCreateCase('Employment','Eng/Wales - Singles', postcode);
 
     await et1CreateDraftClaim.et1Section1(claimantsFirstName, claimantsLastName);

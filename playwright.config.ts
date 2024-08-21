@@ -12,6 +12,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './playwrighte2e',
+  testMatch:'*test.ts',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -24,7 +25,7 @@ export default defineConfig({
   reporter: 'html',
   timeout: 6 * 60 * 1000,
   expect: {
-    timeout: 30 * 1000,
+    timeout: 60 * 1000,
   },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

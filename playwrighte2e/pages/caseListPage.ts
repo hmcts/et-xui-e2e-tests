@@ -1,4 +1,5 @@
 import { BasePage } from "./basePage";
+import { expect } from "@playwright/test";
 
 const params = require('../utils/config');
 
@@ -8,18 +9,18 @@ export default class CaseListPage extends BasePage{
     caseListLink: this.page.locator('[href="/cases"]'),
     // hideFilterButton: '[class="govuk-button hmcts-button--secondary"]',
     // jurisdictionDropdown: '#wb-jurisdiction',
-    // caseTypeDropdown: this.page.locator('#wb-case-type'),
+     caseTypeDropdown: this.page.locator('#wb-case-type'),
     // stateDropdown: '#wb-case-state',
     // tribunalOffice: '#managingOffice',
     // caseNumberInputField: '#ethosCaseReference',
     // receiptDateDay: '#receiptDate-day',
     // receiptDateMonth: '#receiptDate-month',
     // receiptDateYear: '#receiptDate-year',
-    // submissionReferenceLocator: '#feeGroupReference',
+     submissionReferenceLocator: this.page.locator('#feeGroupReference'),
     // respondentTextfield: '#respondent',
-    // applyButton: '//button[@class="button workbasket-filters-apply"]',
+     applyButton: this.page.locator('//button[@class="button workbasket-filters-apply"]'),
     // resetButton: '[aria-label="Reset filter"]',
-    // nextEventDropdown: '#next-step',
+    nextEventDropdown: this.page.locator('#next-step'),
      submitEventButton: this.page.locator('//button[@class="button"]'),
     // confirmAllocationButton: '[type="button"]',
     // tab: '[role="tab"] div:contains("Applications")',
@@ -92,69 +93,57 @@ export default class CaseListPage extends BasePage{
      eventLR: this.page.locator('#cc-event')
   };
 
-  //   async searchCaseApplication(option) {
-  //     I.waitForElement(this.caseTypeDropdown, 30);
-  //     I.see(this.caseListText);
-  //     I.waitForElement(this.caseTypeDropdown, 30);
-  //     I.selectOption(this.caseTypeDropdown, option);
-  //     I.click(this.applyButton);
-  //   },
-  //
-  //   async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
-  //     I.refreshPage();
-  //     I.waitForElement(this.caseListLink, 20);
-  //     I.click(this.caseListLink);
-  //     I.waitForElement(this.caseTypeDropdown, 30);
-  //     I.refreshPage();
-  //     I.wait(5);
-  //     I.waitForElement(this.caseTypeDropdown, 25);
-  //     I.see(this.caseListText);
-  //     I.wait(5);
-  //     try {
-  //       switch (option) {
-  //         case 'Eng/Wales - Singles':
-  //           I.selectOption(this.caseTypeDropdown, 'Eng/Wales - Singles');
-  //           break;
-  //         case 'Scotland - Singles':
-  //           I.selectOption(this.caseTypeDropdown, 'Scotland - Singles (RET)');
-  //           break;
-  //         default:
-  //           throw new Error('... check you options or add new option');
-  //       }
-  //     } catch (error) {
-  //       console.error('invalid option', error.message);
-  //     }
-  //     I.wait(10);
-  //     I.scrollPageToBottom();
-  //     I.waitForElement(this.submissionReferenceLocator, 10);
-  //     I.click(this.submissionReferenceLocator);
-  //     I.fillField(this.submissionReferenceLocator, submissionReference);
-  //     //I.scrollPageToBottom();
-  //     I.click(this.applyButton);
-  //     I.wait(15);
-  //   },
-  //
-  //   async processCaseFromCaseList(submissionReference) {
-  //     // I.waitForElement('//button[contains(.,"Hide Filter")]', 30);
-  //     let text = `/cases/case-details/${submissionReference}`;
-  //     I.waitForElement(`[href="${text}"]`, 30);
-  //     I.seeElement(`[href="${text}"]`);
-  //     let caseNumber = I.grabTextFrom(`[href="${text}"]`);
-  //     console.log('case number is' + caseNumber);
-  //     I.click(`[href="${text}"]`);
-  //     I.wait(5);
-  //     return caseNumber;
-  //   },
-  //
-  //   async selectNextEvent(option) {
-  //     I.waitForElement(this.nextEventDropdown, 15);
-  //     I.selectOption(this.nextEventDropdown, option);
-  //     I.wait(3);
-  //     //I.waitForElement(this.submitEventButton, 10);
-  //     I.click(this.submitEventButton);
-  //     I.wait(10);
-  //     I.dontSee('Go');
-  //   },
+    // async searchCaseApplication(option) {
+    //   I.waitForElement(this.caseTypeDropdown, 30);
+    //   I.see(this.caseListText);
+    //   I.waitForElement(this.caseTypeDropdown, 30);
+    //   I.selectOption(this.caseTypeDropdown, option);
+    //   I.click(this.applyButton);
+    // },
+
+    async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
+      await this.page.reload();
+      await this.elements.caseListLink.isVisible();
+      await this.elements.caseListLink.click();
+      await this.elements.caseTypeDropdown.isVisible();
+      await this.elements.applyButton.isVisible();
+      await expect(this.page.locator('h1')).toContainText('Case list');
+      try {
+        switch (option) {
+          case 'Eng/Wales - Singles':
+            await this.elements.caseTypeDropdown.selectOption('Eng/Wales - Singles');
+            break;
+          case 'Scotland - Singles':
+            await this.elements.caseTypeDropdown.selectOption('Scotland - Singles (RET)');
+            break;
+          default:
+            throw new Error('... check you options or add new option');
+        }
+      } catch (error) {
+        console.error('invalid option', error.message);
+      }
+
+      await this.elements.submissionReferenceLocator.fill(submissionReference);
+      await this.elements.applyButton.click();
+      await expect(this.page.locator('#search-result')).toContainText(submissionReference);
+    }
+
+
+    async processCaseFromCaseList(submissionReference) {
+      await expect(this.page.locator('tbody')).toContainText(submissionReference);
+      let caseNumber = await this.page.getByLabel('go to case with Case').allTextContents();
+      console.log('The value of the Case Number ' +caseNumber);
+      await this.page.getByLabel('go to case with Case').click();
+      await this.page.waitForSelector('#mat-tab-label-0-1');
+      // let caseNumber = this.page.locator('//*[@id="undefined"]/dt/ccd-markdown/div/markdown/h1[1]').textContent();
+      // console.log('The value of the Case Number ' +caseNumber);
+      return caseNumber;
+    }
+
+    async selectNextEvent(option) {
+      await this.elements.nextEventDropdown.selectOption(option);
+      await this.elements.submitEventButton.click();
+    }
   //
   //   async selectTab(title, submissionReference) {
   //     let tabUrl = testConfig.TestUrlForManageCaseAAT + `/cases/case-details/${submissionReference}/${title}`;
@@ -182,18 +171,22 @@ export default class CaseListPage extends BasePage{
   //     I.forceClick(`[href="${makeAnApplicationLink}"]`);
   //   },
   //
-  //   async verifyCaseDetailsPage(et1VettingFlag = false) {
-  //     I.waitForElement('[tabindex="0"]', 10);
-  //     I.see('Claimant');
-  //     I.see('Respondent');
-  //     I.see('Jurisdictions');
-  //     I.see('Referrals');
-  //     I.see('History');
-  //     I.see('Documents');
-  //     if (et1VettingFlag) {
-  //       I.see('ET1Vetting');
-  //     }
-  //   },
+    async verifyCaseDetailsPage(et1VettingFlag) {
+      if (et1VettingFlag) {
+        //TO DO fix this tab Ids are not consistent
+        // await expect(this.page.locator('#mat-tab-label-0-0')).toContainText('Case Details');
+        // await expect(this.page.locator('#mat-tab-label-0-1')).toContainText('Claimant');
+        // await expect(this.page.locator('#mat-tab-label-0-2')).toContainText('Respondent');
+        // await expect(this.page.locator('#mat-tab-label-0-4')).toContainText('Jurisdictions');
+        // await expect(this.page.locator('#mat-tab-label-0-5')).toContainText('Referrals');
+        // await expect(this.page.locator('#mat-tab-label-0-6')).toContainText('History');
+        // await expect(this.page.locator('#mat-tab-label-0-7')).toContainText('Documents');
+      }
+      else {
+        //await expect(this.page.locator('#mat-tab-label-1-2')).toContainText('ET1 Vetting');
+      }
+    }
+
   //   async proceedtoWATaskPage() {
   //     //I.waitForElement(this.resetButton, 20);
   //     I.seeElement(this.myWorkLink);

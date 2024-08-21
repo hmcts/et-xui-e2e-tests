@@ -1,7 +1,7 @@
 
 export const params = {
 
-    TestUrl: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net',
+    TestUrlCitizenUi: process.env.TEST_URL || 'https://et-sya.aat.platform.hmcts.net',
     TestUrlForManageCaseAAT: process.env.TEST_MANAGE_CASE_URL || 'https://manage-case.aat.platform.hmcts.net',
     TestIdamUrl: process.env.IDAM_URL || 'https://idam-api.aat.platform.hmcts.net/testing-support/accounts',
     IdamAcccountUrl: process.env.IDAM_ACCOUNT_URL || 'https://idam-api.aat.platform.hmcts.net/testing-support/accounts',
