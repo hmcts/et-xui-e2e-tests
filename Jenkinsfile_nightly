@@ -67,64 +67,32 @@ withNightlyPipeline("nodejs", product, component) {
     env.ET_CASE_API_URL = params.ET_CASE_API_URL
     env.RUNNING_ENV = params.ENVIRONMENT
 
-    before('fullFunctionalTest') {
-        yarnBuilder.yarn('yarn-update')
-        yarnBuilder.yarn('install-dependencies')
+    before('crossBrowserTest') {
+        sh """
+           yarn playwright install
+        """
     }
 
+//    afterAlways('crossBrowserTest') {
+//        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+//        sh """
+//                yarn playwright install
+//        """
+//    }
+
     afterAlways('fullFunctionalTest') {
-        stage('Functional UI tests chromium') {
-            try {
-                yarnBuilder.yarn('test:functional-chromium')
-            } catch (Error) {
-                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
-            } finally {
-                publishHTML([
-                        allowMissing: true,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'playwright-report',
-                        reportFiles: 'index.html',
-                        reportName: 'UITestChromiumReport'
-                ])
-                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/functionalTest/**/*'
-            }
-        }
-        stage('Functional UI tests firefox') {
-            try {
-                yarnBuilder.yarn('test:functional-firefox')
-            } catch (Error) {
-                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
-            } finally {
-                publishHTML([
-                        allowMissing: true,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'playwright-report',
-                        reportFiles: 'index.html',
-                        reportName: 'UITestFirefoxReport'
-                ])
-                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/functionalTest/**/*'
-            }
-        }
-        stage('Functional UI tests webkit ') {
-            try {
-                yarnBuilder.yarn('test:functional-webkit')
-            } catch (Error) {
-                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
-            } finally {
-                publishHTML([
-                        allowMissing: true,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'playwright-report',
-                        reportFiles: 'index.html',
-                        reportName: 'UITestWebkitReport'
-                ])
-                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/functionalTest/**/*'
-            }
-        }
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**/*'
+
+        publishHTML target: [
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "playwright-report",
+                reportFiles          : "index.html",
+                reportName           : "ET E2E tests result"
+        ]
     }
+
 
 }
 
