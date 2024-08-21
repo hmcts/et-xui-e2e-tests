@@ -37,6 +37,8 @@ def secrets = [
         secret('et-hearing-judge-user-name-eng', 'ET_HEARING_JUDGE_USER_NAME_ENG'),
         secret('et-hearing-admin-user-name-eng', 'ET_HEARING_ADMIN_USER_NAME_ENG'),
         secret('et-hearing-admin-user-name-scot', 'ET_HEARING_ADMIN_USER_NAME_SCOT'),
+        secret('et-citizen-user-name', 'ET_CITIZEN_USER_NAME'),
+        secret('et-citizen-password', 'ET_CITIZEN_PASSWORD'),
     ]
 ]
 

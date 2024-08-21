@@ -37,7 +37,7 @@ test('Create a claim for still working for organisation, submit and process with
   //Creates claim on Citizen UI
     await page.goto(params.TestUrlCitizenUi);
     await citizenUiPage.processPreLoginPagesForTheDraftApplication(postcode);
-    await loginPage.processLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETPassword);
+    await loginPage.processLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
     await taskListPage.processPostLoginPagesForTheDraftApplication();
     await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
     await employmentAndRespondentDetailsPage.processStillWorkingJourney(
@@ -51,7 +51,7 @@ test('Create a claim for still working for organisation, submit and process with
 
   //Xui- process claim
    await page.goto(params.TestUrlForManageCaseAAT);
-   await loginPage.processLogin(params.TestEnvETManageCaseUser, params.TestEnvETManageCasePassword);
+   await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
    await caseListPage.verifyCaseDetailsPage(true);
@@ -69,7 +69,7 @@ test('Create a claim for still working for organisation, submit and process with
   await respondentRepPage.signoutButton();
 
  //citizenUI- contact tribunal
-  await citizenHubPages.processCitizenHubLogin(submissionReference, params.TestEnvETClaimantEmailAddress, params.TestEnvETPassword);
+  await citizenHubPages.processCitizenHubLogin(submissionReference, params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
   await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(submissionReference);
   await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
   await citizenHubPages.regAccountContactTribunal('withdraw all or part of my claim');
