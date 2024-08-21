@@ -20,7 +20,9 @@
     "codeceptjs:demo:ui": "codecept-ui --app  -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
     "test:crossbrowser": "codeceptjs run-workers 2 profile1 -c saucelabs.conf.js --grep @RET-XB --reporter mocha-multi --verbose",
     "test:profile": "SAUCE_TUNNEL_NAME=sunnyayeni_tunnel_name yarn test:fullfunctional  --steps -c saucelabs.conf.js --profile sauce:chrome,firefox,safari",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "yarn-update": "yarn set version 3.x",
+    "install-dependencies": "/usr/bin/yarn install --silent"
   },
   "lint-staged": {
     "test/**/*.{js,jsx,ts,tsx}": "eslint"
