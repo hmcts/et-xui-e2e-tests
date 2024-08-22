@@ -8,7 +8,9 @@
   "license": "hmcts",
   "private": true,
   "scripts": {
-    "test:fullfunctional": "yarn playwright install chromium && yarn playwright install firefox && yarn playwright install webkit && yarn playwright test --project=chromium --project=webkit --project=firefox",
+    "test:functional-chromium": "yarn playwright install chromium && yarn playwright install firefox && yarn playwright install webkit && yarn playwright test --project=chromium",
+    "test:functional-webkit": "yarn playwright install chromium && yarn playwright install firefox && yarn playwright install webkit && yarn playwright test  --project=webkit",
+    "test:functional-firefox": "yarn playwright install chromium && yarn playwright install firefox && yarn playwright install webkit && yarn playwright test --project=firefox",
     "test:local": "rm -rf functional-output &&  DEBUG='codeceptjs:heal' && codeceptjs run --ai -c codecept.conf.js --verbose --reporter mocha-multi",
     "parallel": "codeceptjs run --steps -c codecept.conf.js run-multiple parallel",
     "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
