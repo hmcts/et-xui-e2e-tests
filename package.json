@@ -9,8 +9,7 @@
   "private": true,
   "scripts": {
     "test:fullfunctional": "yarn playwright install chromium && yarn playwright install firefox && yarn playwright install webkit && yarn playwright test --project=chromium",
-    "test:functional-webkit": "yarn playwright install chromium && yarn playwright install firefox && yarn playwright install webkit && yarn playwright test  --project=webkit",
-    "test:functional-firefox": "yarn playwright install chromium && yarn playwright install firefox && yarn playwright install webkit && yarn playwright test --project=firefox",
+    "test:crossbrowser": "yarn playwright install chromium && yarn playwright install firefox && yarn playwright install webkit && yarn playwright test  --project=webkit  && yarn playwright install webkit && yarn playwright test --project=firefox",
     "test:local": "rm -rf functional-output &&  DEBUG='codeceptjs:heal' && codeceptjs run --ai -c codecept.conf.js --verbose --reporter mocha-multi",
     "parallel": "codeceptjs run --steps -c codecept.conf.js run-multiple parallel",
     "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
@@ -20,7 +19,6 @@
     "codeceptjs:demo": "codeceptjs run --steps -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
     "codeceptjs:demo:headless": "HEADLESS=true codeceptjs run --steps -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
     "codeceptjs:demo:ui": "codecept-ui --app  -c node_modules/@codeceptjs/examples/codecept.webdriver.conf.js",
-    "test:crossbrowser": "codeceptjs run-workers 2 profile1 -c saucelabs.conf.js --grep @RET-XB --reporter mocha-multi --verbose",
     "test:profile": "SAUCE_TUNNEL_NAME=sunnyayeni_tunnel_name yarn test:fullfunctional  --steps -c saucelabs.conf.js --profile sauce:chrome,firefox,safari",
     "prepare": "husky install",
     "yarn-update": "yarn set version 3.x",
