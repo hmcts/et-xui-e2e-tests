@@ -74,7 +74,7 @@ withNightlyPipeline("nodejs", product, component) {
     }
 
     afterAlways('crossBrowserTest') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/trace'
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
         sh """
                 yarn playwright install
         """
@@ -82,13 +82,13 @@ withNightlyPipeline("nodejs", product, component) {
 
 
     afterAlways('fullFunctionalTest') {
-            steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/trace'
+            steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
 
             publishHTML target: [
                     allowMissing : true,
                     alwaysLinkToLastBuild: true,
                     keepAll : true,
-                    reportDir : "playwright-report/trace",
+                    reportDir : "playwright-report/**",
                     reportFiles : "ET-XUI-E2E.html",
                     reportName : "ET E2E tests result"
             ]
