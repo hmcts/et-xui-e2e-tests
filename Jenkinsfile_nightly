@@ -96,7 +96,7 @@ withNightlyPipeline("nodejs", product, component) {
                         reportFiles: 'index.html',
                         reportName: 'UITestChromiumReport'
                 ])
-                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**/*'
+                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/functionalTest/**/*'
             }
         }
         stage('Functional UI tests firefox') {
@@ -113,7 +113,7 @@ withNightlyPipeline("nodejs", product, component) {
                         reportFiles: 'index.html',
                         reportName: 'UITestFirefoxReport'
                 ])
-                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**/*'
+                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/functionalTest/**/*'
             }
         }
         stage('Functional UI tests webkit ') {
@@ -130,7 +130,7 @@ withNightlyPipeline("nodejs", product, component) {
                         reportFiles: 'index.html',
                         reportName: 'UITestWebkitReport'
                 ])
-                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**/*'
+                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/functionalTest/**/*'
             }
         }
     }
