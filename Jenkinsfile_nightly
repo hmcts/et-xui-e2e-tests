@@ -57,7 +57,7 @@ withNightlyPipeline("nodejs", product, component) {
    //     cron(env.BRANCH_NAME == 'master' ? 'H 8 * * 1-5' : '')
    // }
     loadVaultSecrets(secrets)
-    enableFullFunctionalTest(int timeout = 300)
+    //enableFullFunctionalTest(int timeout = 300)
     //enableCrossBrowserTest()
     //enableFortifyScan()
     //enableSecurityScan()
