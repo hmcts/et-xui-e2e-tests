@@ -79,7 +79,7 @@ Scenario(
     await makeanApplicationPage.checkYourAnswersAndSubmit();
     await makeanApplicationPage.closeAndReturnToCaseDetails();
     I.click('Sign out');
-    I.wait(5);    
+    I.wait(5);
     // caseworker records a decision
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
@@ -102,7 +102,7 @@ Scenario(
     await caseListPage.verifyCaseDetailsPage();
     await caseListPage.selectTab('Judgments, orders & notifications')
     await caseListPage.navigateToJudgememts('View a judgment, order or notification')
-    await caseListPage.selectAJudgement('Amend response')    
+    await caseListPage.selectAJudgement('Amend response')
   },
 )
   .tag('@legalRepTSE')
@@ -172,7 +172,7 @@ Scenario(
     await makeanApplicationPage.checkYourAnswersAndSubmit();
     await makeanApplicationPage.closeAndReturnToCaseDetails();
     I.click('Sign out');
-    I.wait(5);    
+    I.wait(5);
     // caseworker records a decision
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
@@ -195,11 +195,11 @@ Scenario(
     await caseListPage.verifyCaseDetailsPage();
     await caseListPage.selectTab('Judgments, orders & notifications')
     await caseListPage.navigateToJudgememts('View a judgment, order or notification')
-    await caseListPage.selectAJudgement('Amend response')    
+    await caseListPage.selectAJudgement('Amend response')
     I.click('Sign out');
 
-    // Note : Currently thr is a Bug raised for view Judgements on AAT 
-    // Verify that notification to view judgment is displayed 
+    // Note : Currently thr is a Bug raised for view Judgements on AAT
+    // Verify that notification to view judgment is displayed
       await citizenHubPages.processCitizenHubLogin(
       testConfig.TestEnvETUser,
       testConfig.TestEnvETPassword,
@@ -209,6 +209,6 @@ Scenario(
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenhubPages.respondToJudgement();
   },
-)  
+)
 .tag('@legalRepTSE')
 .tag('@nightly');

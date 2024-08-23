@@ -1,7 +1,7 @@
 const { heal, ai } = require('codeceptjs');
 
 heal.addRecipe('ai', {
-  priority: 10,
+  priority: 5,
   prepare: {
     html: ({ I }) => I.grabHTMLFrom('body'),
   },

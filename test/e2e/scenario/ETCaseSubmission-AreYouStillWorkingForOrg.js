@@ -63,7 +63,7 @@ Scenario(
   },
 )
   .tag('@RET-BAT')
-  .retry(2);
+  .retry(1);
 
 Scenario(
   'Create a claim for working notice period for organisation, submit and process within manage cases',

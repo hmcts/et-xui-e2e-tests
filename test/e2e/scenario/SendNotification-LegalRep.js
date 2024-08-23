@@ -1,5 +1,6 @@
 //const applicationsTabsPages = require('../../pages/applicationsTabs.pages.js');
 const testConfig = require('../../../config.js');
+const legalRepPages = require('../../pages/legalRep.pages.js');
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
 const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
@@ -13,7 +14,7 @@ const scotWorkPostcode = 'EH45 9BU';
 const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
 const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
 
-Feature('End To End Tests For an ET3  Notification ');
+Feature('End To End Tests For Send Notification  Legal Rep');
 Scenario(
   'Send Notification - Tribunal - Request',
   async ({
@@ -81,7 +82,7 @@ Scenario(
   .retry(2);
 
 Scenario(
-  'Verify Respond to Notification-ManagementOrder - LegalRep',
+  'Legal Rep view Notification from Legal ops - Scotland',
   async ({
     I,
     basePage,
@@ -98,7 +99,6 @@ Scenario(
     applicationsTabsPages,
   }) => {
     I.amOnPage('/');
-    await loginPage.registerNewAccount();
     await basePage.processPreLoginPagesForTheDraftApplication(postcode);
     await loginPage.processLoginWithNewAccount();
     await taskListPage.processPostLoginPagesForTheDraftApplication();
@@ -123,19 +123,32 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    //send notification
-    await caseListPage.selectTab('Notifications');
-    await caseListPage.selectTab('Judgments, orders & notifications');
-    await applicationsTabsPages.respondtoAnOrderOrNotification();
-
+    const { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
     I.click('Sign out');
-    await citizenHubPages.processCitizenHubLogin(submissionReference);
-    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber, submissionReference);
-    await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPages.respondToSendNotification();
+    //NOC to assign a solicitor
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await legalRepNOCPages.processNOC('Scotland - Singles', submissionReference, respondentName, firstName, lastName);
+    I.click('Sign out');
+    I.wait(5);
+    // case worker send notification
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
+    await caseListPage.findCasewithRefNumber(submissionReference);
+    await applicationsTabsPages.selectNotificationLink();
+    await sendNotificationPages.sendNotificationLink('cmo both party to respond legal officer', 'claimant');
+    I.click('Sign out');
+    //legel rep view notification
+    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
+    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Scotland - Singles', submissionReference);
+    await caseListPage.selectTab('Judgments, orders & notifications');
+    await legalRepPages.legalRepViewJudgmentOrderorNotification();
+    I.click('Sign out');
+
   },
 )
-  .tag('@SNotiScot')
+  .tag('@VerifyNotiScot')
   .tag('@postr1.2')
   .tag('@nightly')
   .retry(2);

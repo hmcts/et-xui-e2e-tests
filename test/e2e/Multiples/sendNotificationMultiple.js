@@ -105,7 +105,7 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Eng/Wales - Multiples');
     await caseListPage.createMutiple('MultipleNotification', 'Leeds');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     // send notification for multiple
     await multipleNotificationPages.sendNotificationMultiple('general correspondence', 'Parties from lead case and sub cases both')
 
@@ -193,7 +193,7 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Eng/Wales - Multiples');
     await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     // send notification for multiple
     await multipleNotificationPages.sendNotificationMultiple('general correspondence', 'Parties from lead case and sub cases both')
 
@@ -282,7 +282,7 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Eng/Wales - Multiples');
     await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     // send notification for multiple
     await caseListPage.selectMultipleNotificationsTab();
     await multipleNotificationPages.sendNotificationMultiple('general correspondence', 'Batch processing all parties');
@@ -371,7 +371,7 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Eng/Wales - Multiples');
     await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     // send notification for multiple
     await multipleNotificationPages.sendNotificationMultiple('general correspondence', 'Batch processing all parties');
 
@@ -380,4 +380,5 @@ Scenario(
 )
   .tag('@multiNotificationBatchEng')
   .tag('@multiNotification')
+  .tag('@nightly')
   .tag('@unreleased');

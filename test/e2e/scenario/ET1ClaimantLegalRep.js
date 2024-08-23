@@ -11,7 +11,8 @@ Scenario(
            I,
            loginPage,
            et1CreateDraftClaim,
-           caseListPage
+           caseListPage,
+           makeanApplicationPage
          }) => {
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
@@ -23,7 +24,18 @@ Scenario(
     await et1CreateDraftClaim.et1Section1();
     await et1CreateDraftClaim.et1Section2();
     await et1CreateDraftClaim.et1Section3();
-    await et1CreateDraftClaim.et1SubmitClaim();
+
+    let submissionReference = await et1CreateDraftClaim.et1SubmitClaim();
+
+    //Legal rep makes an application
+    await caseListPage.selectTabLink('Applications');
+    await caseListPage.navigateToClaimantRepMakeAnApplication(submissionReference);
+    await makeanApplicationPage.selectApplicationType('Amend claim', 'claimantRep');
+    await makeanApplicationPage.amendClaim('Amend claim');
+    await makeanApplicationPage.copyCorrespondanceR92();
+    await makeanApplicationPage.checkYourAnswersAndSubmit();
+    await makeanApplicationPage.claimantCloseAndReturnToCaseDetails();
 
   },
-).tag('@nightly');
+).tag('@nightly')
+  .retry(2);

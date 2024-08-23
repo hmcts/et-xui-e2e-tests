@@ -18,25 +18,24 @@ module.exports = {
   caseDetailsTab:'#mat-tab-label-0-0',
 
   claimantWorkLocation() {
-    I.waitForElement(this.et1Postcode, 10);
-    //TODO: validate 2 links
+    I.waitForElement(this.et1Postcode,10);
     I.click(this.et1Postcode);
   },
 
   et1Section1(){
     I.waitForText('ET1 Claim', 15);
     I.see('Steps to making a claim');
-    //TODO: validate 3 section link available/visible and not completed
+    I.see('ET1 Section 1 - Claimant details');
+    I.see('ET1 Section 2 - Employment & respondent details');
+    I.see('ET1 Section 3 - Details of the claim');
     I.click(this.et1Section1Link);
     I.waitForText('Make a claim to an employment tribunal', 15);
     I.click('Continue');
     I.wait(10);
 
     I.waitForText('Claimant details');
-    //TODO:can check names fields mandatory
     I.fillField(this.claimantFirstName, 'Jessamine');
     I.fillField(this.claimantLastname, 'Malcom');
-    //TODO:Can add date validation
     I.fillField(this.date, '1');
     I.fillField(this.month, '11');
     I.fillField(this.year, '2000');
@@ -58,7 +57,6 @@ module.exports = {
     I.checkOption('#claimantAttendHearing-Phone');
     I.checkOption('#claimantHearingContactLanguage-English');
     I.click('Continue');
-    //TODO: can check questions are optional
 
     I.waitForText('Are there any support requirements', 10);
     I.checkOption('#claimantSupportQuestion-Yes');
@@ -86,7 +84,6 @@ module.exports = {
     I.waitForText('Your answers have been saved.');
 
     I.click('Close and Return to case details');
-    //TODO:can validate completed and date for section
   },
 
   et1Section2(){
@@ -94,7 +91,7 @@ module.exports = {
     I.see('Steps to making a claim');
     I.click(this.et1Section2Link);
 
-    I.waitForText('employment status');
+    I.waitForText('Employment and respondent details');
     I.click('Continue');
 
     I.waitForText('Did the claimant work for the respondent?', 10);
@@ -205,8 +202,7 @@ module.exports = {
     I.click('Close and Return to case details');
   },
 
-  et1SubmitClaim(){
-    //TODO:can validate sections are completed
+  async et1SubmitClaim(){
     I.waitForText('ET1 Claim', 15);
     I.see('Steps to making a claim');
     I.click(this.submitClaimLink);
@@ -223,6 +219,11 @@ module.exports = {
 
     I.seeElement(this.caseDetailsTab);
     I.see('Submission Reference');
+
+    const submissionRef = (I.grabTextFrom('//*[@id="case-viewer-field-read--feeGroupReference"]'));
+    console.log(submissionRef);
+    I.wait(5);
+    return submissionRef;
   }
 
 };

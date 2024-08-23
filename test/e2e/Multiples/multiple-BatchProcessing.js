@@ -99,7 +99,7 @@ Scenario(
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Eng/Wales - Multiples');
     await caseListPage.createMutiple('MultipleNotification', 'Leeds');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     // send batch update
     await caseListPage.selectNextEvent('Batch Update Cases');
     await multipleCaseBatchUpdatePage.sendBatchUpdate('Batch transfer of cases to another multiple or submultiple');
@@ -180,8 +180,9 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
+    // create multiple with 2 cases
     await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     //upload multiple documents
     await caseListPage.selectNextEvent('Upload Document');
     await uploadDocumentsMultiplePage.uploadDocumentOnMultiple('Response to a claim');
@@ -268,8 +269,9 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
+    // create multiple with 2 cases
     await caseListPage.createMutiple('MultipleNotification', 'Glasgow');
-    await caseListPage.addTwoCases(caseNumber, caseNumber2);
+    await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
     //upload multiple documents
     await caseListPage.selectNextEvent('Upload Document');
     await uploadDocumentsMultiplePage.uploadDocumentOnMultiple('Response to a claim');

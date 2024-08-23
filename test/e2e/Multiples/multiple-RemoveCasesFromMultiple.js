@@ -1,4 +1,5 @@
 const testConfig = require('../../../config.js');
+const { stringify } = require("mocha/lib/utils");
 const postcode = 'LS9 9HE';
 const workPostcode = 'LS7 4QE';
 const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
@@ -6,16 +7,9 @@ const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 const firstLineOfAddress = '7, Valley Gardens?';
 const respondentName = 'Henry Marsh';
 
-//Scotish Details
-const scotPostcode = 'FK15 9ET';
-const scotAddressOption = '3e, Station Road, Dunblane, FK15 9ET';
-const scotWorkPostcode = 'EH45 9BU';
-const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
-const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
-
-Feature('End To End Test - Multiples ');
+Feature('End To End Test - Remove case from Multiple');
 Scenario(
-  'Multiples - Citizen UI - Case Lead - Scotland',
+  'Case worker remove case from multiple - England',
   async ({
            I,
            basePage,
@@ -28,9 +22,8 @@ Scenario(
            caseListPage,
            et1CaseVettingPages,
            et1CaseServingPages,
-           legalRepNOCPages,
-           citizenHubPages,
-           multipleNotificationPages
+           amendMultipleCasePage,
+
          }) => {
     //case 1
     I.amOnPage('/');
@@ -61,6 +54,7 @@ Scenario(
     );
     await claimDetailsPage.processClaimDetails();
     let submissionReference2 = await submitClaimPage.submitClaim();
+    I.click('Sign out');
     //manage case
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
@@ -74,17 +68,6 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber);
-    let { firstName, lastName } = await et1CaseServingPages.getClaimantFirstName();
-    I.click('Sign out');
-    //NOC to assign a solicitor
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstName, lastName);
-    I.click('Sign out');
-    // submit ET3 response form
-    // process cases number 2
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
     let caseNumber2 = await caseListPage.processCaseFromCaseList(submissionReference2);
     // case vetting
@@ -93,27 +76,24 @@ Scenario(
     // case acceptance
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPages.processET1CaseServingPages(caseNumber2);
-    let { firstNameTwo, lastNameTwo } = await et1CaseServingPages.getClaimantFirstName();
-    I.click('Sign out');
-    //NOC to assign a solicitor
-    I.amOnPage(testConfig.TestUrlForManageCaseAAT);
-    await loginPage.processLoginOnXui(testConfig.TestEnvETLegalRepUser, testConfig.TestEnvETLegalRepPassword);
-    await legalRepNOCPages.processNOC('Eng/Wales - Singles', submissionReference, respondentName, firstNameTwo, lastNameTwo);
-    // submit ET3 response form
+
     // create multiple with 2 cases
     I.amOnPage(testConfig.TestUrlForManageCaseAAT);
     await loginPage.processLoginOnXui(testConfig.TestEnvETManageCaseUser, testConfig.TestEnvETManageCasePassword);
     await caseListPage.createMutipleCase('Eng/Wales - Multiples');
     await caseListPage.createMutiple('MultipleNotification', 'Leeds');
     await caseListPage.addTwoCases(caseNumber, caseNumber2, 'true');
-    // go back to citizen ui and verify that the lead case flag is displayed
-    await citizenHubPages.processCitizenHubLogin(submissionReference);
-    await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(caseNumber2, submissionReference2);
-    I.see('LEAD CLAIM');
-
+    // Remove a case
+    await caseListPage.selectNextEvent('Amend Multiple Details');
+    await amendMultipleCasePage.amendMultipleDetails ('Remove cases from multiple', caseNumber2);
+    // add case back to multiple
+    await caseListPage.selectNextEvent('Amend Multiple Details');
+    await amendMultipleCasePage.amendMultipleDetails ('Add cases to multiple', caseNumber2);
 
   },
 )
-  .tag('@CuiCaseLeadEng')
-  .tag('@multiClaimant')
-  .tag('@unreleased');
+  .tag('@removeCaseFromMultiple')
+  .tag('@nightly')
+  .tag('@unreleased')
+  .retry(1);
+
