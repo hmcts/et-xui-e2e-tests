@@ -88,6 +88,12 @@ module.exports = {
   jurisdictionDropdownLR: '#cc-jurisdiction',
   casetypeDropdownLR: '#cc-case-type',
   eventLR: '#cc-event',
+  allJudgementsOption: 'ccd-markdown a:nth-child(1)',
+  viewJudgement: 'a:nth-child(3)',
+  repondToOrder: 'a:nth-child(5)',
+  allJudgementsOption: 'ccd-markdown a:nth-child(1)',
+  viewJudgement: 'a:nth-child(3)',
+  repondToOrder: 'a:nth-child(5)',
 
   searchCaseApplication(option) {
     I.waitForElement(this.caseTypeDropdown, 30);
@@ -480,5 +486,49 @@ module.exports = {
     I.selectOption(this.eventLR, 'Create draft claim');
     I.waitForElement(this.submitEventButton, 10);
     I.click(this.submitEventButton);
+  },
+
+  navigateToJudgememts(option) {
+    I.wait(10);
+    try {
+      switch (option) {
+        case 'All judgments, orders and notifications':
+          I.click(this.allJudgementsOption);
+          break;
+        case 'View a judgment, order or notification':
+          I.click(this.viewJudgement);
+          break;
+          case 'Respond to an order or request from the tribunal':
+          I.click(this.repondToOrder);
+          break;
+        default:
+          throw new Error('... check you options or add new option');
+      }
+    } catch (error) {
+      console.error('invalid option', error.message);
+    }
+  },
+
+  selectAJudgement(option){
+    try {
+      switch (option) {
+        case 'Amend response':
+          I.selectOption(this.TypeDropdown, 'Amend response');
+          break;
+        // case 'View a judgment, order or notification':
+        //   I.click(this.viewJudgement);
+        //   break;
+        //   case 'Respond to an order or request from the tribunal':
+        //   I.click(this.repondToOrder);
+        //   break;
+        default:
+          throw new Error('... check you options or add new option');
+      }
+    } catch (error) {
+      console.error('invalid option', error.message);
+    }
+    I.wait(2);
+    I.click(this.continueButton);
   }
+  
 };
