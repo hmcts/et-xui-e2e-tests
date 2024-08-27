@@ -1005,12 +1005,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codeceptjs/ui@npm:1.1.1":
-  version: 1.1.1
-  resolution: "@codeceptjs/ui@npm:1.1.1"
+"@codeceptjs/ui@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@codeceptjs/ui@npm:1.2.0"
   dependencies:
     "@codeceptjs/configure": ^0.8.0
-    axios: ^0.24.0
+    axios: ^0.28.0
     body-parser: ^1.20.1
     cheerio: ^1.0.0-rc.12
     chokidar: ^3.5.3
@@ -1019,16 +1019,16 @@ __metadata:
     dayjs: ^1.11.10
     debug: ^4.3.4
     electron: ^15.5.5
-    express: ^4.18.2
+    express: ^4.19.2
     lodash.clonedeep: ^4.5.0
     nanoid: ^3.3.4
     socket.io: ^2.4.0
     socket.io-client: ^2.3.0
   peerDependencies:
-    codeceptjs: 3.5.14
+    codeceptjs: ^3.6.2
   bin:
     codecept-ui: bin/codecept-ui.js
-  checksum: ae1b1ae47bfcc02f216fa971af7d59419b683da14ec6188b41825742d065d5121d53aed825b5f04a1c62bb44ca82eb4630ddab40621e5d39e2f9986496257279
+  checksum: fd795fd5ac088a3f7f20fca9c503214c6f664f360a053117da712b12f206177cf7d7ca62e745a1cf435274cbe357d55bc7a7ecc220d2a2165d289e10a3942831
   languageName: node
   linkType: hard
 
@@ -3308,12 +3308,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.24.0":
-  version: 0.24.0
-  resolution: "axios@npm:0.24.0"
+"axios@npm:^0.28.0":
+  version: 0.28.1
+  resolution: "axios@npm:0.28.1"
   dependencies:
-    follow-redirects: ^1.14.4
-  checksum: 468cf496c08a6aadfb7e699bebdac02851e3043d4e7d282350804ea8900e30d368daa6e3cd4ab83b8ddb5a3b1e17a5a21ada13fc9cebd27b74828f47a4236316
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: 5115a38d79064d07437c5a28f15841e3607634040e3120ec06a2c4367a7d07cf213b16496eab53b6f58ebc5fb377a440ba9ed4782529b14449a1e285734bfb54
   languageName: node
   linkType: hard
 
@@ -6484,7 +6486,7 @@ __metadata:
   dependencies:
     "@codeceptjs/configure": 1.0.1
     "@codeceptjs/examples": 1.2.4
-    "@codeceptjs/ui": 1.1.1
+    "@codeceptjs/ui": 1.2.0
     "@faker-js/faker": 8.4.1
     "@wdio/cli": 8.36.0
     "@wdio/sauce-service": 8.36.0
@@ -7210,7 +7212,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.14.4, follow-redirects@npm:^1.15.6":
+"follow-redirects@npm:^1.15.0, follow-redirects@npm:^1.15.6":
   version: 1.15.6
   resolution: "follow-redirects@npm:1.15.6"
   peerDependenciesMeta:
