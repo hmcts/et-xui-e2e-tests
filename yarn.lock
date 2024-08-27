@@ -6306,16 +6306,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-mocha@npm:10.4.2":
-  version: 10.4.2
-  resolution: "eslint-plugin-mocha@npm:10.4.2"
+"eslint-plugin-mocha@npm:10.5.0":
+  version: 10.5.0
+  resolution: "eslint-plugin-mocha@npm:10.5.0"
   dependencies:
     eslint-utils: ^3.0.0
     globals: ^13.24.0
     rambda: ^7.4.0
   peerDependencies:
     eslint: ">=7.0.0"
-  checksum: df245a2e59ff4bfe6871170bfa168df8b8650e338f87446ad2d0fd6d555653129588f4e59c921227aff68e07a27b1ce704465a122a6f9600f5d7aa3114da8691
+  checksum: 07fc975c7768b19de4d2883307177f10e94b6318a4971dbc3c52edcea01977a59a54b85fe564974e43b29b12b821b06afd48d95b631e84d203c44676778aa019
   languageName: node
   linkType: hard
 
@@ -6500,7 +6500,7 @@ __metadata:
     eslint-config-prettier: 9.1.0
     eslint-plugin-codeceptjs: 1.3.0
     eslint-plugin-import: 2.29.1
-    eslint-plugin-mocha: 10.4.2
+    eslint-plugin-mocha: 10.5.0
     eslint-plugin-prettier: 5.1.3
     groq-sdk: ^0.4.0
     husky: 9.0.11
