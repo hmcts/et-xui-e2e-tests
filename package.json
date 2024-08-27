@@ -72,5 +72,5 @@
         "braces": "^3.0.3",
         "ws": "^8.17.1"
     },
-    "packageManager": "yarn@3.8.3"
+    "packageManager": "yarn@3.8.5"
 }
