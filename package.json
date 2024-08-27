@@ -65,7 +65,7 @@
     },
     "resolutions": {
         "express": "^4.19.2",
-        "got": "^11.8.5",
+        "got": "^14.0.0",
         "log4js": "^6.4.0",
         "semver-regex": "^3.1.4",
         "tough-cookie": "^4.1.3",
