@@ -17,6 +17,7 @@ properties([
 
 def product = "et"
 def component = "frontend"
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 def inTestTrue = [
         'et-${env}': [
                 secret('true', 'IN_TEST')
@@ -50,6 +51,8 @@ def secrets = [
                 secret('et-hearing-judge-user-name-eng', 'ET_HEARING_JUDGE_USER_NAME_ENG'),
                 secret('et-hearing-admin-user-name-eng', 'ET_HEARING_ADMIN_USER_NAME_ENG'),
                 secret('et-hearing-admin-user-name-scot', 'ET_HEARING_ADMIN_USER_NAME_SCOT'),
+                secret('et-citizen-user-name', 'ET_CITIZEN_USER_NAME'),
+                secret('et-citizen-password', 'ET_CITIZEN_PASSWORD'),
         ]
 ]
 
@@ -63,6 +66,9 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withNightlyPipeline("nodejs", product, component) {
+    // triggers {
+    //     cron(env.BRANCH_NAME == 'master' ? 'H 8 * * 1-5' : '')
+    // }
     loadVaultSecrets(secrets)
     enableFullFunctionalTest(int timeout=300)
     enableCrossBrowserTest()
@@ -75,49 +81,29 @@ withNightlyPipeline("nodejs", product, component) {
     env.ET_CASE_API_URL = params.ET_CASE_API_URL
     env.RUNNING_ENV = params.ENVIRONMENT
 
-    before('crossBrowserTest') {
-        sh """
-           yarn playwright install
-        """
+    before('fullFunctionalTest') {
+        yarnBuilder.yarn('yarn-update')
+        yarnBuilder.yarn('install-dependencies')
     }
 
     afterAlways('crossBrowserTest') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
         sh """
                 yarn playwright install
         """
     }
 
+
     afterAlways('fullFunctionalTest') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
 
         publishHTML target: [
                 allowMissing : true,
                 alwaysLinkToLastBuild: true,
                 keepAll : true,
-                reportDir : "functional-output/e2e/reports",
+                reportDir : "playwright-report/**",
                 reportFiles : "ET-XUI-E2E.html",
                 reportName : "ET E2E tests result"
         ]
     }
-
-    afterAlways('smoketest:aat') {
-        loadVaultSecrets(inTestTrue)
-        stage('Accessibility') {
-            yarnBuilder.yarn('tests:a11y')
-            publishHTML([
-                    allowMissing         : true,
-                    alwaysLinkToLastBuild: true,
-                    keepAll              : true,
-                    reportDir            : "functional-output/accessibility-report",
-                    reportFiles          : 'a11y.html',
-                    reportName           : 'Accessibility results'
-            ])
-        }
-        loadVaultSecrets(inTestFalse)
-        sh """
-       yarn playwright install
-    """
-    }
-
 }
