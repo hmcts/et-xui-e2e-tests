@@ -71,7 +71,7 @@ withNightlyPipeline("nodejs", product, component) {
     // }
     loadVaultSecrets(secrets)
     enableFullFunctionalTest(int timeout=300)
-    enableCrossBrowserTest()
+    //enableCrossBrowserTest()
     //enableFortifyScan()
     //enableSecurityScan()
 
@@ -86,24 +86,57 @@ withNightlyPipeline("nodejs", product, component) {
         yarnBuilder.yarn('install-dependencies')
     }
 
-    afterAlways('crossBrowserTest') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
-        sh """
-                yarn playwright install
-        """
-    }
-
-
     afterAlways('fullFunctionalTest') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
-
-        publishHTML target: [
-                allowMissing : true,
-                alwaysLinkToLastBuild: true,
-                keepAll : true,
-                reportDir : "playwright-report/**",
-                reportFiles : "ET-XUI-E2E.html",
-                reportName : "ET E2E tests result"
-        ]
+        stage('Functional UI tests chromium') {
+            try {
+                yarnBuilder.yarn('test:functional-chromium')
+            } catch (Error) {
+                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
+            } finally {
+                publishHTML([
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'playwright-report',
+                        reportFiles: 'index.html',
+                        reportName: 'UITestChromiumReport'
+                ])
+                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/functionalTest/**/*'
+            }
+        }
+        stage('Functional UI tests firefox') {
+            try {
+                yarnBuilder.yarn('test:functional-firefox')
+            } catch (Error) {
+                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
+            } finally {
+                publishHTML([
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'playwright-report',
+                        reportFiles: 'index.html',
+                        reportName: 'UITestFirefoxReport'
+                ])
+                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/functionalTest/**/*'
+            }
+        }
+        stage('Functional UI tests webkit ') {
+            try {
+                yarnBuilder.yarn('test:functional-webkit')
+            } catch (Error) {
+                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
+            } finally {
+                publishHTML([
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'playwright-report',
+                        reportFiles: 'index.html',
+                        reportName: 'UITestWebkitReport'
+                ])
+                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/functionalTest/**/*'
+            }
+        }
     }
 }
