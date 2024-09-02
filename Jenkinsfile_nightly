@@ -31,28 +31,26 @@ def inTestFalse = [
 
 
 def secrets = [
-    'et-${env}': [
-        secret('et-citizen-4-username', 'TEST_CASE_USERNAME'),
-        secret('et-claimant-password', 'TEST_CASE_PASSWORD'),
-        secret('idam-account-url', 'IDAM_ACCOUNT_URL'),
-        secret('api-key', 'API_KEY'),
-    ],
-    'et-cos-${env}': [
-        secret('et-caseworker-5-username', 'ET_CASEWORKER_USER_NAME'),
-        secret('et-caseworker-5-password', 'ET_CASEWORKER_PASSWORD'),
-        secret('et-legalrep-user-name', 'ET_LEGALREP_USER_NAME'),
-        secret('et-legalrep-password', 'ET_LEGALREP_PASSWORD'),
-        secret('et-wa-legal-ops-user-name', 'ET_LEGAL_OPS_USER_NAME'),
-        secret('et-wa-legal-ops-password', 'ET_LEGAL_OPS_PASSWORD'),
-        secret('et-ctsc-admin-user-name', 'ET_CTSC_ADMIN_USER_NAME'),
-        secret('et-ctsc-admin-password', 'ET_CTSC_ADMIN_PASSWORD'),
-        secret('et-hearing-judge-user-name-scotland', 'ET_HEARING_JUDGE_USER_NAME_SCOT'),
-        secret('et-hearing-judge-user-name-eng', 'ET_HEARING_JUDGE_USER_NAME_ENG'),
-        secret('et-hearing-admin-user-name-eng', 'ET_HEARING_ADMIN_USER_NAME_ENG'),
-        secret('et-hearing-admin-user-name-scot', 'ET_HEARING_ADMIN_USER_NAME_SCOT'),
-        secret('et-citizen-user-name', 'ET_CITIZEN_USER_NAME'),
-        secret('et-citizen-password', 'ET_CITIZEN_PASSWORD'),
-    ]
+        'et-${env}': [
+                secret('et-citizen-4-username', 'TEST_CASE_USERNAME'),
+                secret('et-claimant-password', 'TEST_CASE_PASSWORD'),
+                secret('idam-account-url', 'IDAM_ACCOUNT_URL'),
+                secret('api-key', 'API_KEY'),
+        ],
+        'et-cos-${env}': [
+                secret('et-caseworker-5-username', 'ET_CASEWORKER_USER_NAME'),
+                secret('et-caseworker-5-password', 'ET_CASEWORKER_PASSWORD'),
+                secret('et-legalrep-user-name', 'ET_LEGALREP_USER_NAME'),
+                secret('et-legalrep-password', 'ET_LEGALREP_PASSWORD'),
+                secret('et-wa-legal-ops-user-name', 'ET_LEGAL_OPS_USER_NAME'),
+                secret('et-wa-legal-ops-password', 'ET_LEGAL_OPS_PASSWORD'),
+                secret('et-ctsc-admin-user-name', 'ET_CTSC_ADMIN_USER_NAME'),
+                secret('et-ctsc-admin-password', 'ET_CTSC_ADMIN_PASSWORD'),
+                secret('et-hearing-judge-user-name-scotland', 'ET_HEARING_JUDGE_USER_NAME_SCOT'),
+                secret('et-hearing-judge-user-name-eng', 'ET_HEARING_JUDGE_USER_NAME_ENG'),
+                secret('et-hearing-admin-user-name-eng', 'ET_HEARING_ADMIN_USER_NAME_ENG'),
+                secret('et-hearing-admin-user-name-scot', 'ET_HEARING_ADMIN_USER_NAME_SCOT'),
+        ]
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -73,32 +71,53 @@ withNightlyPipeline("nodejs", product, component) {
 
     env.TEST_URL = params.ET_SYA_URL_TO_TEST
     env.IDAM_URL = params.IDAM_URL
-     env.TESTMANAGE_CASE_URL = params.CCD_CALLBACK_URL
+    env.TESTMANAGE_CASE_URL = params.CCD_CALLBACK_URL
     env.ET_CASE_API_URL = params.ET_CASE_API_URL
     env.RUNNING_ENV = params.ENVIRONMENT
 
-    before('fullFunctionalTest') {
-        yarnBuilder.yarn('yarn-update')
-        yarnBuilder.yarn('install-dependencies')
+    before('crossBrowserTest') {
+        sh """
+           yarn playwright install
+        """
     }
 
     afterAlways('crossBrowserTest') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
         sh """
                 yarn playwright install
         """
     }
 
     afterAlways('fullFunctionalTest') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
 
         publishHTML target: [
                 allowMissing : true,
                 alwaysLinkToLastBuild: true,
                 keepAll : true,
-                reportDir : "playwright-report/**",
+                reportDir : "functional-output/e2e/reports",
                 reportFiles : "ET-XUI-E2E.html",
                 reportName : "ET E2E tests result"
         ]
     }
+
+    afterAlways('smoketest:aat') {
+        loadVaultSecrets(inTestTrue)
+        stage('Accessibility') {
+            yarnBuilder.yarn('tests:a11y')
+            publishHTML([
+                    allowMissing         : true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll              : true,
+                    reportDir            : "functional-output/accessibility-report",
+                    reportFiles          : 'a11y.html',
+                    reportName           : 'Accessibility results'
+            ])
+        }
+        loadVaultSecrets(inTestFalse)
+        sh """
+       yarn playwright install
+    """
+    }
+
 }
