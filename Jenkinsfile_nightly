@@ -76,7 +76,7 @@ withNightlyPipeline("nodejs", product, component) {
     //     cron(env.BRANCH_NAME == 'master' ? 'H 8 * * 1-5' : '')
     // }
     loadVaultSecrets(secrets)
-    //enableFullFunctionalTest(int timeout=300)
+    enableFullFunctionalTest(int timeout=300)
     //enableCrossBrowserTest()
     //enableFortifyScan()
     //enableSecurityScan()
@@ -93,23 +93,23 @@ withNightlyPipeline("nodejs", product, component) {
     }
 
     afterAlways('fullFunctionalTest') {
-        stage('Functional UI tests chromium') {
-            try {
-                yarnBuilder.yarn('test:functional-chromium')
-            } catch (Error) {
-                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
-            } finally {
-                publishHTML([
-                        allowMissing: true,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'playwright-report',
-                        reportFiles: 'index.html',
-                        reportName: 'UITestChromiumReport'
-                ])
-                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
-            }
-        }
+//        stage('Functional UI tests chromium') {
+//            try {
+//                yarnBuilder.yarn('test:functional-chromium')
+//            } catch (Error) {
+//                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
+//            } finally {
+//                publishHTML([
+//                        allowMissing: true,
+//                        alwaysLinkToLastBuild: true,
+//                        keepAll: true,
+//                        reportDir: 'playwright-report',
+//                        reportFiles: 'index.html',
+//                        reportName: 'UITestChromiumReport'
+//                ])
+//                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
+//            }
+//        }
         stage('Functional UI tests firefox') {
             try {
                 yarnBuilder.yarn('test:functional-firefox')
