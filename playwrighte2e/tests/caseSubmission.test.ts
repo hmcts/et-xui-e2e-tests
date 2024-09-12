@@ -24,7 +24,8 @@ const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 
 
 test.describe('Case creation and different events in mange case application', () => {
-  test('Create a claim for still working for organisation, submit and process within manage cases', async ({ page }) => {
+  test('Create a claim for still working for organisation, submit and process within manage cases', {
+    tag: ['@cx']}, async ({ page }) => {
     let citizenUiPage = new CitizenUiPage(page);
     let loginPage = new LoginPage(page);
     let taskListPage = new TaskListPage(page);
