@@ -22,6 +22,9 @@ export const params = {
     TestEnvETHearingJudgeUserEng: process.env.ET_HEARING_JUDGE_USER_NAME_ENG || '',
     TestEnvETAdminUserEng: process.env.ET_HEARING_ADMIN_USER_NAME_ENG || '',
     TestEnvETAdminUserScot: process.env.ET_HEARING_ADMIN_USER_NAME_SCOT || '',
-
+    TestCcdGwSecret: process.env.MICROSERVICE_CCD_GW || '',
+    TestEnvApiUser: process.env.ET_CCD_API_USER_NAME || '',
+    TestEnvApiPassword: process.env.ET_CCD_API_PASSWORD || '',
+    TestEnv: process.env.RUNNING_ENV || '',
 };
 
