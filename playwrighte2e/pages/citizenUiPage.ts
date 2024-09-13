@@ -13,13 +13,15 @@ export default class CitizenUiPage extends BasePage{
     discriminationCheckBox: this.page.locator('#discrimination'),
     whistleBlowingCheckBox: this.page.locator('#whistleBlowing'),
     header1: this.page.locator('h1'),
+    jurisdiction:this.page.locator('#claim-jurisdiction')
   };
   async processPreLoginPagesForTheDraftApplication(postcode) {
     await this.startDraftApplication();
     await this.processBeforeYourContinuePage();
-    await this.processWhatsThePostCodeYouHaveWorkedForPage(postcode);
+    //await this.processWhatsThePostCodeYouHaveWorkedForPage(postcode);
     await this.processAreYouMakingTheClaimForYourselfPage();
     await this.processAreYouMakingTheClaimOnYourOwnPage();
+    await this.processWhereYouCanMakeClaim();
     await this.processDoYouHaveAnACASEarlyConciliation();
     await this.processWhatKindOfClaimAreYouMaking();
   }
@@ -37,6 +39,12 @@ export default class CitizenUiPage extends BasePage{
   async processWhatsThePostCodeYouHaveWorkedForPage(postcode) {
     await expect(this.elements.header1).toContainText('What’s the postcode where you worked or work?');
     await this.elements.workPostcode.fill(postcode);
+    await this.clickContinue();
+  }
+
+  async processWhereYouCanMakeClaim(){
+    await expect(this.elements.header1).toContainText('Where you can make your claim');
+    await this.elements.jurisdiction.check('England and Wales');
     await this.clickContinue();
   }
 
