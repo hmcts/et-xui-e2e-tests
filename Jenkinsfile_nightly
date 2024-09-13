@@ -93,6 +93,20 @@ withNightlyPipeline("nodejs", product, component) {
     }
 
     afterAlways('fullFunctionalTest') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
+
+        publishHTML target: [
+                allowMissing : true,
+                alwaysLinkToLastBuild: true,
+                keepAll : true,
+                reportDir : "playwright-report/**",
+                reportFiles : "ET-XUI-E2E.html",
+                reportName : "ET E2E tests chromium report"
+        ]
+    }
+
+
+    afterAlways('fullFunctionalTest') {
 //        stage('Functional UI tests chromium') {
 //            try {
 //                yarnBuilder.yarn('test:functional-chromium')
