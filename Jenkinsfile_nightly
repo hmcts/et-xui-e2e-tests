@@ -77,7 +77,7 @@ withNightlyPipeline("nodejs", product, component) {
     // }
     loadVaultSecrets(secrets)
     enableFullFunctionalTest(int timeout=300)
-    //enableCrossBrowserTest()
+    enableCrossBrowserTest()
     //enableFortifyScan()
     //enableSecurityScan()
 
