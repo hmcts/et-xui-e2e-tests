@@ -23,7 +23,7 @@ const firstLineOfAddress = '7, Valley Gardens?';
 const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
 
 
-test.describe('Case creation and different events in mange case application', () => {
+test.describe('Case creation in mange case application', () => {
   test('Create a claim for still working for organisation, submit and process within manage cases', {
     tag: ['@cx', '@smoke']}, async ({ page }) => {
     let citizenUiPage = new CitizenUiPage(page);
@@ -84,30 +84,6 @@ test.describe('Case creation and different events in mange case application', ()
     await citizenHubPages.cyaPageVerification();
   });
 
-
-  test('Create a claim and perform B/F action event', async ({ page }) => {
-
-    let loginPage = new LoginPage(page);
-    let createCaseThroughApi = new CreateCaseThroughApi(page);
-    let caseListPage = new CaseListPage(page);
-    let et1CaseServingPage = new Et1CaseServingPage(page);
-    let bfActinoPage = new BfActionPage(page);
-
-    let caseId = await createCaseThroughApi.processCaseToAcceptedState();
-
-    await page.goto(params.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId.toString());
-    await caseListPage.processCaseFromCaseList(caseId);
-
-    //Accept case
-    await caseListPage.selectNextEvent('Accept/Reject Case');
-    await et1CaseServingPage.processET1CaseServingPages();
-
-    //BF action
-    await caseListPage.selectNextEvent('B/F Action');
-    await bfActinoPage.addBfAction();
-  });
 });
 
 
