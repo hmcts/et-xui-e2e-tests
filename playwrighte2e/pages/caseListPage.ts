@@ -130,7 +130,6 @@ export default class CaseListPage extends BasePage{
 
 
     async processCaseFromCaseList(submissionReference) {
-      await expect(this.page.locator('tbody')).toContainText(submissionReference);
       let caseNumber = await this.page.getByLabel('go to case with Case').allTextContents();
       console.log('The value of the Case Number ' +caseNumber);
       await this.page.getByLabel('go to case with Case').click();

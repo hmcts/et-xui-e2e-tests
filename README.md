@@ -64,5 +64,9 @@ $  yarn playwright test --ui
 
 To debug the e2e test
 ```
-$  yarn playwright test debug
+$  yarn playwright test --debug
 ```
+
+To run codegen tool
+```
+$  npx playwright codegen    
