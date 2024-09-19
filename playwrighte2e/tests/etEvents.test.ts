@@ -6,6 +6,7 @@ import Et1CaseServingPage from "../pages/et1CaseServingPage";
 import BfActionPage from "../pages/bfActionPage";
 import { params } from "../utils/config";
 import JurisdictionPage from "../pages/jurisdictionPage";
+import CaseTransferPage from "../pages/caseTransferPage";
 
 
 
@@ -23,7 +24,7 @@ test.describe('Various events in mange case application', () => {
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId.toString());
-    await caseListPage.processCaseFromCaseList(caseId);
+    let caseNumber = await caseListPage.processCaseFromCaseList(caseId);
 
     //Accept case
     await caseListPage.selectNextEvent('Accept/Reject Case');
@@ -49,4 +50,16 @@ test.describe('Various events in mange case application', () => {
     await jurisdictionPage.addJurisdictionCode();
     await jurisdictionPage.verifyJurisdictionCodeOnTab();
   });
+
+  test('Create a England/Wales claim and transfer to Scotland', async ({ page }) => {
+    // let caseListPage = new CaseListPage(page);
+    // let caseTransferPage = new CaseTransferPage(page);
+    //
+    // //Jurisdiction event
+    // await caseListPage.selectNextEvent('Case Transfer (Scotland)');
+    //
+    // await caseTransferPage.progressCaseTransfer();
+    // await caseTransferPage.checkYourAnswer(caseNumber);
+  });
+
 });
