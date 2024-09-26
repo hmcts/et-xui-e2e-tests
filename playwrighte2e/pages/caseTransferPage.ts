@@ -19,8 +19,13 @@ async progressCaseTransfer(){
     await this.page.getByRole('button', { name: 'Transfer Case' }).click();
     await expect(this.page.locator('#case-viewer-field-read--positionType')).toContainText('Case transferred - other country');
     await expect(this.page.locator('h4')).toContainText('Case Status: Transferred');
+    await this.page.reload();
     await expect(this.page.getByLabel('Case Details').getByRole('paragraph')).toContainText('Case Transfer: Transferred to Glasgow ' +caseNumber);
     await expect(this.page.getByRole('link', { name: '/2024' })).toBeVisible();
-    //add validation to varify link is clickable and open scotland case details
+    await this.page.getByRole('link', { name: '/2024' }).click();
+    const page1Promise = this.page.waitForEvent('popup');
+    const page1 = await page1Promise;
+    await expect(page1.locator('#case-viewer-field-read--managingOffice')).toContainText('Glasgow');
+
   }
 }

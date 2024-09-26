@@ -48,25 +48,4 @@ test.describe('Legal Representative submits a case and perform various events', 
 
         });
 
-    // test('Claimant Representative creates a claim (England and Wales - Singles) and add case documents', async ({ page }) => {
-    //     let loginPage = new LoginPage(page);
-    //     let caseListPage = new CaseListPage(page);
-    //     let et1CreateDraftClaim = new Et1CreateDraftClaim(page);
-    //     //let applicationPage = new ApplicationPage(page);
-    //
-    //
-    //     await page.goto(params.TestUrlForManageCaseAAT);
-    //     await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-    //     await caseListPage.claimantRepCreateCase('Employment', 'Eng/Wales - Singles', postcode);
-    //
-    //     await et1CreateDraftClaim.et1Section1(claimantsFirstName, claimantsLastName);
-    //     await et1CreateDraftClaim.et1Section2(respondentsFirstName, respondentsLastName);
-    //     await et1CreateDraftClaim.et1Section3();
-    //     let submissionReference = await et1CreateDraftClaim.et1SubmitClaim();
-    //     console.log('The value of the Case Number ' + submissionReference);
-
-        //Add case documents
-
-   // });
-
 });
