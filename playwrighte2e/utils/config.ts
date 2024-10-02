@@ -26,5 +26,9 @@ export const params = {
     TestEnvApiUser: process.env.ET_CCD_API_USER_NAME || '',
     TestEnvApiPassword: process.env.ET_CCD_API_PASSWORD || '',
     TestEnv: process.env.RUNNING_ENV || '',
+    TestEnvETJudgeUserEng:process.env.ET_JUDGE_USER_NAME_ENG||'',
+    TestEnvETJudgeUserEngPassword:process.env.ET_JUDGE_USER_NAME_ENG_PASSWORD||'',
+    TestEnvETRespondentEmailAddress:process.env.ET_REPSONDENT_USER_NAME||'',
+    TestEnvETRespondentPassword:process.env.ET_REPSONDENT_PASSWORD||'',
 };
 

@@ -23,20 +23,15 @@ export default class CreateCaseThroughApi extends BasePage{
 
     // Login to IDAM to get the authentication token
     const authToken = await this.getAuthToken();
-    console.log('auth token is:' +authToken);
-     let serviceToken = await this.getS2SServiceToken();
-     console.log('s2s token is:' +serviceToken);
+    let serviceToken = await this.getS2SServiceToken();
 
     //Getting the User Id based on the Authentication Token that is passed for this User.
     const userId = await this.getUserDetails(authToken);
-    console.log('user Id is:' +userId);
-    const token = await this.createACaseFirstRequest(authToken, serviceToken, userId);
-    console.log('event token is:' +token);
-    const case_id= await this.createACaseSecondRequest(authToken, serviceToken, userId, token);
+    const token = await this.createACaseGetRequest(authToken, serviceToken, userId);
+    const case_id= await this.createACasePostRequest(authToken, serviceToken, userId, token);
     console.log('case Id is:' +case_id);
-    const response = await this.performCaseVettingEventFirstRequest(authToken, serviceToken, case_id);
-    console.log('response is:' +JSON.stringify(response));
-    await this.performCaseVettingEventSecondRequest(authToken, serviceToken, case_id, response);
+    const response = await this.performCaseVettingEventGetRequest(authToken, serviceToken, case_id);
+    await this.performCaseVettingEventPostRequest(authToken, serviceToken, case_id, response);
     //Initiate accept case
     // const acceptCaseToken= await this.acceptTheCaseEventFirstRequest(authToken, serviceToken, case_id);
     // console.log('token to accept the case:' +acceptCaseToken);
@@ -63,7 +58,6 @@ export default class CreateCaseThroughApi extends BasePage{
     return await axios.request(config).then((response) => {
         console.log(JSON.stringify(response.data));
         access_token = response.data.access_token;
-        console.log('token is here  ' +access_token);
       return access_token;
       });
   }
@@ -120,7 +114,7 @@ async getS2SServiceToken() {
   }
 
 
-  async createACaseFirstRequest(authToken, serviceToken, userId) {
+  async createACaseGetRequest(authToken, serviceToken, userId) {
 
     const ccdStartCasePath = `/caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${location}/event-triggers/initiateCase/token`;
 
@@ -146,10 +140,9 @@ async getS2SServiceToken() {
         console.log(error);
       });
 
-    console.log('event token is: ' + initiateEventToken);
   }
 
-  async createACaseSecondRequest(authToken, serviceToken, userId, initiateEventToken) {
+  async createACasePostRequest(authToken, serviceToken, userId, initiateEventToken) {
 
     const ccdSaveCasePath = `/caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${location}/cases?ignore-warning=false`;
     let createCaseUrl = ccdApiUrl + ccdSaveCasePath ;
@@ -193,7 +186,7 @@ async getS2SServiceToken() {
   }
 
 
-  async performCaseVettingEventFirstRequest(authToken, serviceToken, case_id) {
+  async performCaseVettingEventGetRequest(authToken, serviceToken, case_id) {
     // initiate et1 vetting
     const initiateEvent = `/cases/${case_id}/event-triggers/et1Vetting?ignore-warning=false`;
 
@@ -221,7 +214,7 @@ async getS2SServiceToken() {
 
   }
 
-  async performCaseVettingEventSecondRequest(authToken, serviceToken, case_id, response) {
+  async performCaseVettingEventPostRequest(authToken, serviceToken, case_id, response) {
     // execute et1 vetting
     const execuEt1teUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal/cases/${case_id}/events`;
 
