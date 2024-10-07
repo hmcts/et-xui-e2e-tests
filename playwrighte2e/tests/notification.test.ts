@@ -15,7 +15,7 @@ const claimantsLastName= 'Malcom';
 const respondentsFirstName= 'Mark';
 const respondentsLastName  = 'McDonald';
 
-test.describe('Notification', () => {
+test.describe('Notifications', () => {
   //RET-5309
   test('Claimant Representative creates a claim and view notification from tribunal', async ({ page }) => {
     let loginPage = new LoginPage(page);
