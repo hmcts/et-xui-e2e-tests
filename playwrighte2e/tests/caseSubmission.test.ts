@@ -12,8 +12,6 @@ import Et1VettingPages from "../pages/et1VettingPages";
 import Et1CaseServingPage from "../pages/et1CaseServingPage";
 import RespondentRepPage from "../pages/respondentRepPage";
 import CitizenHubPage from "../pages/citizenHubPage";
-import  CreateCaseThroughApi from "../pages/createCaseThroughApi";
-import BfActionPage from "../pages/bfActionPage";
 
 
 const postcode = 'LS9 9HE';

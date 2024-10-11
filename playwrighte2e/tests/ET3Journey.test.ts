@@ -37,7 +37,7 @@
 //     //await caseListPage.signoutButton();
 //
 //     //Respond to a new claim
-//     await respondentPage.processRespondentLogin(params.TestEnvETRespondentEmailAddress, params.TestEnvETRespondentPassword);
+//     await respondentPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword);
 //     await respondentPage.replyToNewClaim(caseId);
 //   });
 // });

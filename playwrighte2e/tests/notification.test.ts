@@ -21,7 +21,6 @@ test.describe('Notifications', () => {
     let loginPage = new LoginPage(page);
     let caseListPage = new CaseListPage(page);
     let et1CreateDraftClaim = new Et1CreateDraftClaim(page);
-    //let applicationPage = new ApplicationPage(page);
      let et1CaseServingPage = new Et1CaseServingPage(page);
      let notificationPage = new NotificationPage(page);
 

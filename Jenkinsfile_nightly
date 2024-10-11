@@ -55,7 +55,13 @@ def secrets = [
                 secret('et-citizen-user-name', 'ET_CITIZEN_USER_NAME'),
                 secret('et-citizen-password', 'ET_CITIZEN_PASSWORD'),
                 secret('et-ccd-api-user-name','ET_CCD_API_USER_NAME'),
-                secret('et-ccd-api-password','ET_CCD_API_PASSWORD')
+                secret('et-ccd-api-password','ET_CCD_API_PASSWORD'),
+                secret('et-judge-user-name-eng','ET_JUDGE_USER_NAME_ENG'),
+                secret('et-judge-user-eng-password','ET_JUDGE_USER_ENG_PASSWORD'),
+                secret('et3-resp-user-name','ET3_REPSONDENT_USER_NAME'),
+                secret('et3-resp-password','ET3_REPSONDENT_PASSWORD'),
+                secret('et-resp-user-name','ET_REPSONDENT_USER_NAME'),
+                secret('et-resp-password','ET_REPSONDENT_PASSWORD')
 
         ],
         's2s-${env}':  [
