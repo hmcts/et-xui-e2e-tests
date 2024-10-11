@@ -8,6 +8,8 @@ import { params } from "../utils/config";
 import JurisdictionPage from "../pages/jurisdictionPage";
 import CaseTransferPage from "../pages/caseTransferPage";
 
+let caseId;
+let caseNumber;
 
 
 
@@ -17,14 +19,13 @@ test.describe('Various events in mange case application', () => {
     let createCaseThroughApi = new CreateCaseThroughApi(page);
     let caseListPage = new CaseListPage(page);
     let et1CaseServingPage = new Et1CaseServingPage(page);
-    let bfActinoPage = new BfActionPage(page);
 
-    let caseId = await createCaseThroughApi.processCaseToAcceptedState();
+    caseId = await createCaseThroughApi.processCaseToAcceptedState();
 
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId.toString());
-    let caseNumber = await caseListPage.processCaseFromCaseList(caseId);
+    caseNumber = await caseListPage.processCaseFromCaseList(caseId);
 
     //Accept case
     await caseListPage.selectNextEvent('Accept/Reject Case');
@@ -52,14 +53,29 @@ test.describe('Various events in mange case application', () => {
   });
 
   test('Create a England/Wales claim and transfer to Scotland', async ({ page }) => {
-    // let caseListPage = new CaseListPage(page);
-    // let caseTransferPage = new CaseTransferPage(page);
-    //
-    // //Jurisdiction event
-    // await caseListPage.selectNextEvent('Case Transfer (Scotland)');
-    //
-    // await caseTransferPage.progressCaseTransfer();
-    // await caseTransferPage.checkYourAnswer(caseNumber);
+    let caseListPage = new CaseListPage(page);
+    let caseTransferPage = new CaseTransferPage(page);
+    let loginPage = new LoginPage(page);
+
+    await caseListPage.selectNextEvent('Case Transfer (Scotland)');
+
+    await caseTransferPage.progressCaseTransfer();
+    await caseTransferPage.checkYourAnswer(caseNumber);
+  });
+
+  test('Judge draft and sign judgement or order for a England/Wales claim ', async ({ page }) => {
+    let caseListPage = new CaseListPage(page);
+    let loginPage = new LoginPage(page);
+
+   await caseListPage.signoutButton();
+
+   //judge log in
+    await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId.toString());
+    await caseListPage.processCaseFromCaseList(caseId);
+
+    await caseListPage.clickTab('Judgments');
+
   });
 
 });
