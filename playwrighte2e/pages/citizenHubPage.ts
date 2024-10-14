@@ -1,10 +1,7 @@
 import { BasePage } from "./basePage";
 import { params } from "../utils/config";
-import { userInfo } from "os";
 import { expect } from "@playwright/test";
-import { th } from "@faker-js/faker";
 
-const testConfig = require('../../config.js');
 
 export default class CitizenHubPage extends BasePage {
 
@@ -100,7 +97,7 @@ export default class CitizenHubPage extends BasePage {
     }
 
    async clicksViewLinkOnClaimantApplicationPage(submissionReference) {
-      await this.page.goto(params.TestUrlCitizenUi + '/citizen-hub/' + submissionReference)
+      await this.page.goto(params.TestUrlCitizenUi + '/citizen-hub/' + submissionReference);
     }
   //
   //   verifyET3RespondentResponseonCUI() {

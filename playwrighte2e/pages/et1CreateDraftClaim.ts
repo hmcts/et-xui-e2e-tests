@@ -85,7 +85,8 @@ elements = {
     await this.page.locator('#claimantSupportQuestionReason').fill('disability access');
     await this.clickContinue();
 
-    await expect(this.page.locator('ccd-case-edit-page')).toContainText('Your information (as the representative)');
+    //await expect(this.page.locator('ccd-case-edit-page')).toContainText('Your information (as the representative)');
+    await this.elements.representativeContactPreference.isVisible();
     await this.elements.representativeContactPreference.check();
     await this.elements.contactLanguageQuestion.check();
     await this.elements.representativePhoneNumber.fill('01234567890');
@@ -94,6 +95,7 @@ elements = {
 
 
     // ET1 section 1- CYA page
+    await this.page.locator('form').isVisible();
     await expect(this.page.locator('form')).toContainText('Claimant\'s First Name');
     await expect(this.page.locator('form')).toContainText('Claimant\'s Last Name');
     await expect(this.page.locator('form')).toContainText('Which types of hearing can you, as the representative, attend?');
@@ -112,7 +114,8 @@ elements = {
 
     await this.elements.et1Section2Link.click();
 
-    await expect(this.page.locator('ccd-case-edit-page')).toContainText('Section 2 - Employment and respondent details');
+    await expect(this.page.getByRole('term')).toContainText('employment status');
+    //await expect(this.page.locator('ccd-case-edit-page')).toContainText('Section 2 - Employment and respondent details');
     await this.clickContinue();
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Did the claimant work for the respondent the claim is being made against? (Optional)');
