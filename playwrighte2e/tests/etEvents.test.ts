@@ -8,7 +8,7 @@ import { params } from "../utils/config";
 import JurisdictionPage from "../pages/jurisdictionPage";
 import CaseTransferPage from "../pages/caseTransferPage";
 
-let caseId;
+let submissionRef;
 let caseNumber;
 
 
@@ -20,12 +20,12 @@ test.describe('Various events in mange case application', () => {
     let caseListPage = new CaseListPage(page);
     let et1CaseServingPage = new Et1CaseServingPage(page);
 
-    caseId = await createCaseThroughApi.processCaseToAcceptedState();
+    submissionRef = await createCaseThroughApi.processCaseToAcceptedState();
 
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId.toString());
-    caseNumber = await caseListPage.processCaseFromCaseList(caseId);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());
+    caseNumber = await caseListPage.processCaseFromCaseList(submissionRef);
 
     //Accept case
     await caseListPage.selectNextEvent('Accept/Reject Case');
@@ -33,7 +33,8 @@ test.describe('Various events in mange case application', () => {
 
   });
 
-  test('Create a claim and perform B/F action event', async ({ page }) => {
+  test('Create a claim and perform B/F action event', {
+    tag: ['@ci']},async ({ page }) => {
     let caseListPage = new CaseListPage(page);
     let bfActinoPage = new BfActionPage(page);
 
@@ -71,8 +72,8 @@ test.describe('Various events in mange case application', () => {
 
    //judge log in
     await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId.toString());
-    await caseListPage.processCaseFromCaseList(caseId);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());
+    await caseListPage.processCaseFromCaseList(submissionRef);
 
     await caseListPage.clickTab('Judgments');
 
