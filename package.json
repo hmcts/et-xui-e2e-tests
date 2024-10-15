@@ -8,7 +8,7 @@
     "license": "hmcts",
     "private": true,
     "scripts": {
-        "test:functional-chromium": "yarn playwright install chromium && yarn playwright test --project=chromium grep @ci",
+        "test:functional-chromium": "yarn playwright install chromium && yarn playwright test --project=chromium --grep @ci",
         "lint-staged": "lint-staged",
         "lint": "eslint",
         "fortifyScan": "./src/test/java/gradlew -p src/test/java fortifyScan",
