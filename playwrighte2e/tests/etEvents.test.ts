@@ -33,8 +33,7 @@ test.describe('Various events in mange case application', () => {
 
   });
 
-  test('Create a claim and perform B/F action event', {
-    tag: ['@ci']},async ({ page }) => {
+  test('Create a claim and perform B/F action event',async ({ page }) => {
     let caseListPage = new CaseListPage(page);
     let bfActinoPage = new BfActionPage(page);
 
