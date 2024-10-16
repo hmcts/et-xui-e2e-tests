@@ -26,6 +26,6 @@ async progressCaseTransfer(){
     const page1Promise = this.page.waitForEvent('popup');
     const page1 = await page1Promise;
     await expect(page1.locator('#case-viewer-field-read--managingOffice')).toContainText('Glasgow');
-    //add validation to varify link is clickable and open scotland case details
+
   }
 }
