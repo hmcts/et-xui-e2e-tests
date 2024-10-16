@@ -24,6 +24,7 @@ export default class ClaimantDetailsPage extends BasePage{
     await expect(this.page.locator(this.elements.occupation)).toBeVisible();
     await this.clickContinue();
     await expect(this.page.locator(this.elements.hearingPreference)).toBeVisible();
+    await this.page.locator('#claimantHearingPreference_contact_language-English').check();
     await this.submitButton();
   }
 

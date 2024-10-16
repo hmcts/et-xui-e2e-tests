@@ -19,7 +19,7 @@ export abstract class BasePage {
     this.continueButton = page.getByRole('button', { name: 'Continue' });
     this.saveAsDraftButton = page.getByRole('button', { name: 'Save as draft' });
     this.closeAndReturnButton = this.page.getByRole('button', { name: 'Close and Return to case' });
-    this.submit = this.page.getByRole('button', { name: 'submit' });
+    this.submit = this.page.getByRole('button', { name: 'Submit' });
     this.postcode = page.getByRole('textbox', { name: 'Enter a UK postcode' });
     this.findAddress = page.getByRole('button', { name: 'Find address' });
     this.signout = page.getByText('Sign out');

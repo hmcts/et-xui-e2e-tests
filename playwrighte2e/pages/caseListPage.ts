@@ -103,10 +103,10 @@ export default class CaseListPage extends BasePage{
 
     async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
       await this.page.reload();
-      await this.elements.caseListLink.isVisible();
+      await expect(this.elements.caseListLink).toBeVisible();
       await this.elements.caseListLink.click();
-      await this.elements.caseTypeDropdown.isVisible();
-      await this.elements.applyButton.isVisible();
+      await expect(this.elements.caseTypeDropdown).toBeVisible();
+      await expect(this.elements.applyButton).toBeVisible();
       await expect(this.page.locator('h1')).toContainText('Case list');
       try {
         switch (option) {
@@ -133,17 +133,29 @@ export default class CaseListPage extends BasePage{
       let caseNumber = await this.page.getByLabel('go to case with Case').allTextContents();
       console.log('The value of the Case Number ' +caseNumber);
       await this.page.getByLabel('go to case with Case').click();
-      await this.page.waitForSelector('#mat-tab-label-0-1');
-      // let caseNumber = this.page.locator('//*[@id="undefined"]/dt/ccd-markdown/div/markdown/h1[1]').textContent();
-      // console.log('The value of the Case Number ' +caseNumber);
+      await expect(this.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText('Case Details');
+     // await this.page.waitForSelector('#mat-tab-label-0-1');
       return caseNumber;
     }
 
     async selectNextEvent(option) {
-      await this.elements.nextEventDropdown.selectOption(option);
+      await this.elements.submitEventButton.isDisabled();
+      await this.page.getByLabel('Next step').selectOption(option);
+      //await this.elements.nextEventDropdown.selectOption(option);
+      await this.elements.submitEventButton.isVisible();
       await this.elements.submitEventButton.click();
-    }
-  //
+
+      // Check if button is visible
+      const isVisible = await this.elements.submitEventButton.isVisible();
+
+      if (isVisible) {
+        // click Go button if visible
+        await this.elements.submitEventButton.click();
+      }
+    } catch (error) {
+    console.error('Error performing an Event', error);
+  }
+
   //   async selectTab(title, submissionReference) {
   //     let tabUrl = testConfig.TestUrlForManageCaseAAT + `/cases/case-details/${submissionReference}/${title}`;
   //     I.amOnPage(tabUrl);
