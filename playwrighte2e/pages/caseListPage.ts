@@ -145,7 +145,16 @@ export default class CaseListPage extends BasePage{
       await this.elements.submitEventButton.isVisible();
       await this.elements.submitEventButton.click();
 
-    }
+      // Check if button is visible
+      const isVisible = await this.elements.submitEventButton.isVisible();
+
+      if (isVisible) {
+        // click Go button if visible
+        await this.elements.submitEventButton.click();
+      }
+    } catch (error) {
+    console.error('Error performing an Event', error);
+  }
 
   //   async selectTab(title, submissionReference) {
   //     let tabUrl = testConfig.TestUrlForManageCaseAAT + `/cases/case-details/${submissionReference}/${title}`;

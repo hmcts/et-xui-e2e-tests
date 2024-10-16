@@ -19,9 +19,9 @@ export default class NocPage extends BasePage{
     await this.page.locator(this.elements.caseRef).fill(submissionRef);
     await this.clickContinue();
     await expect(this.page.locator('h1')).toContainText('Enter details');
-    await this.page.locator(this.elements.respName).fill('Mrs Test Auto');
-    await this.page.locator(this.elements.claimantFirstName).fill('Grayson');
-    await this.page.locator(this.elements.claimantLastName).fill('Becker');
+    await this.page.locator(this.elements.respName).fill('Mark McDonald');
+    await this.page.locator(this.elements.claimantFirstName).fill('Jessamine');
+    await this.page.locator(this.elements.claimantLastName).fill('Malcom');
     await this.clickContinue();
     await this.page.getByRole('heading', { name: 'Check and submit'}).click();
     await this.page.locator(this.elements.confirmDetailsCheckBox).check();
