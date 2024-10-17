@@ -10,6 +10,7 @@ export default class CaseTransferPage extends BasePage {
   }
 
 async progressCaseTransfer(){
+    await expect(this.page.locator(this.elements.caseTransferReason)).toBeVisible();
     await this.page.locator(this.elements.caseTransferReason).fill('Transfer case to Scotland RET');
     await this.clickContinue();
   }
@@ -20,6 +21,17 @@ async progressCaseTransfer(){
     await expect(this.page.locator('#case-viewer-field-read--positionType')).toContainText('Case transferred - other country');
     await expect(this.page.locator('h4')).toContainText('Case Status: Transferred');
     await this.page.reload();
+    try {
+      // Check if the element is visible
+      const isVisible = await this.page.getByRole('link', { name: '/2024' }).isVisible();
+
+      if (!isVisible) {
+        // Click the button if the element is not visible
+        await this.page.reload();
+      }
+    } catch (error) {
+      console.error('Scotland Case Transfer link not visible', error);
+    }
     await expect(this.page.getByLabel('Case Details').getByRole('paragraph')).toContainText('Case Transfer: Transferred to Glasgow ' +caseNumber);
     await expect(this.page.getByRole('link', { name: '/2024' })).toBeVisible();
     await this.page.getByRole('link', { name: '/2024' }).click();
