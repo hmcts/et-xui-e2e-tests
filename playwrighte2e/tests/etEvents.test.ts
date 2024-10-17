@@ -49,6 +49,7 @@ test.describe('Various events in mange case application', () => {
     //Jurisdiction event
     await caseListPage.selectNextEvent('Jurisdiction');
     await jurisdictionPage.addJurisdictionCode();
+    await caseListPage.clickTab('Jurisdictions');
     await jurisdictionPage.verifyJurisdictionCodeOnTab();
   });
 
