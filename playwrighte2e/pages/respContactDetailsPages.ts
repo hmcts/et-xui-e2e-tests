@@ -3,11 +3,10 @@ import {expect} from "@playwright/test";
 
 export default class RespContactDetailsPages extends BasePage{
     elements={
-        contactDetailsLink:this.page.locator('[href="/new-self-assignment-request?lng=en"]')
+        contactDetailsLink:this.page.locator('[href="/new-self-assignment-request?lng=en"]'),
     };
     async et3Section1() {
         await this.contactDetails();
-        //TODO
         await this.hearingFormatEmployerDetails();
 
     }
@@ -25,7 +24,11 @@ export default class RespContactDetailsPages extends BasePage{
     }
 
     async hearingFormatEmployerDetails(){
-
+        await this.hearingFormat();
+        await this.respondentEmployee();
+        await this.respondentSite();
+        await this.numberOfEmployeeAtsite();
+        await this.hearingFormatCya();
     }
 
     async clickContactDetailsLink(){
@@ -85,4 +88,40 @@ export default class RespContactDetailsPages extends BasePage{
         await this.page.getByLabel('Yes, I’ve completed this').check();
         await this.saveAndContinueButton();
     }
+
+    async hearingFormat(){
+        await expect(this.page.locator('legend')).toContainText('Would you be able to take part in hearings by video and phone? (optional)');
+        await this.page.getByText('Yes, I can take part in video').click();
+        await expect(this.page.getByRole('heading')).toContainText('Extra support during the case');
+        await this.page.getByLabel('Yes').check();
+        await this.page.getByLabel('Tell us what support you need').click();
+        await this.page.getByLabel('Tell us what support you need').fill('disable access');
+        await this.saveAndContinueButton();
+    }
+
+    async respondentEmployee(){
+        await expect(this.page.locator('#main-form')).toContainText('How many people does the respondent employ in Great Britain? (optional)');
+        await this.page.getByLabel('How many people does the').fill('10');
+        await this.saveAndContinueButton();
+    }
+
+    async respondentSite(){
+        await this.page.getByLabel('No').check();
+        await this.saveAndContinueButton();
+    }
+
+    async numberOfEmployeeAtsite(){
+        await expect(this.page.locator('#main-form')).toContainText('How many people are employed at the site where the claimant worked? (optional)');
+        await this.page.getByLabel('How many people are employed').fill('10');
+        await this.saveAndContinueButton();
+    }
+
+    async hearingFormatCya() {
+        await expect(this.page.locator('dl')).toContainText('Would you be able to take part in hearings by video and phone? (optional)');
+        await expect(this.page.locator('dl')).toContainText('Tell us what support you need to request');
+        await expect(this.page.locator('dl')).toContainText('How many employed at the site the claimant worked at? (optional)');
+        await this.page.getByText('Yes, I’ve completed this').click();
+        await this.saveAndContinueButton();
+    }
+
 }
