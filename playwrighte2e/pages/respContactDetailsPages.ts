@@ -1,7 +1,16 @@
 import {BasePage} from "./basePage";
-import {expect} from "@playwright/test";
+import {Page, expect} from "@playwright/test";
 
 export default class RespContactDetailsPages extends BasePage{
+
+    protected constructor(page: Page) {
+        super(page);
+    }
+
+    public static create(page: Page): RespContactDetailsPages {
+        return new RespContactDetailsPages(page);
+    }
+
     elements={
         contactDetailsLink:this.page.locator('[href="/new-self-assignment-request?lng=en"]'),
     };

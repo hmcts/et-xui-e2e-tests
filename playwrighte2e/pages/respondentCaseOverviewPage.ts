@@ -1,6 +1,14 @@
-import {expect} from "@playwright/test";
+import { expect, Page } from '@playwright/test';
 import {BasePage} from "./basePage";
 export default class RespondentCaseOverviewPage extends BasePage {
+
+    protected constructor(page: Page) {
+        super(page);
+    }
+
+    public static create(page: Page): RespondentCaseOverviewPage {
+        return new RespondentCaseOverviewPage(page);
+    }
 
     elements={
        et1FormLink:this.page.locator('[href="/claimant-et1-form?lng=en"]'),

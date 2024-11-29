@@ -1,7 +1,15 @@
 import {BasePage} from "./basePage";
-import {expect} from "@playwright/test";
+import { expect, Page } from '@playwright/test';
 
-export default class responseTaskListPage extends BasePage {
+export default class ResponseTaskListPage extends BasePage {
+
+    protected constructor(page: Page) {
+        super(page);
+    }
+
+    public static create(page: Page): ResponseTaskListPage {
+        return new ResponseTaskListPage(page);
+    }
 
     elements={
 

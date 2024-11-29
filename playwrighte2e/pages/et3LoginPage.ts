@@ -1,9 +1,18 @@
 import { BasePage } from "./basePage";
 import { params } from "../utils/config";
-import { expect } from "@playwright/test";
+import { expect, Page } from '@playwright/test';
 
 
 export default class Et3LoginPage extends BasePage {
+
+  protected constructor(page: Page) {
+    super(page);
+  }
+
+  public static create(page: Page): Et3LoginPage {
+    return new Et3LoginPage(page);
+  }
+
   elements={
 
     returnToExistingResponse:this.page.locator('[href="/return-to-existing?lng=en"]'),
