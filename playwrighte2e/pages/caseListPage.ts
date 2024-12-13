@@ -141,8 +141,6 @@ export default class CaseListPage extends BasePage{
     async selectNextEvent(option) {
       await this.elements.submitEventButton.isDisabled();
       await this.page.getByLabel('Next step').selectOption(option);
-      //await this.elements.nextEventDropdown.selectOption(option);
-      // await this.elements.submitEventButton.isVisible();
       await this.elements.submitEventButton.click();
 
       if (await this.elements.submitEventButton.isVisible()) {
