@@ -63,6 +63,6 @@ test.describe('ET3/Respondent Journey', () => {
     await respContactPage.et3Section1();
     await respClaimantDetails.et3Section2();
     await respContestClaim.et3Section3();
-    await respSubmitEt3.submitEt3();
+    await respSubmitEt3.checkYourAnswers();
   });
 });

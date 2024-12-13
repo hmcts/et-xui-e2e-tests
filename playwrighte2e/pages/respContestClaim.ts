@@ -17,7 +17,8 @@ export default class RespContestClaim extends BasePage {
 
   async et3Section3() {
     await this.contestTheClaim();
-    await this.employerContractClaim();
+    // Below only for BOC Claims
+    // await this.employerContractClaim();
   }
 
   async contestTheClaim() {

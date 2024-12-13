@@ -1,5 +1,5 @@
 import { BasePage } from './basePage';
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 export default class RespSubmitEt3 extends BasePage{
   protected constructor(page: Page) {
@@ -11,7 +11,7 @@ export default class RespSubmitEt3 extends BasePage{
   }
 
   elements={
-    clickContestClaimLink:this.page.locator('[href="/check-your-answers-et3"]'),
+    cya:this.page.locator('[href="/check-your-answers-et3"]'),
   };
 
   async checkYourAnswers() {
@@ -20,7 +20,9 @@ export default class RespSubmitEt3 extends BasePage{
   }
 
   async submitEt3() {
-    await this.page.getByRole('button', { name: 'Save and continue' }).click();
-    await this.page.getByRole('button', { name: 'Close and return to case' }).click();
+    await this.elements.cya.click();
+    await this.submitButton();
+    await expect(this.page.locator('h1')).toContainText('Your response has been submitted');
+    await this.page.getByRole('button', { name: 'Close and return to case overview' }).click();
   }
 }
