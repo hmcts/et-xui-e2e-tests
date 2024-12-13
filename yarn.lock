@@ -15,6 +15,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@axe-core/playwright@npm:4.10.0":
+  version: 4.10.0
+  resolution: "@axe-core/playwright@npm:4.10.0"
+  dependencies:
+    axe-core: ~4.10.0
+  peerDependencies:
+    playwright-core: ">= 1.0.0"
+  checksum: cba9b7f625c8ed510e661d8d014f7e924fb85175b918b818cb808eec848c3e8a2cbbe2960ccf8dd4b9f84a4a4ea33eeeace48de2560a4a5777dd0ee6281d0c81
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.24.7":
   version: 7.24.7
   resolution: "@babel/code-frame@npm:7.24.7"
@@ -1073,6 +1084,13 @@ __metadata:
   dependencies:
     possible-typed-array-names: ^1.0.0
   checksum: 1aa3ffbfe6578276996de660848b6e95669d9a95ad149e3dd0c0cda77db6ee1dbd9d1dd723b65b6d277b882dd0c4b91a654ae9d3cf9e1254b7e93e4908d78fd3
+  languageName: node
+  linkType: hard
+
+"axe-core@npm:~4.10.0":
+  version: 4.10.2
+  resolution: "axe-core@npm:4.10.2"
+  checksum: 2b9b1c93ea73ea9f206604e4e17bd771d2d835f077bde54517d73028b8865c69b209460e73d5b109968cbdb39ab3d28943efa5695189bd79e16421ce1706719e
   languageName: node
   linkType: hard
 
@@ -2415,6 +2433,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "et-xui-e2e-tests@workspace:."
   dependencies:
+    "@axe-core/playwright": 4.10.0
     "@faker-js/faker": 8.4.1
     "@noble/hashes": ^1.5.0
     "@playwright/test": ^1.45.3

@@ -6,8 +6,6 @@ import dataLocation from "../data/et-ccd-basic-data.json";
 import * as OTPAuth from "totp-generator";
 import axios from "axios";
 import { BasePage } from "./basePage";
-import { ur } from "@faker-js/faker";
-
 
 const env = params.TestEnv;
 const idamBaseUrl = `https://idam-api.${env}.platform.hmcts.net/loginUser`;

@@ -141,24 +141,15 @@ export default class CaseListPage extends BasePage{
     async selectNextEvent(option) {
       await this.elements.submitEventButton.isDisabled();
       await this.page.getByLabel('Next step').selectOption(option);
-      //await this.elements.nextEventDropdown.selectOption(option);
-        await this.page.waitForTimeout(2000);
-      await this.elements.submitEventButton.isVisible();
       await this.elements.submitEventButton.click();
 
-    //   try {
-    //     // Check if the element is visible
-    //     const isVisible = await this.elements.submitEventButton.isVisible();
-    //
-    //     if (isVisible) {
-    //       // click Go button if visible
-    //       await this.elements.submitEventButton.click();
-    //     }
-    //   } catch (error) {
-    //     console.error('Error performing an Event', error);
-    //   }
-    }
-
+      if (await this.elements.submitEventButton.isVisible()) {
+        // click Go button if visible
+        await this.elements.submitEventButton.click();
+      }
+    } catch (error) {
+    console.error('Error performing an Event', error);
+  }
     async verifyCaseDetailsPage(et1VettingFlag) {
       if (et1VettingFlag) {
         //TO DO fix this tab Ids are not consistent

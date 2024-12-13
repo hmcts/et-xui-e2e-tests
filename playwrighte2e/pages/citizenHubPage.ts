@@ -63,7 +63,7 @@ export default class CitizenHubPage extends BasePage {
     notificationLink: '[href="/tribunal-orders-and-requests"]',
     seeNotificationDetailsLink: 'td:nth-of-type(2) > .govuk-link',
     sendNotifButton: 'td:nth-of-type(2) > .govuk-link',
-    respondButton: '.govuk-template__body .govuk-grid-row .govuk-button',
+   // respondButton: '.govuk-template__body .govuk-grid-row .govuk-button',
     tribunalResponseField: '#response-text',
     noSupportingMaterialOption: '[for="supporting-material-yes-no-2"]',
     responseSubmitButton: '#main-form-submit',
