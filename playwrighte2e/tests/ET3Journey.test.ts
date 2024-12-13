@@ -8,28 +8,32 @@ import RespContactDetailsPages from '../pages/respContactDetailsPages';
 import RespClaimantDetails from '../pages/respClaimantDetails';
 import RespContestClaim from '../pages/respContestClaim';
 import RespSubmitEt3 from '../pages/respSubmitEt3';
+import CreateCaseThroughApi from '../pages/createCaseThroughApi';
+import LoginPage from '../pages/loginPage';
+import CaseListPage from '../pages/caseListPage';
+import Et1CaseServingPage from '../pages/et1CaseServingPage';
 
-let caseId;
-let caseNumber;
+let caseId: { toString: () => any; };
+let caseNumber: any;
 
 test.describe('ET3/Respondent Journey', () => {
   test.beforeEach(async ({ page }) => {
-    // let loginPage = new LoginPage(page);
-    // let createCaseThroughApi = new CreateCaseThroughApi(page);
-    // let caseListPage = new CaseListPage(page);
-    // let et1CaseServingPage = new Et1CaseServingPage(page);
+    let loginPage = new LoginPage(page);
+    let createCaseThroughApi = new CreateCaseThroughApi(page);
+    let caseListPage = new CaseListPage(page);
+    let et1CaseServingPage = new Et1CaseServingPage(page);
     //
-    // caseId = await createCaseThroughApi.processCaseToAcceptedState();
-      caseId= '1727781545265105';
-    // await page.goto(params.TestUrlForManageCaseAAT);
-    // await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-    // await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId.toString());
-    // caseNumber = await caseListPage.processCaseFromCaseList(caseId);
-    caseNumber = '6081224/2024';
+    caseId = await createCaseThroughApi.processCaseToAcceptedState();
+    //   caseId= '1727781545265105';
+    await page.goto(params.TestUrlForManageCaseAAT);
+    await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId.toString());
+    caseNumber = await caseListPage.processCaseFromCaseList(caseId);
+    // caseNumber = '6081224/2024';
     //Accept case
-    // await caseListPage.selectNextEvent('Accept/Reject Case');
-    // await et1CaseServingPage.processET1CaseServingPages();
-      //await caseListPage.signoutButton();
+    await caseListPage.selectNextEvent('Accept/Reject Case');
+    await et1CaseServingPage.processET1CaseServingPages();
+    await caseListPage.signoutButton();
   });
 
   test('Validate ET3 Form start page', async ({ page }) => {
@@ -39,7 +43,7 @@ test.describe('ET3/Respondent Journey', () => {
 
     //Assign a claim to respondent
     await respondentPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
-    await respondentPage.replyToNewClaim(caseId);
+    await respondentPage.replyToNewClaim(caseId, caseNumber);
     await caseOverviewPage.validateRespondentCaseOverviewPage();
     await taskListPage.validateTaskListPage()
   });
@@ -54,7 +58,7 @@ test.describe('ET3/Respondent Journey', () => {
 
     //Assign a claim to respondent
     await respondentPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
-    await respondentPage.replyToNewClaim(caseId);
+    await respondentPage.replyToNewClaim(caseId, caseNumber);
     await respondentLandingPage.startEt3();
     await respContactPage.et3Section1();
     await respClaimantDetails.et3Section2();

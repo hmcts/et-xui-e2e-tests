@@ -18,18 +18,18 @@ export default class Et1CaseServingPage extends BasePage {
     await this.elements.date_accepted_month.fill(String(today.getMonth() +1));
     await this.elements.date_accepted_year.fill(String(today.getFullYear()));
     await this.submitButton();
-
-    try {
-      // Check if the element is visible
-      const isVisible = await this.page.locator('cut-alert').isVisible();
-
-      if (!isVisible) {
-        // Click the button if the element is not visible
-        await this.submitButton();
-      }
-    } catch (error) {
-      console.error('Error performing Accept/Reject case Event', error);
-    }
+    //
+    // try {
+    //   // Check if the element is visible
+    //   const isVisible = await this.page.locator('cut-alert').isVisible();
+    //
+    //   if (!isVisible) {
+    //     // Click the button if the element is not visible
+    //     await this.submitButton();
+    //   }
+    // } catch (error) {
+    //   console.error('Error performing Accept/Reject case Event', error);
+    // }
 
   }
 

@@ -47,6 +47,7 @@ class RespClaimantDetails extends BasePage {
 
     async claimantEmploymentDates(){
         await this.page.getByLabel('No', { exact: true }).check();
+        await this.saveAndContinueButton();
         await this.page.getByRole('group', { name: 'Employment start date (' }).getByLabel('Day').fill('1');
         await this.page.getByRole('group', { name: 'Employment start date (' }).getByLabel('Month').fill('1');
         await this.page.getByRole('group', { name: 'Employment start date (' }).getByLabel('Year').fill('2024');

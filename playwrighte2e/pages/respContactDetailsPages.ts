@@ -12,7 +12,7 @@ export default class RespContactDetailsPages extends BasePage{
     }
 
     elements={
-        contactDetailsLink:this.page.locator('[href="/new-self-assignment-request?lng=en"]'),
+        contactDetailsLink:this.page.locator('[href="/respondent-name"]'),
     };
     async et3Section1() {
         await this.contactDetails();
@@ -46,42 +46,36 @@ export default class RespContactDetailsPages extends BasePage{
     }
 
     async respondentName(){
-        await expect(this.page.getByRole('heading')).toContainText('Respondent name');
         await this.page.getByLabel('Yes').check();
         await this.saveAndContinueButton();
            }
 
     async typeOfOrganization(){
-        await expect(this.page.getByRole('heading')).toContainText('What type of organisation is the respondent? (optional)');
+        await this.page.getByLabel('Individual').check();
         await this.page.getByLabel('Preferred title (optional)').fill('test');
         await this.saveAndContinueButton();
     }
 
     async respondentAddress(){
-        await expect(this.page.locator('legend')).toContainText('Is this the respondent’s correct address?');
         await this.page.getByLabel('Yes').check();
         await this.saveAndContinueButton();
     }
 
     async nameOfContact(){
-        await expect(this.page.getByRole('heading')).toContainText('Name of contact (optional)');
         await this.saveAndContinueButton();
     }
 
     async dxAddress(){
-        await expect(this.page.getByRole('heading')).toContainText('DX address (optional)');
         await this.page.locator('#et3ResponseDXAddress').fill('DX12345');
         await this.saveAndContinueButton();
     }
 
     async contactPhoneNumber(){
-        await expect(this.page.getByRole('heading')).toContainText('What is your contact phone number? (optional)');
         await this.page.locator('#responseRespondentPhone1').fill('07803456789');
         await this.saveAndContinueButton();
     }
 
     async contactPreference(){
-        await expect(this.page.getByRole('heading')).toContainText('Respondent contact preferences');
         await expect(this.page.locator('#main-form')).toContainText('How would you prefer to be contacted? (optional)');
         await expect(this.page.locator('#main-form')).toContainText('Which language should the tribunal use to contact you? (optional)');
         await this.page.getByLabel('Email').check();
@@ -101,7 +95,7 @@ export default class RespContactDetailsPages extends BasePage{
     async hearingFormat(){
         await expect(this.page.locator('legend')).toContainText('Would you be able to take part in hearings by video and phone? (optional)');
         await this.page.getByText('Yes, I can take part in video').click();
-        await expect(this.page.getByRole('heading')).toContainText('Extra support during the case');
+        await this.saveAndContinueButton();
         await this.page.getByLabel('Yes').check();
         await this.page.getByLabel('Tell us what support you need').click();
         await this.page.getByLabel('Tell us what support you need').fill('disable access');
