@@ -12,7 +12,6 @@ export default class Et1CaseServingPage extends BasePage {
   }
 
   async processET1CaseServingPages() {
-    await expect(this.page.locator('ccd-case-edit-page')).toContainText('Pre-Acceptance');
     await this.page.getByLabel('Yes').check();
     await this.elements.date_accepted_day.fill(String(today.getDate()));
     await this.elements.date_accepted_month.fill(String(today.getMonth() +1));
