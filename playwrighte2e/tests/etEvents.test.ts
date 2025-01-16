@@ -21,7 +21,7 @@ test.describe('Various events in mange case application', () => {
     let et1CaseServingPage = new Et1CaseServingPage(page);
 
     submissionRef = await createCaseThroughApi.processCaseToAcceptedState();
-
+     //submissionRef = 1736350603109255;
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());
@@ -65,18 +65,36 @@ test.describe('Various events in mange case application', () => {
   });
 
   test('Judge draft and sign judgement or order for a England/Wales claim ', async ({ page }) => {
-    let caseListPage = new CaseListPage(page);
-    let loginPage = new LoginPage(page);
-
-   await caseListPage.signoutButton();
-
-   //judge log in
-    await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());
-    await caseListPage.processCaseFromCaseList(submissionRef);
-
-    await caseListPage.clickTab('Judgments');
-
+   //  let caseListPage = new CaseListPage(page);
+   //  let loginPage = new LoginPage(page);
+   //  //let judgmentPage = new JudgmentPage(page);
+   //  let judgmentPage = JudgmentPage.create(page);
+   //
+   // //await caseListPage.signoutButton();
+   //
+   // //judge log in
+   //  await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
+   //  await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());
+   //  await caseListPage.processCaseFromCaseList(submissionRef);
+   //
+   //  await caseListPage.clickTab('Judgments');
+   //  await judgmentPage.draftAndSignDocumentOrOrder();
   });
+
+
+  // test('Judge upload documents for a England/Wales claim ', async ({ page }) => {
+  //   let caseListPage = new CaseListPage(page);
+  //   let loginPage = new LoginPage(page);
+  //
+  //   await caseListPage.signoutButton();
+  //
+  //   //judge log in
+  //   await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
+  //   await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());
+  //   await caseListPage.processCaseFromCaseList(submissionRef);
+  //
+  //   await caseListPage.clickTab('Judgments');
+  //
+  // });
 
 });
