@@ -28,6 +28,7 @@ export default class Et3LoginPage extends BasePage {
   async processRespondentLogin(username: string, password: string, caseNumber: string) {
     await this.page.goto(params.TestUrlRespondentUi);
     await this.elements.startNow.click();
+    await this.wait(10);
     await expect(this.page.locator('h1')).toContainText('Case Number');
     await this.elements.caseRefNumber.fill(caseNumber.toString());
     await this.clickContinue();
