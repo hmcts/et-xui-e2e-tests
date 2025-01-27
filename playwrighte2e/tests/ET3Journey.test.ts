@@ -12,6 +12,8 @@ import CreateCaseThroughApi from '../pages/createCaseThroughApi';
 import LoginPage from '../pages/loginPage';
 import CaseListPage from '../pages/caseListPage';
 import Et1CaseServingPage from '../pages/et1CaseServingPage';
+import Et1VettingPages from "../pages/et1VettingPages";
+
 
 let caseId: { toString: () => any; };
 let caseNumber: any;
@@ -22,18 +24,24 @@ test.describe('ET3/Respondent Journey', () => {
     let createCaseThroughApi = new CreateCaseThroughApi(page);
     let caseListPage = new CaseListPage(page);
     let et1CaseServingPage = new Et1CaseServingPage(page);
-    //
+    let et1CaseVettingPage = new Et1VettingPages(page);
+
     caseId = await createCaseThroughApi.processCaseToAcceptedState();
-    //   caseId= '1727781545265105';
+    //caseId= '1737045165746820';
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId.toString());
     caseNumber = await caseListPage.processCaseFromCaseList(caseId);
-    // caseNumber = '6081224/2024';
+    //caseNumber = '6000602/2025';
+
     //Accept case
-    await caseListPage.selectNextEvent('Accept/Reject Case');
+    await caseListPage.selectNextEvent('ET1 case vetting');
+    await et1CaseVettingPage.processET1CaseVettingPages();
+    await caseListPage.verifyCaseDetailsPage(false);
+    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPage.processET1CaseServingPages();
     await caseListPage.signoutButton();
+
   });
 
   // test('Validate ET3 Form start page', async ({ page }) => {
