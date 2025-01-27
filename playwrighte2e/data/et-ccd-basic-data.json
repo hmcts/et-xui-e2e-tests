@@ -56,7 +56,7 @@
           "respondent_ACAS": "15678",
           "respondent_ACAS_no": null,
           "respondent_phone1": null,
-          "responseReceived": "Yes",
+          "responseReceived": "No",
           "responseContinue": null,
           "responseReceivedDate": null,
           "responseStruckOut": null,
