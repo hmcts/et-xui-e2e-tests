@@ -18,7 +18,7 @@ export default class Et3LoginPage extends BasePage {
     returnToExistingResponse:this.page.locator('[href="/return-to-existing?lng=en"]'),
     submit:this.page.locator('[type="submit"]'),
     startNow:this.page.locator('[href="/case-number-check"]'),
-    replyToNewClaim:this.page.locator('[href="/self-assignment-form?lng=en"]'),
+    respondToNewClaim:this.page.locator('[href="/self-assignment-form?lng=en"]'),
     submissionRefNumber: '#caseReferenceId',
     respName:'#respondentName',
     claimantFirstName:'#claimantFirstName',
@@ -27,6 +27,7 @@ export default class Et3LoginPage extends BasePage {
   }
   async processRespondentLogin(username: string, password: string, caseNumber: string) {
     await this.page.goto(params.TestUrlRespondentUi);
+    await expect(this.page.locator('h1')).toContainText('Introduction');
     await this.elements.startNow.click();
     await expect(this.page.locator('h1')).toContainText('Case Number');
     await this.elements.caseRefNumber.fill(caseNumber.toString());
@@ -45,7 +46,7 @@ export default class Et3LoginPage extends BasePage {
     await expect(this.page.locator('h1')).toContainText('Before you continue');
     await this.clickContinue();
     await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
-    await this.elements.replyToNewClaim.click();
+    await this.elements.respondToNewClaim.click();
     await this.caseDetailsPage(submissionRef);
     await this.checkAndSubmitPage(caseNumber);
   }
@@ -66,8 +67,9 @@ export default class Et3LoginPage extends BasePage {
     await this.submitButton();
 
     //validate claim is displayed in awaiting response
+    await this.page.reload();
     await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
-    await this.elements.replyToNewClaim.isVisible();
+    await this.elements.respondToNewClaim.isVisible();
     await this.page.getByLabel('view ' + caseNumber.toString() + ':').click();
   }
 
