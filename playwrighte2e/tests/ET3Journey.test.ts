@@ -44,7 +44,7 @@ test.describe('ET3/Respondent Journey', () => {
 
   });
 
-  test('Validate ET3 Form start page', async ({ page }) => {
+  test('Validate ET3 Form start page and check case sensitivity when assigning case', async ({ page }) => {
     let respondentPage = Et3LoginPage.create(page);
     let caseOverviewPage = RespondentCaseOverviewPage.create(page);
     let taskListPage = ResponseTaskListPage.create(page);
