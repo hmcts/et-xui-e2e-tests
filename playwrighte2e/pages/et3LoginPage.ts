@@ -56,7 +56,6 @@ export default class Et3LoginPage extends BasePage {
     await expect(this.page.locator('h1')).toContainText('Case Details');
     await this.page.locator(this.elements.submissionRefNumber).fill(submissionRef.toString());
     //resp name is hard coded here as case is created from api which is using json
-    //check case sensitivity while assigning a case
     await this.page.locator(this.elements.respName).fill('Mrs Test Auto');
     await this.page.locator(this.elements.claimantFirstName).fill('Grayson');
     await this.page.locator(this.elements.claimantLastName).fill('Becker');
