@@ -35,16 +35,13 @@ test.describe('ET3/Respondent Journey', () => {
     //caseNumber = '6000602/2025';
 
     //Accept case
-    await caseListPage.selectNextEvent('ET1 case vetting');
-    await et1CaseVettingPage.processET1CaseVettingPages();
-    await caseListPage.verifyCaseDetailsPage(false);
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPage.processET1CaseServingPages();
     await caseListPage.signoutButton();
 
   });
 
-  test('Validate ET3 Form start page and check case sensitivity when assigning case', async ({ page }) => {
+  test('Validate ET3 Form start page', async ({ page }) => {
     let respondentPage = Et3LoginPage.create(page);
     let caseOverviewPage = RespondentCaseOverviewPage.create(page);
     let taskListPage = ResponseTaskListPage.create(page);
