@@ -21,7 +21,7 @@ export default class CaseListPage extends BasePage{
      applyButton: this.page.locator('//button[@class="button workbasket-filters-apply"]'),
     // resetButton: '[aria-label="Reset filter"]',
     nextEventDropdown: this.page.locator('#next-step'),
-     submitEventButton: this.page.locator('//button[@class="button"]'),
+    submitEventButton: '//button[@class="button"]',
     // confirmAllocationButton: '[type="button"]',
     // tab: '[role="tab"] div:contains("Applications")',
     // //.hmcts-primary-navigation__item:nth-child(1) > .hmcts-primary-navigation__link
@@ -129,7 +129,7 @@ export default class CaseListPage extends BasePage{
     }
 
 
-    async processCaseFromCaseList(submissionReference) {
+    async processCaseFromCaseList() {
       let caseNumber = await this.page.getByLabel('go to case with Case').allTextContents();
       console.log('The value of the Case Number ' +caseNumber);
       await this.page.getByLabel('go to case with Case').click();
@@ -139,13 +139,22 @@ export default class CaseListPage extends BasePage{
     }
 
     async selectNextEvent(option) {
-      await this.elements.submitEventButton.isDisabled();
-      await this.page.getByLabel('Next step').selectOption(option);
-      await this.elements.submitEventButton.click();
+      // await this.elements.submitEventButton.isDisabled();
+      // await this.page.getByLabel('Next step').selectOption(option);
+      // await this.elements.submitEventButton.click();
 
-      if (await this.elements.submitEventButton.isVisible()) {
+      // await expect(this.elements.submitEventButton).toBeEnabled();
+
+      await Promise.all([
+        this.page.locator(this.elements.submitEventButton).waitFor({ state: 'visible' }),
+        this.page.getByLabel('Next step').selectOption(option),
+        expect(this.page.getByRole('button', { name: 'Go', exact: true })).toBeEnabled(),
+        this.page.locator(this.elements.submitEventButton).click()
+      ]);
+
+      if (await this.page.locator(this.elements.submitEventButton).isVisible()) {
         // click Go button if visible
-        await this.elements.submitEventButton.click();
+        await this.page.locator(this.elements.submitEventButton).click();
       }
     } catch (error) {
     console.error('Error performing an Event', error);
@@ -172,7 +181,7 @@ export default class CaseListPage extends BasePage{
       await this.elements.jurisdictionDropdownLR.selectOption(jurisdiction);
       await this.elements.casetypeDropdownLR.selectOption(caseType);
       await this.elements.eventLR.selectOption('Create draft claim');
-      await this.elements.submitEventButton.click();
+      this.page.locator(this.elements.submitEventButton).click()
 
       await this.enterPostCode(postcode);
       await this.submitButton();

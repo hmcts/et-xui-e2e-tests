@@ -77,7 +77,7 @@ export default class CitizenHubPage extends BasePage {
     submit:this.page.locator('[type="submit"]')
   }
 
-    async processCitizenHubLogin(submissionReference, username, password) {
+    async processCitizenHubLogin(username, password) {
       await this.page.goto(params.TestUrlCitizenUi);
       await this.elements.returnToExistingClaim.click();
       await this.elements.employmentTribunalAccount.check();
@@ -390,39 +390,38 @@ export default class CitizenHubPage extends BasePage {
   //     I.waitForText('Claimant only', 10);
   //   },
   //
-  //   submitDocumentForHearingClaimant() {
-  //     I.waitForElement(this.startPreparingHearingDoc, 10);
-  //     I.see('Prepare and submit documents for a hearing');
-  //     I.forceClick(this.startPreparingHearingDoc);
-  //     I.waitForElement(this.hearingDocAgreeDoc, 5);
-  //     I.checkOption(this.hearingDocAgreeDoc);
-  //     I.click(this.continueButton);
-  //     I.waitForElement(this.firstListedCase, 10);
-  //     I.checkOption(this.firstListedCase);
-  //     I.see('About your hearing documents');
-  //     I.scrollTo(this.myDocumentOption);
-  //     I.checkOption(this.myDocumentOption);
-  //     I.checkOption(this.witnessStatementOnly);
-  //     I.click(this.continueButton);
-  //     I.waitForElement(this.uploadHearingFile, 10);
-  //     I.see('Upload your file of documents');
-  //     I.attachFile(this.uploadHearingDocButton, 'test/data/welshTest.pdf');
-  //     I.wait(3);
-  //     I.click(this.uploadHearingFile);
-  //     I.wait(3);
-  //     I.click(this.continueButton);
-  //     I.waitForElement(this.changeYourDocument, 10);
-  //     I.see('Check your answers');
-  //     I.click(this.submitApplicationButton);
-  //     I.waitForElement(this.closeAndReturnButton, 10);
-  //     I.see('You have sent your hearing documents to the tribunal');
-  //     I.see('What happens next');
-  //     I.see(
-  //       'Your documents are now uploaded. The tribunal will let you know ' +
-  //       'if they have any questions about the documents you have submitted.',
-  //     );
-  //     I.click(this.closeAndReturnButton);
-  //   },
+    async submitDocumentForHearingClaimant() {
+      await this.page.waitForSelector(this.elements.startPreparingHearingDoc, { timeout: 10000 });
+      await expect(this.page.locator('h1')).toContainText('Prepare and submit documents for a hearing');
+      await this.page.locator(this.elements.startPreparingHearingDoc).click();
+      await this.page.waitForSelector(this.elements.hearingDocAgreeDoc, { timeout: 5000 });
+      await this.page.locator(this.elements.hearingDocAgreeDoc).check();
+      await this.page.locator(this.elements.continueButton).click();
+      await this.page.waitForSelector(this.elements.firstListedCase, { timeout: 10000 });
+      await this.page.locator(this.elements.firstListedCase).check();
+      await expect(this.page.locator('h1')).toContainText('About your hearing documents');
+      await this.page.locator(this.elements.myDocumentOption).check();
+      await this.page.locator(this.elements.witnessStatementOnly).check();
+      await this.page.locator(this.elements.continueButton).click();
+      await this.page.waitForSelector(this.elements.uploadHearingFile, { timeout: 10000 });
+      await expect(this.page.locator('h1')).toContainText('Upload your file of documents');
+      await this.page.setInputFiles(this.elements.uploadHearingDocButton, 'test/data/welshTest.pdf');
+      await this.page.waitForTimeout(3000);
+      await this.page.locator(this.elements.uploadHearingFile).click();
+      await this.page.waitForTimeout(3000);
+      await this.page.locator(this.elements.continueButton).click();
+      await this.page.waitForSelector(this.elements.changeYourDocument, { timeout: 10000 });
+      await expect(this.page.locator('h1')).toContainText('Check your answers');
+      await this.elements.submitApplicationButton.click();
+      await this.page.waitForSelector(this.elements.closeAndReturnButton, { timeout: 10000 });
+      await expect(this.page.locator('h1')).toContainText('You have sent your hearing documents to the tribunal');
+      await expect(this.page.locator('h1')).toContainText('What happens next');
+      await expect(this.page.locator('p')).toContainText(
+      'Your documents are now uploaded. The tribunal will let you know ' +
+      'if they have any questions about the documents you have submitted.'
+      );
+      await this.page.locator(this.elements.closeAndReturnButton).click();
+    }
   //
   //   claimantReplyToRespondApplication(app_type) {
   //     I.waitForElement(this.linkToReplyRespondentApplications, 10);

@@ -20,12 +20,12 @@ test.describe('Various events in mange case application', () => {
     let caseListPage = new CaseListPage(page);
     let et1CaseServingPage = new Et1CaseServingPage(page);
 
-    submissionRef = await createCaseThroughApi.processCaseToAcceptedState();
+    submissionRef = await createCaseThroughApi.processCaseToAcceptedState("England", "ET_EnglandWales");
 
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());
-    caseNumber = await caseListPage.processCaseFromCaseList(submissionRef);
+    caseNumber = await caseListPage.processCaseFromCaseList();
 
     //Accept case
     await caseListPage.selectNextEvent('Accept/Reject Case');
@@ -73,7 +73,7 @@ test.describe('Various events in mange case application', () => {
    //judge log in
     await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());
-    await caseListPage.processCaseFromCaseList(submissionRef);
+    await caseListPage.processCaseFromCaseList();
 
     await caseListPage.clickTab('Judgments');
 

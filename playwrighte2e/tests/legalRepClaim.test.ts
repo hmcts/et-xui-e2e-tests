@@ -80,7 +80,7 @@ test.describe('Legal Representative submits a case and perform various events', 
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
         await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference.toString());
-        let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
+        let caseNumber = await caseListPage.processCaseFromCaseList();
         await caseListPage.selectNextEvent('ET1 case vetting');
         await et1CaseVettingPage.processET1CaseVettingPages();
 

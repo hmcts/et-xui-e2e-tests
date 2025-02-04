@@ -26,12 +26,12 @@ test.describe('ET3/Respondent Journey', () => {
     let et1CaseServingPage = new Et1CaseServingPage(page);
     let et1CaseVettingPage = new Et1VettingPages(page);
 
-    caseId = await createCaseThroughApi.processCaseToAcceptedState();
+    caseId = await createCaseThroughApi.processCaseToAcceptedState("England", "ET_EnglandWales");
     //caseId= '1737045165746820';
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId.toString());
-    caseNumber = await caseListPage.processCaseFromCaseList(caseId);
+    caseNumber = await caseListPage.processCaseFromCaseList();
     //caseNumber = '6000602/2025';
 
     //Accept case

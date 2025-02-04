@@ -1,8 +1,8 @@
 
 import querystring from "querystring";
 import { params } from "../utils/config";
-import dataLocation from "../data/et-ccd-basic-data.json";
-
+import engCase from "../data/et-england-case-data.json";
+import scotCase from "../data/et-scotland-case-data.json";
 import * as OTPAuth from "totp-generator";
 import axios from "axios";
 import { BasePage } from "./basePage";
@@ -12,12 +12,13 @@ const idamBaseUrl = `https://idam-api.${env}.platform.hmcts.net/loginUser`;
 const getUserIdurl = `https://idam-api.${env}.platform.hmcts.net/details`;
 const s2sBaseUrl = `http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease`;
 const ccdApiUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
-const etDataLocation = dataLocation.data;
+const engCasePayload = engCase.data;
+const scotCasePayload = scotCase.data;
 const location = 'ET_EnglandWales';
 
-export default class CreateCaseThroughApi extends BasePage{
+export default class CreateCaseThroughApi extends BasePage {
 
-  async processCaseToAcceptedState() {
+  async processCaseToAcceptedState(caseType: string, location: string) {
 
     // Login to IDAM to get the authentication token
     const authToken = await this.getAuthToken();
@@ -25,8 +26,8 @@ export default class CreateCaseThroughApi extends BasePage{
 
     //Getting the User Id based on the Authentication Token that is passed for this User.
     const userId = await this.getUserDetails(authToken);
-    const token = await this.createACaseGetRequest(authToken, serviceToken, userId);
-    const case_id= await this.createACasePostRequest(authToken, serviceToken, userId, token);
+    const token = await this.createACaseGetRequest(authToken, serviceToken, userId, location);
+    const case_id= await this.createACasePostRequest(caseType, authToken, serviceToken, userId, token, location);
     console.log('case Id is:' +case_id);
     const response = await this.performCaseVettingEventGetRequest(authToken, serviceToken, case_id);
     await this.performCaseVettingEventPostRequest(authToken, serviceToken, case_id, response);
@@ -112,7 +113,7 @@ async getS2SServiceToken() {
   }
 
 
-  async createACaseGetRequest(authToken, serviceToken, userId) {
+  async createACaseGetRequest(authToken, serviceToken, userId, location) {
 
     const ccdStartCasePath = `/caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${location}/event-triggers/initiateCase/token`;
 
@@ -140,14 +141,22 @@ async getS2SServiceToken() {
 
   }
 
-  async createACasePostRequest(authToken, serviceToken, userId, initiateEventToken) {
+  async createACasePostRequest(caseType, authToken, serviceToken, userId, initiateEventToken, location) {
 
     const ccdSaveCasePath = `/caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${location}/cases?ignore-warning=false`;
     let createCaseUrl = ccdApiUrl + ccdSaveCasePath ;
+    let dataPayload;
+
+    const payloadMap: { [key: string]: any } = {
+      "England": engCasePayload,
+      "Scotland": scotCasePayload
+    };
+
+   dataPayload = payloadMap[caseType] || new Error("Unsupported case type");
 
    //start case creation
     let createCasetemp = {
-      data: etDataLocation,
+      data: dataPayload,
       event: {
         id: 'initiateCase',
         summary: 'Creating Case',

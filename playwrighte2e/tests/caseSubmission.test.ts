@@ -57,7 +57,7 @@ test.describe('Case creation in mange case application', () => {
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
-    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList();
     // let caseNumber= ' 6020101/2024';
     await caseListPage.verifyCaseDetailsPage(true);
 
@@ -74,7 +74,7 @@ test.describe('Case creation in mange case application', () => {
     await respondentRepPage.signoutButton();
 
     //citizenUI- contact tribunal
-    await citizenHubPages.processCitizenHubLogin(submissionReference, params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+    await citizenHubPages.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.regAccountContactTribunal('withdraw all or part of my claim');
