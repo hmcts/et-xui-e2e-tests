@@ -2,12 +2,7 @@ import { Page } from '@playwright/test';
 import { BasePage } from './basePage';
 
 export class ApplicationTabPage  extends BasePage{
-    // private page: Page;
-
-    // constructor(page: Page) {
-    //     this.page = page;
-    // }
-
+    
     notification_tab2 = '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Notifications"]';
     notification_link = 'text=Send a notification';
     respondToNotificationLink = 'text=Respond to an order or request from the tribunal';
