@@ -50,7 +50,7 @@ test.describe('ET3/Respondent Journey', () => {
     await respondentPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
     await respondentPage.replyToNewClaim(caseId, caseNumber);
     await caseOverviewPage.validateRespondentCaseOverviewPage();
-    await taskListPage.validateTaskListPage()
+    await taskListPage.validateTaskListPage();
   });
 
   test('Respondent Assign a claim (ET3)', async ({ page }) => {
