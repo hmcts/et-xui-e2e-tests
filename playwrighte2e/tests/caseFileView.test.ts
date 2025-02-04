@@ -8,19 +8,6 @@ import Et1CaseServingPage from '../pages/et1CaseServingPage';
 import { ApplicationTabPage } from '../pages/applicationTabPage';
 import { params } from "../utils/config";
 
-const postcode = 'LS9 9HE';
-const workPostcode = 'LS7 4QE';
-const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
-const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
-const firstLineOfAddress = '7, Valley Gardens?';
-
-// Scottish Details
-const scotPostcode = 'FK15 9ET';
-const scotAddressOption = '3e, Station Road, Dunblane, FK15 9ET';
-const scotWorkPostcode = 'EH45 9BU';
-const scotSelectedWorkAddress = 'Unit 4, Cherry Court, Cavalry Park, Peebles, EH45 9BU';
-const scotFirstLineOfAddress = 'Unit 4, Cherry Court, Cavalry Park';
-
 let subRef: string;
 let submissionRef: string;
 let caseNumber;
