@@ -20,14 +20,14 @@ export default class RespondentCaseOverviewPage extends BasePage {
         await expect(this.page.locator('#main-content')).toContainText('Case overview');
         await expect(this.page.locator('h3')).toContainText('The tribunal has acknowledged a claim against');
         await this.elements.et1FormLink.click();
-        await expect(this.page.getByRole('caption')).toContainText('Claim related information');
-        await this.elements.et1FormSubLink.isEnabled();
+        await expect(this.page.locator('h1')).toContainText('The claimant’s ET1 claim documents');
+        await this.page.getByLabel('view ET1 - et citizen1.pdf').click();
 
         //ET1 link  enabled in notification banner
         await this.page.getByRole('link', {name: 'Back', exact: true}).click();
         await this.page.getByRole('link', {name: 'Respond to the claim'}).click();
-        await expect(this.page.getByRole('heading')).toContainText('Response to ET1 employment tribunal claim (ET3)');
-        await this.clickStartNow();
+        await this.page.getByRole('link', { name: 'Your response form (ET3)' }).click();
+        await this.clickContinue();
 
     }
 

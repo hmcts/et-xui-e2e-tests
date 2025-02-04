@@ -44,17 +44,17 @@ test.describe('ET3/Respondent Journey', () => {
 
   });
 
-  // test('Validate ET3 Form start page', async ({ page }) => {
-  //   let respondentPage = Et3LoginPage.create(page);
-  //   let caseOverviewPage = RespondentCaseOverviewPage.create(page);
-  //   let taskListPage = ResponseTaskListPage.create(page);
-  //
-  //   //Assign a claim to respondent
-  //   await respondentPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
-  //   await respondentPage.replyToNewClaim(caseId, caseNumber);
-  //   await caseOverviewPage.validateRespondentCaseOverviewPage();
-  //   await taskListPage.validateTaskListPage()
-  // });
+  test('Validate ET3 Form start page', async ({ page }) => {
+    let respondentPage = Et3LoginPage.create(page);
+    let caseOverviewPage = RespondentCaseOverviewPage.create(page);
+    let taskListPage = ResponseTaskListPage.create(page);
+
+    //Assign a claim to respondent
+    await respondentPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
+    await respondentPage.replyToNewClaim(caseId, caseNumber);
+    await caseOverviewPage.validateRespondentCaseOverviewPage();
+    await taskListPage.validateTaskListPage()
+  });
 
   test('Respondent Assign a claim (ET3)', async ({ page }) => {
     let respondentPage = Et3LoginPage.create(page);
