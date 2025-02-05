@@ -20,26 +20,16 @@ export default class Et1CaseServingPage extends BasePage {
   }
 
 
-  // async getClaimantFirstName() {
-  //   I.waitForElement(
-  //     '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Claimant"]',
-  //     15,
-  //   );
-  //   await I.click(
-  //     '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Claimant"]',
-  //   );
-  //   const firstName = await I.grabTextFrom(
-  //     '#case-viewer-field-read--claimantIndType tr:nth-of-type(2) span:nth-of-type(1) span:nth-of-type(1)',
-  //   );
-  //   const lastName = await I.grabTextFrom(
-  //     '#case-viewer-field-read--claimantIndType tr:nth-of-type(3) span:nth-of-type(1) span:nth-of-type(1)',
-  //   );
-  //   console.log(firstName);
-  //   console.log(lastName);
-  //   return {
-  //     firstName,
-  //     lastName,
-  //   };
-  // }
+  async getClaimantFirstName() {
+    await this.page.locator('//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Claimant"]').click();
+    const firstName = await this.page.locator('#case-viewer-field-read--claimantIndType tr:nth-of-type(2) span:nth-of-type(1) span:nth-of-type(1)').innerText();
+    const lastName = await this.page.locator('#case-viewer-field-read--claimantIndType tr:nth-of-type(3) span:nth-of-type(1) span:nth-of-type(1)').innerText();
+    console.log(firstName);
+    console.log(lastName);
+    return {
+      firstName,
+      lastName,
+    };
+  }
 }
 

@@ -42,7 +42,7 @@ test.describe('Notifications', () => {
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference.toString());
-    let caseNumber = await caseListPage.processCaseFromCaseList(submissionReference);
+    let caseNumber = await caseListPage.processCaseFromCaseList();
     await caseListPage.selectNextEvent('ET1 case vetting');
     await et1CaseVettingPage.processET1CaseVettingPages();
 
@@ -59,7 +59,7 @@ test.describe('Notifications', () => {
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference.toString());
-    await caseListPage.processCaseFromCaseList(submissionReference);
+    await caseListPage.processCaseFromCaseList();
     await notificationPage.viewNotification();
   });
 

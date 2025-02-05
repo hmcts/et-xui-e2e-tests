@@ -1,4 +1,5 @@
-const { I } = inject();
+import { expect, Page } from '@playwright/test';
+
 const today = new Date();
 const listDay = today.getDate() + 1;
 const currentDay = today.getDate();
@@ -6,7 +7,7 @@ const previousDay = today.getDate() - 1;
 const listMonth = today.getMonth() + 1;
 const listYear = today.getFullYear();
 
-module.exports = {
+export const hearingPage = {
   hearingElement: '#hearingCollection',
   hearingNumber: '#hearingCollection_0_hearingNumber',
   hearingTypeOption: '#hearingCollection_0_Hearing_type',
@@ -33,78 +34,77 @@ module.exports = {
   disposePartOfCase: '#hearingDetailsCollection_0_hearingDetailsCaseDisposed_No',
   completionSuccessMessage: '//div[@class="alert-message"]',
 
-  async listCase(location) {
+  async listCase(page, location) {
     switch (location) {
       case 'EnglandWales':
-        I.waitForElement(this.hearingNumber, 10);
-        I.see('Case Number');
-        I.fillField(this.hearingNumber, '1');
+        await page.waitForSelector(this.hearingNumber, { timeout: 10000 });
+        await expect(page.locator('text=Case Number')).toBeVisible();
+        await page.fill(this.hearingNumber, '1');
         // hearing format
-        I.checkOption(this.hearingHybridOption);
+        await page.check(this.hearingHybridOption);
         //hearing type
-        I.selectOption(this.hearingOption, '1: Costs Hearing');
-        I.checkOption(this.judicialMediationOption);
-        I.selectOption(this.hearingVenueOption, '2: Hull');
-        I.fillField(this.hearingLengthNum, '1');
-        I.selectOption(this.dayHourMinutes, '1: Days');
+        await page.selectOption(this.hearingOption, '1: Costs Hearing');
+        await page.check(this.judicialMediationOption);
+        await page.selectOption(this.hearingVenueOption, '2: Hull');
+        await page.fill(this.hearingLengthNum, '1');
+        await page.selectOption(this.dayHourMinutes, '1: Days');
         //sit alone or full panel
-        I.checkOption(this.sitAlonePanel);
-        I.selectOption(this.hearingStage, '1: Stage 1');
-        I.fillField(this.hearingNotes, 'The hearing should be help as soon as possible....');
-        I.scrollPageToBottom();
-        I.forceClick(this.dateSetUp);
-        I.wait(2);
-        I.fillField(this.hearingListDay, listDay);
-        I.fillField(this.hearingListMonth, listMonth);
-        I.fillField(this.hearingListYear, listYear);
-        I.click(this.submitHearingButton);
+        await page.check(this.sitAlonePanel);
+        await page.selectOption(this.hearingStage, '1: Stage 1');
+        await page.fill(this.hearingNotes, 'The hearing should be help as soon as possible....');
+        await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+        await page.click(this.dateSetUp);
+        await page.waitForTimeout(2000);
+        await page.fill(this.hearingListDay, listDay.toString());
+        await page.fill(this.hearingListMonth, listMonth.toString());
+        await page.fill(this.hearingListYear, listYear.toString());
+        await page.click(this.submitHearingButton);
         break;
       case 'Scotland':
-        I.waitForElement(this.hearingNumber, 10);
-        I.see('Case Number');
-        I.fillField(this.hearingNumber, '01');
+        await page.waitForSelector(this.hearingNumber, { timeout: 10000 });
+        await expect(page.locator('text=Case Number')).toBeVisible();
+        await page.fill(this.hearingNumber, '01');
         //hearing type
-        I.selectOption(this.hearingTypeOption, '1: Expenses/Wasted Costs Hearing');
+        await page.selectOption(this.hearingTypeOption, '1: Expenses/Wasted Costs Hearing');
         // hearing format
-        I.checkOption(this.hearingHybridOption);
-        I.checkOption(this.judicialMediationOption);
-        I.selectOption(this.managingOffice, '1: Glasgow');
-        I.selectOption(this.hearingVenueOptionScotland, '1: Glasgow COET');
-        I.fillField(this.hearingLengthNum, '1');
-        I.selectOption(this.dayHourMinutes, '1: Days');
+        await page.check(this.hearingHybridOption);
+        await page.check(this.judicialMediationOption);
+        await page.selectOption(this.managingOffice, '1: Glasgow');
+        await page.selectOption(this.hearingVenueOptionScotland, '1: Glasgow COET');
+        await page.fill(this.hearingLengthNum, '1');
+        await page.selectOption(this.dayHourMinutes, '1: Days');
         //sit alone or full panel
-        I.checkOption(this.sitAlonePanel);
-        I.selectOption(this.hearingStage, '1: Stage 1');
-        I.fillField(this.hearingNotes, 'The hearing should be help as soon as possible....');
-        I.scrollPageToBottom();
-        I.forceClick(this.dateSetUp);
-        I.wait(2);
-        I.fillField(this.hearingListDay, listDay);
-        I.fillField(this.hearingListMonth, listMonth);
-        I.fillField(this.hearingListYear, listYear);
-        I.click(this.submitHearingButton);
+        await page.check(this.sitAlonePanel);
+        await page.selectOption(this.hearingStage, '1: Stage 1');
+        await page.fill(this.hearingNotes, 'The hearing should be help as soon as possible....');
+        await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+        await page.click(this.dateSetUp);
+        await page.waitForTimeout(2000);
+        await page.fill(this.hearingListDay, listDay.toString());
+        await page.fill(this.hearingListMonth, listMonth.toString());
+        await page.fill(this.hearingListYear, listYear.toString());
+        await page.click(this.submitHearingButton);
         break;
       default:
-        throw new Error('... check you options or add new option');
+        throw new Error('... check your options or add new option');
     }
-    I.waitForElement(this.completionSuccessMessage, 10);
-    I.see('has been updated with event: List Hearing');
+    await page.waitForSelector(this.completionSuccessMessage, { timeout: 10000 });
+    await expect(page.locator('text=has been updated with event: List Hearing')).toBeVisible();
   },
-  async updateHearing() {
-    I.wait(5);
-    I.see('Hearing Details');
-    //let option = I.grabTextFrom('select option:nth-child(2)');
-    I.selectOption(this.selectHearing, 1);
-    //I.selectOption(this.selectHearing, 'Hearing 1, 27 March 2024 00:00');
-    I.click(this.submitHearingButton);
+
+  async updateHearing(page) {
+    await page.waitForTimeout(5000);
+    await expect(page.locator('text=Hearing Details')).toBeVisible();
+    await page.selectOption(this.selectHearing, '1');
+    await page.click(this.submitHearingButton);
     // Verifying the Hearings Tab.
-    I.wait(10);
-    I.selectOption(this.hearingStatus, 'Heard');
-    I.waitForText('Hearing Status', 10);
-    I.checkOption(this.disposePartOfCase);
-    I.fillField('#hearingDetailsTimingStart-day', previousDay);
-    I.fillField('#hearingDetailsTimingFinish-day', currentDay);
-    I.click(this.submitHearingButton);
-    I.waitForText('has been updated with event: Hearing Details', 15);
+    await page.waitForTimeout(10000);
+    await page.selectOption(this.hearingStatus, 'Heard');
+    await page.waitForSelector('text=Hearing Status', { timeout: 10000 });
+    await page.check(this.disposePartOfCase);
+    await page.fill('#hearingDetailsTimingStart-day', previousDay.toString());
+    await page.fill('#hearingDetailsTimingFinish-day', currentDay.toString());
+    await page.click(this.submitHearingButton);
+    await page.waitForSelector('text=has been updated with event: Hearing Details', { timeout: 15000 });
   },
 };

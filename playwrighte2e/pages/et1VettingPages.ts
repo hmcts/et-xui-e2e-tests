@@ -82,7 +82,7 @@ export default class Et1VettingPages extends BasePage {
       await this.clickContinue();
     }
 
-    async processPossibleReferralToARegionalEmploymentJudgeOrPresidentPage(caseNumber) {
+    async processPossibleReferralToARegionalEmploymentJudgeOrPresidentPage() {
       await expect(this.page.locator('#referralToREJOrVPList')).toContainText('Possible referral to Regional Employment Judge or Vice-President (Optional)');
       await this.clickContinue();
     }
