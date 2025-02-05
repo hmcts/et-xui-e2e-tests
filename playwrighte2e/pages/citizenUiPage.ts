@@ -25,7 +25,7 @@ export default class CitizenUiPage extends BasePage{
   async processPreLoginPagesForTheDraftApplication(postcode: string) {
     await this.startDraftApplication();
     await this.processBeforeYourContinuePage();
-    await this.processWhatsThePostCodeYouHaveWorkedForPage(postcode);
+    // await this.processWhatsThePostCodeYouHaveWorkedForPage(postcode);
     await this.processAreYouMakingTheClaimForYourselfPage();
     await this.processAreYouMakingTheClaimOnYourOwnPage();
     await this.processDoYouHaveAnACASEarlyConciliation();
