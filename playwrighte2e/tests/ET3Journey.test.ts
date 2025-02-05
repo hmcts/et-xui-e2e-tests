@@ -35,26 +35,23 @@ test.describe('ET3/Respondent Journey', () => {
     //caseNumber = '6000602/2025';
 
     //Accept case
-    await caseListPage.selectNextEvent('ET1 case vetting');
-    await et1CaseVettingPage.processET1CaseVettingPages();
-    await caseListPage.verifyCaseDetailsPage(false);
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
     await et1CaseServingPage.processET1CaseServingPages();
     await caseListPage.signoutButton();
 
   });
 
-  // test('Validate ET3 Form start page', async ({ page }) => {
-  //   let respondentPage = Et3LoginPage.create(page);
-  //   let caseOverviewPage = RespondentCaseOverviewPage.create(page);
-  //   let taskListPage = ResponseTaskListPage.create(page);
-  //
-  //   //Assign a claim to respondent
-  //   await respondentPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
-  //   await respondentPage.replyToNewClaim(caseId, caseNumber);
-  //   await caseOverviewPage.validateRespondentCaseOverviewPage();
-  //   await taskListPage.validateTaskListPage()
-  // });
+  test('Validate ET3 Form start page', async ({ page }) => {
+    let respondentPage = Et3LoginPage.create(page);
+    let caseOverviewPage = RespondentCaseOverviewPage.create(page);
+    let taskListPage = ResponseTaskListPage.create(page);
+
+    //Assign a claim to respondent
+    await respondentPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
+    await respondentPage.replyToNewClaim(caseId, caseNumber);
+    await caseOverviewPage.validateRespondentCaseOverviewPage();
+    await taskListPage.validateTaskListPage();
+  });
 
   test('Respondent Assign a claim (ET3)', async ({ page }) => {
     let respondentPage = Et3LoginPage.create(page);
