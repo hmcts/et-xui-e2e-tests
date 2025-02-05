@@ -93,7 +93,7 @@ export default class CitizenHubPage extends BasePage {
 
     async verifyCitizenHubCaseOverviewPage(caseNumber) {
       await expect(this.page.locator('#main-content')).toContainText('Case overview');
-      await expect(this.page.locator('#caseNumber')).toContainText('Case number ' +caseNumber);
+      await expect(this.page.locator('#caseNumber')).toContainText('Case number ' + caseNumber);
     }
 
    async clicksViewLinkOnClaimantApplicationPage(submissionReference) {
@@ -239,12 +239,12 @@ export default class CitizenHubPage extends BasePage {
           //   I.fillField(this.applicationTextField, 'blah blah');
           //   I.click('Continue');
           //   break;
-          // case 'submit document for hearing':
-          //   I.waitForElement(this.submitHearingDocument, 20);
-          //   I.click(this.submitHearingDocument);
-          //   I.waitForElement('#main-content', 20);
-          //   I.see('Prepare and submit documents for a hearing');
-          //   break;
+          case 'submit document for hearing':
+            await this.page.waitForSelector(this.elements.submitHearingDocument, { timeout: 20000 });
+            await this.page.locator(this.elements.submitHearingDocument).click();
+            await this.page.waitForSelector('#main-content', { timeout: 20000 });
+            await expect(this.page.locator('h2.govuk-heading-l')).toContainText('Prepare and submit documents for a hearing');
+            break;
           default:
             throw new Error('... invalid option, check you options');
         }
@@ -392,7 +392,7 @@ export default class CitizenHubPage extends BasePage {
   //
     async submitDocumentForHearingClaimant() {
       await this.page.waitForSelector(this.elements.startPreparingHearingDoc, { timeout: 10000 });
-      await expect(this.page.locator('h1')).toContainText('Prepare and submit documents for a hearing');
+      await expect(this.page.locator('h2.govuk-heading-l')).toContainText('Prepare and submit documents for a hearing');
       await this.page.locator(this.elements.startPreparingHearingDoc).click();
       await this.page.waitForSelector(this.elements.hearingDocAgreeDoc, { timeout: 5000 });
       await this.page.locator(this.elements.hearingDocAgreeDoc).check();
@@ -415,8 +415,7 @@ export default class CitizenHubPage extends BasePage {
       await this.elements.submitApplicationButton.click();
       await this.page.waitForSelector(this.elements.closeAndReturnButton, { timeout: 10000 });
       await expect(this.page.locator('h1')).toContainText('You have sent your hearing documents to the tribunal');
-      await expect(this.page.locator('h1')).toContainText('What happens next');
-      await expect(this.page.locator('p')).toContainText(
+      await expect(this.page.locator('//*[@id="main-content"]/div/div[1]/p')).toHaveText(
       'Your documents are now uploaded. The tribunal will let you know ' +
       'if they have any questions about the documents you have submitted.'
       );

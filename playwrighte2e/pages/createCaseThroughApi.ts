@@ -9,6 +9,7 @@ import { BasePage } from "./basePage";
 
 const env = params.TestEnv;
 const idamBaseUrl = `https://idam-api.${env}.platform.hmcts.net/loginUser`;
+const syaApiBaseUrl = `http://et-sya-api-${env}.service.core-compute-${env}.internal`;
 const getUserIdurl = `https://idam-api.${env}.platform.hmcts.net/details`;
 const s2sBaseUrl = `http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease`;
 const ccdApiUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
@@ -21,7 +22,7 @@ export default class CreateCaseThroughApi extends BasePage {
   async processCaseToAcceptedState(caseType: string, location: string) {
 
     // Login to IDAM to get the authentication token
-    const authToken = await this.getAuthToken();
+    const authToken = await this.getAuthToken(params.TestEnvApiUser, params.TestEnvApiPassword);
     let serviceToken = await this.getS2SServiceToken();
 
     //Getting the User Id based on the Authentication Token that is passed for this User.
@@ -38,11 +39,30 @@ export default class CreateCaseThroughApi extends BasePage {
     return case_id;
 
   }
-  async getAuthToken() {
+
+  async processCuiCaseToAcceptedState() {
+
+    // Login to IDAM to get the authentication token
+    const authToken = await this.getAuthToken(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+
+    // Create a draft case
+    const case_id= await this.createADraftCuiCasePostRequest(authToken);
+    console.log('case Id is:' + case_id);
+
+    // Update and submit the draft case
+    const updateResponse = await this.submitDraftCuiCase(authToken, case_id, "update");
+    console.log('CUI case updated successfully:' + updateResponse.data);
+
+    const submitResponse = await this.submitDraftCuiCase(authToken, case_id, "submit");
+    console.log('CUI case submitted successfully:' + submitResponse.data);
+    return case_id;
+  }
+
+  async getAuthToken(username: string, password: string) {
     let access_token;
     let data = querystring.stringify({
-      'username':  params.TestEnvApiUser,
-      'password': params.TestEnvApiPassword
+      'username':  username,
+      'password': password
     });
     let config = {
       method: 'post',
@@ -185,6 +205,76 @@ async getS2SServiceToken() {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         return case_id = response.data.id
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async createADraftCuiCasePostRequest(authToken) {
+
+    const cuiDraftCasePath = "/cases/initiate-case/";
+    let createCaseUrl = syaApiBaseUrl + cuiDraftCasePath ;
+
+   //start case creation
+    let createCaseBody = {
+        "case_type_id": "ET_EnglandWales",
+        "case_data": {
+            "caseType": "Single",
+            "caseSource": "Manually Created"
+        }
+    };
+
+    // let createCaseBody = `${JSON.stringify(createCasetemp)}`;
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: createCaseUrl,
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json'
+      },
+      data : createCaseBody
+    };
+
+    let case_id;
+    return await axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        return case_id = response.data.id;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  }
+
+  async submitDraftCuiCase(authToken, case_id, methodType) {
+     
+    let updateCaseUrl = `${syaApiBaseUrl}/cases/${methodType}-case/`;
+    //start case creation
+    let updateCaseBody = {
+      "case_id": case_id.toString(),
+      "case_type_id": "ET_EnglandWales",
+      "case_data": engCasePayload
+    };
+
+    let config = {
+      method: 'put',
+      maxBodyLength: Infinity,
+      url: updateCaseUrl,
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json'
+      },
+      data : updateCaseBody
+    };
+
+    return await axios.request(config)
+      .then((response) => {
+        console.log('CUI Updated case is :' +JSON.stringify(response.data));
+        return response.data;
       })
       .catch((error) => {
         console.log(error);
