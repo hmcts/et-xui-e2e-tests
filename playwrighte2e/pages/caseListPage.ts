@@ -139,11 +139,6 @@ export default class CaseListPage extends BasePage{
     }
 
     async selectNextEvent(option) {
-      // await this.elements.submitEventButton.isDisabled();
-      // await this.page.getByLabel('Next step').selectOption(option);
-      // await this.elements.submitEventButton.click();
-
-      // await expect(this.elements.submitEventButton).toBeEnabled();
 
       await Promise.all([
         this.page.locator(this.elements.submitEventButton).waitFor({ state: 'visible' }),
@@ -152,10 +147,10 @@ export default class CaseListPage extends BasePage{
         this.page.locator(this.elements.submitEventButton).click()
       ]);
 
-      if (await this.page.locator(this.elements.submitEventButton).isVisible()) {
-        // click Go button if visible
-        await this.page.locator(this.elements.submitEventButton).click();
-      }
+      // if (await this.page.locator(this.elements.submitEventButton).isVisible()) {
+      //   // click Go button if visible
+      //   await this.page.locator(this.elements.submitEventButton).click();
+      // }
     } catch (error) {
     console.error('Error performing an Event', error);
   }

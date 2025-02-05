@@ -67,54 +67,54 @@ export abstract class BasePage {
     await this.saveAndContinue.click();
   }
 
-  async processPreLoginPagesForTheDraftApplication(postcode: string) {
-    await this.startDraftApplication();
-    await this.processBeforeYourContinuePage();
-    await this.processWhatsThePostCodeYouHaveWorkedForPage(postcode);
-    await this.processAreYouMakingTheClaimForYourselfPage();
-    await this.processAreYouMakingTheClaimOnYourOwnPage();
-    await this.processDoYouHaveAnACASEarlyConciliation();
-    await this.processWhatKindOfClaimAreYouMaking();
-    }
+  // async processPreLoginPagesForTheDraftApplication(postcode: string) {
+  //   await this.startDraftApplication();
+  //   await this.processBeforeYourContinuePage();
+  //   await this.processWhatsThePostCodeYouHaveWorkedForPage(postcode);
+  //   await this.processAreYouMakingTheClaimForYourselfPage();
+  //   await this.processAreYouMakingTheClaimOnYourOwnPage();
+  //   await this.processDoYouHaveAnACASEarlyConciliation();
+  //   await this.processWhatKindOfClaimAreYouMaking();
+  // }
 
-    async startDraftApplication() {
-    await this.page.waitForSelector('text=Make a claim to an employment tribunal', { timeout: 30000 });
-    await this.page.click('text=Start now');
-    }
+  // async startDraftApplication() {
+  //   await this.page.waitForSelector('text=Make a claim to an employment tribunal', { timeout: 30000 });
+  //   await this.page.click('text=Start now');
+  // }
 
-    async processBeforeYourContinuePage() {
-    await this.page.waitForSelector('#main-content', { timeout: 5000 });
-    await this.page.click('text=Continue');
-    }
+  // async processBeforeYourContinuePage() {
+  //   await this.page.waitForSelector('#main-content', { timeout: 5000 });
+  //   await this.page.click('text=Continue');
+  // }
 
-    async processWhatsThePostCodeYouHaveWorkedForPage(postcode: string) {
-    await this.page.waitForSelector('#main-content', { timeout: 5000 });
-    await this.page.fill('#workPostcode', postcode);
-    await this.page.click('text=Continue');
-    }
+  //   async processWhatsThePostCodeYouHaveWorkedForPage(postcode: string) {
+  //   await this.page.waitForSelector('#main-content', { timeout: 5000 });
+  //   await this.page.fill('#workPostcode', postcode);
+  //   await this.page.click('text=Continue');
+  //   }
 
-    async processAreYouMakingTheClaimForYourselfPage() {
-    await this.page.waitForSelector('#main-form', { timeout: 5000 });
-    await this.page.check('input[id=lip-or-representative]');
-    await this.page.click('text=Continue');
-    }
+  //   async processAreYouMakingTheClaimForYourselfPage() {
+  //   await this.page.waitForSelector('#main-form', { timeout: 5000 });
+  //   await this.page.check('input[id=lip-or-representative]');
+  //   await this.page.click('text=Continue');
+  //   }
 
-    async processAreYouMakingTheClaimOnYourOwnPage() {
-    await this.page.waitForSelector('#main-form', { timeout: 5000 });
-    await this.page.check('input[id=single-or-multiple-claim]');
-    await this.page.click('text=Continue');
-    }
+  //   async processAreYouMakingTheClaimOnYourOwnPage() {
+  //   await this.page.waitForSelector('#main-form', { timeout: 5000 });
+  //   await this.page.check('input[id=single-or-multiple-claim]');
+  //   await this.page.click('text=Continue');
+  //   }
 
-    async processDoYouHaveAnACASEarlyConciliation() {
-    await this.page.waitForSelector('#main-form', { timeout: 5000 });
-    await this.page.check('input[id=acas-multiple]');
-    await this.page.click('text=Continue');
-    }
+  //   async processDoYouHaveAnACASEarlyConciliation() {
+  //   await this.page.waitForSelector('#main-form', { timeout: 5000 });
+  //   await this.page.check('input[id=acas-multiple]');
+  //   await this.page.click('text=Continue');
+  //   }
 
-    async processWhatKindOfClaimAreYouMaking() {
-    await this.page.waitForSelector('#typeOfClaim-hint', { timeout: 5000 });
-    await this.page.check('input[value=discrimination]');
-    await this.page.check('input[value=whistleBlowing]');
-    await this.page.click('text=Continue');
-    }
+  //   async processWhatKindOfClaimAreYouMaking() {
+  //   await this.page.waitForSelector('#typeOfClaim-hint', { timeout: 5000 });
+  //   await this.page.check('input[value=discrimination]');
+  //   await this.page.check('input[value=whistleBlowing]');
+  //   await this.page.click('text=Continue');
+  //   }
 }
