@@ -146,14 +146,8 @@ export default class CaseListPage extends BasePage{
         expect(this.page.getByRole('button', { name: 'Go', exact: true })).toBeEnabled(),
         this.page.locator(this.elements.submitEventButton).click()
       ]);
-
-      // if (await this.page.locator(this.elements.submitEventButton).isVisible()) {
-      //   // click Go button if visible
-      //   await this.page.locator(this.elements.submitEventButton).click();
-      // }
-    } catch (error) {
-    console.error('Error performing an Event', error);
-  }
+    } 
+  
     async verifyCaseDetailsPage(et1VettingFlag) {
       if (et1VettingFlag) {
         //TO DO fix this tab Ids are not consistent
