@@ -11,7 +11,6 @@ import { params } from "../utils/config";
 
 
 let subRef, subRef2;
-let submissionRef, submissionRef2;
 let caseNumber1, caseNumber2;
 
 let loginPage: LoginPage;
