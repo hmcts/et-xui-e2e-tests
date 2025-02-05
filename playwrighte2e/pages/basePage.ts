@@ -12,6 +12,7 @@ export abstract class BasePage {
   readonly signout:Locator;
   readonly startNow:Locator;
   readonly saveAndContinue:Locator;
+  readonly nextButton:Locator;
 
 
   constructor(page: Page) {
@@ -25,6 +26,7 @@ export abstract class BasePage {
     this.signout = page.getByText('Sign out');
     this.startNow = page.getByRole('button', { name: 'Start now' });
     this.saveAndContinue = page.getByRole('button', { name: 'Save and continue' });
+    this.nextButton = page.getByRole('button', { name: 'Next' });
   }
 
   async wait(time: number) {
@@ -45,6 +47,10 @@ export abstract class BasePage {
 
   async submitButton(){
     await this.submit.click();
+  }
+
+  async clickNextButton(){
+    await this.nextButton.click();
   }
 
   async enterPostCode(postcode){

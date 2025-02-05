@@ -43,23 +43,23 @@ async function setupCase(page, region: string, caseType: string) {
     await et1CaseServingPage.processET1CaseServingPages();
 }
 
-test.describe('End To End Test - England Case File View', () => {
+test.describe('Case File View', () => {
     test.beforeEach(async ({ page }) => {
         await setupCase(page, "England", "ET_EnglandWales");
     });
 
-    test('Case File View - Check ET 1 Claim in CFV folder - England', async () => {
+    test('Case File View - Check ET 1 Claim in CFV folder - England-Singles', async () => {
         // Check case file view
         await applicationTabPage.selectCaseFileView();
     });
 });
 
-test.describe('End To End Test - Scotland Case File View', () => {
+test.describe('Case File View', () => {
     test.beforeEach(async ({ page }) => {
         await setupCase(page, "Scotland", "ET_Scotland");
     });
 
-    test('Case File View - Check ET 1 Claim in CFV folder - Scotland', async () => {
+    test('Case File View - Check ET 1 Claim in CFV folder - Scotland-Singles', async () => {
         // Check case file view
         await applicationTabPage.selectCaseFileView();
     });
