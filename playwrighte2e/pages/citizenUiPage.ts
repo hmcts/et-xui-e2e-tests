@@ -16,60 +16,60 @@ export default class CitizenUiPage extends BasePage{
     jurisdiction:this.page.locator('#claim-jurisdiction')
   };
 
+  async processPreLoginPagesForTheDraftApplication(postcode) {
+    await this.startDraftApplication();
+    await this.processBeforeYourContinuePage();
+    //await this.processWhatsThePostCodeYouHaveWorkedForPage(postcode);
+    await this.processAreYouMakingTheClaimForYourselfPage();
+    await this.processAreYouMakingTheClaimOnYourOwnPage();
+    await this.processWhereYouCanMakeClaim();
+    await this.processDoYouHaveAnACASEarlyConciliation();
+    await this.processWhatKindOfClaimAreYouMaking();
+  }
+
+  async startDraftApplication() {
+    await expect(this.elements.header1).toContainText('Make a claim to an employment tribunal');
+    await this.clickStartNow();
+  }
+
+  async processBeforeYourContinuePage() {
+    await expect(this.elements.header1).toContainText('Before you continue');
+    await this.clickContinue();
+  }
+  async processWhatsThePostCodeYouHaveWorkedForPage(postcode) {
+    await expect(this.elements.header1).toContainText('What’s the postcode where you worked or work?');
+    await this.elements.workPostcode.fill(postcode);
+    await this.clickContinue();
+  }
+
   async processWhereYouCanMakeClaim(){
     await expect(this.elements.header1).toContainText('Where you can make your claim');
     await this.elements.jurisdiction.check('England and Wales');
     await this.clickContinue();
   }
 
-  async processPreLoginPagesForTheDraftApplication(postcode: string) {
-    await this.startDraftApplication();
-    await this.processBeforeYourContinuePage();
-    // await this.processWhatsThePostCodeYouHaveWorkedForPage(postcode);
-    await this.processAreYouMakingTheClaimForYourselfPage();
-    await this.processAreYouMakingTheClaimOnYourOwnPage();
-    await this.processDoYouHaveAnACASEarlyConciliation();
-    await this.processWhatKindOfClaimAreYouMaking();
+  async processAreYouMakingTheClaimForYourselfPage() {
+    await expect(this.page.locator('legend')).toContainText('Are you making the claim for yourself, or representing someone else?');
+    await this.elements.selfClaim.check();
+    await this.clickContinue();
   }
 
-  async startDraftApplication() {
-    await this.page.waitForSelector('text=Make a claim to an employment tribunal', { timeout: 30000 });
-    await this.page.click('text=Start now');
+  async processAreYouMakingTheClaimOnYourOwnPage() {
+    await expect(this.elements.header1).toContainText('Claiming on your own or with others');
+    await this.elements.singleOrMultipleClaim.check();
+    await this.clickContinue();
   }
 
-  async processBeforeYourContinuePage() {
-    await this.page.waitForSelector('#main-content', { timeout: 5000 });
-    await this.page.click('text=Continue');
+  async processDoYouHaveAnACASEarlyConciliation() {
+   await expect(this.page.locator('legend')).toContainText('Do you have an ‘Acas early conciliation certificate’ for the respondent or respondents you\'re claiming against?');
+    await this.elements.acasMultiple.check();
+    await this.clickContinue();
   }
 
-    async processWhatsThePostCodeYouHaveWorkedForPage(postcode: string) {
-    await this.page.waitForSelector('#main-content', { timeout: 5000 });
-    await this.page.fill('#workPostcode', postcode);
-    await this.page.click('text=Continue');
-    }
-
-    async processAreYouMakingTheClaimForYourselfPage() {
-    await this.page.waitForSelector('#main-form', { timeout: 5000 });
-    await this.page.check('input[id=lip-or-representative]');
-    await this.page.click('text=Continue');
-    }
-
-    async processAreYouMakingTheClaimOnYourOwnPage() {
-    await this.page.waitForSelector('#main-form', { timeout: 5000 });
-    await this.page.check('input[id=single-or-multiple-claim]');
-    await this.page.click('text=Continue');
-    }
-
-    async processDoYouHaveAnACASEarlyConciliation() {
-    await this.page.waitForSelector('#main-form', { timeout: 5000 });
-    await this.page.check('input[id=acas-multiple]');
-    await this.page.click('text=Continue');
-    }
-
-    async processWhatKindOfClaimAreYouMaking() {
-    await this.page.waitForSelector('#typeOfClaim-hint', { timeout: 5000 });
-    await this.page.check('input[value=discrimination]');
-    await this.page.check('input[value=whistleBlowing]');
-    await this.page.click('text=Continue');
-    }
+  async processWhatKindOfClaimAreYouMaking() {
+    await expect(this.elements.header1).toContainText('What type of claim are you making?');
+    await this.elements.discriminationCheckBox.check();
+    await this.elements.whistleBlowingCheckBox.check();
+    await this.clickContinue();
+  }
 }
