@@ -12,6 +12,7 @@ export abstract class BasePage {
   readonly signout:Locator;
   readonly startNow:Locator;
   readonly saveAndContinue:Locator;
+  readonly nextButton:Locator;
 
 
   constructor(page: Page) {
@@ -25,6 +26,7 @@ export abstract class BasePage {
     this.signout = page.getByText('Sign out');
     this.startNow = page.getByRole('button', { name: 'Start now' });
     this.saveAndContinue = page.getByRole('button', { name: 'Save and continue' });
+    this.nextButton = page.getByRole('button', { name: 'Next' });
   }
 
   async wait(time: number) {
@@ -45,6 +47,14 @@ export abstract class BasePage {
 
   async submitButton(){
     await this.submit.click();
+  }
+
+  async delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  async clickNextButton(){
+    await this.nextButton.click();
   }
 
   async enterPostCode(postcode){
@@ -75,17 +85,17 @@ export abstract class BasePage {
     await this.processAreYouMakingTheClaimOnYourOwnPage();
     await this.processDoYouHaveAnACASEarlyConciliation();
     await this.processWhatKindOfClaimAreYouMaking();
-    }
+  }
 
-    async startDraftApplication() {
+  async startDraftApplication() {
     await this.page.waitForSelector('text=Make a claim to an employment tribunal', { timeout: 30000 });
     await this.page.click('text=Start now');
-    }
+  }
 
-    async processBeforeYourContinuePage() {
+  async processBeforeYourContinuePage() {
     await this.page.waitForSelector('#main-content', { timeout: 5000 });
     await this.page.click('text=Continue');
-    }
+  }
 
     async processWhatsThePostCodeYouHaveWorkedForPage(postcode: string) {
     await this.page.waitForSelector('#main-content', { timeout: 5000 });

@@ -15,6 +15,7 @@ export default class CitizenUiPage extends BasePage{
     header1: this.page.locator('h1'),
     jurisdiction:this.page.locator('#claim-jurisdiction')
   };
+
   async processPreLoginPagesForTheDraftApplication(postcode) {
     await this.startDraftApplication();
     await this.processBeforeYourContinuePage();
@@ -35,7 +36,6 @@ export default class CitizenUiPage extends BasePage{
     await expect(this.elements.header1).toContainText('Before you continue');
     await this.clickContinue();
   }
-
   async processWhatsThePostCodeYouHaveWorkedForPage(postcode) {
     await expect(this.elements.header1).toContainText('What’s the postcode where you worked or work?');
     await this.elements.workPostcode.fill(postcode);
