@@ -49,6 +49,10 @@ export abstract class BasePage {
     await this.submit.click();
   }
 
+  async delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
   async clickNextButton(){
     await this.nextButton.click();
   }
@@ -81,17 +85,17 @@ export abstract class BasePage {
     await this.processAreYouMakingTheClaimOnYourOwnPage();
     await this.processDoYouHaveAnACASEarlyConciliation();
     await this.processWhatKindOfClaimAreYouMaking();
-    }
+  }
 
-    async startDraftApplication() {
+  async startDraftApplication() {
     await this.page.waitForSelector('text=Make a claim to an employment tribunal', { timeout: 30000 });
     await this.page.click('text=Start now');
-    }
+  }
 
-    async processBeforeYourContinuePage() {
+  async processBeforeYourContinuePage() {
     await this.page.waitForSelector('#main-content', { timeout: 5000 });
     await this.page.click('text=Continue');
-    }
+  }
 
     async processWhatsThePostCodeYouHaveWorkedForPage(postcode: string) {
     await this.page.waitForSelector('#main-content', { timeout: 5000 });
