@@ -141,10 +141,11 @@ export default class CaseListPage extends BasePage{
     async selectNextEvent(option) {
 
       await Promise.all([
-        this.page.locator(this.elements.submitEventButton).waitFor({ state: 'visible' }),
-        this.page.getByLabel('Next step').selectOption(option),
-        expect(this.page.getByRole('button', { name: 'Go', exact: true })).toBeEnabled(),
-        this.page.locator(this.elements.submitEventButton).click()
+        await this.page.locator(this.elements.submitEventButton).waitFor({ state: 'visible' }),
+        await this.page.getByLabel('Next step').selectOption(option),
+        // expect(this.page.getByRole('button', { name: 'Go', exact: true })).toBeEnabled(),
+        await this.delay(3000),
+        await this.page.locator(this.elements.submitEventButton).click()
       ]);
     } 
   

@@ -41,11 +41,15 @@ let caseLinkPage: CaseLinkPage;
         const caseNumber = await caseListPage.processCaseFromCaseList();
 
         // Accept case
-        await caseListPage.selectNextEvent('Accept/Reject Case');
-        await et1CaseServingPage.processET1CaseServingPages();
+        await Promise.all([
+            await caseListPage.selectNextEvent('Accept/Reject Case'),
+            await et1CaseServingPage.processET1CaseServingPages()
+        ]);
+        
 
         return { subRef, caseNumber };
     }
+
 
     test.describe('Link-2-Scottish-Cases - Multiple Reasons - Scotland', async () => {
 

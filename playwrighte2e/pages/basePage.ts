@@ -47,6 +47,10 @@ export abstract class BasePage {
     await this.submit.click();
   }
 
+  async delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
   async enterPostCode(postcode){
     await this.postcode.fill(postcode);
     await this.wait(3000);
