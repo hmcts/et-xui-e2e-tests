@@ -27,12 +27,12 @@ test.describe('ET3/Respondent Journey', () => {
     let et1CaseVettingPage = new Et1VettingPages(page);
 
     caseId = await createCaseThroughApi.processCaseToAcceptedState("England", "ET_EnglandWales");
-    //caseId= '1737045165746820';
+    //caseId= '1738838227468071';
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId.toString());
     caseNumber = await caseListPage.processCaseFromCaseList();
-    //caseNumber = '6000602/2025';
+    //caseNumber = '6002205/2025';
 
     //Accept case
     await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
@@ -41,7 +41,7 @@ test.describe('ET3/Respondent Journey', () => {
 
   });
 
-  test.skip('Validate ET3 Form start page and check case sensitivity', async ({ page }) => {
+  test('Validate ET3 Form start page and check case sensitivity', async ({ page }) => {
     let respondentPage = Et3LoginPage.create(page);
     let caseOverviewPage = RespondentCaseOverviewPage.create(page);
     let taskListPage = ResponseTaskListPage.create(page);

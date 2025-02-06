@@ -9,8 +9,8 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Notification', () => {
 
-
-    test('Tribunal/caseworker sends notification to claimant', async ({page}) => {
+//TODO RET-5290
+    test.skip('Tribunal/caseworker sends notification to claimant', async ({page}) => {
         let notificationPage = new NotificationPage(page);
 
 

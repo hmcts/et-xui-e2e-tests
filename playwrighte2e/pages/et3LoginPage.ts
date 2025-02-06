@@ -18,7 +18,8 @@ export default class Et3LoginPage extends BasePage {
     returnToExistingResponse:this.page.locator('[href="/return-to-existing?lng=en"]'),
     submit:this.page.locator('[type="submit"]'),
     startNow:this.page.locator('[href="/case-number-check"]'),
-    respondToNewClaim:this.page.locator('[href="/self-assignment-form?lng=en"]'),
+    respondToNewClaim:this.page.locator('[href="/case-number-check?lng=en&redirect=selfAssignment"]'),
+    caseNumber: '#ethosCaseReference',
     submissionRefNumber: '#caseReferenceId',
     respName:'#respondentName',
     claimantFirstName:'#claimantFirstName',
@@ -48,8 +49,15 @@ export default class Et3LoginPage extends BasePage {
     await this.clickContinue();
     await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
     await this.elements.respondToNewClaim.click();
+    await this.caseNumberPage(caseNumber);
     await this.caseDetailsPage(submissionRef);
     await this.checkAndSubmitPage(caseNumber);
+  }
+
+  async caseNumberPage(caseNumber){
+    await expect(this.page.locator('h1')).toContainText('Case Number');
+    await this.page.locator(this.elements.caseNumber).fill(caseNumber.toString());
+    await this.clickContinue();
   }
 
   async caseDetailsPage(submissionRef){

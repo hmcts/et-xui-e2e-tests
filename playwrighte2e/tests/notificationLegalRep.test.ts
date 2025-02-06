@@ -15,9 +15,9 @@ const claimantsLastName= 'Malcom';
 const respondentsFirstName= 'Mark';
 const respondentsLastName  = 'McDonald';
 
-test.describe('Notifications', () => {
+test.describe('Legal Representative Notifications', () => {
   //RET-5309
-  test('Claimant Representative creates a claim and view notification from tribunal', async ({ page }) => {
+  test('Legal Representative creates a claim and tribunal sends notification, Legal Rep view notification', async ({ page }) => {
     let loginPage = new LoginPage(page);
     let caseListPage = new CaseListPage(page);
     let et1CreateDraftClaim = new Et1CreateDraftClaim(page);
