@@ -18,6 +18,7 @@ export default class JurisdictionPage extends BasePage {
   }
 
   async verifyJurisdictionCodeOnTab(){
+    await this.page.locator('ccd-read-collection-field').waitFor();
     await expect(this.page.locator('ccd-read-collection-field')).toContainText('DDA');
   }
 }

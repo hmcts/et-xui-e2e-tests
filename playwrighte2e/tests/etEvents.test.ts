@@ -21,6 +21,7 @@ test.describe('Various events in mange case application', () => {
     let et1CaseServingPage = new Et1CaseServingPage(page);
 
     submissionRef = await createCaseThroughApi.processCaseToAcceptedState("England", "ET_EnglandWales");
+    //submissionRef = 1738840614523138;
 
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);

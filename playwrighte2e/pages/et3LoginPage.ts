@@ -18,7 +18,8 @@ export default class Et3LoginPage extends BasePage {
     returnToExistingResponse:this.page.locator('[href="/return-to-existing?lng=en"]'),
     submit:this.page.locator('[type="submit"]'),
     startNow:this.page.locator('[href="/case-number-check"]'),
-    respondToNewClaim:this.page.locator('[href="/self-assignment-form?lng=en"]'),
+    respondToNewClaim:this.page.locator('[href="/case-number-check?lng=en&redirect=selfAssignment"]'),
+    caseNumber: '#ethosCaseReference',
     submissionRefNumber: '#caseReferenceId',
     respName:'#respondentName',
     claimantFirstName:'#claimantFirstName',
@@ -48,17 +49,25 @@ export default class Et3LoginPage extends BasePage {
     await this.clickContinue();
     await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
     await this.elements.respondToNewClaim.click();
+    await this.caseNumberPage(caseNumber);
     await this.caseDetailsPage(submissionRef);
     await this.checkAndSubmitPage(caseNumber);
+  }
+
+  async caseNumberPage(caseNumber){
+    await expect(this.page.locator('h1')).toContainText('Case Number');
+    await this.page.locator(this.elements.caseNumber).fill(caseNumber.toString());
+    await this.clickContinue();
   }
 
   async caseDetailsPage(submissionRef){
     await expect(this.page.locator('h1')).toContainText('Case Details');
     await this.page.locator(this.elements.submissionRefNumber).fill(submissionRef.toString());
     //resp name is hard coded here as case is created from api which is using json
-    await this.page.locator(this.elements.respName).fill('Mrs Test Auto');
-    await this.page.locator(this.elements.claimantFirstName).fill('Grayson');
-    await this.page.locator(this.elements.claimantLastName).fill('Becker');
+    //check case sensitivity
+    await this.page.locator(this.elements.respName).fill('mrS test AUto');
+    await this.page.locator(this.elements.claimantFirstName).fill('GraYSon');
+    await this.page.locator(this.elements.claimantLastName).fill('BEckEr');
     await this.clickContinue();
   }
 
