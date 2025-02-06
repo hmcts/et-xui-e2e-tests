@@ -51,7 +51,7 @@ test.describe('Notifications', () => {
     await et1CaseServingPage.processET1CaseServingPages();
 
     //send Notification
-    await caseListPage.clickTab('Notifications');
+    await notificationPage.selectNotificationLink();
     await notificationPage.sendNotification();
     await caseListPage.signoutButton();
 
