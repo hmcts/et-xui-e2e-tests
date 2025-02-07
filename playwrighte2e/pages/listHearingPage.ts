@@ -62,6 +62,7 @@ export class ListHearingPage extends BasePage {
                 await this.page.selectOption(this.hearingStage, '1: Stage 1');
                 await this.page.click(this.dateSetUp);
                 await this.page.waitForTimeout(2000);
+                console.log(`... setting up hearing date ${resultDate.getDate()}`);
                 await this.page.fill(this.hearingListDay, `${resultDate.getDate()}`);
                 await this.page.fill(this.hearingListMonth, listMonth.toString());
                 await this.page.fill(this.hearingListYear, listYear.toString());

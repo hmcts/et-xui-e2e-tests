@@ -1,11 +1,9 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import LoginPage from '../pages/loginPage';
-import CreateCaseThroughApi from "../pages/createCaseThroughApi";
 import CaseListPage from '../pages/caseListPage';
 import { ListHearingPage } from '../pages/listHearingPage';
 import { LegalRepPage } from '../pages/legalRepPage';
 import Et1CaseServingPage from '../pages/et1CaseServingPage';
-import Et1VettingPage from '../pages/et1VettingPages';
 import CitizenHubPage from '../pages/citizenHubPage';
 import { params } from "../utils/config";
 import createAndAcceptCase from "../pages/createAndAcceptCase";
