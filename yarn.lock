@@ -276,10 +276,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:8.4.1":
-  version: 8.4.1
-  resolution: "@faker-js/faker@npm:8.4.1"
-  checksum: d802d531f8929562715adc279cfec763c9a4bc596ec67b0ce43fd0ae61b285d2b0eec6f1f4aa852452a63721a842fe7e81926dce7bd92acca94b01e2a1f55f5a
+"@faker-js/faker@npm:7.2.0":
+  version: 7.2.0
+  resolution: "@faker-js/faker@npm:7.2.0"
+  checksum: 550d5bc4ae3b8764903aa67101aa0a3f48189332c633605850c70fb16ee25e44a00ab3ce73fa30a3b346c92e7c509bd4f1a2709bdcf2abaa4cdf28bd2990a455
   languageName: node
   linkType: hard
 
@@ -2434,7 +2434,7 @@ __metadata:
   resolution: "et-xui-e2e-tests@workspace:."
   dependencies:
     "@axe-core/playwright": 4.10.0
-    "@faker-js/faker": 8.4.1
+    "@faker-js/faker": 7.2.0
     "@noble/hashes": ^1.5.0
     "@playwright/test": ^1.50.1
     "@types/chai-as-promised": ^7.1.5

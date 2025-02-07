@@ -1,11 +1,11 @@
 import { BasePage } from "./basePage";
-import { expect, Locator, Page } from "@playwright/test";
-import { th } from "@faker-js/faker";
+import { expect } from "@playwright/test";
 
 const today = new Date();
 const listDay = today.getDate() + 1;
 const listMonth = today.getMonth() + 1;
 const listYear = today.getFullYear() + 1;
+let inNoticePeriod: boolean = true; 
 
 export default class EmploymentAndRespDetailsPage extends BasePage{
   //still working for organisation/person scenario
@@ -17,7 +17,7 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
    await this.enterEmploymentStartDate();
    await this.selectYesNoticePeriod();
    await this.selectNoticeType();
-   await this.enterNoticePeriodLength();
+   await this.enterNoticePeriodLength(!inNoticePeriod);
    await this.enterAverageWeeklyHours();
    await this.enterPay();
    await this.enterPensionContribution();
@@ -30,62 +30,64 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
    await this.checkRespondentDetails();
    await this.completeEmploymentAndRespondentDetails();
   }
+  
   //working notice period for organisation/person scenario
-  // async processWorkingNoticePeriodJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
-  //   await this.clickEmploymentStatusLink();
-  //   await this.workedForOrganisation('Yes');
-  //   await this.workingNoticePeriodForOrganisation();
-  //   await this.enterEmploymentJobTitle();
-  //   await this.enterEmploymentStartDate();
-  //   await this.noticePeriodEndDate();
-  //   await this.selectNoticeType();
-  //   await this.enterNoticePeriodLength();
-  //   await this.enterAverageWeeklyHours();
-  //   await this.enterPay();
-  //   await this.enterPensionContribution();
-  //   await this.enterEmployeeBenefits();
-  //   await this.enterRespondentName();
-  //   await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
-  //   await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
-  //   await this.selectYesToAcas();
-  //   await this.checkRespondentDetails();
-  //   await this.completeEmploymentAndRespondentDetails();
-  // }
+  async processWorkingNoticePeriodJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
+    await this.clickEmploymentStatusLink();
+    await this.workedForOrganisation('Yes');
+    await this.workingNoticePeriodForOrganisation();
+    await this.enterEmploymentJobTitle();
+    await this.enterEmploymentStartDate();
+    await this.noticePeriodEndDate();
+    await this.selectNoticeType();
+    await this.enterNoticePeriodLength(inNoticePeriod);
+    await this.enterAverageWeeklyHours();
+    await this.enterPay();
+    await this.enterPensionContribution();
+    await this.enterEmployeeBenefits();
+    await this.enterRespondentName();
+    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
+    await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
+    await this.selectYesToAcas();
+    await this.checkRespondentDetails();
+    await this.completeEmploymentAndRespondentDetails();
+  }
   // //No longer working for organisation/person scenario
-  // async processNoLongerWorkingForOrgJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
-  //   await this.clickEmploymentStatusLink();
-  //   await this.workedForOrganisation('Yes');
-  //   await this.noLongerWorkingForOrganisation();
-  //   await this.enterEmploymentJobTitle();
-  //   await this.enterEmploymentStartDate();
-  //   await this.enterEmploymentEndDate();
-  //   await this.selectYesNoticePeriodNoLongerWorking();
-  //   await this.selectNoticeTypeNoLongerWorking();
-  //   await this.enterNoticePeriodLengthNoLongerWorking();
-  //   await this.enterAverageWeeklyHoursNoLongerWorking();
-  //   await this.enterPay();
-  //   await this.enterPensionContribution();
-  //   await this.enterEmployeeBenefitsForNoLongerWorking();
-  //   await this.newJob();
-  //   await this.enterNewJobStartDates();
-  //   await this.enterNewJobPay();
-  //   await this.enterRespondentName();
-  //   await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
-  //   await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
-  //   await this.selectNoToAcas();
-  //   await this.checkRespondentDetails();
-  //   await this.completeEmploymentAndRespondentDetails();
-  // }
+  async processNoLongerWorkingForOrgJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
+    await this.clickEmploymentStatusLink();
+    await this.workedForOrganisation('Yes');
+    await this.noLongerWorkingForOrganisation();
+    await this.enterEmploymentJobTitle();
+    await this.enterEmploymentStartDate();
+    await this.enterEmploymentEndDate();
+    await this.selectYesNoticePeriodNoLongerWorking();
+    await this.selectNoticeTypeNoLongerWorking();
+    await this.enterNoticePeriodLengthNoLongerWorking();
+    await this.enterAverageWeeklyHoursNoLongerWorking();
+    await this.enterPay();
+    await this.enterPensionContribution();
+    await this.enterEmployeeBenefitsForNoLongerWorking();
+    await this.newJob();
+    await this.enterNewJobStartDates();
+    await this.enterNewJobPay();
+    await this.enterRespondentName();
+    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
+    await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
+    await this.selectNoToAcas();
+    await this.checkRespondentDetails();
+    await this.completeEmploymentAndRespondentDetails();
+  }
+
   // //Did not work for organisation scenario
-  // async processDidNotWorkForOrganisationMakingClaimAgainst(workPostcode, selectedWorkAddress) {
-  //   await this.clickEmploymentStatusLink();
-  //   await this.workedForOrganisation('No');
-  //   await this.enterRespondentName();
-  //   await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
-  //   await this.selectNoToAcas();
-  //   await this.checkRespondentDetails();
-  //   await this.completeEmploymentAndRespondentDetails();
-  // }
+  async processDidNotWorkForOrganisationMakingClaimAgainst(workPostcode, selectedWorkAddress) {
+    await this.clickEmploymentStatusLink();
+    await this.workedForOrganisation('No');
+    await this.enterRespondentName();
+    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
+    await this.selectNoToAcas();
+    await this.checkRespondentDetails();
+    await this.completeEmploymentAndRespondentDetails();
+  }
   //clicks employment status link
   async clickEmploymentStatusLink() {
     await this.page.locator('[href="/past-employer?lng=en"]').click();
@@ -107,23 +109,17 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.saveAndContinueButton();
   }
   //selects working notice period for respondent on /are-you-still-working page
-  // async workingNoticePeriodForOrganisation() {
-  //   I.waitForVisible('#main-form', 5);
-  //   I.see('Are you still working for the');
-  //   I.see("organisation or person you're");
-  //   I.see('making your claim against?');
-  //   I.click('#still-working-2');
-  //   I.click('Save and continue');
-  // }
+  async workingNoticePeriodForOrganisation() {
+    await expect(this.page.locator('h1')).toContainText('Are you still working for the organisation or person you\'re making your claim against?');
+    await this.page.locator('#still-working-2').check();
+    await this.saveAndContinueButton();
+  }
   // //selects i'm no longer working for respondent on /are-you-still-working page
-  // async noLongerWorkingForOrganisation() {
-  //   I.waitForVisible('#main-form', 5);
-  //   I.see('Are you still working for the');
-  //   I.see("organisation or person you're");
-  //   I.see('making your claim against?');
-  //   I.click('#still-working-3');
-  //   I.click('Save and continue');
-  // }
+  async noLongerWorkingForOrganisation() {
+    await expect(this.page.locator('h1')).toContainText('Are you still working for the organisation or person you\'re making your claim against?');
+    await this.page.locator('#still-working-3').check();
+    await this.saveAndContinueButton();
+  }
   //check page title and enter job title
   async enterEmploymentJobTitle() {
     await expect(this.page.locator('h1')).toContainText('Employment details');
@@ -146,28 +142,27 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.saveAndContinueButton();
   }
   //selects yes to did you have or work a notice period on /got-a-notice-period page
-  // async selectYesNoticePeriodNoLongerWorking() {
-  //   I.waitForVisible('#main-form', 5);
-  //   I.see('Did you have or work a notice period? (optional)');
-  //   I.checkOption('input[id=notice-period]');
-  //   I.click('Save and continue');
-  // }
+  async selectYesNoticePeriodNoLongerWorking() {
+    await expect(this.page.locator('legend')).toContainText('Did you have or work a notice period? (optional)');
+    await this.page.locator('input[id=notice-period]').check();
+    await this.saveAndContinueButton();
+  }
   //enters notice period end date
-  // async noticePeriodEndDate() {
-  //   I.waitForVisible('#main-form', 5);
-  //   I.fillField('#notice-dates-day', listDay);
-  //   I.fillField('#notice-dates-month', listMonth);
-  //   I.fillField('#notice-dates-year', listYear);
-  //   I.click('Save and continue');
-  // }
+  async noticePeriodEndDate() {
+    await expect(this.page.locator('h1')).toContainText('End of notice period');
+    await this.page.locator('#notice-dates-day').fill(String(listDay));
+    await this.page.locator('#notice-dates-month').fill(String(listMonth));
+    await this.page.locator('#notice-dates-year').fill(String(listYear));
+    await this.saveAndContinueButton();
+  }
   // //Enters employment end date dates
-  // async enterEmploymentEndDate() {
-  //   I.waitForVisible('#main-form', 5);
-  //   I.fillField('#end-date-day', '20');
-  //   I.fillField('#end-date-month', '04');
-  //   I.fillField('#end-date-year', '2022');
-  //   I.click('Save and continue');
-  // }
+  async enterEmploymentEndDate() {
+    await expect(this.page.locator('h1')).toContainText('Employment end date');
+    await this.page.locator('#end-date-day').fill('20');
+    await this.page.locator('#end-date-month').fill('04');
+    await this.page.locator('#end-date-year').fill('2022');
+    await this.saveAndContinueButton();
+  }
   //select weeks for notice type on /notice-type page
   async selectNoticeType() {
     await expect(this.page.locator('h1')).toContainText('Is your notice period in weeks or months? (optional)');
@@ -175,23 +170,28 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.saveAndContinueButton();
   }
   //enter notice length on /notice-length page
-  async enterNoticePeriodLength() {
-    await expect(this.page.locator('h1')).toContainText('How many weeks in your notice period? (optional)');
+  async enterNoticePeriodLength(inNoticePeriod) {
+
+    const noticePeriodText = inNoticePeriod 
+      ? 'How many weeks of your notice period are you being paid for? (optional)' 
+      : 'How many weeks in your notice period? (optional)';
+
+    await expect(this.page.locator('h1')).toContainText(noticePeriodText);
     await this.page.locator('input[id=notice-length]').fill( '4');
     await this.saveAndContinueButton();
   }
   //select yes for did you have or work a notice period question
-  // async selectNoticeTypeNoLongerWorking() {
-  //   I.see('Was your notice period in weeks or months? (optional)');
-  //   I.checkOption('input[id=notice-type]');
-  //   I.click('Save and continue');
-  // }
-  // //enter notice length on /notice-length page
-  // async enterNoticePeriodLengthNoLongerWorking() {
-  //   I.see('How many weeks in your notice period? (optional)');
-  //   I.fillField('input[id=notice-length]', '4');
-  //   I.click('Save and continue');
-  // }
+  async selectNoticeTypeNoLongerWorking() {
+    await expect(this.page.locator('h1')).toContainText('Was your notice period in weeks or months? (optional)');
+    await this.page.locator('input[id=notice-type]').check();
+    await this.saveAndContinueButton();
+  }
+  //enter notice length on /notice-length page
+  async enterNoticePeriodLengthNoLongerWorking() {
+    await expect(this.page.locator('h1')).toContainText('How many weeks in your notice period? (optional)');
+    await this.page.locator('input[id=notice-length]').fill('4');
+    await this.saveAndContinueButton();
+  }
   //enter average weekly hours
   async enterAverageWeeklyHours() {
     await expect(this.page.locator('h1')).toContainText('What are your average weekly hours? (optional)');
@@ -200,12 +200,11 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.saveAndContinueButton();
   }
   //enter average weekly hours for no longer working
-  // async enterAverageWeeklyHoursNoLongerWorking() {
-  //   I.waitForVisible('#main-form', 5);
-  //   I.see('What were your average weekly hours? (optional)');
-  //   I.fillField('#avg-weekly-hrs', '20');
-  //   I.click('Save and continue');
-  // }
+  async enterAverageWeeklyHoursNoLongerWorking() {
+    await expect(this.page.locator('h1')).toContainText('What were your average weekly hours? (optional)');
+    await this.page.locator('#avg-weekly-hrs').fill('20');
+    await this.saveAndContinueButton();
+  }
   //enters pay on the /pay page
   async enterPay() {
     await expect(this.page.locator('h1')).toContainText('Your pay (optional)');
@@ -228,33 +227,34 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.saveAndContinueButton();
   }
   //enter employment benefir for no longer working different to flow on R1.1.2
-  // async enterEmployeeBenefitsForNoLongerWorking() {
-  //   I.waitForVisible('#main-form', 5);
-  //   I.see('Did you receive any employee benefits? (optional)');
-  //   I.checkOption('input[id=employee-benefits]');
-  //   I.click('Save and continue');
-  // }
+  async enterEmployeeBenefitsForNoLongerWorking() {
+    await expect(this.page.locator('legend')).toContainText('Did you receive any employee benefits? (optional)');
+    await this.page.locator('input[id=employee-benefits]').check();
+    await this.saveAndContinueButton();
+  }
   //Selects yes to new job on /new-job page
-  // async newJob() {
-  //   I.seeElement('#new-job');
-  //   I.checkOption('#new-job');
-  //   I.click('Save and continue');
-  // }
-  //enter start date for new job
-  // async enterNewJobStartDates() {
-  //   I.seeElement('#new-job-start-date-day');
-  //   I.fillField('#new-job-start-date-day', '20');
-  //   I.fillField('#new-job-start-date-month', '08');
-  //   I.fillField('#new-job-start-date-year', '2024');
-  //   I.click('Save and continue');
-  // }
-  //enter new job pay
-  // async enterNewJobPay() {
-  //   I.seeElement('#new-pay-before-tax');
-  //   I.fillField('#new-pay-before-tax', '50000');
-  //   I.checkOption('#new-job-pay-interval-3');
-  //   I.click('Save and continue');
-  // }
+  async newJob() {
+    await expect(this.page.locator('#new-job')).toBeVisible();
+    await this.page.locator('#new-job').check();
+    await this.saveAndContinueButton();
+  }
+
+  // enter start date for new job
+  async enterNewJobStartDates() {
+    await expect(this.page.locator('#new-job-start-date-day')).toBeVisible();
+    await this.page.locator('#new-job-start-date-day').fill('20');
+    await this.page.locator('#new-job-start-date-month').fill('08');
+    await this.page.locator('#new-job-start-date-year').fill('2024');
+    await this.saveAndContinueButton();
+  }
+
+  // enter new job pay
+  async enterNewJobPay() {
+    await expect(this.page.locator('#new-pay-before-tax')).toBeVisible();
+    await this.page.locator('#new-pay-before-tax').fill('50000');
+    await this.page.locator('#new-job-pay-interval-3').check();
+    await this.saveAndContinueButton();
+  }
   //verify user is on respondent-name page and then enters a respondent name
   async enterRespondentName() {
     await expect(this.page.locator('h1')).toContainText('What is the name of the respondent you\'re making the claim against?');
@@ -280,17 +280,15 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.saveAndContinueButton();
   }
   //selects no option for acas cerificate question on /acas-cer-num page
-  // async selectNoToAcas() {
-  //   I.waitForVisible('#main-form', 5);
-  //   I.see('Do you have an Acas');
-  //   I.see('certificate number for Henry Marsh?');
-  //   I.checkOption('#acasCert-2');
-  //   I.click('Save and continue');
-  //   I.see('Why do you not have an Acas number?');
-  //   I.checkOption('#no-acas-reason');
-  //   I.click('Save and continue');
-  // }
-  //
+  async selectNoToAcas() {
+    await expect(this.page.locator('legend')).toContainText('Do you have an Acas certificate number for Henry Marsh?');
+    await this.page.locator('#acasCert-2').check();
+    await this.saveAndContinueButton();
+    await expect(this.page.locator('legend')).toContainText('Why do you not have an Acas number?');
+    await this.page.locator('#no-acas-reason').check();
+    await this.saveAndContinueButton();
+  }
+  
   async selectYesToAcas() {
     await expect(this.page.locator('legend')).toContainText('Do you have an Acas certificate number for');
     await this.page.locator('#acasCert').check()
