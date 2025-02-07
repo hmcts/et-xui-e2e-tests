@@ -12,17 +12,16 @@ export default class CitizenUiPage extends BasePage{
     acasMultiple:this.page.locator('#acas-multiple'),
     discriminationCheckBox: this.page.locator('#discrimination'),
     whistleBlowingCheckBox: this.page.locator('#whistleBlowing'),
-    header1: this.page.locator('h1'),
-    jurisdiction:this.page.locator('#claim-jurisdiction')
+    header1: this.page.locator('h1')
   };
 
-  async processPreLoginPagesForTheDraftApplication(postcode) {
+  async processPreLoginPagesForTheDraftApplication(region) {
     await this.startDraftApplication();
     await this.processBeforeYourContinuePage();
     //await this.processWhatsThePostCodeYouHaveWorkedForPage(postcode);
     await this.processAreYouMakingTheClaimForYourselfPage();
     await this.processAreYouMakingTheClaimOnYourOwnPage();
-    await this.processWhereYouCanMakeClaim();
+    await this.processWhereYouCanMakeClaim(region);
     await this.processDoYouHaveAnACASEarlyConciliation();
     await this.processWhatKindOfClaimAreYouMaking();
   }
@@ -42,9 +41,9 @@ export default class CitizenUiPage extends BasePage{
     await this.clickContinue();
   }
 
-  async processWhereYouCanMakeClaim(){
+  async processWhereYouCanMakeClaim(region){
     await expect(this.elements.header1).toContainText('Where you can make your claim');
-    await this.elements.jurisdiction.check('England and Wales');
+    await this.page.locator(`//input[@value='ET_${region}']`).check();
     await this.clickContinue();
   }
 

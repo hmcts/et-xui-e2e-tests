@@ -1,5 +1,6 @@
 import { Page } from 'playwright';
 import { BasePage } from './basePage';
+import dateUtilComponent from '../utils/DateUtilComponent';
 
 const today = new Date();
 const listDay = today.getDate() + 1;
@@ -42,6 +43,11 @@ export class ListHearingPage extends BasePage {
     completionSuccessMessage = '//div[@class="alert-message"]';
 
     async listCase(location: string) {
+
+        //To always choose weekdays for hearing dates
+        const today = new Date();
+        const resultDate = dateUtilComponent.addWeekdays(today, 21);
+
         switch (location) {
             case 'EnglandWales':
                 await this.page.waitForSelector(this.hearingNumber, { timeout: 10000 });
@@ -56,7 +62,8 @@ export class ListHearingPage extends BasePage {
                 await this.page.selectOption(this.hearingStage, '1: Stage 1');
                 await this.page.click(this.dateSetUp);
                 await this.page.waitForTimeout(2000);
-                await this.page.fill(this.hearingListDay, listDay.toString());
+                console.log(`... setting up hearing date ${resultDate.getDate()}`);
+                await this.page.fill(this.hearingListDay, `${resultDate.getDate()}`);
                 await this.page.fill(this.hearingListMonth, listMonth.toString());
                 await this.page.fill(this.hearingListYear, listYear.toString());
                 await this.page.waitForTimeout(2000);
@@ -78,7 +85,7 @@ export class ListHearingPage extends BasePage {
                 await this.page.selectOption(this.hearingStage, '1: Stage 1');
                 await this.page.click(this.dateSetUp);
                 await this.page.waitForTimeout(2000);
-                await this.page.fill(this.hearingListDay, listDay.toString());
+                await this.page.fill(this.hearingListDay, `${resultDate.getDate()}`);
                 await this.page.fill(this.hearingListMonth, listMonth.toString());
                 await this.page.fill(this.hearingListYear, listYear.toString());
                 await this.page.waitForTimeout(2000);

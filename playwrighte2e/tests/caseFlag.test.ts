@@ -9,7 +9,7 @@ import createAndAcceptCase from "../pages/createAndAcceptCase";
 test.describe('Case Flag', () => {
     test.beforeEach(async ({ page }) => {
         let createCase= new createAndAcceptCase();
-        await createCase.setupCase(page, "England", "ET_EnglandWales");
+        await createCase.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales");
     });
 
     test('Create and remove case Flag for E/W-Single case',async ({ page }) => {
@@ -30,7 +30,7 @@ test.describe('Case Flag', () => {
 test.describe('Case Flag', () => {
         test.beforeEach(async ({ page }) => {
             let createCase= new createAndAcceptCase();
-            await createCase.setupCase(page, "Scotland", "ET_Scotland");
+            await createCase.setupCaseCreatedViaApi(page, "Scotland", "ET_Scotland");
         });
 
         test('Create and remove case Flag for Scotland-Single case',async ({ page }) => {

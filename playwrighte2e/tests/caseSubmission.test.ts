@@ -1,85 +1,96 @@
-import { test, expect } from '@playwright/test';
-import {params} from '../utils/config';
-import CitizenUiPage from "../pages/citizenUiPage";
-import LoginPage from "../pages/loginPage";
-import TaskListPage from "../pages/taskListPage";
-import PersonalDetailsPage from "../pages/personalDetailsPage";
-import EmploymentAndRespDetailsPage from "../pages/employmentAndRespDetailsPage";
-import ClaimDetailsPage from "../pages/claimDetailsPage";
-import SubmitClaimPage from "../pages/submitClaimPage";
+import { test } from '@playwright/test';
+import { params } from '../utils/config';
 import CaseListPage from "../pages/caseListPage";
-import Et1VettingPages from "../pages/et1VettingPages";
-import Et1CaseServingPage from "../pages/et1CaseServingPage";
 import RespondentRepPage from "../pages/respondentRepPage";
 import CitizenHubPage from "../pages/citizenHubPage";
+import createAndAcceptCase from "../pages/createAndAcceptCase";
+
+const userDetailsData = require('../data/ui-data/user-details.json');
 
 
-const postcode = 'LS9 9HE';
-const workPostcode = 'LS7 4QE';
-const selectedWorkAddress = '7, Valley Gardens, Leeds, LS7 4QE';
-const firstLineOfAddress = '7, Valley Gardens?';
-const addressOption = '3, Skelton Avenue, Leeds, LS9 9HE';
+test.describe('Case creation in manage case application', () => {
+  let createCase = new createAndAcceptCase();
 
-
-test.describe('Case creation in mange case application', () => {
   test('Create a claim for still working for organisation, submit and process within manage cases', {
-    tag: ['@cx', '@smoke']}, async ({ page }) => {
-    let citizenUiPage = new CitizenUiPage(page);
-    let loginPage = new LoginPage(page);
-    let taskListPage = new TaskListPage(page);
-    let personalDetailsPage = new PersonalDetailsPage(page);
-    let employmentAndRespondentDetailsPage = new EmploymentAndRespDetailsPage(page);
-    let claimDetailsPage = new ClaimDetailsPage(page);
-    let submitClaimPage = new SubmitClaimPage(page);
-    let caseListPage = new CaseListPage(page);
-    let et1CaseVettingPage = new Et1VettingPages(page);
-    let et1CaseServingPage = new Et1CaseServingPage(page);
-    let respondentRepPage = new RespondentRepPage(page);
-    let citizenHubPages = new CitizenHubPage(page);
+    tag: ['@cx', '@smoke']
+  }, async ({ page }) => {
 
-    //Creates claim on Citizen UI
-    await page.goto(params.TestUrlCitizenUi);
-    await citizenUiPage.processPreLoginPagesForTheDraftApplication(postcode);
-    await loginPage.processLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
-    await taskListPage.processPostLoginPagesForTheDraftApplication();
-    await personalDetailsPage.processPersonalDetails(postcode, 'England', addressOption);
-    await employmentAndRespondentDetailsPage.processStillWorkingJourney(
-      workPostcode,
-      selectedWorkAddress,
-      firstLineOfAddress,
+    const submissionReference = await createCase.createCaseViaCUI(page, 'EnglandWales',
+      (loginPage) => loginPage.processLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword),
+      (employmentAndRespondentDetailsPage) => employmentAndRespondentDetailsPage.processStillWorkingJourney(userDetailsData.workPostcode, userDetailsData.selectedWorkAddress, userDetailsData.firstLineOfAddress)
     );
-    await claimDetailsPage.processClaimDetails();
-    let submissionReference = await submitClaimPage.submitClaim();
-    // let submissionReference='1724251050040668';
-    await submitClaimPage.signoutButton();
 
-    //Xui- process claim
-    await page.goto(params.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference);
-    let caseNumber = await caseListPage.processCaseFromCaseList();
-    // let caseNumber= ' 6020101/2024';
-    await caseListPage.verifyCaseDetailsPage(true);
+    const caseNumber = await createCase.setupCaseCreatedViaCUI(page, 'EnglandWales', submissionReference, {
+      user: params.TestEnvETCaseWorkerUser,
+      password: params.TestEnvETPassword
+    });
 
-    //ET1Vetting
-    await caseListPage.selectNextEvent('ET1 case vetting');
-    await et1CaseVettingPage.processET1CaseVettingPages();
-    await caseListPage.verifyCaseDetailsPage(false);
-    await caseListPage.selectNextEvent('Accept/Reject Case'); //Case acceptance or rejection Event
-    await et1CaseServingPage.processET1CaseServingPages();
+    const respondentRepPage = new RespondentRepPage(page);
+    const citizenHubPages = new CitizenHubPage(page);
+    const caseListPage = new CaseListPage(page);
 
-    //add respondent representative
     await caseListPage.selectNextEvent('Respondent Representative');
     await respondentRepPage.addRespondentRepresentative('registered', 'ET Organisation');
     await respondentRepPage.signoutButton();
 
-    //citizenUI- contact tribunal
     await citizenHubPages.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
     await citizenHubPages.clicksViewLinkOnClaimantApplicationPage(submissionReference);
     await citizenHubPages.verifyCitizenHubCaseOverviewPage(caseNumber);
     await citizenHubPages.regAccountContactTribunal('withdraw all or part of my claim');
     await citizenHubPages.rule92Question('yes');
     await citizenHubPages.cyaPageVerification();
+  });
+
+  test('Create a claim for working notice period for organisation, submit and process within manage cases', async ({ page }) => {
+    const submissionReference = await createCase.createCaseViaCUI(page, 'EnglandWales',
+      (loginPage) => loginPage.processLoginWithNewAccount(),
+      (employmentAndRespondentDetailsPage) => employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney(userDetailsData.workPostcode, userDetailsData.selectedWorkAddress, userDetailsData.firstLineOfAddress)
+    );
+
+    await createCase.setupCaseCreatedViaCUI(page, 'EnglandWales', submissionReference, {
+      user: params.TestEnvETManageCaseUser,
+      password: params.TestEnvETManageCasePassword
+    });
+  });
+
+
+  test('Create a claim for no longer working for organisation, submit and process within manage cases', async ({ page }) => {
+    const submissionReference = await createCase.createCaseViaCUI(page, 'EnglandWales',
+      (loginPage) => loginPage.processLoginWithNewAccount(),
+      (employmentAndRespondentDetailsPage) => employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(userDetailsData.workPostcode, userDetailsData.selectedWorkAddress, userDetailsData.firstLineOfAddress)
+    );
+
+    await createCase.setupCaseCreatedViaCUI(page, 'EnglandWales', submissionReference, {
+      user: params.TestEnvETManageCaseUser,
+      password: params.TestEnvETManageCasePassword
+    });
+  });
+  
+
+  test('Create a claim for DID NOT work for organisation, submit and process within manage cases', async ({ page }) => {
+    const submissionReference = await createCase.createCaseViaCUI(page, 'EnglandWales',
+      (loginPage) => loginPage.processLoginWithNewAccount(),
+      (employmentAndRespondentDetailsPage) => employmentAndRespondentDetailsPage.processDidNotWorkForOrganisationMakingClaimAgainst(userDetailsData.workPostcode, userDetailsData.selectedWorkAddress)
+    );
+
+    await createCase.setupCaseCreatedViaCUI(page, 'EnglandWales', submissionReference, {
+      user: params.TestEnvETManageCaseUser,
+      password: params.TestEnvETManageCasePassword
+    });
+  });
+  
+
+  test('Submit a case from Scotland - Case Progressing Claimant Submit application - record a decision as ECM', async ({ page }) => {
+
+    const submissionReference = await createCase.createCaseViaCUI(page, 'Scotland',
+      (loginPage) => loginPage.processLoginWithNewAccount(),
+      (employmentAndRespondentDetailsPage) => employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(userDetailsData.scotWorkPostcode, userDetailsData.scotSelectedWorkAddress, userDetailsData.scotFirstLineOfAddress)
+    );
+
+    await createCase.setupCaseCreatedViaCUI(page, 'Scotland', submissionReference, {
+      user: params.TestEnvETManageCaseUser,
+      password: params.TestEnvETManageCasePassword
+    });
   });
 
 });
