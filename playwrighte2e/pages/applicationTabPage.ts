@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
 import { BasePage } from './basePage';
 
-export class ApplicationTabPage  extends BasePage{
+export class ApplicationTabPage  extends BasePage {
     
     notification_tab2 = '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Notifications"]';
     notification_link = 'text=Send a notification';
