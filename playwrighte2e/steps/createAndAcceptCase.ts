@@ -27,8 +27,10 @@ export default class createAndAcceptCase extends BaseStep {
         caseNumber = await this.caseListPage.processCaseFromCaseList();
 
         // Accept case
-        await this.caseListPage.selectNextEvent('Accept/Reject Case');
-        await this.et1CaseServingPage.processET1CaseServingPages();
+        await Promise.all([
+          await this.caseListPage.selectNextEvent('Accept/Reject Case'),
+          await this.et1CaseServingPage.processET1CaseServingPages()
+        ]);
 
         return {subRef, caseNumber};
     }

@@ -38,7 +38,7 @@ test.describe('Legal Representative submits a case and perform various events', 
         });
 
 
-    test('CR creates a claim, amend claimant/respondent names and persist NOC with original claimant/respondent names', 
+    test('CR creates a claim, amend claimant/respondent names and persist NOC with original claimant/respondent names',
         async ({ page, createCaseStep, caseListPage, claimantDetailsPage, respondentDetailsPage, loginPage, nocPage }) => {
         
         const submissionReference = await createCaseStep.setUpLegalRepCase(page);

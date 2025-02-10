@@ -17,6 +17,7 @@ export default class Et1CaseServingPage extends BasePage {
     await this.elements.date_accepted_month.fill(String(today.getMonth() +1));
     await this.elements.date_accepted_year.fill(String(today.getFullYear()));
     await this.submitButton();
+    await this.delay(5000);
   }
 
 
