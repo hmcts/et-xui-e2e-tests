@@ -2,7 +2,7 @@ import {BasePage} from "./basePage";
 import { expect, Page } from '@playwright/test';
 
 class RespClaimantDetails extends BasePage {
-    protected constructor(page: Page) {
+    constructor(page: Page) {
         super(page);
     }
 

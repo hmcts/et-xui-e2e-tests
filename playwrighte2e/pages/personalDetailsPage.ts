@@ -1,6 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { BasePage } from "./basePage";
-import { th } from "@faker-js/faker";
 
 
 
@@ -95,13 +94,15 @@ export default class PersonalDetailsPage extends BasePage{
     await this.page.locator('#update-hearing-language-2').check();
     await this.saveAndContinueButton();
   }
-  // async communicationPreferenceScotland() {
-  //   I.waitForVisible('#main-content', 5);
-  //   I.waitForText('Communication preference', 30);
-  //   I.see('What format would you like to be contacted in?');
-  //   I.checkOption('#update-preference');
-  //   I.click('Save and continue');
-  // }
+
+  async communicationPreferenceScotland() {
+    await expect(this.page.locator('#main-content')).toBeVisible({ timeout: 5000 });
+    await expect(this.page.locator('h1')).toContainText('Communication preference', { timeout: 30000 });
+    await expect(this.page.locator('#main-form')).toContainText('What format would you like to be contacted in?');
+    await this.page.locator('#update-preference').check();
+    await this.saveAndContinueButton();
+  }
+
   async selectHearingPreference() {
     //Select hearing preference option - video hearing
     await expect(this.page.locator('legend')).toContainText('Would you be able to take part in hearings by video and phone?');
