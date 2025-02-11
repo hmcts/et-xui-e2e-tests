@@ -13,6 +13,7 @@ export abstract class BasePage {
   readonly startNow:Locator;
   readonly saveAndContinue:Locator;
   readonly nextButton:Locator;
+  readonly addNewButton:Locator;
 
 
   constructor(page: Page) {
@@ -27,6 +28,8 @@ export abstract class BasePage {
     this.startNow = page.getByRole('button', { name: 'Start now' });
     this.saveAndContinue = page.getByRole('button', { name: 'Save and continue' });
     this.nextButton = page.getByRole('button', { name: 'Next' });
+   this.addNewButton = page.getByRole('button', { name: 'Add new' });
+
   }
 
   async wait(time: number) {
@@ -75,6 +78,10 @@ export abstract class BasePage {
 
   async saveAndContinueButton(){
     await this.saveAndContinue.click();
+  }
+
+  async addNewButtonClick(){
+    await this.addNewButton.click;
   }
 
   async processPreLoginPagesForTheDraftApplication(postcode: string) {
