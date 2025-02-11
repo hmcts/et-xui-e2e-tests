@@ -2,7 +2,7 @@ import { BasePage } from './basePage';
 import { expect, Page } from '@playwright/test';
 
 export default class RespSubmitEt3 extends BasePage{
-  protected constructor(page: Page) {
+  constructor(page: Page) {
     super(page);
   }
 

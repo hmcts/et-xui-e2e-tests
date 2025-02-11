@@ -3,7 +3,7 @@ import { expect, Page } from '@playwright/test';
 
 export default class ResponseTaskListPage extends BasePage {
 
-    protected constructor(page: Page) {
+    constructor(page: Page) {
         super(page);
     }
 

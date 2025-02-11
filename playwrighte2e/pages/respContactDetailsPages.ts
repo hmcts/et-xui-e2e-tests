@@ -3,7 +3,7 @@ import {Page, expect} from "@playwright/test";
 
 export default class RespContactDetailsPages extends BasePage{
 
-    protected constructor(page: Page) {
+    constructor(page: Page) {
         super(page);
     }
 

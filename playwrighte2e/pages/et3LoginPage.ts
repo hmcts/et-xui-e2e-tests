@@ -5,7 +5,7 @@ import { expect, Page } from '@playwright/test';
 
 export default class Et3LoginPage extends BasePage {
 
-  protected constructor(page: Page) {
+  constructor(page: Page) {
     super(page);
   }
 
