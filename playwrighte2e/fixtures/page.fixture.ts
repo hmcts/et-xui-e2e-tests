@@ -25,7 +25,10 @@ import NotificationPage from '../pages/notificationPage';
 import ClaimantDetailsPage from '../pages/claimantDetailsPage';
 import RespondentDetailsPage from '../pages/respondentDetailsPage';
 import NocPage from '../pages/nocPage';
+<<<<<<< HEAD
 import { ManageOrgPage } from '../pages/manageOrgPage';
+=======
+>>>>>>> master
 
 export type PageFixtures = {
 
@@ -55,7 +58,10 @@ export type PageFixtures = {
     claimantDetailsPage: ClaimantDetailsPage;
     respondentDetailsPage: RespondentDetailsPage;
     nocPage: NocPage;
+<<<<<<< HEAD
     manageOrgPage: ManageOrgPage;
+=======
+>>>>>>> master
 
 }
 
