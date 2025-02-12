@@ -98,8 +98,8 @@ export class LegalRepPage extends BasePage {
     uploadDocumentContactTribunal = '#resTseDocument1';
     textArea= '#resTseTextBox1';
     applicationTypeDropDown = '#resTseSelectApplication';
-    YesCorrespondenceRadioOption = '#resTseCopyToOtherPartyYesOrNo';
-    checkYourAnswerHeading = '//h1[@class="heading-h2"]';
+    YesCorrespondenceRadioOption = '#resTseCopyToOtherPartyYesOrNo-Yes';
+    checkYourAnswerHeading = '//h2[@class="heading-h2"]';
     applicationTab = '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Applications"]';
 
 
@@ -428,8 +428,9 @@ async grantAccessToMultiples(caseNumber: string) {
         await this.page.selectOption(this.applicationTypeDropDown, '1: Amend response');
         await this.page.click(this.continueLegalRepButton);
 
+        await this.page.waitForSelector(this.uploadDocumentContactTribunal, { timeout: 30000 });
         await this.page.setInputFiles(this.uploadDocumentContactTribunal, 'test/data/welshTest.pdf');
-        await this.page.waitForTimeout(5000);
+        await this.page.waitForTimeout(3000);
         await this.page.fill(this.textArea, 'Make an application text');
         await this.page.click(this.continueLegalRepButton);
 
@@ -441,7 +442,7 @@ async grantAccessToMultiples(caseNumber: string) {
         await this.page.click(this.submitButtonLegalRep);
 
         await this.page.waitForSelector(this.closeAndReturnButton);
-        await this.closeAndReturn();
+        await this.page.click(this.closeAndReturnButton);
 
     }
 };

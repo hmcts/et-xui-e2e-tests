@@ -4,6 +4,8 @@ import { BasePage } from './basePage';
 export class ApplicationTabPage  extends BasePage {
 
     notification_tab2 = '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Notifications"]';
+    applicationTab = '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Applications"]';
+    respondToAnApplicationLink = '//a[.="Respond to an application"]';
     notification_link = 'text=Send a notification';
     respondToNotificationLink = 'text=Respond to an order or request from the tribunal';
     caseFlagsTab = '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Case File View"]';
@@ -50,21 +52,22 @@ export class ApplicationTabPage  extends BasePage {
     }
 
     async respondToAnApplication(){
-        await this.page.getByRole('link', { name: 'Respond to an application' }).click();
+        await this.page.waitForSelector(this.applicationTab, { timeout: 20000 });
+        await this.page.click(this.applicationTab);
+        await this.page.waitForSelector(this.respondToAnApplicationLink);
+        await this.page.click(this.respondToAnApplicationLink);
         await expect(this.page.locator('ccd-case-edit-page')).toContainText('Respond to an application');
         await this.page.selectOption(this.respondToApplication, '1 - Amend response');
         await this.clickContinue();
 
+        await this.page.waitForSelector(this.responseTitle, { timeout: 30000 });
         await this.page.fill(this.responseTitle, 'Response of Response');
-        await this.page.check(this.cmoRadio);
-        await this.page.selectOption(this.cmoDropdown, 'Legal officer');
-        await this.page.fill(this.fullNameTextBox, 'Caseworker 1')
+        await this.page.waitForSelector('#tseAdmReplyIsCmoOrRequest', { timeout: 30000 });
+        await this.page.getByRole('radio', { name: 'Neither' }).check();
+        await this.page.getByRole('radio', { name:'Both parties'}).check();
 
-        await this.page.selectOption(this.responseRequiredDropdown, 'Yes - view document for details');
-        await this.page.selectOption(this.partyRespondDropDown, 'Both parties');
-
-        await this.page.check(this.partyNotifyRadio);
         await this.addNewButtonClick();
+        await this.page.waitForSelector('#tseAdmReplyAddDocument_0_uploadedDocument', {timeout:3000})
         await this.page.setInputFiles('#tseAdmReplyAddDocument_0_uploadedDocument','test/data/welshTest.pdf');
         await this.clickContinue();
 

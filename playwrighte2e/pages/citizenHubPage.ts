@@ -74,7 +74,6 @@ export default class CitizenHubPage extends BasePage {
     viewCorrespondenceLink: '//a[.="View correspondence"]',
     confirmedCopyCheckBox: '#confirmCopied',
     submit:this.page.locator('[type="submit"]'),
-    respondToApplicationLink:'//a[contains(.,"respondent-application-details")]',
     respondButton: '#respond-button',
     respondToApplicationText:'#respond-to-application-text',
     supportingMaterialRadioYes:'#supporting-material-yes-no',
@@ -194,8 +193,8 @@ export default class CitizenHubPage extends BasePage {
 
   async respondToAnApplication() {
 
-    await this.page.waitForSelector(this.elements.respondToApplicationLink);
-    await this.page.click(this.elements.respondToApplicationLink);
+    await this.page.getByRole('link', { name: 'Respond to the application' }).isVisible();
+    await this.page.getByRole('link', { name: 'Respond to the application' }).click();
 
     await this.page.waitForSelector(this.elements.respondButton);
     await this.page.click(this.elements.respondButton);
