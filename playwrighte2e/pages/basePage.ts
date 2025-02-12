@@ -13,7 +13,8 @@ export abstract class BasePage {
   readonly startNow:Locator;
   readonly saveAndContinue:Locator;
   readonly nextButton:Locator;
-  readonly addNewButton:Locator;
+  readonly applyFilterButton:Locator;
+  readonly addNewBtn: Locator;
 
 
   constructor(page: Page) {
@@ -22,14 +23,14 @@ export abstract class BasePage {
     this.saveAsDraftButton = page.getByRole('button', { name: 'Save as draft' });
     this.closeAndReturnButton = this.page.getByRole('button', { name: 'Close and Return to case' });
     this.submit = this.page.getByRole('button', { name: 'Submit' });
+    this.applyFilterButton = this.page.getByRole('button', { name: 'Apply filter' });
     this.postcode = page.getByRole('textbox', { name: 'Enter a UK postcode' });
     this.findAddress = page.getByRole('button', { name: 'Find address' });
     this.signout = page.getByText('Sign out');
     this.startNow = page.getByRole('button', { name: 'Start now' });
     this.saveAndContinue = page.getByRole('button', { name: 'Save and continue' });
     this.nextButton = page.getByRole('button', { name: 'Next' });
-   this.addNewButton = page.getByRole('button', { name: 'Add new' });
-
+    this.addNewBtn = page.getByRole('button', { name: 'Add new' });
   }
 
   async wait(time: number) {
@@ -60,6 +61,10 @@ export abstract class BasePage {
     await this.nextButton.click();
   }
 
+  async clickElement(elementLocator: string): Promise<void> {
+    await this.page.click(elementLocator);
+  }
+
   async enterPostCode(postcode){
     await this.postcode.fill(postcode);
     await this.wait(3000);
@@ -81,7 +86,7 @@ export abstract class BasePage {
   }
 
   async addNewButtonClick(){
-    await this.addNewButton.click;
+    await this.addNewBtn.click;
   }
 
   async processPreLoginPagesForTheDraftApplication(postcode: string) {

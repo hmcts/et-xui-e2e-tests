@@ -4,6 +4,7 @@ export const params = {
     TestUrlCitizenUi:process.env.TEST_URL||'https://et-sya.aat.platform.hmcts.net',
     TestUrlRespondentUi:process.env.TEST_RESP_URL||'https://et-syr.aat.platform.hmcts.net',
     TestUrlForManageCaseAAT:process.env.TEST_MANAGE_CASE_URL||'https://manage-case.aat.platform.hmcts.net',
+    TestUrlForManageOrg:process.env.MANAGE_ORG_URL||'https://manage-org.aat.platform.hmcts.net',
     TestIdamUrl:process.env.IDAM_URL||'https://idam-api.aat.platform.hmcts.net/testing-support/accounts',
     IdamAcccountUrl:process.env.IDAM_ACCOUNT_URL||'https://idam-api.aat.platform.hmcts.net/testing-support/accounts',
     TestShowBrowserWindow:process.env.SHOW_BROWSER_WINDOW||false,
@@ -32,7 +33,9 @@ export const params = {
     TestEnvET3RespondentEmailAddress:process.env.ET3_REPSONDENT_USER_NAME||'',
     TestEnvET3RespondentPassword:process.env.ET3_REPSONDENT_PASSWORD||'',
     TestEnvETRespondentEmailAddress:process.env.ET_REPSONDENT_USER_NAME||'',
-    TestEnvETRespondentPassword:process.env.ET_REPSONDENT_PASSWORD||''
+    TestEnvETRespondentPassword:process.env.ET_REPSONDENT_PASSWORD||'',
+    TestEnvETManageOrgSuperUserName:process.env.ET_MANAGE_ORG_USERNAME || '',
+    TestEnvETManageOrgSuperPassword:process.env.ET_MANAGE_ORG_PASSWORD || ''
 
 };
 
