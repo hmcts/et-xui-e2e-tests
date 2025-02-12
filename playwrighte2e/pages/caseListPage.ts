@@ -180,7 +180,18 @@ export default class CaseListPage extends BasePage{
   async clickTab(tabName){
     await this.page.getByText(tabName).click();
   }
+
+  async navigateToTab(tabName : string): Promise<void> {
+    
+    switch(tabName) {
+        case "ICTab": {
+            await this.page.getByRole('tab', { name: 'Initial Consideration', exact: true }).click();
+            break;
+        } default: {
+          //statements;
+          break;
+      }  
+    }
+  
   }
-
-
-
+}
