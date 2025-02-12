@@ -14,6 +14,7 @@ export abstract class BasePage {
   readonly saveAndContinue:Locator;
   readonly nextButton:Locator;
   readonly applyFilterButton:Locator;
+  readonly addNewBtn: Locator;
 
 
   constructor(page: Page) {
@@ -29,6 +30,7 @@ export abstract class BasePage {
     this.startNow = page.getByRole('button', { name: 'Start now' });
     this.saveAndContinue = page.getByRole('button', { name: 'Save and continue' });
     this.nextButton = page.getByRole('button', { name: 'Next' });
+    this.addNewBtn = page.getByRole('button', { name: 'Add new' });
   }
 
   async wait(time: number) {
@@ -57,6 +59,10 @@ export abstract class BasePage {
 
   async clickNextButton(){
     await this.nextButton.click();
+  }
+
+  async clickElement(elementLocator: string): Promise<void> {
+    await this.page.click(elementLocator);
   }
 
   async enterPostCode(postcode){
