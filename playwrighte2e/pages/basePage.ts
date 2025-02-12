@@ -13,6 +13,7 @@ export abstract class BasePage {
   readonly startNow:Locator;
   readonly saveAndContinue:Locator;
   readonly nextButton:Locator;
+  readonly applyFilterButton:Locator;
 
 
   constructor(page: Page) {
@@ -21,6 +22,7 @@ export abstract class BasePage {
     this.saveAsDraftButton = page.getByRole('button', { name: 'Save as draft' });
     this.closeAndReturnButton = this.page.getByRole('button', { name: 'Close and Return to case' });
     this.submit = this.page.getByRole('button', { name: 'Submit' });
+    this.applyFilterButton = this.page.getByRole('button', { name: 'Apply filter' });
     this.postcode = page.getByRole('textbox', { name: 'Enter a UK postcode' });
     this.findAddress = page.getByRole('button', { name: 'Find address' });
     this.signout = page.getByText('Sign out');
