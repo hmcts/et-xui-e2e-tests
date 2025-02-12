@@ -86,7 +86,7 @@ export abstract class BasePage {
   }
 
   async addNewButtonClick(){
-    await this.addNewBtn.click;
+    await this.addNewBtn.click();
   }
 
   async processPreLoginPagesForTheDraftApplication(postcode: string) {

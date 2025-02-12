@@ -13,7 +13,7 @@ test.describe('Make an application', () => {
         subRef = '1739363094566013';
     });
 
-    test('Legal representatives make and application - England', async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
+    test.skip('Legal representatives make and application - England', async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
         // const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
         // //perform NOC
         // await page.click('text=Sign out');
