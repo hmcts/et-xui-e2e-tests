@@ -22,7 +22,7 @@ export class ApplicationTabPage  extends BasePage {
     responseRequiredDropdown:'#tseAdmReplyCmoIsResponseRequired';
     partyRespondDropDown:'#tseAdmReplyCmoSelectPartyRespond';
     partyNotifyRadio:'#tseAdmReplySelectPartyNotify-Both parties';
-    fileUpload:'#tseAdmReplyAddDocument_0_uploadedDocument'
+    fileUpload = 'input#tseAdmReplyAddDocument_0_uploadedDocument';
 
     async selectNotificationLink() {
         await this.page.waitForSelector(this.notification_tab2, { timeout: 20000 });
@@ -67,12 +67,13 @@ export class ApplicationTabPage  extends BasePage {
 
         //TODO- fix
 
-        // await this.addNewBtn.click();
-        // const fileChooserPromise = this.page.waitForEvent('filechooser');
-        // await this.page.locator(this.fileUpload).click();
-        // const fileChooser = await fileChooserPromise;
-        // await fileChooser.setFiles(path.join(__dirname, '../data/test-file/test-doc.pdf'));
-        // await this.delay(2000);
+        await this.addNewBtn.click();
+        const [fileChooser] = await Promise.all([
+            this.page.waitForEvent('filechooser'),
+            this.page.click(this.fileUpload)
+        ]);
+        await fileChooser.setFiles(path.join(__dirname, '../data/test-file/test-doc.pdf'));
+        await this.delay(3000);
 
         // await this.addNewButtonClick();
         // await this.page.getByRole('textbox', { name: 'Document' }).click();
