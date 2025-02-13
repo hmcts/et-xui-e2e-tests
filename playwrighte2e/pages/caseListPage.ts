@@ -187,11 +187,13 @@ export default class CaseListPage extends BasePage{
         case "ICTab": {
             await this.page.getByRole('tab', { name: 'Initial Consideration', exact: true }).click();
             break;
+        } 
+        case "Respondent": {
+            await this.page.getByRole('tab', { name: 'Respondent', exact: true }).click();
         } default: {
           //statements;
           break;
       }  
     }
-  
   }
 }
