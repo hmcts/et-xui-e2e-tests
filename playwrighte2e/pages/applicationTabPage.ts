@@ -65,26 +65,20 @@ export class ApplicationTabPage  extends BasePage {
         await this.page.waitForSelector(this.responseTitle, { timeout: 30000 });
         await this.page.fill(this.responseTitle, 'Response of Response');
 
-        //TODO- fix
-
         await this.addNewBtn.click();
         const [fileChooser] = await Promise.all([
             this.page.waitForEvent('filechooser'),
             this.page.click(this.fileUpload)
         ]);
         await fileChooser.setFiles(path.join(__dirname, '../data/test-file/test-doc.pdf'));
-        await this.delay(3000);
-
-        // await this.addNewButtonClick();
-        // await this.page.getByRole('textbox', { name: 'Document' }).click();
-        // await this.page.getByRole('textbox', { name: 'Document' }).setInputFiles('test/data/welshTest.pdf');
-        // await this.page.waitForTimeout(5000);
+        await this.delay(5000);
 
         await this.page.getByRole('radio', { name: 'Neither' }).check();
         await this.page.getByRole('radio', { name:'Both parties'}).check();
         await this.clickContinue();
 
         await this.delay(3000);
+        await this.submit.isVisible();
         await this.submitButton();
     }
 }
