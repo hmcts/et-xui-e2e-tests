@@ -50,6 +50,15 @@ export default class ICUploadDocPage extends BasePage {
         await this.closeAndReturn();
     }
 
+    async verifyRespondentHearingPanelValues() {
+
+        await expect(this.page.getByText(icPageData.icLandingPageContent)).toBeVisible();
+        await this.clickContinue();
+
+        await this.verifyICDetailsOnTab("Preference", "Judge");
+        await this.verifyICDetailsOnTab("Reason", "Test Panel Preference Reason");
+    }
+
     async verifyICDetailsOnTab(fieldLabel: string, fieldValue: string) {
         await expect(this.page
             .locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
