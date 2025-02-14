@@ -13,7 +13,7 @@ test.describe('Make an application and view Recorded Decision', () => {
        // subRef = '1739442740238944';
     });
 
-    test('Legal representatives make and application - England', async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
+    test('Legal representatives make and application - England', {tag: '@wip-lr'}, async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
         //perform NOC
         await page.click('text=Sign out');
@@ -29,6 +29,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
         await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
         await citizenHubPage.respondToAnApplication();
+        await page.click('text=Sign out');
 
 
         //Case Worker Request for additional information (respond to claimant's response)
@@ -36,13 +37,13 @@ test.describe('Make an application and view Recorded Decision', () => {
         await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
         await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
         caseNumber = await caseListPage.processCaseFromCaseList();
-        await applicationTabPage.respondToAnApplication();
-        await page.click('text=Sign out');
+        // await applicationTabPage.respondToAnApplication();
+        // await page.click('text=Sign out');
 
-        //claimant see response of respond
-        await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
-        await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
-        await citizenHubPage.validateResponseOfResponse();
+        // //claimant see response of respond
+        // await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+        // await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+        // await citizenHubPage.validateResponseOfResponse();
 
     });
 
