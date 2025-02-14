@@ -80,7 +80,9 @@ export default class CitizenHubPage extends BasePage {
     supportingMaterialFile:'#supportingMaterialFile',
     uploadFielButton:'#upload',
     copyToOtherPartyYesOrNo:'#copyToOtherPartyYesOrNo',
-    checkYourAnswerHeading : '//h1[@class="govuk-panel__title"]'
+    checkYourAnswerHeading : '//h1[@class="govuk-panel__title"]',
+    responseHeading : '//h2[@class="govuk-summary-list__key govuk-heading-m govuk-!-margin-top-1"]',
+    respondentApplication: '[href="/respondent-applications"]'
   }
 
     async processCitizenHubLogin(username, password) {
@@ -223,6 +225,16 @@ export default class CitizenHubPage extends BasePage {
     await this.closeAndReturn();
     }
 
+    async validateResponseOfResponse(){
+      await this.page.getByRole('link', { name: 'View the response' }).isVisible();
+      await this.page.getByRole('link', { name: 'View the response' }).click();
+      await this.delay(3000);
+      await expect(this.page.locator('body')).toContainText('Response of Response');
+  }
+    async recordDecision(){
+
+
+    }
 
 
 

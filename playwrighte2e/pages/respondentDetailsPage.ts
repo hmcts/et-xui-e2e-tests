@@ -43,7 +43,7 @@ export default class RespondentDetailsPage extends BasePage {
 
     await this.verifyRespondentDetailsOnTab("Type of respondent", respPageData.orgRespType);
     await this.verifyRespondentDetailsOnTab("Organisation or business name", "Test Organisation Name");
-    await this.verifyRespondentDetailsOnTab("Hearing panel preference", respPageData.preferenceName);
+    await this.verifyRespondentDetailsOnTab("Hearing panel preference", respPageData.preferenceNameisJudge);
   }
 
 

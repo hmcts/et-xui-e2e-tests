@@ -3,6 +3,7 @@ import { BasePage } from "./basePage";
 import path from "path";
 
 const icPageData = require('../data/ui-data/ic-page-content.json');
+const respPageData = require('../data/ui-data/respondent-page-content.json');
 
 export default class ICUploadDocPage extends BasePage {
 
@@ -55,9 +56,19 @@ export default class ICUploadDocPage extends BasePage {
         await expect(this.page.getByText(icPageData.icLandingPageContent)).toBeVisible();
         await this.clickContinue();
 
-        await this.verifyICDetailsOnTab("Preference", "Judge");
-        await this.verifyICDetailsOnTab("Reason", "Test Panel Preference Reason");
+        await this.verifyICDetailsOnTab("Preference", respPageData.preferenceNameisJudge);
+        await this.verifyICDetailsOnTab("Reason", respPageData.panelReason);
     }
+
+    async verifyClaimantHearingPanelValues() {
+
+        await expect(this.page.getByText(icPageData.icLandingPageContent)).toBeVisible();
+        await this.clickContinue();
+
+        await this.verifyICDetailsOnTab("Panel Preference", respPageData.preferenceNameisPanel);
+        await this.verifyICDetailsOnTab("Reason for Panel Preference", respPageData.panelReason);
+    }
+
 
     async verifyICDetailsOnTab(fieldLabel: string, fieldValue: string) {
         await expect(this.page
