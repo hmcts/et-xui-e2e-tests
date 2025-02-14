@@ -80,13 +80,9 @@ export default class CitizenHubPage extends BasePage {
     supportingMaterialFile:'#supportingMaterialFile',
     uploadFielButton:'#upload',
     copyToOtherPartyYesOrNo:'#copyToOtherPartyYesOrNo',
-<<<<<<< HEAD
     checkYourAnswerHeading : '//h1[@class="govuk-panel__title"]',
     responseHeading : '//h2[@class="govuk-summary-list__key govuk-heading-m govuk-!-margin-top-1"]',
     respondentApplication: '[href="/respondent-applications"]'
-=======
-    checkYourAnswerHeading : '//h1[@class="govuk-panel__title"]'
->>>>>>> master
   }
 
     async processCitizenHubLogin(username, password) {
