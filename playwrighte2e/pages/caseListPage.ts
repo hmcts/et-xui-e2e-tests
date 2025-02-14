@@ -191,7 +191,11 @@ export default class CaseListPage extends BasePage{
         case "Respondent": {
             await this.page.getByRole('tab', { name: 'Respondent', exact: true }).click();
             break;
-        } default: {
+        }
+        case "Claimant": {
+          await this.page.getByRole('tab', { name: 'Claimant', exact: true }).click();
+          break;
+      } default: {
           //statements;
           break;
       }  
