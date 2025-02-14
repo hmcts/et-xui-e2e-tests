@@ -74,5 +74,4 @@ export default class ICUploadDocPage extends BasePage {
         await expect(this.page
             .locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
     }
-
 }
