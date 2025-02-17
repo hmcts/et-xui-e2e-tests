@@ -36,13 +36,16 @@ test.describe('Make an application and view Recorded Decision', () => {
         await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
         await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
         caseNumber = await caseListPage.processCaseFromCaseList();
-        // await applicationTabPage.respondToAnApplication();
-        // await page.click('text=Sign out');
 
-        // //claimant see response of respond
-        // await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
-        // await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
-        // await citizenHubPage.validateResponseOfResponse();
+        /* RET-5629 bug ticket raised to fix below commented code
+        await applicationTabPage.respondToAnApplication();
+        await page.click('text=Sign out');
+
+        //claimant see response of respond
+        await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+        await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+        await citizenHubPage.validateResponseOfResponse();
+        */
 
     });
 
