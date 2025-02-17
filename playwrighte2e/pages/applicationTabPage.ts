@@ -31,6 +31,7 @@ export class ApplicationTabPage  extends BasePage {
     bothPartiesRadioButton='#tseAdminSelectPartyNotify-Both parties';
     recordDecisionTitle = '#tseAdminEnterNotificationTitle';
     fullName= '#tseAdminDecisionMadeByFullName';
+    judgmentRadioButton= '#tseAdminTypeOfDecision-Judgment'
 
     async selectNotificationLink() {
         await this.page.waitForSelector(this.notification_tab2, { timeout: 20000 });
@@ -72,7 +73,7 @@ export class ApplicationTabPage  extends BasePage {
         await this.page.waitForSelector(this.recordDecisionTitle, { timeout: 40000 });
         await this.page.fill(this.recordDecisionTitle, 'Record Decision');
         await this.page.check(this.grantedRadioButton);
-        await this.page.check(this.cmoRadioButton);
+        await this.page.check(this.judgmentRadioButton);
 
         await this.addNewBtn.click();
         const [fileChooser] = await Promise.all([
