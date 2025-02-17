@@ -231,11 +231,9 @@ export default class CitizenHubPage extends BasePage {
       await this.delay(3000);
       await expect(this.page.locator('body')).toContainText('Response of Response');
   }
-    async recordDecision(){
-
-
+    async validateRecordDecisionBanner(){
+      await this.page.getByRole('link', { name: 'View the decision' }).click();
+      await expect(this.page.locator('body')).toContainText('Decision');
     }
-
-
 
 }
