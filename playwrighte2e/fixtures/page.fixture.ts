@@ -27,6 +27,7 @@ import RespondentDetailsPage from '../pages/respondentDetailsPage';
 import NocPage from '../pages/nocPage';
 import { ManageOrgPage } from '../pages/manageOrgPage';
 import ICUploadDocPage from '../pages/icUploadDocPage';
+import { RestrictedReportingPage } from '../pages/restrictedReportingPage';
 
 export type PageFixtures = {
 
@@ -58,6 +59,7 @@ export type PageFixtures = {
     nocPage: NocPage;
     manageOrgPage: ManageOrgPage;
     icUploadDocPage: ICUploadDocPage;
+    restrictedReportingPage: RestrictedReportingPage;
 
 }
 
@@ -173,6 +175,11 @@ export const pageFixtures = {
 
     icUploadDocPage:async ({page}, use) => {
         await use(new ICUploadDocPage(page));
+    },
+
+    restrictedReportingPage:async ({page}, use) => {   
+        await use(new RestrictedReportingPage(page));
     }
+
    
 };
