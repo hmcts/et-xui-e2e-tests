@@ -147,8 +147,8 @@ export default class CaseListPage extends BasePage{
         await this.delay(3000),
         await this.page.locator(this.elements.submitEventButton).click()
       ]);
-    } 
-  
+    }
+
     async verifyCaseDetailsPage(et1VettingFlag) {
       if (et1VettingFlag) {
         //TO DO fix this tab Ids are not consistent
@@ -182,12 +182,12 @@ export default class CaseListPage extends BasePage{
   }
 
   async navigateToTab(tabName : string): Promise<void> {
-    
+
     switch(tabName) {
         case "ICTab": {
             await this.page.getByRole('tab', { name: 'Initial Consideration', exact: true }).click();
             break;
-        } 
+        }
         case "Respondent": {
             await this.page.getByRole('tab', { name: 'Respondent', exact: true }).click();
             break;
@@ -195,10 +195,14 @@ export default class CaseListPage extends BasePage{
         case "Claimant": {
           await this.page.getByRole('tab', { name: 'Claimant', exact: true }).click();
           break;
-      } default: {
+        }
+        case "Documents":{
+            await this.page.getByRole('tab', { name: 'Documents', exact: true }).click();
+            break;
+        } default: {
           //statements;
           break;
-      }  
+      }
     }
   }
 }
