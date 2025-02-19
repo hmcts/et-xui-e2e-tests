@@ -21,7 +21,7 @@ export default class UploadDocumentPage extends BasePage {
         await this.page.click(this.createDcfLink);
         await this.page.check(this.createDcfRadio);
         await this.submitButton();
-        await this.delay(60000);
+        await this.delay(120000);
     }
 
     async validateDCF(){
