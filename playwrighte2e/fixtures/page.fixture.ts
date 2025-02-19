@@ -28,6 +28,7 @@ import NocPage from '../pages/nocPage';
 import { ManageOrgPage } from '../pages/manageOrgPage';
 import ICUploadDocPage from '../pages/icUploadDocPage';
 import { RestrictedReportingPage } from '../pages/restrictedReportingPage';
+import UploadDocumentPage from "../pages/uploadDocumentPage";
 
 export type PageFixtures = {
 
@@ -60,6 +61,7 @@ export type PageFixtures = {
     manageOrgPage: ManageOrgPage;
     icUploadDocPage: ICUploadDocPage;
     restrictedReportingPage: RestrictedReportingPage;
+    uploadDocumentPage:UploadDocumentPage
 
 }
 
@@ -95,7 +97,7 @@ export const pageFixtures = {
 
     legalRepPage: async ({page}, use) => {
         await use(new LegalRepPage(page));
-    },    
+    },
 
     citizenHubPage: async ({page}, use) => {
         await use(new CitizenHubPage(page));
@@ -105,7 +107,7 @@ export const pageFixtures = {
         await use(new CaseLinkPage(page));
     },
 
-    respondentRepPage: async ({page}, use) => { 
+    respondentRepPage: async ({page}, use) => {
         await use(new RespondentRepPage(page));
     },
 
@@ -121,10 +123,10 @@ export const pageFixtures = {
         await use(new RespondentTaskListPage(page));
     },
 
-    responseLandingPage: async ({page}, use) => {     
+    responseLandingPage: async ({page}, use) => {
         await use(new ResponseLandingPage(page));
     },
-    
+
     respContactDetailsPages: async ({page}, use) => {
         await use(new RespContactDetailsPages(page));
     },
@@ -165,7 +167,7 @@ export const pageFixtures = {
         await use(new RespondentDetailsPage(page));
     },
 
-    nocPage:async ({page}, use) => {    
+    nocPage:async ({page}, use) => {
         await use(new NocPage(page));
     },
 
@@ -177,9 +179,11 @@ export const pageFixtures = {
         await use(new ICUploadDocPage(page));
     },
 
-    restrictedReportingPage:async ({page}, use) => {   
+    restrictedReportingPage:async ({page}, use) => {
         await use(new RestrictedReportingPage(page));
-    }
+    },
 
-   
+    uploadDocumentPage:async ({page}, use)=>{
+        await use(new UploadDocumentPage(page));
+    }
 };
