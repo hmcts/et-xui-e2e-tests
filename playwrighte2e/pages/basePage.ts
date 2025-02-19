@@ -16,6 +16,7 @@ export abstract class BasePage {
   readonly applyFilterButton:Locator;
   readonly addNewBtn: Locator;
   readonly newhearingBtn: Locator;
+  readonly newUploadDocBtn: Locator;
 
 
   constructor(page: Page) {
@@ -33,6 +34,7 @@ export abstract class BasePage {
     this.nextButton = page.getByRole('button', { name: 'Next' });
     this.addNewBtn = page.getByRole('button', { name: 'Add new' });
     this.newhearingBtn = page.locator('#hearingCollection > div > button.button.write-collection-add-item__bottom.ng-star-inserted');
+    this.newUploadDocBtn = page.locator('//*[@id="documentCollection"]/div/button[2]');
   }
 
   async wait(time: number) {
@@ -93,6 +95,10 @@ export abstract class BasePage {
 
   async addNewHearingButtonClick(){
     await this.newhearingBtn.click();
+  }
+
+  async addNewUploadDocButtonClick(){
+    await this.newUploadDocBtn.click();
   }
 
   async processPreLoginPagesForTheDraftApplication(postcode: string) {
