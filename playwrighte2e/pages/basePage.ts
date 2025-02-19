@@ -15,6 +15,7 @@ export abstract class BasePage {
   readonly nextButton:Locator;
   readonly applyFilterButton:Locator;
   readonly addNewBtn: Locator;
+  readonly newhearingBtn: Locator;
 
 
   constructor(page: Page) {
@@ -31,6 +32,7 @@ export abstract class BasePage {
     this.saveAndContinue = page.getByRole('button', { name: 'Save and continue' });
     this.nextButton = page.getByRole('button', { name: 'Next' });
     this.addNewBtn = page.getByRole('button', { name: 'Add new' });
+    this.newhearingBtn = page.locator('#hearingCollection > div > button.button.write-collection-add-item__bottom.ng-star-inserted');
   }
 
   async wait(time: number) {
@@ -87,6 +89,10 @@ export abstract class BasePage {
 
   async addNewButtonClick(){
     await this.addNewBtn.click();
+  }
+
+  async addNewHearingButtonClick(){
+    await this.newhearingBtn.click();
   }
 
   async processPreLoginPagesForTheDraftApplication(postcode: string) {
