@@ -9,10 +9,9 @@ test.describe('Make an application and view Recorded Decision', () => {
 
     test.beforeEach(async ({ page,createCaseStep }) => {
        ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page));
-        //subRef = '1739442740238944';
     });
 
-    test('Legal representatives make and application - England', {tag: '@wip-lr'}, async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
+    test('Legal representatives make and application - England', async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
         //perform NOC
         await page.click('text=Sign out');
@@ -50,7 +49,7 @@ test.describe('Make an application and view Recorded Decision', () => {
     });
 
 
-    test('Legal representatives make and application, caseworker record a decision, LR and citizen view a decision - E/W', {tag: '@wip-lr'}, async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
+    test('Legal representatives make and application, caseworker record a decision, LR and citizen view a decision - E/W', async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
         //perform NOC
         await page.click('text=Sign out');
@@ -67,17 +66,19 @@ test.describe('Make an application and view Recorded Decision', () => {
         await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
         await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
         await caseListPage.processCaseFromCaseList();
-        // await applicationTabPage.recordADecision();
 
+        /* RET-5629 bug ticket raised to fix below commented code
+        await applicationTabPage.recordADecision();
         //Legal rep view decision in an application tab
-        // await applicationTabPage.validateRecordDecisionDetails();
-        // await page.click('text=Sign out');
+        await applicationTabPage.validateRecordDecisionDetails();
+        await page.click('text=Sign out');
 
         //citizen view notification about decision
-        // await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
-        // await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
-        // await citizenHubPage.validateRecordDecisionBanner();
-        // await page.click('text=Sign out');
+        await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+        await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+        await citizenHubPage.validateRecordDecisionBanner();
+        await page.click('text=Sign out');
+        */
     });
 
 });

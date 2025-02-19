@@ -61,6 +61,7 @@ export class ApplicationTabPage  extends BasePage {
         await this.page.locator('h2.govuk-heading-l').waitFor();
         await this.page.waitForSelector(this.searchDocumentFromCaseFileView);
     }
+    
     async recordADecision() {
         await this.page.waitForSelector(this.applicationTab, { timeout: 20000 });
         await this.page.click(this.applicationTab);

@@ -1,5 +1,6 @@
 import { BasePage } from './basePage';
 import { params } from "../utils/config";
+import { expect } from '@playwright/test';
 
 export class LegalRepPage extends BasePage {
     // private page: Page;
@@ -101,6 +102,7 @@ export class LegalRepPage extends BasePage {
     YesCorrespondenceRadioOption = '#resTseCopyToOtherPartyYesOrNo-Yes';
     checkYourAnswerHeading = '//h2[@class="heading-h2"]';
     applicationTab = '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Applications"]';
+    expandImgIcon = 'div a img';
 
 
     async loadExistingApplications(option: string) {
@@ -161,7 +163,7 @@ export class LegalRepPage extends BasePage {
         await this.page.waitForTimeout(10000);
     }
 
-    async submitDocumentForHearingRespondent(agreement: string, whoseDocu: string, docuType: string) {
+    async submitDocumentForHearingRespondent(agreement: string, whoseDocu: string, docuType: string, checkActiveHearing?: boolean) {
         await this.page.waitForSelector('text=Prepare and submit documents for a hearing', { timeout: 10000 });
         await this.page.click(this.continueLegalRepButton);
         await this.page.waitForSelector(this.prepareDocPageTwoHeader, { timeout: 15000 });
@@ -194,6 +196,16 @@ export class LegalRepPage extends BasePage {
         await this.page.waitForSelector(this.respondentDocOnly, { timeout: 10000 });
         await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
         await this.page.waitForSelector('text=About your hearing documents');
+        if(checkActiveHearing) {
+            const options = await this.page.locator('#bundlesRespondentSelectHearing option');
+            const optionsCount = await options.count();
+            expect(optionsCount).toBe(2);
+
+            const optionText = await options.nth(1).textContent();
+            expect(optionText).toContain('1 Costs Hearing - Harrogate CJC');
+            expect(optionText).not.toContain('2 Costs Hearing - Harrogate CJC');
+        }
+
         await this.page.selectOption(this.selectHearingFromDropdown, '1: 1');
         // Whose hearing documents are you uploading
         try {
@@ -254,6 +266,13 @@ export class LegalRepPage extends BasePage {
         await this.page.click(this.hearingTabLegalRep);
         await this.page.waitForSelector('text=Hearing Documents');
         await this.page.waitForSelector('text=Respondent Hearing Documents');
+        await expect(this.page.getByText('welshTest.pdf')).toBeVisible();
+    }
+
+    async verifyHearingDocumentReceipientValues(fieldLabel: string, fieldValue: string) {
+        await this.page.locator(this.expandImgIcon).click();
+        await expect(this.page
+            .locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
     }
 
     async respondToNotificationFromTribunal() {
