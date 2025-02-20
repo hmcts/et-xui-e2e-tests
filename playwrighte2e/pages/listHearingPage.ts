@@ -71,7 +71,7 @@ export class ListHearingPage extends BasePage {
                 (hearingNumber == 2) ? await this.page.check(this.secondHearingHybridOption) : await this.page.check(this.hearingHybridOption);
                 (hearingNumber == 2) ? await this.page.selectOption(this.secondHearingOption, '1: Costs Hearing') : await this.page.selectOption(this.hearingOption, '1: Costs Hearing');
                 (hearingNumber == 2) ? await this.page.check(this.secondJudicialMediationOption) : await this.page.check(this.judicialMediationOption);
-                (hearingNumber == 2) ? await this.page.selectOption(this.secondHearingVenueOption, {index: 1}) : await this.page.selectOption(this.hearingVenueOption, {index: 1});
+                (hearingNumber == 2) ? await this.page.selectOption(this.secondHearingVenueOption,  {index: 1}) : await this.page.selectOption(this.hearingVenueOption, 'Newcastle CFCTC');
                 (hearingNumber == 2) ? await this.page.fill(this.secondHearingLengthNum, '1') : await this.page.fill(this.hearingLengthNum, '1');
                 (hearingNumber == 2) ? await this.page.selectOption(this.secondDayHourMinutes, '1: Days') : await this.page.selectOption(this.dayHourMinutes, '1: Days');
                 (hearingNumber == 2) ? await this.page.check(this.secondSitAlonePanel) : await this.page.check(this.sitAlonePanel);
