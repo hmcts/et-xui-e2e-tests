@@ -99,7 +99,7 @@ export class ListHearingPage extends BasePage {
                 await this.page.check(this.hearingHybridOption);
                 await this.page.check(this.judicialMediationOption);
                 await this.page.selectOption(this.managingOffice, '1: Glasgow');
-                await this.page.selectOption(this.hearingVenueOptionScotland, '1: Glasgow COET');
+                await this.page.selectOption(this.hearingVenueOptionScotland, '4: Glasgow COET');
                 await this.page.fill(this.hearingLengthNum, '1');
                 await this.page.selectOption(this.dayHourMinutes, '1: Days');
                 await this.page.check(this.sitAlonePanel);
