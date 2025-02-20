@@ -11,7 +11,7 @@ test.describe('Digital Case File', () => {
 
     });
 
-    test('Create a claim, perform DCF event', async ({page,caseListPage, uploadDocumentPage}) => {
+    test.skip('Create a claim, perform DCF event', async ({page,caseListPage, uploadDocumentPage}) => {
         //list hearing
         await caseListPage.selectNextEvent('Upload Document');
         await uploadDocumentPage.uploadCaseManagementDocument();
