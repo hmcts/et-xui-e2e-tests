@@ -1,7 +1,9 @@
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
+import { params } from "../utils/config";
 
-const params = require('../utils/config');
+
+const referralData = require('../data/ui-data/referral-content.json');
 
 export default class CaseListPage extends BasePage{
   elements = {
@@ -16,7 +18,12 @@ export default class CaseListPage extends BasePage{
       casetypeDropdownLR: this.page.locator('#cc-case-type'),
       eventLR: this.page.locator('#cc-event'),
       state:this.page.locator('#wb-case-state'),
-      managingOffice:this.page.locator('#managingOffice')
+      managingOffice:this.page.locator('#managingOffice'),
+      venueDropdown: this.page.locator('#listingVenue'),
+      causeListText :this.page.locator( '//div[@class="alert-message"]'),
+      refferTableEle: this.page.locator('ccd-read-text-field'),
+      expandImgIcon: 'div a img',
+      referralTab: this.page.locator('//div[contains(text(), "Referrals")]')
   };
 
     async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
@@ -117,7 +124,13 @@ export default class CaseListPage extends BasePage{
         case "Documents":{
             await this.page.getByRole('tab', { name: 'Documents', exact: true }).click();
             break;
-        } default: {
+        } 
+        case "Referrals":{
+            await expect(this.elements.referralTab).toBeVisible();
+            await this.elements.referralTab.click();
+            break;
+        }
+        default: {
           //statements;
           break;
       }
@@ -145,5 +158,74 @@ export default class CaseListPage extends BasePage{
         await this.elements.state.selectOption(state);
         await this.elements.managingOffice.selectOption(officeLocation);
         await this.elements.applyButton.click();
+    }
+
+    async selectHearingReport(){
+        await this.page.getByRole('link', { name: 'go to case with Case' }).click();
+    }
+
+    async generateReport(){
+        await this.elements.venueDropdown.selectOption('Newcastle CFCTC');
+        await this.submitButton();
+    }
+
+    async validateHearingReport(caseNumber){
+        await expect(this.elements.causeListText).toContainText('has been updated with event: Generate Report');
+        await expect(this.page.locator('ccd-read-complex-field-collection-table')).toContainText(caseNumber);
+        await expect(this.page.locator('ccd-read-complex-field-collection-table')).toContainText('Newcastle CFCTC');
+    }
+    
+    async verifyAndClickReferralLink(referralText: string){
+
+        const elements = await this.page.locator('markdown p a').allTextContents(); 
+        expect(elements).toContain(referralText);   
+
+        await this.page.getByText(referralText).click();
+    }
+
+    async verifyReferralDetails(){
+
+      let actStatus =  await this.elements.refferTableEle.nth(7).textContent();
+      let actSubj =  await this.elements.refferTableEle.nth(1).textContent();
+      let actReferredTo = await this.elements.refferTableEle.nth(3).textContent();
+      let actReferredDetails = await this.elements.refferTableEle.nth(8).textContent();
+
+      
+      expect(actStatus).toEqual(referralData.awaitingStatus);
+      expect(actSubj).toEqual(referralData.subject);
+      expect(actReferredTo).toEqual(referralData.expReferredTo);
+      expect(actReferredDetails).toEqual(referralData.details);
+    }
+
+    async verifyReplyReferralDetails(){
+
+      let actStatus =  await this.elements.refferTableEle.nth(7).textContent();
+      let actSubj =  await this.elements.refferTableEle.nth(1).textContent();
+      let actReferredTo = await this.elements.refferTableEle.nth(3).textContent();
+      let actReferredDetails = await this.elements.refferTableEle.nth(8).textContent();
+
+      
+      expect(actStatus).toEqual(referralData.issuedStatus);
+      expect(actSubj).toEqual(referralData.subject);
+      expect(actReferredTo).toEqual(referralData.expReferredTo);
+      expect(actReferredDetails).toEqual(referralData.details);
+
+      await this.page.locator(this.elements.expandImgIcon).nth(1).click();
+    }
+
+    async verifyReplyDetailsOnTab(fieldValue: string) {
+
+      await expect(this.page
+          .locator(`//span[normalize-space()="${fieldValue}"]`).first()).toBeVisible();
+    }
+
+    async verifyCloseReferralDetails(){
+
+      let actStatus =  await this.elements.refferTableEle.nth(7).textContent();
+      let actCloseReason =  await this.page.locator('ccd-read-text-area-field').textContent();
+
+      
+      expect(actStatus).toEqual(referralData.closedStatus);
+      expect(actCloseReason).toEqual(referralData.closeRefNotes);
     }
 }
