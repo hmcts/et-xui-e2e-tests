@@ -16,7 +16,9 @@ export default class CaseListPage extends BasePage{
       casetypeDropdownLR: this.page.locator('#cc-case-type'),
       eventLR: this.page.locator('#cc-event'),
       state:this.page.locator('#wb-case-state'),
-      managingOffice:this.page.locator('#managingOffice')
+      managingOffice:this.page.locator('#managingOffice'),
+      venueDropdown: this.page.locator('#listingVenue'),
+      causeListText :this.page.locator( '//div[@class="alert-message"]')
   };
 
     async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
@@ -145,5 +147,20 @@ export default class CaseListPage extends BasePage{
         await this.elements.state.selectOption(state);
         await this.elements.managingOffice.selectOption(officeLocation);
         await this.elements.applyButton.click();
+    }
+
+    async selectHearingReport(){
+        await this.page.getByRole('link', { name: 'go to case with Case' }).click();
+    }
+
+    async generateReport(){
+        await this.elements.venueDropdown.selectOption('Newcastle CFCTC');
+        await this.submitButton();
+    }
+
+    async validateHearingReport(caseNumber){
+        await expect(this.elements.causeListText).toContainText('has been updated with event: Generate Report');
+        await expect(this.page.locator('ccd-read-complex-field-collection-table')).toContainText(caseNumber);
+        await expect(this.page.locator('ccd-read-complex-field-collection-table')).toContainText('Newcastle CFCTC');
     }
 }
