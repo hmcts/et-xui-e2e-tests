@@ -47,7 +47,7 @@ export default class ReferralPage extends BasePage {
         await this.clickContinue();
 
         await expect(this.page.locator("//tr/td[contains(text(), 'Judge')]")).toBeVisible();
-        await expect(this.page.locator("//tr/td[contains(text(), 'ET CaseworkerOne')]")).toBeVisible();
+        await expect(this.page.locator("//tr/td[contains(text(), 'ET Caseworker5')]")).toBeVisible();
 
         await this.page.locator(this.elements.adminDirectionOption).click();
         await this.page.locator(this.elements.isUrgentReplyYes).click();
