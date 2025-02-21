@@ -20,7 +20,7 @@ test.describe('E/W Hearing Reports', () => {
         const hearingNumbers: number[] = [1];
         for(const number of hearingNumbers) {
             await caseListPage.selectNextEvent('List Hearing');
-            await listHearingPage.listCase('EnglandWales', number);
+            await listHearingPage.listCase('EnglandWales', number, true);
         }
         await caseListPage.searchHearingReports('Eng/Wales - Hearings/Reports', 'Hearing Documents', 'Newcastle');
         await caseListPage.selectHearingReport();

@@ -202,8 +202,8 @@ export class LegalRepPage extends BasePage {
             expect(optionsCount).toBe(2);
 
             const optionText = await options.nth(1).textContent();
-            expect(optionText).toContain('1 Costs Hearing - Harrogate CJC');
-            expect(optionText).not.toContain('2 Costs Hearing - Harrogate CJC');
+            expect(optionText).toContain('1 Costs Hearing - Carlisle');
+            expect(optionText).not.toContain('2 Costs Hearing - Carlisle');
         }
 
         await this.page.selectOption(this.selectHearingFromDropdown, '1: 1');

@@ -12,7 +12,7 @@ test.describe('Upload hearing docs test', () => {
     });
 
     test('for respondent - verify only future hearings are shown in options', async ({ page, caseListPage, listHearingPage, et1CaseServingPage, loginPage, legalRepPage }) => {
-        
+
         //Retrieve claimant's first name and last name for NoC
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
 
@@ -20,7 +20,7 @@ test.describe('Upload hearing docs test', () => {
         const hearingNumbers: number[] = [1, 2];
         for(const number of hearingNumbers) {
             await caseListPage.selectNextEvent('List Hearing');
-            await listHearingPage.listCase('EnglandWales', number);
+            await listHearingPage.listCase('EnglandWales', number, false);
         }
         await page.click('text=Sign out');
 
