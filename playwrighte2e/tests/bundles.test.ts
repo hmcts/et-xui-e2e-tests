@@ -34,17 +34,17 @@ test.describe('Scotland - Caseworker Bundles test', () => {
 test.describe('England - Claimant Bundles test', () => {
 
     test.beforeEach(async ({ page, createCaseStep}) => {
-        
+
         ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page));
     });
 
-    test('Bundles - Claimant Submitting hearing preparation document - England', 
+    test('Bundles - Claimant Submitting hearing preparation document - England',
         async ({ page, caseListPage, et1CaseServingPage, listHearingPage, loginPage, legalRepPage, citizenHubPage }) => {
 
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
 
         await caseListPage.selectNextEvent('List Hearing');
-        await listHearingPage.listCase('EnglandWales');
+        await listHearingPage.listCase('EnglandWales', 1,false);
         await page.click('text=Sign out');
 
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);

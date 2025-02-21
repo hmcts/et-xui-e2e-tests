@@ -57,7 +57,7 @@ export class ListHearingPage extends BasePage {
     disposePartOfCase = '#hearingDetailsCollection_0_hearingDetailsCaseDisposed_No';
     completionSuccessMessage = '//div[@class="alert-message"]';
 
-    async listCase(location: string, hearingNumber?: number) {
+    async listCase(location: string, hearingNumber?: number, newcastleHearing:boolean) {
 
         //To always choose weekdays for hearing dates
         const today = new Date();
@@ -71,7 +71,11 @@ export class ListHearingPage extends BasePage {
                 (hearingNumber == 2) ? await this.page.check(this.secondHearingHybridOption) : await this.page.check(this.hearingHybridOption);
                 (hearingNumber == 2) ? await this.page.selectOption(this.secondHearingOption, '1: Costs Hearing') : await this.page.selectOption(this.hearingOption, '1: Costs Hearing');
                 (hearingNumber == 2) ? await this.page.check(this.secondJudicialMediationOption) : await this.page.check(this.judicialMediationOption);
-                (hearingNumber == 2) ? await this.page.selectOption(this.secondHearingVenueOption,  {index: 1}) : await this.page.selectOption(this.hearingVenueOption, 'Newcastle CFCTC');
+                if(newcastleHearing){
+                    (hearingNumber == 2) ? await this.page.selectOption(this.secondHearingVenueOption, {index: 1}) : await this.page.selectOption(this.hearingVenueOption, 'Newcastle CFCTC');
+                }else{
+                    (hearingNumber == 2) ? await this.page.selectOption(this.secondHearingVenueOption, {index: 1}) : await this.page.selectOption(this.hearingVenueOption, {index: 1});
+                }
                 (hearingNumber == 2) ? await this.page.fill(this.secondHearingLengthNum, '1') : await this.page.fill(this.hearingLengthNum, '1');
                 (hearingNumber == 2) ? await this.page.selectOption(this.secondDayHourMinutes, '1: Days') : await this.page.selectOption(this.dayHourMinutes, '1: Days');
                 (hearingNumber == 2) ? await this.page.check(this.secondSitAlonePanel) : await this.page.check(this.sitAlonePanel);
