@@ -14,6 +14,8 @@ import SubmitClaimPage from "../pages/submitClaimPage";
 import Et1VettingPages from "../pages/et1VettingPages";
 import Et1CreateDraftClaim from "../pages/et1CreateDraftClaim";
 import ReferralPage from "../pages/referralPage";
+import DraftJudgementPage from "../pages/draftJudgementPage";
+import IssueJudgementPage from "../pages/issueJudgementPage";
 
 export abstract class BaseStep {
 
@@ -32,6 +34,8 @@ export abstract class BaseStep {
     protected submitClaimPage: SubmitClaimPage;
     protected et1CreateDraftClaim: Et1CreateDraftClaim;
     protected referralPage: ReferralPage;
+    protected draftJudgementPage: DraftJudgementPage;
+    protected issueJudgementPage: IssueJudgementPage;
 
     constructor(protected page: Page) {
         this.loginPage = new LoginPage(page);
@@ -49,6 +53,8 @@ export abstract class BaseStep {
         this.submitClaimPage = new SubmitClaimPage(page);
         this.et1CreateDraftClaim = new Et1CreateDraftClaim(page);
         this.referralPage = new ReferralPage(page);
+        this.draftJudgementPage = new DraftJudgementPage(page);
+        this.issueJudgementPage = new IssueJudgementPage(page);
     }
 
 }

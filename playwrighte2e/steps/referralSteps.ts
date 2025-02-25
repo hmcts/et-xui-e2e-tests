@@ -12,13 +12,11 @@ export default class ReferralSteps extends BaseStep {
     async processReferrals(referralType: string, referralTypeMethod: (page) => Promise<void>, verifyReferralMethod: (page) => Promise<void>) {
         //Send new referral
         await this.caseListPage.navigateToTab(referralData.tabName);
-        await this.caseListPage.verifyAndClickReferralLink(referralType);
-        // await this.referralPage.sendNewReferral();
+        await this.caseListPage.verifyAndClickLinkInTab(referralType);
         await referralTypeMethod(this.referralPage);
 
         //verify referral details
         await this.caseListPage.navigateToTab(referralData.tabName);
-        // await this.caseListPage.verifyReferralDetails();
         await verifyReferralMethod(this.caseListPage);
     }
 
