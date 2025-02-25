@@ -30,6 +30,8 @@ import ICUploadDocPage from '../pages/icUploadDocPage';
 import { RestrictedReportingPage } from '../pages/restrictedReportingPage';
 import UploadDocumentPage from "../pages/uploadDocumentPage";
 import ReferralPage from '../pages/referralPage';
+import DraftJudgementPage from '../pages/draftJudgementPage';
+import IssueJudgementPage from '../pages/issueJudgementPage';
 
 export type PageFixtures = {
 
@@ -64,6 +66,8 @@ export type PageFixtures = {
     restrictedReportingPage: RestrictedReportingPage;
     uploadDocumentPage:UploadDocumentPage
     referralPage: ReferralPage;
+    draftJudgementPage: DraftJudgementPage;
+    issueJudgementPage: IssueJudgementPage;
 
 }
 
@@ -191,5 +195,13 @@ export const pageFixtures = {
 
     referralPage:async ({page}, use)=>{
         await use(new ReferralPage(page));
+    },
+
+    draftJudgementPage:async ({page}, use)=>{
+        await use(new DraftJudgementPage(page));
+    },
+
+    issueJudgementPage:async ({page}, use)=>{
+        await use(new IssueJudgementPage(page));
     }
 };

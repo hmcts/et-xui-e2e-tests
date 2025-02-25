@@ -130,6 +130,10 @@ export default class CaseListPage extends BasePage{
             await this.elements.referralTab.click();
             break;
         }
+        case "Judgments": {
+            await this.page.getByRole('tab', { name: 'Judgments', exact: true }).click();
+            break;
+        }
         default: {
           //statements;
           break;
@@ -175,7 +179,7 @@ export default class CaseListPage extends BasePage{
         await expect(this.page.locator('ccd-read-complex-field-collection-table')).toContainText('Newcastle CFCTC');
     }
     
-    async verifyAndClickReferralLink(referralText: string){
+    async verifyAndClickLinkInTab(referralText: string){
 
         const elements = await this.page.locator('markdown p a').allTextContents(); 
         expect(elements).toContain(referralText);   
@@ -227,5 +231,11 @@ export default class CaseListPage extends BasePage{
       
       expect(actStatus).toEqual(referralData.closedStatus);
       expect(actCloseReason).toEqual(referralData.closeRefNotes);
+    }
+
+    async verifyJudgementDetailsOnTab(fieldValue: string) {
+
+      await expect(this.page
+          .locator(`//span[normalize-space()="${fieldValue}"]`).first()).toBeVisible();
     }
 }
