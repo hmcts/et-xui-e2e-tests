@@ -32,6 +32,7 @@ import UploadDocumentPage from "../pages/uploadDocumentPage";
 import ReferralPage from '../pages/referralPage';
 import DraftJudgementPage from '../pages/draftJudgementPage';
 import IssueJudgementPage from '../pages/issueJudgementPage';
+import SearchAcasPage from '../pages/searchAcasPage';
 
 export type PageFixtures = {
 
@@ -68,6 +69,7 @@ export type PageFixtures = {
     referralPage: ReferralPage;
     draftJudgementPage: DraftJudgementPage;
     issueJudgementPage: IssueJudgementPage;
+    searchAcasPage: SearchAcasPage;
 
 }
 
@@ -203,5 +205,9 @@ export const pageFixtures = {
 
     issueJudgementPage:async ({page}, use)=>{
         await use(new IssueJudgementPage(page));
+    },
+
+    searchAcasPage:async ({page}, use)=>{
+        await use(new SearchAcasPage(page));
     }
 };
