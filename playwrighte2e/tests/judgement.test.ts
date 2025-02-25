@@ -8,7 +8,7 @@ test.describe('Judgement tests', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
     });
 
-    test('Submit and Issue Judgement', {tag: '@wip-jud'}, async ({ caseListPage, judgementSteps }) => {
+    test('Submit and Issue Judgement', async ({ caseListPage, judgementSteps }) => {
 
     
         //Judge creates a draft judgement
