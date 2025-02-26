@@ -56,7 +56,7 @@ export default class createAndAcceptCase extends BaseStep {
         return {subRef, caseNumber};
     }
 
-    async createCaseViaCUI(page, region, loginMethod, employmentJourneyMethod) {
+    async createCaseViaCUI(page, region, loginMethod: (page) => Promise<void>, employmentJourneyMethod?: (page) => Promise<void>) {
     
       await page.goto(params.TestUrlCitizenUi);
       await this.citizenUiPage.processPreLoginPagesForTheDraftApplication(region);
@@ -64,7 +64,7 @@ export default class createAndAcceptCase extends BaseStep {
       await this.taskListPage.processPostLoginPagesForTheDraftApplication();
       const location = region === 'EnglandWales' ? 'England' : region;
       await this.personalDetailsPage.processPersonalDetails(userDetailsData.postcode, location, userDetailsData.addressOption);
-      await employmentJourneyMethod(this.employmentAndRespondentDetailsPage);
+      if (employmentJourneyMethod) await employmentJourneyMethod(this.employmentAndRespondentDetailsPage);
       await this.claimDetailsPage.processClaimDetails();
       const submissionReference = await this.submitClaimPage.submitClaim();
       await this.submitClaimPage.signoutButton();

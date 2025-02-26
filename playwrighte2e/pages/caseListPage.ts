@@ -238,4 +238,12 @@ export default class CaseListPage extends BasePage{
       await expect(this.page
           .locator(`//span[normalize-space()="${fieldValue}"]`).first()).toBeVisible();
     }
+
+    async verifyAcasCertificateDetailsOnTab(documentValue: string, docTypeValue: string) {
+      await expect(this.page
+        .locator(`//a[normalize-space()="${documentValue}"]`)).toBeVisible();
+
+        await expect(this.page
+          .locator(`//span[normalize-space()="${docTypeValue}"]`).first()).toBeVisible();
+    }
 }
