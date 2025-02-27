@@ -14,5 +14,22 @@ export default class DateUtilComponent {
     
         return currentDate;
     }
+
+    static formatTodaysDate(date: Date): string {
+
+        let day = date.getDate();
+        let month = date.toLocaleString('default', {month: 'short'});
+        let year = date.getFullYear();
+
+        return `${day} ${month} ${year}`;
+    }
+
+    static addDaysAndMonths(days: number, month?: number): string {
+        const today = new Date();
+        today.setDate(today.getDate() + days);
+        if(month) today.setMonth(today.getMonth() + month);
+        return this.formatTodaysDate(today);
+    }
+
 }
 

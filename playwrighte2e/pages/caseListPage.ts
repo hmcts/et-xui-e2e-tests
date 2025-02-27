@@ -1,6 +1,7 @@
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
 import { params } from "../utils/config";
+import dateUtilComponent from "../utils/DateUtilComponent";
 
 
 const referralData = require('../data/ui-data/referral-content.json');
@@ -134,6 +135,10 @@ export default class CaseListPage extends BasePage{
             await this.page.getByRole('tab', { name: 'Judgments', exact: true }).click();
             break;
         }
+        case "BF Actions": {
+          await this.page.getByRole('tab', { name: 'BF Actions', exact: true }).click();
+          break;
+      }
         default: {
           //statements;
           break;
@@ -245,5 +250,18 @@ export default class CaseListPage extends BasePage{
 
         await expect(this.page
           .locator(`//span[normalize-space()="${docTypeValue}"]`).first()).toBeVisible();
+    }
+
+    async verifyCaseDetailsOnTab(fieldLabel: string, fieldValue: string) {
+      await expect(this.page
+          .locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
+    }
+
+    async verifyBFActionsTab(fieldLabel: string, fieldValue: string) {
+
+      await expect(this.page.getByText(dateUtilComponent.addDaysAndMonths(1, 1))).toBeVisible();
+      await this.page.locator(this.elements.expandImgIcon).click();
+      await expect(this.page
+          .locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
     }
 }
