@@ -22,10 +22,12 @@ export default class UploadDocumentPage extends BasePage {
         await this.page.click(this.createDcfLink);
         await this.page.check(this.createDcfRadio);
         await this.submitButton();
-        await this.delay(120000);
     }
 
     async validateDCF(){
+        await this.page.locator(this.createDcfLink).isVisible();
+        await this.delay(120000);
+        await this.page.reload();
         await expect(this.page.locator('ccd-read-complex-field-table')).toContainText('-DCF.pdf');
         await expect(this.page.locator('ccd-read-complex-field-table')).toContainText('DCF Generated:');
     }
@@ -34,7 +36,7 @@ export default class UploadDocumentPage extends BasePage {
 
         await this.page.waitForSelector('text=Case documentation', { timeout: 10000 });
         await this.addNewUploadDocButtonClick();
-    
+
         await this.page.selectOption(`#documentCollection_${docNumber}_topLevelDocuments`, 'Misc');
         await expect(this.page.locator(`#documentCollection_${docNumber}_miscDocuments`)).toBeVisible();
         await this.page.waitForSelector(`#documentCollection_${docNumber}_uploadedDocument`);
