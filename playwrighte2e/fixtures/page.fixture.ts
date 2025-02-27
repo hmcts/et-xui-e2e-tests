@@ -29,6 +29,11 @@ import { ManageOrgPage } from '../pages/manageOrgPage';
 import ICUploadDocPage from '../pages/icUploadDocPage';
 import { RestrictedReportingPage } from '../pages/restrictedReportingPage';
 import UploadDocumentPage from "../pages/uploadDocumentPage";
+import ReferralPage from '../pages/referralPage';
+import DraftJudgementPage from '../pages/draftJudgementPage';
+import IssueJudgementPage from '../pages/issueJudgementPage';
+import SearchAcasPage from '../pages/searchAcasPage';
+import LettersPage from '../pages/lettersPage';
 
 export type PageFixtures = {
 
@@ -62,7 +67,11 @@ export type PageFixtures = {
     icUploadDocPage: ICUploadDocPage;
     restrictedReportingPage: RestrictedReportingPage;
     uploadDocumentPage:UploadDocumentPage
-
+    referralPage: ReferralPage;
+    draftJudgementPage: DraftJudgementPage;
+    issueJudgementPage: IssueJudgementPage;
+    searchAcasPage: SearchAcasPage;
+    lettersPage: LettersPage;
 }
 
 export const pageFixtures = {
@@ -185,5 +194,25 @@ export const pageFixtures = {
 
     uploadDocumentPage:async ({page}, use)=>{
         await use(new UploadDocumentPage(page));
+    },
+
+    referralPage:async ({page}, use)=>{
+        await use(new ReferralPage(page));
+    },
+
+    draftJudgementPage:async ({page}, use)=>{
+        await use(new DraftJudgementPage(page));
+    },
+
+    issueJudgementPage:async ({page}, use)=>{
+        await use(new IssueJudgementPage(page));
+    },
+
+    searchAcasPage:async ({page}, use)=>{
+        await use(new SearchAcasPage(page));
+    },
+
+    lettersPage:async ({page}, use)=>{
+        await use(new LettersPage(page));
     }
 };

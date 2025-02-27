@@ -39,7 +39,7 @@ export class ManageOrgPage extends BasePage {
         await this.page.click(this.AssigneeNameSearchBox);
         await this.page.fill(this.AssigneeNameSearchBox, assigneeName); // Add the assignee name here
         await this.applyFilterButton.click();
-        await this.verifyResultsCount(6);
+        await this.verifyResultsCount(5);
     }
 
     async verifyResultsCount(expTotCount: number) {

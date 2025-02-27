@@ -1,7 +1,10 @@
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
+import { params } from "../utils/config";
+import dateUtilComponent from "../utils/DateUtilComponent";
 
-const params = require('../utils/config');
+
+const referralData = require('../data/ui-data/referral-content.json');
 
 export default class CaseListPage extends BasePage{
   elements = {
@@ -18,7 +21,10 @@ export default class CaseListPage extends BasePage{
       state:this.page.locator('#wb-case-state'),
       managingOffice:this.page.locator('#managingOffice'),
       venueDropdown: this.page.locator('#listingVenue'),
-      causeListText :this.page.locator( '//div[@class="alert-message"]')
+      causeListText :this.page.locator( '//div[@class="alert-message"]'),
+      refferTableEle: this.page.locator('ccd-read-text-field'),
+      expandImgIcon: 'div a img',
+      referralTab: this.page.locator('//div[contains(text(), "Referrals")]')
   };
 
     async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
@@ -119,7 +125,21 @@ export default class CaseListPage extends BasePage{
         case "Documents":{
             await this.page.getByRole('tab', { name: 'Documents', exact: true }).click();
             break;
-        } default: {
+        } 
+        case "Referrals":{
+            await expect(this.elements.referralTab).toBeVisible();
+            await this.elements.referralTab.click();
+            break;
+        }
+        case "Judgments": {
+            await this.page.getByRole('tab', { name: 'Judgments', exact: true }).click();
+            break;
+        }
+        case "BF Actions": {
+          await this.page.getByRole('tab', { name: 'BF Actions', exact: true }).click();
+          break;
+      }
+        default: {
           //statements;
           break;
       }
@@ -162,5 +182,86 @@ export default class CaseListPage extends BasePage{
         await expect(this.elements.causeListText).toContainText('has been updated with event: Generate Report');
         await expect(this.page.locator('ccd-read-complex-field-collection-table')).toContainText(caseNumber);
         await expect(this.page.locator('ccd-read-complex-field-collection-table')).toContainText('Newcastle CFCTC');
+    }
+    
+    async verifyAndClickLinkInTab(referralText: string){
+
+        const elements = await this.page.locator('markdown p a').allTextContents(); 
+        expect(elements).toContain(referralText);   
+
+        await this.page.getByText(referralText).click();
+    }
+
+    async verifyReferralDetails(){
+
+      let actStatus =  await this.elements.refferTableEle.nth(7).textContent();
+      let actSubj =  await this.elements.refferTableEle.nth(1).textContent();
+      let actReferredTo = await this.elements.refferTableEle.nth(3).textContent();
+      let actReferredDetails = await this.elements.refferTableEle.nth(8).textContent();
+
+      
+      expect(actStatus).toEqual(referralData.awaitingStatus);
+      expect(actSubj).toEqual(referralData.subject);
+      expect(actReferredTo).toEqual(referralData.expReferredTo);
+      expect(actReferredDetails).toEqual(referralData.details);
+    }
+
+    async verifyReplyReferralDetails(){
+
+      let actStatus =  await this.elements.refferTableEle.nth(7).textContent();
+      let actSubj =  await this.elements.refferTableEle.nth(1).textContent();
+      let actReferredTo = await this.elements.refferTableEle.nth(3).textContent();
+      let actReferredDetails = await this.elements.refferTableEle.nth(8).textContent();
+
+      
+      expect(actStatus).toEqual(referralData.issuedStatus);
+      expect(actSubj).toEqual(referralData.subject);
+      expect(actReferredTo).toEqual(referralData.expReferredTo);
+      expect(actReferredDetails).toEqual(referralData.details);
+
+      await this.page.locator(this.elements.expandImgIcon).nth(1).click();
+    }
+
+    async verifyReplyDetailsOnTab(fieldValue: string) {
+
+      await expect(this.page
+          .locator(`//span[normalize-space()="${fieldValue}"]`).first()).toBeVisible();
+    }
+
+    async verifyCloseReferralDetails(){
+
+      let actStatus =  await this.elements.refferTableEle.nth(7).textContent();
+      let actCloseReason =  await this.page.locator('ccd-read-text-area-field').textContent();
+
+      
+      expect(actStatus).toEqual(referralData.closedStatus);
+      expect(actCloseReason).toEqual(referralData.closeRefNotes);
+    }
+
+    async verifyJudgementDetailsOnTab(fieldValue: string) {
+
+      await expect(this.page
+          .locator(`//span[normalize-space()="${fieldValue}"]`).first()).toBeVisible();
+    }
+
+    async verifyAcasCertificateDetailsOnTab(documentValue: string, docTypeValue: string) {
+      await expect(this.page
+        .locator(`//a[normalize-space()="${documentValue}"]`)).toBeVisible();
+
+        await expect(this.page
+          .locator(`//span[normalize-space()="${docTypeValue}"]`).first()).toBeVisible();
+    }
+
+    async verifyCaseDetailsOnTab(fieldLabel: string, fieldValue: string) {
+      await expect(this.page
+          .locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
+    }
+
+    async verifyBFActionsTab(fieldLabel: string, fieldValue: string) {
+
+      await expect(this.page.getByText(dateUtilComponent.addDaysAndMonths(1, 1))).toBeVisible();
+      await this.page.locator(this.elements.expandImgIcon).click();
+      await expect(this.page
+          .locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
     }
 }
