@@ -9,7 +9,7 @@ test.describe('Generate Letters', () => {
         await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales");
     });
 
-    test('ET2 - Short track letter', {tag:'@wip-letter'}, async({caseListPage, listHearingPage, lettersPage}) => {
+    test('ET2 - Short track letter', async({caseListPage, listHearingPage, lettersPage}) => {
        
         await caseListPage.selectNextEvent(letterPageData.hearingEvent);
         await listHearingPage.listCase('EnglandWales', 1,false);
