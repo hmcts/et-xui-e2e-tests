@@ -6,8 +6,8 @@ import { expect } from "@playwright/test";
 export default class CitizenHubPage extends BasePage {
 
   elements = {
-    returnToExistingClaim:this.page.locator('[href="/return-to-existing?lng=en"]'),
-    employmentTribunalAccount:this.page.locator( '#return_number_or_account-2'),
+    returnToExistingClaim:'[href="/return-to-existing?lng=en"]',
+    employmentTribunalAccount:'#return_number_or_account-2',
     veiwResponseLink: '[href="/case-document/response-acknowledgement"]',
     et3ResponseLink: '[href="/case-document/response-from-respondent"]',
     statusBeforeView: '.govuk-tag--blue',
@@ -23,12 +23,12 @@ export default class CitizenHubPage extends BasePage {
     uploadButton: '#upload',
     contactTribunalAboutMyCase: '[href="/contact-the-tribunal"]',
     linkToET3Response: '[href="/case-document/response-from-respondent"]',
-    contactTribunalLinkRegistered: this.page.locator('[href="/contact-the-tribunal"]'),
+    contactTribunalLinkRegistered: '[href="/contact-the-tribunal"]',
     openAllApplicationType: '//span[@class="govuk-accordion__show-all-text"]',
     welshContactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=cy"]',
     showAllApplicationType: '#contact-options',
-    withdrawClaimLink: this.page.locator('[href="/contact-the-tribunal/withdraw?lng=en"]'),
-    applicationTextField: this.page.locator('#Contact-Application-Text'),
+    withdrawClaimLink: '[href="/contact-the-tribunal/withdraw?lng=en"]',
+    applicationTextField: '#Contact-Application-Text',
     changePersonalDetail: '[href="/contact-the-tribunal/change-details"]',
     postponeMyHearing: '[href="/contact-the-tribunal/postpone"]',
     revokeAnOrder: '[href="/contact-the-tribunal/vary"]',
@@ -57,7 +57,7 @@ export default class CitizenHubPage extends BasePage {
     yesOptionOnRule92: this.page.locator('#copyToOtherPartyYesOrNo'),
     noOptionOnRule92: this.page.locator('#copyToOtherPartyYesOrNo-2'),
     addInfoToNoOption: this.page.locator('#copyToOtherPartyText'),
-    submitApplicationButton: this.page.locator('#main-form-submit'),
+    submitApplicationButton: '#main-form-submit',
     returntoCUIcaseOverviewButton:this.page.locator( '//a[contains(.,"Close and return to case overview")]'),
     notificationFlagBefore: '.govuk-tag--red',
     notificationLink: '[href="/tribunal-orders-and-requests"]',
@@ -87,8 +87,9 @@ export default class CitizenHubPage extends BasePage {
 
     async processCitizenHubLogin(username, password) {
       await this.page.goto(params.TestUrlCitizenUi);
-      await this.elements.returnToExistingClaim.click();
-      await this.elements.employmentTribunalAccount.check();
+      await this.webActions.clickElementByCss(this.elements.returnToExistingClaim);
+    
+      await this.webActions.checkElementById(this.elements.employmentTribunalAccount);
       await this.clickContinue();
       await this.loginCitizenUi(username, password);
     }
@@ -100,8 +101,8 @@ export default class CitizenHubPage extends BasePage {
     }
 
     async verifyCitizenHubCaseOverviewPage(caseNumber) {
-      await expect(this.page.locator('#main-content')).toContainText('Case overview');
-      await expect(this.page.locator('#caseNumber')).toContainText('Case number ' + caseNumber);
+      await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
+      await this.webActions.verifyElementContainsText(this.page.locator('#caseNumber'), 'Case number ' + caseNumber);
     }
 
    async clicksViewLinkOnClaimantApplicationPage(submissionReference) {
@@ -109,26 +110,30 @@ export default class CitizenHubPage extends BasePage {
     }
 
     async regAccountContactTribunal(applicationType) {
-      await this.elements.contactTribunalLinkRegistered.isVisible();
-      await this.elements.contactTribunalLinkRegistered.click();
-      await expect(this.page.locator('h1')).toContainText('Contact the tribunal about your case');
-      await expect(this.page.locator('#main-content')).toContainText('Call the Employment Tribunal customer contact centre');
-      await this.page.getByRole('button', { name: 'Show all sections' }).click();
+      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.contactTribunalLinkRegistered));
+      await this.webActions.clickElementByCss(this.elements.contactTribunalLinkRegistered);
+      await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Contact the tribunal about your case');
+      await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Call the Employment Tribunal customer contact centre');
+      await this.webActions.clickElementByRole('button', {name: 'Show all sections'});
+
       try {
         switch (applicationType) {
           case 'withdraw all or part of my claim':
-            await this.page.locator('#contact-options-heading-1').isVisible();
-            await this.elements.withdrawClaimLink.isVisible();
-            await this.elements.withdrawClaimLink.click();
-            await this.elements.applicationTextField.isVisible();
-            await this.elements.applicationTextField.fill( 'blah blah');
+            await this.webActions.verifyElementToBeVisible(this.page.locator('#contact-options-heading-1'));
+
+            await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.withdrawClaimLink));
+            await this.webActions.clickElementByCss(this.elements.withdrawClaimLink);
+            await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.applicationTextField));
+            await this.webActions.fillField(this.elements.applicationTextField, 'blah blah');
+            
             await this.clickContinue();
             break;
           case 'submit document for hearing':
-            await this.page.waitForSelector(this.elements.submitHearingDocument, { timeout: 20000 });
-            await this.page.locator(this.elements.submitHearingDocument).click();
-            await this.page.waitForSelector('#main-content', { timeout: 20000 });
-            await expect(this.page.locator('h2.govuk-heading-l')).toContainText('Prepare and submit documents for a hearing');
+            await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.submitHearingDocument), 20000);
+            await this.webActions.clickElementByCss(this.elements.submitHearingDocument);
+            await this.webActions.verifyElementToBeVisible(this.page.locator('#main-content'), 20000);
+
+            await this.webActions.verifyElementContainsText(this.page.locator('h2.govuk-heading-l'), 'Prepare and submit documents for a hearing');
             break;
           default:
             throw new Error('... invalid option, check you options');
@@ -136,7 +141,8 @@ export default class CitizenHubPage extends BasePage {
       } catch (e) {
         console.error('invalid option', e.message);
       }
-    }
+  }
+
    async rule92Question(option) {
       switch (option) {
         case 'yes':
@@ -156,41 +162,46 @@ export default class CitizenHubPage extends BasePage {
       await expect(this.page.locator('dl')).toContainText('What do you want to tell or ask the tribunal?');
       await expect(this.page.locator('dl')).toContainText('Supporting material');
       await expect(this.page.locator('dl')).toContainText('Do you want to copy this correspondence to the other party to satisfy the Rules of Procedure?');
-      await this.elements.submitApplicationButton.click();
+      await this.webActions.clickElementByCss(this.elements.submitApplicationButton);
       await expect(this.page.locator('h1')).toContainText('You have sent your application to the tribunal');
       await this.elements.returntoCUIcaseOverviewButton.click();
     }
 
     async submitDocumentForHearingClaimant() {
-      await this.page.waitForSelector(this.elements.startPreparingHearingDoc, { timeout: 10000 });
-      await expect(this.page.locator('h2.govuk-heading-l')).toContainText('Prepare and submit documents for a hearing');
-      await this.page.locator(this.elements.startPreparingHearingDoc).click();
-      await this.page.waitForSelector(this.elements.hearingDocAgreeDoc, { timeout: 5000 });
-      await this.page.locator(this.elements.hearingDocAgreeDoc).check();
-      await this.page.locator(this.elements.continueButton).click();
-      await this.page.waitForSelector(this.elements.firstListedCase, { timeout: 10000 });
-      await this.page.locator(this.elements.firstListedCase).check();
-      await expect(this.page.locator('h1')).toContainText('About your hearing documents');
-      await this.page.locator(this.elements.myDocumentOption).check();
-      await this.page.locator(this.elements.witnessStatementOnly).check();
-      await this.page.locator(this.elements.continueButton).click();
-      await this.page.waitForSelector(this.elements.uploadHearingFile, { timeout: 10000 });
-      await expect(this.page.locator('h1')).toContainText('Upload your file of documents');
+      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.startPreparingHearingDoc), 10000);
+      await this.webActions.verifyElementContainsText(this.page.locator('h2.govuk-heading-l'), 'Prepare and submit documents for a hearing');
+      await this.webActions.clickElementByCss(this.elements.startPreparingHearingDoc);
+      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingDocAgreeDoc), 5000);
+      await this.webActions.checkElementById(this.elements.hearingDocAgreeDoc);
+      await this.clickContinue();
+
+      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.firstListedCase), 10000);
+      await this.webActions.checkElementById(this.elements.firstListedCase);
+      await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'About your hearing documents');
+      await this.webActions.checkElementById(this.elements.myDocumentOption);
+      await this.webActions.checkElementById(this.elements.witnessStatementOnly);
+      await this.webActions.clickElementByCss(this.elements.continueButton);
+      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.uploadHearingFile), 10000);
+      await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Upload your file of documents');
+
       await this.page.setInputFiles(this.elements.uploadHearingDocButton, 'test/data/welshTest.pdf');
       await this.page.waitForTimeout(3000);
-      await this.page.locator(this.elements.uploadHearingFile).click();
+      await this.webActions.clickElementByCss(this.elements.uploadHearingFile);
+
       await this.page.waitForTimeout(3000);
-      await this.page.locator(this.elements.continueButton).click();
-      await this.page.waitForSelector(this.elements.changeYourDocument, { timeout: 10000 });
-      await expect(this.page.locator('h1')).toContainText('Check your answers');
-      await this.elements.submitApplicationButton.click();
-      await this.page.waitForSelector(this.elements.closeAndReturnButton, { timeout: 10000 });
-      await expect(this.page.locator('h1')).toContainText('You have sent your hearing documents to the tribunal');
+      await this.webActions.clickElementByCss(this.elements.continueButton);
+      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.changeYourDocument), 10000);
+      await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Check your answers');
+
+      await this.webActions.clickElementByCss(this.elements.submitApplicationButton);
+      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.closeAndReturnButton), 10000);
+      await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'You have sent your hearing documents to the tribunal');
+
       await expect(this.page.locator('//*[@id="main-content"]/div/div[1]/p')).toHaveText(
       'Your documents are now uploaded. The tribunal will let you know ' +
       'if they have any questions about the documents you have submitted.'
       );
-      await this.page.locator(this.elements.closeAndReturnButton).click();
+      await this.webActions.clickElementByCss(this.elements.closeAndReturnButton);
     }
 
   async respondToAnApplication() {

@@ -15,12 +15,12 @@ elements={
 
   //select continue on the /new-account-landing page
   async newAccountLanding() {
-    await expect(this.elements.header1).toContainText('You do not have to complete your claim in one go');
+    await this.webActions.verifyElementContainsText(this.elements.header1, 'You do not have to complete your claim in one go');
     await this.clickContinue();
   }
 
   //Verify Steps to making your claim page
   async stepsToMakeClaim() {
-    await expect(this.elements.header1).toContainText('Steps to making your claim');
+    await this.webActions.verifyElementContainsText(this.elements.header1, 'Steps to making your claim');
   }
 }

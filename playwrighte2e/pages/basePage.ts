@@ -1,5 +1,7 @@
 
 import { Page, expect, Locator } from "@playwright/test";
+import { WebAction } from "../common/web.action";
+
 
 export abstract class BasePage {
   readonly page: Page;
@@ -15,26 +17,22 @@ export abstract class BasePage {
   readonly nextButton:Locator;
   readonly applyFilterButton:Locator;
   readonly addNewBtn: Locator;
-  readonly newhearingBtn: Locator;
+  readonly newhearingBtn: string;
   readonly newUploadDocBtn: Locator;
+  readonly webActions: WebAction;
+  
 
 
   constructor(page: Page) {
     this.page = page;
-    this.continueButton = page.getByRole('button', { name: 'Continue' });
     this.saveAsDraftButton = page.getByRole('button', { name: 'Save as draft' });
     this.closeAndReturnButton = this.page.getByRole('button', { name: 'Close and Return to case' });
-    this.submit = this.page.getByRole('button', { name: 'Submit' });
     this.applyFilterButton = this.page.getByRole('button', { name: 'Apply filter' });
-    this.postcode = page.getByRole('textbox', { name: 'Enter a UK postcode' });
-    this.findAddress = page.getByRole('button', { name: 'Find address' });
-    this.signout = page.getByText('Sign out');
-    this.startNow = page.getByRole('button', { name: 'Start now' });
-    this.saveAndContinue = page.getByRole('button', { name: 'Save and continue' });
     this.nextButton = page.getByRole('button', { name: 'Next' });
     this.addNewBtn = page.getByRole('button', { name: 'Add new' });
-    this.newhearingBtn = page.locator('#hearingCollection > div > button.button.write-collection-add-item__bottom.ng-star-inserted');
+    this.newhearingBtn = '#hearingCollection > div > button.button.write-collection-add-item__bottom.ng-star-inserted';
     this.newUploadDocBtn = page.locator('//*[@id="documentCollection"]/div/button[2]');
+    this.webActions = new WebAction(this.page);
   }
 
   async wait(time: number) {
@@ -42,7 +40,7 @@ export abstract class BasePage {
   }
 
   async clickContinue() {
-    await this.continueButton.click();
+    await this.webActions.clickElementByRole('button', { name: 'Continue' });
   }
 
   async saveAsDraft() {
@@ -54,7 +52,7 @@ export abstract class BasePage {
   }
 
   async submitButton(){
-    await this.submit.click();
+    await this.webActions.clickElementByRole('button', { name: 'Submit' });
   }
 
   async delay(ms: number) {
@@ -70,23 +68,23 @@ export abstract class BasePage {
   }
 
   async enterPostCode(postcode){
-    await this.postcode.fill(postcode);
+    await this.webActions.fillFieldByRole('textbox', { name: 'Enter a UK postcode' }, postcode);
     await this.wait(3000);
-    await this.findAddress.click();
+    await this.webActions.clickElementByRole('button', { name: 'Find address' });
     await this.wait(3000);
     await this.page.getByLabel('Select an address').selectOption('1: Object');
   }
 
   async signoutButton(){
-    await this.signout.click();
+    await this.webActions.clickElementByText('Sign out');
   }
 
   async clickStartNow(){
-    await this.startNow.click();
+    await this.webActions.clickElementByRole('button', { name: 'Start now' });
   }
 
   async saveAndContinueButton(){
-    await this.saveAndContinue.click();
+    await this.webActions.clickElementByRole('button', { name: 'Save and continue' });
   }
 
   async addNewButtonClick(){
@@ -94,7 +92,7 @@ export abstract class BasePage {
   }
 
   async addNewHearingButtonClick(){
-    await this.newhearingBtn.click();
+    await this.webActions.clickElementByCss(this.newhearingBtn);
   }
 
   async addNewUploadDocButtonClick(){
