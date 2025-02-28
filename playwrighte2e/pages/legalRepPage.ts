@@ -4,11 +4,6 @@ import { expect } from '@playwright/test';
 import { threadId } from 'worker_threads';
 
 export class LegalRepPage extends BasePage {
-    // private page: Page;
-
-    // constructor(page: Page) {
-    //     this.page = page;
-    // }
 
     applyButtonOnLegalRep = '.workbasket-filters-apply';
     manageCasesLinkLegalRep = '[aria-label="Manage Cases"]';
@@ -108,32 +103,23 @@ export class LegalRepPage extends BasePage {
 
     async loadExistingApplications(option: string) {
         await this.page.reload();
-        // await this.page.waitForSelector(this.nocLinkLegalRep, { timeout: 30000 });
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 30000);
-
-        // await this.page.click(this.linkToCasesLegalRep);
         await this.webActions.clickElementByCss(this.manageCasesLinkLegalRep);
-
-        // await this.page.waitForSelector(this.caseTypeDropdown, { timeout: 30000 });
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseTypeDropdown), 30000);
 
         await this.page.reload();
         await this.page.waitForTimeout(5000);
-        // await this.page.waitForSelector(this.resetButton, { timeout: 35000 });
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.resetButton), 35000);
 
         await this.page.waitForSelector(`text=${this.caseListText}`);
-        // await this.webActions.waitForElementToBeVisible(`text=${this.caseListText}`);
         await this.page.waitForTimeout(5000);
         try {
             switch (option) {
                 case 'Eng/Wales - Singles':
-                    // await this.page.selectOption(this.caseTypeDropdown, 'Eng/Wales - Singles');
                     await this.webActions.selectByLabelFromDropDown(this.caseTypeDropdown, 'Eng/Wales - Singles');
                     break;
                 case 'Scotland':
                 case 'Scotland - Singles':
-                    // await this.page.selectOption(this.caseTypeDropdown, 'Scotland - Singles (RET)');
                     await this.webActions.selectByLabelFromDropDown(this.caseTypeDropdown, 'Scotland - Singles (RET)');
                     break;
                 default:
@@ -144,64 +130,37 @@ export class LegalRepPage extends BasePage {
         }
         await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
         await this.page.waitForTimeout(3000);
-        // await this.page.click(this.applyButton);
         await this.webActions.clickElementByCss(this.applyButton);
     }
 
     async processNOC(option: string, submissionReference: string, respondentName: string, ClaimantFirstName: string, ClaimantLastName: string) {
         await this.loadExistingApplications(option);
         await this.page.reload();
-        // await this.page.waitForSelector(this.nocLinkLegalRep, { timeout: 25000 });
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 25000);
 
-        // await this.page.click(this.nocLinkLegalRep);
         await this.webActions.clickElementByCss(this.nocLinkLegalRep);
         await this.page.waitForTimeout(10000);
 
-        // await this.page.waitForSelector(this.caseidFilfield, { timeout: 10000 });
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseidFilfield), 10000);
-
-        // await this.page.fill(this.caseidFilfield, submissionReference);
         await this.webActions.fillField(this.caseidFilfield, submissionReference);
-
-        // await this.page.click(this.continueLegalRepButton);
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
-
-        // await this.page.waitForSelector(this.fieldSetLegalRep, { timeout: 10000 });
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.fieldSetLegalRep), 10000);
-
-        // await this.page.fill(this.respondentDetailsLegalRep, respondentName);
         await this.webActions.fillField(this.respondentDetailsLegalRep, respondentName);
-
-        // await this.page.fill(this.claimantFirstNamelegalRep, ClaimantFirstName);
         await this.webActions.fillField(this.claimantFirstNamelegalRep, ClaimantFirstName);
-
-        // await this.page.fill(this.claimantLastNamelegalRep, ClaimantLastName);
         await this.webActions.fillField(this.claimantLastNamelegalRep, ClaimantLastName);
 
         await this.page.waitForTimeout(5000);
-        
-        // await this.page.click(this.continueLegalRepButton);
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
         await this.page.waitForTimeout(10000);
-        
-        // await this.page.waitForSelector(this.detailConfirmationCheckbox, { timeout: 10000 });
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.detailConfirmationCheckbox), 10000);
-
-        // await this.page.check(this.detailConfirmationCheckbox);
         await this.webActions.checkElementById(this.detailConfirmationCheckbox);
-
-        // await this.page.check(this.notifyPartyCheckbox);
         await this.webActions.checkElementById(this.notifyPartyCheckbox);
 
         await this.page.waitForTimeout(2000);
         await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
         
-        // await this.page.click(this.submitButtonLegalRep);
         await this.webActions.clickElementByCss(this.submitButtonLegalRep);
-
-        // await this.page.waitForSelector(this.successfulMessageHeader, { timeout: 20000 });
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.successfulMessageHeader), 20000);
 
         await this.page.goto(`${params.TestUrlForManageCaseAAT}/cases/case-details/${submissionReference}`);
@@ -209,13 +168,9 @@ export class LegalRepPage extends BasePage {
     }
 
     async submitDocumentForHearingRespondent(agreement: string, whoseDocu: string, docuType: string, checkActiveHearing?: boolean) {
-        // await this.page.waitForSelector('text=Prepare and submit documents for a hearing', { timeout: 10000 });
         await this.webActions.verifyElementToBeVisible(this.page.locator('text=Prepare and submit documents for a hearing'), 10000);
 
-        // await this.page.click(this.continueLegalRepButton);
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
-
-        // await this.page.waitForSelector(this.prepareDocPageTwoHeader, { timeout: 15000 });
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.prepareDocPageTwoHeader), 15000);
 
         await this.page.waitForSelector(this.loadingSpinner, { state: 'hidden', timeout: 10000 });
@@ -224,30 +179,17 @@ export class LegalRepPage extends BasePage {
         try {
             switch (agreement) {
                 case 'Yes':
-                    // await this.page.check(this.prepDecYesOption);
                     await this.webActions.clickElementByCss(this.prepDecYesOption);
-
-                    // await this.page.click(this.prepareDocContinueButton);
                     await this.webActions.clickElementByCss(this.prepareDocContinueButton);
                     break;
                 case 'Agreed':
-                    // await this.page.check(this.prepDocAgreeWithRes);
                     await this.webActions.checkElementById(this.prepDocAgreeWithRes);
-
-                    // await this.page.fill(this.prepDocAgreeWithResTextField, 'Testing prep document for hearing -- Agree with Res');
                     await this.webActions.fillField(this.prepDocAgreeWithResTextField, 'Testing prep document for hearing -- Agree with Res');
-
-                    // await this.page.click(this.prepareDocContinueButton);
                     await this.webActions.clickElementByCss(this.prepareDocContinueButton);
                     break;
                 case 'NotAgreed':
-                    // await this.page.check(this.prepDocNoAgreement);
                     await this.webActions.checkElementById(this.prepDocNoAgreement);
-
-                    // await this.page.fill(this.prepDocNoAgreementTextField, 'Testing prep document for hearing -- No agreement');
                     await this.webActions.fillField(this.prepDocNoAgreementTextField, 'Testing prep document for hearing -- No agreement');
-
-                    // await this.page.click(this.prepareDocContinueButton);
                     await this.webActions.clickElementByCss(this.prepareDocContinueButton);
                     break;
                 default:
@@ -256,10 +198,7 @@ export class LegalRepPage extends BasePage {
         } catch (error) {
             console.error('invalid option', error.message);
         }
-        // await this.page.waitForSelector(this.loadingSpinner, { state: 'hidden', timeout: 10000 });
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.loadingSpinner), 10000);
-
-        // await this.page.waitForSelector(this.respondentDocOnly, { timeout: 10000 });
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.respondentDocOnly), 10000);
 
         await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
@@ -279,11 +218,9 @@ export class LegalRepPage extends BasePage {
         try {
             switch (whoseDocu) {
                 case 'Respondent':
-                    // await this.page.check(this.respondentDocOnly);
                     await this.webActions.checkElementById(this.respondentDocOnly);
                     break;
                 case 'Both Parties':
-                    // await this.page.check(this.bothPartiesDoc);
                     await this.webActions.checkElementById(this.bothPartiesDoc);
                     break;
                 default:
@@ -296,15 +233,12 @@ export class LegalRepPage extends BasePage {
         try {
             switch (docuType) {
                 case 'Hearing Document including witness statement':
-                    // await this.page.check(this.hearingDocumentIncludingWitnessStatement);
                     await this.webActions.checkElementById(this.hearingDocumentIncludingWitnessStatement);
                     break;
                 case 'Supplementary hearing documents':
-                    // await this.page.check(this.supplementaryHearingDocument);
                     await this.webActions.checkElementById(this.supplementaryHearingDocument);
                     break;
                 case 'Witness statement only':
-                    // await this.page.check(this.witnessStatementOnly);
                     await this.webActions.checkElementById(this.witnessStatementOnly);
                     break;
                 default:
@@ -313,7 +247,6 @@ export class LegalRepPage extends BasePage {
         } catch (error) {
             console.error('invalid option', error.message);
         }
-        // await this.page.click(this.continueLegalRepButton);
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
         await this.page.waitForSelector(this.loadingSpinner, { state: 'hidden', timeout: 10000 });
@@ -322,42 +255,29 @@ export class LegalRepPage extends BasePage {
         await this.page.setInputFiles(this.uploadBundleDocument, 'test/data/welshTest.pdf');
         await this.page.waitForTimeout(10000);
 
-        // await this.page.click(this.continueLegalRepButton);
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
         await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-
-        // await this.page.waitForSelector(this.changeDocuUploaded, { timeout: 10000 });
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.changeDocuUploaded), 10000);
 
         await this.page.waitForSelector('text=Check the information below carefully.');
         await this.page.waitForSelector('text=Upload documents for hearing');
         await this.page.waitForSelector('text=Check your answers');
-        // await this.page.click(this.legalRepSubmit);
         await this.webActions.clickElementByCss(this.legalRepSubmit);
 
         await this.page.waitForTimeout(10000);
-        // await this.page.waitForSelector(this.successfulmsgHeader, { timeout: 10000 });
-        // await this.page.waitForSelector('text=You have sent your hearing documents to the tribunal');
-        // await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-        // await this.page.click(this.closeAndReturnButton);
-        // await this.page.waitForSelector(this.loadingSpinner, { state: 'hidden', timeout: 10000 });
     }
 
     async verifyHearingDocumentTabLegalRep() {
         await this.page.waitForSelector(this.hearingTabLegalRep, { timeout: 10000 });
-        // await this.webActions.verifyElementToBeVisible(this.page.locator(this.hearingTabLegalRep), 10000, true);
 
         await this.page.click(this.hearingTabLegalRep);
-        // await this.webActions.clickElementByCss(this.hearingTabLegalRep);
-
         await this.page.waitForSelector('text=Hearing Documents');
         await this.page.waitForSelector('text=Respondent Hearing Documents');
         await expect(this.page.getByText('welshTest.pdf')).toBeVisible();
     }
 
     async verifyHearingDocumentReceipientValues(fieldLabel: string, fieldValue: string) {
-        // await this.page.locator(this.expandImgIcon).click();
         await this.webActions.clickElementByCss(this.expandImgIcon);
         await expect(this.page
             .locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();

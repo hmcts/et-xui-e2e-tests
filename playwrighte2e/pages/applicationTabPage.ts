@@ -55,11 +55,12 @@ export class ApplicationTabPage  extends BasePage {
     }
 
     async selectCaseFileView() {
-        await this.page.waitForSelector(this.caseFileViewTab, { timeout: 20000 });
-        await this.page.click(this.caseFlagsTab);
-        await this.page.waitForSelector(this.caseFileViewElement, { timeout: 25000 });
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseFileViewTab), 20000);
+        await this.webActions.clickElementByCss(this.caseFileViewTab);
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseFileViewElement), 25000);
+
         await this.page.locator('h2.govuk-heading-l').waitFor();
-        await this.page.waitForSelector(this.searchDocumentFromCaseFileView);
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.searchDocumentFromCaseFileView));
     }
     
     async recordADecision() {
