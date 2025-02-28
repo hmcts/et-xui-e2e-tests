@@ -59,4 +59,8 @@ export class WebAction {
     async selectByOptionFromDropDown(element: string, option: string){
         await this.page.locator(element).selectOption(option);
     }
+
+    async waitForLabelToBeVisible(labelName: string){
+        this.page.getByLabel(labelName).waitFor()
+    }
 }

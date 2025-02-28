@@ -28,7 +28,6 @@ export abstract class BasePage {
     this.saveAsDraftButton = page.getByRole('button', { name: 'Save as draft' });
     this.closeAndReturnButton = this.page.getByRole('button', { name: 'Close and Return to case' });
     this.applyFilterButton = this.page.getByRole('button', { name: 'Apply filter' });
-    this.nextButton = page.getByRole('button', { name: 'Next' });
     this.addNewBtn = page.getByRole('button', { name: 'Add new' });
     this.newhearingBtn = '#hearingCollection > div > button.button.write-collection-add-item__bottom.ng-star-inserted';
     this.newUploadDocBtn = page.locator('//*[@id="documentCollection"]/div/button[2]');
@@ -60,7 +59,7 @@ export abstract class BasePage {
   }
 
   async clickNextButton(){
-    await this.nextButton.click();
+    await this.webActions.clickElementByRole('button', { name: 'Next' });
   }
 
   async clickElement(elementLocator: string): Promise<void> {
