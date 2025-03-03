@@ -37,7 +37,7 @@ export default class UploadDocumentPage extends BasePage {
 
         await this.page.waitForSelector('text=Case documentation', { timeout: 10000 });
         await this.addNewUploadDocButtonClick();
-    
+
         await this.page.selectOption(`#documentCollection_${docNumber}_topLevelDocuments`, 'Misc');
         await expect(this.page.locator(`#documentCollection_${docNumber}_miscDocuments`)).toBeVisible();
         await this.page.waitForSelector(`#documentCollection_${docNumber}_uploadedDocument`);
