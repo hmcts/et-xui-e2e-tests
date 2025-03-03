@@ -25,7 +25,7 @@ test.describe('Scotland - Caseworker Bundles test', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "Scotland", "ET_Scotland"));
     });
 
-    test('Bundles - Legal rep submit hearing preparation document - Scotland',async ({ page, et1CaseServingPage, bundleSteps }) => {
+    test('Bundles - Legal rep submit hearing preparation document - Scotland', async ({ page, et1CaseServingPage, bundleSteps }) => {
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
         await bundleSteps.submitHearingPreparationDocument(page, 'Scotland', subRef, respondentName, firstName, lastName);
     });

@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 
 export default class NocPage extends BasePage{
   elements={
-    nocLink:this.page.locator('[href="/noc"]'),
+    nocLink:'[href="/noc"]',
     caseRef:'#caseRef',
     respName:'#respondentName',
     claimantFirstName:'#claimantFirstName',
@@ -12,20 +12,23 @@ export default class NocPage extends BasePage{
     serveNoticeCheckBox:'#notifyEveryParty'
   }
   async processNoc(submissionRef){
-    await this.elements.nocLink.isVisible();
-    await this.elements.nocLink.click();
-    await expect(this.page.locator('label')).toContainText('Online case reference number');
-    await this.page.locator(this.elements.caseRef).fill(submissionRef);
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.nocLink));
+    await this.webActions.clickElementByCss(this.elements.nocLink);
+    await this.webActions.verifyElementContainsText(this.page.locator('label'), 'Online case reference number');
+    await this.webActions.fillField(this.elements.caseRef, submissionRef);
+
     await this.clickContinue();
-    await this.page.locator(this.elements.respName).fill('Mark McDonald');
-    await this.page.locator(this.elements.claimantFirstName).fill('Jessamine');
-    await this.page.locator(this.elements.claimantLastName).fill('Malcom');
+    await this.webActions.fillField(this.elements.respName, 'Mark McDonald');
+    await this.webActions.fillField(this.elements.claimantFirstName, 'Jessamine');
+    await this.webActions.fillField(this.elements.claimantLastName, 'Malcom');
+
     await this.clickContinue();
-    await this.page.getByRole('heading', { name: 'Check and submit'}).click();
-    await this.page.locator(this.elements.confirmDetailsCheckBox).check();
-    await this.page.locator(this.elements.serveNoticeCheckBox).check();
+    await this.webActions.clickElementByRole('heading', {name: 'Check and submit'});
+    await this.webActions.checkElementById(this.elements.confirmDetailsCheckBox);
+    await this.webActions.checkElementById(this.elements.serveNoticeCheckBox);
+
     await this.submitButton();
-    await expect(this.page.locator('h1')).toContainText('Notice of change successful You\'re now representing a client on case');
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Notice of change successful You\'re now representing a client on case');
     await expect(this.page.locator('exui-noc-submit-success')).toContainText('What happens next');
   }
 }

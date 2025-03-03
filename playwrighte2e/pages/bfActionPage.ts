@@ -11,13 +11,13 @@ export default class BfActionPage extends BasePage {
     bfYear:'#bfDate-year'
   }
   async addBfAction() {
-    await expect(this.page.locator('ccd-case-edit-page')).toContainText('B/F Action');
-    await this.page.getByRole('button', { name: 'Add new' }).click();
-    await this.page.locator(this.elements.bfActionDropDown).selectOption('Application of letter to ACAS/RPO');
-    await this.page.locator(this.elements.bfDate).fill('11');
-    await this.page.locator(this.elements.bfMonth).fill('09');
-    await this.page.locator(this.elements.bfYear).fill('2024');
-    await this.page.locator('#bfActions_0_notes').fill('bf action test');
+    await this.webActions.verifyElementContainsText(this.page.locator('ccd-case-edit-page'), 'B/F Action');
+    await this.webActions.clickElementByRole('button', { name: 'Add new' });
+    await this.webActions.selectByLabelFromDropDown(this.elements.bfActionDropDown, 'Application of letter to ACAS/RPO');
+    await this.webActions.fillField(this.elements.bfDate, '11');
+    await this.webActions.fillField(this.elements.bfMonth, '09');
+    await this.webActions.fillField(this.elements.bfYear, '2024');
+    await this.webActions.fillField('#bfActions_0_notes', 'bf action test');
     await this.submitButton();
     await expect(this.page.getByRole('tab', { name: 'BF Actions' })).toBeVisible();
     console.log('...BF action event completed successfully...')

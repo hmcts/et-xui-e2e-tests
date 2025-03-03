@@ -24,18 +24,16 @@ export default class ICUploadDocPage extends BasePage {
 
         let actRespNameText = await this.page.locator(this.elements.respNameEle).first().textContent();
         await expect(actRespNameText).toEqual(icPageData.respName);
+        await this.webActions.clickElementByCss(this.elements.jurisdictionCodeInvalidYes);
+        await this.webActions.clickElementByCss(this.elements.canProceedYes);
 
-        await this.clickElement(this.elements.jurisdictionCodeInvalidYes);
-        await this.clickElement(this.elements.canProceedYes);
-
-        await this.page.fill(this.elements.invalidDetails, icPageData.invalidDetailsText);
-        await this.clickElement(this.elements.hearingListedNo);
+        await this.webActions.fillField(this.elements.invalidDetails, icPageData.invalidDetailsText);
+        await this.webActions.clickElementByCss(this.elements.hearingListedNo);
         await this.clickContinue();
 
         let txtHeading = await this.page.locator(this.elements.documentHeading).textContent();
         await expect(txtHeading?.trim()).toEqual(icPageData.docHeadingText);
-
-        await this.page.getByLabel(icPageData.hearingOptionText).check();
+        await this.webActions.checkElementByLabel(icPageData.hearingOptionText);
 
         // Click and upload a document
         await this.addNewBtn.click();
@@ -71,7 +69,6 @@ export default class ICUploadDocPage extends BasePage {
 
 
     async verifyICDetailsOnTab(fieldLabel: string, fieldValue: string) {
-        await expect(this.page
-            .locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
+        await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`));
     }
 }

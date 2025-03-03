@@ -31,25 +31,23 @@ export class RestrictedReportingPage extends BasePage {
         const today = new Date();
         const resultDate = dateUtilComponent.addWeekdays(today, 21);
 
-        await expect(this.page.locator(this.elements.headingEle)).toHaveText('Restricted Case');
-        await this.page.selectOption(this.elements.requestedByOption, 'Grayson Becker');
-        await this.page.locator(this.elements.restrictedReportingImposedNo).check();
-        await this.page.locator(this.elements.restrictedReportingRule503bYes).check();
+        await this.webActions.verifyElementContainsText(this.page.locator(this.elements.headingEle), 'Restricted Case');
+        await this.webActions.selectByLabelFromDropDown(this.elements.requestedByOption, 'Grayson Becker');
+        await this.webActions.checkElementById(this.elements.restrictedReportingImposedNo);
+        await this.webActions.checkElementById(this.elements.restrictedReportingRule503bYes);
 
         console.log(`... setting up restricted dates ${resultDate.getDate()}`);
-        await this.page.fill(this.elements.dateCeased, `${resultDate.getDate()}`);
-        await this.page.fill(this.elements.monthCeased, restrictedMonth.toString());
-        await this.page.fill(this.elements.yearCeased, restrictedYear.toString());
+        await this.webActions.fillField(this.elements.dateCeased, `${resultDate.getDate()}`);
+        await this.webActions.fillField(this.elements.monthCeased, restrictedMonth.toString());
+        await this.webActions.fillField(this.elements.yearCeased, restrictedYear.toString());
+        await this.webActions.fillField(this.elements.startDate, `${resultDate.getDate()}`);
+        await this.webActions.fillField(this.elements.monthStartDate, restrictedMonth.toString());
+        await this.webActions.fillField(this.elements.yearStartDate, restrictedYear.toString());
+        await this.webActions.selectByLabelFromDropDown(this.elements.restrictedReportingExcludedRegister, 'No');
 
-        await this.page.fill(this.elements.startDate, `${resultDate.getDate()}`);
-        await this.page.fill(this.elements.monthStartDate, restrictedMonth.toString());
-        await this.page.fill(this.elements.yearStartDate, restrictedYear.toString());
-
-
-        await this.page.selectOption(this.elements.restrictedReportingExcludedRegister, 'No');
         await this.delay(2000);
-        await this.page.fill(this.elements.restrictedReportingExcludedNames, 'Test Name');
-        await this.page.locator(this.elements.restrictedReportingDeletedPhyRegisterNo).click();
+        await this.webActions.fillField(this.elements.restrictedReportingExcludedNames, 'Test Name');
+        await this.webActions.clickElementByCss(this.elements.restrictedReportingDeletedPhyRegisterNo);
         await this.submitButton();
     }
 

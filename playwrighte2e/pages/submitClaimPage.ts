@@ -11,19 +11,21 @@ export default class SubmitClaimPage extends BasePage{
   }
   //user clicks check your answers link
   async clickCheckYourAnswersLink() {
-    await this.page.locator('[href="/pcq?lng=en"]').click();
+    await this.webActions.clickElementByCss('[href="/pcq?lng=en"]');
   }
-  //
+  
   async noPcqQuestions() {
-    await expect(this.page.locator('h1')).toContainText('Equality and diversity questions');
-    await this.page.locator('[name=opt-out-button]').click();
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Equality and diversity questions');
+    await this.webActions.clickElementByCss('[name=opt-out-button]');
   }
+
   async clickSubmitOnCheckYourAnswers() {
-    await expect(this.page.locator('h1')).toContainText('Check your answers');
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Check your answers');
     await this.submitButton();
   }
+  
   async verifyClaimSubmitted() {
-    await expect(this.page.locator('h1')).toContainText('Your claim has been submitted');
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Your claim has been submitted');
 
     const submissionRef = (await this.page.locator('//*[@id="main-content"]/div[1]/div/dl[1]/div[1]/dd').innerText()).trim();
     console.log('you have successfully submitted claim...' +submissionRef);

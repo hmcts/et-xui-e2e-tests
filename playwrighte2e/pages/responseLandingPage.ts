@@ -12,8 +12,8 @@ export default class ResponseLandingPage extends BasePage {
     }
 
     async startEt3() {
-        await expect(this.page.locator('#main-content')).toContainText('Case overview');
-        await this.page.getByRole('link', {name: 'Your response form (ET3)'}).click();
+        await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
+        await this.webActions.clickElementByRole('link', {name: 'Your response form (ET3)'});
         await this.clickStartNow();
     }
 

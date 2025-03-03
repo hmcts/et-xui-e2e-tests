@@ -1,5 +1,4 @@
 import { BasePage } from "./basePage";
-import { expect } from "@playwright/test";
 
 const respPageData = require('../data/ui-data/respondent-page-content.json');
 
@@ -17,18 +16,21 @@ export default class ClaimantDetailsPage extends BasePage{
   }
 
   async processClaimantDetails(hearingPanelPreference?: boolean) {
-    await expect(this.page.locator(this.elements.firstName)).toBeVisible();
-    await this.page.locator(this.elements.firstName).fill('Laila');
-    await this.page.locator(this.elements.LastName).fill('McDonald');
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.firstName));
+    await this.webActions.fillField(this.elements.firstName, 'Laila');
+    await this.webActions.fillField(this.elements.LastName, 'McDonald');
+
     await this.clickContinue();
-    await expect(this.page.locator(this.elements.addressLine1)).toBeVisible();
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.addressLine1));
     await this.clickContinue();
-    await expect(this.page.locator(this.elements.claimantWorkPhone)).toBeVisible();
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.claimantWorkPhone));
+
     await this.clickContinue();
-    await expect(this.page.locator(this.elements.occupation)).toBeVisible();
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.occupation));
+
     await this.clickContinue();
-    await expect(this.page.locator(this.elements.hearingPreference)).toBeVisible();
-    await this.page.locator('#claimantHearingPreference_contact_language-English').check();
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingPreference));
+    await this.webActions.checkElementById('#claimantHearingPreference_contact_language-English');
 
     if(hearingPanelPreference) await this.fillPanelPreference();
     await this.submitButton();
@@ -42,16 +44,14 @@ export default class ClaimantDetailsPage extends BasePage{
 
 
   async verifyClaimantDetailsOnTab(fieldLabel: string, fieldValue: string) {
-    await expect(this.page
-        .locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
+    await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`));
   }
 
   async fillPanelPreference() {
-    await expect(this.page.locator(this.elements.panelEle)).toBeVisible();
-    await this.page.locator(this.elements.panelEle).check();
-
-    await expect(this.page.locator(this.elements.panelPreferenceReason)).toBeVisible();
-    await this.page.locator(this.elements.panelPreferenceReason).fill(respPageData.panelReason);
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.panelEle));
+    await this.webActions.checkElementById(this.elements.panelEle);
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.panelPreferenceReason));
+    await this.webActions.fillField(this.elements.panelPreferenceReason, respPageData.panelReason);
   }
 
 }

@@ -11,8 +11,8 @@ export default class RespContestClaim extends BasePage {
   }
 
   elements={
-    contestClaimReason: this.page.locator("//*[@id=\"et3ResponseContestClaimDetails\"]"),
-    clickContestClaimLink:this.page.locator('[href="/respondent-contest-claim"]'),
+    contestClaimReason: "//*[@id=\'et3ResponseContestClaimDetails\']",
+    clickContestClaimLink:'[href="/respondent-contest-claim"]',
   };
 
   async et3Section3() {
@@ -22,23 +22,27 @@ export default class RespContestClaim extends BasePage {
   }
 
   async contestTheClaim() {
-    await expect(this.page.locator('h1')).toContainText('Your response form (ET3)');
-    await this.elements.clickContestClaimLink.click();
-    await this.page.getByLabel('Yes').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Your response form (ET3)');
+    await this.webActions.clickElementByCss(this.elements.clickContestClaimLink);
+    await this.webActions.checkElementByLabel('Yes');
+
     await this.saveAndContinueButton();
-    await this.elements.contestClaimReason.fill('Test Contest Claim');
+    await this.webActions.fillField(this.elements.contestClaimReason, 'Test Contest Claim');
+
     await this.saveAndContinueButton();
-    await this.page.getByLabel('Yes, I’ve completed this').check();
+    await this.webActions.checkElementByLabel('Yes, I’ve completed this');
     await this.saveAndContinueButton();
   }
 
   async employerContractClaim() {
-    await expect(this.page.locator('h1')).toContainText('Employer’s Contract Claim');
-    await this.page.getByLabel('Yes').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Employer’s Contract Claim');
+    await this.webActions.checkElementByLabel('Yes');
+
     await this.saveAndContinueButton();
-    await this.page.locator('#et3ResponseEmployerClaimDetails').fill('Test ECC Text Box');
+    await this.webActions.fillField('#et3ResponseEmployerClaimDetails', 'Test ECC Text Box');
+
     await this.saveAndContinueButton();
-    await this.page.getByText('Yes, I’ve completed this').click();
+    await this.webActions.clickElementByText('Yes, I’ve completed this');
     await this.saveAndContinueButton();
   }
 }

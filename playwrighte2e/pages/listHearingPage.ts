@@ -6,16 +6,11 @@ const today = new Date();
 const listDay = today.getDate() + 1;
 const currentDay = today.getDate();
 const previousDay = today.getDate() - 1;
-const listMonth = today.getMonth() + 1;
+const listMonth = today.getMonth() + 2;
 const previousMonth = today.getMonth();
 const listYear = today.getFullYear();
 
 export class ListHearingPage extends BasePage {
-    // private page: Page;
-
-    // constructor(page: Page) {
-    //     this.page = page;
-    // }
 
     hearingElement = '#hearingCollection';
     hearingNumberEle = '#hearingCollection_0_hearingNumber';
@@ -57,7 +52,7 @@ export class ListHearingPage extends BasePage {
     disposePartOfCase = '#hearingDetailsCollection_0_hearingDetailsCaseDisposed_No';
     completionSuccessMessage = '//div[@class="alert-message"]';
 
-    async listCase(location: string, hearingNumber?: number, newcastleHearing:boolean) {
+    async listCase(location: string, hearingNumber?: number, newcastleHearing?: boolean) {
 
         //To always choose weekdays for hearing dates
         const today = new Date();
@@ -66,78 +61,87 @@ export class ListHearingPage extends BasePage {
         switch (location) {
             case 'EnglandWales':
                 (hearingNumber == 2) ? await this.addNewHearingButtonClick() : 'Don\'t add new hearing';
-                (hearingNumber == 2) ? await this.page.waitForSelector(this.secondHearingNumber, { timeout: 10000 }) : await this.page.waitForSelector(this.hearingNumberEle, { timeout: 10000 });
-                (hearingNumber == 2) ? await this.page.fill(this.secondHearingNumber, '2') : await this.page.fill(this.hearingNumberEle, '1');
-                (hearingNumber == 2) ? await this.page.check(this.secondHearingHybridOption) : await this.page.check(this.hearingHybridOption);
-                (hearingNumber == 2) ? await this.page.selectOption(this.secondHearingOption, '1: Costs Hearing') : await this.page.selectOption(this.hearingOption, '1: Costs Hearing');
-                (hearingNumber == 2) ? await this.page.check(this.secondJudicialMediationOption) : await this.page.check(this.judicialMediationOption);
+                (hearingNumber == 2) ? await this.webActions.verifyElementToBeVisible(this.page.locator(this.secondHearingNumber), 10000) : await this.webActions.verifyElementToBeVisible(this.page.locator(this.hearingNumberEle), 10000);
+                (hearingNumber == 2) ? await this.webActions.fillField(this.secondHearingNumber, '2') : this.webActions.fillField(this.hearingNumberEle, '1');
+                (hearingNumber == 2) ? await this.webActions.checkElementById(this.secondHearingHybridOption) : await this.webActions.checkElementById(this.hearingHybridOption);
+                (hearingNumber == 2) ? await this.webActions.selectByOptionFromDropDown(this.secondHearingOption, '1: Costs Hearing') : await this.webActions.selectByOptionFromDropDown(this.hearingOption, '1: Costs Hearing');
+                (hearingNumber == 2) ? await this.webActions.checkElementById(this.secondJudicialMediationOption) : await this.webActions.checkElementById(this.judicialMediationOption);
+
                 if(newcastleHearing){
                     (hearingNumber == 2) ? await this.page.selectOption(this.secondHearingVenueOption, {index: 1}) : await this.page.selectOption(this.hearingVenueOption, 'Newcastle CFCTC');
                 }else{
                     (hearingNumber == 2) ? await this.page.selectOption(this.secondHearingVenueOption, {index: 1}) : await this.page.selectOption(this.hearingVenueOption, {index: 1});
                 }
-                (hearingNumber == 2) ? await this.page.fill(this.secondHearingLengthNum, '1') : await this.page.fill(this.hearingLengthNum, '1');
-                (hearingNumber == 2) ? await this.page.selectOption(this.secondDayHourMinutes, '1: Days') : await this.page.selectOption(this.dayHourMinutes, '1: Days');
-                (hearingNumber == 2) ? await this.page.check(this.secondSitAlonePanel) : await this.page.check(this.sitAlonePanel);
-                (hearingNumber == 2) ? await this.page.selectOption(this.secondHearingStage, '1: Stage 1') : await this.page.selectOption(this.hearingStage, '1: Stage 1');
-                (hearingNumber == 2) ? await this.page.click(this.secondDateSetUp) : await this.page.click(this.dateSetUp);
+                (hearingNumber == 2) ? await this.webActions.fillField(this.secondHearingLengthNum, '1') : await this.webActions.fillField(this.hearingLengthNum, '1');
+                (hearingNumber == 2) ? await this.webActions.selectByOptionFromDropDown(this.secondDayHourMinutes, '1: Days') : await this.webActions.selectByOptionFromDropDown(this.dayHourMinutes, '1: Days');
+                (hearingNumber == 2) ? await this.webActions.checkElementById(this.secondSitAlonePanel) : await this.webActions.checkElementById(this.sitAlonePanel);
+                (hearingNumber == 2) ? await this.webActions.selectByOptionFromDropDown(this.secondHearingStage, '1: Stage 1') : await this.webActions.selectByOptionFromDropDown(this.hearingStage, '1: Stage 1');
+                (hearingNumber == 2) ? await this.webActions.clickElementByCss(this.secondDateSetUp) : await this.webActions.clickElementByCss(this.dateSetUp);
+
                 await this.page.waitForTimeout(2000);
                 console.log(`... setting up hearing date ${resultDate.getDate()}`);
-                (hearingNumber == 2) ? await this.page.fill(this.secondHearingListDay, '6') : await this.page.fill(this.hearingListDay, `${resultDate.getDate()}`);
-                (hearingNumber == 2) ? await this.page.fill(this.secondHearingListMonth, '1') : await this.page.fill(this.hearingListMonth, listMonth.toString());
-                (hearingNumber == 2) ? await this.page.fill(this.secondHearingListYear, '2025') : await this.page.fill(this.hearingListYear, listYear.toString());
+                (hearingNumber == 2) ? await this.webActions.fillField(this.secondHearingListDay, '6') : await this.webActions.fillField(this.hearingListDay, `${resultDate.getDate()}`);
+                (hearingNumber == 2) ? await this.webActions.fillField(this.secondHearingListMonth, '1') : await this.webActions.fillField(this.hearingListMonth, listMonth.toString());
+                (hearingNumber == 2) ? await this.webActions.fillField(this.secondHearingListYear, '2025') : await this.webActions.fillField(this.hearingListYear, listYear.toString());
+
                 await this.page.waitForTimeout(2000);
-                (hearingNumber == 2) ? await this.page.fill(this.secondHearingNotes, 'The hearing should be help as soon as possible....') : await this.page.fill(this.hearingNotes, 'The hearing should be help as soon as possible....');
+                (hearingNumber == 2) ? await this.webActions.fillField(this.secondHearingNotes, 'The hearing should be help as soon as possible....') : await this.webActions.fillField(this.hearingNotes, 'The hearing should be help as soon as possible....');
+
                 await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-                await this.page.locator(this.submitHearingButton).click();
+                await this.webActions.clickElementByCss(this.submitHearingButton);
 
                 if(hearingNumber == 2) {
-                    await this.page.locator('h3:has-text("One of the listed dates are in the past.")').isVisible();
-                    await this.page.locator(this.submitHearingButton).click();
+                    await this.webActions.verifyElementToBeVisible(this.page.locator('h3:has-text("One of the listed dates are in the past.")'));
+                    await this.webActions.clickElementByCss(this.submitHearingButton);
                 }
                 break;
             case 'Scotland':
-                await this.page.waitForSelector(this.hearingNumberEle, { timeout: 10000 });
-                await this.page.fill(this.hearingNumberEle, '01');
-                await this.page.selectOption(this.hearingTypeOption, '1: Expenses/Wasted Costs Hearing');
-                await this.page.check(this.hearingHybridOption);
-                await this.page.check(this.judicialMediationOption);
-                await this.page.selectOption(this.managingOffice, '1: Glasgow');
-                await this.page.selectOption(this.hearingVenueOptionScotland, '4: Glasgow COET');
-                await this.page.fill(this.hearingLengthNum, '1');
-                await this.page.selectOption(this.dayHourMinutes, '1: Days');
-                await this.page.check(this.sitAlonePanel);
-                await this.page.selectOption(this.hearingStage, '1: Stage 1');
-                await this.page.click(this.dateSetUp);
+                await this.webActions.verifyElementToBeVisible(this.page.locator(this.hearingNumberEle), 10000);
+                await this.webActions.fillField(this.hearingNumberEle, '01');
+                await this.webActions.selectByOptionFromDropDown(this.hearingTypeOption, '1: Expenses/Wasted Costs Hearing');
+                await this.webActions.checkElementById(this.hearingHybridOption);
+                await this.webActions.checkElementById(this.judicialMediationOption);
+                await this.webActions.selectByOptionFromDropDown(this.managingOffice, '1: Glasgow');
+                await this.webActions.selectByOptionFromDropDown(this.hearingVenueOptionScotland, '4: Glasgow COET');
+                await this.webActions.fillField(this.hearingLengthNum, '1');
+                await this.webActions.selectByOptionFromDropDown(this.dayHourMinutes, '1: Days');
+                await this.webActions.checkElementById(this.sitAlonePanel);
+                await this.webActions.selectByOptionFromDropDown(this.hearingStage, '1: Stage 1');
+                await this.webActions.clickElementByCss(this.dateSetUp);
+
                 await this.page.waitForTimeout(2000);
-                await this.page.fill(this.hearingListDay, `${resultDate.getDate()}`);
-                await this.page.fill(this.hearingListMonth, listMonth.toString());
-                await this.page.fill(this.hearingListYear, listYear.toString());
+                await this.webActions.fillField(this.hearingListDay, `${resultDate.getDate()}`);
+                await this.webActions.fillField(this.hearingListMonth, listMonth.toString());
+                await this.webActions.fillField(this.hearingListYear, listYear.toString());
+
                 await this.page.waitForTimeout(2000);
-                await this.page.fill(this.hearingNotes, 'The hearing should be help as soon as possible....');
+                await this.webActions.fillField(this.hearingNotes, 'The hearing should be help as soon as possible....');
+
                 await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-                await this.page.locator(this.submitHearingButton).click();
+                await this.webActions.clickElementByCss(this.submitHearingButton);
                 break;
             default:
                 throw new Error('... check your options or add new option');
         }
-        await this.page.waitForSelector(this.completionSuccessMessage, { timeout: 10000 });
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.completionSuccessMessage), 10000);
         await this.page.waitForSelector('text=has been updated with event: List Hearing');
     }
 
     async updateHearing() {
         await this.page.waitForTimeout(5000);
-        await this.page.waitForSelector('text=Hearing Details');
+        await this.webActions.verifyElementToBeVisible(this.page.locator('text=Hearing Details'));
+        
         await this.page.selectOption(this.selectHearing, '1');
-        await this.page.click(this.submitHearingButton);
+        await this.webActions.clickElementByCss(this.submitHearingButton);
+
         await this.page.waitForTimeout(10000);
-        await this.page.selectOption(this.hearingStatus, 'Heard');
-        await this.page.waitForSelector('text=Hearing Status', { timeout: 10000 });
-        await this.page.check(this.disposePartOfCase);
-        await this.page.fill('#hearingDetailsTimingStart-day', previousDay.toString());
-        await this.page.fill('#hearingDetailsTimingFinish-day', currentDay.toString());
-        await this.page.click(this.submitHearingButton);
-        await this.page.waitForSelector('text=has been updated with event: Hearing Details', { timeout: 15000 });
+        await this.webActions.selectByLabelFromDropDown(this.hearingStatus, 'Heard');
+        await this.webActions.verifyElementToBeVisible(this.page.locator('text=Hearing Status'), 10000);
+        await this.webActions.checkElementById(this.disposePartOfCase);
+        await this.webActions.fillField('#hearingDetailsTimingStart-day', previousDay.toString());
+        await this.webActions.fillField('#hearingDetailsTimingFinish-day', currentDay.toString());
+        await this.webActions.clickElementByCss(this.submitHearingButton);
+        await this.webActions.verifyElementToBeVisible(this.page.locator('text=has been updated with event: Hearing Details'), 15000);
     }
 
 }
