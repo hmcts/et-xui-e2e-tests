@@ -9,23 +9,26 @@ export default class UploadDocumentPage extends BasePage {
 
 
     async uploadCaseManagementDocument() {
-        await this.page.click(this.addNewButtonBottom);
-        await this.page.locator('#documentCollection_1_topLevelDocuments').selectOption('4: Case Management');
-        await this.page.locator('#documentCollection_1_uploadedDocument').click();
+        await this.webActions.clickElementByCss(this.addNewButtonBottom);
+        await this.webActions.selectByOptionFromDropDown('#documentCollection_1_topLevelDocuments', '4: Case Management');
+        await this.webActions.clickElementByCss('#documentCollection_1_uploadedDocument');
+
         await this.page.locator('#documentCollection_1_uploadedDocument').setInputFiles('test/data/welshTest.pdf');
         await this.page.waitForTimeout(3000);
         await this.submitButton();
     }
 
     async createDCF(){
-        await this.page.locator(this.createDcfLink).isVisible();
-        await this.page.click(this.createDcfLink);
-        await this.page.check(this.createDcfRadio);
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.createDcfLink));
+        await this.webActions.clickElementByCss(this.createDcfLink);
+        await this.webActions.checkElementById(this.createDcfRadio);
         await this.submitButton();
-        await this.delay(120000);
     }
 
     async validateDCF(){
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.createDcfLink));
+        await this.delay(120000);
+        await this.page.reload();
         await expect(this.page.locator('ccd-read-complex-field-table')).toContainText('-DCF.pdf');
         await expect(this.page.locator('ccd-read-complex-field-table')).toContainText('DCF Generated:');
     }

@@ -1,7 +1,6 @@
 import { BasePage } from './basePage';
 import { params } from "../utils/config";
 import { expect } from '@playwright/test';
-import { threadId } from 'worker_threads';
 
 export class LegalRepPage extends BasePage {
 
@@ -448,25 +447,27 @@ async grantAccessToMultiples(caseNumber: string) {
 }
 
     async legalRepMakeAnApplication() {
-        await this.page.waitForSelector(this.applicationTab, { timeout: 20000 });
-        await this.page.click(this.applicationTab);
-        await this.page.waitForSelector(this.makeAnApplicationLink);
-        await this.page.click(this.makeAnApplicationLink);
-        await this.page.selectOption(this.applicationTypeDropDown, '1: Amend response');
-        await this.page.click(this.continueLegalRepButton);
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.applicationTab), 20000);
+        await this.webActions.clickElementByCss(this.applicationTab);
 
-        await this.page.waitForSelector(this.uploadDocumentContactTribunal, { timeout: 30000 });
+        await this.page.waitForSelector(this.makeAnApplicationLink);
+        await this.webActions.clickElementByCss(this.makeAnApplicationLink);
+        await this.webActions.selectByOptionFromDropDown(this.applicationTypeDropDown, '1: Amend response');
+        await this.webActions.clickElementByCss(this.continueLegalRepButton);
+
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.uploadDocumentContactTribunal), 30000);
+
         await this.page.setInputFiles(this.uploadDocumentContactTribunal, 'test/data/welshTest.pdf');
         await this.page.waitForTimeout(3000);
-        await this.page.fill(this.textArea, 'Make an application text');
-        await this.page.click(this.continueLegalRepButton);
+        await this.webActions.fillField(this.textArea, 'Make an application text');
+        await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
         await this.page.waitForSelector(this.YesCorrespondenceRadioOption);
-        await this.page.check(this.YesCorrespondenceRadioOption);
-        await this.page.click(this.continueLegalRepButton);
+        await this.webActions.checkElementById(this.YesCorrespondenceRadioOption);
+        await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
         await this.page.waitForSelector(this.checkYourAnswerHeading);
-        await this.page.click(this.submitButtonLegalRep);
+        await this.webActions.clickElementByCss(this.submitButtonLegalRep);
 
         await this.page.waitForSelector(this.closeAndReturnButton);
         await this.page.click(this.closeAndReturnButton);

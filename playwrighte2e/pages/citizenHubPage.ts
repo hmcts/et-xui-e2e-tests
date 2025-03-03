@@ -54,11 +54,11 @@ export default class CitizenHubPage extends BasePage {
     quidanceTextPayload: '.govuk-template__body .govuk-grid-column-two-thirds > .govuk-body',
     changeYourDocument: '//a[contains(.,"Change Your documents")]',
     closeAndReturnButton: '//a[contains(.,"Close and return to case overview")]',
-    yesOptionOnRule92: this.page.locator('#copyToOtherPartyYesOrNo'),
-    noOptionOnRule92: this.page.locator('#copyToOtherPartyYesOrNo-2'),
-    addInfoToNoOption: this.page.locator('#copyToOtherPartyText'),
+    yesOptionOnRule92: '#copyToOtherPartyYesOrNo',
+    noOptionOnRule92: '#copyToOtherPartyYesOrNo-2',
+    addInfoToNoOption: '#copyToOtherPartyText',
     submitApplicationButton: '#main-form-submit',
-    returntoCUIcaseOverviewButton:this.page.locator( '//a[contains(.,"Close and return to case overview")]'),
+    returntoCUIcaseOverviewButton: '//a[contains(.,"Close and return to case overview")]',
     notificationFlagBefore: '.govuk-tag--red',
     notificationLink: '[href="/tribunal-orders-and-requests"]',
     seeNotificationDetailsLink: 'td:nth-of-type(2) > .govuk-link',
@@ -95,8 +95,8 @@ export default class CitizenHubPage extends BasePage {
     }
 
     async loginCitizenUi(username, password){
-      await this.page.locator('#username').fill(username);
-      await this.page.locator('#password').fill(password);
+      await this.webActions.fillField('#username', username);
+      await this.webActions.fillField('#password', password);
       await this.elements.submit.click();
     }
 
@@ -146,11 +146,11 @@ export default class CitizenHubPage extends BasePage {
    async rule92Question(option) {
       switch (option) {
         case 'yes':
-          await this.elements.yesOptionOnRule92.check();
+          await this.webActions.checkElementById(this.elements.yesOptionOnRule92);
           break;
         case 'no':
-          await this.elements.noOptionOnRule92.check();
-          await this.elements.addInfoToNoOption.fill('dont want other party to see this')
+          await this.webActions.checkElementById(this.elements.noOptionOnRule92);
+          await this.webActions.fillField(this.elements.addInfoToNoOption, 'dont want other party to see this');
           break;
         default:
           throw new Error('... you can only select a yes or no option on rule 92 page');
@@ -158,13 +158,14 @@ export default class CitizenHubPage extends BasePage {
       await this.clickContinue();
     }
     async cyaPageVerification() {
-      await expect(this.page.locator('dl')).toContainText('Application type');
-      await expect(this.page.locator('dl')).toContainText('What do you want to tell or ask the tribunal?');
-      await expect(this.page.locator('dl')).toContainText('Supporting material');
-      await expect(this.page.locator('dl')).toContainText('Do you want to copy this correspondence to the other party to satisfy the Rules of Procedure?');
+      await this.webActions.verifyElementContainsText(this.page.locator('dl'), 'Application type');
+      await this.webActions.verifyElementContainsText(this.page.locator('dl'), 'What do you want to tell or ask the tribunal?');
+      await this.webActions.verifyElementContainsText(this.page.locator('dl'), 'Supporting material');
+      await this.webActions.verifyElementContainsText(this.page.locator('dl'), 'Do you want to copy this correspondence to the other party to satisfy the Rules of Procedure?');
+
       await this.webActions.clickElementByCss(this.elements.submitApplicationButton);
-      await expect(this.page.locator('h1')).toContainText('You have sent your application to the tribunal');
-      await this.elements.returntoCUIcaseOverviewButton.click();
+      await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'You have sent your application to the tribunal');
+      await this.webActions.clickElementByCss(this.elements.returntoCUIcaseOverviewButton);
     }
 
     async submitDocumentForHearingClaimant() {

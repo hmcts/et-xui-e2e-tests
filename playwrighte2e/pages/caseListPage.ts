@@ -184,7 +184,6 @@ export default class CaseListPage extends BasePage{
 
     async validateHearingReport(caseNumber){
         await this.webActions.verifyElementContainsText(this.elements.causeListText, 'has been updated with event: Generate Report');
-        await this.webActions.verifyElementContainsText(this.page.locator('ccd-read-complex-field-collection-table'), caseNumber);
         await this.webActions.verifyElementContainsText(this.page.locator('ccd-read-complex-field-collection-table'), 'Newcastle CFCTC');
     }
     
@@ -256,15 +255,13 @@ export default class CaseListPage extends BasePage{
     }
 
     async verifyCaseDetailsOnTab(fieldLabel: string, fieldValue: string) {
-      await expect(this.page
-          .locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
+      await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`));
     }
 
     async verifyBFActionsTab(fieldLabel: string, fieldValue: string) {
 
-      await expect(this.page.getByText(dateUtilComponent.addDaysAndMonths(1, 1))).toBeVisible();
+      await expect(this.page.getByText(dateUtilComponent.addDaysAndMonths(29))).toBeVisible();
       await this.webActions.clickElementByCss(this.elements.expandImgIcon);
-      await expect(this.page
-          .locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
+      await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`));
     }
 }

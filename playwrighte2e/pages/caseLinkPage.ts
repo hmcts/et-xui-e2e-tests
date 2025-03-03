@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
 import { BasePage } from './basePage';
 
-export class CaseLinkPage extends BasePage{
+export class CaseLinkPage extends BasePage {
     
     readonly nextButton = '#next-button';
     readonly caseLinkProposeButton = '#propose';
@@ -23,11 +23,11 @@ export class CaseLinkPage extends BasePage{
     async checksCaseLinkStartingPage() {
 
         await Promise.all([
-            await this.page.waitForSelector(this.nextButton, { timeout: 20000 }),
-            await this.page.waitForSelector(this.beforeYouStartCaseLinking, { timeout: 10000 }),
-            await this.page.waitForSelector('text=Before you start'),
-            await this.page.waitForSelector('text=If a group of linked cases has a lead case, you must start from the lead case.'),
-            await this.page.waitForSelector('text=If the cases to be linked has no lead, you can start the linking journey from any of those cases.'),
+            await this.webActions.verifyElementToBeVisible(this.page.locator(this.nextButton), 20000),
+            await this.webActions.verifyElementContainsText(this.page.locator(this.beforeYouStartCaseLinking), 'Before you start', 10000),
+            await this.webActions.waitForElementToBeVisible('text=Before you start'),
+            await this.webActions.waitForElementToBeVisible('text=If a group of linked cases has a lead case, you must start from the lead case.'),
+            await this.webActions.waitForElementToBeVisible('text=If the cases to be linked has no lead, you can start the linking journey from any of those cases.'),
             await this.delay(3000),
             await this.page.click(this.nextButton)
         ]);
@@ -56,30 +56,31 @@ export class CaseLinkPage extends BasePage{
     }
 
     async enterCaseLinkReferenceWithoutHearing(submissionReference: string) {
-        await this.page.waitForSelector(this.caseLinkProposeButton, { timeout: 20000 });
-        await this.page.waitForSelector('text=Enter case reference');
-        await this.page.waitForSelector('text=Why should these cases be linked?');
-        await this.page.fill(this.caseReferenceField, submissionReference);
-        await this.page.check(this.bailOption);
-        await this.page.check(this.samePartyOption);
-        await this.page.check(this.sharedEvidenceOption);
-        await this.page.check(this.guardianOption);
-        await this.page.check(this.progressedAsPartofLeadCase);
-        await this.page.click(this.caseLinkProposeButton);
-        await this.page.waitForSelector(this.removeLinkedCase, { timeout: 10000 });
-        await this.page.fill(this.caseReferenceField, submissionReference);
-        await this.page.check(this.bailOption);
-        await this.page.check(this.samePartyOption);
-        await this.page.check(this.sharedEvidenceOption);
-        await this.page.check(this.guardianOption);
-        await this.page.check(this.linkedForHearingOption);
-        await this.page.check(this.progressedAsPartofLeadCase);
-        await this.page.click(this.caseLinkProposeButton);
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseLinkProposeButton), 20000);
+        await this.webActions.waitForElementToBeVisible('text=Enter case reference');
+        await this.webActions.waitForElementToBeVisible('text=Why should these cases be linked?');
+        await this.webActions.fillField(this.caseReferenceField, submissionReference);
+        await this.webActions.checkElementById(this.bailOption);
+        await this.webActions.checkElementById(this.samePartyOption);
+        await this.webActions.checkElementById(this.sharedEvidenceOption);
+        await this.webActions.checkElementById(this.guardianOption);
+        await this.webActions.checkElementById(this.progressedAsPartofLeadCase);
+        await this.webActions.clickElementByCss(this.caseLinkProposeButton);
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.removeLinkedCase), 10000);
+        await this.webActions.fillField(this.caseReferenceField, submissionReference);
+        await this.webActions.checkElementById(this.bailOption);
+        await this.webActions.checkElementById(this.samePartyOption);
+        await this.webActions.checkElementById(this.sharedEvidenceOption);
+        await this.webActions.checkElementById(this.guardianOption);
+        await this.webActions.checkElementById(this.linkedForHearingOption);
+        await this.webActions.checkElementById(this.progressedAsPartofLeadCase);
+        await this.webActions.clickElementByCss(this.caseLinkProposeButton);
+
         await this.page.waitForTimeout(2000);
-        await this.page.click(this.nextButton);
-        await this.page.waitForSelector(this.submitButtonLink);
-        await this.page.waitForSelector('text=Check your answers');
-        await this.page.click(this.submitButtonLink);
+        await this.webActions.clickElementByCss(this.nextButton);
+        await this.webActions.waitForElementToBeVisible(this.submitButtonLink);
+        await this.webActions.waitForElementToBeVisible('text=Check your answers');
+        await this.webActions.clickElementByCss(this.submitButtonLink);
     }
 
     async unlinkedCase() {

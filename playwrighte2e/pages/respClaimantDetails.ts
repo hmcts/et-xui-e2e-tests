@@ -11,7 +11,7 @@ class RespClaimantDetails extends BasePage {
     }
 
     elements={
-        clickAcasEarlyConciliationLink:this.page.locator('[href="/acas-early-conciliation-certificate"]'),
+        clickAcasEarlyConciliationLink:'[href="/acas-early-conciliation-certificate"]',
     };
 
     async et3Section2() {
@@ -21,14 +21,15 @@ class RespClaimantDetails extends BasePage {
     }
 
     async earlyConciliationDetails(){
-        await expect(this.page.locator('h1')).toContainText('Your response form (ET3)');
-        await this.elements.clickAcasEarlyConciliationLink.click();
+        await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Your response form (ET3)');
+        await this.webActions.clickElementByCss(this.elements.clickAcasEarlyConciliationLink);
         await this.acasEarlyConciliation();
     }
 
     async acasEarlyConciliation(){
-        await expect(this.page.locator('h1')).toContainText('Acas early conciliation certificate');
+        await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Acas early conciliation certificate');
         await this.page.getByLabel('No').check();
+
         await this.page.getByLabel('Why do you disagree with the').fill('Test ACAS');
         await this.saveAndContinueButton();
     }
@@ -55,7 +56,7 @@ class RespClaimantDetails extends BasePage {
     }
 
     async claimantEmploymentContinuing(){
-        await this.page.getByLabel('Yes').check();
+        await this.webActions.checkElementByLabel('Yes');
         await this.saveAndContinueButton();
     }
 

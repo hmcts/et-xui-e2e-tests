@@ -10,7 +10,7 @@ let inNoticePeriod: boolean = true;
 export default class EmploymentAndRespDetailsPage extends BasePage{
   //still working for organisation/person scenario
   async processStillWorkingJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
-    await this.clickEmploymentStatusLink();
+   await this.clickEmploymentStatusLink();
    await this.workedForOrganisation('Yes');
    await this.stillWorkingForOrganisation();
    await this.enterEmploymentJobTitle();
@@ -90,69 +90,68 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
   }
   //clicks employment status link
   async clickEmploymentStatusLink() {
-    await this.page.locator('[href="/past-employer?lng=en"]').click();
-    await expect(this.page.locator('h1')).toContainText('Did you work for the organisation or person you’re making your claim against?');
+    await this.webActions.clickElementByCss('[href="/past-employer?lng=en"]');
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Did you work for the organisation or person you’re making your claim against?');
   }
   //function to click yes worked for organisation on /past-employer page
   async workedForOrganisation(workedForOrg) {
     if (workedForOrg === 'Yes') {
-      await this.page.locator('#past-employer').click();
+      await this.webActions.clickElementByCss('#past-employer');
     } else if (workedForOrg === 'No') {
-      await this.page.locator('#past-employer-2').click();
+      await this.webActions.clickElementByCss('#past-employer-2');
     }
     await this.saveAndContinueButton();
   }
   //selects still working for respondent on /are-you-still-working page
   async stillWorkingForOrganisation() {
-    await expect(this.page.locator('h1')).toContainText('Are you still working for the organisation or person you\'re making your claim against?');
-    await this.page.locator('#still-working').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Are you still working for the organisation or person you\'re making your claim against?');
+    await this.webActions.checkElementById('#still-working');
     await this.saveAndContinueButton();
   }
   //selects working notice period for respondent on /are-you-still-working page
   async workingNoticePeriodForOrganisation() {
-    await expect(this.page.locator('h1')).toContainText('Are you still working for the organisation or person you\'re making your claim against?');
-    await this.page.locator('#still-working-2').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Are you still working for the organisation or person you\'re making your claim against?');
+    await this.webActions.checkElementById('#still-working-2');
     await this.saveAndContinueButton();
   }
   // //selects i'm no longer working for respondent on /are-you-still-working page
   async noLongerWorkingForOrganisation() {
-    await expect(this.page.locator('h1')).toContainText('Are you still working for the organisation or person you\'re making your claim against?');
-    await this.page.locator('#still-working-3').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Are you still working for the organisation or person you\'re making your claim against?');
+    await this.webActions.checkElementById('#still-working-3');
     await this.saveAndContinueButton();
   }
   //check page title and enter job title
   async enterEmploymentJobTitle() {
-    await expect(this.page.locator('h1')).toContainText('Employment details');
-    await this.page.locator('#jobTitle').fill('Tester');
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Employment details');
+    await this.webActions.fillField('#jobTitle', 'Tester');
     await this.saveAndContinueButton();
   }
   //employment start date page
   async enterEmploymentStartDate() {
-    await expect(this.page.locator('h1')).toContainText('Employment start date');
-
-    await this.page.locator('#startDate-day').fill( '20');
-    await this.page.locator('#startDate-month').fill( '04');
-    await this.page.locator('#startDate-year').fill( '2014');
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Employment start date');
+    await this.webActions.fillField('#startDate-day', '20');
+    await this.webActions.fillField('#startDate-month', '04');
+    await this.webActions.fillField('#startDate-year', '2014');
     await this.saveAndContinueButton();
   }
   //select yes to notice period on /got-a-notice-period page
   async selectYesNoticePeriod() {
-    await expect(this.page.locator('legend')).toContainText('Do you have a written contract with a notice period? (optional)');
-    await this.page.locator('input[id=notice-period]').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you have a written contract with a notice period? (optional)');
+    await this.webActions.checkElementById('#notice-period');
     await this.saveAndContinueButton();
   }
   //selects yes to did you have or work a notice period on /got-a-notice-period page
   async selectYesNoticePeriodNoLongerWorking() {
-    await expect(this.page.locator('legend')).toContainText('Did you have or work a notice period? (optional)');
-    await this.page.locator('input[id=notice-period]').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Did you have or work a notice period? (optional)');
+    await this.webActions.checkElementById('#notice-period');
     await this.saveAndContinueButton();
   }
   //enters notice period end date
   async noticePeriodEndDate() {
-    await expect(this.page.locator('h1')).toContainText('End of notice period');
-    await this.page.locator('#notice-dates-day').fill(String(listDay));
-    await this.page.locator('#notice-dates-month').fill(String(listMonth));
-    await this.page.locator('#notice-dates-year').fill(String(listYear));
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'End of notice period');
+    await this.webActions.fillField('#notice-dates-day', String(listDay));
+    await this.webActions.fillField('#notice-dates-month', String(listMonth));
+    await this.webActions.fillField('#notice-dates-year', String(listYear));
     await this.saveAndContinueButton();
   }
   // //Enters employment end date dates
@@ -165,8 +164,8 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
   }
   //select weeks for notice type on /notice-type page
   async selectNoticeType() {
-    await expect(this.page.locator('h1')).toContainText('Is your notice period in weeks or months? (optional)');
-    await this.page.locator('input[id=notice-type]').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Is your notice period in weeks or months? (optional)');
+    await this.webActions.checkElementById('#notice-type');
     await this.saveAndContinueButton();
   }
   //enter notice length on /notice-length page
@@ -176,134 +175,135 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
       ? 'How many weeks of your notice period are you being paid for? (optional)' 
       : 'How many weeks in your notice period? (optional)';
 
-    await expect(this.page.locator('h1')).toContainText(noticePeriodText);
-    await this.page.locator('input[id=notice-length]').fill( '4');
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), noticePeriodText);
+    await this.webActions.fillField('input[id=notice-length]', '4');
     await this.saveAndContinueButton();
   }
   //select yes for did you have or work a notice period question
   async selectNoticeTypeNoLongerWorking() {
-    await expect(this.page.locator('h1')).toContainText('Was your notice period in weeks or months? (optional)');
-    await this.page.locator('input[id=notice-type]').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Was your notice period in weeks or months? (optional)');
+    await this.webActions.checkElementById('#notice-type');
     await this.saveAndContinueButton();
   }
   //enter notice length on /notice-length page
   async enterNoticePeriodLengthNoLongerWorking() {
-    await expect(this.page.locator('h1')).toContainText('How many weeks in your notice period? (optional)');
-    await this.page.locator('input[id=notice-length]').fill('4');
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'How many weeks in your notice period? (optional)');
+    await this.webActions.fillField('input[id=notice-length]', '4');
     await this.saveAndContinueButton();
   }
   //enter average weekly hours
   async enterAverageWeeklyHours() {
-    await expect(this.page.locator('h1')).toContainText('What are your average weekly hours? (optional)');
-
-    await this.page.locator('#avg-weekly-hrs').fill( '20');
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'What are your average weekly hours? (optional)');
+    await this.webActions.fillField('#avg-weekly-hrs', '20');
     await this.saveAndContinueButton();
   }
   //enter average weekly hours for no longer working
   async enterAverageWeeklyHoursNoLongerWorking() {
-    await expect(this.page.locator('h1')).toContainText('What were your average weekly hours? (optional)');
-    await this.page.locator('#avg-weekly-hrs').fill('20');
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'What were your average weekly hours? (optional)');
+    await this.webActions.fillField('#avg-weekly-hrs', '20');
     await this.saveAndContinueButton();
   }
   //enters pay on the /pay page
   async enterPay() {
-    await expect(this.page.locator('h1')).toContainText('Your pay (optional)');
-    await this.page.locator('#pay-before-tax').fill( '40000');
-    await this.page.locator('#pay-after-tax').fill('35000');
-    await this.page.locator('input[id=pay-interval]').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Your pay (optional)');
+    await this.webActions.fillField('#pay-before-tax', '40000');
+    await this.webActions.fillField('#pay-after-tax', '35000');
+    await this.webActions.checkElementById('#pay-interval');
     await this.saveAndContinueButton();
   }
   //enter Pension contribution on /pension page
   async enterPensionContribution() {
-    await expect(this.page.locator('h1')).toContainText('Did the respondent make any contributions to your pension? (optional)');
-    await this.page.locator('input[id=pension]').check();
-    await this.page.locator('#pension-contributions').fill( '200');
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Did the respondent make any contributions to your pension? (optional)');
+    await this.webActions.checkElementById('#pension');
+    await this.webActions.fillField('#pension-contributions', '200');
     await this.saveAndContinueButton();
   }
   //enter employee benefits on /benefits page
   async enterEmployeeBenefits() {
-    await expect(this.page.locator('legend')).toContainText('Do you or did you receive any employee benefits? (optional)');
-    await this.page.locator('input[id=employee-benefits]').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you or did you receive any employee benefits? (optional)');
+    await this.webActions.checkElementById('#employee-benefits');
     await this.saveAndContinueButton();
   }
   //enter employment benefir for no longer working different to flow on R1.1.2
   async enterEmployeeBenefitsForNoLongerWorking() {
-    await expect(this.page.locator('legend')).toContainText('Did you receive any employee benefits? (optional)');
-    await this.page.locator('input[id=employee-benefits]').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Did you receive any employee benefits? (optional)');
+    await this.webActions.checkElementById('#employee-benefits');
     await this.saveAndContinueButton();
   }
   //Selects yes to new job on /new-job page
   async newJob() {
-    await expect(this.page.locator('#new-job')).toBeVisible();
-    await this.page.locator('#new-job').check();
+    await this.webActions.verifyElementToBeVisible(this.page.locator('#new-job'));
+    await this.webActions.checkElementById('#new-job');
     await this.saveAndContinueButton();
   }
 
   // enter start date for new job
   async enterNewJobStartDates() {
-    await expect(this.page.locator('#new-job-start-date-day')).toBeVisible();
-    await this.page.locator('#new-job-start-date-day').fill('20');
-    await this.page.locator('#new-job-start-date-month').fill('08');
-    await this.page.locator('#new-job-start-date-year').fill('2024');
+    await this.webActions.verifyElementToBeVisible(this.page.locator('#new-job-start-date-day'));
+    await this.webActions.fillField('#new-job-start-date-day', '20');
+    await this.webActions.fillField('#new-job-start-date-month', '08');
+    await this.webActions.fillField('#new-job-start-date-year', '2024');
     await this.saveAndContinueButton();
   }
 
   // enter new job pay
   async enterNewJobPay() {
-    await expect(this.page.locator('#new-pay-before-tax')).toBeVisible();
-    await this.page.locator('#new-pay-before-tax').fill('50000');
-    await this.page.locator('#new-job-pay-interval-3').check();
+    await this.webActions.verifyElementToBeVisible(this.page.locator('#new-pay-before-tax'));
+    await this.webActions.fillField('#new-pay-before-tax', '50000');
+    await this.webActions.checkElementById('#new-job-pay-interval-3');
     await this.saveAndContinueButton();
   }
   //verify user is on respondent-name page and then enters a respondent name
   async enterRespondentName() {
-    await expect(this.page.locator('h1')).toContainText('What is the name of the respondent you\'re making the claim against?');
-    await this.page.locator('#respondentName').fill( 'Henry Marsh');
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'What is the name of the respondent you\'re making the claim against?');
+    await this.webActions.fillField('#respondentName', 'Henry Marsh');
     await this.saveAndContinueButton();
   }
   //enters address for respondent
   async enterRespondentAddress(workPostcode, selectedWorkAddress) {
-    await expect(this.page.locator('label')).toContainText('Enter a UK postcode');
-    await this.page.locator('#respondentEnterPostcode').fill( workPostcode);
+    await this.webActions.verifyElementContainsText(this.page.locator('label'), 'Enter a UK postcode');
+    await this.webActions.fillField('#respondentEnterPostcode', workPostcode);
+
     await this.saveAndContinueButton();
-    await expect(this.page.locator('h1')).toContainText('Select an address');
-    await this.page.locator('#respondentAddressTypes').selectOption(selectedWorkAddress);
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Select an address');
+    await this.webActions.selectByOptionFromDropDown('#respondentAddressTypes', selectedWorkAddress);
+
     await this.saveAndContinueButton();
-    await expect(this.page.locator('#main-content')).toContainText('This should be the same respondent address given to Acas.');
+    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'This should be the same respondent address given to Acas.');
     await this.saveAndContinueButton();
   }
   //selects yes to working at respondent address
   async selectYesToWorkingAtRespondentAddress(firstLineOfAddress) {
-    await expect(this.page.locator('h1')).toContainText('Did you work at');
-
-    await this.page.locator('#work-address').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Did you work at');
+    await this.webActions.checkElementById('#work-address');
     await this.saveAndContinueButton();
   }
   //selects no option for acas cerificate question on /acas-cer-num page
   async selectNoToAcas() {
-    await expect(this.page.locator('legend')).toContainText('Do you have an Acas certificate number for Henry Marsh?');
-    await this.page.locator('#acasCert-2').check();
-    await this.saveAndContinueButton();
-    await expect(this.page.locator('legend')).toContainText('Why do you not have an Acas number?');
-    await this.page.locator('#no-acas-reason').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you have an Acas certificate number for Henry Marsh?');
+    await this.webActions.checkElementById('#acasCert-2');
+
+    await this.saveAndContinueButton();  
+    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Why do you not have an Acas number?');                  
+    await this.webActions.checkElementById('#no-acas-reason');
     await this.saveAndContinueButton();
   }
   
   async selectYesToAcas() {
-    await expect(this.page.locator('legend')).toContainText('Do you have an Acas certificate number for');
-    await this.page.locator('#acasCert').check()
-    await this.page.locator('#acasCertNum').fill('R444444/89/74');
-  await this.saveAndContinueButton();
+    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you have an Acas certificate number for');
+    await this.webActions.checkElementById('#acasCert');
+    await this.webActions.fillField('#acasCertNum', 'R444444/89/74');
+    await this.saveAndContinueButton();
   }
   //check respondent details page
   async checkRespondentDetails() {
-    await expect(this.page.locator('h1')).toContainText('Check the respondent details');
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Check the respondent details');
     await this.saveAndContinueButton();
   }
   //confirm completed section for employment and respondent details
   async completeEmploymentAndRespondentDetails() {
-    await expect(this.page.locator('h1')).toContainText('Have you completed this section?');
-    await this.page.locator('#tasklist-check').check();
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Have you completed this section?');
+    await this.webActions.checkElementById('#tasklist-check');
     await this.saveAndContinueButton();
   }
 }
