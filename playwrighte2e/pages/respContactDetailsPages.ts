@@ -13,6 +13,7 @@ export default class RespContactDetailsPages extends BasePage{
 
     elements={
         contactDetailsLink: '[href="/respondent-name"]',
+        resonForHearing: '#respondentHearingPanelPreferenceReasonJudge'
     };
     async et3Section1() {
         await this.contactDetails();
@@ -98,6 +99,9 @@ export default class RespContactDetailsPages extends BasePage{
 
         await this.page.getByText('Yes, I can take part in video').click();
         await this.saveAndContinueButton();
+        await this.webActions.checkElementByLabel('I prefer my case to be heard by a judge');
+        await this.webActions.fillField(this.elements.resonForHearing, 'This is the reason');
+        await this.saveAndContinueButton();
         await this.webActions.clickElementByLabel('Yes');
         await this.webActions.clickElementByLabel('Tell us what support you need');
         await this.page.getByLabel('Tell us what support you need').fill('disable access');
@@ -126,7 +130,7 @@ export default class RespContactDetailsPages extends BasePage{
         await this.webActions.verifyElementContainsText(this.page.locator('dl'), 'Would you be able to take part in hearings by video and phone? (optional)');
         await this.webActions.verifyElementContainsText(this.page.locator('dl'), 'Tell us what support you need to request');
         await this.webActions.verifyElementContainsText(this.page.locator('dl'), 'How many employed at the site the claimant worked at? (optional)');
-        await this.webActions.clickElementByText('Yes, I’ve completed this'); 
+        await this.webActions.clickElementByText('Yes, I’ve completed this');
         await this.saveAndContinueButton();
     }
 
