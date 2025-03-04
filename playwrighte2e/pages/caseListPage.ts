@@ -25,7 +25,8 @@ export default class CaseListPage extends BasePage{
       causeListText :this.page.locator( '//div[@class="alert-message"]'),
       refferTableEle: this.page.locator('ccd-read-text-field'),
       expandImgIcon: 'div a img',
-      referralTab: '//div[contains(text(), "Referrals")]'
+      referralTab: '//div[contains(text(), "Referrals")]',
+      depositOrderTab: '//div[contains(text(), "Deposit Order")]'
   };
 
     async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
@@ -140,7 +141,13 @@ export default class CaseListPage extends BasePage{
         case "BF Actions": {
           await this.webActions.clickElementByRole('tab', { name: 'BF Actions', exact: true });
           break;
-      }
+       }
+       case "Deposit Order": {
+          const ele = this.page.locator(this.elements.depositOrderTab).nth(1);
+          await this.webActions.verifyElementToBeVisible(ele);
+          await ele.click();
+          break;
+       }
         default: {
           //statements;
           break;
@@ -263,5 +270,9 @@ export default class CaseListPage extends BasePage{
       await expect(this.page.getByText(dateUtilComponent.addDaysAndMonths(29))).toBeVisible();
       await this.webActions.clickElementByCss(this.elements.expandImgIcon);
       await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`));
+    }
+
+    async verifyDepositOrderDetailsOnTab(fieldLabel: string, fieldValue: string) {
+      await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../../td[normalize-space()="${fieldValue}"]`));
     }
 }
