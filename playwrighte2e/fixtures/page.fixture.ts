@@ -34,6 +34,7 @@ import DraftJudgementPage from '../pages/draftJudgementPage';
 import IssueJudgementPage from '../pages/issueJudgementPage';
 import SearchAcasPage from '../pages/searchAcasPage';
 import LettersPage from '../pages/lettersPage';
+import DepositOrderPage from '../pages/depositOrderPage';
 
 export type PageFixtures = {
 
@@ -72,6 +73,7 @@ export type PageFixtures = {
     issueJudgementPage: IssueJudgementPage;
     searchAcasPage: SearchAcasPage;
     lettersPage: LettersPage;
+    depositOrderPage: DepositOrderPage;
 }
 
 export const pageFixtures = {
@@ -214,5 +216,9 @@ export const pageFixtures = {
 
     lettersPage:async ({page}, use)=>{
         await use(new LettersPage(page));
+    },
+
+    depositOrderPage:async ({page}, use)=>{        
+        await use(new DepositOrderPage(page));
     }
 };
