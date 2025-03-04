@@ -1,7 +1,5 @@
 import { test } from '../fixtures/common.fixture';
 
-// let subRef: string;
-// let caseNumber;
 const depositOrderData = require('../data/ui-data/deposit-order-content.json');
 let formattedAmount;
 
