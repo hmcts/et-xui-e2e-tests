@@ -23,7 +23,7 @@
     "test/**/*.{js,jsx,ts,tsx}": "eslint"
   },
   "dependencies": {
-    "@axe-core/playwright": "4.10.0",
+    "@axe-core/playwright": "4.10.1",
     "@faker-js/faker": "8.4.1",
     "@noble/hashes": "^1.5.0",
     "axios": "^1.7.4",
