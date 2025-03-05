@@ -99,11 +99,27 @@ withNightlyPipeline("nodejs", product, component) {
     before('fullFunctionalTest') {
         yarnBuilder.yarn('yarn-update')
         yarnBuilder.yarn('install-dependencies')
-        runAccessibilityTestsNightly()
     }
 
 
     afterAlways('fullFunctionalTest') {
+        stage('Accessibility tests') {
+            try {
+                yarnBuilder.yarn('test:accessibility')
+            } catch (Error) {
+                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
+            } finally {
+                publishHTML([
+                    allowMissing         : true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll              : true,
+                    reportDir            : "accessibility-report",
+                    reportFiles          : 'index.html',
+                    reportName           : 'ET Accessibility Test Report'
+            ])
+            steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'accessibility-report/**'
+            }
+        }
         stage('Functional UI tests chromium') {
             try {
                 yarnBuilder.yarn('test:functional-chromium')
@@ -154,26 +170,6 @@ withNightlyPipeline("nodejs", product, component) {
                 ])
                 steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
             }
-        }
-    }
-}
-
-def runAccessibilityTestsNightly() {
-    stage('Accessibility tests') {
-        try {
-            yarnBuilder.yarn('test:accessibility')
-        } catch (Error) {
-            unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
-        } finally {
-            publishHTML([
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "accessibility-report",
-                reportFiles          : 'index.html',
-                reportName           : 'ET Accessibility Test Report'
-        ])
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'accessibility-report/**'
         }
     }
 }
