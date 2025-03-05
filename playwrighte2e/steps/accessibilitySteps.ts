@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
 import { BaseStep } from "./base";
-import axeTest from '../helper/accessibilityHelper';
+import axeTest from '../helpers/accessibilityHelper';
 
 export default class AccessibilitySteps extends BaseStep {
     readonly page: Page;
