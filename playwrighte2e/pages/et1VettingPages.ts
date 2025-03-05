@@ -24,6 +24,7 @@ export default class Et1VettingPages extends BasePage {
 
 
     async processBeforeYourStartPage() {
+      await this.webActions.waitForElementToBeVisible('text=ET1 case vetting'),
       await expect(this.page.locator('ccd-case-edit-page')).toContainText('Before you start');
       await this.clickContinue();
     }

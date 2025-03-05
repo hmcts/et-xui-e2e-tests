@@ -9,7 +9,7 @@ const referralData = require('../data/ui-data/referral-content.json');
 export default class CaseListPage extends BasePage{
   elements = {
       caseListText:'Case list',
-      caseListLink: '[href="/cases"]', 
+      caseListLink: '[href="/cases"]',
       caseTypeDropdown: '#wb-case-type',
       submissionReferenceLocator: '#feeGroupReference',
       applyButton: '//button[@class="button workbasket-filters-apply"]',
@@ -26,16 +26,17 @@ export default class CaseListPage extends BasePage{
       refferTableEle: this.page.locator('ccd-read-text-field'),
       expandImgIcon: 'div a img',
       referralTab: '//div[contains(text(), "Referrals")]',
-      depositOrderTab: '//div[contains(text(), "Deposit Order")]'
+      depositOrderTab: '//div[contains(text(), "Deposit Order")]',
+      tasksTab: '//div[contains(text(), "Tasks")]',
   };
 
     async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
       await this.page.reload();
       await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseListLink));
-      
+
       await this.webActions.clickElementByCss(this.elements.caseListLink);
       await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseTypeDropdown));
-      
+
       await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.applyButton));
       await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Case list');
       try {
@@ -128,7 +129,7 @@ export default class CaseListPage extends BasePage{
         case "Documents":{
             await this.webActions.clickElementByRole('tab', { name: 'Documents', exact: true });
             break;
-        } 
+        }
         case "Referrals":{
             await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.referralTab));
             await this.webActions.clickElementByCss(this.elements.referralTab);
@@ -148,6 +149,11 @@ export default class CaseListPage extends BasePage{
           await ele.click();
           break;
        }
+        case "Tasks":{
+            await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.tasksTab));
+            await this.webActions.clickElementByCss(this.elements.tasksTab);
+            break;
+        }
         default: {
           //statements;
           break;
@@ -193,11 +199,11 @@ export default class CaseListPage extends BasePage{
         await this.webActions.verifyElementContainsText(this.elements.causeListText, 'has been updated with event: Generate Report');
         await this.webActions.verifyElementContainsText(this.page.locator('ccd-read-complex-field-collection-table'), 'Newcastle CFCTC');
     }
-    
+
     async verifyAndClickLinkInTab(referralText: string){
 
-        const elements = await this.page.locator('markdown p a').allTextContents(); 
-        expect(elements).toContain(referralText);   
+        const elements = await this.page.locator('markdown p a').allTextContents();
+        expect(elements).toContain(referralText);
         await this.webActions.clickElementByText(referralText);
     }
 
@@ -208,7 +214,7 @@ export default class CaseListPage extends BasePage{
       let actReferredTo = await this.elements.refferTableEle.nth(3).textContent();
       let actReferredDetails = await this.elements.refferTableEle.nth(8).textContent();
 
-      
+
       expect(actStatus).toEqual(referralData.awaitingStatus);
       expect(actSubj).toEqual(referralData.subject);
       expect(actReferredTo).toEqual(referralData.expReferredTo);
@@ -222,7 +228,7 @@ export default class CaseListPage extends BasePage{
       let actReferredTo = await this.elements.refferTableEle.nth(3).textContent();
       let actReferredDetails = await this.elements.refferTableEle.nth(8).textContent();
 
-      
+
       expect(actStatus).toEqual(referralData.issuedStatus);
       expect(actSubj).toEqual(referralData.subject);
       expect(actReferredTo).toEqual(referralData.expReferredTo);
@@ -242,7 +248,7 @@ export default class CaseListPage extends BasePage{
       let actStatus =  await this.elements.refferTableEle.nth(7).textContent();
       let actCloseReason =  await this.page.locator('ccd-read-text-area-field').textContent();
 
-      
+
       expect(actStatus).toEqual(referralData.closedStatus);
       expect(actCloseReason).toEqual(referralData.closeRefNotes);
     }
