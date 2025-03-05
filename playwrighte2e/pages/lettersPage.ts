@@ -28,4 +28,17 @@ export default class LettersPage extends BasePage {
         await this.webActions.verifyElementContainsText(this.page.locator('markdown p'), letterPageData.confirmationTxt);
         await this.closeAndReturn();
     }
+
+    async generateNoHearingDateLetter() {
+
+        expect(this.page.getByText(letterPageData.headerText)).toBeVisible();
+        await this.webActions.selectByLabelFromDropDown(this.elements.part1DocsEle, letterPageData.part1DocOption);
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.part2DocsEle));
+        await this.webActions.selectByLabelFromDropDown(this.elements.part2DocsEle, letterPageData.part2DocOptionNoHearing);
+
+        await this.submitButton();
+        await this.page.waitForSelector('markdown p', { timeout: 30000 });
+        await this.webActions.verifyElementContainsText(this.page.locator('markdown p'), letterPageData.confirmationTxt);
+        await this.closeAndReturn();
+    }
 }
