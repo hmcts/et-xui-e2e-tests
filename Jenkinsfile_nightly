@@ -117,7 +117,7 @@ withNightlyPipeline("nodejs", product, component) {
                     reportFiles          : 'index.html',
                     reportName           : 'ET Accessibility Test Report'
             ])
-            steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'accessibility-report/**'
+            steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
             }
         }
         stage('Functional UI tests chromium') {
