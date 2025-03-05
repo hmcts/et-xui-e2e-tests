@@ -11,12 +11,13 @@ test.describe('Work Allocation', () => {
 
     });
 
-    test('CTSC user assign a task to itself and completes a task', async ({ page, caseListPage, createCaseStep }) => {
+    test('CTSC user assign a task to itself and completes a task', { tag: ['@wa']
+}, async ({ page, caseListPage, createCaseStep }) => {
         //user completes a task
-        await caseListPage.clickTab('Tasks');
+        await caseListPage.navigateToTab('Tasks');
         await Helpers.assignTaskToMeAndTriggerNextSteps(page, "Et1 Vetting", "ET1 Vetting");
         await createCaseStep.completeEt1VettingTask();
-    });
+    })
 
 });
 
