@@ -275,4 +275,25 @@ export default class CaseListPage extends BasePage{
     async verifyDepositOrderDetailsOnTab(fieldLabel: string, fieldValue: string) {
       await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../../td[normalize-space()="${fieldValue}"]`));
     }
+
+    async verifyET3DetailsOnRespondentTab() {
+
+      await this.webActions.clickElementByCss(this.elements.expandImgIcon);
+      const testDataMap = new Map<string, string>([
+        ['Is there an ET3 response?', 'Yes'],
+        ['Select the respondent you are processing', 'Mrs Test Auto'],
+        ['Did we receive the ET3 response in time?', 'Yes'],
+        ["Do we have the respondent's name?", 'Yes'],
+        ["Does the respondent's name match?", 'Yes'],
+        ["Do we have the respondent's address?", 'Yes'],
+        ["Does the respondent's address match?", 'Yes'],
+        ['Is the case listed for hearing?', 'No'],
+        ['Is this location correct?', 'Yes'],
+        ['Does the respondent wish to contest any part of the claim?', 'No']
+      ]);
+
+      for (let [key, value] of testDataMap) {
+        await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${key}"]/../../td[normalize-space()="${value}"]`));
+      }
+    }
 }

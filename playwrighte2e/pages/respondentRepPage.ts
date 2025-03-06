@@ -13,6 +13,18 @@ export default class RespondentRepPage extends BasePage {
     respondentRepresentativePhoneNumber: '#repCollection_0_representative_phone_number',
     respondentRepresentativeEmailAddress: '#repCollection_0_representative_email_address',
     respondentRepresentativeContactPreference: '#repCollection_0_representative_preference', // '1: Email'
+    respondentTypeInd: '#respondentCollection_0_respondentType-Individual',
+    respFirstName: '#respondentCollection_0_respondentFirstName',
+    respLastName: '#respondentCollection_0_respondentLastName',
+    respReceivedYes: '#respondentCollection_0_responseReceived_Yes',
+    respFullName: '#respondentCollection_0_responseRespondentName',
+    respStatusDropDown: '#respondentCollection_0_response_status',
+    respClaimYes: '#respondentCollection_0_responseToClaim_Yes',
+    respReceivedDay: '#responseReceivedDate-day',
+    respReceivedMonth: '#responseReceivedDate-month',
+    respReceivedYear: '#responseReceivedDate-year',
+    respPostCode: '#respondentCollection_0_responseRespondentAddress_responseRespondentAddress_postcodeInput',
+    respAddressDropDown: '#respondentCollection_0_responseRespondentAddress_responseRespondentAddress_addressList'
     //*[@id="mat-tab-label-0-5"]
   }
     async addRespondentRepresentative(regOption, orgName) {
@@ -42,5 +54,27 @@ export default class RespondentRepPage extends BasePage {
       } catch (e) {
         console.error('invalid option', e.message);
       }
+    }
+
+    async enterRespType() {
+
+      await this.webActions.clickElementByCss(this.elements.respondentTypeInd);
+      await this.webActions.fillField(this.elements.respFirstName, 'Mark');
+      await this.webActions.fillField(this.elements.respLastName, 'Gill');
+      await this.webActions.clickElementByCss(this.elements.respReceivedYes);
+      await this.webActions.fillField(this.elements.respFullName, 'Mark Gill');
+      await this.webActions.selectByLabelFromDropDown(this.elements.respStatusDropDown, 'Accepted');
+      await this.webActions.clickElementByCss(this.elements.respClaimYes);
+
+      await this.webActions.fillField(this.elements.respReceivedDay, '01');
+      await this.webActions.fillField(this.elements.respReceivedMonth, '03');
+      await this.webActions.fillField(this.elements.respReceivedYear, '2025');
+
+      await this.webActions.fillField(this.elements.respPostCode, 'EX1 3DD');
+      await this.webActions.clickElementByCss('#respondentCollection_0_responseRespondentAddress_responseRespondentAddress_postcodeLookup button');
+      await this.delay(2000);
+      await this.webActions.selectByLabelFromDropDown(this.elements.respAddressDropDown, '68 East Wonford Hill, Exeter');
+      await this.delay(2000);
+      await this.submitButton();
     }
 }
