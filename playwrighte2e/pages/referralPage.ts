@@ -45,11 +45,11 @@ export default class ReferralPage extends BasePage {
         await this.clickContinue();
 
         await expect(this.page.locator("//tr/td[contains(text(), 'Judge')]")).toBeVisible();
-        await expect(this.page.locator("//tr/td[contains(text(), 'ET Caseworker5')]")).toBeVisible();
+        await expect(this.page.locator("//tr/td[contains(text(), 'et caseworker5')]")).toBeVisible();
         await this.webActions.clickElementByCss(this.elements.adminDirectionOption);
         await this.webActions.clickElementByCss(this.elements.isUrgentReplyYes);
         await this.webActions.fillField(this.elements.directionSubjEle, referralData.directionDetails);
-        
+
         await this.addNewButtonClick();
         await this.page.waitForSelector(this.elements.replyDocUploadEle);
         await this.page.setInputFiles(this.elements.replyDocUploadEle,'test/data/test.txt');
