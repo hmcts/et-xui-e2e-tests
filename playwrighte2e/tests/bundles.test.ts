@@ -35,7 +35,7 @@ test.describe('England - Claimant Bundles test', () => {
 
     test.beforeEach(async ({ page, createCaseStep}) => {
 
-        ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true));
+        ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
     });
 
     test('Bundles - Claimant Submitting hearing preparation document - England',

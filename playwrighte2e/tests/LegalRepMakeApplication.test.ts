@@ -8,7 +8,7 @@ let caseNumber;
 test.describe('Make an application and view Recorded Decision', () => {
 
     test.beforeEach(async ({ page,createCaseStep }) => {
-       ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true));
+       ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
     });
 
     test('Legal representatives make and application - England', async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
