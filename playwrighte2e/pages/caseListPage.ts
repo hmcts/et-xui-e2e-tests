@@ -26,7 +26,10 @@ export default class CaseListPage extends BasePage{
       refferTableEle: this.page.locator('ccd-read-text-field'),
       expandImgIcon: 'div a img',
       referralTab: '//div[contains(text(), "Referrals")]',
-      depositOrderTab: '//div[contains(text(), "Deposit Order")]'
+      depositOrderTab: '//div[contains(text(), "Deposit Order")]',
+      caseListTab: '//a[contains(text(), "Case list")]',
+      allWorkTab: '//a[contains(text(), "All work")]',
+      myWorkTab: '//a[contains(text(), "My work")]'
   };
 
     async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
@@ -141,6 +144,18 @@ export default class CaseListPage extends BasePage{
         case "BF Actions": {
           await this.webActions.clickElementByRole('tab', { name: 'BF Actions', exact: true });
           break;
+       }
+       case "Case list": {
+        await this.webActions.clickElementByCss(this.elements.caseListTab);
+        break;
+       }
+       case "All work": {
+        await this.webActions.clickElementByCss(this.elements.allWorkTab);
+        break;
+       }
+       case "My work": {
+        await this.webActions.clickElementByCss(this.elements.myWorkTab);
+        break;
        }
        case "Deposit Order": {
           const ele = this.page.locator(this.elements.depositOrderTab).nth(1);

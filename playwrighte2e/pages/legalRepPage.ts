@@ -1,8 +1,10 @@
 import { BasePage } from './basePage';
 import { params } from "../utils/config";
-import { expect } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
+import axeTest from '../helper/accessibilityHelper';
 
 export class LegalRepPage extends BasePage {
+
 
     applyButtonOnLegalRep = '.workbasket-filters-apply';
     manageCasesLinkLegalRep = '[aria-label="Manage Cases"]';
@@ -132,18 +134,21 @@ export class LegalRepPage extends BasePage {
         await this.webActions.clickElementByCss(this.applyButton);
     }
 
-    async processNOC(option: string, submissionReference: string, respondentName: string, ClaimantFirstName: string, ClaimantLastName: string) {
+    async processNOC(option: string, submissionReference: string, respondentName: string, ClaimantFirstName: string, ClaimantLastName: string, accessibilityEnabled?: boolean) {
         await this.loadExistingApplications(option);
         await this.page.reload();
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 25000);
 
+        if(accessibilityEnabled) axeTest(this.page);
         await this.webActions.clickElementByCss(this.nocLinkLegalRep);
         await this.page.waitForTimeout(10000);
 
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseidFilfield), 10000);
+        if(accessibilityEnabled) axeTest(this.page);
         await this.webActions.fillField(this.caseidFilfield, submissionReference);
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.fieldSetLegalRep), 10000);
+        if(accessibilityEnabled) axeTest(this.page);
         await this.webActions.fillField(this.respondentDetailsLegalRep, respondentName);
         await this.webActions.fillField(this.claimantFirstNamelegalRep, ClaimantFirstName);
         await this.webActions.fillField(this.claimantLastNamelegalRep, ClaimantLastName);
@@ -159,6 +164,7 @@ export class LegalRepPage extends BasePage {
         await this.page.waitForTimeout(2000);
         await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
         
+        if(accessibilityEnabled) axeTest(this.page);
         await this.webActions.clickElementByCss(this.submitButtonLegalRep);
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.successfulMessageHeader), 20000);
 
@@ -446,30 +452,57 @@ async grantAccessToMultiples(caseNumber: string) {
     await this.page.click(this.continueLegalRepButton);
 }
 
-    async legalRepMakeAnApplication() {
+    async legalRepMakeAnApplication(accessibilityEnabled?: boolean) {
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.applicationTab), 20000);
         await this.webActions.clickElementByCss(this.applicationTab);
-
+        await this.page.waitForTimeout(5000);
+        
         await this.page.waitForSelector(this.makeAnApplicationLink);
+        if(accessibilityEnabled)  {
+            axeTest(this.page);
+            await this.delay(3000);
+        }
         await this.webActions.clickElementByCss(this.makeAnApplicationLink);
+        await this.page.waitForTimeout(10000);
+
         await this.webActions.selectByOptionFromDropDown(this.applicationTypeDropDown, '1: Amend response');
+        if(accessibilityEnabled)  {
+            axeTest(this.page);
+            await this.delay(3000);
+        }
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.uploadDocumentContactTribunal), 30000);
-
         await this.page.setInputFiles(this.uploadDocumentContactTribunal, 'test/data/welshTest.pdf');
-        await this.page.waitForTimeout(3000);
+        await this.page.waitForTimeout(10000);
         await this.webActions.fillField(this.textArea, 'Make an application text');
+        /* (Got accessibility error) 
+        if(accessibilityEnabled)  {
+             axeTest(this.page);
+             await this.delay(3000);
+        } */
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
         await this.page.waitForSelector(this.YesCorrespondenceRadioOption);
         await this.webActions.checkElementById(this.YesCorrespondenceRadioOption);
+        if(accessibilityEnabled)  {
+            axeTest(this.page);
+            await this.delay(3000);
+        }
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
         await this.page.waitForSelector(this.checkYourAnswerHeading);
+        if(accessibilityEnabled)  {
+            axeTest(this.page);
+            await this.delay(3000);
+        }
         await this.webActions.clickElementByCss(this.submitButtonLegalRep);
 
         await this.page.waitForSelector(this.closeAndReturnButton);
+        if(accessibilityEnabled)  {
+            axeTest(this.page);
+            await this.delay(3000);
+        }
         await this.page.click(this.closeAndReturnButton);
 
     }
