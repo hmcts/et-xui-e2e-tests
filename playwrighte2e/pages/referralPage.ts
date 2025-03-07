@@ -49,7 +49,7 @@ export default class ReferralPage extends BasePage {
         await this.webActions.clickElementByCss(this.elements.adminDirectionOption);
         await this.webActions.clickElementByCss(this.elements.isUrgentReplyYes);
         await this.webActions.fillField(this.elements.directionSubjEle, referralData.directionDetails);
-        
+
         await this.addNewButtonClick();
         await this.page.waitForSelector(this.elements.replyDocUploadEle);
         await this.page.setInputFiles(this.elements.replyDocUploadEle,'test/data/test.txt');
