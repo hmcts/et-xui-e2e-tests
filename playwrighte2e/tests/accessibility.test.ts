@@ -8,7 +8,7 @@ test.describe('Accessibility test', () => {
 
     test.beforeEach(async ({ page, createCaseStep }) => {
         
-        ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, false, true));
+        ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, true));
     });
 
     test('Scan exui pages', {tag: '@accessibility'}, async ({ page, accessibilitySteps, et1CaseServingPage }) => {
