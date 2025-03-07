@@ -8,7 +8,7 @@ let caseNumber;
 test.describe('Make an application and view Recorded Decision', () => {
 
     test.beforeEach(async ({ page,createCaseStep }) => {
-       ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page));
+       ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
     });
 
     test('Legal representatives make and application - England', async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
@@ -20,7 +20,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
 
         //legal rep make an application
-         await legalRepPage.legalRepMakeAnApplication();
+        await legalRepPage.legalRepMakeAnApplication();
         await page.click('text=Sign out');
 
        // Claimant Reply to Application from Legal Rep
