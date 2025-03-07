@@ -35,7 +35,7 @@ export default class createAndAcceptCase extends BaseStep {
         return {subRef, caseNumber};
     }
 
-    async setupCUICaseCreatedViaApi(page, accessibilityEnabled?: boolean) {
+    async setupCUICaseCreatedViaApi(page, flag?:boolean, accessibilityEnabled?: boolean) {
         
         submissionRef = await this.createCaseThroughApi.processCuiCaseToAcceptedState();
         subRef = submissionRef.toString();

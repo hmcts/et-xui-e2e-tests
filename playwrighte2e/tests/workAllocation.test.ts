@@ -7,7 +7,7 @@ let subRef;
 test.describe('Work Allocation', () => {
     test.beforeEach(async ({ page, createCaseStep }) => {
 
-        ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, false));
+        ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, false, false));
 
     });
 
