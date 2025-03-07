@@ -20,7 +20,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
 
         //legal rep make an application
-         await legalRepPage.legalRepMakeAnApplication();
+        await legalRepPage.legalRepMakeAnApplication();
         await page.click('text=Sign out');
 
        // Claimant Reply to Application from Legal Rep
