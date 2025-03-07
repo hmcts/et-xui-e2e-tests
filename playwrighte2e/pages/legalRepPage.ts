@@ -1,7 +1,7 @@
 import { BasePage } from './basePage';
 import { params } from "../utils/config";
 import { expect, Page } from '@playwright/test';
-import axeTest from '../helper/accessibilityHelper';
+import axeTest from '../helpers/accessibilityHelper';
 
 export class LegalRepPage extends BasePage {
 

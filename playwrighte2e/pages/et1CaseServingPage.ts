@@ -1,6 +1,6 @@
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
-import axeTest from "../helper/accessibilityHelper";
+import axeTest from "../helpers/accessibilityHelper";
 const today = new Date();
 
 export default class Et1CaseServingPage extends BasePage {

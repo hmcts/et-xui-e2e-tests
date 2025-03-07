@@ -1,4 +1,4 @@
-import axeTest from "../helper/accessibilityHelper";
+import axeTest from "../helpers/accessibilityHelper";
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
 const Continue = 'Continue';
