@@ -12,7 +12,7 @@ properties([
                 // string(name: 'ET_CASE_API_URL', defaultValue: 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/initiate-case/', description: 'The Url for creating draft cases'),
                 // string(name: 'ET_SUBMIT_DRAFT_CASE_URL', defaultValue: 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/submit-case/', description: 'The Endpoint for submitting a darft case'),
 
-            string(name: 'ENVIRONMENT', defaultValue: 'demo', description: 'Environment to test'),
+            choice(name: 'ENVIRONMENT', choices: ['aat', 'demo'], description: 'Environment to test'),
             choice(name: 'ET_SYA_URL_TO_TEST', choices: ['https://et-sya.aat.platform.hmcts.net/', 'https://et-sya.demo.platform.hmcts.net/'], description: 'The URL you want to run these tests against'),
             choice(name: 'ET_SYR_URL_TO_TEST', choices: ['https://et-syr.aat.platform.hmcts.net/', 'https://et-syr.demo.platform.hmcts.net/'], description: 'The URL you want to run these tests against'),
             choice(name: 'IDAM_URL', choices: ['https://idam-api.aat.platform.hmcts.net/testing-support/accounts', 'https://idam-api.demo.platform.hmcts.net/testing-support/accounts'], description: 'Idam url'),
@@ -113,6 +113,8 @@ withNightlyPipeline("nodejs", product, component) {
     afterAlways('fullFunctionalTest') {
          stage('Accessibility tests') {
             try {
+                echo "The selected environment is: ${params.ENVIRONMENT}"
+                echo "The assigned environment is: ${env.RUNNING_ENV}"
                 yarnBuilder.yarn('test:accessibility')
             } catch (Error) {
                 unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
