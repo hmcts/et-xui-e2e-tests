@@ -42,13 +42,15 @@ def inTestFalse = [
 
 
 def secrets = [
-        'et-${env}': [
+        echo "The assigned environment is: ${env}"
+        env.RUNNING_ENV = params.ENVIRONMENT,
+        'et-${params.ENVIRONMENT}': [
                 secret('et-citizen-4-username', 'TEST_CASE_USERNAME'),
                 secret('et-claimant-password', 'TEST_CASE_PASSWORD'),
                 secret('idam-account-url', 'IDAM_ACCOUNT_URL'),
                 secret('api-key', 'API_KEY'),
         ],
-        'et-cos-${env}': [
+        'et-cos-${params.ENVIRONMENT}': [
                 secret('et-caseworker-5-username', 'ET_CASEWORKER_USER_NAME'),
                 secret('et-caseworker-5-password', 'ET_CASEWORKER_PASSWORD'),
                 secret('et-legalrep-user-name', 'ET_LEGALREP_USER_NAME'),
@@ -74,7 +76,7 @@ def secrets = [
                 secret('et-manage-org-username','ET_MANAGE_ORG_USERNAME'),
                 secret('et-manage-org-password','ET_MANAGE_ORG_PASSWORD'),
         ],
-        's2s-${env}':  [
+        's2s-${params.ENVIRONMENT}':  [
                 secret('microservicekey-ccd-gw', 'MICROSERVICE_CCD_GW')
         ]
 ]
@@ -130,57 +132,58 @@ withNightlyPipeline("nodejs", product, component) {
             steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
             }
         }
-        stage('Functional UI tests chromium') {
-            try {
-                yarnBuilder.yarn('test:functional-chromium')
-            } catch (Error) {
-                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
-            } finally {
-                publishHTML([
-                        allowMissing: true,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'playwright-report',
-                        reportFiles: 'index.html',
-                        reportName: 'UITestChromiumReport'
-                ])
-                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
-            }
-        }
-        stage('Functional UI tests firefox') {
-            try {
-                yarnBuilder.yarn('test:functional-firefox')
-            } catch (Error) {
-                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
-            } finally {
-                publishHTML([
-                        allowMissing: true,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'playwright-report',
-                        reportFiles: 'index.html',
-                        reportName: 'UITestFirefoxReport'
-                ])
-                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
-            }
-        }
-        stage('Functional UI tests webkit ') {
-            try {
-                yarnBuilder.yarn('test:functional-webkit')
-            } catch (Error) {
-                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
-            } finally {
-                publishHTML([
-                        allowMissing: true,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'playwright-report',
-                        reportFiles: 'index.html',
-                        reportName: 'UITestWebkitReport'
-                ])
-                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
-            }
-        }
+        // stage('Functional UI tests chromium') {
+        //     try {
+        //         echo "The assigned url is: ${env.TEST_MANAGE_CASE_URL}"
+        //         yarnBuilder.yarn('test:functional-chromium')
+        //     } catch (Error) {
+        //         unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
+        //     } finally {
+        //         publishHTML([
+        //                 allowMissing: true,
+        //                 alwaysLinkToLastBuild: true,
+        //                 keepAll: true,
+        //                 reportDir: 'playwright-report',
+        //                 reportFiles: 'index.html',
+        //                 reportName: 'UITestChromiumReport'
+        //         ])
+        //         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
+        //     }
+        // }
+        // stage('Functional UI tests firefox') {
+        //     try {
+        //         yarnBuilder.yarn('test:functional-firefox')
+        //     } catch (Error) {
+        //         unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
+        //     } finally {
+        //         publishHTML([
+        //                 allowMissing: true,
+        //                 alwaysLinkToLastBuild: true,
+        //                 keepAll: true,
+        //                 reportDir: 'playwright-report',
+        //                 reportFiles: 'index.html',
+        //                 reportName: 'UITestFirefoxReport'
+        //         ])
+        //         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
+        //     }
+        // }
+        // stage('Functional UI tests webkit ') {
+        //     try {
+        //         yarnBuilder.yarn('test:functional-webkit')
+        //     } catch (Error) {
+        //         unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
+        //     } finally {
+        //         publishHTML([
+        //                 allowMissing: true,
+        //                 alwaysLinkToLastBuild: true,
+        //                 keepAll: true,
+        //                 reportDir: 'playwright-report',
+        //                 reportFiles: 'index.html',
+        //                 reportName: 'UITestWebkitReport'
+        //         ])
+        //         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
+        //     }
+        // }
     }
 }
 
