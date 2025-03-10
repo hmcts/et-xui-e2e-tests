@@ -35,7 +35,8 @@ export const params = {
     TestEnvETRespondentEmailAddress:process.env.ET_REPSONDENT_USER_NAME||'',
     TestEnvETRespondentPassword:process.env.ET_REPSONDENT_PASSWORD||'',
     TestEnvETManageOrgSuperUserName:process.env.ET_MANAGE_ORG_USERNAME || '',
-    TestEnvETManageOrgSuperPassword:process.env.ET_MANAGE_ORG_PASSWORD || ''
-
+    TestEnvETManageOrgSuperPassword:process.env.ET_MANAGE_ORG_PASSWORD || '',
+    TestEnvETJudgeUserWorkAllocation:process.env.ET_JUDGE_USER_NAME_WORKALLOCATION || '',
+    TestEnvETJudgeUserPasswordWorkAllocation:process.env.ET_JUDGE_USER_PASSWORD_WORKALLOCATION || ''
 };
 
