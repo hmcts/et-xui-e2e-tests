@@ -1,12 +1,12 @@
 
 export const params = {
 
-    TestUrlCitizenUi:process.env.TEST_URL||'https://et-sya.aat.platform.hmcts.net',
-    TestUrlRespondentUi:process.env.TEST_RESP_URL||'https://et-syr.aat.platform.hmcts.net',
-    TestUrlForManageCaseAAT:process.env.TEST_MANAGE_CASE_URL||'https://manage-case.aat.platform.hmcts.net',
-    TestUrlForManageOrg:process.env.MANAGE_ORG_URL||'https://manage-org.aat.platform.hmcts.net',
-    TestIdamUrl:process.env.IDAM_URL||'https://idam-api.aat.platform.hmcts.net/testing-support/accounts',
-    IdamAcccountUrl:process.env.IDAM_ACCOUNT_URL||'https://idam-api.aat.platform.hmcts.net/testing-support/accounts',
+    TestUrlCitizenUi:process.env.TEST_URL||'',
+    TestUrlRespondentUi:process.env.TEST_RESP_URL||'',
+    TestUrlForManageCaseAAT:process.env.TEST_MANAGE_CASE_URL||'',
+    TestUrlForManageOrg:process.env.MANAGE_ORG_URL||'',
+    TestIdamUrl:process.env.IDAM_URL||'',
+    IdamAcccountUrl:process.env.IDAM_ACCOUNT_URL||'',
     TestShowBrowserWindow:process.env.SHOW_BROWSER_WINDOW||false,
     TestsPathToRun:process.env.E2E_TEST_PATH||'./**/*.js',
     TestReportFolder:process.env.E2E_OUTPUT_DIR||'./functional-output/reports',
