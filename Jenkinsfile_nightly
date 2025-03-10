@@ -12,7 +12,7 @@ properties([
                 // string(name: 'ET_CASE_API_URL', defaultValue: 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/initiate-case/', description: 'The Url for creating draft cases'),
                 // string(name: 'ET_SUBMIT_DRAFT_CASE_URL', defaultValue: 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/submit-case/', description: 'The Endpoint for submitting a darft case'),
 
-            // string(name: 'env', defaultValue: 'demo', description: 'env var for pipeline to get secrets  from vault to test'),
+            string(name: 'env', defaultValue: 'demo', description: 'env var for pipeline to get secrets  from vault to test'),
             choice(name: 'ENVIRONMENT', choices: ['aat', 'demo'], description: 'Environment to test'),
             choice(name: 'ET_SYA_URL_TO_TEST', choices: ['https://et-sya.aat.platform.hmcts.net/', 'https://et-sya.demo.platform.hmcts.net/'], description: 'The URL you want to run these tests against'),
             choice(name: 'ET_SYR_URL_TO_TEST', choices: ['https://et-syr.aat.platform.hmcts.net/', 'https://et-syr.demo.platform.hmcts.net/'], description: 'The URL you want to run these tests against'),
@@ -30,26 +30,26 @@ def product = "et"
 def component = "frontend"
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 def inTestTrue = [
-        'et-${ENVIRONMENT}': [
+        'et-${env}': [
                 secret('true', 'IN_TEST')
         ]
 ]
 
 def inTestFalse = [
-        'et-${ENVIRONMENT}': [
+        'et-${env}': [
                 secret('', 'IN_TEST')
         ]
 ]
 
 
 def secrets = [
-        'et-${ENVIRONMENT}': [
+        'et-${env}': [
                 secret('et-citizen-4-username', 'TEST_CASE_USERNAME'),
                 secret('et-claimant-password', 'TEST_CASE_PASSWORD'),
                 secret('idam-account-url', 'IDAM_ACCOUNT_URL'),
                 secret('api-key', 'API_KEY'),
         ],
-        'et-cos-${ENVIRONMENT}': [
+        'et-cos-${env}': [
                 secret('et-caseworker-5-username', 'ET_CASEWORKER_USER_NAME'),
                 secret('et-caseworker-5-password', 'ET_CASEWORKER_PASSWORD'),
                 secret('et-legalrep-user-name', 'ET_LEGALREP_USER_NAME'),
@@ -75,7 +75,7 @@ def secrets = [
                 secret('et-manage-org-username','ET_MANAGE_ORG_USERNAME'),
                 secret('et-manage-org-password','ET_MANAGE_ORG_PASSWORD'),
         ],
-        's2s-${ENVIRONMENT}':  [
+        's2s-${env}':  [
                 secret('microservicekey-ccd-gw', 'MICROSERVICE_CCD_GW')
         ]
 ]
@@ -103,7 +103,7 @@ withNightlyPipeline("nodejs", product, component) {
     env.IDAM_URL = params.IDAM_URL
     env.TEST_MANAGE_CASE_URL = params.CCD_CALLBACK_URL
     env.ET_CASE_API_URL = params.ET_CASE_API_URL
-    env.RUNNING_ENV = params.ENVIRONMENT
+    env.RUNNING_ENV = params.env
 
     before('fullFunctionalTest') {
         yarnBuilder.yarn('yarn-update')
@@ -114,7 +114,7 @@ withNightlyPipeline("nodejs", product, component) {
     afterAlways('fullFunctionalTest') {
          stage('Accessibility tests') {
             try {
-                echo "The selected environment is: ${params.ENVIRONMENT}"
+                echo "The selected environment is: ${params.env}"
                 echo "The assigned environment is: ${env.RUNNING_ENV}"
                 yarnBuilder.yarn('test:accessibility')
             } catch (Error) {
