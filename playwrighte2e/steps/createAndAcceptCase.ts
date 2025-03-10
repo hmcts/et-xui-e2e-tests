@@ -19,7 +19,7 @@ export default class createAndAcceptCase extends BaseStep {
 
         submissionRef = await this.createCaseThroughApi.processCaseToAcceptedState(region, caseType);
         subRef = submissionRef.toString();
-        
+
         await page.goto(params.TestUrlForManageCaseAAT);
         await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
         const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
@@ -35,29 +35,30 @@ export default class createAndAcceptCase extends BaseStep {
         return {subRef, caseNumber};
     }
 
-    async setupCUICaseCreatedViaApi(page) {
+    async setupCUICaseCreatedViaApi(page, flag?:boolean, accessibilityEnabled?: boolean) {
         
         submissionRef = await this.createCaseThroughApi.processCuiCaseToAcceptedState();
         subRef = submissionRef.toString();
-        
+
         await page.goto(params.TestUrlForManageCaseAAT);
         await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
         await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
         caseNumber = await this.caseListPage.processCaseFromCaseList();
-        
-        // Case vetting
-        await this.caseListPage.selectNextEvent('ET1 case vetting');
-        await this.et1VettingPage.processET1CaseVettingPages();
-        
-        // Accept case
-        await this.caseListPage.selectNextEvent('Accept/Reject Case');
-        await this.et1CaseServingPage.processET1CaseServingPages();
 
+        if (flag) {
+            // Case vetting
+            await this.caseListPage.selectNextEvent('ET1 case vetting');
+            await this.et1VettingPage.processET1CaseVettingPages(accessibilityEnabled);
+
+            // Accept case
+            await this.caseListPage.selectNextEvent('Accept/Reject Case');
+            await this.et1CaseServingPage.processET1CaseServingPages(accessibilityEnabled);
+        }
         return {subRef, caseNumber};
     }
 
     async createCaseViaCUI(page, region, loginMethod: (page) => Promise<void>, employmentJourneyMethod?: (page) => Promise<void>) {
-    
+
       await page.goto(params.TestUrlCitizenUi);
       await this.citizenUiPage.processPreLoginPagesForTheDraftApplication(region);
       await loginMethod(this.loginPage);
@@ -68,41 +69,41 @@ export default class createAndAcceptCase extends BaseStep {
       await this.claimDetailsPage.processClaimDetails();
       const submissionReference = await this.submitClaimPage.submitClaim();
       await this.submitClaimPage.signoutButton();
-    
+
       return submissionReference;
     }
 
     async setupCaseCreatedViaCUI(page, region, submissionReference, loginCredentials) {
-    
+
       await page.goto(params.TestUrlForManageCaseAAT);
       await this.loginPage.processLogin(loginCredentials.user, loginCredentials.password);
       const searchReference = region === 'EnglandWales' ? 'Eng/Wales - Singles' : `${region} - Singles`;
       await this.caseListPage.searchCaseApplicationWithSubmissionReference(searchReference, submissionReference);
       const caseNumber = await this.caseListPage.processCaseFromCaseList();
       await this.caseListPage.verifyCaseDetailsPage(true);
-    
+
       await this.caseListPage.selectNextEvent('ET1 case vetting');
       await this.et1VettingPage.processET1CaseVettingPages();
       await this.caseListPage.verifyCaseDetailsPage(false);
       await this.caseListPage.selectNextEvent('Accept/Reject Case');
       await this.et1CaseServingPage.processET1CaseServingPages();
-    
+
       return caseNumber;
     }
 
     async setUpLegalRepCase(page) {
-      
+
       await page.goto(params.TestUrlForManageCaseAAT);
       await this.loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
       await this.caseListPage.claimantRepCreateCase('Employment', 'Eng/Wales - Singles', 'LS1 2AJ');
-      
+
       await this.et1CreateDraftClaim.et1Section1(userDetailsData.claimantsFirstName, userDetailsData.claimantsLastName);
       await this.et1CreateDraftClaim.et1Section2(userDetailsData.respondentsFirstName, userDetailsData.respondentsLastName);
       await this.et1CreateDraftClaim.et1Section3();
       let submissionReference = await this.et1CreateDraftClaim.et1SubmitClaim();
       console.log('The value of the Case Number ' + submissionReference);
       await this.caseListPage.signoutButton();
-      
+
       //vet the case
       await page.goto(params.TestUrlForManageCaseAAT);
       await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
@@ -110,11 +111,15 @@ export default class createAndAcceptCase extends BaseStep {
       let caseNumber = await this.caseListPage.processCaseFromCaseList();
       await this.caseListPage.selectNextEvent('ET1 case vetting');
       await this.et1VettingPage.processET1CaseVettingPages();
-      
+
       //Accept case
       await this.caseListPage.selectNextEvent('Accept/Reject Case');
       await this.et1CaseServingPage.processET1CaseServingPages();
 
       return submissionReference;
+    }
+
+    async completeEt1VettingTask(){
+        await this.et1VettingPage.processET1CaseVettingPages();
     }
 }
