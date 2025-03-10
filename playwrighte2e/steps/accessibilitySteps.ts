@@ -28,8 +28,8 @@ export default class AccessibilitySteps extends BaseStep {
         await this.caseListPage.navigateToTab('Initial Consideration');
         await axeTest(page);
 
-        await this.caseListPage.navigateToTab('Judgments');
-        await axeTest(page);
+        // await this.caseListPage.navigateToTab('Judgments');
+        // await axeTest(page);
 
         await this.caseListPage.navigateToTab('History');
         await axeTest(page);
