@@ -64,13 +64,13 @@ def secrets = [
                 // secret('et-hearing-admin-user-name-scot', 'ET_HEARING_ADMIN_USER_NAME_SCOT'),
                 secret('et-citizen-user-name', 'ET_CITIZEN_USER_NAME'),
                 secret('et-citizen-password', 'ET_CITIZEN_PASSWORD'),
-                // secret('et-ccd-api-user-name','ET_CCD_API_USER_NAME'),
+                // secret('et-ccd-api-user-name','ET_CCD_API_USER_NAME'), //et.api.1@hmcts.net
                 // secret('et-ccd-api-password','ET_CCD_API_PASSWORD'),
                 secret('et-judge-user-name-eng','ET_JUDGE_USER_NAME_ENG'),
                 secret('et-judge-user-eng-password','ET_JUDGE_USER_ENG_PASSWORD'),
                 secret('et3-resp-user-name','ET3_REPSONDENT_USER_NAME'),
                 secret('et3-resp-password','ET3_REPSONDENT_PASSWORD'),
-                // secret('et-resp-user-name','ET_REPSONDENT_USER_NAME'),
+                // secret('et-resp-user-name','ET_REPSONDENT_USER_NAME'), //et.citizen2@hmcts.net
                 // secret('et-resp-password','ET_REPSONDENT_PASSWORD'),
                 secret('et-manage-org-username','ET_MANAGE_ORG_USERNAME'),
                 secret('et-manage-org-password','ET_MANAGE_ORG_PASSWORD'),
@@ -137,24 +137,24 @@ withNightlyPipeline("nodejs", product, component) {
             steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
             }
         }
-        // stage('Functional UI tests chromium') {
-        //     try {
-        //         echo "The assigned url is: ${env.TEST_MANAGE_CASE_URL}"
-        //         yarnBuilder.yarn('test:functional-chromium')
-        //     } catch (Error) {
-        //         unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
-        //     } finally {
-        //         publishHTML([
-        //                 allowMissing: true,
-        //                 alwaysLinkToLastBuild: true,
-        //                 keepAll: true,
-        //                 reportDir: 'playwright-report',
-        //                 reportFiles: 'index.html',
-        //                 reportName: 'UITestChromiumReport'
-        //         ])
-        //         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
-        //     }
-        // }
+        stage('Functional UI tests chromium') {
+            try {
+                echo "The assigned url is: ${env.TEST_MANAGE_CASE_URL}"
+                yarnBuilder.yarn('test:functional-chromium')
+            } catch (Error) {
+                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
+            } finally {
+                publishHTML([
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'playwright-report',
+                        reportFiles: 'index.html',
+                        reportName: 'UITestChromiumReport'
+                ])
+                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
+            }
+        }
         // stage('Functional UI tests firefox') {
         //     try {
         //         yarnBuilder.yarn('test:functional-firefox')
