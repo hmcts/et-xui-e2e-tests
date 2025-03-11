@@ -131,12 +131,16 @@ withNightlyPipeline("nodejs", product, component) {
     // triggers {
     //     cron(env.BRANCH_NAME == 'master' ? 'H 8 * * 1-5' : '')
     // }
+    env.TEST_URL = params.ET_SYA_URL_TO_TEST
+    env.IDAM_URL = params.IDAM_URL
+    env.TEST_MANAGE_CASE_URL = params.CCD_CALLBACK_URL
+    env.ET_CASE_API_URL = params.ET_CASE_API_URL
+    env.RUNNING_ENV = params.ENVIRONMENT
+
     if(params.ENVIRONMENT == 'aat') {
         loadVaultSecrets(secretsAAT)
-    } else if(params.ENVIRONMENT == 'demo') {
-        loadVaultSecrets(secretsDemo)
     } else {
-        echo "Invalid environment"
+        loadVaultSecrets(secretsDemo)
     }
     // loadVaultSecrets(secrets)
     enableFullFunctionalTest(int timeout=300)
@@ -144,11 +148,7 @@ withNightlyPipeline("nodejs", product, component) {
     //enableFortifyScan()
     //enableSecurityScan()
 
-    env.TEST_URL = params.ET_SYA_URL_TO_TEST
-    env.IDAM_URL = params.IDAM_URL
-    env.TEST_MANAGE_CASE_URL = params.CCD_CALLBACK_URL
-    env.ET_CASE_API_URL = params.ET_CASE_API_URL
-    env.RUNNING_ENV = params.ENVIRONMENT
+   
 
     before('fullFunctionalTest') {
         yarnBuilder.yarn('yarn-update')
