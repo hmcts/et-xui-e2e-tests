@@ -155,40 +155,40 @@ withNightlyPipeline("nodejs", product, component) {
                 steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
             }
         }
-        // stage('Functional UI tests firefox') {
-        //     try {
-        //         yarnBuilder.yarn('test:functional-firefox')
-        //     } catch (Error) {
-        //         unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
-        //     } finally {
-        //         publishHTML([
-        //                 allowMissing: true,
-        //                 alwaysLinkToLastBuild: true,
-        //                 keepAll: true,
-        //                 reportDir: 'playwright-report',
-        //                 reportFiles: 'index.html',
-        //                 reportName: 'UITestFirefoxReport'
-        //         ])
-        //         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
-        //     }
-        // }
-        // stage('Functional UI tests webkit ') {
-        //     try {
-        //         yarnBuilder.yarn('test:functional-webkit')
-        //     } catch (Error) {
-        //         unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
-        //     } finally {
-        //         publishHTML([
-        //                 allowMissing: true,
-        //                 alwaysLinkToLastBuild: true,
-        //                 keepAll: true,
-        //                 reportDir: 'playwright-report',
-        //                 reportFiles: 'index.html',
-        //                 reportName: 'UITestWebkitReport'
-        //         ])
-        //         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
-        //     }
-        // }
+        stage('Functional UI tests firefox') {
+            try {
+                yarnBuilder.yarn('test:functional-firefox')
+            } catch (Error) {
+                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
+            } finally {
+                publishHTML([
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'playwright-report',
+                        reportFiles: 'index.html',
+                        reportName: 'UITestFirefoxReport'
+                ])
+                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
+            }
+        }
+        stage('Functional UI tests webkit ') {
+            try {
+                yarnBuilder.yarn('test:functional-webkit')
+            } catch (Error) {
+                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
+            } finally {
+                publishHTML([
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'playwright-report',
+                        reportFiles: 'index.html',
+                        reportName: 'UITestWebkitReport'
+                ])
+                steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
+            }
+        }
     }
 }
 
