@@ -20,7 +20,7 @@ test.describe('Add & Search ACAS certificate tests', () => {
           });
     });
 
-    test('England case - ACAS certificate', {tag: '@demo'}, async ({ caseListPage, searchAcasPage}) => {
+    test('England case - ACAS certificate', async ({ caseListPage, searchAcasPage}) => {
         // Verify ACAS certificate
         caseListPage.navigateToTab('Documents');
         caseListPage.verifyAcasCertificateDetailsOnTab(acasCertData.docName, acasCertData.docType);

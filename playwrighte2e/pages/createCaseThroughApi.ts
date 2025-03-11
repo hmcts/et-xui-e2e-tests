@@ -61,7 +61,7 @@ export default class CreateCaseThroughApi extends BasePage {
   async getAuthToken(username: string, password: string) {
     let access_token;
     let data = querystring.stringify({
-      'username':  username,
+      'username': username,
       'password': password
     });
     let config = {
