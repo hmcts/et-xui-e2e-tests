@@ -64,8 +64,8 @@ def secrets = [
                 // secret('et-hearing-admin-user-name-scot', 'ET_HEARING_ADMIN_USER_NAME_SCOT'),
                 secret('et-citizen-user-name', 'ET_CITIZEN_USER_NAME'),
                 secret('et-citizen-password', 'ET_CITIZEN_PASSWORD'),
-                // secret('et-ccd-api-user-name','ET_CCD_API_USER_NAME'), //et.api.1@hmcts.net
-                // secret('et-ccd-api-password','ET_CCD_API_PASSWORD'),
+                secret('et-ccd-api-user-name','ET_CCD_API_USER_NAME'),
+                secret('et-ccd-api-password','ET_CCD_API_PASSWORD'),
                 secret('et-judge-user-name-eng','ET_JUDGE_USER_NAME_ENG'),
                 secret('et-judge-user-eng-password','ET_JUDGE_USER_ENG_PASSWORD'),
                 secret('et3-resp-user-name','ET3_REPSONDENT_USER_NAME'),
