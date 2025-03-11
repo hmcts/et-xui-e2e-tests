@@ -42,14 +42,14 @@ def inTestFalse = [
 ]
 
 
-def secretsAAT = [
-        'et-aat': [
+def secrets = [
+        'et-${env}': [
                 secret('et-citizen-4-username', 'TEST_CASE_USERNAME'),
                 secret('et-claimant-password', 'TEST_CASE_PASSWORD'),
                 secret('idam-account-url', 'IDAM_ACCOUNT_URL'),
                 secret('api-key', 'API_KEY'),
         ],
-        'et-cos-aat': [
+        'et-cos-${env}': [
                 secret('et-caseworker-5-username', 'ET_CASEWORKER_USER_NAME'),
                 secret('et-caseworker-5-password', 'ET_CASEWORKER_PASSWORD'),
                 secret('et-legalrep-user-name', 'ET_LEGALREP_USER_NAME'),
@@ -75,45 +75,7 @@ def secretsAAT = [
                 secret('et-manage-org-username','ET_MANAGE_ORG_USERNAME'),
                 secret('et-manage-org-password','ET_MANAGE_ORG_PASSWORD'),
         ],
-        's2s-aat':  [
-                secret('microservicekey-ccd-gw', 'MICROSERVICE_CCD_GW')
-        ]
-]
-
-def secretsDemo = [
-        'et-demo': [
-                secret('et-citizen-4-username', 'TEST_CASE_USERNAME'),
-                // secret('et-claimant-password', 'TEST_CASE_PASSWORD'),
-                // secret('idam-account-url', 'IDAM_ACCOUNT_URL'),
-                // secret('api-key', 'API_KEY'),
-        ],
-        'et-cos-demo': [
-                secret('et-caseworker-5-username', 'ET_CASEWORKER_USER_NAME'),
-                secret('et-caseworker-5-password', 'ET_CASEWORKER_PASSWORD'),
-                secret('et-legalrep-user-name', 'ET_LEGALREP_USER_NAME'),
-                secret('et-legalrep-password', 'ET_LEGALREP_PASSWORD'),
-                // secret('et-wa-legal-ops-user-name', 'ET_LEGAL_OPS_USER_NAME'),
-                // secret('et-wa-legal-ops-password', 'ET_LEGAL_OPS_PASSWORD'),
-                // secret('et-ctsc-admin-user-name', 'ET_CTSC_ADMIN_USER_NAME'),
-                // secret('et-ctsc-admin-password', 'ET_CTSC_ADMIN_PASSWORD'),
-                // secret('et-hearing-judge-user-name-scotland', 'ET_HEARING_JUDGE_USER_NAME_SCOT'),
-                // secret('et-hearing-judge-user-name-eng', 'ET_HEARING_JUDGE_USER_NAME_ENG'),
-                // secret('et-hearing-admin-user-name-eng', 'ET_HEARING_ADMIN_USER_NAME_ENG'),
-                // secret('et-hearing-admin-user-name-scot', 'ET_HEARING_ADMIN_USER_NAME_SCOT'),
-                secret('et-citizen-user-name', 'ET_CITIZEN_USER_NAME'),
-                secret('et-citizen-password', 'ET_CITIZEN_PASSWORD'),
-                // secret('et-ccd-api-user-name','ET_CCD_API_USER_NAME'),
-                // secret('et-ccd-api-password','ET_CCD_API_PASSWORD'),
-                secret('et-judge-user-name-eng','ET_JUDGE_USER_NAME_ENG'),
-                secret('et-judge-user-eng-password','ET_JUDGE_USER_ENG_PASSWORD'),
-                secret('et3-resp-user-name','ET3_REPSONDENT_USER_NAME'),
-                secret('et3-resp-password','ET3_REPSONDENT_PASSWORD'),
-                // secret('et-resp-user-name','ET_REPSONDENT_USER_NAME'),
-                // secret('et-resp-password','ET_REPSONDENT_PASSWORD'),
-                secret('et-manage-org-username','ET_MANAGE_ORG_USERNAME'),
-                secret('et-manage-org-password','ET_MANAGE_ORG_PASSWORD'),
-        ],
-        's2s-demo':  [
+        's2s-${env}':  [
                 secret('microservicekey-ccd-gw', 'MICROSERVICE_CCD_GW')
         ]
 ]
@@ -131,23 +93,20 @@ withNightlyPipeline("nodejs", product, component) {
     // triggers {
     //     cron(env.BRANCH_NAME == 'master' ? 'H 8 * * 1-5' : '')
     // }
-    env.TEST_URL = params.ET_SYA_URL_TO_TEST
-    env.IDAM_URL = params.IDAM_URL
-    env.TEST_MANAGE_CASE_URL = params.CCD_CALLBACK_URL
-    env.ET_CASE_API_URL = params.ET_CASE_API_URL
-    env.RUNNING_ENV = params.ENVIRONMENT
+   
 
-    if(params.ENVIRONMENT == 'aat') {
-        loadVaultSecrets(secretsAAT)
-    } else {
-        loadVaultSecrets(secretsDemo)
-    }
-    // loadVaultSecrets(secrets)
+
+    loadVaultSecrets(secrets)
     enableFullFunctionalTest(int timeout=300)
     //enableCrossBrowserTest()
     //enableFortifyScan()
     //enableSecurityScan()
 
+    env.TEST_URL = params.ET_SYA_URL_TO_TEST
+    env.IDAM_URL = params.IDAM_URL
+    env.TEST_MANAGE_CASE_URL = params.CCD_CALLBACK_URL
+    env.ET_CASE_API_URL = params.ET_CASE_API_URL
+    env.RUNNING_ENV = params.ENVIRONMENT
    
 
     before('fullFunctionalTest') {
