@@ -84,7 +84,7 @@ def secretsDemo = [
         'et-demo': [
                 secret('et-citizen-4-username', 'TEST_CASE_USERNAME'),
                 // secret('et-claimant-password', 'TEST_CASE_PASSWORD'),
-                secret('idam-account-url', 'IDAM_ACCOUNT_URL'),
+                // secret('idam-account-url', 'IDAM_ACCOUNT_URL'),
                 // secret('api-key', 'API_KEY'),
         ],
         'et-cos-demo': [
