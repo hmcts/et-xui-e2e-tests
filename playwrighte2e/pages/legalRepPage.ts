@@ -168,8 +168,8 @@ export class LegalRepPage extends BasePage {
         await this.webActions.clickElementByCss(this.submitButtonLegalRep);
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.successfulMessageHeader), 20000);
 
-        await this.page.goto(`${params.TestUrlForManageCaseAAT}/cases/case-details/${submissionReference}`);
-        await this.page.waitForTimeout(10000);
+        // await this.page.goto(`${params.TestUrlForManageCaseAAT}/cases/case-details/${submissionReference}`);
+        // await this.page.waitForTimeout(10000);
     }
 
     async submitDocumentForHearingRespondent(agreement: string, whoseDocu: string, docuType: string, checkActiveHearing?: boolean) {
