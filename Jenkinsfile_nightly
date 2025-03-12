@@ -109,10 +109,6 @@ withNightlyPipeline("nodejs", product, component) {
     afterAlways('fullFunctionalTest') {
          stage('Accessibility tests') {
             try {
-                echo "The selected environment is: ${params.ENVIRONMENT_VARS}"
-                echo "The assigned environment is: ${env.RUNNING_ENV}"
-                echo "The assigned sya url is: ${env.TEST_URL}"
-                echo "The assigned mc url is: ${env.TEST_MANAGE_CASE_URL}"
                 yarnBuilder.yarn('test:accessibility')
             } catch (Error) {
                 unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
