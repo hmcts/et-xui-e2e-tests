@@ -20,5 +20,8 @@ export default class ReferralSteps extends BaseStep {
         await verifyReferralMethod(this.caseListPage);
     }
 
+    async processReferralsForWa(referralTypeMethod: (page) => Promise<void>){
+        await referralTypeMethod(this.referralPage);
+    }
 
 }
