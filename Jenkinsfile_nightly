@@ -106,6 +106,7 @@ withNightlyPipeline("nodejs", product, component) {
     env.TEST_MANAGE_CASE_URL = params.CCD_CALLBACKS_URL
     env.ET_CASE_API_URL = params.ET_CASE_API_URL
     env.RUNNING_ENV = params.ENVIRONMENT_VARS
+    env.TEST_RESP_URL = params.ET_SYR_URL_TO_TEST
    
 
     before('fullFunctionalTest') {
