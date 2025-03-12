@@ -29,7 +29,7 @@ test.describe('Work Allocation', () => {
         //sign out as caseworker
         await caseListPage.signoutButton();
 
-        //log in as judge &c assign and completes a task
+        //log in as judge & assign and completes a task
         await loginPage.processLogin(params.TestEnvETJudgeUserWorkAllocation, params.TestEnvETJudgeUserPasswordWorkAllocation);
         await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
         await caseListPage.processCaseFromCaseList();
