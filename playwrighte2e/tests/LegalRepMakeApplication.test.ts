@@ -18,6 +18,8 @@ test.describe('Make an application and view Recorded Decision', () => {
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
         await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
+        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
+        caseNumber = await caseListPage.processCaseFromCaseList();
 
         //legal rep make an application
         await legalRepPage.legalRepMakeAnApplication();
@@ -56,6 +58,8 @@ test.describe('Make an application and view Recorded Decision', () => {
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
         await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
+        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
+        caseNumber = await caseListPage.processCaseFromCaseList();
 
         //legal rep make an application
         await legalRepPage.legalRepMakeAnApplication();
