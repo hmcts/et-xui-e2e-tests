@@ -64,6 +64,8 @@ def secrets = [
                 secret('et-resp-password','ET_REPSONDENT_PASSWORD'),
                 secret('et-manage-org-username','ET_MANAGE_ORG_USERNAME'),
                 secret('et-manage-org-password','ET_MANAGE_ORG_PASSWORD'),
+                secret('et-judge-user-name-wa','ET_JUDGE_USER_NAME_WORKALLOCATION'),
+                secret('et-judge-user-password-wa','ET_JUDGE_USER_PASSWORD_WORKALLOCATION'),
         ],
         "s2s-${params.ENVIRONMENT_VARS}":  [
                 secret('microservicekey-ccd-gw', 'MICROSERVICE_CCD_GW')
