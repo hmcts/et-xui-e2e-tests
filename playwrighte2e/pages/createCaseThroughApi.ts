@@ -73,12 +73,6 @@ export default class CreateCaseThroughApi extends BasePage {
       },
       data : data
     };
-
-    console.log('... env used to fetch auth token is ##### ...' + env);
-    console.log('... url to get auth token is ##### ...' + idamBaseUrl);
-    console.log('... username used is ##### ...' + username);
-    console.log('... password used is ##### ...' + password);
-
     return await axios.request(config).then((response) => {
         console.log(JSON.stringify(response.data));
         access_token = response.data.access_token;
