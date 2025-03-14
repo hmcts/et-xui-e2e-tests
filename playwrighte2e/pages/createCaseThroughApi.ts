@@ -61,7 +61,7 @@ export default class CreateCaseThroughApi extends BasePage {
   async getAuthToken(username: string, password: string) {
     let access_token;
     let data = querystring.stringify({
-      'username':  username,
+      'username': username,
       'password': password
     });
     let config = {
@@ -73,7 +73,6 @@ export default class CreateCaseThroughApi extends BasePage {
       },
       data : data
     };
-
     return await axios.request(config).then((response) => {
         console.log(JSON.stringify(response.data));
         access_token = response.data.access_token;

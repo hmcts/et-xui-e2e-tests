@@ -3,7 +3,7 @@
 properties([
         pipelineTriggers([cron('45 16 * * 1-5')]),
         parameters([
-                string(name: 'ENVIRONMENT', defaultValue: 'aat', description: 'Environment to test'),
+                choice(name: 'ENVIRONMENT_VARS', choices: ['aat', 'demo'], description: 'Environment to test'),
                 string(name: 'ET_SYA_URL_TO_TEST', defaultValue: 'https://et-sya.aat.platform.hmcts.net/', description: 'The URL you want to run these tests against'),
                 string(name: 'ET_SYR_URL_TO_TEST', defaultValue: 'https://et-syr.aat.platform.hmcts.net/', description: 'The URL you want to run these tests against'),
                 string(name: 'IDAM_URL', defaultValue: 'https://idam-api.aat.platform.hmcts.net/testing-support/accounts', description: 'Idam url'),
@@ -11,7 +11,6 @@ properties([
                 string(name: 'CCD_CALLBACKS_URL', defaultValue: 'https://manage-case.aat.platform.hmcts.net/cases', description: 'ccd url'),
                 string(name: 'ET_CASE_API_URL', defaultValue: 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/initiate-case/', description: 'The Url for creating draft cases'),
                 string(name: 'ET_SUBMIT_DRAFT_CASE_URL', defaultValue: 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/submit-case/', description: 'The Endpoint for submitting a darft case'),
-
         ])
 ])
 
@@ -40,7 +39,7 @@ def secrets = [
                 secret('idam-account-url', 'IDAM_ACCOUNT_URL'),
                 secret('api-key', 'API_KEY'),
         ],
-        'et-cos-${env}': [
+        "et-cos-${params.ENVIRONMENT_VARS}": [
                 secret('et-caseworker-5-username', 'ET_CASEWORKER_USER_NAME'),
                 secret('et-caseworker-5-password', 'ET_CASEWORKER_PASSWORD'),
                 secret('et-legalrep-user-name', 'ET_LEGALREP_USER_NAME'),
@@ -61,14 +60,14 @@ def secrets = [
                 secret('et-judge-user-eng-password','ET_JUDGE_USER_ENG_PASSWORD'),
                 secret('et3-resp-user-name','ET3_REPSONDENT_USER_NAME'),
                 secret('et3-resp-password','ET3_REPSONDENT_PASSWORD'),
-                secret('et-resp-user-name','ET_REPSONDENT_USER_NAME'),
+                secret('et-resp-user-name','ET_REPSONDENT_USER_NAME'), 
                 secret('et-resp-password','ET_REPSONDENT_PASSWORD'),
                 secret('et-manage-org-username','ET_MANAGE_ORG_USERNAME'),
                 secret('et-manage-org-password','ET_MANAGE_ORG_PASSWORD'),
                 secret('et-judge-user-name-wa','ET_JUDGE_USER_NAME_WORKALLOCATION'),
                 secret('et-judge-user-password-wa','ET_JUDGE_USER_PASSWORD_WORKALLOCATION'),
         ],
-        's2s-${env}':  [
+        "s2s-${params.ENVIRONMENT_VARS}":  [
                 secret('microservicekey-ccd-gw', 'MICROSERVICE_CCD_GW')
         ]
 ]
@@ -86,6 +85,9 @@ withNightlyPipeline("nodejs", product, component) {
     // triggers {
     //     cron(env.BRANCH_NAME == 'master' ? 'H 8 * * 1-5' : '')
     // }
+   
+
+
     loadVaultSecrets(secrets)
     enableFullFunctionalTest(int timeout=300)
     //enableCrossBrowserTest()
@@ -94,9 +96,11 @@ withNightlyPipeline("nodejs", product, component) {
 
     env.TEST_URL = params.ET_SYA_URL_TO_TEST
     env.IDAM_URL = params.IDAM_URL
-    env.TESTMANAGE_CASE_URL = params.CCD_CALLBACK_URL
+    env.TEST_MANAGE_CASE_URL = params.CCD_CALLBACKS_URL
     env.ET_CASE_API_URL = params.ET_CASE_API_URL
-    env.RUNNING_ENV = params.ENVIRONMENT
+    env.RUNNING_ENV = params.ENVIRONMENT_VARS
+    env.TEST_RESP_URL = params.ET_SYR_URL_TO_TEST
+   
 
     before('fullFunctionalTest') {
         yarnBuilder.yarn('yarn-update')

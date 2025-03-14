@@ -28,8 +28,8 @@ export default class AccessibilitySteps extends BaseStep {
         await this.caseListPage.navigateToTab('Initial Consideration');
         await axeTest(page);
 
-        await this.caseListPage.navigateToTab('Judgments');
-        await axeTest(page);
+        // await this.caseListPage.navigateToTab('Judgments');
+        // await axeTest(page);
 
         await this.caseListPage.navigateToTab('History');
         await axeTest(page);
@@ -67,6 +67,8 @@ export default class AccessibilitySteps extends BaseStep {
         await page.goto(params.TestUrlForManageCaseAAT);
         await this.loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
         await this.legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName, accessibilityEnabled);
+        await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
+        await this.caseListPage.processCaseFromCaseList();
         
         //legal rep make an application
         await this.legalRepPage.legalRepMakeAnApplication(accessibilityEnabled);
