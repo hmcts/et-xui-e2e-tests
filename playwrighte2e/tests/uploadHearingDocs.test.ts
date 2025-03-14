@@ -26,6 +26,8 @@ test.describe('Upload hearing docs test', () => {
 
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
         await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
+        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
+        await caseListPage.processCaseFromCaseList();
         await caseListPage.selectNextEvent('Upload documents for hearing');
 
         //Verify only future hearings are shown in the options

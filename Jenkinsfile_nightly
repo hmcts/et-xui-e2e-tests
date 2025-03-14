@@ -11,15 +11,6 @@ properties([
                 string(name: 'CCD_CALLBACKS_URL', defaultValue: 'https://manage-case.aat.platform.hmcts.net/cases', description: 'ccd url'),
                 string(name: 'ET_CASE_API_URL', defaultValue: 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/initiate-case/', description: 'The Url for creating draft cases'),
                 string(name: 'ET_SUBMIT_DRAFT_CASE_URL', defaultValue: 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/submit-case/', description: 'The Endpoint for submitting a darft case'),
-
-            // choice(name: 'ENVIRONMENT', choices: ['aat', 'demo'], description: 'Environment to test'),
-            // choice(name: 'ET_SYA_URL_TO_TEST', choices: ['https://et-sya.aat.platform.hmcts.net/', 'https://et-sya.demo.platform.hmcts.net/'], description: 'The URL you want to run these tests against'),
-            // choice(name: 'ET_SYR_URL_TO_TEST', choices: ['https://et-syr.aat.platform.hmcts.net/', 'https://et-syr.demo.platform.hmcts.net/'], description: 'The URL you want to run these tests against'),
-            // choice(name: 'IDAM_URL', choices: ['https://idam-api.aat.platform.hmcts.net/testing-support/accounts', 'https://idam-api.demo.platform.hmcts.net/testing-support/accounts'], description: 'Idam url'),
-            // choice(name: 'MANAGE_ORG_URL', choices: ['https://manage-org.aat.platform.hmcts.net', 'https://manage-org.demo.platform.hmcts.net'], description: 'Manage org url'),
-            // choice(name: 'CCD_CALLBACKS_URL', choices: ['https://manage-case.aat.platform.hmcts.net/cases', 'https://manage-case.demo.platform.hmcts.net/cases'], description: 'ccd url'),
-            // choice(name: 'ET_CASE_API_URL', choices: ['http://et-sya-api-aat.service.core-compute-aat.internal/cases/initiate-case/', 'http://et-sya-api-demo.service.core-compute-demo.internal/cases/initiate-case/'], description: 'The Url for creating draft cases'),
-            // choice(name: 'ET_SUBMIT_DRAFT_CASE_URL', choices: ['http://et-sya-api-aat.service.core-compute-aat.internal/cases/submit-case/', 'http://et-sya-api-demo.service.core-compute-demo.internal/cases/submit-case/'], description: 'The Endpoint for submitting a darft case'),
         ])
 ])
 
@@ -73,6 +64,8 @@ def secrets = [
                 secret('et-resp-password','ET_REPSONDENT_PASSWORD'),
                 secret('et-manage-org-username','ET_MANAGE_ORG_USERNAME'),
                 secret('et-manage-org-password','ET_MANAGE_ORG_PASSWORD'),
+                secret('et-judge-user-name-wa','ET_JUDGE_USER_NAME_WORKALLOCATION'),
+                secret('et-judge-user-password-wa','ET_JUDGE_USER_PASSWORD_WORKALLOCATION'),
         ],
         "s2s-${params.ENVIRONMENT_VARS}":  [
                 secret('microservicekey-ccd-gw', 'MICROSERVICE_CCD_GW')
@@ -106,6 +99,7 @@ withNightlyPipeline("nodejs", product, component) {
     env.TEST_MANAGE_CASE_URL = params.CCD_CALLBACKS_URL
     env.ET_CASE_API_URL = params.ET_CASE_API_URL
     env.RUNNING_ENV = params.ENVIRONMENT_VARS
+    env.TEST_RESP_URL = params.ET_SYR_URL_TO_TEST
    
 
     before('fullFunctionalTest') {
@@ -117,10 +111,6 @@ withNightlyPipeline("nodejs", product, component) {
     afterAlways('fullFunctionalTest') {
          stage('Accessibility tests') {
             try {
-                echo "The selected environment is: ${params.ENVIRONMENT_VARS}"
-                echo "The assigned environment is: ${env.RUNNING_ENV}"
-                echo "The assigned sya url is: ${env.TEST_URL}"
-                echo "The assigned mc url is: ${env.TEST_MANAGE_CASE_URL}"
                 yarnBuilder.yarn('test:accessibility')
             } catch (Error) {
                 unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
