@@ -82,17 +82,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withNightlyPipeline("nodejs", product, component) {
-    // triggers {
-    //     cron(env.BRANCH_NAME == 'master' ? 'H 8 * * 1-5' : '')
-    // }
-   
-
 
     loadVaultSecrets(secrets)
-    // enableFullFunctionalTest(int timeout=300)
-    //enableCrossBrowserTest()
-    //enableFortifyScan()
-    //enableSecurityScan()
 
     env.TEST_URL = params.ET_SYA_URL_TO_TEST
     env.IDAM_URL = params.IDAM_URL
@@ -102,13 +93,30 @@ withNightlyPipeline("nodejs", product, component) {
     env.TEST_RESP_URL = params.ET_SYR_URL_TO_TEST
    
 
-    before('smoketest') {
+    before('DependencyCheckNightly') {
         yarnBuilder.yarn('yarn-update')
         yarnBuilder.yarn('install-dependencies')
     }
 
 
-    afterAlways('smokeTest') {
+    afterAlways('DependencyCheckNightly') {
+         stage('Smoke test') {
+            try {
+                yarnBuilder.yarn('test:smoke')
+            } catch (Error) {
+                unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
+            } finally {
+                publishHTML([
+                    allowMissing         : true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll              : true,
+                    reportDir            : 'playwright-report',
+                    reportFiles          : 'index.html',
+                    reportName           : 'ET Smoke Test Report'
+            ])
+            steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'playwright-report/**'
+            }
+         }
          stage('Accessibility tests') {
             try {
                 yarnBuilder.yarn('test:accessibility')
