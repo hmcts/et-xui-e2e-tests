@@ -108,7 +108,7 @@ withNightlyPipeline("nodejs", product, component) {
     }
 
 
-    afterAlways('smokeTest') {
+    afterAlways('smoketest') {
          stage('Accessibility tests') {
             try {
                 yarnBuilder.yarn('test:accessibility')
