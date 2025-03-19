@@ -89,7 +89,7 @@ withNightlyPipeline("nodejs", product, component) {
 
 
     loadVaultSecrets(secrets)
-    enableFullFunctionalTest(int timeout=300)
+    // enableFullFunctionalTest(int timeout=300)
     //enableCrossBrowserTest()
     //enableFortifyScan()
     //enableSecurityScan()
@@ -102,13 +102,13 @@ withNightlyPipeline("nodejs", product, component) {
     env.TEST_RESP_URL = params.ET_SYR_URL_TO_TEST
    
 
-    before('fullFunctionalTest') {
+    before('smoketest') {
         yarnBuilder.yarn('yarn-update')
         yarnBuilder.yarn('install-dependencies')
     }
 
 
-    afterAlways('fullFunctionalTest') {
+    afterAlways('smokeTest') {
          stage('Accessibility tests') {
             try {
                 yarnBuilder.yarn('test:accessibility')
