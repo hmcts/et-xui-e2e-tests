@@ -24,6 +24,7 @@ export default class CaseListPage extends BasePage{
       venueDropdown: '#listingVenue',
       causeListText :this.page.locator( '//div[@class="alert-message"]'),
       refferTableEle: this.page.locator('ccd-read-text-field'),
+      textAreaField:this.page.locator('ccd-read-text-area-field'),
       expandImgIcon: 'div a img',
       referralTab: '//div[contains(text(), "Referrals")]',
       depositOrderTab: '//div[contains(text(), "Deposit Order")]',
@@ -227,7 +228,7 @@ export default class CaseListPage extends BasePage{
       let actStatus =  await this.elements.refferTableEle.nth(7).textContent();
       let actSubj =  await this.elements.refferTableEle.nth(1).textContent();
       let actReferredTo = await this.elements.refferTableEle.nth(3).textContent();
-      let actReferredDetails = await this.elements.refferTableEle.nth(8).textContent();
+      let actReferredDetails = await this.elements.textAreaField.textContent();
 
 
       expect(actStatus).toEqual(referralData.awaitingStatus);
