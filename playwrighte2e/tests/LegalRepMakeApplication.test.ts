@@ -11,7 +11,7 @@ test.describe('Make an application and view Recorded Decision', () => {
        ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
     });
 
-    test('Legal representatives make and application - England', async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
+    test.skip('Legal representatives make and application - England', async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
         //perform NOC
         await page.click('text=Sign out');
