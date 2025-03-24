@@ -262,7 +262,7 @@ export default class CaseListPage extends BasePage{
     async verifyCloseReferralDetails(){
 
       let actStatus =  await this.elements.refferTableEle.nth(7).textContent();
-      let actCloseReason =  await this.page.locator('ccd-read-text-area-field').textContent();
+      let actCloseReason =  await this.page.locator('ccd-read-text-area-field').nth(1).textContent();
 
 
       expect(actStatus).toEqual(referralData.closedStatus);
