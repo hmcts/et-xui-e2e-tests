@@ -82,17 +82,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withNightlyPipeline("nodejs", product, component) {
-    // triggers {
-    //     cron(env.BRANCH_NAME == 'master' ? 'H 8 * * 1-5' : '')
-    // }
-   
-
 
     loadVaultSecrets(secrets)
-    // enableFullFunctionalTest(int timeout=300)
-    //enableCrossBrowserTest()
-    //enableFortifyScan()
-    //enableSecurityScan()
 
     env.TEST_URL = params.ET_SYA_URL_TO_TEST
     env.IDAM_URL = params.IDAM_URL
