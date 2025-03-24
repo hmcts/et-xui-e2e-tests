@@ -5,11 +5,11 @@ const letterPageData = require('../data/ui-data/letter-content.json');
 test.describe('ET3 Process test', () => {
 
     test.beforeEach(async ({ page, createCaseStep }) => {
-        
+
         await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales");
     });
 
-    test('Englad - processing an ET3 response', async ({ caseListPage, lettersPage, et3ProcessingSteps }) => {
+    test('England - processing an ET3 response', async ({ caseListPage, lettersPage, et3ProcessingSteps }) => {
 
         await caseListPage.selectNextEvent(letterPageData.letterEvent);
         await lettersPage.generateNoHearingDateLetter();

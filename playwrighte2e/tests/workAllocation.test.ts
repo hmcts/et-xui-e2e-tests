@@ -41,6 +41,12 @@ test.describe('Work Allocation', () => {
         );
     });
 
+    test('Reconfigure task successfully- transfer England/Wales case to Scotland', async ({ caseListPage, caseTransferPage }) => {
+        await caseListPage.selectNextEvent('Case Transfer (Scotland)');
+        await caseTransferPage.progressCaseTransfer();
+        await caseTransferPage.checkYourAnswer(caseNumber);
+    });
+
 });
 
 

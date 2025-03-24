@@ -7,11 +7,11 @@ let caseNumber;
 test.describe('Respondent details test', () => {
 
     test.beforeEach(async ({ page, createCaseStep }) => {
-        
+
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
     });
 
-    test('Englad - Respondent details', async ({ loginPage, caseListPage, respondentDetailsPage, icUploadDocPage }) => {
+    test('England - Respondent details', async ({ loginPage, caseListPage, respondentDetailsPage, icUploadDocPage }) => {
 
         await caseListPage.selectNextEvent('Respondent Details');
         // Check case file view
@@ -21,7 +21,7 @@ test.describe('Respondent details test', () => {
 
         //sign out as caseworker
         await caseListPage.signoutButton();
-                
+
         //judge log in
         await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
         await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
