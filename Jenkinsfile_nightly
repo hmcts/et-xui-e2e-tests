@@ -85,7 +85,7 @@ withNightlyPipeline("nodejs", product, component) {
 
     loadVaultSecrets(secrets)
 
-    env.TEST_URL = params.ET_SYA_URL_TO_TEST
+    env.TEST_URL_CITIZEN_UI = params.ET_SYA_URL_TO_TEST
     env.IDAM_URL = params.IDAM_URL
     env.TEST_MANAGE_CASE_URL = params.CCD_CALLBACKS_URL
     env.ET_CASE_API_URL = params.ET_CASE_API_URL
