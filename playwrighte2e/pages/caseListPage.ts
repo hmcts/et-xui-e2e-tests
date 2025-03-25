@@ -135,7 +135,7 @@ export default class CaseListPage extends BasePage{
             break;
         }
         case "Referrals":{
-            await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.referralTab));
+            await this.delay(2000);
             await this.webActions.clickElementByCss(this.elements.referralTab);
             break;
         }
@@ -242,7 +242,7 @@ export default class CaseListPage extends BasePage{
       let actStatus =  await this.elements.refferTableEle.nth(7).textContent();
       let actSubj =  await this.elements.refferTableEle.nth(1).textContent();
       let actReferredTo = await this.elements.refferTableEle.nth(3).textContent();
-      let actReferredDetails = await this.elements.refferTableEle.nth(8).textContent();
+      let actReferredDetails = await this.elements.textAreaField.first().textContent();
 
 
       expect(actStatus).toEqual(referralData.issuedStatus);
@@ -262,7 +262,7 @@ export default class CaseListPage extends BasePage{
     async verifyCloseReferralDetails(){
 
       let actStatus =  await this.elements.refferTableEle.nth(7).textContent();
-      let actCloseReason =  await this.page.locator('ccd-read-text-area-field').textContent();
+      let actCloseReason =  await this.page.locator('ccd-read-text-area-field').nth(1).textContent();
 
 
       expect(actStatus).toEqual(referralData.closedStatus);
