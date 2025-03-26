@@ -15,15 +15,13 @@ test.describe.serial('England - Referral test', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
 
         //Send & verify new referral
-        await referralSteps.processReferrals(referralData.createNewReferral, 
-            (referralPage) => referralPage.sendNewReferral(), 
+        await referralSteps.processReferrals(referralData.createNewReferral,
+            (referralPage) => referralPage.sendNewReferral(false),
             (caseListPage) => caseListPage.verifyReferralDetails()
         );
 
         //sign out as caseworker
         await caseListPage.signoutButton();
-                        
-                
     });
 
     test('Reply to a referral', async ({ page, caseListPage, loginPage, referralSteps }) => {
@@ -36,11 +34,11 @@ test.describe.serial('England - Referral test', () => {
         await caseListPage.processCaseFromCaseList();
 
         //Reply & verify a referral
-        await referralSteps.processReferrals(referralData.replyToReferral, 
-            (referralPage) => referralPage.replyToReferral(), 
+        await referralSteps.processReferrals(referralData.replyToReferral,
+            (referralPage) => referralPage.replyToReferral(),
             (caseListPage) => caseListPage.verifyReplyReferralDetails()
         );
-        
+
         await caseListPage.verifyReplyDetailsOnTab('Admin');
         await caseListPage.verifyReplyDetailsOnTab('This is a test direction');
 
@@ -56,8 +54,8 @@ test.describe.serial('England - Referral test', () => {
         await caseListPage.processCaseFromCaseList();
 
         // Close & verify a referral
-        await referralSteps.processReferrals(referralData.closeReferral, 
-            (referralPage) => referralPage.closeAReferral(), 
+        await referralSteps.processReferrals(referralData.closeReferral,
+            (referralPage) => referralPage.closeAReferral(),
             (caseListPage) => caseListPage.verifyCloseReferralDetails()
         );
     });

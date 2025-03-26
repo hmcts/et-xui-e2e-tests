@@ -6,7 +6,7 @@ let formattedAmount;
 test.describe('Deposit order test', () => {
 
     test.beforeEach(async ({ page, createCaseStep }) => {
-        
+
         await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales");
         formattedAmount = new Intl.NumberFormat('en-US', {
             minimumFractionDigits: 2,
@@ -14,7 +14,7 @@ test.describe('Deposit order test', () => {
         }).format(depositOrderData.depositAmount);
     });
 
-    test('Englad - deposit an order for respondent', async ({ caseListPage, depositOrderPage }) => {
+    test('England - deposit an order for respondent', async ({ caseListPage, depositOrderPage }) => {
 
         await caseListPage.selectNextEvent('Deposit Order');
         await depositOrderPage.submitADepositOrder();

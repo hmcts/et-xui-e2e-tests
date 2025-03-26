@@ -35,8 +35,8 @@ export default class createAndAcceptCase extends BaseStep {
         return {subRef, caseNumber};
     }
 
-    async setupCUICaseCreatedViaApi(page, flag?:boolean, accessibilityEnabled?: boolean) {
-        
+    async setupCUICaseCreatedViaApi(page, et1VettingFlag?:boolean, accessibilityEnabled?: boolean) {
+
         submissionRef = await this.createCaseThroughApi.processCuiCaseToAcceptedState();
         subRef = submissionRef.toString();
 
@@ -45,7 +45,7 @@ export default class createAndAcceptCase extends BaseStep {
         await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
         caseNumber = await this.caseListPage.processCaseFromCaseList();
 
-        if (flag) {
+        if (et1VettingFlag) {
             // Case vetting
             await this.caseListPage.selectNextEvent('ET1 case vetting');
             await this.et1VettingPage.processET1CaseVettingPages(accessibilityEnabled);

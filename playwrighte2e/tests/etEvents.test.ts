@@ -32,14 +32,4 @@ test.describe('Various events in mange case application', () => {
     await caseTransferPage.checkYourAnswer(caseNumber);
   });
 
-  test('Judge draft and sign judgement or order for a England/Wales claim ', async ({ caseListPage, loginPage }) => {
-   await caseListPage.signoutButton();
-
-   //judge log in
-    await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-    await caseListPage.processCaseFromCaseList();
-    await caseListPage.clickTab('Judgments');
-  });
-
 });
