@@ -1,7 +1,7 @@
 
 export const params = {
 
-    TestUrlCitizenUi:process.env.TEST_URL||'',
+    TestUrlCitizenUi:process.env.TEST_URL_CITIZEN_UI||'',
     TestUrlRespondentUi:process.env.TEST_RESP_URL||'',
     TestUrlForManageCaseAAT:process.env.TEST_MANAGE_CASE_URL||'',
     TestUrlForManageOrg:process.env.MANAGE_ORG_URL||'',
