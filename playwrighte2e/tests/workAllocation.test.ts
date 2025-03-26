@@ -43,7 +43,8 @@ test.describe('Work Allocation', () => {
 
 
     test('Roles and Access', async ({ page,createCaseStep,caseListPage, rolesAndAccessPage , referralSteps, taskPage}) => {
-        //Note: if this test seems flaky- assign both tasks to the user than complete eT1vetting task from task list
+        await caseListPage.clickTab('Tasks');
+        await Helpers.waitForTask(page, 'Et1 Vetting');
         await caseListPage.clickTab('Roles and access');
          await rolesAndAccessPage.assignAccessToCtscUser();
 
