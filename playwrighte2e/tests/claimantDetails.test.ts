@@ -11,7 +11,8 @@ test.describe('Claimant details test', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
     });
 
-    test('England - Claimant details', async ({ loginPage, caseListPage, claimantDetailsPage, icUploadDocPage }) => {
+
+    test('Englad - Claimant details', {tag: '@ccd-callback-tests'}, async ({ loginPage, caseListPage, claimantDetailsPage, icUploadDocPage }) => {
 
         await caseListPage.selectNextEvent('Claimant Details');
         // Check case file view
