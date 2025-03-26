@@ -37,6 +37,7 @@ import LettersPage from '../pages/lettersPage';
 import DepositOrderPage from '../pages/depositOrderPage';
 import RolesAndAccessPage from "../pages/rolesAndAccessPage";
 import TaskPage from "../pages/taskPage";
+import HearingDetailsPage from "../pages/hearingDetailsPage";
 
 export type PageFixtures = {
 
@@ -78,6 +79,7 @@ export type PageFixtures = {
     depositOrderPage: DepositOrderPage;
     rolesAndAccessPage:RolesAndAccessPage;
     taskPage:TaskPage;
+    hearingDetailsPage:HearingDetailsPage;
 }
 
 export const pageFixtures = {
@@ -232,5 +234,9 @@ export const pageFixtures = {
 
     taskPage: async ({page}, use)=>{
         await use(new TaskPage(page));
+    },
+
+    hearingDetailsPage: async ({page}, use)=>{
+        await use(new HearingDetailsPage(page));
     }
 };
