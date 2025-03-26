@@ -18,7 +18,6 @@ test.describe('Work Allocation', () => {
         await caseListPage.navigateToTab('Tasks');
         await Helpers.assignTaskToMeAndTriggerNextSteps(page, "Et1 Vetting", "ET1 Vetting");
         await createCaseStep.completeEt1VettingTask();
-
     });
 
     test('Caseworker sends Referral- Referral task generated, Judge assign and completes referral task', async ({ page, caseListPage, referralSteps, loginPage }) => {
