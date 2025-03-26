@@ -12,13 +12,13 @@ test.describe('Various events in mange case application', () => {
 
   });
 
-  test('Create a claim and perform B/F action event', async ({ caseListPage, bfActionPage }) => {
+  test('Create a claim and perform B/F action event', {tag: '@ccd-callback-tests'}, async ({ caseListPage, bfActionPage }) => {
     //BF action
     await caseListPage.selectNextEvent('B/F Action');
     await bfActionPage.addBfAction();
   });
 
-  test('Create a claim and perform jurisdiction event', async ({ caseListPage, jurisdictionPage }) => {
+  test('Create a claim and perform jurisdiction event', {tag: '@ccd-callback-tests'}, async ({ caseListPage, jurisdictionPage }) => {
     //Jurisdiction event
     await caseListPage.selectNextEvent('Jurisdiction');
     await jurisdictionPage.addJurisdictionCode();
