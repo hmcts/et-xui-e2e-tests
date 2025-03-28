@@ -1,7 +1,7 @@
 import { expect, Locator, Page } from "@playwright/test";
 
 export class WebAction {
-   
+
     readonly page:Page;
 
     constructor(page:Page){
@@ -46,6 +46,10 @@ export class WebAction {
 
     async fillFieldByRole(role, options: {name: string}, text: string ) {
         await this.page.getByRole(role, {name: options.name}).fill(text);
+    }
+
+    async fillFieldByRoleAndLabel(role, options: {name: string},label:string, text: string) {
+        await this.page.getByRole(role, { name: options.name }).getByLabel(label).fill(text)
     }
 
     async waitForElementToBeVisible(element: string){

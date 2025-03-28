@@ -7,6 +7,7 @@ export default class ReferralPage extends BasePage {
 
     elements = {
         judgeReferralOption: '#referCaseTo-Judge',
+        adminReferralOption:'#referCaseTo-Admin',
         isUrgentYes: '#isUrgent_Yes',
         referralSubjOption: '#referralSubject',
         referralDetails: '#referralDetails',
@@ -20,10 +21,14 @@ export default class ReferralPage extends BasePage {
         closeReferralGeneralNotes: '#closeReferralGeneralNotes',
     }
 
-    async sendNewReferral() {
+    async sendNewReferral(adminOption:boolean) {
 
         await expect(this.page.getByText('Refer to admin, legal officer or judge')).toBeVisible();
-        await this.webActions.clickElementByCss(this.elements.judgeReferralOption);
+        if(adminOption){
+            await this.webActions.clickElementByCss(this.elements.adminReferralOption);
+        } else {
+            await this.webActions.clickElementByCss(this.elements.judgeReferralOption);
+        }
         await this.webActions.clickElementByCss(this.elements.isUrgentYes);
         await this.webActions.selectByLabelFromDropDown(this.elements.referralSubjOption, 'ET1');
         await this.webActions.fillField(this.elements.referralDetails, referralData.details);

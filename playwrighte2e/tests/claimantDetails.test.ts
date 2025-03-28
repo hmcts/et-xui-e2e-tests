@@ -7,7 +7,7 @@ let caseNumber;
 test.describe('Claimant details test', () => {
 
     test.beforeEach(async ({ page, createCaseStep }) => {
-        
+
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
     });
 
@@ -21,7 +21,7 @@ test.describe('Claimant details test', () => {
 
         //sign out as caseworker
         await caseListPage.signoutButton();
-                
+
         //judge log in
         await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
         await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
