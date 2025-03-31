@@ -135,7 +135,11 @@ withNightlyPipeline("nodejs", product, component) {
         }
         stage('Functional UI tests chromium') {
             try {
-                yarnBuilder.yarn('test:functional-chromium')
+                if(params.ENVIRONMENT_VARS == 'demo') {
+                    yarnBuilder.yarn('test:functional-chromium-demo')
+                } else {
+                    yarnBuilder.yarn('test:functional-chromium')
+                }
             } catch (Error) {
                 unstable(message: "${STAGE_NAME} is unstable: " + Error.toString())
             } finally {

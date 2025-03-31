@@ -10,7 +10,7 @@ test.describe('IC Upload documents', () => {
 
     });
 
-    test('Judge uploads Internal consideration document', async({ caseListPage, loginPage, icUploadDocPage }) => {
+    test('Judge uploads Internal consideration document', {tag: '@demo'}, async({ caseListPage, loginPage, icUploadDocPage }) => {
 
         await caseListPage.signoutButton();
         

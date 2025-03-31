@@ -14,7 +14,7 @@ test.describe('Deposit order test', () => {
         }).format(depositOrderData.depositAmount);
     });
 
-    test('England - deposit an order for respondent', async ({ caseListPage, depositOrderPage }) => {
+    test('England - deposit an order for respondent', {tag: '@demo'}, async ({ caseListPage, depositOrderPage }) => {
 
         await caseListPage.selectNextEvent('Deposit Order');
         await depositOrderPage.submitADepositOrder();

@@ -10,7 +10,7 @@ const referralData = require('../data/ui-data/referral-content.json');
 
 test.describe.serial('England - Referral test', () => {
 
-    test('New referral', async ({ page, createCaseStep, caseListPage, referralSteps }) => {
+    test('New referral', {tag: '@demo'}, async ({ page, createCaseStep, caseListPage, referralSteps }) => {
 
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
 
@@ -24,7 +24,7 @@ test.describe.serial('England - Referral test', () => {
         await caseListPage.signoutButton();
     });
 
-    test('Reply to a referral', async ({ page, caseListPage, loginPage, referralSteps }) => {
+    test('Reply to a referral', {tag: '@demo'}, async ({ page, caseListPage, loginPage, referralSteps }) => {
 
         await page.goto(params.TestUrlForManageCaseAAT);
 
@@ -44,7 +44,7 @@ test.describe.serial('England - Referral test', () => {
 
     });
 
-    test('Z - Close a referral', async ({ page, caseListPage, loginPage, referralSteps }) => {
+    test('Z - Close a referral', {tag: '@demo'}, async ({ page, caseListPage, loginPage, referralSteps }) => {
 
         await page.goto(params.TestUrlForManageCaseAAT);
 

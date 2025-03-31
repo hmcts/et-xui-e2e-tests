@@ -16,7 +16,7 @@ let caseNumber1, caseNumber2;
             ({ subRef: subRef2, caseNumber: caseNumber2 } = await createCaseStep.setupCaseCreatedViaApi(page, "Scotland", "ET_Scotland"));
         });
 
-        test('Link-2-Cases - Multiple Reasons - Scotland', async ({ caseListPage, caseLinkPage }) => {
+        test('Link-2-Cases - Multiple Reasons - Scotland', {tag: '@demo'}, async ({ caseListPage, caseLinkPage }) => {
     
             // link cases
             await caseListPage.selectNextEvent('Link cases');
@@ -36,7 +36,7 @@ let caseNumber1, caseNumber2;
             ({ subRef: subRef2, caseNumber: caseNumber2 } = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
         });
 
-        test('Link-2-Cases - Multiple Reasons - England', async ({ caseListPage, caseLinkPage }) => {
+        test('Link-2-Cases - Multiple Reasons - England', {tag: '@demo'}, async ({ caseListPage, caseLinkPage }) => {
         
             // link cases
             await caseListPage.selectNextEvent('Link cases');

@@ -14,6 +14,7 @@
     "test:functional-firefox": "yarn playwright install firefox && yarn playwright test --project=firefox --grep @cx",
     "test:accessibility": "yarn playwright install && yarn playwright test --project=chromium --grep @accessibility",
     "test:functional-ccd-callback": "yarn playwright install chromium && yarn playwright test --project=chromium --grep @ccd-callback-tests",
+    "test:functional-chromium-demo": "yarn playwright install chromium && yarn playwright test --project=chromium --grep-invert @accessibility --grep @demo",
     "lint-staged": "lint-staged",
     "lint": "eslint",
     "fortifyScan": "./src/test/java/gradlew -p src/test/java fortifyScan",
