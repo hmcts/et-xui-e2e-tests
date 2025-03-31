@@ -12,13 +12,13 @@ test.describe('Various events in mange case application', () => {
 
   });
 
-  test('Create a claim and perform B/F action event', {tag: '@ccd-callback-tests'}, async ({ caseListPage, bfActionPage }) => {
+  test('Create a claim and perform B/F action event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ caseListPage, bfActionPage }) => {
     //BF action
     await caseListPage.selectNextEvent('B/F Action');
     await bfActionPage.addBfAction();
   });
 
-  test('Create a claim and perform jurisdiction event', {tag: '@ccd-callback-tests'}, async ({ caseListPage, jurisdictionPage }) => {
+  test('Create a claim and perform jurisdiction event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ caseListPage, jurisdictionPage }) => {
     //Jurisdiction event
     await caseListPage.selectNextEvent('Jurisdiction');
     await jurisdictionPage.addJurisdictionCode();
@@ -26,7 +26,7 @@ test.describe('Various events in mange case application', () => {
     await jurisdictionPage.verifyJurisdictionCodeOnTab();
   });
 
-  test('Create a England/Wales claim and transfer to Scotland', async ({ caseListPage, caseTransferPage }) => {
+  test('Create a England/Wales claim and transfer to Scotland', {tag: '@demo'}, async ({ caseListPage, caseTransferPage }) => {
     await caseListPage.selectNextEvent('Case Transfer (Scotland)');
     await caseTransferPage.progressCaseTransfer();
     await caseTransferPage.checkYourAnswer(caseNumber);

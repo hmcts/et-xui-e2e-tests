@@ -11,7 +11,7 @@ test.describe('Upload hearing docs test', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
     });
 
-    test('for respondent - verify only future hearings are shown in options', async ({ page, caseListPage, listHearingPage, et1CaseServingPage, loginPage, legalRepPage }) => {
+    test('for respondent - verify only future hearings are shown in options', {tag: '@demo'}, async ({ page, caseListPage, listHearingPage, et1CaseServingPage, loginPage, legalRepPage }) => {
 
         //Retrieve claimant's first name and last name for NoC
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();

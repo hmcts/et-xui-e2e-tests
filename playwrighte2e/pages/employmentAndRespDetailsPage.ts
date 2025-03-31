@@ -2,7 +2,7 @@ import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
 
 const today = new Date();
-const listDay = today.getDate() + 1;
+const listDay = today.getDate();
 const listMonth = today.getMonth() + 1;
 const listYear = today.getFullYear() + 1;
 let inNoticePeriod: boolean = true; 

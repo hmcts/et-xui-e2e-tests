@@ -12,7 +12,7 @@ test.describe('ET3/Respondent Journey', () => {
 
   });
 
-  test('Validate ET3 Form start page and check case sensitivity', async ({ et3LoginPage, respondentCaseOverviewPage, respondentTaskListPage }) => {
+  test('Validate ET3 Form start page and check case sensitivity', {tag: '@demo'}, async ({ et3LoginPage, respondentCaseOverviewPage, respondentTaskListPage }) => {
     //Assign a claim to respondent
     await et3LoginPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
     await et3LoginPage.replyToNewClaim(subRef, caseNumber);
@@ -20,7 +20,7 @@ test.describe('ET3/Respondent Journey', () => {
     await respondentTaskListPage.validateTaskListPage();
   });
 
-  test('Respondent Assign a claim (ET3)', async ({ et3LoginPage, responseLandingPage, respContactDetailsPages, respClaimantDetails, respContestClaim, respSubmitEt3 }) => {   
+  test('Respondent Assign a claim (ET3)', {tag: '@demo'}, async ({ et3LoginPage, responseLandingPage, respContactDetailsPages, respClaimantDetails, respContestClaim, respSubmitEt3 }) => {   
     //Assign a claim to respondent
     await et3LoginPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
     await et3LoginPage.replyToNewClaim(subRef, caseNumber);

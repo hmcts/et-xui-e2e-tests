@@ -6,7 +6,7 @@ test.describe('Case File View', () => {
         await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales");
     });
 
-    test('Case File View - Check ET 1 Claim in CFV folder - England-Singles', async ({ applicationTabPage }) => {
+    test('Case File View - Check ET 1 Claim in CFV folder - England-Singles', {tag: '@demo'}, async ({ applicationTabPage }) => {
         // Check case file view
         await applicationTabPage.selectCaseFileView();
     });
@@ -18,7 +18,7 @@ test.describe('Case File View', () => {
         await createCaseStep.setupCaseCreatedViaApi(page, "Scotland", "ET_Scotland");
     });
 
-    test('Case File View - Check ET 1 Claim in CFV folder - Scotland-Singles', async ({ applicationTabPage }) => {
+    test('Case File View - Check ET 1 Claim in CFV folder - Scotland-Singles', {tag: '@demo'}, async ({ applicationTabPage }) => {
         // Check case file view
         await applicationTabPage.selectCaseFileView();
     });

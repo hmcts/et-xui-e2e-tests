@@ -48,6 +48,7 @@ test.describe('Make an application and view Recorded Decision', () => {
     });
 
     test('Legal representatives make and application, caseworker record a decision, LR and citizen view a decision - E/W',
+        {tag: '@demo'},
         async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
         //perform NOC
