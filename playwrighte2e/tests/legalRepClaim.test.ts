@@ -2,7 +2,7 @@ import {test} from '../fixtures/common.fixture';
 import {params} from '../utils/config';
 
 test.describe('Legal Representative submits a case and perform various events', () => {
-        test('Claimant Representative creates a claim (England and Wales - Singles) and submit', async () => {
+        test('Claimant Representative creates a claim (England and Wales - Singles) and submit', {tag: '@demo'}, async () => {
             // let loginPage = new LoginPage(page);
             // let caseListPage = new CaseListPage(page);
             // let et1CreateDraftClaim = new Et1CreateDraftClaim(page);
@@ -39,6 +39,7 @@ test.describe('Legal Representative submits a case and perform various events', 
 
 
     test('CR creates a claim, amend claimant/respondent names and persist NOC with original claimant/respondent names',
+        {tag: '@demo'},
         async ({ page, createCaseStep, caseListPage, claimantDetailsPage, respondentDetailsPage, loginPage, nocPage }) => {
         
         const submissionReference = await createCaseStep.setUpLegalRepCase(page);

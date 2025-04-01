@@ -9,7 +9,7 @@ test.describe('Upload Document with multiple file extensions', () => {
         await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales");
     });
 
-    test('Multiple file extension test', async ({ caseListPage, uploadDocumentPage }) => {
+    test('Multiple file extension test', {tag: '@demo'}, async ({ caseListPage, uploadDocumentPage }) => {
         
         const fileNames: string[] = [fileUploadData.textFile, fileUploadData.imageFile, fileUploadData.audioFile, fileUploadData.rtfFile];
         let i =1;

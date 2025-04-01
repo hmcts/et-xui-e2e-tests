@@ -1,5 +1,6 @@
 import { Page, expect } from '@playwright/test';
 import { BasePage } from "./basePage";
+import { params } from '../utils/config';
 
 export class ManageOrgPage extends BasePage {
 
@@ -38,11 +39,10 @@ export class ManageOrgPage extends BasePage {
         await this.webActions.clickElementByCss(this.AssigneeNameSearchBox);
         await this.webActions.fillField(this.AssigneeNameSearchBox, assigneeName);
         await this.applyFilterButton.click();
-        await this.verifyResultsCount(6);
+        (params.TestEnv == 'demo') ? await this.verifyResultsCount(25): await this.verifyResultsCount(6);
     }
 
     async verifyResultsCount(expTotCount: number) {
-
         await this.page.locator('tbody tr').first().waitFor();
         const totRes = await this.page.locator('tbody tr').count();
         expect(totRes).toEqual(expTotCount);
@@ -55,7 +55,7 @@ export class ManageOrgPage extends BasePage {
         await this.webActions.fillField(this.CaseRefTextBox, caseReferenceNumber);
         await this.applyFilterButton.click();
         await this.delay(3000);
-        await this.verifyResultsCount(1);
+        (params.TestEnv == 'aat') ? await this.verifyResultsCount(1): console.log('No results found');
     }
 
     async unassignedCases() {

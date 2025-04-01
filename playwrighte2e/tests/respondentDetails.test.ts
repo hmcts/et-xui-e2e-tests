@@ -11,7 +11,7 @@ test.describe('Respondent details test', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
     });
 
-    test('England - Respondent details', async ({ loginPage, caseListPage, respondentDetailsPage, icUploadDocPage }) => {
+    test('England - Respondent details', {tag: '@demo'}, async ({ loginPage, caseListPage, respondentDetailsPage, icUploadDocPage }) => {
 
         await caseListPage.selectNextEvent('Respondent Details');
         // Check case file view

@@ -25,7 +25,7 @@ test.describe('Scotland - Caseworker Bundles test', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "Scotland", "ET_Scotland"));
     });
 
-    test('Bundles - Legal rep submit hearing preparation document - Scotland', async ({ page, et1CaseServingPage, bundleSteps }) => {
+    test('Bundles - Legal rep submit hearing preparation document - Scotland', {tag: '@demo'}, async ({ page, et1CaseServingPage, bundleSteps }) => {
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
         await bundleSteps.submitHearingPreparationDocument(page, 'Scotland', subRef, respondentName, firstName, lastName);
     });
@@ -38,7 +38,7 @@ test.describe('England - Claimant Bundles test', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
     });
 
-    test('Bundles - Claimant Submitting hearing preparation document - England',
+    test('Bundles - Claimant Submitting hearing preparation document - England', {tag: '@demo'},
         async ({ page, caseListPage, et1CaseServingPage, listHearingPage, loginPage, legalRepPage, citizenHubPage }) => {
 
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();

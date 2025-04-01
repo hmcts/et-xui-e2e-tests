@@ -20,7 +20,9 @@ test.describe('Work Allocation', () => {
         await createCaseStep.completeEt1VettingTask();
     });
 
-    test('Caseworker sends Referral- Referral task generated, Judge assign and completes referral task', async ({ page, caseListPage, referralSteps, loginPage }) => {
+    test('Caseworker sends Referral- Referral task generated, Judge assign and completes referral task', 
+        {tag: '@demo'},
+        async ({ page, caseListPage, referralSteps, loginPage }) => {
         //send referral
         await referralSteps.processReferrals(referralData.createNewReferral,
             (referralPage) => referralPage.sendNewReferral(false),
@@ -66,7 +68,7 @@ test.describe('Work Allocation', () => {
             ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
         });
 
-        test('Judge completes Draft and sign document task', async ({ page,caseListPage, listHearingPage, hearingDetailsPage, loginPage, draftJudgementPage }) => {
+        test('Judge completes Draft and sign document task', {tag: '@demo'}, async ({ page,caseListPage, listHearingPage, hearingDetailsPage, loginPage, draftJudgementPage }) => {
 
             //list past hearing
             await caseListPage.selectNextEvent('List Hearing');

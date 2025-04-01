@@ -9,7 +9,7 @@ test.describe('ET3 Process test', () => {
         await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales");
     });
 
-    test('England - processing an ET3 response', async ({ caseListPage, lettersPage, et3ProcessingSteps }) => {
+    test('England - processing an ET3 response', {tag: '@demo'}, async ({ caseListPage, lettersPage, et3ProcessingSteps }) => {
 
         await caseListPage.selectNextEvent(letterPageData.letterEvent);
         await lettersPage.generateNoHearingDateLetter();

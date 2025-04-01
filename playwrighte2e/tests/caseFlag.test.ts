@@ -8,7 +8,7 @@ test.describe('Case Flag', () => {
         await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales");
     });
 
-    test('Create and remove case Flag for E/W-Single case', async ({ caseListPage, createCaseFlagPage, manageCaseFlagPage }) => {
+    test('Create and remove case Flag for E/W-Single case', {tag: '@demo'}, async ({ caseListPage, createCaseFlagPage, manageCaseFlagPage }) => {
 
         //Create case flag
         await caseListPage.selectNextEvent('Create a case flag');
@@ -26,7 +26,7 @@ test.describe('Case Flag', () => {
             await createCaseStep.setupCaseCreatedViaApi(page, "Scotland", "ET_Scotland");
         });
 
-        test('Create and remove case Flag for Scotland-Single case', async ({ caseListPage, createCaseFlagPage, manageCaseFlagPage }) => {
+        test('Create and remove case Flag for Scotland-Single case', {tag: '@demo'}, async ({ caseListPage, createCaseFlagPage, manageCaseFlagPage }) => {
 
             //Create case flag
             await caseListPage.selectNextEvent('Create a case flag');

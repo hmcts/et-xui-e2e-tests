@@ -3,7 +3,9 @@ import {params} from '../utils/config';
 
 test.describe('Legal Representative Notifications', () => {
   //RET-5309
-  test('Legal Representative creates a claim and tribunal sends notification, Legal Rep view notification', async ({ page, createCaseStep, notificationPage, caseListPage, loginPage }) => {
+  test('Legal Representative creates a claim and tribunal sends notification, Legal Rep view notification', 
+    {tag: '@demo'},
+    async ({ page, createCaseStep, notificationPage, caseListPage, loginPage }) => {
     let submissionReference = await createCaseStep.setUpLegalRepCase(page);
 
     //send Notification
