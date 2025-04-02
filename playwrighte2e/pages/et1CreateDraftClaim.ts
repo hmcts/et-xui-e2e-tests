@@ -7,14 +7,14 @@ export default class Et1CreateDraftClaim extends BasePage{
 elements = {
 
   et1Postcode:  this.page.locator("//input[@id='et1ReppedTriageAddress_et1ReppedTriageAddress_postcodeInput']"),
-  et1Section1Link: this.page.locator('//a[contains(.,"ET1 Section 1")]'),
+  et1Section1Link: this.page.locator('//a[contains(.,"ET1 Section 1 - Claimant details")]'),
   claimantFirstName: this.page.locator('#claimantFirstName'),
   claimantLastname: this.page.locator('#claimantLastName'),
   date: this.page.locator('#claimantDateOfBirth-day'),
   month: this.page.locator('#claimantDateOfBirth-month'),
   year:this.page.locator('#claimantDateOfBirth-year'),
-  et1Section2Link:this.page.locator('//a[contains(.,"ET1 Section 2")]'),
-  et1Section3Link:this.page.locator('//a[contains(.,"ET1 Section 3")]'),
+  et1Section2Link:this.page.locator('//a[contains(.,"ET1 Section 2 - Employment & respondent details")]'),
+  et1Section3Link:this.page.locator('//a[contains(.,"ET1 Section 3 - Details of the claim")]'),
   submitClaimLink:this.page.locator('//a[contains(.,"Submit claim")]'),
   caseDetailsTab:this.page.locator('#mat-tab-label-0-0'),
   representativeAttendHearing: this.page.locator('#representativeAttendHearing-Phone'),
@@ -45,9 +45,10 @@ elements = {
     await expect(this.page.getByLabel('case viewer table').getByRole('table')).toContainText('ET1 Section 1 - Claimant details');
     await expect(this.page.getByLabel('case viewer table').getByRole('table')).toContainText('ET1 Section 2 - Employment & respondent details');
     await expect(this.page.getByLabel('case viewer table').getByRole('table')).toContainText('ET1 Section 3 - Details of the claim');
-    await expect(this.page.locator('#mat-tab-label-0-0')).toContainText('ET1 Claim');
+    await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
 
     await this.elements.et1Section1Link.click();
+    await this.delay(2000);
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Make a claim to an employment tribunal');
     await this.clickContinue();
 
@@ -110,12 +111,13 @@ elements = {
   }
 
   async et1Section2(respondentFirstName,respondentLastName){
-    await expect(this.page.locator('#mat-tab-label-0-0')).toContainText('ET1 Claim');
+    await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
 
-    await this.elements.et1Section2Link.click();
+    await this.page.getByRole('link', { name: 'ET1 Section 2 - Employment &' }).click();
+    await this.delay(2000);
 
-    await expect(this.page.getByRole('term')).toContainText('employment status');
-    //await expect(this.page.locator('ccd-case-edit-page')).toContainText('Section 2 - Employment and respondent details');
+    //await expect(this.page.getByRole('term')).toContainText('employment status');
+    await expect(this.page.locator('ccd-case-edit-page')).toContainText('Section 2 - Employment and respondent details');
     await this.clickContinue();
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Did the claimant work for the respondent the claim is being made against? (Optional)');
@@ -182,10 +184,10 @@ elements = {
   }
 
   async et1Section3(){
-    await expect(this.page.locator('#mat-tab-label-0-0')).toContainText('ET1 Claim');
+    await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
 
     await this.elements.et1Section3Link.click();
-
+    await this.delay(2000);
     await this.clickContinue();
 
     await this.page.locator('#et1SectionThreeClaimDetails').fill( 'No supplemetary Details');
@@ -213,8 +215,7 @@ elements = {
   }
 
   async et1SubmitClaim(){
-    await expect(this.page.locator('#mat-tab-label-content')).toContainText('ET1 Claim');
-
+    await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
     await this.elements.submitClaimLink.click();
 
 
