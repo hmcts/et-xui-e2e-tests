@@ -213,7 +213,7 @@ elements = {
   }
 
   async et1SubmitClaim(){
-    await expect(this.page.locator('#mat-tab-label-0-0')).toContainText('ET1 Claim');
+    await expect(this.page.locator('#mat-tab-label-content')).toContainText('ET1 Claim');
 
     await this.elements.submitClaimLink.click();
 
