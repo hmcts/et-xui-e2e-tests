@@ -5,10 +5,10 @@ import axeTest from '../helpers/accessibilityHelper';
 
 export default class AccessibilitySteps extends BaseStep {
 
-    async scanExuiPages(page, subRef: string, respondentName: string, firstName: string, lastName: string) {
+    async scanExuiPages(page) {
 
         await axeTest(page);
-        
+
         //Scan case tabs
         await this.caseListPage.navigateToTab('Claimant');
         await axeTest(page);
@@ -37,10 +37,6 @@ export default class AccessibilitySteps extends BaseStep {
         // await this.caseListPage.selectNextEvent('ET3 Processing');
         // await this.caseListPage.delay(2000);
         // await this.scanEt3ProcessingEvent(page); // et3 processing (Got accessibility error)
-
-        // login as legal rep & perform legal rep application
-        await this.scanLegalRepApplicationPages(page, subRef, respondentName, firstName, lastName, true);
-        await this.scanWAPages(page, subRef);
     }
 
     async scanEt3ProcessingEvent(page) {
@@ -69,7 +65,7 @@ export default class AccessibilitySteps extends BaseStep {
         await this.legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName, accessibilityEnabled);
         await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
         await this.caseListPage.processCaseFromCaseList();
-        
+
         //legal rep make an application
         await this.legalRepPage.legalRepMakeAnApplication(accessibilityEnabled);
     }

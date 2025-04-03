@@ -62,7 +62,7 @@ export class ApplicationTabPage  extends BasePage {
         await this.page.locator('h2.govuk-heading-l').waitFor();
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.searchDocumentFromCaseFileView));
     }
-    
+
     async recordADecision() {
         await this.page.waitForSelector(this.applicationTab, { timeout: 20000 });
         await this.page.click(this.applicationTab);
@@ -100,7 +100,7 @@ export class ApplicationTabPage  extends BasePage {
     async validateRecordDecisionDetails(){
         await this.page.waitForSelector(this.applicationTab, { timeout: 20000 });
         await this.page.click(this.applicationTab);
-        await this.page.getByRole('link', { name: 'image' }).click();
+        await this.page.getByRole('link', { name: 'accordion-img' }).click();
         await expect(this.page.locator('ccd-read-complex-field-collection-table')).toContainText('Record Decision');
         await expect(this.page.locator('ccd-read-complex-field-collection-table')).toContainText('Granted');
     }

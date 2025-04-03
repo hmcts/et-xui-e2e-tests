@@ -97,7 +97,7 @@ export class LegalRepPage extends BasePage {
     textArea= '#resTseTextBox1';
     applicationTypeDropDown = '#resTseSelectApplication';
     YesCorrespondenceRadioOption = '#resTseCopyToOtherPartyYesOrNo-Yes';
-    checkYourAnswerHeading = '//h2[@class="heading-h2"]';
+    checkYourAnswerHeading = '//h2[@class="heading-h2 ng-star-inserted"]';
     applicationTab = '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Applications"]';
     expandImgIcon = 'div a img';
 
@@ -163,7 +163,7 @@ export class LegalRepPage extends BasePage {
 
         await this.page.waitForTimeout(2000);
         await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-        
+
         if(accessibilityEnabled) axeTest(this.page);
         await this.webActions.clickElementByCss(this.submitButtonLegalRep);
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.successfulMessageHeader), 20000);
@@ -456,7 +456,7 @@ async grantAccessToMultiples(caseNumber: string) {
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.applicationTab), 20000);
         await this.webActions.clickElementByCss(this.applicationTab);
         await this.page.waitForTimeout(5000);
-        
+
         await this.page.waitForSelector(this.makeAnApplicationLink);
         if(accessibilityEnabled)  {
             axeTest(this.page);
@@ -476,7 +476,7 @@ async grantAccessToMultiples(caseNumber: string) {
         await this.page.setInputFiles(this.uploadDocumentContactTribunal, 'test/data/welshTest.pdf');
         await this.page.waitForTimeout(10000);
         await this.webActions.fillField(this.textArea, 'Make an application text');
-        /* (Got accessibility error) 
+        /* (Got accessibility error)
         if(accessibilityEnabled)  {
              axeTest(this.page);
              await this.delay(3000);

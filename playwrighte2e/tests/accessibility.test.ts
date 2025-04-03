@@ -7,13 +7,31 @@ let caseNumber;
 test.describe('Accessibility test', () => {
 
     test.beforeEach(async ({ page, createCaseStep }) => {
-        
+
         ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, true));
     });
 
-    test('Scan exui pages', {tag: '@accessibility'}, async ({ page, accessibilitySteps, et1CaseServingPage }) => {
+    test('Scan exui pages- Caseworker journey', {tag: '@accessibility'}, async ({ page, accessibilitySteps }) => {
+        await accessibilitySteps.scanExuiPages(page);
+    });
 
-        const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();     
-        await accessibilitySteps.scanExuiPages(page, subRef, respondentName, firstName, lastName);
+});
+
+test.describe('Accessibility test', () => {
+
+    test.beforeEach(async ({ page, createCaseStep }) => {
+
+        //accessibility test not needed for pre steps
+        ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
+    });
+
+    test('Scan exui pages- Legal Representative journey', {tag: '@accessibility'}, async ({ page, et1CaseServingPage, accessibilitySteps }) => {
+
+        const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
+        await accessibilitySteps.scanLegalRepApplicationPages(page, subRef, respondentName, firstName, lastName, true);
+    });
+
+    test('Scan exui pages- Work allocation journey', {tag: '@accessibility'}, async ({ page, accessibilitySteps}) => {
+        await accessibilitySteps.scanWAPages(page, subRef);
     });
 });
