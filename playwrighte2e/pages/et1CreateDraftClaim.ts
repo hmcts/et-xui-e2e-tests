@@ -108,13 +108,13 @@ elements = {
 
     await expect(this.page.locator('#confirmation-body')).toContainText('Your answers have been saved.');
     await this.closeAndReturn();
+    await this.delay(2000);
   }
 
   async et1Section2(respondentFirstName,respondentLastName){
     await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
 
-    await this.page.getByRole('link', { name: 'ET1 Section 2 - Employment &' }).click();
-    await this.delay(2000);
+    await this.elements.et1Section2Link.click();
 
     //await expect(this.page.getByRole('term')).toContainText('employment status');
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Section 2 - Employment and respondent details');
@@ -181,13 +181,12 @@ elements = {
 
     await expect(this.page.locator('#confirmation-body')).toContainText('Your answers have been saved.');
     await this.closeAndReturn();
+    await this.delay(2000);
   }
 
   async et1Section3(){
     await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
-
     await this.elements.et1Section3Link.click();
-    await this.delay(2000);
     await this.clickContinue();
 
     await this.page.locator('#et1SectionThreeClaimDetails').fill( 'No supplemetary Details');
@@ -212,6 +211,7 @@ elements = {
 
     await expect(this.page.locator('#confirmation-body')).toContainText('Your answers have been saved.');
     await this.closeAndReturn();
+    await this.delay(2000);
   }
 
   async et1SubmitClaim(){

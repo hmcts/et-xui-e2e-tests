@@ -109,6 +109,7 @@ export default class CaseListPage extends BasePage{
 
       await this.enterPostCode(postcode);
       await this.submitButton();
+      await this.delay(2000);
     }
 
   async clickTab(tabName){
