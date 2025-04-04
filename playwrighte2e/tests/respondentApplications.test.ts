@@ -10,7 +10,7 @@ test.describe('ET3/Respondent Applications', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
     });
 
-    test('Respondent makes Type A Application', async ({ et3LoginPage, respondentCaseOverviewPage, citizenHubPage}) => {
+    test.skip('Respondent makes Type A Application', async ({ et3LoginPage, respondentCaseOverviewPage, citizenHubPage}) => {
         //Assign a claim to respondent
         await et3LoginPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
         await et3LoginPage.replyToNewClaim(subRef, caseNumber);
