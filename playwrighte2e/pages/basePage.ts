@@ -20,7 +20,7 @@ export abstract class BasePage {
   readonly newhearingBtn: string;
   readonly newUploadDocBtn: Locator;
   readonly webActions: WebAction;
-  
+
 
 
   constructor(page: Page) {
@@ -77,6 +77,11 @@ export abstract class BasePage {
   async signoutButton(){
     await this.webActions.clickElementByText('Sign out');
   }
+
+  async signOutButtonSyr(){
+    await this.webActions.clickElementByRole('link', { name: 'Sign out' });
+  }
+
 
   async clickStartNow(){
     await this.webActions.clickElementByRole('button', { name: 'Start now' });

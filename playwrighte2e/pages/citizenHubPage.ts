@@ -88,7 +88,7 @@ export default class CitizenHubPage extends BasePage {
     async processCitizenHubLogin(username, password) {
       await this.page.goto(params.TestUrlCitizenUi);
       await this.webActions.clickElementByCss(this.elements.returnToExistingClaim);
-    
+
       await this.webActions.checkElementById(this.elements.employmentTribunalAccount);
       await this.clickContinue();
       await this.loginCitizenUi(username, password);
@@ -125,7 +125,7 @@ export default class CitizenHubPage extends BasePage {
             await this.webActions.clickElementByCss(this.elements.withdrawClaimLink);
             await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.applicationTextField));
             await this.webActions.fillField(this.elements.applicationTextField, 'blah blah');
-            
+
             await this.clickContinue();
             break;
           case 'submit document for hearing':
@@ -247,5 +247,28 @@ export default class CitizenHubPage extends BasePage {
       await this.page.getByRole('link', { name: 'View the decision' }).click();
       await expect(this.page.locator('body')).toContainText('Decision');
     }
+
+  async respondToRespondentApplication(){
+    await this.page.getByRole('link', { name: 'Respondent\'s applications' }).isVisible();
+    await this.webActions.clickElementByRole('link', { name: 'Respondent\'s applications' });
+    await this.delay(2000);
+
+    await this.page.getByRole('link', { name: 'Amend response' }).isVisible();
+    await this.webActions.clickElementByRole('link', { name: 'Amend response' });
+
+    await this.webActions.clickElementByRole('button', { name: 'Respond' });
+
+    await this.page.locator('#respond-to-application-text').isVisible();
+    await this.webActions.fillField('#respond-to-application-text', 'Response from claimant');
+    await this.webActions.checkElementById('#supporting-material-yes-no-2');
+    await this.clickContinue();
+
+    await this.page.locator('#copyToOtherPartyYesOrNo').isVisible();
+    await this.webActions.checkElementByLabel('Yes, I confirm I want to copy');
+    await this.clickContinue();
+
+    await expect(this.page.getByRole('heading')).toContainText('Check your answers');
+    await this.submitButton();
+  }
 
 }
