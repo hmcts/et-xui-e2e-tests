@@ -26,6 +26,7 @@ export default class PersonalDetailsPage extends BasePage{
         await this.enterTelephoneNumber();
         await this.selectHowToBeContacted();
         await this.selectHearingPreference();
+        await this.preferenceForJudgeOrPanel();
         await this.selectReasonableAdjustment();
         await this.confirmCompletedPersonalDetailsQuestions();
         break;
@@ -37,6 +38,7 @@ export default class PersonalDetailsPage extends BasePage{
         await this.enterTelephoneNumber();
         await this.communicationPreferenceScotland();
         await this.selectHearingPreference();
+        await this.preferenceForJudgeOrPanel();
         await this.selectReasonableAdjustment();
         await this.confirmCompletedPersonalDetailsQuestions();
         break;
@@ -114,6 +116,13 @@ export default class PersonalDetailsPage extends BasePage{
     await this.webActions.verifyElementContainsText(this.page.locator('fieldset'), 'Yes, I can take part in video hearings');
     await this.webActions.verifyElementContainsText(this.page.locator('fieldset'), 'Yes, I can take part in phone hearings');
     await this.webActions.checkElementById('#hearingPreferences');
+    await this.saveAndContinueButton();
+  }
+
+  async preferenceForJudgeOrPanel(){
+    await this.webActions.verifyElementContainsText(this.page.locator('#main-form'), 'How do you prefer to have your case heard? (Optional)');
+    await this.webActions.checkElementById('#hearingPanelPreference-2');
+    await this.webActions.fillField('#hearingPanelPreferenceReasonJudge', 'judge or panel preference details');
     await this.saveAndContinueButton();
   }
   async selectReasonableAdjustment() {
