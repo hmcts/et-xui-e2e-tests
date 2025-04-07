@@ -81,6 +81,10 @@ elements = {
     await this.elements.claimantHearingContactLanguage.check();
     await this.clickContinue();
 
+    await expect(this.page.locator('ccd-case-edit-page')).toContainText('Preference for judge or panel');
+    await this.webActions.checkElementById('#tmpClaimantHearingPanelPreference-Judge');
+    await this.webActions.fillField('#tmpClaimantHearingPanelPreferenceReason', 'This is panel preference text');
+    await this.clickContinue();
 
     await this.elements.claimantSupportQuestion.check();
     await this.page.locator('#claimantSupportQuestionReason').fill('disability access');
