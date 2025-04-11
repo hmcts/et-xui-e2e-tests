@@ -25,14 +25,28 @@ export default class RespondentCaseOverviewPage extends BasePage {
         await this.clickStartNow();
     }
 
-    async respondentMakeApplicationTypeA() {
+    async respondentMakeApplication(option, copyToCorrespondenceFlag) {
         await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
         await this.webActions.verifyElementContainsText(this.page.locator('h3'), 'The tribunal has acknowledged a claim against');
 
         await this.webActions.clickElementByRole('link', {name: 'Contact the tribunal about my case'});
         await expect(this.page.locator('#contact-options')).toContainText('Show all sections');
-        await this.webActions.clickElementByRole('button', { name: 'Apply to amend my response ,' });
-        await this.webActions.clickElementByRole('link', { name: 'Apply to amend my response' });
+        switch (option) {
+            case 'TypeA':
+                await this.webActions.clickElementByRole('button', { name: 'Apply to amend my response ,' });
+                await this.webActions.clickElementByRole('link', { name: 'Apply to amend my response' });
+                break;
+            case 'TypeB':
+                await this.webActions.clickElementByRole('button', { name: 'I want to change my personal details ,' });
+                await this.webActions.clickElementByRole('link', { name: 'I want to change my personal details' });
+                break;
+            case 'TypeC':
+                await this.webActions.clickElementByRole('button', { name: 'Order a witness to give evidence ,' });
+                await this.webActions.clickElementByRole('link', { name: 'Order a witness to give evidence' });
+                break;
+            default:
+                throw new Error('... Incorrect input, select correct application type');
+        }
         await this.page.locator('#contactApplicationText').isVisible();
 
         // await this.page.getByRole('textbox', { name: 'Document' }).setInputFiles('empty.pdf');
@@ -42,13 +56,14 @@ export default class RespondentCaseOverviewPage extends BasePage {
         await expect(this.page.locator('#contactApplicationFile-hint')).toContainText('You have previously uploaded: test.txt');
 
         // await page.getByRole('button', { name: 'Upload file' }).click();
-        await this.webActions.fillField('#contactApplicationText', 'Type A application');
+        await this.webActions.fillField('#contactApplicationText', 'this is respondent application');
         await this.clickContinue();
 
-        await this.page.locator('#copyToOtherPartyYesOrNo').isVisible();
-        await this.webActions.checkElementByLabel('Yes, I confirm I want to copy');
-        await this.clickContinue();
-
+        if (copyToCorrespondenceFlag) {
+            await this.page.locator('#copyToOtherPartyYesOrNo').isVisible();
+            await this.webActions.checkElementByLabel('Yes, I confirm I want to copy');
+            await this.clickContinue();
+        }
 
         await expect(this.page.getByRole('heading')).toContainText('Check your answers');
         await this.submitButton();
@@ -58,13 +73,25 @@ export default class RespondentCaseOverviewPage extends BasePage {
         await expect(this.page.locator('#main-content')).toContainText('Your request and applications');
     }
 
-    async validateApplicationTypeA(){
+    async validateApplication(option){
         await this.webActions.clickElementByRole('link', { name: 'Your request and applications' });
         await expect(this.page.getByRole('caption')).toContainText('Your applications to the tribunal');
         await expect(this.page.locator('tbody')).toContainText('In progress');
 
+        switch (option) {
+            case 'TypeA':
+                await this.webActions.clickElementByRole('link', { name: 'Amend my response' });
+                break;
+            case 'TypeB':
+                await this.webActions.clickElementByRole('link', { name: 'I want to change my personal details' });
+                break;
+            case 'TypeC':
+                await this.webActions.clickElementByRole('link', { name: 'Order a witness to attend' });
+                break;
+            default:
+                throw new Error('... Incorrect input, select correct application type');
+        }
 
-        await this.webActions.clickElementByRole('link', { name: 'Amend my response' });
         await expect(this.page.locator('dl')).toContainText('Respondent');
     }
 

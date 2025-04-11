@@ -248,16 +248,25 @@ export default class CitizenHubPage extends BasePage {
       await expect(this.page.locator('body')).toContainText('Decision');
     }
 
-  async respondToRespondentApplication(){
+  async respondToRespondentApplication(option){
     await this.page.getByRole('link', { name: 'Respondent\'s applications' }).isVisible();
     await this.webActions.clickElementByRole('link', { name: 'Respondent\'s applications' });
     await this.delay(2000);
 
-    await this.page.getByRole('link', { name: 'Amend response' }).isVisible();
-    await this.webActions.clickElementByRole('link', { name: 'Amend response' });
+    switch (option) {
+      case 'TypeA':
+        await this.page.getByRole('link', { name: 'Amend response' }).isVisible();
+        await this.webActions.clickElementByRole('link', { name: 'Amend response' });
+        break;
+      case 'TypeB':
+        await this.page.getByRole('link', { name: 'Change personal details' }).isVisible();
+        await this.webActions.clickElementByRole('link', { name: 'Change personal details' });
+        break;
+      default:
+        throw new Error('... Incorrect input, select correct application type');
+    }
 
     await this.webActions.clickElementByRole('button', { name: 'Respond' });
-
     await this.page.locator('#respond-to-application-text').isVisible();
     await this.webActions.fillField('#respond-to-application-text', 'Response from claimant');
     await this.webActions.checkElementById('#supporting-material-yes-no-2');
