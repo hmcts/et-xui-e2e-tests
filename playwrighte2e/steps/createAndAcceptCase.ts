@@ -101,6 +101,7 @@ export default class createAndAcceptCase extends BaseStep {
       await this.et1CreateDraftClaim.et1Section2(userDetailsData.respondentsFirstName, userDetailsData.respondentsLastName);
       await this.et1CreateDraftClaim.et1Section3();
       let submissionReference = await this.et1CreateDraftClaim.et1SubmitClaim();
+      subRef = submissionReference.toString();
       console.log('Case Submission Reference ' + submissionReference);
       await this.caseListPage.signoutButton();
 

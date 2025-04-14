@@ -65,7 +65,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
             await this.clickContinue();
         }
 
-        await expect(this.page.getByRole('heading')).toContainText('Check your answers');
+        await this.page.waitForSelector('text=Check your answers');
         await this.submitButton();
 
         await expect(this.page.locator('h1')).toContainText('You have sent your application to the tribunal');
@@ -83,7 +83,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
                 await this.webActions.clickElementByRole('link', { name: 'Amend my response' });
                 break;
             case 'TypeB':
-                await this.webActions.clickElementByRole('link', { name: 'I want to change my personal details' });
+                await this.webActions.clickElementByRole('link', { name: 'Change my personal details' });
                 break;
             case 'TypeC':
                 await this.webActions.clickElementByRole('link', { name: 'Order a witness to attend' });
