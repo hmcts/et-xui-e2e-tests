@@ -33,3 +33,21 @@ test.describe('Various events in mange case application', () => {
   });
 
 });
+
+test.describe('Claimant retaining access to transferred case', () => {
+  test.beforeEach(async ({ page, createCaseStep }) => {
+    ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
+
+  });
+  test('Create a England/Wales claim and transfer to Scotland, Claimant retains case', async ({ caseListPage, caseTransferPage, citizenHubPage }) => {
+    await caseListPage.selectNextEvent('Case Transfer (Scotland)');
+    await caseTransferPage.progressCaseTransfer();
+    let newSubRef= await caseTransferPage.checkYourAnswer(caseNumber);
+
+    //login as claimant and access transferred case
+    await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+  });
+
+});
+

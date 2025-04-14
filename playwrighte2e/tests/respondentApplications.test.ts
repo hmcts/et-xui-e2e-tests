@@ -5,6 +5,7 @@ import { params } from '../utils/config';
 let caseNumber: any;
 let subRef;
 
+
 const respName ='Mrs Test Auto';
 const firstName ='Grayson';
 const lastName = 'Becker';
@@ -13,6 +14,7 @@ test.describe('ET3/Respondent Applications', () => {
     test.beforeEach(async ({ page,createCaseStep }) => {
         ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
     });
+
 
     test('Respondent makes Type A Application, Claimant respond to an application successfully', async ({ et3LoginPage, respondentCaseOverviewPage, citizenHubPage}) => {
         //Assign a claim to respondent
@@ -90,7 +92,5 @@ test.describe('ET3/Respondent Applications', () => {
         // legal rep can see an application
         await legalRepPage.legalRepViewApplication();
     });
-
-
 
 });
