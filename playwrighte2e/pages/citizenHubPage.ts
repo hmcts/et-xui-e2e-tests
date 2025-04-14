@@ -276,7 +276,7 @@ export default class CitizenHubPage extends BasePage {
     await this.webActions.checkElementByLabel('Yes, I confirm I want to copy');
     await this.clickContinue();
 
-    await expect(this.page.getByRole('heading')).toContainText('Check your answers');
+    await this.page.waitForSelector('text=Check your answers');
     await this.submitButton();
   }
 
