@@ -108,7 +108,7 @@ export default class createAndAcceptCase extends BaseStep {
       //vet the case
       await page.goto(params.TestUrlForManageCaseAAT);
       await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-      await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference.toString());
+      await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
       let caseNumber = await this.caseListPage.processCaseFromCaseList();
       await this.caseListPage.selectNextEvent('ET1 case vetting');
       await this.et1VettingPage.processET1CaseVettingPages();
