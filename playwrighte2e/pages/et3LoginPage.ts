@@ -97,4 +97,12 @@ export default class Et3LoginPage extends BasePage {
     await this.webActions.clickElementByLabel('view ' + caseNumber.toString() + ':');
   }
 
+  async validateClaimantDetailsInRespondentApp(firstname:string, lastname:string) {
+    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
+
+    await this.webActions.clickElementByText('View claimant contact details');
+    await expect(this.page.locator('dl')).toContainText(firstname +" " +lastname);
+    await expect(this.page.locator('dl')).toContainText('Address');
+    await expect(this.page.locator('dl')).toContainText('Email');
+  }
 }
