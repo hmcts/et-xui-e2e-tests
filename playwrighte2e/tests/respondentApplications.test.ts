@@ -5,26 +5,92 @@ import { params } from '../utils/config';
 let caseNumber: any;
 let subRef;
 
+
+const respName ='Mrs Test Auto';
+const firstName ='Grayson';
+const lastName = 'Becker';
+
 test.describe('ET3/Respondent Applications', () => {
     test.beforeEach(async ({ page,createCaseStep }) => {
         ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
     });
 
-    test.skip('Respondent makes Type A Application', async ({ et3LoginPage, respondentCaseOverviewPage, citizenHubPage}) => {
+
+    test('Respondent makes Type A Application, Claimant respond to an application successfully', async ({ et3LoginPage, respondentCaseOverviewPage, citizenHubPage}) => {
         //Assign a claim to respondent
         await et3LoginPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
-        await et3LoginPage.replyToNewClaim(subRef, caseNumber);
+        await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);
 
         //make type A application
-        await respondentCaseOverviewPage.respondentMakeApplicationTypeA();
+        await respondentCaseOverviewPage.respondentMakeApplication('TypeA', true);
 
         //validate application is visible in respondent application link
-        await respondentCaseOverviewPage.validateApplicationTypeA();
+        await respondentCaseOverviewPage.validateApplication('TypeA');
         await respondentCaseOverviewPage.signOutButtonSyr();
 
         //Citizen & caseworker can view an application
         await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
         await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
-        await citizenHubPage.respondToRespondentApplication();
+        await citizenHubPage.respondToRespondentApplication('TypeA');
     });
+
+    test('Respondent makes Type B Application, Claimant respond to an application successfully', async ({ et3LoginPage, respondentCaseOverviewPage, citizenHubPage}) => {
+        //Assign a claim to respondent
+        await et3LoginPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
+        await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);
+
+        //make type B application
+        await respondentCaseOverviewPage.respondentMakeApplication('TypeB', true);
+
+        //validate application is visible in respondent application link
+        await respondentCaseOverviewPage.validateApplication('TypeB');
+        await respondentCaseOverviewPage.signOutButtonSyr();
+
+        //Citizen & caseworker can view an application
+        await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+        await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+        await citizenHubPage.respondToRespondentApplication('TypeB');
+    });
+
+    test('Respondent makes Type C Application successfully', async ({ et3LoginPage, respondentCaseOverviewPage, citizenHubPage}) => {
+        //Assign a claim to respondent
+        await et3LoginPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
+        await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);
+
+        //make type B application
+        await respondentCaseOverviewPage.respondentMakeApplication('TypeC', false);
+
+        //validate application is visible in respondent application link
+        await respondentCaseOverviewPage.validateApplication('TypeC');
+        await respondentCaseOverviewPage.signOutButtonSyr();
+    });
+
+});
+
+test.describe('ET3/Respondent Applications', () => {
+
+    test('Legal Representative created a case, Respondent makes Type A Application, LR can see application', async ({page, createCaseStep,loginPage,caseListPage, legalRepPage,et3LoginPage, respondentCaseOverviewPage}) => {
+        const respName ='Mark McDonald';
+        const firstName ='Jessamine';
+        const lastName = 'Malcom';
+
+        ({subRef, caseNumber}  = await createCaseStep.setUpLegalRepCase(page));
+        await caseListPage.signoutButton();
+
+        // assign case to respondent and make application
+        await et3LoginPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
+        await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);
+        await respondentCaseOverviewPage.respondentMakeApplication('TypeA', true);
+        await respondentCaseOverviewPage.signOutButtonSyr();
+
+        // legal rep makes application
+        await page.goto(params.TestUrlForManageCaseAAT);
+        await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
+        await caseListPage.processCaseFromCaseList();
+
+        // legal rep can see an application
+        await legalRepPage.legalRepViewApplication();
+    });
+
 });

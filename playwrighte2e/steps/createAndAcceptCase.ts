@@ -101,13 +101,14 @@ export default class createAndAcceptCase extends BaseStep {
       await this.et1CreateDraftClaim.et1Section2(userDetailsData.respondentsFirstName, userDetailsData.respondentsLastName);
       await this.et1CreateDraftClaim.et1Section3();
       let submissionReference = await this.et1CreateDraftClaim.et1SubmitClaim();
-      console.log('The value of the Case Number ' + submissionReference);
+      subRef = submissionReference.toString();
+      console.log('Case Submission Reference ' + submissionReference);
       await this.caseListPage.signoutButton();
 
       //vet the case
       await page.goto(params.TestUrlForManageCaseAAT);
       await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-      await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionReference.toString());
+      await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
       let caseNumber = await this.caseListPage.processCaseFromCaseList();
       await this.caseListPage.selectNextEvent('ET1 case vetting');
       await this.et1VettingPage.processET1CaseVettingPages();
@@ -116,7 +117,7 @@ export default class createAndAcceptCase extends BaseStep {
       await this.caseListPage.selectNextEvent('Accept/Reject Case');
       await this.et1CaseServingPage.processET1CaseServingPages();
 
-      return submissionReference;
+       return {subRef, caseNumber};
     }
 
     async completeEt1VettingTask(){

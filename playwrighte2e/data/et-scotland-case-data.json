@@ -53,7 +53,7 @@
           "value": {
             "respondent_name": "Mrs Test Auto",
             "respondent_ACAS_question": "Yes",
-            "respondent_ACAS": "15678",
+            "respondent_ACAS": "R807115/23/89",
             "respondent_ACAS_no": null,
             "respondent_phone1": null,
             "responseReceived": "No",
@@ -132,4 +132,3 @@
       "representativeClaimantType": null
     }
   }
-  

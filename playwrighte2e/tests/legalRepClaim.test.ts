@@ -1,5 +1,7 @@
 import {test} from '../fixtures/common.fixture';
 import {params} from '../utils/config';
+let caseNumber: any;
+let subRef;
 
 test.describe('Legal Representative submits a case and perform various events', () => {
         test('Claimant Representative creates a claim (England and Wales - Singles) and submit', {tag: '@demo'}, async () => {
@@ -41,8 +43,8 @@ test.describe('Legal Representative submits a case and perform various events', 
     test('CR creates a claim, amend claimant/respondent names and persist NOC with original claimant/respondent names',
         {tag: '@demo'},
         async ({ page, createCaseStep, caseListPage, claimantDetailsPage, respondentDetailsPage, loginPage, nocPage }) => {
-        
-        const submissionReference = await createCaseStep.setUpLegalRepCase(page);
+
+        ({subRef, caseNumber}  = await createCaseStep.setUpLegalRepCase(page));
 
         // Amend Claimant and Respondent names
         await caseListPage.selectNextEvent('Claimant Details');
@@ -54,6 +56,6 @@ test.describe('Legal Representative submits a case and perform various events', 
         // Perform NOC using original Claimant and Respondent names (different org)
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETRespondentEmailAddress, params.TestEnvETRespondentPassword);
-        await nocPage.processNoc(submissionReference);
+        await nocPage.processNoc(subRef);
     });
 });
