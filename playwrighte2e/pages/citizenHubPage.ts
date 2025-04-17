@@ -280,4 +280,8 @@ export default class CitizenHubPage extends BasePage {
     await this.submitButton();
   }
 
+  async validateApplicationBanner() {
+    await expect(this.page.getByLabel('Important')).toContainText('The respondent has applied to amend response');
+    await expect(this.page.getByRole('link', { name: 'Respond to the application' })).toBeVisible();
+  }
 }

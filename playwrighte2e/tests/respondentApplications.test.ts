@@ -31,6 +31,8 @@ test.describe('ET3/Respondent Applications', () => {
         //Citizen & caseworker can view an application
         await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
         await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+        //RET-5754
+        //await citizenHubPage.validateApplicationBanner();
         await citizenHubPage.respondToRespondentApplication('TypeA');
     });
 
