@@ -39,7 +39,7 @@ test.describe('ET3/Respondent Journey', () => {
     await respSubmitEt3.checkYourAnswers();
   });
 
-  test.skip('Validate claimant details in respondent application', {tag: '@demo'}, async ({ et3LoginPage, respondentCaseOverviewPage, respondentTaskListPage }) => {
+  test('Validate claimant details in respondent application', {tag: '@demo'}, async ({ et3LoginPage, respondentCaseOverviewPage, respondentTaskListPage }) => {
     //RET-5517
     await et3LoginPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
     await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);
