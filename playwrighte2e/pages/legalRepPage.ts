@@ -316,7 +316,7 @@ export class LegalRepPage extends BasePage {
         await this.page.waitForSelector('text=ET3 - Response to Employment tribunal claim (ET1)');
         await this.page.click(this.legalRepSubmit);
         await this.page.waitForSelector(this.et3respondentFormDropdown, { timeout: 10000 });
-        await this.page.selectOption(this.et3respondentFormDropdown, '1: R: Henry Marsh');
+        await this.page.selectOption(this.et3respondentFormDropdown, '1: R: Mrs Test Auto');
         await this.page.waitForTimeout(2000);
         await this.page.click(this.continueLegalRepButton);
         await this.page.waitForSelector(this.contractClaimCorrectYesButton, { timeout: 10000 });

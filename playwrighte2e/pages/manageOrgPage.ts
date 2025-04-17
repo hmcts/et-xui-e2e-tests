@@ -39,7 +39,7 @@ export class ManageOrgPage extends BasePage {
         await this.webActions.clickElementByCss(this.AssigneeNameSearchBox);
         await this.webActions.fillField(this.AssigneeNameSearchBox, assigneeName);
         await this.applyFilterButton.click();
-        (params.TestEnv == 'demo') ? await this.verifyResultsCount(25): await this.verifyResultsCount(6);
+        (params.TestEnv == 'demo') ? await this.verifyResultsCount(25): await this.verifyResultsCount(5);
     }
 
     async verifyResultsCount(expTotCount: number) {

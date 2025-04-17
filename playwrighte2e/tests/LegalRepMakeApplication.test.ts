@@ -80,5 +80,26 @@ test.describe('Make an application and view Recorded Decision', () => {
         //  await citizenHubPage.validateRecordDecisionBanner(); RET-5707 bug ticket raised for the failing step
         await page.click('text=Sign out');
     });
+
+    test.skip('England - submit ET3 as a legal Representative', async ({ page,loginPage, legalRepPage, et1CaseServingPage,caseListPage, lettersPage, et3ProcessingSteps }) => {
+        //process NOC
+        //const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
+        //perform NOC
+       // await page.click('text=Sign out');
+        subRef ='1744798985026853';
+        await page.goto(params.TestUrlForManageCaseAAT);
+        await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+        // await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
+         await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
+        caseNumber = await caseListPage.processCaseFromCaseList();
+
+        //perform all ET3 events as a LR
+        await caseListPage.selectNextEvent('ET3 - Respondent Details');
+        await legalRepPage.completeDraftET3ResponseForm();
+
+        await caseListPage.selectNextEvent('Submit ET3 Form');
+        await legalRepPage.submitET3ResponseForm();
+
+    });
 });
 
