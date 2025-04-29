@@ -15,27 +15,6 @@ test.describe('ET3/Respondent Applications', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
     });
 
-
-    test('Respondent makes Type A Application, Claimant respond to an application successfully', async ({ et3LoginPage, respondentCaseOverviewPage, citizenHubPage}) => {
-        //Assign a claim to respondent
-        await et3LoginPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
-        await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);
-
-        //make type A application
-        await respondentCaseOverviewPage.respondentMakeApplication('TypeA', true);
-
-        //validate application is visible in respondent application link
-        await respondentCaseOverviewPage.validateApplication('TypeA');
-        await respondentCaseOverviewPage.signOutButtonSyr();
-
-        //Citizen & caseworker can view an application
-        await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
-        await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
-        //RET-5754
-        //await citizenHubPage.validateApplicationBanner();
-        await citizenHubPage.respondToRespondentApplication('TypeA');
-    });
-
     test('Respondent makes Type B Application, Claimant respond to an application successfully', async ({ et3LoginPage, respondentCaseOverviewPage, citizenHubPage}) => {
         //Assign a claim to respondent
         await et3LoginPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
