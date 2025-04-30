@@ -53,7 +53,9 @@ export class LegalRepPage extends BasePage {
     loadingSpinner = '.spinner-container';
     legalRepNotificationTab = '#mat-tab-label-0-6';
     viewJudgmentOrderOrNotificationLink = '//a[.="View a judgment, order or notification"]';
+    viewAnApplicationLink = '//a[.="View an application"]'
     selectJudgmentOrderorNotificationDropdown = '#pseRespondentSelectJudgmentOrderNotification';
+    viewApplicationDropdown = '#tseViewApplicationSelect';
     lrRespondToTribunal = '//a[.="Respond to an order or request from the tribunal"]';
     responseNotificationDropdown = '#pseRespondentSelectOrderOrRequest';
     casedetailsEditForm = '#caseEditForm';
@@ -314,7 +316,7 @@ export class LegalRepPage extends BasePage {
         await this.page.waitForSelector('text=ET3 - Response to Employment tribunal claim (ET1)');
         await this.page.click(this.legalRepSubmit);
         await this.page.waitForSelector(this.et3respondentFormDropdown, { timeout: 10000 });
-        await this.page.selectOption(this.et3respondentFormDropdown, '1: R: Henry Marsh');
+        await this.page.selectOption(this.et3respondentFormDropdown, '1: R: Mrs Test Auto');
         await this.page.waitForTimeout(2000);
         await this.page.click(this.continueLegalRepButton);
         await this.page.waitForSelector(this.contractClaimCorrectYesButton, { timeout: 10000 });
@@ -506,4 +508,19 @@ async grantAccessToMultiples(caseNumber: string) {
         await this.page.click(this.closeAndReturnButton);
 
     }
-};
+
+    async legalRepViewApplication() {
+        await this.webActions.clickElementByCss(this.applicationTab);
+        await this.page.waitForSelector(this.viewAnApplicationLink, { timeout: 10000 });
+        await this.page.click(this.viewAnApplicationLink);
+        await this.page.waitForSelector('text=View application');
+        await this.webActions.checkElementById('#tseViewApplicationOpenOrClosed-Open');
+        await this.page.click(this.continueLegalRepButton);
+        await this.page.selectOption(this.viewApplicationDropdown, '1: 1');
+        await this.page.waitForTimeout(3000);
+        await this.page.click(this.continueLegalRepButton);
+        await this.page.waitForSelector('text=View Application');
+        await expect(this.page.locator('tbody')).toContainText('Respondent');
+        await expect(this.page.locator('tbody')).toContainText('Amend response');
+    }
+}

@@ -44,14 +44,14 @@ export default class Et3LoginPage extends BasePage {
   }
 
 
-  async replyToNewClaim(submissionRef, caseNumber){
+  async replyToNewClaim(submissionRef, caseNumber, respName, firstName, lastName){
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Before you continue');
 
     await this.clickContinue();
     await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'ET3 Responses');
     await this.webActions.clickElementByCss(this.elements.respondToNewClaim);
     await this.caseNumberPage(caseNumber);
-    await this.caseDetailsPage(submissionRef);
+    await this.caseDetailsPage(submissionRef, respName, firstName, lastName);
     await this.checkAndSubmitPage(caseNumber);
   }
 
@@ -62,15 +62,15 @@ export default class Et3LoginPage extends BasePage {
     await this.clickContinue();
   }
 
-  async caseDetailsPage(submissionRef){
+  async caseDetailsPage(submissionRef, respName, firstName, lastName){
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Case Details');
     await this.webActions.fillField(this.elements.submissionRefNumber, submissionRef.toString());
 
     //resp name is hard coded here as case is created from api which is using json
     //check case sensitivity
-    await this.webActions.fillField(this.elements.respName, 'mrS test AUto');
-    await this.webActions.fillField(this.elements.claimantFirstName, 'GraYSon');
-    await this.webActions.fillField(this.elements.claimantLastName, 'BEckEr');
+    await this.webActions.fillField(this.elements.respName, respName);
+    await this.webActions.fillField(this.elements.claimantFirstName, firstName);
+    await this.webActions.fillField(this.elements.claimantLastName, lastName);
     await this.delay(5000);
     await this.clickContinue();
   }
@@ -87,4 +87,23 @@ export default class Et3LoginPage extends BasePage {
     await this.webActions.clickElementByLabel('view ' + caseNumber.toString() + ':');
   }
 
+  async processRespondentLoginForExistingCase(username: string, password: string, caseNumber: string){
+    await this.page.goto(params.TestUrlRespondentUi);
+    await this.webActions.checkElementById('#return_number_or_account-2');
+    await this.clickContinue();
+    await this.loginRespondentUi(username, password);
+
+    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'ET3 Responses');
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.respondToNewClaim));
+    await this.webActions.clickElementByLabel('view ' + caseNumber.toString() + ':');
+  }
+
+  async validateClaimantDetailsInRespondentApp(firstname:string, lastname:string) {
+    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
+
+    await this.webActions.clickElementByText('View claimant contact details');
+    await expect(this.page.locator('dl')).toContainText(firstname +" " +lastname);
+    await expect(this.page.locator('dl')).toContainText('Address');
+    await expect(this.page.locator('dl')).toContainText('Email');
+  }
 }

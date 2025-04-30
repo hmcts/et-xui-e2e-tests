@@ -21,7 +21,7 @@ export default class CaseTransferPage extends BasePage {
 
     await expect(this.page.locator('#case-viewer-field-read--positionType')).toContainText('Case transferred - other country');
     await this.webActions.verifyElementContainsText(this.page.locator('h4'), 'Case Status: Transferred');
-    
+
     await this.page.reload();
     try {
       // Check if the element is visible
@@ -41,6 +41,7 @@ export default class CaseTransferPage extends BasePage {
     const page1 = await page1Promise;
     await page1.reload();
     await expect(page1.locator('#case-viewer-field-read--managingOffice')).toContainText('Glasgow');
-
+    const newSubRef = await this.page.locator('#case-viewer-field-read--feeGroupReference').textContent();
+    return newSubRef;
   }
 }
