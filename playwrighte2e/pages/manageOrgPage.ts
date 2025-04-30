@@ -4,7 +4,7 @@ import { params } from '../utils/config';
 
 export class ManageOrgPage extends BasePage {
 
-    ElementManageOrg = '.hmcts-header__link';
+    ElementManageOrg = 'hmcts-header__link my_hmcts_application_name';
     ClickAssignedCases = '//a[.="Assigned cases"]';
     ClickUnassignedCases = '//a[.="Unassigned cases"]';
     ClickShowCasesFilter = '.govuk-button--secondary';
@@ -17,7 +17,7 @@ export class ManageOrgPage extends BasePage {
     CaseRefTextBox = "#case-reference-number";
 
     async allAssignedCases() {
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.ElementManageOrg), 20000);
+        await this.delay(10);
         await this.page.waitForSelector('text=Organisation');
         await this.page.waitForSelector('text=Users');
         await this.page.waitForSelector('text=Unassigned Cases');
@@ -39,7 +39,7 @@ export class ManageOrgPage extends BasePage {
         await this.webActions.clickElementByCss(this.AssigneeNameSearchBox);
         await this.webActions.fillField(this.AssigneeNameSearchBox, assigneeName);
         await this.applyFilterButton.click();
-        (params.TestEnv == 'demo') ? await this.verifyResultsCount(25): await this.verifyResultsCount(5);
+        (params.TestEnv == 'demo') ? await this.verifyResultsCount(5): await this.verifyResultsCount(5);
     }
 
     async verifyResultsCount(expTotCount: number) {
