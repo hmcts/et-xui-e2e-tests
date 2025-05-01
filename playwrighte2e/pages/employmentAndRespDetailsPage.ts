@@ -5,7 +5,7 @@ const today = new Date();
 const listDay = today.getDate();
 const listMonth = today.getMonth() + 1;
 const listYear = today.getFullYear() + 1;
-let inNoticePeriod: boolean = true; 
+let inNoticePeriod: boolean = true;
 
 export default class EmploymentAndRespDetailsPage extends BasePage{
   //still working for organisation/person scenario
@@ -30,7 +30,7 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
    await this.checkRespondentDetails();
    await this.completeEmploymentAndRespondentDetails();
   }
-  
+
   //working notice period for organisation/person scenario
   async processWorkingNoticePeriodJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
     await this.clickEmploymentStatusLink();
@@ -171,8 +171,8 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
   //enter notice length on /notice-length page
   async enterNoticePeriodLength(inNoticePeriod) {
 
-    const noticePeriodText = inNoticePeriod 
-      ? 'How many weeks of your notice period are you being paid for? (optional)' 
+    const noticePeriodText = inNoticePeriod
+      ? 'How many weeks of your notice period are you being paid for? (optional)'
       : 'How many weeks in your notice period? (optional)';
 
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), noticePeriodText);
@@ -283,16 +283,17 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you have an Acas certificate number for Henry Marsh?');
     await this.webActions.checkElementById('#acasCert-2');
 
-    await this.saveAndContinueButton();  
-    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Why do you not have an Acas number?');                  
+    await this.saveAndContinueButton();
+    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Why do you not have an Acas number?');
     await this.webActions.checkElementById('#no-acas-reason');
     await this.saveAndContinueButton();
   }
-  
+
   async selectYesToAcas() {
     await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you have an Acas certificate number for');
     await this.webActions.checkElementById('#acasCert');
     await this.webActions.fillField('#acasCertNum', 'R444444/89/74');
+    await this.delay(2000);
     await this.saveAndContinueButton();
   }
   //check respondent details page
