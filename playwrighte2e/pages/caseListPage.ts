@@ -35,7 +35,8 @@ export default class CaseListPage extends BasePage{
   };
 
     async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
-      await this.page.reload();
+      //await this.page.reload();
+      await this.delay(10000);
       await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseListLink));
 
       await this.webActions.clickElementByCss(this.elements.caseListLink);
