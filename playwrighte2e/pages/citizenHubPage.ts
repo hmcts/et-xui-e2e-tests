@@ -82,7 +82,8 @@ export default class CitizenHubPage extends BasePage {
     copyToOtherPartyYesOrNo:'#copyToOtherPartyYesOrNo',
     checkYourAnswerHeading : '//h1[@class="govuk-panel__title"]',
     responseHeading : '//h2[@class="govuk-summary-list__key govuk-heading-m govuk-!-margin-top-1"]',
-    respondentApplication: '[href="/respondent-applications"]'
+    respondentApplication: '[href="/respondent-applications"]',
+    respondentContactDetailsLinkRegistered: '[href="/respondent-contact-details"]'
   }
 
     async processCitizenHubLogin(username, password) {
@@ -283,5 +284,17 @@ export default class CitizenHubPage extends BasePage {
   async validateApplicationBanner() {
     await expect(this.page.getByLabel('Important')).toContainText('The respondent has applied to amend response');
     await expect(this.page.getByRole('link', { name: 'Respond to the application' })).toBeVisible();
+  }
+
+  async respondentContactDetailsLinkRegistered(){
+    await this.webActions.clickElementByCss(this.elements.respondentContactDetailsLinkRegistered);
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Respondent contact details');
+  }
+
+  async verifyRespondentContactDetails() {
+    await this.webActions.verifyElementContainsText(this.page.locator('dl'),'Name');
+    await this.webActions.verifyElementContainsText(this.page.locator('dl'),'Employer name');
+    await this.webActions.verifyElementContainsText(this.page.locator('dl'),'Preferred method of contact');
+
   }
 }

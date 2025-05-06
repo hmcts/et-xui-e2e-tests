@@ -11,7 +11,7 @@ const respName ='Mrs Test Auto';
 const firstName ='Grayson';
 const lastName = 'Becker';
 
-test.describe.serial('ET3/Respondent Applications', () => {
+test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
 
     test('Respondent makes Type A Application, Claimant respond to an application successfully', async ({
                                                                                                             page,
