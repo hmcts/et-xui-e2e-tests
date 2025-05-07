@@ -7,14 +7,13 @@ export default class NotificationPage extends BasePage {
 
     notificationDropDown= '#claimantSelectNotification';
 
-    notification_tab2 = '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Notifications"]';
+    notification_tab2 = '//div[@class="mat-tab-label-content"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted mat-tab-label-active"]/div[.="Notifications"]';
     notification_link = 'text=Send a notification';
     respondToNotificationLink = 'text=Respond to an order or request from the tribunal';
 
 
     async selectNotificationLink() {
-      await this.webActions.verifyElementToBeVisible(this.page.locator(this.notification_tab2), 20000);
-      await this.webActions.clickElementByCss(this.notification_tab2);
+      await this.webActions.clickElementByText('Notifications');
       await this.webActions.clickElementByCss(this.notification_link);
     }
 
@@ -24,18 +23,30 @@ export default class NotificationPage extends BasePage {
     }
 
 
-  async sendNotification() {
+  async sendNotification(notificationType) {
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Send a notification');
     await this.page.getByLabel('Enter notification title').fill('test Notification');
     await this.page.getByRole('radio', {name: 'No'}).check();
-    await this.webActions.checkElementByLabel('Claim (ET1)');
+    switch (notificationType) {
+        case 'ET1 claim':
+            await this.webActions.checkElementByLabel('Claim (ET1)');
+            break;
+        case 'CMO':
+            await this.webActions.checkElementByLabel('Case management orders / requests');
+            await this.webActions.checkElementById('#sendNotificationCaseManagement-Case management order');
+            await this.webActions.checkElementById('#sendNotificationResponseTribunal-No');
+            await this.webActions.checkElementById('#sendNotificationWhoCaseOrder-Legal officer');
+            await this.webActions.fillField('#sendNotificationFullName', 'Caseworker');
+            break;
+        default:
+            throw new Error(
+                '... Notification Type not provided ...',
+            );
+    }
     await this.webActions.checkElementByLabel('Both parties');
     await this.webActions.clickElementByRole('button', {name: 'Continue'});
-    await this.webActions.clickElementByText('Claim (ET1)');
-
     await this.submitButton();
     await this.webActions.clickElementByRole('button', {name: 'Close and Return to case'});
-    //TODO write switch for ECC notification
   }
 
   async viewNotification() {

@@ -26,7 +26,7 @@ test.describe('Case creation in manage case application', () => {
 
     await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
     await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(submissionReference);
-    await citizenHubPage.verifyCitizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
     await citizenHubPage.regAccountContactTribunal('withdraw all or part of my claim');
     await citizenHubPage.rule92Question('yes');
     await citizenHubPage.cyaPageVerification();
@@ -58,7 +58,7 @@ test.describe('Case creation in manage case application', () => {
       password: params.TestEnvETManageCasePassword
     });
   });
-  
+
 
   test('Create a claim for DID NOT work for organisation, submit and process within manage cases',
         async ({ page, createCaseStep }) => {
@@ -72,7 +72,7 @@ test.describe('Case creation in manage case application', () => {
       password: params.TestEnvETManageCasePassword
     });
   });
-  
+
 
   test('Submit a case from Scotland - Case Progressing Claimant Submit application - record a decision as ECM',
         async ({ page, createCaseStep }) => {

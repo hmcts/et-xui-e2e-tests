@@ -83,7 +83,7 @@ export default class CitizenHubPage extends BasePage {
     checkYourAnswerHeading : '//h1[@class="govuk-panel__title"]',
     responseHeading : '//h2[@class="govuk-summary-list__key govuk-heading-m govuk-!-margin-top-1"]',
     respondentApplication: '[href="/respondent-applications"]',
-    respondentContactDetailsLinkRegistered: '[href="/respondent-contact-details"]'
+    clickRespondentContactDetailsLink: '[href="/respondent-contact-details"]'
   }
 
     async processCitizenHubLogin(username, password) {
@@ -101,7 +101,7 @@ export default class CitizenHubPage extends BasePage {
       await this.elements.submit.click();
     }
 
-    async verifyCitizenHubCaseOverviewPage(caseNumber) {
+    async citizenHubCaseOverviewPage(caseNumber) {
       await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
       await this.webActions.verifyElementContainsText(this.page.locator('#caseNumber'), 'Case number ' + caseNumber);
     }
@@ -286,8 +286,8 @@ export default class CitizenHubPage extends BasePage {
     await expect(this.page.getByRole('link', { name: 'Respond to the application' })).toBeVisible();
   }
 
-  async respondentContactDetailsLinkRegistered(){
-    await this.webActions.clickElementByCss(this.elements.respondentContactDetailsLinkRegistered);
+  async clickRespondentContactDetailsLink(){
+    await this.webActions.clickElementByCss(this.elements.clickRespondentContactDetailsLink);
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Respondent contact details');
   }
 
@@ -296,5 +296,25 @@ export default class CitizenHubPage extends BasePage {
     await this.webActions.verifyElementContainsText(this.page.locator('dl'),'Employer name');
     await this.webActions.verifyElementContainsText(this.page.locator('dl'),'Preferred method of contact');
 
+  }
+
+  async verifyNotificationBanner(notificationType){
+    await expect(this.page.locator('#main-content')).toContainText('The tribunal has sent you a notification');
+    await this.webActions.clickElementByText('View the notification -');
+
+    switch (notificationType) {
+      case 'ET1 claim':
+        await expect(this.page.locator('dl')).toContainText('Claim (ET1)');
+        break;
+      case 'CMO':
+        await expect(this.page.locator('dl')).toContainText('Case management orders / requests');
+        await expect(this.page.locator('dl')).toContainText('Case management order');
+        break;
+      default:
+        throw new Error(
+            '... Notification Type not provided ...',
+        );
+    }
+    await expect(this.page.locator('dl')).toContainText('Tribunal');
   }
 }

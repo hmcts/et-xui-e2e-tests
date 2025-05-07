@@ -52,7 +52,7 @@ test.describe('England - Claimant Bundles test', () => {
 
         await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
         await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
-        await citizenHubPage.verifyCitizenHubCaseOverviewPage(caseNumber);
+        await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
         await citizenHubPage.regAccountContactTribunal('submit document for hearing');
         await citizenHubPage.submitDocumentForHearingClaimant();
     });

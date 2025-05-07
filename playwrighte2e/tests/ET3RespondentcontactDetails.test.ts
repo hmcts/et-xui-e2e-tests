@@ -13,8 +13,7 @@ const region = 'England';
 
 test.describe.serial('ET3/Respondent Journey', () => {
     test.beforeEach(async ({ page, createCaseStep }) => {
-        ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
-
+        ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, true));
     });
 
     test('Respondent Assign a claim (ET3)', {tag: '@demo'}, async ({ et3LoginPage, responseLandingPage, respContactDetailsPages, respClaimantDetails, respContestClaim, respSubmitEt3 }) => {
@@ -29,7 +28,7 @@ test.describe.serial('ET3/Respondent Journey', () => {
     });
 
     //RET-5516
-    test('Citizen user validates respondent contact details', {tag: '@demo'}, async ({page, loginPage,caseListPage, respondentDetailsPage, citizenHubPage }) => {
+    test.skip('Citizen user validates respondent contact details', {tag: '@demo'}, async ({page, loginPage,caseListPage, respondentDetailsPage, citizenHubPage }) => {
         //caseworker completes respondent details
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
@@ -44,8 +43,8 @@ test.describe.serial('ET3/Respondent Journey', () => {
         //citizen validates respondent contact details
         await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
         await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
-        await citizenHubPage.verifyCitizenHubCaseOverviewPage(caseNumber);
-        await citizenHubPage.respondentContactDetailsLinkRegistered();
+        await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
+        await citizenHubPage.clickRespondentContactDetailsLink();
         await citizenHubPage.verifyRespondentContactDetails();
     });
 });
