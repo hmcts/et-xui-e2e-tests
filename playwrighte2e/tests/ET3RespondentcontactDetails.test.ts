@@ -29,13 +29,13 @@ test.describe.serial('ET3/Respondent Journey', () => {
     });
 
     //RET-5516
-    test.skip('Citizen user validates respondent contact details', {tag: '@demo'}, async ({page, caseListPage, respondentDetailsPage, citizenHubPage }) => {
+    test('Citizen user validates respondent contact details', {tag: '@demo'}, async ({page, loginPage,caseListPage, respondentDetailsPage, citizenHubPage }) => {
         //caseworker completes respondent details
         await page.goto(params.TestUrlForManageCaseAAT);
-        await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
+        await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
         const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
-        await this.caseListPage.searchCaseApplicationWithSubmissionReference(searchReference, subRef);
-        caseNumber = await this.caseListPage.processCaseFromCaseList();
+        await caseListPage.searchCaseApplicationWithSubmissionReference(searchReference, subRef);
+        caseNumber = await caseListPage.processCaseFromCaseList();
 
         await caseListPage.selectNextEvent('Respondent Details');
         await respondentDetailsPage.processRespondentDetailsWithET3Acceptance();
