@@ -103,6 +103,10 @@ export abstract class BasePage {
     await this.newUploadDocBtn.click();
   }
 
+  async addRespondentButton(){
+    await this.webActions.clickElementByRole('button', { name: 'Add another respondent' });
+  }
+
   async processPreLoginPagesForTheDraftApplication(postcode: string) {
     await this.startDraftApplication();
     await this.processBeforeYourContinuePage();
