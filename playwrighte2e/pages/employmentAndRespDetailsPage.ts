@@ -109,7 +109,7 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
     await this.selectYesToAcas();
     await this.addMultipleAcasCertificate();
-    await this.addSecondRespondentDetails()
+    await this.addSecondRespondentDetails(workPostcode, selectedWorkAddress)
     await this.checkRespondentDetails();
     await this.completeEmploymentAndRespondentDetails();
   }
@@ -326,8 +326,27 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.webActions.clickElementByCss(this.addAnotherRespondentButton);
   }
 
-  async addSecondRespondentDetails(){
+  async addSecondRespondentDetails(workPostcode, selectedWorkAddress){
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'What is the name of the respondent you\'re making the claim against?');
+    await this.webActions.fillField('#respondentName', 'Annie Ray');
+    await this.saveAndContinueButton();
 
+    await this.webActions.verifyElementContainsText(this.page.locator('label'), 'Enter a UK postcode');
+    await this.webActions.fillField('#respondentEnterPostcode', workPostcode);
+
+    await this.saveAndContinueButton();
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Select an address');
+    await this.webActions.selectByOptionFromDropDown('#respondentAddressTypes', selectedWorkAddress);
+
+    await this.saveAndContinueButton();
+    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'This should be the same respondent address given to Acas.');
+    await this.saveAndContinueButton();
+
+    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you have an Acas certificate number for');
+    await this.webActions.checkElementById('#acasCert');
+    await this.webActions.fillField('#acasCertNum', 'R872259/22/64');
+    await this.delay(2000);
+    await this.saveAndContinueButton();
   }
 
   //check respondent details page
