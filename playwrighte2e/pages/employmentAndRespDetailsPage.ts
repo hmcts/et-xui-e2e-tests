@@ -8,6 +8,8 @@ const listYear = today.getFullYear() + 1;
 let inNoticePeriod: boolean = true;
 
 export default class EmploymentAndRespDetailsPage extends BasePage{
+
+  addAnotherRespondentButton: '#main-form-submit';
   //still working for organisation/person scenario
   async processStillWorkingJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
    await this.clickEmploymentStatusLink();
@@ -85,6 +87,29 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.enterRespondentName();
     await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
     await this.selectNoToAcas();
+    await this.checkRespondentDetails();
+    await this.completeEmploymentAndRespondentDetails();
+  }
+
+  async multipleAcasCertificate(workPostcode, selectedWorkAddress, firstLineOfAddress) {
+    await this.clickEmploymentStatusLink();
+    await this.workedForOrganisation('Yes');
+    await this.workingNoticePeriodForOrganisation();
+    await this.enterEmploymentJobTitle();
+    await this.enterEmploymentStartDate();
+    await this.noticePeriodEndDate();
+    await this.selectNoticeType();
+    await this.enterNoticePeriodLength(inNoticePeriod);
+    await this.enterAverageWeeklyHours();
+    await this.enterPay();
+    await this.enterPensionContribution();
+    await this.enterEmployeeBenefits();
+    await this.enterRespondentName();
+    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
+    await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
+    await this.selectYesToAcas();
+    await this.addMultipleAcasCertificate();
+    await this.addSecondRespondentDetails()
     await this.checkRespondentDetails();
     await this.completeEmploymentAndRespondentDetails();
   }
@@ -296,6 +321,15 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.delay(2000);
     await this.saveAndContinueButton();
   }
+
+  async addMultipleAcasCertificate(){
+    await this.webActions.clickElementByCss(this.addAnotherRespondentButton);
+  }
+
+  async addSecondRespondentDetails(){
+
+  }
+
   //check respondent details page
   async checkRespondentDetails() {
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Check the respondent details');
