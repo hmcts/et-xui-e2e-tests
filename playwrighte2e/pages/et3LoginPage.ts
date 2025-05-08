@@ -71,6 +71,7 @@ export default class Et3LoginPage extends BasePage {
     await this.webActions.fillField(this.elements.respName, respName);
     await this.webActions.fillField(this.elements.claimantFirstName, firstName);
     await this.webActions.fillField(this.elements.claimantLastName, lastName);
+    await this.delay(5000);
     await this.clickContinue();
   }
 
