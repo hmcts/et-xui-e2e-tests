@@ -54,6 +54,10 @@ export abstract class BasePage {
     await this.webActions.clickElementByRole('button', { name: 'Submit' });
   }
 
+  async addRespondentButton(){
+    await this.webActions.clickElementByRole('button', { name: 'Add another respondent' });
+  }
+
   async delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
   }
