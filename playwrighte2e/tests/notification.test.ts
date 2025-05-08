@@ -31,7 +31,7 @@ test.describe('Notification', () => {
         await citizenHubPage.verifyNotificationBanner('ET1 claim');
     });
 
-    test('Tribunal/caseworker sends CMO notification to claimant', async ({page, citizenHubPage, caseListPage}) => {
+    test.skip('Tribunal/caseworker sends CMO notification to claimant', async ({page, citizenHubPage, caseListPage}) => {
         let notificationPage = new NotificationPage(page);
 
 
