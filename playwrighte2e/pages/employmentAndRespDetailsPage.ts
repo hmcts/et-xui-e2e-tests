@@ -5,9 +5,11 @@ const today = new Date();
 const listDay = today.getDate();
 const listMonth = today.getMonth() + 1;
 const listYear = today.getFullYear() + 1;
-let inNoticePeriod: boolean = true; 
+let inNoticePeriod: boolean = true;
 
 export default class EmploymentAndRespDetailsPage extends BasePage{
+
+  addAnotherRespondentButton: '#main-form-submit';
   //still working for organisation/person scenario
   async processStillWorkingJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
    await this.clickEmploymentStatusLink();
@@ -30,7 +32,7 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
    await this.checkRespondentDetails();
    await this.completeEmploymentAndRespondentDetails();
   }
-  
+
   //working notice period for organisation/person scenario
   async processWorkingNoticePeriodJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
     await this.clickEmploymentStatusLink();
@@ -85,6 +87,29 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.enterRespondentName();
     await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
     await this.selectNoToAcas();
+    await this.checkRespondentDetails();
+    await this.completeEmploymentAndRespondentDetails();
+  }
+
+  async multipleAcasCertificate(workPostcode, selectedWorkAddress, firstLineOfAddress) {
+    await this.clickEmploymentStatusLink();
+    await this.workedForOrganisation('Yes');
+    await this.workingNoticePeriodForOrganisation();
+    await this.enterEmploymentJobTitle();
+    await this.enterEmploymentStartDate();
+    await this.noticePeriodEndDate();
+    await this.selectNoticeType();
+    await this.enterNoticePeriodLength(inNoticePeriod);
+    await this.enterAverageWeeklyHours();
+    await this.enterPay();
+    await this.enterPensionContribution();
+    await this.enterEmployeeBenefits();
+    await this.enterRespondentName();
+    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
+    await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
+    await this.selectYesToAcas();
+    await this.addMultipleAcasCertificate();
+    await this.addSecondRespondentDetails()
     await this.checkRespondentDetails();
     await this.completeEmploymentAndRespondentDetails();
   }
@@ -171,8 +196,8 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
   //enter notice length on /notice-length page
   async enterNoticePeriodLength(inNoticePeriod) {
 
-    const noticePeriodText = inNoticePeriod 
-      ? 'How many weeks of your notice period are you being paid for? (optional)' 
+    const noticePeriodText = inNoticePeriod
+      ? 'How many weeks of your notice period are you being paid for? (optional)'
       : 'How many weeks in your notice period? (optional)';
 
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), noticePeriodText);
@@ -283,18 +308,28 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you have an Acas certificate number for Henry Marsh?');
     await this.webActions.checkElementById('#acasCert-2');
 
-    await this.saveAndContinueButton();  
-    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Why do you not have an Acas number?');                  
+    await this.saveAndContinueButton();
+    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Why do you not have an Acas number?');
     await this.webActions.checkElementById('#no-acas-reason');
     await this.saveAndContinueButton();
   }
-  
+
   async selectYesToAcas() {
     await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you have an Acas certificate number for');
     await this.webActions.checkElementById('#acasCert');
     await this.webActions.fillField('#acasCertNum', 'R444444/89/74');
+    await this.delay(2000);
     await this.saveAndContinueButton();
   }
+
+  async addMultipleAcasCertificate(){
+    await this.webActions.clickElementByCss(this.addAnotherRespondentButton);
+  }
+
+  async addSecondRespondentDetails(){
+
+  }
+
   //check respondent details page
   async checkRespondentDetails() {
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Check the respondent details');

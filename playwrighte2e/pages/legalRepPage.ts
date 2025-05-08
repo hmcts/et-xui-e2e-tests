@@ -310,8 +310,13 @@ export class LegalRepPage extends BasePage {
         await this.page.click(this.continueLegalRepButton);
         await this.page.waitForSelector('//button[@class="button"]');
     }
-
     async completeDraftET3ResponseForm() {
+        await this.et3RespondentDetails();
+        await this.et3EmploymentDetails();
+        await this.et3ResponseDetails();
+    }
+
+    async et3RespondentDetails(){
         await this.page.waitForSelector(this.legalRepSubmit, { timeout: 10000 });
         await this.page.waitForSelector('text=ET3 - Response to Employment tribunal claim (ET1)');
         await this.page.click(this.legalRepSubmit);
@@ -352,48 +357,54 @@ export class LegalRepPage extends BasePage {
         await this.page.click(this.continueLegalRepButton);
         await this.page.waitForSelector(this.cyaFirstChange, { timeout: 10000 });
         await this.page.click(this.continueLegalRepButton);
+    }
+
+    async et3EmploymentDetails() {
         // Employment Details
-        await this.page.waitForSelector(this.employmentDetailLink, { timeout: 30000 });
+        await this.page.waitForSelector(this.employmentDetailLink, {timeout: 30000});
         await this.page.click(this.employmentDetailLink);
-        await this.page.waitForSelector(this.continueLegalRepButton, { timeout: 10000 });
+        await this.page.waitForSelector(this.continueLegalRepButton, {timeout: 10000});
         await this.page.waitForSelector('text=ET3 - Response to Employment tribunal claim (ET1)');
         await this.page.click(this.continueLegalRepButton);
-        await this.page.waitForSelector(this.whichRespondentDropdown, { timeout: 10000 });
-        await this.page.selectOption(this.whichRespondentDropdown, 'Henry Marsh');
+        await this.page.waitForSelector(this.whichRespondentDropdown, {timeout: 10000});
+        await this.page.selectOption(this.whichRespondentDropdown, '1: R: Mrs Test Auto');
         await this.page.click(this.continueLegalRepButton);
-        await this.page.waitForSelector(this.respondentMultipleYes, { timeout: 10000 });
+        await this.page.waitForSelector(this.respondentMultipleYes, {timeout: 10000});
         await this.page.waitForSelector('text=Respondent\'s workforce');
         await this.page.click(this.continueLegalRepButton);
-        await this.page.waitForSelector(this.claimantDateOfEmploymentCorrectYes, { timeout: 20000 });
+        await this.page.waitForSelector(this.claimantDateOfEmploymentCorrectYes, {timeout: 20000});
         await this.page.check(this.claimantDateOfEmploymentCorrectYes);
         await this.page.click(this.continueLegalRepButton);
-        await this.page.waitForSelector(this.employmentContinuingYes, { timeout: 10000 });
+        await this.page.waitForSelector(this.employmentContinuingYes, {timeout: 10000});
         await this.page.waitForSelector('text=Is the claimant\'s employment with the respondent continuing?');
         await this.page.check(this.employmentContinuingYes);
         await this.page.click(this.continueLegalRepButton);
-        await this.page.waitForSelector(this.jobTitleCorrectYes, { timeout: 10000 });
+        await this.page.waitForSelector(this.jobTitleCorrectYes, {timeout: 10000});
         await this.page.waitForSelector('text=Is the claimant\'s description of their job or job title correct?');
         await this.page.check(this.jobTitleCorrectYes);
         await this.page.click(this.continueLegalRepButton);
-        await this.page.waitForSelector(this.weeklyWorkingCorrectYes, { timeout: 10000 });
+        await this.page.waitForSelector(this.weeklyWorkingCorrectYes, {timeout: 10000});
         await this.page.waitForSelector('text=Are the claimant\'s total weekly work hours correct?');
         await this.page.check(this.weeklyWorkingCorrectYes);
         await this.page.click(this.continueLegalRepButton);
-        await this.page.waitForSelector(this.earningDetailsCorrectYes, { timeout: 10000 });
+        await this.page.waitForSelector(this.earningDetailsCorrectYes, {timeout: 10000});
         await this.page.waitForSelector('text=Are the earnings details given by the claimant correct?');
         await this.page.check(this.earningDetailsCorrectYes);
         await this.page.click(this.continueLegalRepButton);
-        await this.page.waitForSelector(this.noticeCorrectYes, { timeout: 10000 });
+        await this.page.waitForSelector(this.noticeCorrectYes, {timeout: 10000});
         await this.page.waitForSelector('text=Is the information given by the claimant correct about their notice?');
         await this.page.check(this.noticeCorrectYes);
         await this.page.click(this.continueLegalRepButton);
-        await this.page.waitForSelector(this.responsePensionDetailCorrectYes, { timeout: 10000 });
+        await this.page.waitForSelector(this.responsePensionDetailCorrectYes, {timeout: 10000});
         await this.page.waitForSelector('text=Are the details about pension and other benefits correct?');
         await this.page.check(this.responsePensionDetailCorrectYes);
         await this.page.click(this.continueLegalRepButton);
         await this.page.waitForTimeout(5000);
         await this.page.waitForSelector('text=Check your answers');
         await this.page.click(this.continueLegalRepButton);
+
+    }
+    async et3ResponseDetails(){
         // Employment Details
         await this.page.waitForSelector(this.responseDetailLink, { timeout: 10000 });
         await this.page.click(this.responseDetailLink);
@@ -401,7 +412,7 @@ export class LegalRepPage extends BasePage {
         await this.page.waitForSelector('text=How to fill in this form');
         await this.page.click(this.continueLegalRepButton);
         await this.page.waitForSelector(this.respondentDetailDropDownList, { timeout: 10000 });
-        await this.page.selectOption(this.respondentDetailDropDownList, 'Henry Marsh');
+        await this.page.selectOption(this.respondentDetailDropDownList, '1: R: Mrs Test Auto');
         await this.page.click(this.continueLegalRepButton);
         await this.page.waitForSelector(this.acasReconciliationOption, { timeout: 10000 });
         await this.page.check(this.acasReconciliationOption);
@@ -437,7 +448,7 @@ async legalRepViewJudgmentOrderorNotification() {
 
 async submitET3ResponseForm() {
     await this.page.waitForSelector(this.selectCompletedDraftET3, { timeout: 10000 });
-    await this.page.selectOption(this.selectCompletedDraftET3, 'Henry Marsh');
+    await this.page.selectOption(this.selectCompletedDraftET3, '1: R: Mrs Test Auto');
     await this.page.click(this.continueLegalRepButton);
     await this.page.waitForSelector(this.checkConfirmationCheckbox, { timeout: 10000 });
     await this.page.waitForSelector('text=Do you want to submit this ET3?');

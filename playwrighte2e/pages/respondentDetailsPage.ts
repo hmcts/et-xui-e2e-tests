@@ -19,6 +19,16 @@ export default class RespondentDetailsPage extends BasePage {
     await this.submitButton();
   }
 
+  async processRespondentDetailsWithET3Acceptance(){
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.respondentName));
+    await this.webActions.checkElementById('#respondentCollection_0_respondentType-Individual');
+    await this.webActions.verifyElementToBeVisible(this.page.locator('#respondentCollection_0_respondentFirstName'));
+    await this.webActions.fillField('#respondentCollection_0_respondentFirstName', 'Test');
+    await this.webActions.fillField('#respondentCollection_0_respondentLastName', 'Respondent');
+    await this.webActions.selectByOptionFromDropDown('#respondentCollection_0_response_status', '1: Accepted');
+    await this.submitButton();
+  }
+
   async processPanelPreference() {
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.judgePanelEle));
     await this.webActions.checkElementById(this.elements.judgePanelEle);
