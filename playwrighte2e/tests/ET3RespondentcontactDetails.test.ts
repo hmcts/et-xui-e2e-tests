@@ -47,4 +47,11 @@ test.describe.serial('ET3/Respondent Journey', () => {
         await citizenHubPage.clickRespondentContactDetailsLink();
         await citizenHubPage.verifyRespondentContactDetails();
     });
+
+    //RET-5767
+    test.skip('Respondent validates claimant contact details', {tag: '@demo'}, async ({ respondentCaseOverviewPage }) => {
+        //Assign a claim to respondent
+    await respondentCaseOverviewPage.validateRespondentClaimantContactDetailsPage();
+    });
+
 });
