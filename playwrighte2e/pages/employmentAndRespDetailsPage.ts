@@ -323,7 +323,8 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
   }
 
   async addMultipleAcasCertificate(){
-    await this.webActions.clickElementByCss(this.addAnotherRespondentButton);
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Check the respondent details');
+    await this.addRespondentButton();
   }
 
   async addSecondRespondentDetails(workPostcode, selectedWorkAddress){

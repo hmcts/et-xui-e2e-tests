@@ -100,4 +100,11 @@ export default class RespondentCaseOverviewPage extends BasePage {
         await expect(this.page.locator('dl')).toContainText('Respondent');
     }
 
+    async validateRespondentClaimantContactDetailsPage(){
+        await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
+        await expect(this.page.locator('dl')).toContainText('Email');
+        await expect(this.page.locator('dl')).toContainText('Preferred method of contact');
+
+    }
+
 }

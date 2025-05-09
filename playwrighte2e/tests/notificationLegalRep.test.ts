@@ -12,7 +12,7 @@ test.describe('Legal Representative Notifications', () => {
 
     //send Notification
     await notificationPage.selectNotificationLink();
-    await notificationPage.sendNotification();
+    await notificationPage.sendNotification('ET1 claim');
     await caseListPage.signoutButton();
 
     //view Notification as Legal rep
