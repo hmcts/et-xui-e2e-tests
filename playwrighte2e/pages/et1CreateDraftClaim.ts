@@ -217,7 +217,7 @@ elements = {
   async et1SubmitClaim(){
     await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
     await this.elements.submitClaimLink.click();
-
+    await this.delay(2000);
 
     await this.page.locator('#submitEt1Confirmation-Yes').check();
     await this.submitButton();
