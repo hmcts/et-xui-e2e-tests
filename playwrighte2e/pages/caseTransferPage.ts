@@ -21,7 +21,7 @@ export default class CaseTransferPage extends BasePage {
 
     await expect(this.page.locator('#case-viewer-field-read--positionType')).toContainText('Case transferred - other country');
     await this.webActions.verifyElementContainsText(this.page.locator('h4'), 'Case Status: Transferred');
-
+    await this.delay(10000);
     await this.page.reload();
     try {
       // Check if the element is visible
