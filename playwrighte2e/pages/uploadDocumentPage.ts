@@ -11,6 +11,7 @@ export default class UploadDocumentPage extends BasePage {
     async uploadCaseManagementDocument() {
         await this.webActions.clickElementByCss(this.addNewButtonBottom);
         await this.webActions.selectByOptionFromDropDown('#documentCollection_1_topLevelDocuments', '4: Case Management');
+        await this.webActions.selectByOptionFromDropDown('#documentCollection_1_caseManagementDocuments', 'Deposit Order');
         await this.webActions.clickElementByCss('#documentCollection_1_uploadedDocument');
 
         await this.page.locator('#documentCollection_1_uploadedDocument').setInputFiles('test/data/welshTest.pdf');
@@ -21,6 +22,7 @@ export default class UploadDocumentPage extends BasePage {
     async createDCF(){
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.createDcfLink));
         await this.webActions.clickElementByCss(this.createDcfLink);
+        await this.webActions.waitForElementToBeVisible(this.createDcfRadio);
         await this.webActions.checkElementById(this.createDcfRadio);
         await this.submitButton();
     }
