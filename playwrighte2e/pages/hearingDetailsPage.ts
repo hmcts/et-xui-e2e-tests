@@ -13,19 +13,20 @@ elements={
 
     //remove all dates so can list hearing as heard
     await this.webActions.selectByLabelFromDropDown('#hearingDetailsCollection_0_hearingDetailsStatus','Heard');
-    await this.webActions.fillFieldByRoleAndLabel('group',{ name: 'Start Time (Optional)' },'Day','');
-    await this.webActions.fillFieldByRoleAndLabel('group',{ name: 'Start Time (Optional)' },'Month','');
-    await this.webActions.fillFieldByRoleAndLabel('group',{ name: 'Start Time (Optional)' },'Year','');
-    await this.webActions.fillFieldByRoleAndLabel('group',{ name: 'Start Time (Optional)' },'Hour','');
-    await this.webActions.fillFieldByRoleAndLabel('group',{ name: 'Start Time (Optional)' },'Minute','');
-    await this.webActions.fillFieldByRoleAndLabel('group',{ name: 'Start Time (Optional)' },'Second','');
+    await this.webActions.fillField('#hearingDetailsTimingStart-day', '');
+    await this.webActions.fillField('#hearingDetailsTimingStart-month', '');
+    await this.webActions.fillField('#hearingDetailsTimingStart-year', '');
+    await this.webActions.fillField('#hearingDetailsTimingStart-hour', '');
+    await this.webActions.fillField('#hearingDetailsTimingStart-minute', '');
+    await this.webActions.fillField('#hearingDetailsTimingStart-second', '');
 
-    await this.webActions.fillFieldByRoleAndLabel('group',{ name: 'Finish (Optional)' },'Day','');
-    await this.webActions.fillFieldByRoleAndLabel('group',{ name: 'Finish (Optional)' },'Month','');
-    await this.webActions.fillFieldByRoleAndLabel('group',{ name: 'Finish (Optional)' },'Year','');
-    await this.webActions.fillFieldByRoleAndLabel('group',{ name: 'Finish (Optional)' },'Hour','');
-    await this.webActions.fillFieldByRoleAndLabel('group',{ name: 'Finish (Optional)' },'Minute','');
-    await this.webActions.fillFieldByRoleAndLabel('group',{ name: 'Finish (Optional)' },'Second','');
+
+    await this.webActions.fillField('#hearingDetailsTimingFinish-day', '');
+    await this.webActions.fillField('#hearingDetailsTimingFinish-month', '');
+    await this.webActions.fillField('#hearingDetailsTimingFinish-year', '');
+    await this.webActions.fillField('#hearingDetailsTimingFinish-hour', '');
+    await this.webActions.fillField('#hearingDetailsTimingFinish-minute', '');
+    await this.webActions.fillField('#hearingDetailsTimingFinish-second', '');
     await this.submitButton();
 
     await expect(this.page.locator('cut-alert')).toContainText('updated with event: Hearing Details');
