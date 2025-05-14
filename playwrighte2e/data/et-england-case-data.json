@@ -36,8 +36,8 @@
     "claimantType": {
       "claimant_phone_number": null,
       "claimant_mobile_number": null,
-      "claimant_email_address": "abc@gmail.com",
-      "claimant_contact_preference": "email",
+      "claimant_email_address": null,
+      "claimant_contact_preference": null,
       "claimant_addressUK": {
         "AddressLine1": "4 Little Meadows",
         "AddressLine2": "",
