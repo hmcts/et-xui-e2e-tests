@@ -95,20 +95,7 @@ test.describe('Case creation in manage case application', () => {
             (employmentAndRespondentDetailsPage) => employmentAndRespondentDetailsPage.multipleAcasCertificate(userDetailsData.workPostcode, userDetailsData.selectedWorkAddress, userDetailsData.firstLineOfAddress)
         );
 
-        await createCaseStep.setupCaseCreatedViaCUI(page, 'EnglandWales', submissionReference, {
-          user: params.TestEnvETManageCaseUser,
-          password: params.TestEnvETManageCasePassword
-        });
       });
-
-  test.skip('Create a claim with multiple ACAS certificates, submit and process within manage cases',
-      async ({ page, createCaseStep }) => {
-        const submissionReference = await createCaseStep.createCaseViaCUI(page, 'EnglandWales',
-            (loginPage) => loginPage.processLoginWithNewAccount(),
-            (employmentAndRespondentDetailsPage) => employmentAndRespondentDetailsPage.multipleAcasCertificate(userDetailsData.workPostcode, userDetailsData.selectedWorkAddress, userDetailsData.firstLineOfAddress)
-        );
-      });
-
 });
 
 
