@@ -135,6 +135,10 @@ export default class CaseListPage extends BasePage{
             await this.webActions.clickElementByRole('tab', { name: 'Documents', exact: true });
             break;
         }
+        case "ADR/Privileged":{
+            await this.webActions.clickElementByRole('tab', { name: 'ADR/Privileged', exact: true });
+            break;
+        }
         case "Referrals":{
             await this.delay(2000);
             await this.webActions.clickElementByCss(this.elements.referralTab);
