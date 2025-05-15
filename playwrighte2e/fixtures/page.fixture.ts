@@ -240,5 +240,9 @@ export const pageFixtures = {
 
     hearingDetailsPage: async ({page}, use)=>{
         await use(new HearingDetailsPage(page));
+    },
+
+    adrDocument:async ({page}, use)=>{
+        await use(new AdrDocumentPage(page));
     }
 };
