@@ -250,7 +250,7 @@ async getS2SServiceToken() {
   }
 
   async submitDraftCuiCase(authToken, case_id, methodType) {
-     
+
     let updateCaseUrl = `${syaApiBaseUrl}/cases/${methodType}-case/`;
     //start case creation
     let updateCaseBody = {
@@ -327,7 +327,7 @@ async getS2SServiceToken() {
       draft_id: null
     };
     let executeEt1payload = JSON.stringify(executeEventBody);
-    console.log("vetiing body => " + executeEt1payload);
+    console.log("vetting body => " + executeEt1payload);
 
     let config = {
       method: 'post',
