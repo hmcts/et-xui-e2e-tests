@@ -49,7 +49,7 @@ test.describe.serial('ET3/Respondent Journey', () => {
     });
 
     //RET-5767
-    test.skip('Respondent validates claimant contact details', {tag: '@demo'}, async ({ respondentCaseOverviewPage }) => {
+    test('Respondent validates claimant contact details', {tag: '@demo'}, async ({ respondentCaseOverviewPage }) => {
         //Assign a claim to respondent
     await respondentCaseOverviewPage.validateRespondentClaimantContactDetailsPage();
     });
