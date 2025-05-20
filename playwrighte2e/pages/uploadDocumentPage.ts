@@ -42,9 +42,11 @@ export default class UploadDocumentPage extends BasePage {
 
         await this.page.selectOption(`#documentCollection_${docNumber}_topLevelDocuments`, 'Misc');
         await expect(this.page.locator(`#documentCollection_${docNumber}_miscDocuments`)).toBeVisible();
+        await this.page.selectOption(`#documentCollection_${docNumber}_miscDocuments`,'Tribunal case file')
         await this.page.waitForSelector(`#documentCollection_${docNumber}_uploadedDocument`);
         await this.page.setInputFiles(`#documentCollection_${docNumber}_uploadedDocument`,`test/data/${fileName}`);
-        await this.page.waitForTimeout(6000);
+
+        await this.page.waitForTimeout(10000);
         await this.submitButton();
         await this.delay(4000);
     }

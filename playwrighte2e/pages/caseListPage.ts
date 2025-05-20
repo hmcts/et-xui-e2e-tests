@@ -31,7 +31,8 @@ export default class CaseListPage extends BasePage{
       tasksTab: '//div[contains(text(), "Tasks")]',
       caseListTab: '//a[contains(text(), "Case list")]',
       allWorkTab: '//a[contains(text(), "All work")]',
-      myWorkTab: '//a[contains(text(), "My work")]'
+      myWorkTab: '//a[contains(text(), "My work")]',
+      documentsTab: '//div[contains(text(), "Documents")]',
   };
 
     async searchCaseApplicationWithSubmissionReference(option, submissionReference) {

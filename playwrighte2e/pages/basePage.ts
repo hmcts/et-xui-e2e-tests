@@ -68,10 +68,11 @@ export abstract class BasePage {
 
   async enterPostCode(postcode){
     await this.webActions.fillFieldByRole('textbox', { name: 'Enter a UK postcode' }, postcode);
-    await this.wait(3000);
+    await this.delay(3000);
     await this.webActions.clickElementByRole('button', { name: 'Find address' });
-    await this.wait(3000);
+    await this.delay(3000);
     await this.page.getByLabel('Select an address').selectOption('1: Object');
+    await this.delay(3000);
   }
 
   async signoutButton(){
