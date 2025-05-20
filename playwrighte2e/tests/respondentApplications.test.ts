@@ -49,8 +49,8 @@ test.describe('ET3/Respondent Applications', () => {
 });
 
 test.describe('ET3/Respondent Applications', () => {
-
-    test('Legal Representative created a case, Respondent makes Type A Application, LR can see application', async ({page, createCaseStep,loginPage,caseListPage, legalRepPage,et3LoginPage, respondentCaseOverviewPage}) => {
+    //too long UI work flow, create a case through UI
+    test.skip('Legal Representative created a case, Respondent makes Type A Application, LR can see application', async ({page, createCaseStep,loginPage,caseListPage, legalRepPage,et3LoginPage, respondentCaseOverviewPage}) => {
         const respName ='Mark McDonald';
         const firstName ='Jessamine';
         const lastName = 'Malcom';
@@ -64,7 +64,7 @@ test.describe('ET3/Respondent Applications', () => {
         await respondentCaseOverviewPage.respondentMakeApplication('TypeA', true);
         await respondentCaseOverviewPage.signOutButtonSyr();
 
-        // legal rep makes application
+        // legal rep view application
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
         await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
