@@ -28,7 +28,7 @@ test.describe.serial('ET3/Respondent Journey', () => {
     });
 
     //RET-5516
-    test.skip('Citizen user validates respondent contact details', {tag: '@demo'}, async ({page, loginPage,caseListPage, respondentDetailsPage, citizenHubPage }) => {
+    test('Citizen user validates respondent contact details', {tag: '@demo'}, async ({page, loginPage,caseListPage, respondentDetailsPage, citizenHubPage }) => {
         //caseworker completes respondent details
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
@@ -49,7 +49,7 @@ test.describe.serial('ET3/Respondent Journey', () => {
     });
 
     //RET-5767
-    test.skip('Respondent validates claimant contact details', {tag: '@demo'}, async ({ respondentCaseOverviewPage }) => {
+    test('Respondent validates claimant contact details', {tag: '@demo'}, async ({ respondentCaseOverviewPage }) => {
         //Assign a claim to respondent
     await respondentCaseOverviewPage.validateRespondentClaimantContactDetailsPage();
     });
