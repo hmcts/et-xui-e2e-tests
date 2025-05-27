@@ -16,7 +16,7 @@ export default class ClaimDetailsPage extends BasePage{
   }
   //clicks on the claim details link
   async clickClaimDetailsLink() {
-    await this.webActions.clickElementByCss('[href="/type-of-claim?lng=e"]');
+    await this.webActions.clickElementByCss('[href="/type-of-claim?lng=eg"]');
   }
 
   async whatTypeOfClaim(){
