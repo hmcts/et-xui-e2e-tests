@@ -19,7 +19,7 @@ export default class CitizenUiPage extends BasePage{
     await this.processAreYouMakingTheClaimOnYourOwnPage();
     await this.processWhereYouCanMakeClaim(region);
     await this.processDoYouHaveAnACASEarlyConciliation();
-    await this.processWhatKindOfClaimAreYouMaking();
+    //await this.processWhatKindOfClaimAreYouMaking();
   }
 
   async startDraftApplication() {
@@ -44,19 +44,19 @@ export default class CitizenUiPage extends BasePage{
   }
 
   async processAreYouMakingTheClaimForYourselfPage() {
-    await this.webActions.verifyElementContainsText(this.elements.legend, 'Are you making the claim for yourself, or representing someone else?');  
+    await this.webActions.verifyElementContainsText(this.elements.legend, 'Are you making the claim for yourself, or representing someone else?');
     await this.webActions.checkElementById('#lip-or-representative');
     await this.clickContinue();
   }
 
   async processAreYouMakingTheClaimOnYourOwnPage() {
-    await this.webActions.verifyElementContainsText(this.elements.header1, 'Claiming on your own or with others');  
+    await this.webActions.verifyElementContainsText(this.elements.header1, 'Claiming on your own or with others');
     await this.webActions.checkElementById('#single-or-multiple-claim');
     await this.clickContinue();
   }
 
   async processDoYouHaveAnACASEarlyConciliation() {
-    await this.webActions.verifyElementContainsText(this.elements.legend, 'Do you have an ‘Acas early conciliation certificate’ for the respondent or respondents you\'re claiming against?'); 
+    await this.webActions.verifyElementContainsText(this.elements.legend, 'Do you have an ‘Acas early conciliation certificate’ for the respondent or respondents you\'re claiming against?');
     await this.webActions.checkElementById('#acas-multiple');
     await this.clickContinue();
   }

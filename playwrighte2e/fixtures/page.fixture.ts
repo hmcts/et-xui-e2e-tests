@@ -38,6 +38,7 @@ import DepositOrderPage from '../pages/depositOrderPage';
 import RolesAndAccessPage from "../pages/rolesAndAccessPage";
 import TaskPage from "../pages/taskPage";
 import HearingDetailsPage from "../pages/hearingDetailsPage";
+import AdrDocumentPage from "../pages/adrDocumentPage";
 
 export type PageFixtures = {
 
@@ -80,6 +81,7 @@ export type PageFixtures = {
     rolesAndAccessPage:RolesAndAccessPage;
     taskPage:TaskPage;
     hearingDetailsPage:HearingDetailsPage;
+    adrDocument:AdrDocumentPage;
 }
 
 export const pageFixtures = {
@@ -238,5 +240,9 @@ export const pageFixtures = {
 
     hearingDetailsPage: async ({page}, use)=>{
         await use(new HearingDetailsPage(page));
+    },
+
+    adrDocument:async ({page}, use)=>{
+        await use(new AdrDocumentPage(page));
     }
 };

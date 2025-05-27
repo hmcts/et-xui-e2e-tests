@@ -5,6 +5,7 @@ import { expect, Locator, Page } from "@playwright/test";
 export default class ClaimDetailsPage extends BasePage{
   async processClaimDetails() {
     await this.clickClaimDetailsLink();
+    await this.whatTypeOfClaim();
     await this.selectClaimTypeDiscrimination();
     await this.describeWhatHappened();
     await this.tellUsWhatYouWant();
@@ -15,7 +16,12 @@ export default class ClaimDetailsPage extends BasePage{
   }
   //clicks on the claim details link
   async clickClaimDetailsLink() {
-    await this.webActions.clickElementByCss('[href="/claim-type-discrimination?lng=en"]');
+    await this.webActions.clickElementByCss('[href="/type-of-claim?lng=eg"]');
+  }
+
+  async whatTypeOfClaim(){
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'What type of claim are you making?');
+    await this.webActions.checkElementById('#discrimination');
   }
   async selectClaimTypeDiscrimination() {
     await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'What type of discrimination are you claiming?');

@@ -32,6 +32,14 @@ test.describe('Various events in mange case application', () => {
     await caseTransferPage.checkYourAnswer(caseNumber);
   });
 
+  //RET-5790
+  test.skip('perform ADR document event', {tag: '@demo'}, async ({ caseListPage, adrDocument }) => {
+    await caseListPage.selectNextEvent('ADR/Privileged Documents');
+    await adrDocument.adrUploadDocument();
+    await caseListPage.clickTab('ADR/Privileged');
+    await adrDocument.verifyAdrDocumentDetails();
+  });
+
 });
 
 test.describe('Claimant retaining access to transferred case', () => {
