@@ -26,6 +26,15 @@ test.describe('Various events in mange case application', () => {
     await jurisdictionPage.verifyJurisdictionCodeOnTab();
   });
 
+  //RET-5809
+  test.skip('Validate longer than 3 letters jurisdiction code in IC event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ caseListPage, jurisdictionPage, icUploadDocPage }) => {
+    //Jurisdiction event
+    await caseListPage.selectNextEvent('Jurisdiction');
+    await jurisdictionPage.addADTJurisdictionCode();
+    await caseListPage.selectNextEvent('Initial Consideration');
+    await icUploadDocPage.verifyJurisdictionCodeInICevent();
+  });
+
   test('Create a England/Wales claim and transfer to Scotland', {tag: '@demo'}, async ({ caseListPage, caseTransferPage }) => {
     await caseListPage.selectNextEvent('Case Transfer (Scotland)');
     await caseTransferPage.progressCaseTransfer();

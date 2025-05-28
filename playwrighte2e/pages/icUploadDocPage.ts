@@ -71,4 +71,11 @@ export default class ICUploadDocPage extends BasePage {
     async verifyICDetailsOnTab(fieldLabel: string, fieldValue: string) {
         await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`));
     }
+
+    async verifyJurisdictionCodeInICevent(){
+        await expect(this.page.getByText(icPageData.icLandingPageContent)).toBeVisible();
+        await this.clickContinue();
+
+        await expect(this.page.locator('#etInitialConsiderationJurisdictionCodesLabel')).toContainText('ADT(ST)');
+    }
 }
