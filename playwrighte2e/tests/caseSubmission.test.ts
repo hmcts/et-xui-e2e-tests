@@ -88,7 +88,7 @@ test.describe('Case creation in manage case application', () => {
     });
   });
 
-  test.skip('Create a claim with multiple ACAS certificates, submit and process within manage cases',
+  test('Create a claim with multiple ACAS certificates, submit and process within manage cases',
       async ({ page, createCaseStep }) => {
         const submissionReference = await createCaseStep.createCaseViaCUI(page, 'EnglandWales',
             (loginPage) => loginPage.processLoginWithNewAccount(),

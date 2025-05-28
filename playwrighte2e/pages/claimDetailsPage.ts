@@ -16,12 +16,15 @@ export default class ClaimDetailsPage extends BasePage{
   }
   //clicks on the claim details link
   async clickClaimDetailsLink() {
-    await this.webActions.clickElementByCss('[href="/type-of-claim?lng=eg"]');
+    await expect(this.page.locator('ol')).toContainText('Tell us about your claim');
+    await this.webActions.clickElementByText('Tell us about your claim');
   }
 
   async whatTypeOfClaim(){
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'What type of claim are you making?');
     await this.webActions.checkElementById('#discrimination');
+    await this.webActions.checkElementById('#whistleBlowing');
+    await this.clickContinue();
   }
   async selectClaimTypeDiscrimination() {
     await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'What type of discrimination are you claiming?');
