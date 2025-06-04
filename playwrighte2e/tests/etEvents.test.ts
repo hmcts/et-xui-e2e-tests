@@ -49,6 +49,7 @@ test.describe('Various events in mange case application', () => {
     await adrDocument.verifyAdrDocumentDetails();
   });
 
+
 });
 
 test.describe('Claimant retaining access to transferred case', () => {
@@ -66,5 +67,18 @@ test.describe('Claimant retaining access to transferred case', () => {
     await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
   });
 
+});
+
+test.describe('Various events in mange case application for Scotland case', () => {
+  test.beforeEach(async ({ page, createCaseStep }) => {
+    ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "Scotland", "ET_Scotland"));
+  });
+
+
+//RET-5806
+  test('Add speak to VP case flag for Scotland case', {tag: '@demo'}, async ({ caseListPage, caseDetails }) => {
+    await caseListPage.selectNextEvent('Case Details');
+    await caseDetails.addVPCaseFlag();
+  });
 });
 
