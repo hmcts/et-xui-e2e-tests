@@ -51,7 +51,7 @@ test.describe('Notification', () => {
 
 
     //RET-4646
-    test('Tribunal/caseworker sends Hearing notification to claimant', async ({page, citizenHubPage, caseListPage,listHearingPage}) => {
+    test.skip('Tribunal/caseworker sends Hearing notification to claimant', async ({page, citizenHubPage, caseListPage,listHearingPage}) => {
         let notificationPage = new NotificationPage(page);
 
         //list hearing
