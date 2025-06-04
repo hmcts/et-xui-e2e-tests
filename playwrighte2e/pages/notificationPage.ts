@@ -32,11 +32,18 @@ export default class NotificationPage extends BasePage {
             await this.webActions.checkElementByLabel('Claim (ET1)');
             break;
         case 'CMO':
-            await this.webActions.checkElementByLabel('Case management orders / requests');
-            await this.webActions.checkElementById('#sendNotificationCaseManagement-Case management order');
-            await this.webActions.checkElementById('#sendNotificationResponseTribunal-No');
-            await this.webActions.checkElementById('#sendNotificationWhoCaseOrder-Legal officer');
+            await this.page.getByRole('checkbox', { name: 'Case management orders /' }).check();
+           // await this.webActions.checkElementById('#sendNotificationCaseManagement-Case management order');
+            await this.webActions.waitForElementToBeVisible('text=Is this a case management order or request?');
+            await this.page.getByRole('radio', { name: 'Case management order' }).check();
+            await this.page.getByRole('group', { name: 'Is a response to the tribunal' }).getByLabel('No').check();
+            await this.webActions.waitForElementToBeVisible('text=Who made the case management order?')
+            await this.page.getByRole('radio', { name: 'Legal officer' }).check();
             await this.webActions.fillField('#sendNotificationFullName', 'Caseworker');
+            break;
+        case 'Hearing':
+            await this.webActions.checkElementById('#sendNotificationSubject-Hearing');
+            await this.page.locator('#sendNotificationSelectHearing').selectOption({index:1});
             break;
         default:
             throw new Error(
