@@ -316,6 +316,22 @@ export default class CitizenHubPage extends BasePage {
 
    switch (notificationType) {
       case 'ET1 claim':
+      case 'CMO':
+        await expect(this.page.locator('#main-content')).toContainText('The tribunal has sent you a notification');
+        await this.webActions.clickElementByText('View the notification -');
+      break;
+    case 'Hearing':
+      await expect(this.page.locator('#main-content')).toContainText('The tribunal has sent you a notification about your hearing.');
+      await this.webActions.clickElementByText('View the notification');
+      break;
+      default:
+        throw new Error(
+            '... Notification Type not provided ...',
+        );
+    }
+
+   switch (notificationType) {
+      case 'ET1 claim':
         await expect(this.page.locator('dl')).toContainText('Claim (ET1)');
         break;
       case 'CMO':
@@ -328,7 +344,7 @@ export default class CitizenHubPage extends BasePage {
         break;
       default:
         throw new Error(
-            '... Notification Type not provided ...',
+            '... Please provide Notification type ...',
         );
     }
     await expect(this.page.locator('dl')).toContainText('Tribunal');
