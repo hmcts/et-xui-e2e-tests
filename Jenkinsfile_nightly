@@ -1,7 +1,7 @@
 #!groovy
 
 properties([
-        pipelineTriggers([cron('45 16 * * 1-5')]),
+        pipelineTriggers([cron('45 18 * * 1-5')]),
         parameters([
                 choice(name: 'ENVIRONMENT_VARS', choices: ['aat', 'demo'], description: 'Environment to test'),
                 string(name: 'ET_SYA_URL_TO_TEST', defaultValue: 'https://et-sya.aat.platform.hmcts.net/', description: 'The URL you want to run these tests against'),
