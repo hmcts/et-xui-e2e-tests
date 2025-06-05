@@ -300,6 +300,21 @@ export default class CitizenHubPage extends BasePage {
 
   async verifyNotificationBanner(notificationType){
     switch (notificationType) {
+      case 'ET1 claim', 'CMO':
+        await expect(this.page.locator('#main-content')).toContainText('The tribunal has sent you a notification');
+        await this.webActions.clickElementByText('View the notification -');
+      break;
+    case 'Hearing':
+      await expect(this.page.locator('#main-content')).toContainText('The tribunal has sent you a notification about your hearing.');
+      await this.webActions.clickElementByText('View the notification');
+      break;
+      default:
+        throw new Error(
+            '... Notification Type not provided ...',
+        );
+    }
+
+   switch (notificationType) {
       case 'ET1 claim':
       case 'CMO':
         await expect(this.page.locator('#main-content')).toContainText('The tribunal has sent you a notification');
