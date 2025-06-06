@@ -6,7 +6,7 @@ const userDetailsData = require('../data/ui-data/user-details.json');
 
 test.describe('Case creation in manage case application', () => {
 
-  test.skip('Create a claim for still working for organisation, submit and process within manage cases', {
+  test('Create a claim for still working for organisation, submit and process within manage cases', {
     tag: ['@cx', '@smoke', '@ccd-callback-tests']
   }, async ({ page, createCaseStep, respondentRepPage, citizenHubPage, caseListPage }) => {
 
