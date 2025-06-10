@@ -271,7 +271,7 @@ export class LegalRepPage extends BasePage {
         await this.page.waitForSelector('text=Upload documents for hearing');
         await this.page.waitForSelector('text=Check your answers');
         await this.webActions.clickElementByCss(this.legalRepSubmit);
-
+        await this.webActions.clickElementByCss(this.closeReturnToCaseDetails);
         await this.page.waitForTimeout(10000);
     }
 
