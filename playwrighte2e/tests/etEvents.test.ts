@@ -82,3 +82,14 @@ test.describe('Various events in mange case application for Scotland case', () =
   });
 });
 
+test.describe.skip('ET3 though api calls', () => {
+  test.beforeEach(async ({ page, createCaseStep }) => {
+    subRef = await createCaseStep.setupCUIcaseVetAndAcceptViaApi(page, true);
+  });
+  test('complete ET3', async ({ citizenHubPage }) => {
+    await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+  });
+
+});
+
