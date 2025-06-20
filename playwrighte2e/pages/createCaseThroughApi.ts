@@ -58,6 +58,44 @@ export default class CreateCaseThroughApi extends BasePage {
     return case_id;
   }
 
+  async processCuiCaseVetAndAcceptState(et3Submission) {
+    // Login to IDAM to get the authentication token
+    const authToken = await this.getAuthToken(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+
+    // Create a draft case
+    const case_id= await this.createADraftCuiCasePostRequest(authToken);
+    console.log('case Id is:' + case_id);
+
+    // Update and submit the draft case
+    const updateResponse = await this.submitDraftCuiCase(authToken, case_id, "update");
+    console.log('CUI case updated successfully:' + updateResponse.data);
+
+    const submitResponse = await this.submitDraftCuiCase(authToken, case_id, "submit");
+    console.log('CUI case submitted successfully:' + submitResponse.data);
+
+    const vetAndAcceptResponse = await this.vetAndAcceptCuiCase(authToken, case_id);
+    console.log('CUI case vet and accepted successfully:' + vetAndAcceptResponse.data);
+
+    if (et3Submission){
+      //respondent Idam login
+      const authToken = await this.getAuthToken(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword);
+      console.log('respondent Idam token fetched  successfully');
+
+      //get respondent Idam Id
+      const respondentUserId = await this.getUserDetails(authToken);
+      console.log('respondent Idam User Id fetched  successfully');
+
+      //assign a case to respondent
+      const ccd_id = await this.assignCaseToRespondent(respondentUserId, authToken, case_id);
+      console.log('case assigned to respondent successfully');
+
+      //submit ET3
+      await this.submitET3(ccd_id, respondentUserId, authToken, case_id);
+      console.log('et3 completed successfully');
+    }
+    return case_id;
+  }
+
   async getAuthToken(username: string, password: string) {
     let access_token;
     let data = querystring.stringify({
@@ -130,8 +168,6 @@ async getS2SServiceToken() {
         console.log(error);
       });
   }
-
-
   async createACaseGetRequest(authToken, serviceToken, userId, location) {
 
     const ccdStartCasePath = `/caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${location}/event-triggers/initiateCase/token`;
@@ -281,7 +317,228 @@ async getS2SServiceToken() {
 
   }
 
+  async vetAndAcceptCuiCase(authToken, case_id) {
 
+    const cuiDraftCasePath = `/vetAndAcceptCase?caseId=${case_id}`;
+    let createCaseUrl = syaApiBaseUrl + cuiDraftCasePath ;
+
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: createCaseUrl,
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json'
+      }
+    };
+
+
+    return await axios.request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+          return case_id = response.data.id;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  }
+
+  async assignCaseToRespondent(respondentAuthToken, authToken, case_id) {
+
+    const modifyCasePath = `/manageCaseRole/modifyCaseUserRoles?modificationType=Assignment`;
+    let createCaseUrl = syaApiBaseUrl + modifyCasePath ;
+    let ccd_id;
+    let data = JSON.stringify({
+      "case_users": [
+        {
+          "case_type_id": "ET_EnglandWales",
+          "respondent_name": "Mrs Test Auto",
+          "case_id":`${case_id}`,
+          "user_id": `${respondentAuthToken}`,
+          "case_role": "[DEFENDANT]"
+        }
+      ]
+    });
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: createCaseUrl,
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+
+    return await axios.request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+          return ccd_id = response.data[0].case_data.respondentCollection[0].id;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  }
+  async submitET3(ccdId, respondentAuthToken, authToken, case_id){
+    const modifyCasePath = `/et3/modifyEt3Data`;
+    let createCaseUrl = syaApiBaseUrl + modifyCasePath ;
+
+
+    let updateCaseBody = {
+        "caseSubmissionReference": `${case_id}`,
+        "requestType": "submit",
+        "caseTypeId": "ET_EnglandWales",
+        "caseDetailsLinksSectionId": "respondentResponse",
+        "caseDetailsLinksSectionStatus": "submit",
+        "responseHubLinksSectionId": "contactDetails",
+        "responseHubLinksSectionStatus": "submit",
+        "respondent": {
+          "id":`${ccdId}`,
+          "value": {
+            "respondent_name": "Mrs Test Auto",
+            "respondentType": "Organisation",
+            "respondentOrganisation": "Test Company",
+            "respondentFirstName": "Test",
+            "respondentLastName": "Company",
+            "respondentAcasQuestion": "Yes",
+            "respondentAcas": "R123456/78/90",
+            "respondentAcasNo": "Test respondent acas no",
+            "respondent_address": {
+              "AddressLine1": "Test address line 1",
+              "AddressLine2": "Test address line 2",
+              "AddressLine3": "Test address line 3",
+              "PostTown": "PostTown",
+              "Country": "England",
+              "PostCode": "SL6 2DE"
+            },
+            "respondentPhone1": "+447444518903",
+            "respondentEmail": "respondent@gmail.com",
+            "respondentContactPreference": "Email",
+            "responseRespondentAddress": {
+              "AddressLine1": "Test address line 1",
+              "AddressLine2": "Test address line 2",
+              "AddressLine3": "Test address line 3",
+              "PostTown": "PostTown",
+              "Country": "England",
+              "PostCode": "SL6 2DE"
+            },
+            "responseRespondentPhone1": "+447444518905",
+            "responseRespondentEmail": "responseRespondent@gmail.com",
+            "responseRespondentContactPreference": "Post",
+            "responseReceived": "No",
+            "responseRespondentNameQuestion": "Yes",
+            "responseRespondentName": "Mrs Test Auto",
+            "responseContinue": "Yes",
+            "et3ResponseIsClaimantNameCorrect": "Yes",
+            "et3ResponseRespondentCompanyNumber": "12345678901234567890",
+            "et3ResponseRespondentPreferredTitle": "Mr",
+            "et3ResponseRespondentContactName": "Real Company Contact Name",
+            "et3ResponseDXAddress": "Test ET3 response DX address",
+            "et3ResponseContactReason": "Test ET3 response contact reason",
+            "et3ResponseHearingRepresentative": [
+              "Phone hearings",
+              "Video hearings"
+            ],
+            "et3ResponseHearingRespondent": [
+              "Phone hearings",
+              "Video hearings"
+            ],
+            "et3ResponseEmploymentCount": 200,
+            "et3ResponseMultipleSites": "Yes",
+            "et3ResponseSiteEmploymentCount": 20,
+            "et3ResponseAcasAgree": "No",
+            "et3ResponseAcasAgreeReason": "If I agreed ACAS then why am I still dealing with these documents?",
+            "et3ResponseAreDatesCorrect": "No",
+            "et3ResponseEmploymentStartDate": "2020-01-01",
+            "et3ResponseEmploymentEndDate": "2022-01-01",
+            "et3ResponseEmploymentInformation": "Claimant gave wrong dates",
+            "et3ResponseContinuingEmployment": "No",
+            "et3ResponseIsJobTitleCorrect": "No",
+            "et3ResponseCorrectJobTitle": "IT Director",
+            "et3ResponseClaimantCorrectHours": 36,
+            "et3ResponseEarningDetailsCorrect": "No",
+            "et3ResponsePayFrequency": "Annually",
+            "et3ResponsePayBeforeTax": 35000,
+            "et3ResponsePayTakehome": 30000,
+            "et3ResponseIsNoticeCorrect": "No",
+            "et3ResponseCorrectNoticeDetails": "Her notice period was only for 3 weeks",
+            "et3ResponseIsPensionCorrect": "No",
+            "et3ResponsePensionCorrectDetails": "His pension was 300 and he didn't have a car.",
+            "et3ResponseRespondentContestClaim": "Yes",
+            "et3ResponseContestClaimDetails": "Test ET3 Response contest claim details",
+            "et3ResponseEmployerClaim": "Yes",
+            "et3ResponseEmployerClaimDetails": "I want to make employer's contract claim.",
+            "et3ResponseRespondentSupportNeeded": "No",
+            "idamId": `${respondentAuthToken}`,
+            "et3CaseDetailsLinksStatuses": {
+              "ET3CaseDetailsLinksStatuses": {
+                "personalDetails": "notAvailableYet",
+                "et1ClaimForm": "notViewedYet",
+                "respondentResponse": "notStartedYet",
+                "hearingDetails": "notAvailableYet",
+                "respondentRequestsAndApplications": "notAvailableYet",
+                "claimantApplications": "notAvailableYet",
+                "otherRespondentApplications": "notAvailableYet",
+                "contactTribunal": "optional",
+                "tribunalOrders": "notAvailableYet",
+                "tribunalJudgements": "notAvailableYet",
+                "documents": "optional"
+              }
+            },
+            "et3HubLinksStatuses": {
+              "ET3HubLinksStatuses": {
+                "contactDetails": "notStartedYet",
+                "employerDetails": "notStartedYet",
+                "conciliationAndEmployeeDetails": "notStartedYet",
+                "payPensionBenefitDetails": "notStartedYet",
+                "contestClaim": "notStartedYet",
+                "employersContractClaim": null,
+                "checkYorAnswers": "cannotStartYet"
+              }
+            },
+            "et3ResponseLanguagePreference": null,
+            "et3ResponseHearingRespondentNoDetails": null,
+            "et3Status": "submitted",
+            "et3IsRespondentAddressCorrect": null,
+            "contactDetailsSection": null,
+            "employerDetailsSection": null,
+            "conciliationAndEmployeeDetailsSection": null,
+            "payPensionBenefitDetailsSection": null,
+            "contestClaimSection": null,
+            "employersContractClaimSection": null
+          }
+
+    }
+  };
+
+    console.log('body is:'+JSON.stringify(updateCaseBody));
+
+    let data = updateCaseBody;
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: createCaseUrl,
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+
+    return await axios.request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+         // return case_id = response.data.id;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  }
   async performCaseVettingEventGetRequest(authToken, serviceToken, case_id) {
     // initiate et1 vetting
     const initiateEvent = `/cases/${case_id}/event-triggers/et1Vetting?ignore-warning=false`;
