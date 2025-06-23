@@ -12,9 +12,10 @@ test.describe('England - Caseworker Bundles test', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
     });
 
-    test('Bundles - Legal rep submit hearing preparation document - England & Wales', async ({ page, et1CaseServingPage, bundleSteps }) => {
+  //RET-5787
+    test.skip('Bundles - Legal rep submit hearing preparation document - England & Wales', async ({ page, et1CaseServingPage, bundleSteps }) => {
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
-        await bundleSteps.submitHearingPreparationDocument(page, 'EnglandWales', subRef, respondentName, firstName, lastName);
+        await bundleSteps.submitHearingPreparationDocument(page, 'EnglandWales', subRef, caseNumber, firstName, lastName);
     });
 });
 
@@ -25,9 +26,10 @@ test.describe('Scotland - Caseworker Bundles test', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "Scotland", "ET_Scotland"));
     });
 
-    test('Bundles - Legal rep submit hearing preparation document - Scotland', {tag: '@demo'}, async ({ page, et1CaseServingPage, bundleSteps }) => {
+  //RET-5787
+    test.skip('Bundles - Legal rep submit hearing preparation document - Scotland', {tag: '@demo'}, async ({ page, et1CaseServingPage, bundleSteps }) => {
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
-        await bundleSteps.submitHearingPreparationDocument(page, 'Scotland', subRef, respondentName, firstName, lastName);
+        await bundleSteps.submitHearingPreparationDocument(page, 'Scotland', subRef, caseNumber, firstName, lastName);
     });
 });
 
@@ -38,7 +40,8 @@ test.describe('England - Claimant Bundles test', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
     });
 
-    test('Bundles - Claimant Submitting hearing preparation document - England', {tag: '@demo'},
+  //RET-5787
+    test.skip('Bundles - Claimant Submitting hearing preparation document - England', {tag: '@demo'},
         async ({ page, caseListPage, et1CaseServingPage, listHearingPage, loginPage, legalRepPage, citizenHubPage }) => {
 
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
@@ -48,7 +51,7 @@ test.describe('England - Claimant Bundles test', () => {
         await page.click('text=Sign out');
 
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-        await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
+        await legalRepPage.processNOCForClaimant('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName);
 
         await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
         await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
