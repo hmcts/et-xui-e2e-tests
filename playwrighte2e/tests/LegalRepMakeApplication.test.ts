@@ -18,7 +18,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         await page.click('text=Sign out');
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-        await legalRepPage.processNOCForClaimant('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName);
+        await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false);
         await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
         caseNumber = await caseListPage.processCaseFromCaseList();
 
@@ -57,7 +57,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         await page.click('text=Sign out');
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-        await legalRepPage.processNOCForClaimant('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
+        await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, respondentName, firstName, lastName, false);
         await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
         caseNumber = await caseListPage.processCaseFromCaseList();
 

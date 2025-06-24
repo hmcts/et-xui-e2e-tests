@@ -2,6 +2,7 @@ import { BasePage } from './basePage';
 import { params } from "../utils/config";
 import { expect, Page } from '@playwright/test';
 import axeTest from '../helpers/accessibilityHelper';
+const respondentName = 'Mrs Test Auto';
 
 export class LegalRepPage extends BasePage {
 
@@ -136,7 +137,7 @@ export class LegalRepPage extends BasePage {
         await this.webActions.clickElementByCss(this.applyButton);
     }
 
-    async processNOCForClaimant(option: string, submissionReference: string, caseReference: string, ClaimantFirstName: string, ClaimantLastName: string, accessibilityEnabled?: boolean) {
+    async processNOCForClaimantOrRespondent(option: string, submissionReference: string, caseReference: string, ClaimantFirstName: string, ClaimantLastName: string, accessibilityEnabled?: boolean, isRespondent:boolean) {
         await this.loadExistingApplications(option);
         await this.page.reload();
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 25000);
@@ -150,10 +151,16 @@ export class LegalRepPage extends BasePage {
         await this.webActions.fillField(this.caseidFilfield, submissionReference);
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
-        //enter claimant details for NOC
+
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.fieldSetLegalRep), 10000);
-        if(accessibilityEnabled) axeTest(this.page);
+        if(accessibilityEnabled) axeTest(this.page)
+      if (isRespondent){
+        //enter respondent details for NOC
+        await this.webActions.fillField(this.respondentDetailsLegalRep, respondentName);
+      } else {
+        //enter claimant details for NOC
         await this.webActions.fillField(this.respondentDetailsLegalRep, ClaimantFirstName +" "+ ClaimantLastName);
+      }
         await this.webActions.fillField(this.caseReference, caseReference);
         await this.page.waitForTimeout(5000);
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
