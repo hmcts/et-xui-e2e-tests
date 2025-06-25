@@ -137,7 +137,7 @@ export class LegalRepPage extends BasePage {
         await this.webActions.clickElementByCss(this.applyButton);
     }
 
-    async processNOCForClaimantOrRespondent(option: string, submissionReference: string, caseReference: string, ClaimantFirstName: string, ClaimantLastName: string, accessibilityEnabled?: boolean, isRespondent:boolean) {
+    async processNOCForClaimantOrRespondent(option: string, submissionReference: string, caseReference: string, ClaimantFirstName: string, ClaimantLastName: string, accessibilityEnabled?: boolean, isRespondent?:boolean) {
         await this.loadExistingApplications(option);
         await this.page.reload();
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 25000);
