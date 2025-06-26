@@ -1,6 +1,7 @@
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
 import axeTest from "../helpers/accessibilityHelper";
+import el from '@faker-js/faker/locales/el';
 const today = new Date();
 
 export default class Et1CaseServingPage extends BasePage {
@@ -34,6 +35,34 @@ export default class Et1CaseServingPage extends BasePage {
       firstName,
       lastName,
     };
+  }
+
+  async et1ServingEvent(){
+    await this.addNewButtonClick();
+    await this.webActions.selectByOptionFromDropDown('#servingDocumentCollection_0_typeOfDocument', '7.7 In person preliminary hearing - notice of case management discussion');
+    await this.page.locator('#servingDocumentCollection_0_uploadedDocument').setInputFiles('test/data/welshTest.pdf');
+    await this.page.waitForTimeout(3000);
+    await this.webActions.fillField('#servingDocumentCollection_0_shortDescription', 'ET1 serving');
+    await this.clickContinue();
+  }
+
+  async et1ServingEventNoticeOfClaim(){
+    await this.addNewButtonClick();
+    await this.webActions.selectByOptionFromDropDown('#servingDocumentCollection_0_typeOfDocument', '2.7 ET2 short track claim');
+    await this.page.locator('#servingDocumentCollection_0_uploadedDocument').setInputFiles('test/data/welshTest.pdf');
+    await this.page.waitForTimeout(3000);
+    await this.webActions.fillField('#servingDocumentCollection_0_shortDescription', 'ET1 serving');
+    await this.clickContinue();
+
+    await this.webActions.waitForElementToBeVisible('text=Print and send paper documents');
+    await this.clickContinue();
+
+    await this.webActions.waitForElementToBeVisible('text=Email documents to Acas');
+    await this.submitButton();
+  }
+
+  async validateEt1ErrorMessage(){
+    await expect(this.page.getByLabel('Cannot continue because the').getByRole('listitem')).toContainText('You have only uploaded a notice of hearing. Please also upload the relevant service letter.');
   }
 }
 
