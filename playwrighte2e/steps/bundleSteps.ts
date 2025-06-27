@@ -9,7 +9,7 @@ export class BundleSteps extends BaseStep {
     }
 
 
-    async submitHearingPreparationDocument (page, region, subRef, caseNumber, firstName, lastName) {
+    async submitHearingPreparationDocument (page, region, subRef, respondentName, firstName, lastName) {
 
         await this.caseListPage.selectNextEvent('List Hearing');
         await this.listHearingPage.listCase(region, 1,false);
@@ -17,7 +17,7 @@ export class BundleSteps extends BaseStep {
 
         await this.loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
         const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
-        await this.legalRepPage.processNOCForClaimant(searchReference, subRef, caseNumber, firstName, lastName);
+        await this.legalRepPage.processNOC(searchReference, subRef, respondentName, firstName, lastName);
         await this.caseListPage.searchCaseApplicationWithSubmissionReference(searchReference, subRef);
         await this.caseListPage.processCaseFromCaseList();
 

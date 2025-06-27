@@ -15,7 +15,7 @@ export class LegalRepPage extends BasePage {
     caseidFilfield = '#caseRef';
     respondentDetailsLegalRep = '#respondentName';
     fieldSetLegalRep = '#fieldset-q-and-a-form';
-    caseReference = '#caseReference';
+    claimantFirstNamelegalRep = '#claimantFirstName';
     claimantLastNamelegalRep = '#claimantLastName';
     detailConfirmationCheckbox = '#affirmation';
     notifyPartyCheckbox = '#notifyEveryParty';
@@ -136,7 +136,7 @@ export class LegalRepPage extends BasePage {
         await this.webActions.clickElementByCss(this.applyButton);
     }
 
-    async processNOCForClaimant(option: string, submissionReference: string, caseReference: string, ClaimantFirstName: string, ClaimantLastName: string, accessibilityEnabled?: boolean) {
+    async processNOC(option: string, submissionReference: string, respondentName: string, ClaimantFirstName: string, ClaimantLastName: string, accessibilityEnabled?: boolean) {
         await this.loadExistingApplications(option);
         await this.page.reload();
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 25000);
@@ -149,12 +149,12 @@ export class LegalRepPage extends BasePage {
         if(accessibilityEnabled) axeTest(this.page);
         await this.webActions.fillField(this.caseidFilfield, submissionReference);
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
-
-        //enter claimant details for NOC
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.fieldSetLegalRep), 10000);
         if(accessibilityEnabled) axeTest(this.page);
-        await this.webActions.fillField(this.respondentDetailsLegalRep, ClaimantFirstName +" "+ ClaimantLastName);
-        await this.webActions.fillField(this.caseReference, caseReference);
+        await this.webActions.fillField(this.respondentDetailsLegalRep, respondentName);
+        await this.webActions.fillField(this.claimantFirstNamelegalRep, ClaimantFirstName);
+        await this.webActions.fillField(this.claimantLastNamelegalRep, ClaimantLastName);
+
         await this.page.waitForTimeout(5000);
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
 

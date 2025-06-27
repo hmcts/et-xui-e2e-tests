@@ -11,14 +11,13 @@ test.describe('Make an application and view Recorded Decision', () => {
        ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
     });
 
-    //RET-5787
     test.skip('Legal representatives make and application - England', async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
         //perform NOC
         await page.click('text=Sign out');
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-        await legalRepPage.processNOCForClaimant('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName);
+        await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
         await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
         caseNumber = await caseListPage.processCaseFromCaseList();
 
@@ -48,8 +47,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         await citizenHubPage.validateResponseOfResponse();
     });
 
-    //RET-5787
-    test.skip('Legal representatives make and application, caseworker record a decision, LR and citizen view a decision - E/W',
+    test('Legal representatives make and application, caseworker record a decision, LR and citizen view a decision - E/W',
         {tag: '@demo'},
         async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
@@ -57,7 +55,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         await page.click('text=Sign out');
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-        await legalRepPage.processNOCForClaimant('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
+        await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
         await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
         caseNumber = await caseListPage.processCaseFromCaseList();
 
