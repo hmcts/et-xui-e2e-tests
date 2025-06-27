@@ -57,12 +57,12 @@ export default class AccessibilitySteps extends BaseStep {
         await this.caseListPage.clickContinue();
     }
 
-    async scanLegalRepApplicationPages(page, subRef: string, caseNumber: string, firstName: string, lastName: string, accessibilityEnabled?: boolean) {
+    async scanLegalRepApplicationPages(page, subRef: string, respondentName: string, firstName: string, lastName: string, accessibilityEnabled?: boolean) {
 
         await page.click('text=Sign out');
         await page.goto(params.TestUrlForManageCaseAAT);
         await this.loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-        await this.legalRepPage.processNOCForClaimant('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, accessibilityEnabled);
+        await this.legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName, accessibilityEnabled);
         await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
         await this.caseListPage.processCaseFromCaseList();
 

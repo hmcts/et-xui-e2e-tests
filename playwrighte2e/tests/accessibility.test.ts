@@ -25,11 +25,10 @@ test.describe('Accessibility test', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
     });
 
-    //RET-5787
-    test.skip('Scan exui pages- Legal Representative journey', {tag: '@accessibility'}, async ({ page, et1CaseServingPage, accessibilitySteps }) => {
+    test('Scan exui pages- Legal Representative journey', {tag: '@accessibility'}, async ({ page, et1CaseServingPage, accessibilitySteps }) => {
 
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
-        await accessibilitySteps.scanLegalRepApplicationPages(page, subRef, caseNumber, firstName, lastName, true);
+        await accessibilitySteps.scanLegalRepApplicationPages(page, subRef, respondentName, firstName, lastName, true);
     });
 
     test('Scan exui pages- Work allocation journey', {tag: '@accessibility'}, async ({ page, accessibilitySteps}) => {
