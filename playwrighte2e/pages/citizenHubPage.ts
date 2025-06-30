@@ -24,6 +24,7 @@ export default class CitizenHubPage extends BasePage {
     contactTribunalAboutMyCase: '[href="/contact-the-tribunal"]',
     linkToET3Response: '[href="/case-document/response-from-respondent"]',
     contactTribunalLinkRegistered: '[href="/contact-the-tribunal"]',
+    appointLegalRepLink:'[href="/appoint-legal-representative"]',
     openAllApplicationType: '//span[@class="govuk-accordion__show-all-text"]',
     welshContactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=cy"]',
     showAllApplicationType: '#contact-options',
@@ -104,6 +105,17 @@ export default class CitizenHubPage extends BasePage {
     async citizenHubCaseOverviewPage(caseNumber) {
       await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
       await this.webActions.verifyElementContainsText(this.page.locator('#caseNumber'), 'Case number ' + caseNumber);
+    }
+
+    async appointLegalRep(){
+      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.appointLegalRepLink));
+      await this.webActions.clickElementByCss(this.elements.appointLegalRepLink);
+
+      await expect(this.page.locator('dl')).toContainText('Case reference');
+      await expect(this.page.locator('dl')).toContainText('Claimant name');
+      await expect(this.page.locator('dl')).toContainText('Tribunal Case Number');
+
+      await expect(this.page.locator('#main-content')).toContainText('download all your documents');
     }
 
    async clicksViewLinkOnClaimantApplicationPage(submissionReference) {
