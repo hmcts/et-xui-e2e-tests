@@ -80,6 +80,7 @@ test.describe('Notification', () => {
     await caseListPage.signoutButton();
   });
 
+  //RET-5850, 5627
   test.skip('Tribunal/caseworker perform ET1 serving, claimant validates notification', async ({citizenHubPage, caseListPage, et1CaseServingPage}) => {
     //Caseworker perform ET1 serving notification
     await caseListPage.selectNextEvent('ET1 serving');

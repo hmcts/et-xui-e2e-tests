@@ -59,6 +59,9 @@ export default class Et1CaseServingPage extends BasePage {
 
     await this.webActions.waitForElementToBeVisible('text=Email documents to Acas');
     await this.submitButton();
+
+    await this.webActions.waitForElementToBeVisible('text=Documents sent');
+    await this.closeAndReturn();
   }
 
   async validateEt1ErrorMessage(){
