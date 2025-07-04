@@ -25,7 +25,6 @@ test.describe.serial('ET3/Respondent Journey', () => {
         await respClaimantDetails.et3Section2();
         await respContestClaim.et3Section3();
         await respSubmitEt3.checkYourAnswers();
-
     });
 
     //RET-5516
