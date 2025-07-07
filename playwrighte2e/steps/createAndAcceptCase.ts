@@ -37,32 +37,26 @@ export default class createAndAcceptCase extends BaseStep {
 
     async setupCUICaseCreatedViaApi(page, et1VettingFlag?:boolean, accessibilityEnabled?: boolean) {
 
-        // submissionRef = await this.createCaseThroughApi.processCuiCaseToAcceptedState();
-        // subRef = submissionRef.toString();
-        subRef = '1750945479110385';
-        caseNumber = '6038608/2025';
+        submissionRef = await this.createCaseThroughApi.processCuiCaseToAcceptedState();
+        subRef = submissionRef.toString();
+        // subRef = '1750945479110385';
+        // caseNumber = '6038608/2025';
 
         await page.goto(params.TestUrlForManageCaseAAT);
         await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-        await page.goto('https://xui-et-ccd-definitions-admin-pr-830.preview.platform.hmcts.net/cases/case-details/1750945479110385#Case%20Details')
-        // await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        // caseNumber = await this.caseListPage.processCaseFromCaseList();
+        await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
+        caseNumber = await this.caseListPage.processCaseFromCaseList();
 
-        // if (et1VettingFlag) {
-        //     // Case vetting
-        //     await this.caseListPage.selectNextEvent('ET1 case vetting');
-        //     await this.et1VettingPage.processET1CaseVettingPages(accessibilityEnabled);
-        //
-        //     // Accept case
-        //     await this.caseListPage.selectNextEvent('Accept/Reject Case');
-        //     await this.et1CaseServingPage.processET1CaseServingPages(accessibilityEnabled);
-        // }
+        if (et1VettingFlag) {
+            // Case vetting
+            await this.caseListPage.selectNextEvent('ET1 case vetting');
+            await this.et1VettingPage.processET1CaseVettingPages(accessibilityEnabled);
+
+            // Accept case
+            await this.caseListPage.selectNextEvent('Accept/Reject Case');
+            await this.et1CaseServingPage.processET1CaseServingPages(accessibilityEnabled);
+        }
          return {subRef, caseNumber};
-    }
-
-    async setupCUIcaseVetAndAcceptViaApi(page, et3Submission?:boolean){
-        submissionRef = await this.createCaseThroughApi.processCuiCaseVetAndAcceptState(et3Submission);
-        return submissionRef;
     }
 
     async setupCUIcaseVetAndAcceptViaApi(page, et3Submission?:boolean){
