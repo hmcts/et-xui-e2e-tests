@@ -47,7 +47,7 @@ export default class ClaimDetailsPage extends BasePage{
     await this.saveAndContinueButton();
   }
   async compensation() {
-    await this.webActions.verifyElementContainsText(this.page.locator('#main-form'), 'What compensation are you seeking? (optional)');
+    await this.webActions.verifyElementContainsText(this.page.locator('#main-form'), 'What compensation are you seeking?');
     await this.webActions.fillField('#compensationOutcome', 'Seeking months wage and job back');
     await this.webActions.fillField('#compensation-amount', '2000');
 
