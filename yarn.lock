@@ -15,14 +15,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axe-core/playwright@npm:4.10.1":
-  version: 4.10.1
-  resolution: "@axe-core/playwright@npm:4.10.1"
+"@axe-core/playwright@npm:4.10.2":
+  version: 4.10.2
+  resolution: "@axe-core/playwright@npm:4.10.2"
   dependencies:
-    axe-core: ~4.10.2
+    axe-core: ~4.10.3
   peerDependencies:
     playwright-core: ">= 1.0.0"
-  checksum: 53c5d9c7696a6ac20ec5d30c1bbcbb8c9cbb0b607ee53a022b3c935bf6110a78a243172c4ceed686c9675b3a241fe160277fd1f0974ab98c1678f9c7b14c7646
+  checksum: fd5b560783aa6c70adc3e2b66d1a5985f18dddf548b99069f67bf2dd79f82e7debd3d7560c4deea4445ba8ee81a15aef3c3b4f953a975a029fa00313fd550e0f
   languageName: node
   linkType: hard
 
@@ -270,12 +270,12 @@ __metadata:
   linkType: hard
 
 "@babel/types@npm:^7.8.3":
-  version: 7.27.6
-  resolution: "@babel/types@npm:7.27.6"
+  version: 7.28.0
+  resolution: "@babel/types@npm:7.28.0"
   dependencies:
     "@babel/helper-string-parser": ^7.27.1
     "@babel/helper-validator-identifier": ^7.27.1
-  checksum: c3bd0984d892b0edec38fd12cf63f620bb52fba8187ec7cbe2d1aff5bee5e185e0fd86a3fb90b4d8f18b072113d07901476d0e39f58d5c988db14b231a6ea735
+  checksum: 3cb33bbe79e9629c3e4ed1592340f936481e7aef2c3df11f8b1f91e54b45e89b3ad92f2d20f8acdb5a7e00157174ffe8b1d174069bb839303e7f39f579d60969
   languageName: node
   linkType: hard
 
@@ -547,14 +547,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.50.1":
-  version: 1.53.1
-  resolution: "@playwright/test@npm:1.53.1"
+"@playwright/test@npm:^1.53.2":
+  version: 1.53.2
+  resolution: "@playwright/test@npm:1.53.2"
   dependencies:
-    playwright: 1.53.1
+    playwright: 1.53.2
   bin:
     playwright: cli.js
-  checksum: 9d7c09d27c6e24740e1be6aa1ed98cc0257a5a1d9b2d44f94f7f12c5f9804a58ac2855b7a0e8330551527c94b9d4d46bb122c4bb362d1bc6cd72c75beb5e6a84
+  checksum: b13cb56e60132ad1b0cfa245a89b203623c43287251e359e164380e6fd3a439435133ece52c6242bc925c96cc7afd15b52e596fd2e20f7c87b95d574a157da15
   languageName: node
   linkType: hard
 
@@ -1184,7 +1184,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:~4.10.2":
+"axe-core@npm:~4.10.3":
   version: 4.10.3
   resolution: "axe-core@npm:4.10.3"
   checksum: e89fa5bcad9216f2de29bbdf95d6211d8c5b1025cbdcf56b6695c18b2e9a1eebd0b997a0141334169f6f062fc68fd39a5b97f86348d9f5be05958eade5c1ec78
@@ -2518,10 +2518,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "et-xui-e2e-tests@workspace:."
   dependencies:
-    "@axe-core/playwright": 4.10.1
+    "@axe-core/playwright": 4.10.2
     "@faker-js/faker": 7.2.0
     "@noble/hashes": ^1.5.0
-    "@playwright/test": ^1.50.1
+    "@playwright/test": ^1.53.2
     "@types/chai-as-promised": ^7.1.5
     "@types/chance": ^1.1.6
     "@types/node": ^20.14.11
@@ -5084,27 +5084,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.53.1":
-  version: 1.53.1
-  resolution: "playwright-core@npm:1.53.1"
+"playwright-core@npm:1.53.2":
+  version: 1.53.2
+  resolution: "playwright-core@npm:1.53.2"
   bin:
     playwright-core: cli.js
-  checksum: 19600abe104c7f1793212ad12d8c66c6b42c534a2b760aab55ee9c198c058f0027c8f3ba469bb4f2e268e20e8f84272ea32aeb9ea840b184b58f58f71d29549d
+  checksum: 01530abe93a094482e5cc171e195001bd351c1b75430fb8820e17a2cfc6d67e34e0e59871dd738e1754cd2720fb0c797acb10295bcdc092a268cd297ae4bb3bd
   languageName: node
   linkType: hard
 
-"playwright@npm:1.53.1":
-  version: 1.53.1
-  resolution: "playwright@npm:1.53.1"
+"playwright@npm:1.53.2":
+  version: 1.53.2
+  resolution: "playwright@npm:1.53.2"
   dependencies:
     fsevents: 2.3.2
-    playwright-core: 1.53.1
+    playwright-core: 1.53.2
   dependenciesMeta:
     fsevents:
       optional: true
   bin:
     playwright: cli.js
-  checksum: 6d9b0ae3f4abe794528b213bb0b492be0d93ee611efca3122aca81a8127b0a13206a91c97f5b22449b1b97d5d65979dd70e1286b015c93c45143e722293d3b95
+  checksum: f5a1cb319eb8f1c30d4f934bbc0c48a3cb0c796286bbb008c82cb2b0666a318c6f910ed5db6cf44f68bac64e6d42485e834306b8bed08f6385ff348337b23c61
   languageName: node
   linkType: hard
 
@@ -6640,8 +6640,8 @@ __metadata:
   linkType: hard
 
 "ws@npm:^8.17.1":
-  version: 8.18.2
-  resolution: "ws@npm:8.18.2"
+  version: 8.18.3
+  resolution: "ws@npm:8.18.3"
   peerDependencies:
     bufferutil: ^4.0.1
     utf-8-validate: ">=5.0.2"
@@ -6650,7 +6650,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: e38beae19ba4d68577ec24eb34fbfab376333fedd10f99b07511a8e842e22dbc102de39adac333a18e4c58868d0703cd5f239b04b345e22402d0ed8c34ea0aa0
+  checksum: d64ef1631227bd0c5fe21b3eb3646c9c91229402fb963d12d87b49af0a1ef757277083af23a5f85742bae1e520feddfb434cb882ea59249b15673c16dc3f36e0
   languageName: node
   linkType: hard
 
