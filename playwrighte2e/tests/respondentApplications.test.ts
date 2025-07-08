@@ -49,7 +49,7 @@ test.describe('ET3/Respondent Applications', () => {
 });
 
 test.describe('ET3/Respondent Applications', () => {
-    //too long UI work flow, create a case through UI
+    //too long UI work flow, create a case via API as a legal rep
     test.skip('Legal Representative created a case, Respondent makes Type A Application, LR can see application', async ({page, createCaseStep,loginPage,caseListPage, legalRepPage,et3LoginPage, respondentCaseOverviewPage}) => {
         const respName ='Mark McDonald';
         const firstName ='Jessamine';

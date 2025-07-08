@@ -51,7 +51,7 @@ test.describe('Notification', () => {
 
 
     //RET-4646
-    test.skip('Tribunal/caseworker sends Hearing notification to claimant', async ({page, citizenHubPage, caseListPage,listHearingPage}) => {
+    test('Tribunal/caseworker sends Hearing notification to claimant', async ({page, citizenHubPage, caseListPage,listHearingPage}) => {
         let notificationPage = new NotificationPage(page);
 
         //list hearing
@@ -72,7 +72,7 @@ test.describe('Notification', () => {
         await citizenHubPage.verifyNotificationBanner('Hearing');
     });
 
-  test.skip('Tribunal/caseworker perform ET1 serving event with 7.7 type document', async ({caseListPage, et1CaseServingPage}) => {
+  test('Tribunal/caseworker perform ET1 serving event with 7.7 type document', async ({caseListPage, et1CaseServingPage}) => {
     //Caseworker perform ET1 serving notification
     await caseListPage.selectNextEvent('ET1 serving');
     await et1CaseServingPage.et1ServingEvent();
@@ -81,7 +81,7 @@ test.describe('Notification', () => {
   });
 
   //RET-5850, 5627
-  test.skip('Tribunal/caseworker perform ET1 serving, claimant validates notification', async ({citizenHubPage, caseListPage, et1CaseServingPage}) => {
+  test('Tribunal/caseworker perform ET1 serving, claimant validates notification', async ({citizenHubPage, caseListPage, et1CaseServingPage}) => {
     //Caseworker perform ET1 serving notification
     await caseListPage.selectNextEvent('ET1 serving');
     await et1CaseServingPage.et1ServingEventNoticeOfClaim();
@@ -92,7 +92,6 @@ test.describe('Notification', () => {
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
 
     //claimant validates notification banner
-    //TODO
     await citizenHubPage.verifyNotificationBannerForNoticeOfClaim();
   });
 

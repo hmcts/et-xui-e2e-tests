@@ -405,7 +405,7 @@ export class LegalRepPage extends BasePage {
 
     }
     async et3ResponseDetails(){
-        // Employment Details
+        // Response Details
         await this.page.waitForSelector(this.responseDetailLink, { timeout: 10000 });
         await this.page.click(this.responseDetailLink);
         await this.page.waitForSelector(this.continueLegalRepButton, { timeout: 10000 });
@@ -426,6 +426,7 @@ export class LegalRepPage extends BasePage {
         await this.page.click(this.continueLegalRepButton);
         await this.page.waitForSelector(this.eccTextField, { timeout: 10000 });
         await this.page.fill(this.eccTextField, 'ECC Respondent Test');
+        //
         await this.page.setInputFiles(this.et3EccUploadButton, 'test/data/welshTest.pdf');
         await this.page.waitForTimeout(5000);
         await this.page.click(this.continueLegalRepButton);

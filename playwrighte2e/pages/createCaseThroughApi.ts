@@ -1,7 +1,11 @@
 
+// @ts-ignore
+// @ts-ignore
 import querystring from "querystring";
 import { params } from "../utils/config";
+// @ts-ignore
 import engCase from "../data/et-england-case-data.json";
+// @ts-ignore
 import scotCase from "../data/et-scotland-case-data.json";
 import * as OTPAuth from "totp-generator";
 import axios from "axios";
