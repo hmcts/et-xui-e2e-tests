@@ -74,7 +74,6 @@ export default class CitizenHubPage extends BasePage {
     viewCorrespondenceLink: '//a[.="View correspondence"]',
     confirmedCopyCheckBox: '#confirmCopied',
     submit:this.page.locator('[type="submit"]'),
-    respondButton: '#respond-button',
     respondToApplicationText:'#respond-to-application-text',
     supportingMaterialRadioYes:'#supporting-material-yes-no',
     supportingMaterialFile:'#supportingMaterialFile',
