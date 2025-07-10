@@ -222,7 +222,7 @@ export class LegalRepPage extends BasePage {
             expect(optionText).not.toContain('2 Costs Hearing - Carlisle');
         }
 
-        await this.page.selectOption(this.selectHearingFromDropdown, '1: 1');
+        await this.page.locator(this.selectHearingFromDropdown).selectOption({index:1});
         // Whose hearing documents are you uploading
         try {
             switch (whoseDocu) {

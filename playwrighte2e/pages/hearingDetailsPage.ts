@@ -13,6 +13,7 @@ elements={
 
     //remove all dates so can list hearing as heard
     await this.webActions.selectByLabelFromDropDown('#hearingDetailsCollection_0_hearingDetailsStatus','Heard');
+    await this.webActions.checkElementById('#hearingDetailsCollection_0_hearingDetailsCaseDisposed_No');
     await this.webActions.fillField('#hearingDetailsTimingStart-day', '');
     await this.webActions.fillField('#hearingDetailsTimingStart-month', '');
     await this.webActions.fillField('#hearingDetailsTimingStart-year', '');
