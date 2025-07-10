@@ -11,12 +11,13 @@ export default class applicationPage extends BasePage {
   readonly r92NoDetailsTextbox:Locator;
 
   protected constructor(page: Page) {
-
+    // @ts-ignore
+    super();
     this.applicationTab = page.getByText('Applications');
     this.makeAnApplicationLink = page.getByRole('link', { name: 'Make an application' });
-    this.applicationType=page.getByLabel('Select an application');
-    this.r92Yes= page.getByLabel('Yes, I confirm I will copy');
-    this.r92No=page.getByLabel('No, I do not want to copy');
+    this.applicationType = page.getByLabel('Select an application');
+    this.r92Yes = page.getByLabel('Yes, I confirm I will copy');
+    this.r92No = page.getByLabel('No, I do not want to copy');
     this.r92NoDetailsTextbox = page.getByLabel('Give details');
   }
 
