@@ -9,7 +9,8 @@ export class LegalRepPage extends BasePage {
 
     applyButtonOnLegalRep = '.workbasket-filters-apply';
     manageCasesLinkLegalRep = '[aria-label="Manage Cases"]';
-    continueButton = '.button';
+    // @ts-ignore
+  continueButton = '.button';
     nocLinkLegalRep = '//a[contains(.,"Notice of change")]';
     continueLegalRepButton = '//button[@class="button"]';
     submitButtonLegalRep = '//button[@class="button"]';
@@ -50,7 +51,8 @@ export class LegalRepPage extends BasePage {
     legalRepSubmit = '[type="submit"]';
     successfulmsgHeader = '.heading-h1';
     hearingTabLegalRep = '//div[8]';
-    closeAndReturnButton = '[type="submit"]';
+    // @ts-ignore
+  closeAndReturnButton = '[type="submit"]';
     loadingSpinner = '.spinner-container';
     legalRepNotificationTab = '#mat-tab-label-0-6';
     viewJudgmentOrderOrNotificationLink = '//a[.="View a judgment, order or notification"]';
@@ -412,7 +414,7 @@ export class LegalRepPage extends BasePage {
 
     }
     async et3ResponseDetails(){
-        // Employment Details
+        // Response Details
         await this.page.waitForSelector(this.responseDetailLink, { timeout: 10000 });
         await this.page.click(this.responseDetailLink);
         await this.page.waitForSelector(this.continueLegalRepButton, { timeout: 10000 });
@@ -433,6 +435,7 @@ export class LegalRepPage extends BasePage {
         await this.page.click(this.continueLegalRepButton);
         await this.page.waitForSelector(this.eccTextField, { timeout: 10000 });
         await this.page.fill(this.eccTextField, 'ECC Respondent Test');
+        //
         await this.page.setInputFiles(this.et3EccUploadButton, 'test/data/welshTest.pdf');
         await this.page.waitForTimeout(5000);
         await this.page.click(this.continueLegalRepButton);

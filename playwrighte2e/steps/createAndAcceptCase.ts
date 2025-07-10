@@ -39,6 +39,8 @@ export default class createAndAcceptCase extends BaseStep {
 
         submissionRef = await this.createCaseThroughApi.processCuiCaseToAcceptedState();
         subRef = submissionRef.toString();
+        // subRef = '1750945479110385';
+        // caseNumber = '6038608/2025';
 
         await page.goto(params.TestUrlForManageCaseAAT);
         await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
@@ -54,7 +56,12 @@ export default class createAndAcceptCase extends BaseStep {
             await this.caseListPage.selectNextEvent('Accept/Reject Case');
             await this.et1CaseServingPage.processET1CaseServingPages(accessibilityEnabled);
         }
-        return {subRef, caseNumber};
+         return {subRef, caseNumber};
+    }
+
+    async setupCUIcaseVetAndAcceptViaApi(page, et3Submission?:boolean){
+        submissionRef = await this.createCaseThroughApi.processCuiCaseVetAndAcceptState(et3Submission);
+        return submissionRef;
     }
 
     async createCaseViaCUI(page, region, loginMethod: (page) => Promise<void>, employmentJourneyMethod?: (page) => Promise<void>) {

@@ -75,7 +75,6 @@ export default class CitizenHubPage extends BasePage {
     viewCorrespondenceLink: '//a[.="View correspondence"]',
     confirmedCopyCheckBox: '#confirmCopied',
     submit:this.page.locator('[type="submit"]'),
-    respondButton: '#respond-button',
     respondToApplicationText:'#respond-to-application-text',
     supportingMaterialRadioYes:'#supporting-material-yes-no',
     supportingMaterialFile:'#supportingMaterialFile',
@@ -346,5 +345,11 @@ export default class CitizenHubPage extends BasePage {
         );
     }
     await expect(this.page.locator('dl')).toContainText('Tribunal');
+  }
+
+  async verifyNotificationBannerForNoticeOfClaim(){
+    await expect(this.page.locator('#main-content')).toContainText('The tribunal has acknowledged your claim');
+    await this.webActions.clickElementByText('View the Acknowledgement of Claim');
+    await expect(this.page.locator('#main-content')).toContainText('Notice of a Claim and Notice of Hearing');
   }
 }

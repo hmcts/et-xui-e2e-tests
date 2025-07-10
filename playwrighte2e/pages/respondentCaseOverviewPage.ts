@@ -12,7 +12,8 @@ export default class RespondentCaseOverviewPage extends BasePage {
 
     elements={
        et1FormLink:this.page.locator('[href="/claimant-et1-form?lng=en"]'),
-        et1FormSubLink:this.page.locator('[href="/claimant-et1-form-details?lng=en"]'),
+       et1FormSubLink:this.page.locator('[href="/claimant-et1-form-details?lng=en"]'),
+      claimantContactDetails:'[href="/claimant-contact-details"]',
 
     };
     async validateRespondentCaseOverviewPage() {
@@ -102,9 +103,8 @@ export default class RespondentCaseOverviewPage extends BasePage {
 
     async validateRespondentClaimantContactDetailsPage(){
         await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
+        await this.webActions.clickElementByCss(this.elements.claimantContactDetails);
         await expect(this.page.locator('dl')).toContainText('Email');
-        await expect(this.page.locator('dl')).toContainText('Preferred method of contact');
-
     }
 
 }

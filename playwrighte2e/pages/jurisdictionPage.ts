@@ -12,7 +12,7 @@ export default class JurisdictionPage extends BasePage {
     await this.page.getByRole('button', { name: 'Add new' }).nth(1).click();
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.jurisdictionDropdown));
     await this.webActions.selectByOptionFromDropDown(this.elements.jurisdictionDropdown, '10: DDA');
-    await this.webActions.selectByLabelFromDropDown('#jurCodesCollection_1_judgmentOutcome', 'ACAS conciliated settlement');
+    await this.webActions.selectByLabelFromDropDown('#jurCodesCollection_1_judgmentOutcome', 'Not allocated');
   }
 
   async addJurisdictionCode(){

@@ -15,7 +15,7 @@ export default class Et3LoginPage extends BasePage {
 
   elements={
 
-    returnToExistingResponse:this.page.locator('[href="/return-to-existing?lng=en"]'),
+    returnToExistingResponse:'[href="/return-to-existing-response?lng=en"]',
     submit:this.page.locator('[type="submit"]'),
     startNow:this.page.locator('[href="/case-number-check"]'),
     respondToNewClaim: '[href="/case-number-check?lng=en&redirect=selfAssignment"]',
@@ -89,6 +89,7 @@ export default class Et3LoginPage extends BasePage {
 
   async processRespondentLoginForExistingCase(username: string, password: string, caseNumber: string){
     await this.page.goto(params.TestUrlRespondentUi);
+    await this.webActions.clickElementByCss(this.elements.returnToExistingResponse);
     await this.webActions.checkElementById('#return_number_or_account-2');
     await this.clickContinue();
     await this.loginRespondentUi(username, password);

@@ -51,7 +51,7 @@ test.describe('Notification', () => {
 
 
     //RET-4646
-    test.skip('Tribunal/caseworker sends Hearing notification to claimant', async ({page, citizenHubPage, caseListPage,listHearingPage}) => {
+    test('Tribunal/caseworker sends Hearing notification to claimant', async ({page, citizenHubPage, caseListPage,listHearingPage}) => {
         let notificationPage = new NotificationPage(page);
 
         //list hearing
@@ -71,4 +71,28 @@ test.describe('Notification', () => {
         //claimant validates notification banner
         await citizenHubPage.verifyNotificationBanner('Hearing');
     });
+
+  test('Tribunal/caseworker perform ET1 serving event with 7.7 type document', async ({caseListPage, et1CaseServingPage}) => {
+    //Caseworker perform ET1 serving notification
+    await caseListPage.selectNextEvent('ET1 serving');
+    await et1CaseServingPage.et1ServingEvent();
+    await et1CaseServingPage.validateEt1ErrorMessage();
+    await caseListPage.signoutButton();
+  });
+
+  //RET-5850, 5627
+  test('Tribunal/caseworker perform ET1 serving, claimant validates notification', async ({citizenHubPage, caseListPage, et1CaseServingPage}) => {
+    //Caseworker perform ET1 serving notification
+    await caseListPage.selectNextEvent('ET1 serving');
+    await et1CaseServingPage.et1ServingEventNoticeOfClaim();
+    await caseListPage.signoutButton();
+
+    await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+    await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
+
+    //claimant validates notification banner
+    await citizenHubPage.verifyNotificationBannerForNoticeOfClaim();
+  });
+
 });

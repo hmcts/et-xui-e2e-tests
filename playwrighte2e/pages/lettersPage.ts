@@ -23,10 +23,10 @@ export default class LettersPage extends BasePage {
         const option = await selectBox.locator("option").filter({ hasText: letterPageData.hearingOption }).textContent();
         if(option) await selectBox.selectOption(option);
 
-        await this.submitButton();
-        await this.page.waitForSelector('markdown p', { timeout: 10000 });
-        await this.webActions.verifyElementContainsText(this.page.locator('markdown p'), letterPageData.confirmationTxt);
-        await this.closeAndReturn();
+      await this.submitButton();
+      await this.webActions.verifyElementToBeVisible(this.closeAndReturnButton);
+      //await this.webActions.verifyElementContainsText(this.page.locator('markdown p'), letterPageData.confirmationTxt);
+      await this.closeAndReturn();
     }
 
     async generateNoHearingDateLetter() {

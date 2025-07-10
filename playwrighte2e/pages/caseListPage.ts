@@ -320,6 +320,7 @@ export default class CaseListPage extends BasePage{
         ['Does the respondent wish to contest any part of the claim?', 'No']
       ]);
 
+      // @ts-ignore
       for (let [key, value] of testDataMap) {
         await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${key}"]/../../td[normalize-space()="${value}"]`));
       }
