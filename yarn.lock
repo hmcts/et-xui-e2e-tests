@@ -666,10 +666,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chance@npm:^1.1.6":
-  version: 1.1.6
-  resolution: "@types/chance@npm:1.1.6"
-  checksum: a1845ff0a70989d581b8f7628aaef1807276c0ae22d0c038013ebcac4f4bd57e6a765319377994cc3cae2122838638fdb2afe5232ee6b987b3f7ea2cddecbead
+"@types/chance@npm:^1.1.7":
+  version: 1.1.7
+  resolution: "@types/chance@npm:1.1.7"
+  checksum: 2c5390c6f412911bc8008c4e9ce5786e060782011e13a93fa0129e339b2c8734a39c5dd046e3309407e760baa00cec337aa5d4c73e1a001ba52abdedbbe27c23
   languageName: node
   linkType: hard
 
@@ -727,30 +727,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 24.0.13
-  resolution: "@types/node@npm:24.0.13"
-  dependencies:
-    undici-types: ~7.8.0
-  checksum: a98c3c7979e3c17e2853af4b5c4adfb0cbeaf3747a85bc349048ec068cf16d2a96186e005b76ad05f8f533f9b067f499e45ff0296dab0111297af634f71c792c
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^18.11.18":
-  version: 18.19.118
-  resolution: "@types/node@npm:18.19.118"
-  dependencies:
-    undici-types: ~5.26.4
-  checksum: 2b30c30bd81e09e89090e3f8ae80be5b23b7e70c0c6a1f7c577a2ea675a2d0e775c0f124a3d43ef3bfe97dcf93171819f55747f1da7dda61bbb6ee7bc5ffd0d6
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^20.1.0, @types/node@npm:^20.19.7":
+"@types/node@npm:*, @types/node@npm:^20.1.0, @types/node@npm:^20.14.11":
   version: 20.19.7
   resolution: "@types/node@npm:20.19.7"
   dependencies:
     undici-types: ~6.21.0
   checksum: 1608f602bd13351373efe033e4690b43def672afd5345b10655d9fa003d82e8082cbbe5b0b03e099a986f63a5de21068cfc7b077b8198f5a60e04cada6054bf8
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.11.18":
+  version: 18.19.39
+  resolution: "@types/node@npm:18.19.39"
+  dependencies:
+    undici-types: ~5.26.4
+  checksum: d1de755983127b405458c427ae2cf77c89d120a617ca70999086a75fb0b6c6dbc1bdddfe1a8a7374c9ae55ed0589a2bd023ffb3b09ee25440c013afc6502dfe6
   languageName: node
   linkType: hard
 
@@ -1495,10 +1486,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chance@npm:^1.1.11":
-  version: 1.1.11
-  resolution: "chance@npm:1.1.11"
-  checksum: 2e871fcc76584d274f860f0f25380b6ab547caf0d22d8b043a313be73d5c3db38941373241f83aeba049e7511f752f9746dc722a0f2b0182020d493c4e11da84
+"chance@npm:^1.1.13":
+  version: 1.1.13
+  resolution: "chance@npm:1.1.13"
+  checksum: 0bab82fc53beca321094d07b7f7933fef7b0f08492b8fc46a9322da6ea13709dc286e7ae60cbb78be3ef5488d802ec95b0c876e9d3fb5ab4177899d7377465ed
   languageName: node
   linkType: hard
 
@@ -2532,10 +2523,10 @@ __metadata:
     "@noble/hashes": ^1.5.0
     "@playwright/test": ^1.50.1
     "@types/chai-as-promised": ^7.1.5
-    "@types/chance": ^1.1.6
-    "@types/node": ^20.19.7
+    "@types/chance": ^1.1.7
+    "@types/node": ^20.14.11
     axios: ^1.8.2
-    chance: ^1.1.11
+    chance: ^1.1.13
     config: ^3.3.9
     eslint: 9.30.1
     eslint-config-prettier: 9.1.0
@@ -6324,13 +6315,6 @@ __metadata:
   version: 6.21.0
   resolution: "undici-types@npm:6.21.0"
   checksum: 46331c7d6016bf85b3e8f20c159d62f5ae471aba1eb3dc52fff35a0259d58dcc7d592d4cc4f00c5f9243fa738a11cfa48bd20203040d4a9e6bc25e807fab7ab3
-  languageName: node
-  linkType: hard
-
-"undici-types@npm:~7.8.0":
-  version: 7.8.0
-  resolution: "undici-types@npm:7.8.0"
-  checksum: 59521a5b9b50e72cb838a29466b3557b4eacbc191a83f4df5a2f7b156bc8263072b145dc4bb8ec41da7d56a7e9b178892458da02af769243d57f801a50ac5751
   languageName: node
   linkType: hard
 
