@@ -20,7 +20,7 @@
     "lint": "eslint",
     "fortifyScan": "./src/test/java/gradlew -p src/test/java fortifyScan",
     "prepare": "husky install",
-    "yarn-update": "yarn set version 3.x",
+    "yarn-update": "yarn set version 4.x",
     "install-dependencies": "/usr/bin/yarn install --silent"
   },
   "lint-staged": {
@@ -72,5 +72,5 @@
     "tough-cookie": "^4.1.3",
     "ws": "^8.17.1"
   },
-  "packageManager": "yarn@4.8.1"
+  "packageManager": "yarn@4.9.2"
 }
