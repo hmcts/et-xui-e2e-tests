@@ -352,4 +352,16 @@ export default class CitizenHubPage extends BasePage {
     await this.webActions.clickElementByText('View the Acknowledgement of Claim');
     await expect(this.page.locator('#main-content')).toContainText('Notice of a Claim and Notice of Hearing');
   }
+
+  async verifyLegalRepNotificationBanner(){
+    await expect(this.page.locator('h3')).toContainText('You are now being legally represented by');
+  }
+
+  async contactTheTribunalLink()
+  {
+    await this.webActions.clickElementByCss(this.elements.contactTribunalLinkRegistered);
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Contact the tribunal about your case');
+    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'You are now being legally represented by');
+
+  }
 }

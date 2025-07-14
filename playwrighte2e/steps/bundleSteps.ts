@@ -18,7 +18,7 @@ export class BundleSteps extends BaseStep {
         await this.loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
         const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
         // @ts-ignore
-      await this.legalRepPage.processNOCForClaimantOrRespondent(searchReference, subRef, caseNumber, firstName, lastName, false);
+      await this.legalRepPage.processNOCForClaimantOrRespondent(searchReference, subRef, caseNumber, firstName, lastName, false, true);
         await this.caseListPage.searchCaseApplicationWithSubmissionReference(searchReference, subRef);
         await this.caseListPage.processCaseFromCaseList();
 

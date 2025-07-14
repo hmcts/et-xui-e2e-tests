@@ -1,7 +1,6 @@
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
 import axeTest from "../helpers/accessibilityHelper";
-import el from '@faker-js/faker/locales/el';
 const today = new Date();
 
 export default class Et1CaseServingPage extends BasePage {
