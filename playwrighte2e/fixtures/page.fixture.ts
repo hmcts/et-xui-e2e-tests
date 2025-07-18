@@ -41,6 +41,7 @@ import HearingDetailsPage from "../pages/hearingDetailsPage";
 import AdrDocumentPage from "../pages/adrDocumentPage";
 import CaseDetailsPage from "../pages/caseDetailsPage";
 import Et3NotificationPage from '../pages/et3NotificationPage';
+import DocumentsTabPage from '../pages/documentsTabPage';
 
 export type PageFixtures = {
 
@@ -86,6 +87,7 @@ export type PageFixtures = {
     adrDocument:AdrDocumentPage;
     caseDetails:CaseDetailsPage;
     et3NotificationPage: Et3NotificationPage;
+    documentsTabPage: DocumentsTabPage;
 }
 
 export const pageFixtures = {
@@ -255,4 +257,7 @@ export const pageFixtures = {
     et3NotificationPage:async ({page}, use)=>{
       await use(new Et3NotificationPage(page));
     },
+    documentsTabPage:async ({page}, use)=>{
+      await use(new DocumentsTabPage(page));
+    }
 };
