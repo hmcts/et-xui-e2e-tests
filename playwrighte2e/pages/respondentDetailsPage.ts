@@ -27,8 +27,9 @@ export default class RespondentDetailsPage extends BasePage {
     await this.webActions.fillField('#respondentCollection_0_respondentLastName', 'Respondent');
     if(et3accepted){
       await this.webActions.selectByOptionFromDropDown('#respondentCollection_0_response_status', '1: Accepted');
+    } else {
+      await this.webActions.selectByOptionFromDropDown('#respondentCollection_0_response_status', '4: Rejected');
     }
-    await this.webActions.selectByOptionFromDropDown('#respondentCollection_0_response_status', '4: Rejected');
     await this.submitButton();
   }
 
