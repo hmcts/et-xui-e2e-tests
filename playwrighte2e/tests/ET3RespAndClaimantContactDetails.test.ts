@@ -31,7 +31,6 @@ test.describe('ET3/Respondent Journey', () => {
 test.describe('ET3/Respondent Journey validates respondent/claimant details', () => {
   test.beforeEach(async ({ page, createCaseStep }) => {
     subRef = await createCaseStep.setupCUIcaseVetAndAcceptViaApi(page, true);
-    console.log("ET3 has been completed: submission ref is: " +subRef);
   });
 
   //RET-5516
@@ -43,7 +42,7 @@ test.describe('ET3/Respondent Journey validates respondent/claimant details', ()
     caseNumber = await caseListPage.processCaseFromCaseList();
 
     await caseListPage.selectNextEvent('Respondent Details');
-    await respondentDetailsPage.processRespondentDetailsWithET3Acceptance();
+    await respondentDetailsPage.processRespondentDetailsET3(true);
     await caseListPage.signoutButton();
 
     //citizen validates respondent contact details

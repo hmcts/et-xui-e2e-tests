@@ -29,7 +29,7 @@ export default class CitizenHubPage extends BasePage {
     showAllApplicationType: '#contact-options',
     withdrawClaimLink: '[href="/contact-the-tribunal/withdraw?lng=en"]',
     applicationTextField: '#Contact-Application-Text',
-    changePersonalDetail: '[href="/contact-the-tribunal/change-details"]',
+    changePersonalDetail: '[href="/contact-the-tribunal/change-details?lng=en"]',
     postponeMyHearing: '[href="/contact-the-tribunal/postpone"]',
     revokeAnOrder: '[href="/contact-the-tribunal/vary"]',
     reconsiderDecision: '[href="/contact-the-tribunal/reconsider-decision"]',
@@ -107,6 +107,30 @@ export default class CitizenHubPage extends BasePage {
 
    async clicksViewLinkOnClaimantApplicationPage(submissionReference) {
       await this.page.goto(params.TestUrlCitizenUi + '/citizen-hub/' + submissionReference);
+    }
+
+    async makeAnApplication(){
+      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.contactTribunalLinkRegistered));
+      await this.webActions.clickElementByCss(this.elements.contactTribunalLinkRegistered);
+      await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Contact the tribunal about your case');
+      await this.webActions.clickElementByRole('button', {name: 'Show all sections'});
+      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.changePersonalDetail));
+      await this.webActions.clickElementByCss(this.elements.changePersonalDetail);
+
+      await this.webActions.fillField("#Contact-Application-Text", 'Citizen made an application');
+      await this.page.setInputFiles('#contactApplicationFile',`test/data/test.txt`);
+      await this.clickContinue();
+
+
+      await this.page.locator('#copyToOtherPartyYesOrNo').isVisible();
+      await this.webActions.checkElementById("#copyToOtherPartyYesOrNo");
+      await this.clickContinue();
+
+      await this.webActions.verifyElementContainsText(this.page.locator('h1'), "Check your answers");
+      await this.submitButton();
+
+      await this.webActions.verifyElementContainsText(this.page.locator('h1'), "You have sent your application to the tribunal");
+      await this.closeAndReturn();
     }
 
     async regAccountContactTribunal(applicationType) {

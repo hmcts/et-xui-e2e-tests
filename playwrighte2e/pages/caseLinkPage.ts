@@ -3,7 +3,8 @@ import { BasePage } from './basePage';
 
 export class CaseLinkPage extends BasePage {
     
-    readonly nextButton = '#next-button';
+    // @ts-ignore
+  readonly nextButton = '#next-button';
     readonly caseLinkProposeButton = '#propose';
     readonly beforeYouStartCaseLinking = '.govuk-heading-xl';
     readonly caseReferenceField = '[name="width-20"]';

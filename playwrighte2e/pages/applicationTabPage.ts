@@ -1,6 +1,5 @@
 import { Page, expect } from '@playwright/test';
 import { BasePage } from './basePage';
-import path from "path";
 
 export class ApplicationTabPage  extends BasePage {
 
@@ -131,5 +130,35 @@ export class ApplicationTabPage  extends BasePage {
         await this.delay(3000);
         await this.submitButton();
         await this.closeAndReturn();
+    }
+
+    async legalRepRespondToAnApplication(){
+      await this.page.waitForSelector(this.applicationTab, { timeout: 20000 });
+      await this.page.click(this.applicationTab);
+      await this.page.waitForSelector(this.respondToAnApplicationLink);
+      await this.page.click(this.respondToAnApplicationLink);
+      await expect(this.page.locator('ccd-case-edit-page')).toContainText('Respond to an application');
+      await this.page.selectOption('#tseRespondSelectApplication', '1: 1');
+      await this.clickContinue();
+
+      await this.page.waitForSelector('#tseResponseText', { timeout: 30000 });
+      await this.page.fill('#tseResponseText', 'Response of an application');
+      await this.webActions.checkElementById('#tseResponseHasSupportingMaterial_Yes');
+      await this.clickContinue();
+
+      await this.addNewBtn.click();
+      await this.page.waitForSelector('#tseResponseSupportingMaterial_0_uploadedDocument');
+      await this.page.setInputFiles('#tseResponseSupportingMaterial_0_uploadedDocument','test/data/test.txt');
+      await this.delay(5000);
+      await this.clickContinue();
+
+      await this.webActions.checkElementById('#tseResponseCopyToOtherParty-Yes');
+      await this.clickContinue();
+      await this.delay(2000);
+
+      await this.submitButton();
+
+      await expect(this.page.locator('h3')).toContainText('What happens next');
+      await this.closeAndReturn();
     }
 }
