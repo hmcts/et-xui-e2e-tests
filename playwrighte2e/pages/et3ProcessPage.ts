@@ -32,7 +32,8 @@ export default class ET3ProcessPage extends BasePage {
             ["Is this location correct?", '#et3IsThisLocationCorrect-Yes']
           ]);
     
-        for (let [key, value] of elementMap) {
+        // @ts-ignore
+      for (let [key, value] of elementMap) {
             await this.webActions.verifyElementContainsText(this.page.locator('legend span'), key, 3000);
             await this.webActions.clickElementByCss(value);
             await this.clickContinue();
