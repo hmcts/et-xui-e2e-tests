@@ -13,10 +13,10 @@ import { BasePage } from "./basePage";
 
 const env = params.TestEnv;
 const idamBaseUrl = `https://idam-api.${env}.platform.hmcts.net/loginUser`;
-const syaApiBaseUrl = `http://et-sya-api-${env}.service.core-compute-${env}.internal`;
+const syaApiBaseUrl = params.EtCosPreviewEtSyaApiUrl || `http://et-sya-api-${env}.service.core-compute-${env}.internal`;
 const getUserIdurl = `https://idam-api.${env}.platform.hmcts.net/details`;
 const s2sBaseUrl = `http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease`;
-const ccdApiUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
+const ccdApiUrl = params.EtCosPreviewCcdUrl || `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
 const engCasePayload = engCase.data;
 const scotCasePayload = scotCase.data;
 const location = 'ET_EnglandWales';
