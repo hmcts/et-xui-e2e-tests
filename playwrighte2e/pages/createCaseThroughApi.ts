@@ -573,7 +573,7 @@ async getS2SServiceToken() {
 
   async performCaseVettingEventPostRequest(authToken, serviceToken, case_id, response) {
     // execute et1 vetting
-    const execuEt1teUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal/cases/${case_id}/events`;
+    const execuEt1teUrl = ccdApiUrl + `/cases/${case_id}/events`;
 
     const executeEventBody = {
       data: response.case_details.case_data,
