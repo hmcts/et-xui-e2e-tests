@@ -90,6 +90,9 @@ elements = {
     await this.elements.representativeContactPreference.isVisible();
     await this.elements.representativeContactPreference.check();
     await this.elements.contactLanguageQuestion.check();
+
+    //TODO-RET-5421- optional contact address
+    //await this.enterPostCode('LS121AA');
     await this.elements.representativePhoneNumber.fill('01234567890');
     await this.elements.representativeReferenceNumber.fill('reference no: 1');
     await this.clickContinue();
