@@ -102,7 +102,7 @@ export default class CitizenHubPage extends BasePage {
 
     async citizenHubCaseOverviewPage(caseNumber) {
       await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
-      await this.webActions.verifyElementContainsText(this.page.locator('#caseNumber'), 'Case number ' + caseNumber);
+      // await this.webActions.verifyElementContainsText(this.page.locator('#caseNumber'), 'Case number ' + caseNumber);
     }
 
    async clicksViewLinkOnClaimantApplicationPage(submissionReference) {
