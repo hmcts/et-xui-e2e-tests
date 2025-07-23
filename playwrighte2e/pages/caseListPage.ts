@@ -67,6 +67,7 @@ export default class CaseListPage extends BasePage{
     async processCaseFromCaseList() {
       let caseNumber = await this.page.getByLabel('go to case with Case').allTextContents();
       console.log('The value of the Case Number ' +caseNumber);
+      await this.delay(3000);
       await this.webActions.clickElementByLabel('go to case with Case');
 
       await expect(this.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText('Case Details');
