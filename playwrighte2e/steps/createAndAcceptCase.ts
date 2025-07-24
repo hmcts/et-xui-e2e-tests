@@ -39,8 +39,6 @@ export default class createAndAcceptCase extends BaseStep {
 
         submissionRef = await this.createCaseThroughApi.processCuiCaseToAcceptedState();
         subRef = submissionRef.toString();
-        // subRef = '1750945479110385';
-        // caseNumber = '6038608/2025';
 
         await page.goto(params.TestUrlForManageCaseAAT);
         await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
