@@ -300,7 +300,7 @@ export class LegalRepPage extends BasePage {
     }
 
     async respondToNotificationFromTribunal() {
-        await this.page.click(this.legalRepNotificationTab);
+        await this.page.click(this.viewJudgmentOrderOrNotificationLink);
         await this.page.waitForSelector(this.lrRespondToTribunal, { timeout: 10000 });
         await this.page.click(this.lrRespondToTribunal);
         await this.page.waitForSelector(this.responseNotificationDropdown, { timeout: 15000 });

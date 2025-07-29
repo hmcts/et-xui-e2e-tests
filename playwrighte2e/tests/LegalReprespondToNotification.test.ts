@@ -36,6 +36,10 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
     await caseListPage.processCaseFromCaseList();
 
+    //respond to an application
+    await caseListPage.clickTab('Judgment');
+    await legalRepPage.respondToNotificationFromTribunal();
+
   });
 
 //RET-5924
@@ -62,6 +66,10 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
       await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
       await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
       await caseListPage.processCaseFromCaseList();
+
+      //respond to an application
+      await caseListPage.clickTab('Judgment');
+      await legalRepPage.respondToNotificationFromTribunal();
     });
 
 });
