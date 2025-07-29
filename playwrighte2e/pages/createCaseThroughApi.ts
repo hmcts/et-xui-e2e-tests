@@ -252,7 +252,7 @@ async getS2SServiceToken() {
 
   async createADraftCuiCasePostRequest(authToken) {
 
-    const cuiDraftCasePath = "/cases/initiate-case/";
+    const cuiDraftCasePath = "/cases/initiate-case";
     let createCaseUrl = syaApiBaseUrl + cuiDraftCasePath ;
 
    //start case creation
@@ -291,7 +291,7 @@ async getS2SServiceToken() {
 
   async submitDraftCuiCase(authToken, case_id, methodType) {
 
-    let updateCaseUrl = `${syaApiBaseUrl}/cases/${methodType}-case/`;
+    let updateCaseUrl = `${syaApiBaseUrl}/cases/${methodType}-case`;
     //start case creation
     let updateCaseBody = {
       "case_id": case_id.toString(),
