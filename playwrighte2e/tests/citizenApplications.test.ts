@@ -11,7 +11,7 @@ test.describe('Citizen applications', () => {
     ({ subRef, caseNumber } = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
   });
 
-  test.skip('Citizen make an application, legal rep respond to it and caseworker validate documents - England', async ({
+  test('Citizen make an application, legal rep respond to it and caseworker validate documents - England', async ({
                                                                              page,
                                                                              citizenHubPage,
                                                                              loginPage,
