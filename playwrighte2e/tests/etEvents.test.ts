@@ -9,7 +9,6 @@ let subRef;
 test.describe('Various events in mange case application', () => {
   test.beforeEach(async ({ page, createCaseStep }) => {
     ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
-
   });
 
   test('Create a claim and perform B/F action event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ caseListPage, bfActionPage }) => {
@@ -27,7 +26,7 @@ test.describe('Various events in mange case application', () => {
   });
 
   //RET-5809
-  test.skip('Validate longer than 3 letters jurisdiction code in IC event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ caseListPage, jurisdictionPage, icUploadDocPage }) => {
+  test('Validate longer than 3 letters jurisdiction code in IC event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ caseListPage, jurisdictionPage, icUploadDocPage }) => {
     //Jurisdiction event
     await caseListPage.selectNextEvent('Jurisdiction');
     await jurisdictionPage.addADTJurisdictionCode();
@@ -42,10 +41,10 @@ test.describe('Various events in mange case application', () => {
   });
 
   //RET-5790
-  test.skip('perform ADR document event', {tag: '@demo'}, async ({ caseListPage, adrDocument }) => {
+  test('perform ADR document event', {tag: '@demo'}, async ({ caseListPage, adrDocument }) => {
     await caseListPage.selectNextEvent('ADR/Privileged Documents');
     await adrDocument.adrUploadDocument();
-    await caseListPage.clickTab('ADR/Privileged');
+    await caseListPage.navigateToTab('ADR/Privileged');
     await adrDocument.verifyAdrDocumentDetails();
   });
 

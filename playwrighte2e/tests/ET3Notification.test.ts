@@ -50,9 +50,28 @@ test.describe('ET3 Notification', () => {
     await caseListPage.selectNextEvent('Respondent Details');
     await respondentDetailsPage.processRespondentDetailsET3(true);
 
-    //attempt to send ET3 notification
+
     await caseListPage.selectNextEvent('ET3 notification');
     await et3NotificationPage.sendEt3Notification();
     await et3NotificationPage.processAcasPage();
+  });
+
+  test.skip('Respondent not Accepting or rejecting response and attempts to send ET3 Notification', async ({
+                                                                         page,
+                                                                         loginPage,
+                                                                         caseListPage,
+                                                                         respondentDetailsPage,
+                                                                         et3NotificationPage
+                                                                       }) => {
+    await page.goto(params.TestUrlForManageCaseAAT);
+    await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
+    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef.toString());
+    caseNumber = await caseListPage.processCaseFromCaseList();
+
+
+    //attempt to send ET3 notification
+    await caseListPage.selectNextEvent('ET3 notification');
+    await et3NotificationPage.sendEt3Notification();
+    await et3NotificationPage.verifyEt3NotificationErrorMessage();
   });
 });
