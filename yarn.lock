@@ -2783,7 +2783,7 @@ __metadata:
     mochawesome: "npm:7.1.3"
     nyc: "npm:^15.1.0"
     openai: "npm:^4.47.1"
-    prettier: "npm:3.2.5"
+    prettier: "npm:3.6.2"
     totp-generator: "npm:1.0.0"
     typescript: "npm:5.4.5"
     webdriverio: "npm:8.36.0"
@@ -5702,12 +5702,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:3.2.5":
-  version: 3.2.5
-  resolution: "prettier@npm:3.2.5"
+"prettier@npm:3.6.2":
+  version: 3.6.2
+  resolution: "prettier@npm:3.6.2"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10/d509f9da0b70e8cacc561a1911c0d99ec75117faed27b95cc8534cb2349667dee6351b0ca83fa9d5703f14127faa52b798de40f5705f02d843da133fc3aa416a
+  checksum: 10/1213691706bcef1371d16ef72773c8111106c3533b660b1cc8ec158bd109cdf1462804125f87f981f23c4a3dba053b6efafda30ab0114cc5b4a725606bb9ff26
   languageName: node
   linkType: hard
 
