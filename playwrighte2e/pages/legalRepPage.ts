@@ -2,6 +2,7 @@ import { BasePage } from './basePage';
 import { params } from "../utils/config";
 import { expect, Page } from '@playwright/test';
 import axeTest from '../helpers/accessibilityHelper';
+const respondentName = 'Mrs Test Auto';
 
 export class LegalRepPage extends BasePage {
 
@@ -16,7 +17,7 @@ export class LegalRepPage extends BasePage {
     caseidFilfield = '#caseRef';
     respondentDetailsLegalRep = '#respondentName';
     fieldSetLegalRep = '#fieldset-q-and-a-form';
-    claimantFirstNamelegalRep = '#claimantFirstName';
+    caseReference = '#caseReference';
     claimantLastNamelegalRep = '#claimantLastName';
     detailConfirmationCheckbox = '#affirmation';
     notifyPartyCheckbox = '#notifyEveryParty';
@@ -138,7 +139,7 @@ export class LegalRepPage extends BasePage {
         await this.webActions.clickElementByCss(this.applyButton);
     }
 
-    async processNOC(option: string, submissionReference: string, respondentName: string, ClaimantFirstName: string, ClaimantLastName: string, accessibilityEnabled?: boolean) {
+    async processNOCForClaimantOrRespondent(option: string, submissionReference: string, caseReference: string, ClaimantFirstName: string, ClaimantLastName: string, accessibilityEnabled?: boolean, isRespondent?:boolean) {
         await this.loadExistingApplications(option);
         await this.page.reload();
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 25000);
@@ -151,12 +152,18 @@ export class LegalRepPage extends BasePage {
         if(accessibilityEnabled) axeTest(this.page);
         await this.webActions.fillField(this.caseidFilfield, submissionReference);
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.fieldSetLegalRep), 10000);
-        if(accessibilityEnabled) axeTest(this.page);
-        await this.webActions.fillField(this.respondentDetailsLegalRep, respondentName);
-        await this.webActions.fillField(this.claimantFirstNamelegalRep, ClaimantFirstName);
-        await this.webActions.fillField(this.claimantLastNamelegalRep, ClaimantLastName);
 
+
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.fieldSetLegalRep), 10000);
+        if(accessibilityEnabled) axeTest(this.page)
+      if (isRespondent){
+        //enter respondent details for NOC
+        await this.webActions.fillField(this.respondentDetailsLegalRep, respondentName);
+      } else {
+        //enter claimant details for NOC
+        await this.webActions.fillField(this.respondentDetailsLegalRep, ClaimantFirstName +" "+ ClaimantLastName);
+      }
+        await this.webActions.fillField(this.caseReference, caseReference);
         await this.page.waitForTimeout(5000);
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
@@ -293,7 +300,7 @@ export class LegalRepPage extends BasePage {
     }
 
     async respondToNotificationFromTribunal() {
-        await this.page.click(this.legalRepNotificationTab);
+        await this.page.click(this.viewJudgmentOrderOrNotificationLink);
         await this.page.waitForSelector(this.lrRespondToTribunal, { timeout: 10000 });
         await this.page.click(this.lrRespondToTribunal);
         await this.page.waitForSelector(this.responseNotificationDropdown, { timeout: 15000 });
