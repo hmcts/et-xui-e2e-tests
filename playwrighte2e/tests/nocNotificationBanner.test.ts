@@ -52,3 +52,57 @@ test.describe('NOC Notification Banner', () => {
     });
 
 });
+
+
+
+test.describe('Share case', () => {
+
+  test.beforeEach(async ({ page, createCaseStep}) => {
+
+    ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
+  });
+
+  //RET-5425
+  test.skip('Share case (respondent representative)',
+    async ({ page, et1CaseServingPage, loginPage, legalRepPage, caseListPage, respondentRepPage }) => {
+      const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
+      await page.click('text=Sign out');
+
+      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
+      await page.click('text=Sign out');
+
+      //share case with other legal rep
+      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
+      await caseListPage.checkAndShareCaseFromList(subRef);
+      await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
+      await caseListPage.processCaseFromCaseList();
+
+      //validate share case details
+      await caseListPage.navigateToTab('Respondent Representative');
+      await respondentRepPage.validateRespondentRepDetail();
+    });
+
+  //RET-5425
+  test.skip('Share case (claimant representative)',
+    async ({ page, et1CaseServingPage, loginPage, legalRepPage, caseListPage, respondentRepPage }) => {
+      const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
+      await page.click('text=Sign out');
+
+      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false);
+      await page.click('text=Sign out');
+
+      //share case with other legal rep
+      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
+      await caseListPage.checkAndShareCaseFromList(subRef);
+      await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
+      await caseListPage.processCaseFromCaseList();
+
+      //validate share case details
+      await caseListPage.navigateToTab('Claimant Representative');
+      await respondentRepPage.validateRespondentRepDetail();
+    });
+});

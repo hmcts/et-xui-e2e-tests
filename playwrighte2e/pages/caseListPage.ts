@@ -74,6 +74,19 @@ export default class CaseListPage extends BasePage{
       return caseNumber;
     }
 
+    async checkAndShareCaseFromList(subRef){
+      await this.page.locator('#select-'+subRef).check();
+      await this.clickShareCaseButton();
+      await this.page.getByRole('combobox', { name: 'Search by name or email' }).fill('et');
+      await this.page.getByText('Test Factory - et.legalrep.').click();
+      await this.page.getByRole('button', { name: 'Add user' }).click();
+      await this.clickContinue();
+      await this.page.getByRole('button', { name: 'Confirm' }).click();
+      await expect(this.page.getByLabel('Your cases have been updated')).toContainText('Your cases have been updated');
+      await this.page.getByRole('link', { name: 'Go back to the case list.' }).click();
+
+    }
+
     async selectNextEvent(option) {
 
       await Promise.all([

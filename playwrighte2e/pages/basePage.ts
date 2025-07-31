@@ -62,6 +62,10 @@ export abstract class BasePage {
     await this.webActions.clickElementByRole('button', { name: 'Next' });
   }
 
+  async clickShareCaseButton(){
+    await this.webActions.clickElementByRole('button', { name: ' Share Case ' });
+  }
+
   async clickElement(elementLocator: string): Promise<void> {
     await this.page.click(elementLocator);
   }
