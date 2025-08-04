@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import { BasePage } from "./basePage";
+// @ts-ignore
 import path from "path";
 
 const icPageData = require('../data/ui-data/ic-page-content.json');

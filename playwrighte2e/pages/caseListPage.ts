@@ -33,6 +33,7 @@ export default class CaseListPage extends BasePage{
       allWorkTab: '//a[contains(text(), "All work")]',
       myWorkTab: '//a[contains(text(), "My work")]',
       documentsTab: '//div[contains(text(), "Documents")]',
+      hearingTab: '//div[contains(text(), "Hearing Documents")]'
   };
 
     async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
@@ -172,11 +173,16 @@ export default class CaseListPage extends BasePage{
           await ele.click();
           break;
        }
-        case "Tasks":{
+      case "Tasks":{
             await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.tasksTab));
             await this.webActions.clickElementByCss(this.elements.tasksTab);
             break;
         }
+      case "Hearing Documents":{
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.tasksTab));
+        await this.webActions.clickElementByCss(this.elements.tasksTab);
+        break;
+      }
         default: {
           //statements;
           break;
