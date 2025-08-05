@@ -617,12 +617,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chai-as-promised@npm:^7.1.5":
-  version: 7.1.8
-  resolution: "@types/chai-as-promised@npm:7.1.8"
+"@types/chai-as-promised@npm:^8.0.0":
+  version: 8.0.2
+  resolution: "@types/chai-as-promised@npm:8.0.2"
   dependencies:
     "@types/chai": "npm:*"
-  checksum: 10/88e2d42f14d1de19ba1c7b5c35f263fef37d3ad241c71f5eb59b10763706f3902f4131b93854c9c6ed520081c7e36be555849f202418357f905bea71178b7d02
+  checksum: 10/c1ff3eb32f599623f3d78ef6a2bbda06f35f62e12cc6341e1e1deb5ff1652898880d93846ad83dab03d7cb633a5939330eb1af120b52fab46eb2e5321c2d0cdc
   languageName: node
   linkType: hard
 
@@ -2827,7 +2827,7 @@ __metadata:
     "@faker-js/faker": "npm:9.9.0"
     "@noble/hashes": "npm:^1.5.0"
     "@playwright/test": "npm:^1.50.1"
-    "@types/chai-as-promised": "npm:^7.1.5"
+    "@types/chai-as-promised": "npm:^8.0.0"
     "@types/chance": "npm:^1.1.6"
     "@types/node": "npm:^20.14.11"
     axios: "npm:^1.8.2"
