@@ -31,5 +31,14 @@ export default class DateUtilComponent {
         return this.formatTodaysDate(today);
     }
 
+  static getCurrentDateParts(): { dd: string; mm: string; yyyy: string } {
+    const now = new Date();
+
+    const dd = String(now.getDate()).padStart(2, '0');
+    const mm = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const yyyy = String(now.getFullYear());
+
+    return { dd, mm, yyyy };
+  }
 }
 

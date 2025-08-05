@@ -4,7 +4,7 @@ import { params } from '../utils/config';
 const userDetailsData = require('../data/ui-data/user-details.json');
 
 
-test.describe('Case creation in manage case application', () => {
+test.describe('Case creation in Citizen UI', () => {
 
   test('Create a claim for still working for organisation, submit and process within manage cases', {
     tag: ['@cx', '@smoke', '@ccd-callback-tests']
