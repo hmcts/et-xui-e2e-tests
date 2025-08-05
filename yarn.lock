@@ -365,10 +365,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:7.6.0":
-  version: 7.6.0
-  resolution: "@faker-js/faker@npm:7.6.0"
-  checksum: 10/9236ee7a7ab32fcd99fa8cbc046b65b0af4fe714b12e33a39d3e058bef77e53bb0f42fe3331ed578a6db581b22c31f12ed2ba587a4bdb58a9ba0bb5b19f99bc4
+"@faker-js/faker@npm:9.9.0":
+  version: 9.9.0
+  resolution: "@faker-js/faker@npm:9.9.0"
+  checksum: 10/b24b1be0fb3090d54abaaa3a814f37d1a7551f1207dcd330a1af2c70f6312a8b95ebb82653577757dd62f4cbbb56caa3c83513053253654dc3e286a05040ecbe
   languageName: node
   linkType: hard
 
@@ -2824,7 +2824,7 @@ __metadata:
   resolution: "et-xui-e2e-tests@workspace:."
   dependencies:
     "@axe-core/playwright": "npm:4.10.2"
-    "@faker-js/faker": "npm:7.6.0"
+    "@faker-js/faker": "npm:9.9.0"
     "@noble/hashes": "npm:^1.5.0"
     "@playwright/test": "npm:^1.50.1"
     "@types/chai-as-promised": "npm:^7.1.5"
