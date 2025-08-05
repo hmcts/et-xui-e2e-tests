@@ -262,7 +262,7 @@ export const pageFixtures = {
     documentsTabPage:async ({page}, use)=>{
       await use(new DocumentsTabPage(page));
     },
-  c:async({page}, use)=>{
+  uploadHearingBundlePage:async({page}, use)=>{
       await use(new UploadHearingBundlePage(page));
   }
 };
