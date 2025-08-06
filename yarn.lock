@@ -2839,7 +2839,7 @@ __metadata:
     eslint-plugin-import: "npm:2.32.0"
     eslint-plugin-mocha: "npm:10.4.2"
     eslint-plugin-prettier: "npm:5.2.1"
-    groq-sdk: "npm:^0.29.0"
+    groq-sdk: "npm:^0.30.0"
     husky: "npm:9.1.7"
     lint-staged: "npm:15.2.2"
     mocha: "npm:10.8.2"
@@ -3592,9 +3592,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"groq-sdk@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "groq-sdk@npm:0.29.0"
+"groq-sdk@npm:^0.30.0":
+  version: 0.30.0
+  resolution: "groq-sdk@npm:0.30.0"
   dependencies:
     "@types/node": "npm:^18.11.18"
     "@types/node-fetch": "npm:^2.6.4"
@@ -3603,7 +3603,7 @@ __metadata:
     form-data-encoder: "npm:1.7.2"
     formdata-node: "npm:^4.3.2"
     node-fetch: "npm:^2.6.7"
-  checksum: 10/c6c34613bb5067d3a7ab65f9b1db9a797054fe2f45bb9575d6612cd0e6c696aa5f135923ee6c70d27dc6d0ecc6f605acf4c2c30da15db8d39e61b7785060fa09
+  checksum: 10/9ef9ed645d88cd06ddff528fbc1fb7e138ae5aefbfbdd11dbb68bfddf2dc354b65248a08289ea81e0a6ea4982125313760fc01c287d1a7c9d6098fbf680293d6
   languageName: node
   linkType: hard
 
