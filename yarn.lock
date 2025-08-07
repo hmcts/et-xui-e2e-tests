@@ -1816,12 +1816,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"config@npm:^3.3.9":
-  version: 3.3.12
-  resolution: "config@npm:3.3.12"
+"config@npm:^4.0.0":
+  version: 4.1.0
+  resolution: "config@npm:4.1.0"
   dependencies:
     json5: "npm:^2.2.3"
-  checksum: 10/f7973d1192c98d9b8d49e273bef816b4c74a6bab6e7c500792d3fe239e87fa3a80fac89ee552b7da7e2c3d9f6f8f3568e856f08ebd9861917cf47a655cee3e6a
+  checksum: 10/80a9ef74f97c54b11368b469541ffea4758086bae8e74e6b8390ad45b818c7d7f11f58461945ece3c1b8ddd5e0179c5c20b004b2df2501cfddb985a53109dedb
   languageName: node
   linkType: hard
 
@@ -2832,14 +2832,14 @@ __metadata:
     "@types/node": "npm:^20.14.11"
     axios: "npm:^1.8.2"
     chance: "npm:^1.1.11"
-    config: "npm:^3.3.9"
+    config: "npm:^4.0.0"
     eslint: "npm:9.32.0"
     eslint-config-prettier: "npm:9.1.2"
     eslint-plugin-codeceptjs: "npm:1.3.0"
     eslint-plugin-import: "npm:2.32.0"
     eslint-plugin-mocha: "npm:10.4.2"
     eslint-plugin-prettier: "npm:5.2.1"
-    groq-sdk: "npm:^0.29.0"
+    groq-sdk: "npm:^0.30.0"
     husky: "npm:9.1.7"
     lint-staged: "npm:15.2.2"
     mocha: "npm:10.8.2"
@@ -3592,9 +3592,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"groq-sdk@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "groq-sdk@npm:0.29.0"
+"groq-sdk@npm:^0.30.0":
+  version: 0.30.0
+  resolution: "groq-sdk@npm:0.30.0"
   dependencies:
     "@types/node": "npm:^18.11.18"
     "@types/node-fetch": "npm:^2.6.4"
@@ -3603,7 +3603,7 @@ __metadata:
     form-data-encoder: "npm:1.7.2"
     formdata-node: "npm:^4.3.2"
     node-fetch: "npm:^2.6.7"
-  checksum: 10/c6c34613bb5067d3a7ab65f9b1db9a797054fe2f45bb9575d6612cd0e6c696aa5f135923ee6c70d27dc6d0ecc6f605acf4c2c30da15db8d39e61b7785060fa09
+  checksum: 10/9ef9ed645d88cd06ddff528fbc1fb7e138ae5aefbfbdd11dbb68bfddf2dc354b65248a08289ea81e0a6ea4982125313760fc01c287d1a7c9d6098fbf680293d6
   languageName: node
   linkType: hard
 
