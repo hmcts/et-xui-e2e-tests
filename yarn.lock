@@ -290,6 +290,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@eslint-community/eslint-utils@npm:^4.4.1":
+  version: 4.7.0
+  resolution: "@eslint-community/eslint-utils@npm:4.7.0"
+  dependencies:
+    eslint-visitor-keys: "npm:^3.4.3"
+  peerDependencies:
+    eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
+  checksum: 10/43ed5d391526d9f5bbe452aef336389a473026fca92057cf97c576db11401ce9bcf8ef0bf72625bbaf6207ed8ba6bf0dcf4d7e809c24f08faa68a28533c491a7
+  languageName: node
+  linkType: hard
+
 "@eslint-community/regexpp@npm:^4.12.1":
   version: 4.12.1
   resolution: "@eslint-community/regexpp@npm:4.12.1"
@@ -1816,12 +1827,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"config@npm:^3.3.9":
-  version: 3.3.12
-  resolution: "config@npm:3.3.12"
+"config@npm:^4.0.0":
+  version: 4.1.0
+  resolution: "config@npm:4.1.0"
   dependencies:
     json5: "npm:^2.2.3"
-  checksum: 10/f7973d1192c98d9b8d49e273bef816b4c74a6bab6e7c500792d3fe239e87fa3a80fac89ee552b7da7e2c3d9f6f8f3568e856f08ebd9861917cf47a655cee3e6a
+  checksum: 10/80a9ef74f97c54b11368b469541ffea4758086bae8e74e6b8390ad45b818c7d7f11f58461945ece3c1b8ddd5e0179c5c20b004b2df2501cfddb985a53109dedb
   languageName: node
   linkType: hard
 
@@ -2569,14 +2580,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:9.1.2":
-  version: 9.1.2
-  resolution: "eslint-config-prettier@npm:9.1.2"
+"eslint-config-prettier@npm:10.1.8":
+  version: 10.1.8
+  resolution: "eslint-config-prettier@npm:10.1.8"
   peerDependencies:
     eslint: ">=7.0.0"
   bin:
     eslint-config-prettier: bin/cli.js
-  checksum: 10/e4bba2d76df9dc6e2adca2866e544bfd1ff32232fc483743c04cedd93918a90a327b56d4a7e3f9d3fa32d90bd50b034d09df987860260064b18c026b8bbd15aa
+  checksum: 10/03f8e6ea1a6a9b8f9eeaf7c8c52a96499ec4b275b9ded33331a6cc738ed1d56de734097dbd0091f136f0e84bc197388bd8ec22a52a4658105883f8c8b7d8921a
   languageName: node
   linkType: hard
 
@@ -2641,16 +2652,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-mocha@npm:10.4.2":
-  version: 10.4.2
-  resolution: "eslint-plugin-mocha@npm:10.4.2"
+"eslint-plugin-mocha@npm:11.1.0":
+  version: 11.1.0
+  resolution: "eslint-plugin-mocha@npm:11.1.0"
   dependencies:
-    eslint-utils: "npm:^3.0.0"
-    globals: "npm:^13.24.0"
-    rambda: "npm:^7.4.0"
+    "@eslint-community/eslint-utils": "npm:^4.4.1"
+    globals: "npm:^15.14.0"
   peerDependencies:
-    eslint: ">=7.0.0"
-  checksum: 10/69351d2a77e41c1973b0f09d1a5d6028f9aedd3ff79dcc959c8264b8f7c4e767dfd38e501a2ecbbccd12d8a7abed3e9ec71d3159ae88c4f53028127d12a0b7d9
+    eslint: ">=9.0.0"
+  checksum: 10/75c35ad70b35414bb2a1e2efe4cc3d8188f4aadafd5d39f0e328c6899ebb286ef04f253b9b6caed44402602667e30d7b816d38c500d5ed817b5ea1b0e8050728
   languageName: node
   linkType: hard
 
@@ -2684,25 +2694,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-utils@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "eslint-utils@npm:3.0.0"
-  dependencies:
-    eslint-visitor-keys: "npm:^2.0.0"
-  peerDependencies:
-    eslint: ">=5"
-  checksum: 10/7675260a6b220c70f13e4cdbf077e93cad0dfb388429a27d6c0b584b2b20dca24594508e8bdb00a460a5764bd364a5018e20c2b8b1d70f82bcc3fdc30692a4d2
-  languageName: node
-  linkType: hard
-
-"eslint-visitor-keys@npm:^2.0.0":
-  version: 2.1.0
-  resolution: "eslint-visitor-keys@npm:2.1.0"
-  checksum: 10/db4547eef5039122d518fa307e938ceb8589da5f6e8f5222efaf14dd62f748ce82e2d2becd3ff9412a50350b726bda95dbea8515a471074547daefa58aee8735
-  languageName: node
-  linkType: hard
-
-"eslint-visitor-keys@npm:^3.3.0":
+"eslint-visitor-keys@npm:^3.3.0, eslint-visitor-keys@npm:^3.4.3":
   version: 3.4.3
   resolution: "eslint-visitor-keys@npm:3.4.3"
   checksum: 10/3f357c554a9ea794b094a09bd4187e5eacd1bc0d0653c3adeb87962c548e6a1ab8f982b86963ae1337f5d976004146536dcee5d0e2806665b193fbfbf1a9231b
@@ -2832,14 +2824,14 @@ __metadata:
     "@types/node": "npm:^20.14.11"
     axios: "npm:^1.8.2"
     chance: "npm:^1.1.11"
-    config: "npm:^3.3.9"
+    config: "npm:^4.0.0"
     eslint: "npm:9.32.0"
-    eslint-config-prettier: "npm:9.1.2"
+    eslint-config-prettier: "npm:10.1.8"
     eslint-plugin-codeceptjs: "npm:1.3.0"
     eslint-plugin-import: "npm:2.32.0"
-    eslint-plugin-mocha: "npm:10.4.2"
+    eslint-plugin-mocha: "npm:11.1.0"
     eslint-plugin-prettier: "npm:5.2.1"
-    groq-sdk: "npm:^0.29.0"
+    groq-sdk: "npm:^0.30.0"
     husky: "npm:9.1.7"
     lint-staged: "npm:15.2.2"
     mocha: "npm:10.8.2"
@@ -3517,19 +3509,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^13.24.0":
-  version: 13.24.0
-  resolution: "globals@npm:13.24.0"
-  dependencies:
-    type-fest: "npm:^0.20.2"
-  checksum: 10/62c5b1997d06674fc7191d3e01e324d3eda4d65ac9cc4e78329fa3b5c4fd42a0e1c8722822497a6964eee075255ce21ccf1eec2d83f92ef3f06653af4d0ee28e
-  languageName: node
-  linkType: hard
-
 "globals@npm:^14.0.0":
   version: 14.0.0
   resolution: "globals@npm:14.0.0"
   checksum: 10/03939c8af95c6df5014b137cac83aa909090c3a3985caef06ee9a5a669790877af8698ab38007e4c0186873adc14c0b13764acc754b16a754c216cc56aa5f021
+  languageName: node
+  linkType: hard
+
+"globals@npm:^15.14.0":
+  version: 15.15.0
+  resolution: "globals@npm:15.15.0"
+  checksum: 10/7f561c87b2fd381b27fc2db7df8a4ea7a9bb378667b8a7193e61fd2ca3a876479174e2a303a74345fbea6e1242e16db48915c1fd3bf35adcf4060a795b425e18
   languageName: node
   linkType: hard
 
@@ -3592,9 +3582,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"groq-sdk@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "groq-sdk@npm:0.29.0"
+"groq-sdk@npm:^0.30.0":
+  version: 0.30.0
+  resolution: "groq-sdk@npm:0.30.0"
   dependencies:
     "@types/node": "npm:^18.11.18"
     "@types/node-fetch": "npm:^2.6.4"
@@ -3603,7 +3593,7 @@ __metadata:
     form-data-encoder: "npm:1.7.2"
     formdata-node: "npm:^4.3.2"
     node-fetch: "npm:^2.6.7"
-  checksum: 10/c6c34613bb5067d3a7ab65f9b1db9a797054fe2f45bb9575d6612cd0e6c696aa5f135923ee6c70d27dc6d0ecc6f605acf4c2c30da15db8d39e61b7785060fa09
+  checksum: 10/9ef9ed645d88cd06ddff528fbc1fb7e138ae5aefbfbdd11dbb68bfddf2dc354b65248a08289ea81e0a6ea4982125313760fc01c287d1a7c9d6098fbf680293d6
   languageName: node
   linkType: hard
 
@@ -5985,13 +5975,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rambda@npm:^7.4.0":
-  version: 7.5.0
-  resolution: "rambda@npm:7.5.0"
-  checksum: 10/a87ee033803bf841ac35a12a04583cc36e2d8957e3bee97e45fc8944e64915f4534685724efe663a3088a8d719489f76febf444544b300642e7398c2e5412217
-  languageName: node
-  linkType: hard
-
 "randombytes@npm:^2.1.0":
   version: 2.1.0
   resolution: "randombytes@npm:2.1.0"
@@ -7074,13 +7057,6 @@ __metadata:
   version: 2.13.0
   resolution: "type-fest@npm:2.13.0"
   checksum: 10/0c28036e14be39c5be61f40ceb73d88d2c4ed73d79a1f4650468938d37a13713b87ab4f526ab18ae349fd8a98523cee7df162dca3e8e50ebc48a5f25f97033c9
-  languageName: node
-  linkType: hard
-
-"type-fest@npm:^0.20.2":
-  version: 0.20.2
-  resolution: "type-fest@npm:0.20.2"
-  checksum: 10/8907e16284b2d6cfa4f4817e93520121941baba36b39219ea36acfe64c86b9dbc10c9941af450bd60832c8f43464974d51c0957f9858bc66b952b66b6914cbb9
   languageName: node
   linkType: hard
 
