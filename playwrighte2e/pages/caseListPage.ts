@@ -179,8 +179,8 @@ export default class CaseListPage extends BasePage{
             break;
         }
       case "Hearing Documents":{
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.tasksTab));
-        await this.webActions.clickElementByCss(this.elements.tasksTab);
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingTab));
+        await this.webActions.clickElementByCss(this.elements.hearingTab);
         break;
       }
         default: {
