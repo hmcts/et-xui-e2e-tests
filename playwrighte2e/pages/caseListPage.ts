@@ -184,7 +184,6 @@ export default class CaseListPage extends BasePage{
         break;
       }
         default: {
-          //statements;
           break;
       }
     }
