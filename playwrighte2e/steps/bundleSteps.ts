@@ -23,6 +23,7 @@ export class BundleSteps extends BaseStep {
 
         await this.caseListPage.selectNextEvent('Upload documents for hearing');
         await this.legalRepPage.submitDocumentForHearingRespondent('Yes', 'Both Parties', 'Witness statement only');
+        await this.caseListPage.navigateToTab('Hearing Documents');
         await this.legalRepPage.verifyHearingDocumentTabLegalRep();
     };
 
