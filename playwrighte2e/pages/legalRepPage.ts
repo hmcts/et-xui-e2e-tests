@@ -278,9 +278,6 @@ export class LegalRepPage extends BasePage {
     }
 
     async verifyHearingDocumentTabLegalRep() {
-        await this.page.waitForSelector(this.hearingTabLegalRep, { timeout: 10000 });
-
-        await this.page.click(this.hearingTabLegalRep);
         await this.page.waitForSelector('text=Hearing Documents');
         await this.page.waitForSelector('text=Respondent Hearing Documents');
         await expect(this.page.getByText('welshTest.pdf')).toBeVisible();
