@@ -32,6 +32,7 @@ test.describe('Upload hearing docs test', () => {
 
         //Verify only future hearings are shown in the options
         await legalRepPage.submitDocumentForHearingRespondent('Yes', 'Respondent', 'Witness statement only', true);
+        await caseListPage.navigateToTab('Hearing Documents');
         await legalRepPage.verifyHearingDocumentTabLegalRep();
         await legalRepPage.verifyHearingDocumentReceipientValues("Whose hearing documents are you uploading?", "Respondent's documents only");
     });
