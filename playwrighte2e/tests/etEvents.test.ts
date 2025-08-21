@@ -80,9 +80,9 @@ test.describe('Various events in mange case application for Scotland case', () =
     await caseDetails.addVPCaseFlag();
   });
 
-  //RET-5931
+  //RET-5931, 5961
   test.skip('Add Case Notes', async ({ caseListPage, caseNotesPage }) => {
-    await caseListPage.selectNextEvent('Add Case Note');
+    await caseListPage.selectNextEvent('Add Telephone Note');
     await caseNotesPage.addCaseNotes();
   });
 });

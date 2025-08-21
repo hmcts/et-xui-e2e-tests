@@ -11,7 +11,7 @@ export default class CaseNotesPage extends BasePage {
     await this.webActions.fillField('#addCaseNote_title', 'Case Notes');
     await this.webActions.fillField('#addCaseNote_note', 'This is test');
     await this.submitButton();
-    await expect(this.page.getByRole('tab', { name: 'Case Notes' }).locator('div')).toContainText('Case Notes');
+    await expect(this.page.getByRole('tab', { name: 'Add Telephone Note' }).locator('div')).toContainText('Add Telephone Note');
 
   }
 }
