@@ -33,7 +33,7 @@ export default class CaseListPage extends BasePage{
       allWorkTab: '//a[contains(text(), "All work")]',
       myWorkTab: '//a[contains(text(), "My work")]',
       documentsTab: '//div[contains(text(), "Documents")]',
-      judgmentTab: '//a[contains(text(), "Judgments, orders & notifications")]'
+      hearingTab: '//div[contains(text(), "Hearing Documents")]'
   };
 
     async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
@@ -68,6 +68,7 @@ export default class CaseListPage extends BasePage{
     async processCaseFromCaseList() {
       let caseNumber = await this.page.getByLabel('go to case with Case').allTextContents();
       console.log('The value of the Case Number ' +caseNumber);
+      await this.delay(3000);
       await this.webActions.clickElementByLabel('go to case with Case');
 
       await expect(this.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText('Case Details');
@@ -185,11 +186,16 @@ export default class CaseListPage extends BasePage{
           await ele.click();
           break;
        }
-        case "Tasks":{
+      case "Tasks":{
             await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.tasksTab));
             await this.webActions.clickElementByCss(this.elements.tasksTab);
             break;
         }
+      case "Hearing Documents":{
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingTab));
+        await this.webActions.clickElementByCss(this.elements.hearingTab);
+        break;
+      }
       case "Judgment": {
         const ele = this.page.locator(this.elements.judgmentTab).nth(1);
         await this.webActions.verifyElementToBeVisible(ele);
@@ -197,7 +203,6 @@ export default class CaseListPage extends BasePage{
         break;
       }
         default: {
-          //statements;
           break;
       }
     }

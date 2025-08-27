@@ -13,10 +13,10 @@ import { BasePage } from "./basePage";
 
 const env = params.TestEnv;
 const idamBaseUrl = `https://idam-api.${env}.platform.hmcts.net/loginUser`;
-const syaApiBaseUrl = `http://et-sya-api-${env}.service.core-compute-${env}.internal`;
+const syaApiBaseUrl = params.EtCosPreviewEtSyaApiUrl || `http://et-sya-api-${env}.service.core-compute-${env}.internal`;
 const getUserIdurl = `https://idam-api.${env}.platform.hmcts.net/details`;
 const s2sBaseUrl = `http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease`;
-const ccdApiUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
+const ccdApiUrl = params.EtCosPreviewCcdUrl || `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
 const engCasePayload = engCase.data;
 const scotCasePayload = scotCase.data;
 const location = 'ET_EnglandWales';
@@ -252,7 +252,7 @@ async getS2SServiceToken() {
 
   async createADraftCuiCasePostRequest(authToken) {
 
-    const cuiDraftCasePath = "/cases/initiate-case/";
+    const cuiDraftCasePath = "/cases/initiate-case";
     let createCaseUrl = syaApiBaseUrl + cuiDraftCasePath ;
 
    //start case creation
@@ -291,7 +291,7 @@ async getS2SServiceToken() {
 
   async submitDraftCuiCase(authToken, case_id, methodType) {
 
-    let updateCaseUrl = `${syaApiBaseUrl}/cases/${methodType}-case/`;
+    let updateCaseUrl = `${syaApiBaseUrl}/cases/${methodType}-case`;
     //start case creation
     let updateCaseBody = {
       "case_id": case_id.toString(),
@@ -573,7 +573,7 @@ async getS2SServiceToken() {
 
   async performCaseVettingEventPostRequest(authToken, serviceToken, case_id, response) {
     // execute et1 vetting
-    const execuEt1teUrl = `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal/cases/${case_id}/events`;
+    const execuEt1teUrl = ccdApiUrl + `/cases/${case_id}/events`;
 
     const executeEventBody = {
       data: response.case_details.case_data,

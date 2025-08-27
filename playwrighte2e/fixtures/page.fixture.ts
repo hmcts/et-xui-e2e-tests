@@ -40,6 +40,10 @@ import TaskPage from "../pages/taskPage";
 import HearingDetailsPage from "../pages/hearingDetailsPage";
 import AdrDocumentPage from "../pages/adrDocumentPage";
 import CaseDetailsPage from "../pages/caseDetailsPage";
+import Et3NotificationPage from '../pages/et3NotificationPage';
+import DocumentsTabPage from '../pages/documentsTabPage';
+import UploadHearingBundlePage from '../pages/uploadHearingBundlePage';
+import CaseNotesPage from '../pages/caseNotesPage';
 
 export type PageFixtures = {
 
@@ -84,6 +88,10 @@ export type PageFixtures = {
     hearingDetailsPage:HearingDetailsPage;
     adrDocument:AdrDocumentPage;
     caseDetails:CaseDetailsPage;
+    et3NotificationPage: Et3NotificationPage;
+    documentsTabPage: DocumentsTabPage;
+    uploadHearingBundlePage:UploadHearingBundlePage;
+    caseNotesPage:CaseNotesPage;
 }
 
 export const pageFixtures = {
@@ -249,5 +257,18 @@ export const pageFixtures = {
     },
     caseDetails:async ({page}, use)=>{
         await use(new CaseDetailsPage(page));
-    }
+    },
+    et3NotificationPage:async ({page}, use)=>{
+      await use(new Et3NotificationPage(page));
+    },
+    documentsTabPage:async ({page}, use)=>{
+      await use(new DocumentsTabPage(page));
+    },
+  uploadHearingBundlePage:async({page}, use)=>{
+      await use(new UploadHearingBundlePage(page));
+  },
+  caseNotesPage:async({page}, use)=>{
+    await use(new CaseNotesPage(page));
+  },
+
 };

@@ -229,7 +229,7 @@ export class LegalRepPage extends BasePage {
             expect(optionText).not.toContain('2 Costs Hearing - Carlisle');
         }
 
-        await this.page.selectOption(this.selectHearingFromDropdown, '1: 1');
+        await this.page.locator(this.selectHearingFromDropdown).selectOption({index:1});
         // Whose hearing documents are you uploading
         try {
             switch (whoseDocu) {
@@ -285,9 +285,6 @@ export class LegalRepPage extends BasePage {
     }
 
     async verifyHearingDocumentTabLegalRep() {
-        await this.page.waitForSelector(this.hearingTabLegalRep, { timeout: 10000 });
-
-        await this.page.click(this.hearingTabLegalRep);
         await this.page.waitForSelector('text=Hearing Documents');
         await this.page.waitForSelector('text=Respondent Hearing Documents');
         await expect(this.page.getByText('welshTest.pdf')).toBeVisible();
