@@ -145,7 +145,7 @@ export class ApplicationTabPage  extends BasePage {
       await this.page.fill('#tseResponseText', 'Response of an application');
       await this.webActions.checkElementById('#tseResponseHasSupportingMaterial_Yes');
       //RET-3852
-      await this.clickContinue();
+      //await this.clickContinue();
 
       await this.addNewBtn.click();
       await this.page.waitForSelector('#tseResponseSupportingMaterial_0_uploadedDocument');
