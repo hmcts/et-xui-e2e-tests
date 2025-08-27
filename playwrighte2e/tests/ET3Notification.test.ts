@@ -6,6 +6,7 @@ let caseNumber: any;
 let subRef;
 
 test.describe('ET3 Notification', () => {
+  test.describe.configure({ mode: 'default' });
   test.beforeEach(async ({ page, createCaseStep }) => {
     subRef = await createCaseStep.setupCUIcaseVetAndAcceptViaApi(page, true);
    //  subRef = '1752767563027673';
