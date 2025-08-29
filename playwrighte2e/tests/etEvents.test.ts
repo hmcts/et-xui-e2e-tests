@@ -34,7 +34,8 @@ test.describe('Various events in mange case application', () => {
     await icUploadDocPage.verifyJurisdictionCodeInICevent();
   });
 
-  test('Create a England/Wales claim and transfer to Scotland', {tag: '@demo'}, async ({ caseListPage, caseTransferPage }) => {
+  //EXUI-3451
+  test.skip('Create a England/Wales claim and transfer to Scotland', {tag: '@demo'}, async ({ caseListPage, caseTransferPage }) => {
     await caseListPage.selectNextEvent('Case Transfer (Scotland)');
     await caseTransferPage.progressCaseTransfer();
     await caseTransferPage.checkYourAnswer(caseNumber);
@@ -57,8 +58,8 @@ test.describe('Claimant retaining access to transferred case', () => {
 
   });
 
-  //Flaky test in CI
-  test.skip('Create a England/Wales claim and transfer to Scotland, Claimant retains case', async ({ caseListPage, caseTransferPage, citizenHubPage }) => {
+  //EXUI-3451
+  test('Create a England/Wales claim and transfer to Scotland, Claimant retains case', async ({ caseListPage, caseTransferPage, citizenHubPage }) => {
     await caseListPage.selectNextEvent('Case Transfer (Scotland)');
     await caseTransferPage.progressCaseTransfer();
     let newSubRef= await caseTransferPage.checkYourAnswer(caseNumber);
