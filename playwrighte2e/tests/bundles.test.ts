@@ -49,7 +49,7 @@ test.describe('England - Claimant Bundles test', () => {
         await page.click('text=Sign out');
 
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-        await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
+        await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false);
 
         await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
         await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);

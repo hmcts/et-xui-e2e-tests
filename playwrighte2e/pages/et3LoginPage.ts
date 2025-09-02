@@ -107,4 +107,8 @@ export default class Et3LoginPage extends BasePage {
     await expect(this.page.locator('dl')).toContainText('Address');
     await expect(this.page.locator('dl')).toContainText('Email');
   }
+
+  async validateNocNotificationBanner(){
+    await expect(this.page.locator('h3')).toContainText('You are now being legally represented by');
+  }
 }

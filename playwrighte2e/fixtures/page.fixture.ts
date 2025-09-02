@@ -44,6 +44,7 @@ import Et3NotificationPage from '../pages/et3NotificationPage';
 import DocumentsTabPage from '../pages/documentsTabPage';
 import UploadHearingBundlePage from '../pages/uploadHearingBundlePage';
 import CaseNotesPage from '../pages/caseNotesPage';
+import ClaimantRepresentativePage from '../pages/claimantRepresentativePage';
 
 export type PageFixtures = {
 
@@ -92,6 +93,7 @@ export type PageFixtures = {
     documentsTabPage: DocumentsTabPage;
     uploadHearingBundlePage:UploadHearingBundlePage;
     caseNotesPage:CaseNotesPage;
+    claimantRepresentativePage:ClaimantRepresentativePage;
 }
 
 export const pageFixtures = {
@@ -270,5 +272,8 @@ export const pageFixtures = {
   caseNotesPage:async({page}, use)=>{
     await use(new CaseNotesPage(page));
   },
+  claimantRepresentativePage:async ({page}, use) => {
+      await use(new ClaimantRepresentativePage(page));
+  }
 
 };

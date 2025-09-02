@@ -33,7 +33,10 @@ export default class CaseListPage extends BasePage{
       allWorkTab: '//a[contains(text(), "All work")]',
       myWorkTab: '//a[contains(text(), "My work")]',
       documentsTab: '//div[contains(text(), "Documents")]',
-      hearingTab: '//div[contains(text(), "Hearing Documents")]'
+      hearingTab: '//div[contains(text(), "Hearing Documents")]',
+      judgmentTab: '//div[contains(text(), "Judgement")]',
+      claimantRepresentative: '//div[contains(text(), "Claimant Representative")]'
+
   };
 
     async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
@@ -73,6 +76,19 @@ export default class CaseListPage extends BasePage{
 
       await expect(this.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText('Case Details');
       return caseNumber;
+    }
+
+    async checkAndShareCaseFromList(subRef){
+      await this.page.locator('#select-'+subRef).check();
+      await this.clickShareCaseButton();
+      await this.page.getByRole('combobox', { name: 'Search by name or email' }).fill('et');
+      await this.page.getByText('Test Factory - et.legalrep.').click();
+      await this.page.getByRole('button', { name: 'Add user' }).click();
+      await this.clickContinue();
+      await this.page.getByRole('button', { name: 'Confirm' }).click();
+      await expect(this.page.getByLabel('Your cases have been updated')).toContainText('Your cases have been updated');
+      await this.page.getByRole('link', { name: 'Go back to the case list.' }).click();
+
     }
 
     async selectNextEvent(option) {
@@ -181,6 +197,17 @@ export default class CaseListPage extends BasePage{
       case "Hearing Documents":{
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingTab));
         await this.webActions.clickElementByCss(this.elements.hearingTab);
+        break;
+      }
+      case "Judgment": {
+        const ele = this.page.locator(this.elements.judgmentTab).nth(1);
+        await this.webActions.verifyElementToBeVisible(ele);
+        await ele.click();
+        break;
+      }
+      case "Claimant Representative":{
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.claimantRepresentative));
+        await this.webActions.clickElementByCss(this.elements.claimantRepresentative);
         break;
       }
         default: {
