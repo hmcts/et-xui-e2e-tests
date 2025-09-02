@@ -105,4 +105,22 @@ test.describe('Share case', () => {
       await caseListPage.navigateToTab('Claimant Representative');
       await respondentRepPage.validateRespondentRepDetail();
     });
+
+  //RET-5416
+  test.skip('Perform NOC and Remove claimant legal representative as a citizen, claimant reinstated case',
+    async ({ page, et1CaseServingPage, loginPage, legalRepPage, citizenHubPage }) => {
+      const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
+      await page.click('text=Sign out');
+
+      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false);
+      await page.click('text=Sign out');
+
+      //remove claimant legal rep
+      await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+      await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+      await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
+      await citizenHubPage.changeMyLegalRep();
+      await citizenHubPage.verifyLegalRepUnassignedNotificationBanner();
+    });
 });

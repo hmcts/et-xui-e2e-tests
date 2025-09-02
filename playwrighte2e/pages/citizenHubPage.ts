@@ -22,6 +22,7 @@ export default class CitizenHubPage extends BasePage {
     supportingMaterialAttachment: '#supportingMaterialFile',
     uploadButton: '#upload',
     contactTribunalAboutMyCase: '[href="/contact-the-tribunal"]',
+    changeMyLegalRep: '[href="change-legal-representative"]',
     linkToET3Response: '[href="/case-document/response-from-respondent"]',
     contactTribunalLinkRegistered: '[href="/contact-the-tribunal"]',
     appointLegalRepLink:'[href="/appoint-legal-representative"]',
@@ -386,6 +387,16 @@ export default class CitizenHubPage extends BasePage {
     await this.webActions.clickElementByCss(this.elements.contactTribunalLinkRegistered);
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Contact the tribunal about your case');
     await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'You are now being legally represented by');
+  }
 
+  async changeMyLegalRep(){
+    await this.webActions.clickElementByCss(this.elements.changeMyLegalRep);
+    await this.webActions.checkElementById('#legalRep-2');
+    await this.submitButton();
+  }
+
+  async verifyLegalRepUnassignedNotificationBanner(){
+    await expect(this.page.getByLabel('Important')).toContainText('You are no longer legally represented.');
+    await this.page.locator(this.elements.appointLegalRepLink).isVisible();
   }
 }

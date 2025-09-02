@@ -33,7 +33,10 @@ export default class CaseListPage extends BasePage{
       allWorkTab: '//a[contains(text(), "All work")]',
       myWorkTab: '//a[contains(text(), "My work")]',
       documentsTab: '//div[contains(text(), "Documents")]',
-      hearingTab: '//div[contains(text(), "Hearing Documents")]'
+      hearingTab: '//div[contains(text(), "Hearing Documents")]',
+      judgmentTab: '//div[contains(text(), "Judgement")]',
+      claimantRepresentative: '//div[contains(text(), "Claimant Representative")]'
+
   };
 
     async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
@@ -200,6 +203,11 @@ export default class CaseListPage extends BasePage{
         const ele = this.page.locator(this.elements.judgmentTab).nth(1);
         await this.webActions.verifyElementToBeVisible(ele);
         await ele.click();
+        break;
+      }
+      case "Claimant Representative":{
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.claimantRepresentative));
+        await this.webActions.clickElementByCss(this.elements.claimantRepresentative);
         break;
       }
         default: {
