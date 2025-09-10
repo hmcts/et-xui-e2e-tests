@@ -28,29 +28,29 @@
   },
   "dependencies": {
     "@axe-core/playwright": "4.10.2",
-    "@faker-js/faker": "9.9.0",
+    "@faker-js/faker": "10.0.0",
     "@noble/hashes": "^1.5.0",
     "axios": "^1.8.2",
     "chance": "^1.1.11",
-    "eslint": "9.34.0",
+    "eslint": "9.35.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-codeceptjs": "1.3.0",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-mocha": "11.1.0",
     "eslint-plugin-prettier": "5.2.1",
-    "groq-sdk": "^0.30.0",
-    "lint-staged": "16.1.5",
-    "mocha": "11.7.1",
+    "groq-sdk": "^0.32.0",
+    "lint-staged": "16.1.6",
+    "mocha": "11.7.2",
     "mocha-junit-reporter": "^2.2.1",
     "mocha-multi": "1.1.7",
     "mochawesome": "7.1.3",
     "openai": "^5.0.0",
     "prettier": "3.6.2",
-    "totp-generator": "1.0.0",
+    "totp-generator": "1.1.0",
     "typescript": "5.9.2"
   },
   "devDependencies": {
-    "@faker-js/faker": "9.9.0",
+    "@faker-js/faker": "10.0.0",
     "@playwright/test": "^1.50.1",
     "@types/chai-as-promised": "^8.0.0",
     "@types/chance": "^1.1.6",
@@ -73,5 +73,5 @@
     "ws": "^8.17.1",
     "form-data": "^4.0.4"
   },
-  "packageManager": "yarn@4.9.3"
+  "packageManager": "yarn@4.9.4"
 }
