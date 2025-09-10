@@ -8,8 +8,7 @@ let caseNumber;
 
 test.describe('Upload Hearing Bundle as a Caseworker', () => {
   test.beforeEach(async ({ page, createCaseStep }) => {
-
-    await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales");
+    ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
   });
 
   //RET-5927
