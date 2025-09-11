@@ -145,6 +145,7 @@ export class ApplicationTabPage  extends BasePage {
       await this.page.fill('#tseResponseText', 'Response of an application');
       await this.webActions.checkElementById('#tseResponseHasSupportingMaterial_Yes');
       //RET-3852
+      //Note: add button on same page now
       //await this.clickContinue();
 
       await this.addNewBtn.click();

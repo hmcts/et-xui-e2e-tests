@@ -7,7 +7,7 @@ const userDetailsData = require('../data/ui-data/user-details.json');
 test.describe('Case creation in Citizen UI', () => {
 
   test('Create a claim for still working for organisation, submit and process within manage cases', {
-    tag: ['@cx', '@smoke', '@ccd-callback-tests']
+    tag: ['@cx', '@smoke', '@ccd-callback-tests', '@nk']
   }, async ({ page, createCaseStep, respondentRepPage, citizenHubPage, caseListPage }) => {
 
     const submissionReference = await createCaseStep.createCaseViaCUI(page, 'EnglandWales',
@@ -32,7 +32,7 @@ test.describe('Case creation in Citizen UI', () => {
     await citizenHubPage.cyaPageVerification();
   });
 
-  test('Create a claim for working notice period for organisation, submit and process within manage cases',
+  test('Create a claim for working notice period for organisation, submit and process within manage cases', { tag: [ '@nk'] },
       async ({ page, createCaseStep }) => {
     const submissionReference = await createCaseStep.createCaseViaCUI(page, 'EnglandWales',
       (loginPage) => loginPage.processLoginWithNewAccount(),
