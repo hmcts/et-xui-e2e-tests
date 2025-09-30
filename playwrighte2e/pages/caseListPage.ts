@@ -130,6 +130,11 @@ export default class CaseListPage extends BasePage{
             await this.webActions.clickElementByRole('tab', { name: 'Respondent', exact: true });
             break;
         }
+        // When there is an ECC, the tab name for Respondent is appended with an s as the names can't be the same
+        case "Respondents": {
+          await this.webActions.clickElementByRole('tab', { name: 'Respondents', exact: true });
+          break;
+        }
         case "Claimant": {
           await this.webActions.clickElementByRole('tab', { name: 'Claimant', exact: true });
           break;
