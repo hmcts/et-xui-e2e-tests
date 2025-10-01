@@ -71,13 +71,26 @@ test.describe('ECC', () => {
     ).toBeVisible();
   });
 
-  test('Should create BF when sending a notice of ECC', { tag: '@ecc' }, async ({ notificationPage, caseListPage }) => {
-    await notificationPage.selectNotificationLink();
-    await notificationPage.sendNotification('ECC');
-    await expect(caseListPage.page.getByRole('tab', { name: 'BF Actions' })).toBeVisible();
-    await caseListPage.navigateToTab('BF Actions');
-    await caseListPage.verifyBFActionsTab('Action', 'ECC served');
-  });
+  test(
+    'ECC Notification - should create BF Action and show notification banner to claimant',
+    { tag: '@ecc' },
+    async ({ notificationPage, caseListPage, citizenHubPage }) => {
+      await notificationPage.selectNotificationLink();
+      await notificationPage.sendNotification('ECC');
+      await expect(caseListPage.page.getByRole('tab', { name: 'BF Actions' })).toBeVisible();
+      await caseListPage.navigateToTab('BF Actions');
+      await caseListPage.verifyBFActionsTab('Action', 'ECC served');
+      await caseListPage.signoutButton();
+      await citizenHubPage.processCitizenHubLogin(
+        params.TestEnvETClaimantEmailAddress,
+        params.TestEnvETClaimantPassword,
+      );
+      await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+      await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
+      await citizenHubPage.verifyNotificationBanner('ECC')
+
+    },
+  );
 
   test(
     'Should show ECC in table once set on respondent',
