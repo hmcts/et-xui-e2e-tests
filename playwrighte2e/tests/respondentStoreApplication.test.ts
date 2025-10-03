@@ -1,0 +1,59 @@
+import { test } from '../fixtures/common.fixture';
+import { params } from '../utils/config';
+
+
+let caseNumber: any;
+let submissionRef:string;
+const respName ='Mrs Test Auto';
+const firstName ='Grayson';
+const lastName = 'Becker';
+
+
+test.describe('Respondent Store Application for unrepresented cases', () => {
+
+  test.beforeEach(async ({ page, createCaseStep }) => {
+    submissionRef = await createCaseStep.setupCaseWorkerCaseVetAndAcceptViaApi(page, "England", "ET_EnglandWales", true);
+    //  subRef = '1752767563027673';
+  });
+
+
+  test(
+    'Unrepresented Respondent to store Rule 92 application- Correspondence Yes',
+    { tag: '@test' },
+    async ({ page, loginPage, caseListPage, respondentDetailsPage, et3LoginPage, respondentCaseOverviewPage }) => {
+      await page.goto(params.TestUrlForManageCaseAAT);
+      await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
+      await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());
+      caseNumber = await caseListPage.processCaseFromCaseList();
+
+      //RET-5466
+      await et3LoginPage.processRespondentLoginForExistingCase(
+        params.TestEnvET3RespondentEmailAddress,
+        params.TestEnvET3RespondentPassword,
+        caseNumber,
+      );
+      await respondentCaseOverviewPage.unrepresentedRespondentMakeApplication('Rule92', true);
+      await respondentCaseOverviewPage.unrepresentedRespondentValidateApplication(true);
+    },
+  );
+
+  test(
+    "Unrepresented Respondent to submit Rule 92 application- Correspondence No'",
+    { tag: '@sunil' },
+    async ({ page, loginPage, caseListPage, respondentDetailsPage, et3LoginPage, respondentCaseOverviewPage }) => {
+      await page.goto(params.TestUrlForManageCaseAAT);
+      await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
+      await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());
+      caseNumber = await caseListPage.processCaseFromCaseList();
+
+      //RET-5466
+      await et3LoginPage.processRespondentLoginForExistingCase(
+        params.TestEnvET3RespondentEmailAddress,
+        params.TestEnvET3RespondentPassword,
+        caseNumber,
+      );
+      await respondentCaseOverviewPage.unrepresentedRespondentMakeApplication('Rule92', false);
+      await respondentCaseOverviewPage.unrepresentedRespondentValidateApplication(false);
+    },
+  );
+});

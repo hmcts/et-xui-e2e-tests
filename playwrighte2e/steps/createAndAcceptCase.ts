@@ -62,6 +62,11 @@ export default class createAndAcceptCase extends BaseStep {
         return submissionRef;
     }
 
+    async setupCaseWorkerCaseVetAndAcceptViaApi(page, caseType:any, location:any, et3Submission?:boolean){
+        submissionRef = await this.createCaseThroughApi.processCaseWorkerCaseToAcceptedState(caseType, location, et3Submission);
+        return submissionRef;
+    }
+
     async createCaseViaCUI(page, region, loginMethod: (page) => Promise<void>, employmentJourneyMethod?: (page) => Promise<void>) {
 
       await page.goto(params.TestUrlCitizenUi);
