@@ -6,6 +6,10 @@ import { params } from "../utils/config";
 // @ts-ignore
 import engCase from "../data/et-england-case-data.json";
 // @ts-ignore
+import engCaseCaseWorker from "../data/et-england-case-data-caseworker.json";
+// @ts-ignore
+import scotCaseCaseWorker from "../data/et-scotland-case-data-caseworker.json";
+// @ts-ignore
 import scotCase from "../data/et-scotland-case-data.json";
 import * as OTPAuth from "totp-generator";
 import axios from "axios";
@@ -19,6 +23,8 @@ const s2sBaseUrl = `http://rpe-service-auth-provider-aat.service.core-compute-aa
 const ccdApiUrl = params.EtCosPreviewCcdUrl || `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
 const engCasePayload = engCase.data;
 const scotCasePayload = scotCase.data;
+const engCasePayloadCaseworker:any = engCaseCaseWorker.data
+const scotCasePayloadCaseworker:any = scotCaseCaseWorker.data
 const location = 'ET_EnglandWales';
 
 export default class CreateCaseThroughApi extends BasePage {
@@ -42,6 +48,38 @@ export default class CreateCaseThroughApi extends BasePage {
     //await this.acceptTheCaseEventSecondRequest(authToken, serviceToken, case_id, acceptCaseToken);
     return case_id;
 
+  }
+
+
+  async processCaseWorkerCaseToAcceptedState(caseType: string, location: string, et3submission: boolean){
+
+    //Login to IDAM to get the authentication token
+    const authToken = await this.getAuthTokenForCaseWorker('et.api.1@hmcts.net', 'bDa6*Hqs');
+    let serviceToken = await this.getS2SServiceTokenForCaseWorker();
+    const token = await this.createACaseGetRequestForCaseWorker(authToken, serviceToken,location);
+
+    const case_id = await this.createACasePostRequestForCaseWorker(caseType, authToken, serviceToken, token, location);
+    console.log('case Id is:' +case_id);
+    const vetAndAcceptResponse = await this.vetAndAcceptCuiCase(authToken, case_id);
+    console.log('Caseworker created case vet and accepted successfully:' + vetAndAcceptResponse.data);
+    if (et3submission){
+      //respondent Idam login
+      const authToken = await this.getAuthToken(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword);
+      console.log('respondent Idam token fetched  successfully');
+
+      //get respondent Idam Id
+      const respondentUserId = await this.getUserDetails(authToken);
+      console.log('respondent Idam User Id fetched  successfully');
+
+      //assign a case to respondent
+      const ccd_id = await this.assignCaseToRespondent(respondentUserId, authToken, case_id);
+      console.log('case assigned to respondent successfully');
+
+      //submit ET3
+      await this.submitET3(ccd_id, respondentUserId, authToken, case_id);
+      console.log('et3 completed successfully');
+    }
+    return case_id;
   }
 
   async processCuiCaseToAcceptedState() {
@@ -122,6 +160,33 @@ export default class CreateCaseThroughApi extends BasePage {
       });
   }
 
+  async getAuthTokenForCaseWorker(username: string, password: string) {
+    let access_token;
+    let data = querystring.stringify({
+      'username': username,
+      'password': password,
+      'client_id':'et-sya',
+      'client-secret': '111111',
+      'redirect_uri': 'https://localhost:3001/oauth2/callback',
+      'scope': 'roles',
+      'grant_type': 'password'
+    });
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: idamBaseUrl,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      data : data
+    };
+    return await axios.request(config).then((response) => {
+      console.log(JSON.stringify(response.data));
+      access_token = response.data.access_token;
+      return access_token;
+    });
+  }
+
 
 async getS2SServiceToken() {
   let serviceToken;
@@ -152,6 +217,34 @@ async getS2SServiceToken() {
       console.log(error);
     });
 }
+
+
+async getS2SServiceTokenForCaseWorker() {
+    let serviceToken;
+    let data = JSON.stringify({
+      'microservice': 'et_cos',
+      'oneTimePassword': '3BUGVXOBPQWSVGEJ'
+    });
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: s2sBaseUrl,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data : data
+    };
+
+    return await axios.request(config)
+      .then((response) => {
+        console.log('s2s response is :' +(JSON.stringify(response.data)));
+        return serviceToken = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   async getUserDetails(authToken) {
     let userId;
@@ -225,6 +318,59 @@ async getS2SServiceToken() {
     };
 
     let createCaseBody = `${JSON.stringify(createCasetemp)}`;
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: createCaseUrl,
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'ServiceAuthorization': `Bearer ${serviceToken}`,
+        'Content-Type': 'application/json',
+        'experimental': 'true'
+      },
+      data : createCaseBody
+    };
+
+    let case_id;
+    return await axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        return case_id = response.data.id
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async createACasePostRequestForCaseWorker(caseType, authToken, serviceToken, initiateEventToken, location) {
+
+    const ccdSaveCasePath = `/case-types/${location}/cases?ignore-warning=false`;
+    let createCaseUrl = ccdApiUrl + ccdSaveCasePath ;
+    let dataPayload;
+
+    const payloadMap: { [key: string]: any } = {
+      "England": engCasePayloadCaseworker,
+      "Scotland": scotCasePayloadCaseworker
+    };
+
+    dataPayload = payloadMap[caseType] || new Error("Unsupported case type");
+
+    //start case creation
+    let createCasetemp = {
+      data: dataPayload,
+      event: {
+        id: 'initiateCase',
+        summary: 'Creating Case',
+        description: 'For ExUI Caseworker Playwright E2E Test'
+      },
+      'event_token': initiateEventToken,
+      "ignore_warning": false,
+      "draft_id": null
+    };
+
+    let createCaseBody = `${JSON.stringify(createCasetemp)}`;
+    console.log("sunil case body:" + createCaseBody)
 
     let config = {
       method: 'post',
@@ -692,4 +838,32 @@ async getS2SServiceToken() {
   //     });
   //
   // }
+  private async createACaseGetRequestForCaseWorker(authToken: any, serviceToken: any , location: string) {
+    const ccdStartCasePath = `/case-types/${location}/event-triggers/initiateCase?ignore-warning=false`;
+
+    let initiateCaseUrl = ccdApiUrl + ccdStartCasePath;
+    let initiateEventToken;
+
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: initiateCaseUrl,
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'ServiceAuthorization': `${serviceToken}`, //may be bearer word not needed
+        'Content-Type': 'application/json',
+        'experimental': true
+      }
+    };
+
+    return await axios.request(config).then((response) => {
+      console.log(JSON.stringify(response.data));
+      return initiateEventToken = response.data.token;
+    })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+
 }
