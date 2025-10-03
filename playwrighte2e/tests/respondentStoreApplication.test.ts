@@ -19,7 +19,6 @@ test.describe('Respondent Store Application for unrepresented cases', () => {
 
   test(
     'Unrepresented Respondent to store Rule 92 application- Correspondence Yes',
-    { tag: '@test' },
     async ({ page, loginPage, caseListPage, respondentDetailsPage, et3LoginPage, respondentCaseOverviewPage }) => {
       await page.goto(params.TestUrlForManageCaseAAT);
       await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
@@ -39,7 +38,6 @@ test.describe('Respondent Store Application for unrepresented cases', () => {
 
   test(
     "Unrepresented Respondent to submit Rule 92 application- Correspondence No'",
-    { tag: '@sunil' },
     async ({ page, loginPage, caseListPage, respondentDetailsPage, et3LoginPage, respondentCaseOverviewPage }) => {
       await page.goto(params.TestUrlForManageCaseAAT);
       await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
