@@ -2,7 +2,7 @@
   "data": {
     "receiptDate": "2025-01-01",
     "managingOffice": "Leeds",
-    "stateAPI": "Accepted",
+    "stateAPI": "Submitted",
     "claimant_TypeOfClaimant": "Individual",
     "claimantIndType": {
       "claimant_title1": "Mr",

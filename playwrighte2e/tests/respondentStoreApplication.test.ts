@@ -19,7 +19,7 @@ test.describe('Respondent Store Application for unrepresented cases', () => {
 
   test(
     'Unrepresented Respondent to store Rule 92 application- Correspondence Yes',
-    async ({ page, loginPage, caseListPage, respondentDetailsPage, et3LoginPage, respondentCaseOverviewPage }) => {
+    async ({ page, loginPage, caseListPage, et3LoginPage, respondentCaseOverviewPage }) => {
       await page.goto(params.TestUrlForManageCaseAAT);
       await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
       await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());
@@ -38,7 +38,7 @@ test.describe('Respondent Store Application for unrepresented cases', () => {
 
   test(
     "Unrepresented Respondent to submit Rule 92 application- Correspondence No'",
-    async ({ page, loginPage, caseListPage, respondentDetailsPage, et3LoginPage, respondentCaseOverviewPage }) => {
+    async ({ page, loginPage, caseListPage, et3LoginPage, respondentCaseOverviewPage }) => {
       await page.goto(params.TestUrlForManageCaseAAT);
       await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
       await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());

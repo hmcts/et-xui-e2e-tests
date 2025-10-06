@@ -1,13 +1,13 @@
 {
   "data": {
     "receiptDate": "2025-01-01",
-    "managingOffice": "Leeds",
-    "stateAPI": "Accepted",
+    "managingOffice": "Glasgow",
+    "stateAPI": "Submitted",
     "claimant_TypeOfClaimant": "Individual",
     "claimantIndType": {
-      "claimant_title1": "Mr",
-      "claimant_first_names": "{{$randomFirstName}}",
-      "claimant_last_name": "{{$randomLastName}}"
+      "claimant_title1": "Dr",
+      "claimant_first_names": "Grayson",
+      "claimant_last_name": "Becker"
     },
     "claimantType": {
       "claimant_phone_number": null,
@@ -15,21 +15,21 @@
       "claimant_email_address": null,
       "claimant_contact_preference": null,
       "claimant_addressUK": {
-        "AddressLine1": "{{$randomStreetAddress}}",
+        "AddressLine1": "4 Little Meadows",
         "AddressLine2": "",
         "AddressLine3": "",
-        "PostTown": "{{$randomCity}}",
+        "PostTown": "Bradley",
         "County": "",
         "Country": "United Kingdom",
-        "PostCode": "LS16 6NB"
+        "PostCode": "NE1 1RN"
       }
     },
     "respondentCollection": [
       {
         "value": {
-          "respondent_name": "Mrs Hellen Sharp",
+          "respondent_name": "Mrs Test Auto",
           "respondent_ACAS_question": "Yes",
-          "respondent_ACAS": "15678",
+          "respondent_ACAS": "R807115/23/89",
           "respondent_ACAS_no": null,
           "respondent_phone1": null,
           "responseReceived": "Yes",
@@ -83,13 +83,13 @@
     "claimantWorkAddressQuestion": "Yes",
     "claimantWorkAddressQRespondent": {
       "value": {
-        "code": "Mrs Hellen Sharp",
-        "label": "Mrs Hellen Sharp - 78 East Wonford Hill, Exeter, EX1 3DD, United Kingdom"
+        "code": "Mrs Test Auto",
+        "label": "Mrs Test Auto - 78 East Wonford Hill, Exeter, EX1 3DD, United Kingdom"
       },
       "list_items": [
         {
-          "code": "Mrs Hellen Sharp",
-          "label": "Mrs Hellen Sharp - 78 East Wonford Hill, Exeter, EX1 3DD, United Kingdom"
+          "code": "Mrs Test Auto",
+          "label": "Mrs Test Auto - 78 East Wonford Hill, Exeter, EX1 3DD, United Kingdom"
         }
       ]
     },
