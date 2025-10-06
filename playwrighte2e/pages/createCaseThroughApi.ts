@@ -54,7 +54,7 @@ export default class CreateCaseThroughApi extends BasePage {
   async processCaseWorkerCaseToAcceptedState(caseType: string, location: string, et3submission: boolean){
 
     //Login to IDAM to get the authentication token
-    const authToken = await this.getAuthTokenForCaseWorker('et.api.1@hmcts.net', 'bDa6*Hqs');
+    const authToken = await this.getAuthTokenForCaseWorker(params.TestEnvApiUser, params.TestEnvApiPassword);
     let serviceToken = await this.getS2SServiceTokenForCaseWorker();
     const token = await this.createACaseGetRequestForCaseWorker(authToken, serviceToken,location);
 
@@ -221,9 +221,11 @@ async getS2SServiceToken() {
 
 async getS2SServiceTokenForCaseWorker() {
     let serviceToken;
+  let oneTimepwd = OTPAuth.TOTP.generate(params.TestCcdGwSecret, {digits: 6, period: 30}).otp;
+  console.log("checking OTP => :" + oneTimepwd);
     let data = JSON.stringify({
       'microservice': 'et_cos',
-      'oneTimePassword': '3BUGVXOBPQWSVGEJ'
+      'oneTimePassword': oneTimepwd
     });
 
     let config = {
