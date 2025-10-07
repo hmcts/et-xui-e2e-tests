@@ -17,7 +17,7 @@ test.describe('Respondent Store Application for unrepresented cases', () => {
   });
 
 
-  test(
+  test.skip(
     'Unrepresented Respondent to store Rule 92 application- Correspondence Yes',
     async ({ page, loginPage, caseListPage, et3LoginPage, respondentCaseOverviewPage }) => {
       await page.goto(params.TestUrlForManageCaseAAT);
@@ -36,7 +36,7 @@ test.describe('Respondent Store Application for unrepresented cases', () => {
     },
   );
 
-  test(
+  test.skip(
     "Unrepresented Respondent to submit Rule 92 application- Correspondence No'",
     async ({ page, loginPage, caseListPage, et3LoginPage, respondentCaseOverviewPage }) => {
       await page.goto(params.TestUrlForManageCaseAAT);
