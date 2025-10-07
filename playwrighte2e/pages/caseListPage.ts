@@ -66,6 +66,7 @@ export default class CaseListPage extends BasePage{
 
 
     async processCaseFromCaseList() {
+      await this.delay(3000);
       let caseNumber = await this.page.getByLabel('go to case with Case').allTextContents();
       console.log('The value of the Case Number ' +caseNumber);
       await this.delay(3000);
