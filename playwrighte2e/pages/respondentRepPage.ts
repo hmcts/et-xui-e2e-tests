@@ -1,4 +1,5 @@
 import { BasePage } from "./basePage";
+import { expect } from '@playwright/test';
 
 export default class RespondentRepPage extends BasePage {
 
@@ -76,5 +77,11 @@ export default class RespondentRepPage extends BasePage {
       await this.webActions.selectByLabelFromDropDown(this.elements.respAddressDropDown, '68 East Wonford Hill, Exeter');
       await this.delay(2000);
       await this.submitButton();
+    }
+
+
+    async validateRespondentRepDetail(){
+      await expect(this.page.locator('#case-viewer-field-read--repCollection')).toContainText('et.legalrep.superuser@gmail.com');
+
     }
 }
