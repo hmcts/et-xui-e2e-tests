@@ -1,30 +1,30 @@
-import axeTest from "../helpers/accessibilityHelper";
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
+import { AxeUtils } from '@hmcts/playwright-common';
 const Continue = 'Continue';
 
 
 //const et1CaseVetting = 'ET1 case vetting';
 export default class Et1VettingPages extends BasePage {
-    async processET1CaseVettingPages(accessibilityEnabled?: boolean) {
-      if(accessibilityEnabled) axeTest(this.page);
+    async processET1CaseVettingPages(accessibilityEnabled?: boolean, axeUtils?: AxeUtils) {
+      if(accessibilityEnabled) await axeUtils.audit();
       await this.processBeforeYourStartPage();
       await this.processMinimumRequiredInformationPage();
       await this.processACASCertificatePage();
       await this.processPossibleSubstantiveDefectsPage();
-      if(accessibilityEnabled) axeTest(this.page);
+      if(accessibilityEnabled) await axeUtils.audit();
       await this.processJurisdictionCodePage();
       await this.processTrackAllocationPage();
-      if(accessibilityEnabled) axeTest(this.page);
+      if(accessibilityEnabled) await axeUtils.audit();
       await this.processTribunalLocationPage();
       await this.processListingDetailsPage();
       await this.processFurtherQuestionsPage();
-      if(accessibilityEnabled) axeTest(this.page);
+      if(accessibilityEnabled) await axeUtils.audit();
       await this.processPossibleReferralToACaseOfficerPage();
       await this.processPossibleReferralToARegionalEmploymentJudgeOrPresidentPage();
       await this.processOtherFactorsPage();
       await this.processFinalNotesPage();
-      if(accessibilityEnabled) axeTest(this.page);
+      if(accessibilityEnabled) await axeUtils.audit();;
       await this.processCheckYourAnswersPage();
       await this.processET1CaseVettingPage();
     }
