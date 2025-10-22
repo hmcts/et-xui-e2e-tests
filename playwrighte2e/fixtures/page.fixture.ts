@@ -1,4 +1,4 @@
-
+import { test as base } from '@playwright/test';
 import { ApplicationTabPage } from '../pages/applicationTabPage';
 import CaseListPage from '../pages/caseListPage';
 import CreateCaseFlagPage from '../pages/createCaseFlag';
@@ -94,7 +94,7 @@ export type PageFixtures = {
     caseNotesPage:CaseNotesPage;
 }
 
-export const pageFixtures = {
+export const pageFixtures = base.extend<PageFixtures>({
 
     applicationTabPage: async ({ page }, use) => {
         await use(new ApplicationTabPage(page));
@@ -271,4 +271,4 @@ export const pageFixtures = {
     await use(new CaseNotesPage(page));
   },
 
-};
+});

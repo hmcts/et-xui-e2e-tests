@@ -1,6 +1,7 @@
 import { params } from "../utils/config";
 import { BaseStep } from "./base";
 import { Page } from '@playwright/test';
+import { AxeUtils } from '@hmcts/playwright-common';
 
 
 let subRef: string;
@@ -35,7 +36,7 @@ export default class createAndAcceptCase extends BaseStep {
         return {subRef, caseNumber};
     }
 
-    async setupCUICaseCreatedViaApi(page, et1VettingFlag?:boolean, accessibilityEnabled?: boolean) {
+    async setupCUICaseCreatedViaApi(page, et1VettingFlag?:boolean, accessibilityEnabled?: boolean, axeUtils?: AxeUtils) {
 
         submissionRef = await this.createCaseThroughApi.processCuiCaseToAcceptedState();
         subRef = submissionRef.toString();
@@ -48,11 +49,11 @@ export default class createAndAcceptCase extends BaseStep {
         if (et1VettingFlag) {
             // Case vetting
             await this.caseListPage.selectNextEvent('ET1 case vetting');
-            await this.et1VettingPage.processET1CaseVettingPages(accessibilityEnabled);
+            await this.et1VettingPage.processET1CaseVettingPages(accessibilityEnabled, axeUtils);
 
             // Accept case
             await this.caseListPage.selectNextEvent('Accept/Reject Case');
-            await this.et1CaseServingPage.processET1CaseServingPages(accessibilityEnabled);
+            await this.et1CaseServingPage.processET1CaseServingPages(accessibilityEnabled, axeUtils);
         }
          return {subRef, caseNumber};
     }
