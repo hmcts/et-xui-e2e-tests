@@ -487,7 +487,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/playwright-common@npm:^1.0.25":
+"@hmcts/playwright-common@npm:^1.0.36":
   version: 1.0.36
   resolution: "@hmcts/playwright-common@npm:1.0.36"
   dependencies:
@@ -3781,7 +3781,7 @@ __metadata:
   dependencies:
     "@axe-core/playwright": "npm:4.10.2"
     "@faker-js/faker": "npm:10.0.0"
-    "@hmcts/playwright-common": "npm:^1.0.25"
+    "@hmcts/playwright-common": "npm:^1.0.36"
     "@noble/hashes": "npm:^2.0.0"
     "@playwright/test": "npm:^1.50.1"
     "@types/chai-as-promised": "npm:^8.0.0"
