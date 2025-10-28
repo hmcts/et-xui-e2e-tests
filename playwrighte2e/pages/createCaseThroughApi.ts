@@ -1,19 +1,18 @@
-
 // @ts-ignore
 // @ts-ignore
-import querystring from "querystring";
-import { params } from "../utils/config";
+import querystring from 'querystring';
+import { params } from '../utils/config';
 // @ts-ignore
-import engCase from "../data/et-england-case-data.json";
+import engCase from '../data/et-england-case-data.json';
 // @ts-ignore
-import engCaseCaseWorker from "../data/et-england-case-data-caseworker.json";
+import engCaseCaseWorker from '../data/et-england-case-data-caseworker.json';
 // @ts-ignore
-import scotCaseCaseWorker from "../data/et-scotland-case-data-caseworker.json";
+import scotCaseCaseWorker from '../data/et-scotland-case-data-caseworker.json';
 // @ts-ignore
-import scotCase from "../data/et-scotland-case-data.json";
-import * as OTPAuth from "totp-generator";
-import axios from "axios";
-import { BasePage } from "./basePage";
+import scotCase from '../data/et-scotland-case-data.json';
+import * as OTPAuth from 'totp-generator';
+import axios from 'axios';
+import { BasePage } from './basePage';
 
 const env = params.TestEnv;
 const idamBaseUrl = `https://idam-api.${env}.platform.hmcts.net/loginUser`;
@@ -48,6 +47,11 @@ export default class CreateCaseThroughApi extends BasePage {
     //await this.acceptTheCaseEventSecondRequest(authToken, serviceToken, case_id, acceptCaseToken);
     return case_id;
 
+  }
+
+  async getCaseDataForCaseWorker(case_id: string) {
+    const authToken = await this.getAuthTokenForCaseWorker(params.TestEnvApiUser, params.TestEnvApiPassword);
+    return await this.getCaseData(authToken, case_id);
   }
 
 
@@ -494,6 +498,28 @@ async getS2SServiceTokenForCaseWorker() {
         .catch((error) => {
           console.log(error);
         });
+  }
+
+  async getCaseData(authToken, case_id) {
+
+    const getCaseDataUrl = `/getCaseData?caseIds=${case_id}`;
+    let etSyaApiGetCaseData = syaApiBaseUrl + getCaseDataUrl ;
+    let request = {
+      method: 'GET',
+      maxBodyLength: Infinity,
+      url: etSyaApiGetCaseData,
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json'
+      }
+    };
+    return await axios.request(request)
+      .then((response) => {
+        return response.data[0]
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   async assignCaseToRespondent(respondentAuthToken, authToken, case_id) {
