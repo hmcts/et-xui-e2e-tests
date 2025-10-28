@@ -36,4 +36,10 @@ export default class JurisdictionPage extends BasePage {
     await this.page.locator('ccd-read-collection-field').waitFor();
     await this.webActions.verifyElementContainsText(this.page.locator('ccd-read-collection-field'), 'DDA');
   }
+
+  async closeJurisdictionCode(){
+    await this.webActions.selectByLabelFromDropDown('#jurCodesCollection_0_judgmentOutcome', 'Input in error');
+    await this.submitButton();
+    await expect(this.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText('Case Details');
+  }
 }
