@@ -12,7 +12,7 @@ test.describe('Close Case', () => {
 
   });
 
-  test('Create a claim and Close it', {tag: '@demo'}, async ({page, caseListPage, jurisdictionPage, closeCasePage}) => {
+  test('Create a claim and Close it', async ({page, caseListPage, jurisdictionPage, closeCasePage}) => {
     await caseListPage.selectNextEvent('Jurisdiction');
     await jurisdictionPage.closeJurisdictionCode();
     await caseListPage.selectNextEvent('Close Case');
