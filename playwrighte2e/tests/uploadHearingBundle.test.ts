@@ -27,8 +27,7 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
 
     await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
     await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-    await caseListPage.processCaseFromCaseList();
+    await  caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
     await caseListPage.selectNextEvent('Upload Hearing Documents');
     await uploadHearingBundlePage.uploadHearingBundleDocuments();
     await caseListPage.navigateToTab('Hearing Documents');

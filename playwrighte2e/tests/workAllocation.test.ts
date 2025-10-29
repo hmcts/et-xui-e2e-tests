@@ -2,7 +2,7 @@ import {test} from "../fixtures/common.fixture";
 import {Helpers} from "../helpers/helper";
 import {params} from "../utils/config";
 let caseNumber: any;
-let subRef;
+let subRef: string;
 
 const referralData = require('../data/ui-data/referral-content.json');
 
@@ -32,8 +32,7 @@ test.describe('Work Allocation', () => {
 
         //log in as judge & assign and completes a task
         await loginPage.processLogin(params.TestEnvETJudgeUserWorkAllocation, params.TestEnvETJudgeUserPasswordWorkAllocation);
-        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        await caseListPage.processCaseFromCaseList();
+        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
         await caseListPage.clickTab('Tasks');
 
         await Helpers.assignTaskToMeAndTriggerNextSteps(page, "Review Referral #1 - ET1", "Reply to the Referral");
@@ -83,11 +82,10 @@ test.describe('Work Allocation', () => {
 
             //login as judge and assign a task
             await loginPage.processLogin(params.TestEnvETJudgeUserWorkAllocation, params.TestEnvETJudgeUserPasswordWorkAllocation);
-            await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-            await caseListPage.processCaseFromCaseList();
+            caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
             await caseListPage.clickTab('Tasks');
 
-            await Helpers.assignTaskToMeAndTriggerNextSteps(page, "Draft And Sign Judgment", 'Draft and Sign Judgement');
+            await Helpers.assignTaskToMeAndTriggerNextSteps(page, "Draft And Sign Judgment", 'Draft and Sign Judgment');
             await draftJudgementPage.submitDraftJudgement();
         });
     });

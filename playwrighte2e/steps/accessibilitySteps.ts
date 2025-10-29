@@ -79,8 +79,8 @@ export default class AccessibilitySteps extends BaseStep {
       accessibilityEnabled,
       axeUtils,
     );
-    await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-    await this.caseListPage.processCaseFromCaseList();
+
+    await  this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
 
     //legal rep make an application
     await this.legalRepPage.legalRepMakeAnApplication(accessibilityEnabled, axeUtils);
@@ -91,9 +91,8 @@ export default class AccessibilitySteps extends BaseStep {
     await page.goto(params.TestUrlForManageCaseAAT);
     await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
     await this.caseListPage.delay(2000);
-    await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-    await this.caseListPage.processCaseFromCaseList();
-    // await page.goto(`${params.TestUrlForManageCaseAAT}/cases/case-details/${subRef}`);
+    await  this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
+
     await this.caseListPage.navigateToTab('Case list');
     await this.caseListPage.delay(2000);
     await axeUtils.audit();

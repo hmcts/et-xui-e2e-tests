@@ -22,8 +22,7 @@ test.describe('Respondent Store Application for unrepresented cases', () => {
     async ({ page, loginPage, caseListPage, et3LoginPage, respondentCaseOverviewPage }) => {
       await page.goto(params.TestUrlForManageCaseAAT);
       await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-      await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());
-      caseNumber = await caseListPage.processCaseFromCaseList();
+      caseNumber = await caseListPage.navigateToCaseDetails(submissionRef.toString(), 'EnglandWales');
 
       //RET-5466
       await et3LoginPage.processRespondentLoginForExistingCase(
@@ -41,8 +40,7 @@ test.describe('Respondent Store Application for unrepresented cases', () => {
     async ({ page, loginPage, caseListPage, et3LoginPage, respondentCaseOverviewPage }) => {
       await page.goto(params.TestUrlForManageCaseAAT);
       await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-      await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', submissionRef.toString());
-      caseNumber = await caseListPage.processCaseFromCaseList();
+      caseNumber = await caseListPage.navigateToCaseDetails(submissionRef, 'EnglandWales');
 
       //RET-5466
       await et3LoginPage.processRespondentLoginForExistingCase(

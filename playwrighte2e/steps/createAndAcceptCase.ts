@@ -23,9 +23,8 @@ export default class createAndAcceptCase extends BaseStep {
 
         await page.goto(params.TestUrlForManageCaseAAT);
         await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-        const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
-        await this.caseListPage.searchCaseApplicationWithSubmissionReference(searchReference, subRef);
-        caseNumber = await this.caseListPage.processCaseFromCaseList();
+        const searchReference = region === "England" ? 'EnglandWales' : region;
+        caseNumber = await this.caseListPage.navigateToCaseDetails(subRef, searchReference);
 
         //Accept case
         await Promise.all([
@@ -43,8 +42,7 @@ export default class createAndAcceptCase extends BaseStep {
 
         await page.goto(params.TestUrlForManageCaseAAT);
         await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-        await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        caseNumber = await this.caseListPage.processCaseFromCaseList();
+        caseNumber = await this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         if (et1VettingFlag) {
             // Case vetting
@@ -88,9 +86,8 @@ export default class createAndAcceptCase extends BaseStep {
 
       await page.goto(params.TestUrlForManageCaseAAT);
       await this.loginPage.processLogin(loginCredentials.user, loginCredentials.password);
-      const searchReference = region === 'EnglandWales' ? 'Eng/Wales - Singles' : `${region} - Singles`;
-      await this.caseListPage.searchCaseApplicationWithSubmissionReference(searchReference, submissionReference);
-      const caseNumber = await this.caseListPage.processCaseFromCaseList();
+      const searchReference = region === "England" ? 'EnglandWales' : region;
+      caseNumber = await this.caseListPage.navigateToCaseDetails(subRef, searchReference);
       await this.caseListPage.verifyCaseDetailsPage(true);
 
       await this.caseListPage.selectNextEvent('ET1 case vetting');
@@ -119,8 +116,7 @@ export default class createAndAcceptCase extends BaseStep {
       //vet the case
       await page.goto(params.TestUrlForManageCaseAAT);
       await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-      await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-      let caseNumber = await this.caseListPage.processCaseFromCaseList();
+      let caseNumber = await this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
       await this.caseListPage.selectNextEvent('ET1 case vetting');
       await this.et1VettingPage.processET1CaseVettingPages();
 

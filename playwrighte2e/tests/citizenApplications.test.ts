@@ -3,7 +3,7 @@ import { params } from '../utils/config';
 
 const respondentName = 'Mrs Test Auto';
 let subRef: string;
-let caseNumber;
+let caseNumber: string;
 
 test.describe('Citizen applications', () => {
   //RET-5818
@@ -27,8 +27,7 @@ test.describe('Citizen applications', () => {
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
     await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-    caseNumber = await caseListPage.processCaseFromCaseList();
+    caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
     await page.click('text=Sign out');
 
     // Citizen rep make an application
@@ -40,8 +39,7 @@ test.describe('Citizen applications', () => {
     // Legal Rep respond to an application
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-    caseNumber = await caseListPage.processCaseFromCaseList();
+    caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
     await applicationTabPage.legalRepRespondToAnApplication();
     await page.click('text=Sign out');
@@ -49,8 +47,7 @@ test.describe('Citizen applications', () => {
     // Caseworker validates Document tab
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-    caseNumber = await caseListPage.processCaseFromCaseList();
+    caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
     await caseListPage.navigateToTab('Documents');
     await documentsTabPage.validateApplicationDocuments();
