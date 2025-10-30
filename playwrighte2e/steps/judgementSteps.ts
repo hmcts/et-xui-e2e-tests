@@ -1,5 +1,5 @@
 import { BaseStep } from "./base";
-import { params } from "../utils/config"; 
+import { params } from "../utils/config";
 
 export default class JudgementSteps extends BaseStep {
 
@@ -7,11 +7,10 @@ export default class JudgementSteps extends BaseStep {
 
         await this.caseListPage.signoutButton();
         await this.page.goto(params.TestUrlForManageCaseAAT);
-        
+
         //judge logs in
         await this.loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
-        await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        await this.caseListPage.processCaseFromCaseList();
+        await  this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
 
 
         //Create a draft judgement
@@ -25,10 +24,9 @@ export default class JudgementSteps extends BaseStep {
     }
 
     async issueJudgement(subRef: string){
-        
+
         await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-        await this.caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        await this.caseListPage.processCaseFromCaseList();
+        await  this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
         await this.caseListPage.selectNextEvent('Judgment');
 
         await this.issueJudgementPage.issueJudgement();
@@ -39,5 +37,4 @@ export default class JudgementSteps extends BaseStep {
         await this.caseListPage.verifyJudgementDetailsOnTab('2 Jan 2025');
     }
 }
-    
-           
+

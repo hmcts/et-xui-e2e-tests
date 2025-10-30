@@ -19,8 +19,6 @@ export default class LoginPage extends BasePage{
     submit:this.page.locator('[type="submit"]')
   };
 
-
-
   async registerNewAccount() {
     try {
       let firstName = faker.person.firstName();
@@ -54,7 +52,7 @@ export default class LoginPage extends BasePage{
       return error.message;
     }
   }
-  
+
   async processLoginWithNewAccount() {
     global.newUserEmail = await this.registerNewAccount();
     console.log('.... checking email address:', global.newUserEmail);

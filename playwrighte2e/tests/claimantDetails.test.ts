@@ -24,8 +24,7 @@ test.describe('Claimant details test', () => {
 
         //judge log in
         await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
-        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        await caseListPage.processCaseFromCaseList();
+        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
         await caseListPage.selectNextEvent('Initial Consideration');
         await icUploadDocPage.verifyClaimantHearingPanelValues();
     });

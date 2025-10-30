@@ -18,8 +18,7 @@ export class BundleSteps extends BaseStep {
         await this.loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
         const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
         await this.legalRepPage.processNOC(searchReference, subRef, respondentName, firstName, lastName);
-        await this.caseListPage.searchCaseApplicationWithSubmissionReference(searchReference, subRef);
-        await this.caseListPage.processCaseFromCaseList();
+        await  this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
 
         await this.caseListPage.selectNextEvent('Upload documents for hearing');
         await this.legalRepPage.submitDocumentForHearingRespondent('Yes', 'Both Parties', 'Witness statement only');

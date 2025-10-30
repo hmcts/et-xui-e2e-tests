@@ -13,11 +13,10 @@ test.describe('IC Upload documents', () => {
     test('Judge uploads Internal consideration document', {tag: '@demo'}, async({ caseListPage, loginPage, icUploadDocPage }) => {
 
         await caseListPage.signoutButton();
-        
+
         //judge log in
         await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
-        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        await caseListPage.processCaseFromCaseList();
+        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
         await caseListPage.selectNextEvent('Initial Consideration');
 
         //judge uploads document
@@ -27,6 +26,6 @@ test.describe('IC Upload documents', () => {
         //verify the uploaded document details
         await icUploadDocPage.verifyICDetailsOnTab('Initial Consideration Document', 'Initial Consideration.pdf');
         await icUploadDocPage.verifyICDetailsOnTab('Document', 'test-doc.pdf');
-        await icUploadDocPage.verifyICDetailsOnTab('Initial consideration completed by:', 'ET Judge');
+        await icUploadDocPage.verifyICDetailsOnTab('Initial consideration completed by:', 'Michael Brain');
     });
 })

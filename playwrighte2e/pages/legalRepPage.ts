@@ -145,8 +145,8 @@ export class LegalRepPage extends BasePage {
     accessibilityEnabled?: boolean,
     axeUtils?: AxeUtils,
   ) {
-    await this.loadExistingApplications(option);
-    await this.page.reload();
+    //await this.loadExistingApplications(option);
+    //await this.page.reload();
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 25000);
 
     if (accessibilityEnabled) await axeUtils.audit();
@@ -178,8 +178,6 @@ export class LegalRepPage extends BasePage {
     await this.webActions.clickElementByCss(this.submitButtonLegalRep);
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.successfulMessageHeader), 20000);
 
-    await this.page.goto(`${params.TestUrlForManageCaseAAT}/cases/case-details/${submissionReference}`);
-    await this.page.waitForTimeout(10000);
   }
 
   async submitDocumentForHearingRespondent(

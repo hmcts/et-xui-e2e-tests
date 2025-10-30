@@ -190,6 +190,7 @@ elements = {
   async et1Section3(){
     await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
     await this.elements.et1Section3Link.click();
+    await this.page.waitForLoadState('load');
     await this.clickContinue();
 
     await this.page.locator('#et1SectionThreeClaimDetails').fill( 'No supplemetary Details');

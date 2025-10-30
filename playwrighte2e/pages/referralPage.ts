@@ -51,7 +51,7 @@ export default class ReferralPage extends BasePage {
         await this.clickContinue();
 
         await expect(this.page.locator("//tr/td[contains(text(), 'Judge')]")).toBeVisible();
-        (params.TestEnv == 'demo') ? await expect(this.page.locator("//tr/td[contains(text(), 'etFour Caseworker')]")).toBeVisible() : await expect(this.page.locator("//tr/td[contains(text(), 'ET CaseworkerOne')]")).toBeVisible();
+        (params.TestEnv == 'demo') ? await expect(this.page.locator("//tr/td[contains(text(), 'etFour Caseworker')]")).toBeVisible() : await expect(this.page.locator("//tr/td[contains(text(), 'et Caseworker5')]")).toBeVisible();
         await this.webActions.clickElementByCss(this.elements.adminDirectionOption);
         await this.webActions.clickElementByCss(this.elements.isUrgentReplyYes);
         await this.webActions.fillField(this.elements.directionSubjEle, referralData.directionDetails);

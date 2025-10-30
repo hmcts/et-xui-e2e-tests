@@ -71,7 +71,7 @@ export abstract class BasePage {
     await this.delay(3000);
     await this.webActions.clickElementByRole('button', { name: 'Find address' });
     await this.delay(3000);
-    await this.page.getByLabel('Select an address').selectOption('1: Object');
+    await this.page.getByLabel('Select an address').selectOption('2: Object');
     await this.delay(3000);
   }
 
