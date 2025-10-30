@@ -3807,7 +3807,7 @@ __metadata:
     nyc: "npm:^15.1.0"
     openai: "npm:^5.0.0"
     prettier: "npm:3.6.2"
-    totp-generator: "npm:1.1.0"
+    totp-generator: "npm:2.0.0"
     typescript: "npm:5.9.2"
     webdriverio: "npm:9.19.2"
   languageName: unknown
@@ -5533,6 +5533,13 @@ __metadata:
     graceful-fs:
       optional: true
   checksum: 10/03014769e7dc77d4cf05fa0b534907270b60890085dd5e4d60a382ff09328580651da0b8b4cdf44d91e4c8ae64d91791d965f05707beff000ed494a38b6fec85
+  languageName: node
+  linkType: hard
+
+"jssha@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "jssha@npm:3.3.1"
+  checksum: 10/ecc3440abe95149b5c17ea38c1b8b831dbe5149e56d417dd4fb930f65bfb5a80842f3b25408957f357deb9cd8c513931b446fea6d204a111d934165a89139d7f
   languageName: node
   linkType: hard
 
@@ -8206,10 +8213,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"totp-generator@npm:1.1.0":
-  version: 1.1.0
-  resolution: "totp-generator@npm:1.1.0"
-  checksum: 10/7406d04983dc963d9111f73af226ce4b9981615efe2922cca9e0614b2273b2460d041990c66bd6c3f170ebeef9c1acc7ef351b9756c8aa490db9e65be2ffef94
+"totp-generator@npm:2.0.0":
+  version: 2.0.0
+  resolution: "totp-generator@npm:2.0.0"
+  dependencies:
+    jssha: "npm:^3.3.1"
+  checksum: 10/b035244e753d6e036242aecb82d12e690625bcee6d5923e31e0ee5532e291ba3bcfc4ddb3ddaeabbc86942f22d55b82f22e3d02fc4c19b42518333a3c8cf955a
   languageName: node
   linkType: hard
 
