@@ -24,7 +24,9 @@ export default class Et3LoginPage extends BasePage {
     respName:'#respondentName',
     claimantFirstName:'#claimantFirstName',
     claimantLastName:'#claimantLastName',
-    caseRefNumber:this.page.locator('#ethosCaseReference')
+    caseRefNumber:this.page.locator('#ethosCaseReference'),
+    appointLegalRepLink:'[href="/appoint-legal-representative"]'
+
   }
   async processRespondentLogin(username: string, password: string, caseNumber: string) {
     await this.page.goto(params.TestUrlRespondentUi);
@@ -110,5 +112,16 @@ export default class Et3LoginPage extends BasePage {
 
   async validateNocNotificationBanner(){
     await expect(this.page.locator('h3')).toContainText('You are now being legally represented by');
+  }
+
+  async stopLegalRepRepresentation(){
+    await this.webActions.clickElementByText('Change my legal representative');
+    await expect(this.page.locator('legend')).toContainText('Do you want to change your legal representative?');
+    //Yes, I confirm I wish to remove my legal representative and continue my case representing myself.
+    await this.page.locator('#legalRep-2').click();
+    await this.submitButton();
+    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
+    await this.page.getByLabel('Important').filter({ hasText: 'You are no longer legally represented.'}).isVisible();
+    await this.page.locator(this.elements.appointLegalRepLink).isVisible();
   }
 }

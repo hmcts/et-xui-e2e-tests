@@ -20,7 +20,7 @@ test.describe('NOC Notification Banner', () => {
       await page.click('text=Sign out');
 
       await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false);
+      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
       await page.click('text=Sign out');
 
       //citizen validates notification banner
@@ -39,7 +39,7 @@ test.describe('NOC Notification Banner', () => {
       await page.click('text=Sign out');
 
       await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
+      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, true);
       await page.click('text=Sign out');
 
 
@@ -49,6 +49,9 @@ test.describe('NOC Notification Banner', () => {
 
       //citizen validates notification banner in respondent UI
       await et3LoginPage.validateNocNotificationBanner();
+
+      // RET-6007 -change my legal representative- stop representation
+      await et3LoginPage.stopLegalRepRepresentation();
     });
 
 });
@@ -69,7 +72,7 @@ test.describe('Share case', () => {
       await page.click('text=Sign out');
 
       await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
+      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, true);
       await page.click('text=Sign out');
 
       //share case with other legal rep
@@ -91,7 +94,7 @@ test.describe('Share case', () => {
       await page.click('text=Sign out');
 
       await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false);
+      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
       await page.click('text=Sign out');
 
       //share case with other legal rep
@@ -113,7 +116,7 @@ test.describe('Share case', () => {
       await page.click('text=Sign out');
 
       await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false);
+      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
       await page.click('text=Sign out');
 
       //remove claimant legal rep
