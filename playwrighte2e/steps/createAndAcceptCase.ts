@@ -87,7 +87,7 @@ export default class createAndAcceptCase extends BaseStep {
       await page.goto(params.TestUrlForManageCaseAAT);
       await this.loginPage.processLogin(loginCredentials.user, loginCredentials.password);
       const searchReference = region === "England" ? 'EnglandWales' : region;
-      caseNumber = await this.caseListPage.navigateToCaseDetails(subRef, searchReference);
+      caseNumber = await this.caseListPage.navigateToCaseDetails(submissionReference, searchReference);
       await this.caseListPage.verifyCaseDetailsPage(true);
 
       await this.caseListPage.selectNextEvent('ET1 case vetting');
