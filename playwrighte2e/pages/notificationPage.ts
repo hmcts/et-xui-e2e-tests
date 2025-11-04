@@ -45,6 +45,11 @@ export default class NotificationPage extends BasePage {
             await this.webActions.checkElementById('#sendNotificationSubject-Hearing');
             await this.page.locator('#sendNotificationSelectHearing').selectOption({index:1});
             break;
+      case 'ECC':
+            await this.page.getByRole('checkbox', { name: 'Employer Contract Claim' }).check();
+            await this.page.getByRole('group', { name: 'Is a response to the tribunal' }).getByLabel('No').check();
+            await this.page.getByRole('group', { name: 'What is the ECC notification?' }).getByLabel('Notice of Employer Contract Claim').check();
+            break;
         default:
             throw new Error(
                 '... Notification Type not provided ...',

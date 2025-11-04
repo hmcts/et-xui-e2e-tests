@@ -17,8 +17,8 @@ export default class RespContestClaim extends BasePage {
 
   async et3Section3() {
     await this.contestTheClaim();
-    // Below only for BOC Claims
-    // await this.employerContractClaim();
+    // RET-5953
+    await this.employerContractClaim();
   }
 
   async contestTheClaim() {
@@ -40,7 +40,7 @@ export default class RespContestClaim extends BasePage {
 
     await this.saveAndContinueButton();
     await this.webActions.fillField('#et3ResponseEmployerClaimDetails', 'Test ECC Text Box');
-
+    await this.page.setInputFiles('#claimSummaryFile', `test/data/test.txt`);
     await this.saveAndContinueButton();
     await this.webActions.clickElementByText('Yes, I’ve completed this');
     await this.saveAndContinueButton();
