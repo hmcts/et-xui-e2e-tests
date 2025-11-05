@@ -45,6 +45,7 @@ import DocumentsTabPage from '../pages/documentsTabPage';
 import UploadHearingBundlePage from '../pages/uploadHearingBundlePage';
 import CaseNotesPage from '../pages/caseNotesPage';
 import CloseCasePage from '../pages/closeCasePage';
+import ReinstateCasePage from '../pages/reinstateCasePage';
 
 export type PageFixtures = {
 
@@ -93,7 +94,8 @@ export type PageFixtures = {
     documentsTabPage: DocumentsTabPage;
     uploadHearingBundlePage:UploadHearingBundlePage;
     caseNotesPage:CaseNotesPage;
-    closeCasePage:CloseCasePage
+    closeCasePage:CloseCasePage;
+    reinstateCasePage:ReinstateCasePage;
 }
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -274,6 +276,9 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   closeCasePage:async({page}, use)=>{
     await use(new CloseCasePage(page));
+  },
+  reinstateCasePage:async({page}, use)=>{
+    await use(new ReinstateCasePage(page));
   }
 
 });
