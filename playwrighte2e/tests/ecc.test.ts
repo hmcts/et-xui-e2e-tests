@@ -11,8 +11,7 @@ test.describe('ECC', () => {
     subRef = await createCaseStep.setupCUIcaseVetAndAcceptViaApi(page, true);
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef.toString());
-    caseNumber = await caseListPage.processCaseFromCaseList();
+    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), "EnglandWales");
   });
 
   test('Validate ECC flag is set on case', { tag: '@ecc' }, async ({ caseListPage, jurisdictionPage }) => {
