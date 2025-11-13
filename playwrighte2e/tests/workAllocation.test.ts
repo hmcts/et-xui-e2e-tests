@@ -77,7 +77,7 @@ test.describe('Work Allocation', () => {
             await hearingDetailsPage.updateHearing();
             //wait for draft and sign document task
             await caseListPage.clickTab('Tasks');
-            await Helpers.waitForTask(page,'Draft And Sign Judgment');
+            await Helpers.waitForTask(page,'Draft And Sign Judgment/Order');
              await caseListPage.signoutButton();
 
             //login as judge and assign a task
@@ -85,7 +85,7 @@ test.describe('Work Allocation', () => {
             caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
             await caseListPage.clickTab('Tasks');
 
-            await Helpers.assignTaskToMeAndTriggerNextSteps(page, "Draft And Sign Judgment", 'Draft and Sign Judgment');
+            await Helpers.assignTaskToMeAndTriggerNextSteps(page, "Draft And Sign Judgment/Order", 'Draft and Sign Judgment');
             await draftJudgementPage.submitDraftJudgement();
         });
     });
