@@ -32,7 +32,10 @@ export default class CaseListPage extends BasePage{
       allWorkTab: '//a[contains(text(), "All work")]',
       myWorkTab: '//a[contains(text(), "My work")]',
       documentsTab: '//div[contains(text(), "Documents")]',
-      hearingTab: '//div[contains(text(), "Hearing Documents")]'
+      hearingTab: '//div[contains(text(), "Hearing Documents")]',
+      judgmentTab: '//div[contains(text(), "Judgement")]',
+      claimantRepresentative: '//div[contains(text(), "Claimant Representative")]'
+
   };
 
     async navigateToCaseDetails(subRef: string, option: string) {
@@ -48,6 +51,48 @@ export default class CaseListPage extends BasePage{
       const caseNumber = match ? match[1] : null;
       console.log('Navigated to case number: ' + caseNumber);
       return caseNumber;
+    }
+
+    // needed for share case feature
+  async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
+    await this.page.reload();
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseListLink));
+
+    await this.webActions.clickElementByCss(this.elements.caseListLink);
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseTypeDropdown));
+
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.applyButton));
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Case list');
+    try {
+      switch (option) {
+        case 'Eng/Wales - Singles':
+          await this.webActions.selectByLabelFromDropDown(this.elements.caseTypeDropdown, 'Eng/Wales - Singles');
+          break;
+        case 'Scotland - Singles':
+          await this.webActions.selectByLabelFromDropDown(this.elements.caseTypeDropdown, 'Scotland - Singles (RET)');
+          break;
+        default:
+          throw new Error('... check you options or add new option');
+      }
+    } catch (error) {
+      console.error('invalid option', error.message);
+    }
+    await this.webActions.fillField(this.elements.submissionReferenceLocator, submissionReference);
+    await this.webActions.clickElementByCss(this.elements.applyButton);
+    await this.webActions.verifyElementContainsText(this.page.locator('#search-result'), submissionReference);
+  }
+
+    async checkAndShareCaseFromList(subRef){
+      await this.page.locator('#select-'+subRef).check();
+      await this.clickShareCaseButton();
+      await this.page.getByRole('combobox', { name: 'Search by name or email' }).fill('et');
+      await this.page.getByText('Test Factory - et.legalrep.').click();
+      await this.page.getByRole('button', { name: 'Add user' }).click();
+      await this.clickContinue();
+      await this.page.getByRole('button', { name: 'Confirm' }).click();
+      await expect(this.page.getByLabel('Your cases have been updated')).toContainText('Your cases have been updated');
+      await this.page.getByRole('link', { name: 'Go back to the case list.' }).click();
+
     }
 
     async selectNextEvent(option) {
@@ -160,6 +205,17 @@ export default class CaseListPage extends BasePage{
       case "Hearing Documents":{
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingTab));
         await this.webActions.clickElementByCss(this.elements.hearingTab);
+        break;
+      }
+      case "Judgment": {
+        const ele = this.page.locator(this.elements.judgmentTab).nth(1);
+        await this.webActions.verifyElementToBeVisible(ele);
+        await ele.click();
+        break;
+      }
+      case "Claimant Representative":{
+        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.claimantRepresentative));
+        await this.webActions.clickElementByCss(this.elements.claimantRepresentative);
         break;
       }
         default: {

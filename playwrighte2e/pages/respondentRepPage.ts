@@ -1,4 +1,5 @@
 import { BasePage } from "./basePage";
+import { expect } from '@playwright/test';
 
 export default class RespondentRepPage extends BasePage {
 
@@ -82,5 +83,11 @@ export default class RespondentRepPage extends BasePage {
       await this.delay(2000);
       await this.webActions.clickElementByCss(this.elements.respEccReplyYes);
       await this.submitButton();
+    }
+
+
+    async validateRespondentRepDetail(){
+      await expect(this.page.locator('#case-viewer-field-read--repCollection')).toContainText('et.legalrep.superuser@gmail.com');
+
     }
 }

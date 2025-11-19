@@ -9,7 +9,7 @@ export class BundleSteps extends BaseStep {
     }
 
 
-    async submitHearingPreparationDocument (page, region, subRef, respondentName, firstName, lastName) {
+    async submitHearingPreparationDocument (page, region, subRef, caseNumber, firstName, lastName) {
 
         await this.caseListPage.selectNextEvent('List Hearing');
         await this.listHearingPage.listCase(region, 1,false);
@@ -17,8 +17,10 @@ export class BundleSteps extends BaseStep {
 
         await this.loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
         const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
-        await this.legalRepPage.processNOC(searchReference, subRef, respondentName, firstName, lastName);
-        await  this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
+        // @ts-ignore
+      await this.legalRepPage.processNOCForClaimantOrRespondent(searchReference, subRef, caseNumber, firstName, lastName, false, true);
+        await this.caseListPage.searchCaseApplicationWithSubmissionReference(searchReference, subRef);
+        await this.caseListPage.processCaseFromCaseList();
 
         await this.caseListPage.selectNextEvent('Upload documents for hearing');
         await this.legalRepPage.submitDocumentForHearingRespondent('Yes', 'Both Parties', 'Witness statement only');

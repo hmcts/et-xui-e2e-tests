@@ -1,4 +1,3 @@
-
 export const params = {
 
     TestUrlCitizenUi:process.env.TEST_URL_CITIZEN_UI||'',
@@ -41,4 +40,3 @@ export const params = {
     EtCosPreviewEtSyaApiUrl: process.env.ET_COS_PREVIEW_ET_SYA_API || '',
     EtCosPreviewCcdUrl: process.env.ET_COS_PREVIEW_CCD || '',
 };
-

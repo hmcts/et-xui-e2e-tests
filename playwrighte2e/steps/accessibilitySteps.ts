@@ -58,55 +58,41 @@ export default class AccessibilitySteps extends BaseStep {
     await this.caseListPage.clickContinue();
   }
 
-  async scanLegalRepApplicationPages(
-    page: Page,
-    subRef: string,
-    respondentName: string,
-    firstName: string,
-    lastName: string,
-    accessibilityEnabled?: boolean,
-    axeUtils?: AxeUtils,
-  ) {
-    await page.click('text=Sign out');
-    await page.goto(params.TestUrlForManageCaseAAT);
-    await this.loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-    await this.legalRepPage.processNOC(
-      'Eng/Wales - Singles',
-      subRef,
-      respondentName,
-      firstName,
-      lastName,
-      accessibilityEnabled,
-      axeUtils,
-    );
+    // @ts-ignore
+  async scanLegalRepApplicationPages(page, subRef: string, caseNumber: string, firstName: string, lastName: string, accessibilityEnabled?: boolean,axeUtils: AxeUtils) {
 
-    await  this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
+        await page.click('text=Sign out');
+        await page.goto(params.TestUrlForManageCaseAAT);
+        await this.loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+        await this.legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, accessibilityEnabled, false, axeUtils);
+        await this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
 
-    //legal rep make an application
-    await this.legalRepPage.legalRepMakeAnApplication(accessibilityEnabled, axeUtils);
-  }
+        //legal rep make an application
+        await this.legalRepPage.legalRepMakeAnApplication(accessibilityEnabled);
+    }
 
-  async scanWAPages(page: Page, subRef, axeUtils: AxeUtils) {
-    await page.click('text=Sign out');
-    await page.goto(params.TestUrlForManageCaseAAT);
-    await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-    await this.caseListPage.delay(2000);
-    await  this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
+    async scanWAPages(page, subRef, axeUtils:AxeUtils) {
 
-    await this.caseListPage.navigateToTab('Case list');
-    await this.caseListPage.delay(2000);
-    await axeUtils.audit();
-
-    /* (Got accessibility error)
-        await this.caseListPage.navigateToTab('All work');
+        await page.click('text=Sign out');
+        await page.goto(params.TestUrlForManageCaseAAT);
+        await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
+        await this.caseListPage.delay(2000);
+        await this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
+        // await page.goto(`${params.TestUrlForManageCaseAAT}/cases/case-details/${subRef}`);
+        await this.caseListPage.navigateToTab('Case list');
         await this.caseListPage.delay(2000);
         await axeUtils.audit();
+
+        /* (Got accessibility error)
+        await this.caseListPage.navigateToTab('All work');
+        await this.caseListPage.delay(2000);
+        await axeTest(page);
         await this.caseListPage.delay(3000);
         */
 
-    await this.caseListPage.navigateToTab('My work');
-    await this.caseListPage.delay(2000);
-    await axeUtils.audit();
-    await this.caseListPage.delay(3000);
-  }
+        await this.caseListPage.navigateToTab('My work');
+        await this.caseListPage.delay(2000);
+        await axeUtils.audit();
+        await this.caseListPage.delay(3000);
+    }
 }

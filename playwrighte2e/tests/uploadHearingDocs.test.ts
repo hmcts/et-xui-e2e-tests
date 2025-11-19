@@ -11,6 +11,7 @@ test.describe('Upload hearing docs test', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
     });
 
+  //RET-5787
     test('for respondent - verify only future hearings are shown in options', {tag: '@demo'}, async ({ page, caseListPage, listHearingPage, et1CaseServingPage, loginPage, legalRepPage }) => {
 
         //Retrieve claimant's first name and last name for NoC
@@ -25,7 +26,7 @@ test.describe('Upload hearing docs test', () => {
         await page.click('text=Sign out');
 
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-        await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
+        await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
         await  caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
         await caseListPage.selectNextEvent('Upload documents for hearing');
 

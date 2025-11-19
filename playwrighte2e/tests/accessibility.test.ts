@@ -1,4 +1,5 @@
 import { test } from '../fixtures/common.fixture';
+import { AxeUtils } from '@hmcts/playwright-common';
 
 const respondentName = 'Mrs Test Auto';
 let subRef: string;
@@ -26,9 +27,10 @@ test.describe('Accessibility test', () => {
     });
 
     test('Scan exui pages- Legal Representative journey', {tag: '@accessibility'}, async ({ page, et1CaseServingPage, accessibilitySteps, axeUtils }) => {
-
+    //RET-5787
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
-        await accessibilitySteps.scanLegalRepApplicationPages(page, subRef, respondentName, firstName, lastName, true, axeUtils);
+        await accessibilitySteps.scanLegalRepApplicationPages(page, subRef, caseNumber, firstName, lastName, true, axeUtils);
+
     });
 
     test('Scan exui pages- Work allocation journey', {tag: '@accessibility'}, async ({ page, accessibilitySteps, axeUtils}) => {

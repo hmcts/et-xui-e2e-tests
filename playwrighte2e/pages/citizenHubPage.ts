@@ -21,8 +21,10 @@ export default class CitizenHubPage extends BasePage {
     supportingMaterialAttachment: '#supportingMaterialFile',
     uploadButton: '#upload',
     contactTribunalAboutMyCase: '[href="/contact-the-tribunal"]',
+    changeMyLegalRep: '[href="change-legal-representative"]',
     linkToET3Response: '[href="/case-document/response-from-respondent"]',
     contactTribunalLinkRegistered: '[href="/contact-the-tribunal"]',
+    appointLegalRepLink:'[href="/appoint-legal-representative"]',
     openAllApplicationType: '//span[@class="govuk-accordion__show-all-text"]',
     welshContactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=cy"]',
     showAllApplicationType: '#contact-options',
@@ -104,9 +106,20 @@ export default class CitizenHubPage extends BasePage {
     // await this.webActions.verifyElementContainsText(this.page.locator('#caseNumber'), 'Case number ' + caseNumber);
   }
 
-  async clicksViewLinkOnClaimantApplicationPage(submissionReference) {
-    await this.page.goto(params.TestUrlCitizenUi + '/citizen-hub/' + submissionReference);
-  }
+  async appointLegalRep(){
+      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.appointLegalRepLink));
+      await this.webActions.clickElementByCss(this.elements.appointLegalRepLink);
+
+      await expect(this.page.locator('dl')).toContainText('Case reference');
+      await expect(this.page.locator('dl')).toContainText('Claimant name');
+      await expect(this.page.locator('dl')).toContainText('Tribunal Case Number');
+
+      await expect(this.page.locator('#main-content')).toContainText('download all your documents');
+    }
+
+   async clicksViewLinkOnClaimantApplicationPage(submissionReference) {
+      await this.page.goto(params.TestUrlCitizenUi + '/citizen-hub/' + submissionReference);
+    }
 
   async makeAnApplication() {
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.contactTribunalLinkRegistered));
@@ -384,5 +397,27 @@ export default class CitizenHubPage extends BasePage {
     await expect(this.page.locator('#main-content')).toContainText('The tribunal has acknowledged your claim');
     await this.webActions.clickElementByText('View the Acknowledgement of Claim');
     await expect(this.page.locator('#main-content')).toContainText('Notice of a Claim and Notice of Hearing');
+  }
+
+  async verifyLegalRepNotificationBanner(){
+    await expect(this.page.locator('h3')).toContainText('You are now being legally represented by');
+  }
+
+  async contactTheTribunalLink()
+  {
+    await this.webActions.clickElementByCss(this.elements.contactTribunalLinkRegistered);
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Contact the tribunal about your case');
+    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'You are now being legally represented by');
+  }
+
+  async changeMyLegalRep(){
+    await this.webActions.clickElementByCss(this.elements.changeMyLegalRep);
+    await this.webActions.checkElementById('#legalRep-2');
+    await this.submitButton();
+  }
+
+  async verifyLegalRepUnassignedNotificationBanner(){
+    await expect(this.page.getByLabel('Important')).toContainText('You are no longer legally represented.');
+    await this.page.locator(this.elements.appointLegalRepLink).isVisible();
   }
 }
