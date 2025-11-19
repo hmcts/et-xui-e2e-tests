@@ -2,7 +2,7 @@ import {test} from "../fixtures/common.fixture";
 import {Helpers} from "../helpers/helper";
 import {params} from "../utils/config";
 let caseNumber: any;
-let subRef;
+let subRef: string;
 
 const referralData = require('../data/ui-data/referral-content.json');
 
@@ -20,8 +20,7 @@ test.describe('Work Allocation', () => {
         await createCaseStep.completeEt1VettingTask();
     });
 
-    test('Caseworker sends Referral- Referral task generated, Judge assign and completes referral task', 
-        {tag: '@demo'},
+    test('Caseworker sends Referral- Referral task generated, Judge assign and completes referral task',
         async ({ page, caseListPage, referralSteps, loginPage }) => {
         //send referral
         await referralSteps.processReferrals(referralData.createNewReferral,
@@ -33,8 +32,7 @@ test.describe('Work Allocation', () => {
 
         //log in as judge & assign and completes a task
         await loginPage.processLogin(params.TestEnvETJudgeUserWorkAllocation, params.TestEnvETJudgeUserPasswordWorkAllocation);
-        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        await caseListPage.processCaseFromCaseList();
+        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
         await caseListPage.clickTab('Tasks');
 
         await Helpers.assignTaskToMeAndTriggerNextSteps(page, "Review Referral #1 - ET1", "Reply to the Referral");
@@ -68,7 +66,7 @@ test.describe('Work Allocation', () => {
             ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
         });
 
-        test('Judge completes Draft and sign document task', {tag: '@demo'}, async ({ page,caseListPage, listHearingPage, hearingDetailsPage, loginPage, draftJudgementPage }) => {
+        test('Judge completes Draft and sign document task', async ({ page,caseListPage, listHearingPage, hearingDetailsPage, loginPage, draftJudgementPage }) => {
 
             //list past hearing
             await caseListPage.selectNextEvent('List Hearing');
@@ -84,11 +82,10 @@ test.describe('Work Allocation', () => {
 
             //login as judge and assign a task
             await loginPage.processLogin(params.TestEnvETJudgeUserWorkAllocation, params.TestEnvETJudgeUserPasswordWorkAllocation);
-            await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-            await caseListPage.processCaseFromCaseList();
+            caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
             await caseListPage.clickTab('Tasks');
 
-            await Helpers.assignTaskToMeAndTriggerNextSteps(page, "Draft And Sign Judgment", 'Draft and Sign Judgement');
+            await Helpers.assignTaskToMeAndTriggerNextSteps(page, "Draft And Sign Judgment", 'Draft and Sign Judgment');
             await draftJudgementPage.submitDraftJudgement();
         });
     });

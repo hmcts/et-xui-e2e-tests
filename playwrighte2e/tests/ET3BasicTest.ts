@@ -10,11 +10,11 @@ const lastName = 'Becker';
 
 
 test.describe('ET3/Respondent Journey', () => {
-  test.beforeEach(async ({ page, createCaseStep }) => {
-    ({ subRef, caseNumber } = await createCaseStep.setupCUICaseCreatedViaApi(page, true, true));
+  test.beforeEach(async ({ page, createCaseStep, axeUtils }) => {
+    ({ subRef, caseNumber } = await createCaseStep.setupCUICaseCreatedViaApi(page, true, true,axeUtils));
   });
 
-  test('Respondent Assign a claim (ET3)', { tag: '@demo' }, async ({ et3LoginPage, responseLandingPage, respContactDetailsPages, respClaimantDetails, respContestClaim, respSubmitEt3}) => {
+  test('Respondent Assign a claim (ET3)', async ({ et3LoginPage, responseLandingPage, respContactDetailsPages, respClaimantDetails, respContestClaim, respSubmitEt3}) => {
     //Assign a claim to respondent
     await et3LoginPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
     await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);

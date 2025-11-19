@@ -1,10 +1,8 @@
 import { test } from '../fixtures/common.fixture';
 import { params } from '../utils/config';
 
-
 let caseNumber: any;
 let subRef;
-
 
 test.describe('ET3/Respondent Journey validates respondent/claimant details', () => {
   test.beforeEach(async ({ page, createCaseStep }) => {
@@ -12,12 +10,11 @@ test.describe('ET3/Respondent Journey validates respondent/claimant details', ()
   });
 
   //RET-5516
-  test('Citizen user validates respondent contact details', {tag: '@demo'}, async ({page, loginPage,caseListPage, respondentDetailsPage, citizenHubPage }) => {
+  test('Citizen user validates respondent contact details', async ({page, loginPage,caseListPage, respondentDetailsPage, citizenHubPage }) => {
     //caseworker completes respondent details
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef.toString());
-    caseNumber = await caseListPage.processCaseFromCaseList();
+    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
 
     await caseListPage.selectNextEvent('Respondent Details');
     await respondentDetailsPage.processRespondentDetailsET3(true);
@@ -35,13 +32,11 @@ test.describe('ET3/Respondent Journey validates respondent/claimant details', ()
   test('Respondent validates claimant contact details', {tag: '@demo'}, async ({ page, loginPage, caseListPage, respondentCaseOverviewPage , et3LoginPage}) => {
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef.toString());
-    caseNumber = await caseListPage.processCaseFromCaseList();
+    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
     await caseListPage.signoutButton();
 
     //Assign a claim to respondent
     await et3LoginPage.processRespondentLoginForExistingCase(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
     await respondentCaseOverviewPage.validateRespondentClaimantContactDetailsPage();
   });
-
 });

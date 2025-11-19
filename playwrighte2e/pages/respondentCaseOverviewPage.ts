@@ -77,6 +77,81 @@ export default class RespondentCaseOverviewPage extends BasePage {
         await expect(this.page.locator('#main-content')).toContainText('Your request and applications');
     }
 
+  async unrepresentedRespondentMakeApplication(option, copyToCorrespondenceFlag) {
+
+    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
+    await this.webActions.verifyElementContainsText(this.page.locator('h3'), 'The tribunal has acknowledged a claim against');
+
+    await this.webActions.clickElementByRole('link', {name: 'Contact the tribunal about my case'});
+    await expect(this.page.locator('#contact-options')).toContainText('Show all sections');
+    switch (option) {
+
+      case 'Rule92':
+        await this.webActions.clickElementByRole('button', { name: 'I want to change my personal details ,' });
+        await this.webActions.clickElementByRole('link', { name: 'I want to change my personal details' });
+        break;
+      default:
+        throw new Error('... Incorrect input, select correct application type');
+    }
+    await this.page.locator('#contactApplicationText').isVisible();
+
+    // await this.page.getByRole('textbox', { name: 'Document' }).setInputFiles('empty.pdf');
+
+    await this.page.setInputFiles('#contactApplicationFile',`test/data/test.txt`);
+    await this.webActions.clickElementByRole('button', { name: 'Upload file' });
+    await expect(this.page.locator('#contactApplicationFile-hint')).toContainText('You have previously uploaded: test.txt');
+
+
+    await this.webActions.fillField('#contactApplicationText', 'this is unrepresented respondent application');
+    await this.clickContinue();
+
+    // RET-5466
+    if (copyToCorrespondenceFlag) {
+      await this.page.locator('#copyToOtherPartyYesOrNo').isVisible();
+      await this.webActions.checkElementByLabel('Yes, I confirm I will copy this correspondence to the other party to satisfy the Employment Tribunal Rules of Procedure.');
+      await this.clickContinue();
+      await this.page.waitForSelector('text=Check your answers');
+      await this.webActions.clickElementByRole('button', { name: 'Store application' });
+      await expect(this.page.locator('h1')).toContainText('You have stored your application');
+      await this.closeAndReturn();
+    } else {
+      await this.page.locator('#copyToOtherPartyYesOrNo-2').isVisible();
+      await this.webActions.checkElementByLabel('No, I do not want to copy this correspondence to the other party.');
+      await this.webActions.fillField('#copyToOtherPartyText',"This is Correspondence No test");
+      await this.clickContinue();
+      await this.page.waitForSelector('text=Check your answers');
+      await this.submitButton();
+      await expect(this.page.locator('h1')).toContainText('You have sent your application to the tribunal');
+      await this.closeAndReturn();
+    }
+    await expect(this.page.locator('#main-content')).toContainText('Your request and applications');
+  }
+
+  async unrepresentedRespondentValidateApplication(copyToCorrespondenceFlag:boolean){
+      if(copyToCorrespondenceFlag){
+        await expect(this.page.getByText('You have stored correspondence which you have not submitted to the tribunal')).toBeVisible();
+        await this.webActions.clickElementByRole('link', { name: 'Your request and applications' });
+        await expect(this.page.getByRole('caption')).toContainText('Your applications to the tribunal');
+        await expect(this.page.locator('tbody')).toContainText("Stored");
+        //RET-5975
+        await this.webActions.clickElementByRole('link', { name: 'Change my personal details' });
+        await expect(this.page.locator('h1')).toContainText('Change my personal details')
+        await this.webActions.checkElementById('#confirmCopied');
+        await this.submitButton();
+        await expect(this.page.locator('h1')).toContainText('You have sent your application to the tribunal');
+        await this.closeAndReturn();
+        await expect(this.page.locator('#main-content')).toContainText('Your request and applications');
+        await this.webActions.clickElementByRole('link', { name: 'Your request and applications' });
+        await expect(this.page.getByRole('caption')).toContainText('Your applications to the tribunal');
+        await expect(this.page.locator('tbody')).toContainText('In progress');
+      } else {
+        await this.webActions.clickElementByRole('link', { name: 'Your request and applications' });
+        await expect(this.page.getByRole('caption')).toContainText('Your applications to the tribunal');
+        await expect(this.page.locator('tbody')).toContainText('In progress');
+      }
+
+    }
+
 
     async validateApplication(option){
         await this.webActions.clickElementByRole('link', { name: 'Your request and applications' });

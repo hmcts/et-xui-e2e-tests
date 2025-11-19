@@ -8,12 +8,11 @@ let caseNumber;
 
 test.describe('Upload Hearing Bundle as a Caseworker', () => {
   test.beforeEach(async ({ page, createCaseStep }) => {
-
-    await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales");
+    ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
   });
 
   //RET-5927
-  test.skip('Caseworker uploads hearing bundle', async ({ caseListPage, uploadHearingBundlePage, et1CaseServingPage, listHearingPage, page, loginPage, legalRepPage}) => {
+  test('Caseworker uploads hearing bundle', async ({ caseListPage, uploadHearingBundlePage, et1CaseServingPage, listHearingPage, page, loginPage, legalRepPage}) => {
 
     //Retrieve claimant's first name and last name for NoC
     const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
@@ -27,9 +26,8 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
     await page.click('text=Sign out');
 
     await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-    await legalRepPage.processNOC('Eng/Wales - Singles', subRef, respondentName, firstName, lastName);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-    await caseListPage.processCaseFromCaseList();
+    await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
+    await  caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
     await caseListPage.selectNextEvent('Upload Hearing Documents');
     await uploadHearingBundlePage.uploadHearingBundleDocuments();
     await caseListPage.navigateToTab('Hearing Documents');

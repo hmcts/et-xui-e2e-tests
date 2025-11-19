@@ -13,7 +13,7 @@ test.describe('perform NOC for Claimant', () => {
   });
 
   //RET-5954
-  test.skip('Caseworker assigns a claimant representative via manage case',
+  test('Caseworker assigns a claimant representative via manage case',
     async ({ page, caseListPage, claimantRepresentativePage, citizenHubPage }) => {
       //Caseworker assign a claimant representative
       await caseListPage.selectNextEvent('Claimant Representative');

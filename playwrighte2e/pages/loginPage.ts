@@ -19,12 +19,10 @@ export default class LoginPage extends BasePage{
     submit:this.page.locator('[type="submit"]')
   };
 
-
-
   async registerNewAccount() {
     try {
-      let firstName = faker.name.firstName();
-      let lastName = faker.name.lastName();
+      let firstName = faker.person.firstName();
+      let lastName = faker.person.lastName();
       var lastFour = Math.floor(1000 + Math.random() * 9000);
       let emailAddress = firstName + '.' + lastName + lastFour + '@justice.gov.uk';
       let idamData = JSON.stringify({
@@ -54,7 +52,7 @@ export default class LoginPage extends BasePage{
       return error.message;
     }
   }
-  
+
   async processLoginWithNewAccount() {
     global.newUserEmail = await this.registerNewAccount();
     console.log('.... checking email address:', global.newUserEmail);

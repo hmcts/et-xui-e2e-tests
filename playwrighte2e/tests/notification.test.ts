@@ -6,8 +6,8 @@ import {params} from "../utils/config";
 let caseNumber: any;
 let subRef;
 
-test.beforeEach(async ({ page, createCaseStep}) => {
-    ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, true));
+test.beforeEach(async ({ page, createCaseStep, axeUtils }) => {
+    ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, true, axeUtils));
 });
 
 test.describe('Notification', () => {

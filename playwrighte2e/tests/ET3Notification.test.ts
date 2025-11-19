@@ -6,6 +6,7 @@ let caseNumber: any;
 let subRef;
 
 test.describe('ET3 Notification', () => {
+  test.describe.configure({ mode: 'default' });
   test.beforeEach(async ({ page, createCaseStep }) => {
     subRef = await createCaseStep.setupCUIcaseVetAndAcceptViaApi(page, true);
    //  subRef = '1752767563027673';
@@ -21,8 +22,7 @@ test.describe('ET3 Notification', () => {
                                                                                      }) => {
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef.toString());
-    caseNumber = await caseListPage.processCaseFromCaseList();
+    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
 
     //reject ET3 Response
     await caseListPage.selectNextEvent('Respondent Details');
@@ -43,8 +43,7 @@ test.describe('ET3 Notification', () => {
                                                                                       }) => {
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef.toString());
-    caseNumber = await caseListPage.processCaseFromCaseList();
+    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
 
     //reject ET3 Response
     await caseListPage.selectNextEvent('Respondent Details');
@@ -65,9 +64,7 @@ test.describe('ET3 Notification', () => {
                                                                        }) => {
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef.toString());
-    caseNumber = await caseListPage.processCaseFromCaseList();
-
+    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
 
     //attempt to send ET3 notification
     await caseListPage.selectNextEvent('ET3 notification');

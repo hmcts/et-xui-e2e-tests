@@ -1,161 +1,160 @@
 import { BasePage } from './basePage';
-import { params } from "../utils/config";
-import { expect, Page } from '@playwright/test';
-import axeTest from '../helpers/accessibilityHelper';
+import { params } from '../utils/config';
+import { expect } from '@playwright/test';
+import { AxeUtils } from '@hmcts/playwright-common';
 const respondentName = 'Mrs Test Auto';
 
 export class LegalRepPage extends BasePage {
-
-
-    applyButtonOnLegalRep = '.workbasket-filters-apply';
-    manageCasesLinkLegalRep = '[aria-label="Manage Cases"]';
-    // @ts-ignore
+  applyButtonOnLegalRep = '.workbasket-filters-apply';
+  manageCasesLinkLegalRep = '[aria-label="Manage Cases"]';
+  // @ts-ignore
   continueButton = '.button';
-    nocLinkLegalRep = '//a[contains(.,"Notice of change")]';
-    continueLegalRepButton = '//button[@class="button"]';
-    submitButtonLegalRep = '//button[@class="button"]';
-    caseidFilfield = '#caseRef';
-    respondentDetailsLegalRep = '#respondentName';
-    fieldSetLegalRep = '#fieldset-q-and-a-form';
-    caseReference = '#caseReference';
-    claimantLastNamelegalRep = '#claimantLastName';
-    detailConfirmationCheckbox = '#affirmation';
-    notifyPartyCheckbox = '#notifyEveryParty';
-    confirmdiv = 'affirmation-section';
-    linkToCasesLegalRep = '.hmcts-header__link';
-    caseListText = 'Case list';
-    caseTypeDropdown = '#wb-case-type';
-    manageCasesLink = '.hmcts-header__link';
-    prepareDocContinueButton = '[type="submit"]';
-    changeDocuUploaded = '[aria-label="Change Upload document"]';
-    submissionReferenceLocator = '#feeGroupReference';
-    respondentTextfield = '#respondent';
-    applyButton = '[aria-label="Apply filter"]';
-    resetButton = '[aria-label="Reset filter"]';
-    nextEventDropdown = '#next-step';
-    submitEventButton = '[type="submit"]';
-    successfulMessageHeader = '//h1[@class="govuk-panel__title"]';
-    prepareDocPageTwoHeader = '.govuk-heading-l';
-    prepDecYesOption = '#bundlesRespondentAgreedDocWith-Yes';
-    prepDocAgreeWithRes = '#bundlesRespondentAgreedDocWith-But';
-    prepDocAgreeWithResTextField = '#bundlesRespondentAgreedDocWithBut';
-    prepDocNoAgreement = '#bundlesRespondentAgreedDocWith-No';
-    prepDocNoAgreementTextField = '#bundlesRespondentAgreedDocWithNo';
-    selectHearingFromDropdown = '#bundlesRespondentSelectHearing';
-    respondentDocOnly = '#bundlesRespondentWhoseDocuments div:nth-of-type(1) > .form-control';
-    bothPartiesDoc = '#bundlesRespondentWhoseDocuments div:nth-of-type(2) > .form-control';
-    hearingDocumentIncludingWitnessStatement = '#bundlesRespondentWhatDocuments div:nth-of-type(1) > .form-control';
-    supplementaryHearingDocument = '#bundlesRespondentWhatDocuments div:nth-of-type(2) > .form-control';
-    witnessStatementOnly = '#bundlesRespondentWhatDocuments div:nth-of-type(3) > .form-control';
-    uploadBundleDocument = '#bundlesRespondentUploadFile';
-    legalRepSubmit = '[type="submit"]';
-    successfulmsgHeader = '.heading-h1';
-    hearingTabLegalRep = '//div[8]';
-    // @ts-ignore
+  nocLinkLegalRep = '//a[contains(.,"Notice of change")]';
+  continueLegalRepButton = '//button[@class="button"]';
+  submitButtonLegalRep = '//button[@class="button"]';
+  caseidFilfield = '#caseRef';
+  respondentDetailsLegalRep = '#respondentName';
+  fieldSetLegalRep = '#fieldset-q-and-a-form';
+  caseReference = '#caseReference';
+  claimantFirstNamelegalRep = '#claimantFirstName';
+  claimantLastNamelegalRep = '#claimantLastName';
+  detailConfirmationCheckbox = '#affirmation';
+  notifyPartyCheckbox = '#notifyEveryParty';
+  confirmdiv = 'affirmation-section';
+  linkToCasesLegalRep = '.hmcts-header__link';
+  caseListText = 'Case list';
+  caseTypeDropdown = '#wb-case-type';
+  manageCasesLink = '.hmcts-header__link';
+  prepareDocContinueButton = '[type="submit"]';
+  changeDocuUploaded = '[aria-label="Change Upload document"]';
+  submissionReferenceLocator = '#feeGroupReference';
+  respondentTextfield = '#respondent';
+  applyButton = '[aria-label="Apply filter"]';
+  resetButton = '[aria-label="Reset filter"]';
+  nextEventDropdown = '#next-step';
+  submitEventButton = '[type="submit"]';
+  successfulMessageHeader = '//h1[@class="govuk-panel__title"]';
+  prepareDocPageTwoHeader = '.govuk-heading-l';
+  prepDecYesOption = '#bundlesRespondentAgreedDocWith-Yes';
+  prepDocAgreeWithRes = '#bundlesRespondentAgreedDocWith-But';
+  prepDocAgreeWithResTextField = '#bundlesRespondentAgreedDocWithBut';
+  prepDocNoAgreement = '#bundlesRespondentAgreedDocWith-No';
+  prepDocNoAgreementTextField = '#bundlesRespondentAgreedDocWithNo';
+  selectHearingFromDropdown = '#bundlesRespondentSelectHearing';
+  respondentDocOnly = '#bundlesRespondentWhoseDocuments div:nth-of-type(1) > .form-control';
+  bothPartiesDoc = '#bundlesRespondentWhoseDocuments div:nth-of-type(2) > .form-control';
+  hearingDocumentIncludingWitnessStatement = '#bundlesRespondentWhatDocuments div:nth-of-type(1) > .form-control';
+  supplementaryHearingDocument = '#bundlesRespondentWhatDocuments div:nth-of-type(2) > .form-control';
+  witnessStatementOnly = '#bundlesRespondentWhatDocuments div:nth-of-type(3) > .form-control';
+  uploadBundleDocument = '#bundlesRespondentUploadFile';
+  legalRepSubmit = '[type="submit"]';
+  successfulmsgHeader = '.heading-h1';
+  hearingTabLegalRep = '//div[8]';
+  // @ts-ignore
   closeAndReturnButton = '[type="submit"]';
-    loadingSpinner = '.spinner-container';
-    legalRepNotificationTab = '#mat-tab-label-0-6';
-    viewJudgmentOrderOrNotificationLink = '//a[.="View a judgment, order or notification"]';
-    viewAnApplicationLink = '//a[.="View an application"]'
-    selectJudgmentOrderorNotificationDropdown = '#pseRespondentSelectJudgmentOrderNotification';
-    viewApplicationDropdown = '#tseViewApplicationSelect';
-    lrRespondToTribunal = '//a[.="Respond to an order or request from the tribunal"]';
-    responseNotificationDropdown = '#pseRespondentSelectOrderOrRequest';
-    casedetailsEditForm = '#caseEditForm';
-    lrAddCommentToResponse = '#pseRespondentOrdReqResponseText';
-    noSupportingMaterial = '#pseRespondentOrdReqHasSupportingMaterial_No';
-    legalRepYesOptionR92 = '#pseRespondentOrdReqCopyToOtherParty-Yes';
-    et3respondentFormDropdown = '#submitEt3Respondent';
-    contractClaimCorrectYesButton = '#et3ResponseIsClaimantNameCorrect_Yes';
-    respondentLegalname = '#et3ResponseRespondentLegalName';
-    et3postCodeInput = '#et3RespondentAddress_et3RespondentAddress_postcodeInput';
-    findAddressButton = '//button[@class="button button-30"]';
-    addressListDropdown = '#et3RespondentAddress_et3RespondentAddress_addressList';
-    et3ContactPreferenceEmail = '#et3ResponseContactPreference-Email';
-    hearingAttendanceRepresentative = '[field_id="et3ResponseHearingRepresentative"] [value="Phone hearings"]';
-    hearingAttendanceRespondent = '[field_id="et3ResponseHearingRespondent"] [value="Video hearings"]';
-    mentalHealthIssueNo = '#et3ResponseRespondentSupportNeeded-No';
-    cyaFirstChange = '[aria-label="Change Select which respondent this ET3 is for"]';
-    employmentDetailLink = '//a[.="ET3 - Employment Details"]';
-    whichRespondentDropdown = '#et3RepresentingRespondent_0_dynamicList';
-    respondentMultipleYes = '#et3ResponseMultipleSites_Yes';
-    claimantDateOfEmploymentCorrectYes = '#et3ResponseAreDatesCorrect-Yes';
-    employmentContinuingYes = '#et3ResponseContinuingEmployment-Yes';
-    jobTitleCorrectYes = '#et3ResponseIsJobTitleCorrect-Yes';
-    weeklyWorkingCorrectYes = '#et3ResponseClaimantWeeklyHours-Yes';
-    earningDetailsCorrectYes = '#et3ResponseEarningDetailsCorrect-Yes';
-    noticeCorrectYes = '#et3ResponseIsNoticeCorrect-Yes';
-    responsePensionDetailCorrectYes = '#et3ResponseIsPensionCorrect-Yes';
-    responseDetailLink = '//a[.="ET3 - Response Details"]';
-    respondentDetailDropDownList = '#et3RepresentingRespondent_0_dynamicList';
-    acasReconciliationOption = '#et3ResponseAcasAgree_Yes';
-    respondentContestClaim = '#et3ResponseRespondentContestClaim-No';
-    employmentContractClaimYes = '#et3ResponseEmployerClaim_Yes';
-    eccTextField = '#et3ResponseEmployerClaimDetails';
-    et3EccUploadButton = '#et3ResponseEmployerClaimDocument';
-    changeButtonOneCyaRespondentDetail = '[aria-label="Change Select which Respondent this ET3 Form is for"]';
-    closeReturnToCaseDetails = '//button[@class="button"]';
-    selectCompletedDraftET3 = '#submitEt3Respondent';
-    checkConfirmationCheckbox = '#confirmEt3Submit-Yes';
-    makeAnApplicationLink = '//a[.="Make an application"]';
-    uploadDocumentContactTribunal = '#resTseDocument1';
-    textArea= '#resTseTextBox1';
-    applicationTypeDropDown = '#resTseSelectApplication';
-    YesCorrespondenceRadioOption = '#resTseCopyToOtherPartyYesOrNo-Yes';
-    checkYourAnswerHeading = '//h2[@class="heading-h2 ng-star-inserted"]';
-    applicationTab = '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Applications"]';
-    expandImgIcon = 'div a img';
+  loadingSpinner = '.spinner-container';
+  legalRepNotificationTab = '#mat-tab-label-0-6';
+  viewJudgmentOrderOrNotificationLink = '//a[.="View a judgment, order or notification"]';
+  viewAnApplicationLink = '//a[.="View an application"]';
+  selectJudgmentOrderorNotificationDropdown = '#pseRespondentSelectJudgmentOrderNotification';
+  viewApplicationDropdown = '#tseViewApplicationSelect';
+  lrRespondToTribunal = '//a[.="Respond to an order or request from the tribunal"]';
+  responseNotificationDropdown = '#pseRespondentSelectOrderOrRequest';
+  casedetailsEditForm = '#caseEditForm';
+  lrAddCommentToResponse = '#pseRespondentOrdReqResponseText';
+  noSupportingMaterial = '#pseRespondentOrdReqHasSupportingMaterial_No';
+  legalRepYesOptionR92 = '#pseRespondentOrdReqCopyToOtherParty-Yes';
+  et3respondentFormDropdown = '#submitEt3Respondent';
+  contractClaimCorrectYesButton = '#et3ResponseIsClaimantNameCorrect_Yes';
+  respondentLegalname = '#et3ResponseRespondentLegalName';
+  et3postCodeInput = '#et3RespondentAddress_et3RespondentAddress_postcodeInput';
+  findAddressButton = '//button[@class="button button-30"]';
+  addressListDropdown = '#et3RespondentAddress_et3RespondentAddress_addressList';
+  et3ContactPreferenceEmail = '#et3ResponseContactPreference-Email';
+  hearingAttendanceRepresentative = '[field_id="et3ResponseHearingRepresentative"] [value="Phone hearings"]';
+  hearingAttendanceRespondent = '[field_id="et3ResponseHearingRespondent"] [value="Video hearings"]';
+  mentalHealthIssueNo = '#et3ResponseRespondentSupportNeeded-No';
+  cyaFirstChange = '[aria-label="Change Select which respondent this ET3 is for"]';
+  employmentDetailLink = '//a[.="ET3 - Employment Details"]';
+  whichRespondentDropdown = '#et3RepresentingRespondent_0_dynamicList';
+  respondentMultipleYes = '#et3ResponseMultipleSites_Yes';
+  claimantDateOfEmploymentCorrectYes = '#et3ResponseAreDatesCorrect-Yes';
+  employmentContinuingYes = '#et3ResponseContinuingEmployment-Yes';
+  jobTitleCorrectYes = '#et3ResponseIsJobTitleCorrect-Yes';
+  weeklyWorkingCorrectYes = '#et3ResponseClaimantWeeklyHours-Yes';
+  earningDetailsCorrectYes = '#et3ResponseEarningDetailsCorrect-Yes';
+  noticeCorrectYes = '#et3ResponseIsNoticeCorrect-Yes';
+  responsePensionDetailCorrectYes = '#et3ResponseIsPensionCorrect-Yes';
+  responseDetailLink = '//a[.="ET3 - Response Details"]';
+  respondentDetailDropDownList = '#et3RepresentingRespondent_0_dynamicList';
+  acasReconciliationOption = '#et3ResponseAcasAgree_Yes';
+  respondentContestClaim = '#et3ResponseRespondentContestClaim-No';
+  employmentContractClaimYes = '#et3ResponseEmployerClaim_Yes';
+  eccTextField = '#et3ResponseEmployerClaimDetails';
+  et3EccUploadButton = '#et3ResponseEmployerClaimDocument';
+  changeButtonOneCyaRespondentDetail = '[aria-label="Change Select which Respondent this ET3 Form is for"]';
+  closeReturnToCaseDetails = '//button[@class="button"]';
+  selectCompletedDraftET3 = '#submitEt3Respondent';
+  checkConfirmationCheckbox = '#confirmEt3Submit-Yes';
+  makeAnApplicationLink = '//a[.="Make an application"]';
+  uploadDocumentContactTribunal = '#resTseDocument1';
+  textArea = '#resTseTextBox1';
+  applicationTypeDropDown = '#resTseSelectApplication';
+  YesCorrespondenceRadioOption = '#resTseCopyToOtherPartyYesOrNo-Yes';
+  checkYourAnswerHeading = '//h2[@class="heading-h2 ng-star-inserted"]';
+  applicationTab =
+    '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Applications"]';
+  expandImgIcon = 'div a img';
 
+  async loadExistingApplications(option: string) {
+    await this.page.reload();
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 30000);
+    await this.webActions.clickElementByCss(this.manageCasesLinkLegalRep);
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseTypeDropdown), 30000);
 
-    async loadExistingApplications(option: string) {
-        await this.page.reload();
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 30000);
-        await this.webActions.clickElementByCss(this.manageCasesLinkLegalRep);
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseTypeDropdown), 30000);
+    await this.page.reload();
+    await this.page.waitForTimeout(5000);
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.resetButton), 35000);
 
-        await this.page.reload();
-        await this.page.waitForTimeout(5000);
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.resetButton), 35000);
-
-        await this.page.waitForSelector(`text=${this.caseListText}`);
-        await this.page.waitForTimeout(5000);
-        try {
-            switch (option) {
-                case 'Eng/Wales - Singles':
-                    await this.webActions.selectByLabelFromDropDown(this.caseTypeDropdown, 'Eng/Wales - Singles');
-                    break;
-                case 'Scotland':
-                case 'Scotland - Singles':
-                    await this.webActions.selectByLabelFromDropDown(this.caseTypeDropdown, 'Scotland - Singles (RET)');
-                    break;
-                default:
-                    throw new Error('... check your options or add new option');
-            }
-        } catch (error) {
-            console.error('invalid option', error.message);
-        }
-        await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-        await this.page.waitForTimeout(3000);
-        await this.webActions.clickElementByCss(this.applyButton);
+    await this.page.waitForSelector(`text=${this.caseListText}`);
+    await this.page.waitForTimeout(5000);
+    try {
+      switch (option) {
+        case 'Eng/Wales - Singles':
+          await this.webActions.selectByLabelFromDropDown(this.caseTypeDropdown, 'Eng/Wales - Singles');
+          break;
+        case 'Scotland':
+        case 'Scotland - Singles':
+          await this.webActions.selectByLabelFromDropDown(this.caseTypeDropdown, 'Scotland - Singles (RET)');
+          break;
+        default:
+          throw new Error('... check your options or add new option');
+      }
+    } catch (error) {
+      console.error('invalid option', error.message);
     }
+    await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await this.page.waitForTimeout(3000);
+    await this.webActions.clickElementByCss(this.applyButton);
+  }
 
-    async processNOCForClaimantOrRespondent(option: string, submissionReference: string, caseReference: string, ClaimantFirstName: string, ClaimantLastName: string, accessibilityEnabled?: boolean, isRespondent?:boolean) {
+    async processNOCForClaimantOrRespondent(option: string, submissionReference: string, caseReference: string, ClaimantFirstName: string, ClaimantLastName: string, accessibilityEnabled?: boolean, isRespondent?:boolean,axeUtils?: AxeUtils) {
         await this.loadExistingApplications(option);
         await this.page.reload();
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 25000);
 
-        if(accessibilityEnabled) axeTest(this.page);
-        await this.webActions.clickElementByCss(this.nocLinkLegalRep);
-        await this.page.waitForTimeout(10000);
+    if (accessibilityEnabled) await axeUtils.audit();
+    await this.webActions.clickElementByCss(this.nocLinkLegalRep);
+    await this.page.waitForTimeout(10000);
 
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseidFilfield), 10000);
-        if(accessibilityEnabled) axeTest(this.page);
+        if(accessibilityEnabled) await axeUtils.audit();
         await this.webActions.fillField(this.caseidFilfield, submissionReference);
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
 
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.fieldSetLegalRep), 10000);
-        if(accessibilityEnabled) axeTest(this.page)
+        if(accessibilityEnabled) await axeUtils.audit();
       if (isRespondent){
         //enter respondent details for NOC
         await this.webActions.fillField(this.respondentDetailsLegalRep, respondentName);
@@ -175,11 +174,11 @@ export class LegalRepPage extends BasePage {
         await this.page.waitForTimeout(2000);
         await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
 
-        if(accessibilityEnabled) axeTest(this.page);
+        if(accessibilityEnabled) axeUtils.audit();
         await this.webActions.clickElementByCss(this.submitButtonLegalRep);
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.successfulMessageHeader), 20000);
 
-        await this.page.goto(`${params.TestUrlForManageCaseAAT}/cases/case-details/${submissionReference}`);
+        await this.page.goto(`${params.TestUrlForManageCaseAAT}/case-details/EMPLOYMENT/ET_EnglandWales/${submissionReference}`);
         await this.page.waitForTimeout(10000);
     }
 
@@ -443,7 +442,7 @@ export class LegalRepPage extends BasePage {
         await this.page.click(this.continueLegalRepButton);
     }
 
-async legalRepViewJudgmentOrderorNotification() {
+  async legalRepViewJudgmentOrderorNotification() {
     await this.page.waitForSelector(this.viewJudgmentOrderOrNotificationLink, { timeout: 10000 });
     await this.page.click(this.viewJudgmentOrderOrNotificationLink);
     await this.page.waitForSelector('text=View a judgment, order or notification');
@@ -472,25 +471,25 @@ async grantAccessToMultiples(caseNumber: string) {
     await this.page.click(this.continueLegalRepButton);
 }
 
-    async legalRepMakeAnApplication(accessibilityEnabled?: boolean) {
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.applicationTab), 20000);
-        await this.webActions.clickElementByCss(this.applicationTab);
-        await this.page.waitForTimeout(5000);
+  async legalRepMakeAnApplication(accessibilityEnabled?: boolean, axeUtils?: AxeUtils) {
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.applicationTab), 20000);
+    await this.webActions.clickElementByCss(this.applicationTab);
+    await this.page.waitForTimeout(5000);
 
-        await this.page.waitForSelector(this.makeAnApplicationLink);
-        if(accessibilityEnabled)  {
-            axeTest(this.page);
-            await this.delay(3000);
-        }
-        await this.webActions.clickElementByCss(this.makeAnApplicationLink);
-        await this.page.waitForTimeout(10000);
+    await this.page.waitForSelector(this.makeAnApplicationLink);
+    if (accessibilityEnabled) {
+      await axeUtils.audit();
+      await this.delay(3000);
+    }
+    await this.webActions.clickElementByCss(this.makeAnApplicationLink);
+    await this.page.waitForTimeout(10000);
 
-        await this.webActions.selectByOptionFromDropDown(this.applicationTypeDropDown, '1: Amend response');
-        if(accessibilityEnabled)  {
-            axeTest(this.page);
-            await this.delay(3000);
-        }
-        await this.webActions.clickElementByCss(this.continueLegalRepButton);
+    await this.webActions.selectByOptionFromDropDown(this.applicationTypeDropDown, '1: Amend response');
+    if (accessibilityEnabled) {
+      await axeUtils.audit();
+      await this.delay(3000);
+    }
+    await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.uploadDocumentContactTribunal), 30000);
         await this.page.setInputFiles(this.uploadDocumentContactTribunal, 'test/data/welshTest.pdf');
@@ -498,7 +497,7 @@ async grantAccessToMultiples(caseNumber: string) {
         await this.webActions.fillField(this.textArea, 'Make an application text');
         /* (Got accessibility error)
         if(accessibilityEnabled)  {
-             axeTest(this.page);
+             await axeUtils.audit();
              await this.delay(3000);
         } */
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
@@ -506,26 +505,25 @@ async grantAccessToMultiples(caseNumber: string) {
         await this.page.waitForSelector(this.YesCorrespondenceRadioOption);
         await this.webActions.checkElementById(this.YesCorrespondenceRadioOption);
         if(accessibilityEnabled)  {
-            axeTest(this.page);
+            await axeUtils.audit();
             await this.delay(3000);
         }
         await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
-        await this.page.waitForSelector(this.checkYourAnswerHeading);
-        if(accessibilityEnabled)  {
-            axeTest(this.page);
-            await this.delay(3000);
-        }
-        await this.webActions.clickElementByCss(this.submitButtonLegalRep);
-
-        await this.page.waitForSelector(this.closeAndReturnButton);
-        if(accessibilityEnabled)  {
-            axeTest(this.page);
-            await this.delay(3000);
-        }
-        await this.page.click(this.closeAndReturnButton);
-
+    await this.page.waitForSelector(this.checkYourAnswerHeading);
+    if (accessibilityEnabled) {
+      await axeUtils.audit();
+      await this.delay(3000);
     }
+    await this.webActions.clickElementByCss(this.submitButtonLegalRep);
+
+    await this.page.waitForSelector(this.closeAndReturnButton);
+    if (accessibilityEnabled) {
+      await axeUtils.audit();
+      await this.delay(3000);
+    }
+    await this.page.click(this.closeAndReturnButton);
+  }
 
     async legalRepViewApplication() {
         await this.webActions.clickElementByCss(this.applicationTab);

@@ -30,8 +30,7 @@ test.describe.serial('England - Referral test', () => {
 
         //judge logs in
         await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
-        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        await caseListPage.processCaseFromCaseList();
+        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         //Reply & verify a referral
         await referralSteps.processReferrals(referralData.replyToReferral,
@@ -50,8 +49,7 @@ test.describe.serial('England - Referral test', () => {
 
         //judge logs in
         await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
-        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        await caseListPage.processCaseFromCaseList();
+        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         // Close & verify a referral
         await referralSteps.processReferrals(referralData.closeReferral,

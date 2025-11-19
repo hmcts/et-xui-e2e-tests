@@ -34,7 +34,8 @@ test.describe('Various events in mange case application', () => {
     await icUploadDocPage.verifyJurisdictionCodeInICevent();
   });
 
-  test('Create a England/Wales claim and transfer to Scotland', {tag: '@demo'}, async ({ caseListPage, caseTransferPage }) => {
+  //EXUI-3451
+  test.skip('Create a England/Wales claim and transfer to Scotland', {tag: '@demo'}, async ({ caseListPage, caseTransferPage }) => {
     await caseListPage.selectNextEvent('Case Transfer (Scotland)');
     await caseTransferPage.progressCaseTransfer();
     await caseTransferPage.checkYourAnswer(caseNumber);
@@ -56,14 +57,16 @@ test.describe('Claimant retaining access to transferred case', () => {
     ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
 
   });
-  test('Create a England/Wales claim and transfer to Scotland, Claimant retains case', async ({ caseListPage, caseTransferPage, citizenHubPage }) => {
+
+  //EXUI-3451
+  test.skip('Create a England/Wales claim and transfer to Scotland, Claimant retains case', async ({ caseListPage, caseTransferPage, citizenHubPage }) => {
     await caseListPage.selectNextEvent('Case Transfer (Scotland)');
     await caseTransferPage.progressCaseTransfer();
     let newSubRef= await caseTransferPage.checkYourAnswer(caseNumber);
 
     //login as claimant and access transferred case
     await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
-    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(newSubRef);
   });
 
 });
@@ -80,9 +83,9 @@ test.describe('Various events in mange case application for Scotland case', () =
     await caseDetails.addVPCaseFlag();
   });
 
-  //RET-5931
+  //RET-5931, 5961
   test.skip('Add Case Notes', async ({ caseListPage, caseNotesPage }) => {
-    await caseListPage.selectNextEvent('Add Case Note');
+    await caseListPage.selectNextEvent('Add Telephone Note');
     await caseNotesPage.addCaseNotes();
   });
 });

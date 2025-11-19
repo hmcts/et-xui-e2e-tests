@@ -12,7 +12,7 @@ test.describe('Upload hearing docs test', () => {
     });
 
   //RET-5787
-    test.skip('for respondent - verify only future hearings are shown in options', {tag: '@demo'}, async ({ page, caseListPage, listHearingPage, et1CaseServingPage, loginPage, legalRepPage }) => {
+    test('for respondent - verify only future hearings are shown in options', {tag: '@demo'}, async ({ page, caseListPage, listHearingPage, et1CaseServingPage, loginPage, legalRepPage }) => {
 
         //Retrieve claimant's first name and last name for NoC
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
@@ -27,8 +27,7 @@ test.describe('Upload hearing docs test', () => {
 
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
         await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
-        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        await caseListPage.processCaseFromCaseList();
+        await  caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
         await caseListPage.selectNextEvent('Upload documents for hearing');
 
         //Verify only future hearings are shown in the options

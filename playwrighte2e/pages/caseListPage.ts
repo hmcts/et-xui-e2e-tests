@@ -3,7 +3,6 @@ import { expect } from "@playwright/test";
 import { params } from "../utils/config";
 import dateUtilComponent from "../utils/DateUtilComponent";
 
-
 const referralData = require('../data/ui-data/referral-content.json');
 
 export default class CaseListPage extends BasePage{
@@ -39,44 +38,49 @@ export default class CaseListPage extends BasePage{
 
   };
 
-    async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
-      await this.page.reload();
-      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseListLink));
+    async navigateToCaseDetails(subRef: string, option: string) {
+      await this.page.waitForLoadState();
+      const type = option === 'EnglandWales' ? 'ET_EnglandWales' : option === 'Scotland' ? 'Scotland' : '';
+      const url = `${params.TestUrlForManageCaseAAT}/case-details/EMPLOYMENT/${type}/${subRef}`;
+      await this.page.goto(url);
+      await this.page.waitForLoadState();
+      await expect(this.page.getByText(subRef)).toBeVisible();
 
-      await this.webActions.clickElementByCss(this.elements.caseListLink);
-      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseTypeDropdown));
-
-      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.applyButton));
-      await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Case list');
-      try {
-        switch (option) {
-          case 'Eng/Wales - Singles':
-            await this.webActions.selectByLabelFromDropDown(this.elements.caseTypeDropdown, 'Eng/Wales - Singles');
-            break;
-          case 'Scotland - Singles':
-            await this.webActions.selectByLabelFromDropDown(this.elements.caseTypeDropdown, 'Scotland - Singles (RET)');
-            break;
-          default:
-            throw new Error('... check you options or add new option');
-        }
-      } catch (error) {
-        console.error('invalid option', error.message);
-      }
-      await this.webActions.fillField(this.elements.submissionReferenceLocator, submissionReference);
-      await this.webActions.clickElementByCss(this.elements.applyButton);
-      await this.webActions.verifyElementContainsText(this.page.locator('#search-result'), submissionReference);
-    }
-
-
-    async processCaseFromCaseList() {
-      let caseNumber = await this.page.getByLabel('go to case with Case').allTextContents();
-      console.log('The value of the Case Number ' +caseNumber);
-      await this.delay(3000);
-      await this.webActions.clickElementByLabel('go to case with Case');
-
-      await expect(this.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText('Case Details');
+      const caseNumberText = await this.page.locator('h1', { hasText: 'Case Number:' }).textContent();
+      const match = caseNumberText?.match(/Case Number:(\d+\/\d+)/);
+      const caseNumber = match ? match[1] : null;
+      console.log('Navigated to case number: ' + caseNumber);
       return caseNumber;
     }
+
+    // needed for share case feature
+  async searchCaseApplicationWithSubmissionReference(option, submissionReference) {
+    await this.page.reload();
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseListLink));
+
+    await this.webActions.clickElementByCss(this.elements.caseListLink);
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseTypeDropdown));
+
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.applyButton));
+    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Case list');
+    try {
+      switch (option) {
+        case 'Eng/Wales - Singles':
+          await this.webActions.selectByLabelFromDropDown(this.elements.caseTypeDropdown, 'Eng/Wales - Singles');
+          break;
+        case 'Scotland - Singles':
+          await this.webActions.selectByLabelFromDropDown(this.elements.caseTypeDropdown, 'Scotland - Singles (RET)');
+          break;
+        default:
+          throw new Error('... check you options or add new option');
+      }
+    } catch (error) {
+      console.error('invalid option', error.message);
+    }
+    await this.webActions.fillField(this.elements.submissionReferenceLocator, submissionReference);
+    await this.webActions.clickElementByCss(this.elements.applyButton);
+    await this.webActions.verifyElementContainsText(this.page.locator('#search-result'), submissionReference);
+  }
 
     async checkAndShareCaseFromList(subRef){
       await this.page.locator('#select-'+subRef).check();
@@ -117,7 +121,6 @@ export default class CaseListPage extends BasePage{
       }
     }
 
-
   async claimantRepCreateCase(jurisdiction, caseType, postcode) {
       await this.webActions.clickElementByText(this.elements.createCaseLink);
       await this.webActions.selectByLabelFromDropDown(this.elements.jurisdictionDropdownLR, jurisdiction);
@@ -145,6 +148,11 @@ export default class CaseListPage extends BasePage{
         case "Respondent": {
             await this.webActions.clickElementByRole('tab', { name: 'Respondent', exact: true });
             break;
+        }
+        // When there is an ECC, the tab name for Respondent is appended with an s as the names can't be the same
+        case "Respondents": {
+          await this.webActions.clickElementByRole('tab', { name: 'Respondents', exact: true });
+          break;
         }
         case "Claimant": {
           await this.webActions.clickElementByRole('tab', { name: 'Claimant', exact: true });

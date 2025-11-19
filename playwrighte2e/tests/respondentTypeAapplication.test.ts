@@ -45,15 +45,11 @@ test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
     test('Respondent makes Type A Application, review Application and review Application Response task generated', async ({
                                                                                            page,
                                                                                            loginPage,
-                                                                                           caseListPage,
-                                                                                           et3LoginPage,
-                                                                                           respondentCaseOverviewPage,
-                                                                                           citizenHubPage
+                                                                                           caseListPage
                                                                                        }) => {
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        await caseListPage.processCaseFromCaseList();
+        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         await caseListPage.clickTab('Tasks');
         await Helpers.waitForTask(page, 'Review Application - Amend response');

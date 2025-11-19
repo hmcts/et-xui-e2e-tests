@@ -1,4 +1,4 @@
-
+import { test as base } from '@playwright/test';
 import { ApplicationTabPage } from '../pages/applicationTabPage';
 import CaseListPage from '../pages/caseListPage';
 import CreateCaseFlagPage from '../pages/createCaseFlag';
@@ -44,6 +44,8 @@ import Et3NotificationPage from '../pages/et3NotificationPage';
 import DocumentsTabPage from '../pages/documentsTabPage';
 import UploadHearingBundlePage from '../pages/uploadHearingBundlePage';
 import CaseNotesPage from '../pages/caseNotesPage';
+import CloseCasePage from '../pages/closeCasePage';
+import ReinstateCasePage from '../pages/reinstateCasePage';
 import ClaimantRepresentativePage from '../pages/claimantRepresentativePage';
 
 export type PageFixtures = {
@@ -94,9 +96,11 @@ export type PageFixtures = {
     uploadHearingBundlePage:UploadHearingBundlePage;
     caseNotesPage:CaseNotesPage;
     claimantRepresentativePage:ClaimantRepresentativePage;
+    closeCasePage:CloseCasePage;
+    reinstateCasePage:ReinstateCasePage;
 }
 
-export const pageFixtures = {
+export const pageFixtures = base.extend<PageFixtures>({
 
     applicationTabPage: async ({ page }, use) => {
         await use(new ApplicationTabPage(page));
@@ -274,6 +278,12 @@ export const pageFixtures = {
   },
   claimantRepresentativePage:async ({page}, use) => {
       await use(new ClaimantRepresentativePage(page));
+  },
+  closeCasePage:async({page}, use)=>{
+    await use(new CloseCasePage(page));
+  },
+  reinstateCasePage:async({page}, use)=>{
+    await use(new ReinstateCasePage(page));
   }
 
-};
+});

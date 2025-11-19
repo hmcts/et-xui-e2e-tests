@@ -14,7 +14,7 @@ test.describe('NOC Notification Banner', () => {
   });
 
   //RET-5419
-  test.skip('Perform NOC and validate the notification banner in CUI',
+  test('Perform NOC and validate the notification banner in CUI',
     async ({ page, et1CaseServingPage, loginPage, legalRepPage, citizenHubPage }) => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
@@ -33,7 +33,7 @@ test.describe('NOC Notification Banner', () => {
 
 
   //RET-5791
-  test.skip('Perform NOC and validate the notification banner in  Respondent UI',
+  test('Perform NOC and validate the notification banner in  Respondent UI',
     async ({ page, et1CaseServingPage, loginPage, legalRepPage, et3LoginPage }) => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
@@ -66,7 +66,7 @@ test.describe('Share case', () => {
   });
 
   //RET-5425
-  test.skip('Share case (respondent representative)',
+  test('Share case (respondent representative)',
     async ({ page, et1CaseServingPage, loginPage, legalRepPage, caseListPage, respondentRepPage }) => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
@@ -79,8 +79,7 @@ test.describe('Share case', () => {
       await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
       await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
       await caseListPage.checkAndShareCaseFromList(subRef);
-      await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-      await caseListPage.processCaseFromCaseList();
+      caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
 
       //validate share case details
       await caseListPage.navigateToTab('Respondent Representative');
@@ -88,7 +87,7 @@ test.describe('Share case', () => {
     });
 
   //RET-5425
-  test.skip('Share case (claimant representative)',
+  test('Share case (claimant representative)',
     async ({ page, et1CaseServingPage, loginPage, legalRepPage, caseListPage, respondentRepPage }) => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
@@ -101,8 +100,8 @@ test.describe('Share case', () => {
       await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
       await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
       await caseListPage.checkAndShareCaseFromList(subRef);
-      await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-      await caseListPage.processCaseFromCaseList();
+      caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
+
 
       //validate share case details
       await caseListPage.navigateToTab('Claimant Representative');
@@ -110,7 +109,7 @@ test.describe('Share case', () => {
     });
 
   //RET-5416
-  test.skip('Perform NOC and Remove claimant legal representative as a citizen, claimant reinstated case',
+  test('Perform NOC and Remove claimant legal representative as a citizen, claimant reinstated case',
     async ({ page, et1CaseServingPage, loginPage, legalRepPage, citizenHubPage }) => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');

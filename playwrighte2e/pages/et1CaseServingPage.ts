@@ -1,6 +1,6 @@
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
-import axeTest from "../helpers/accessibilityHelper";
+import { AxeUtils } from '@hmcts/playwright-common';
 const today = new Date();
 
 export default class Et1CaseServingPage extends BasePage {
@@ -13,8 +13,8 @@ export default class Et1CaseServingPage extends BasePage {
     date_accepted_year: '#dateAccepted-year',
   }
 
-  async processET1CaseServingPages(accessibilityEnabled?: boolean) {
-    if(accessibilityEnabled) await axeTest(this.page);
+  async processET1CaseServingPages(accessibilityEnabled?: boolean, axeUtils?: AxeUtils) {
+    if(accessibilityEnabled) await axeUtils.audit();
     await this.webActions.checkElementByLabel('Yes');
     await this.webActions.fillField(this.elements.date_accepted_day, String(today.getDate()));
     await this.webActions.fillField(this.elements.date_accepted_month, String(today.getMonth() +1));

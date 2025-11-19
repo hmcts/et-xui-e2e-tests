@@ -25,7 +25,9 @@ export default class RespondentRepPage extends BasePage {
     respReceivedMonth: '#responseReceivedDate-month',
     respReceivedYear: '#responseReceivedDate-year',
     respPostCode: '#respondentCollection_0_responseRespondentAddress_responseRespondentAddress_postcodeInput',
-    respAddressDropDown: '#respondentCollection_0_responseRespondentAddress_responseRespondentAddress_addressList'
+    respAddressDropDown: '#respondentCollection_0_responseRespondentAddress_responseRespondentAddress_addressList',
+    respEccYes: '#respondentCollection_0_respondentEcc_Yes',
+    respEccReplyYes:'#respondentCollection_0_respondentEccReply_Yes'
     //*[@id="mat-tab-label-0-5"]
   }
     async addRespondentRepresentative(regOption, orgName) {
@@ -76,6 +78,10 @@ export default class RespondentRepPage extends BasePage {
       await this.delay(2000);
       await this.webActions.selectByLabelFromDropDown(this.elements.respAddressDropDown, '68 East Wonford Hill, Exeter');
       await this.delay(2000);
+
+      await this.webActions.clickElementByCss(this.elements.respEccYes);
+      await this.delay(2000);
+      await this.webActions.clickElementByCss(this.elements.respEccReplyYes);
       await this.submitButton();
     }
 

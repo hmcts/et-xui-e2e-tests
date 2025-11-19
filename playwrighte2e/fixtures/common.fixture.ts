@@ -1,10 +1,6 @@
-import { test as baseTest } from '@playwright/test';
-import { PageFixtures, pageFixtures } from './page.fixture';
-import { StepFixtures, stepFixtures } from './step.fixture';
+import { mergeTests } from '@playwright/test';
+import { pageFixtures } from './page.fixture';
+import { stepFixtures } from './step.fixture';
+import { allyTest } from './axe-fixture';
 
-export type customFixtures = PageFixtures & StepFixtures;
-
-export const test = baseTest.extend<customFixtures>({
-    ...pageFixtures,
-    ...stepFixtures
-});
+export const test = mergeTests(pageFixtures, stepFixtures, allyTest);

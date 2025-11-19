@@ -65,6 +65,6 @@ export class WebAction {
     }
 
     async waitForLabelToBeVisible(labelName: string){
-        this.page.getByLabel(labelName).waitFor()
+        await this.page.getByLabel(labelName).waitFor()
     }
 }

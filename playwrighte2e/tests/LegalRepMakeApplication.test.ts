@@ -3,7 +3,7 @@ import { test } from '../fixtures/common.fixture';
 
 const respondentName = 'Mrs Test Auto';
 let subRef: string;
-let caseNumber;
+let caseNumber: string;
 
 test.describe('Make an application and view Recorded Decision', () => {
 
@@ -19,8 +19,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
         await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
-        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        caseNumber = await caseListPage.processCaseFromCaseList();
+        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         //legal rep make an application
         await legalRepPage.legalRepMakeAnApplication();
@@ -36,8 +35,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         //Case Worker Request for additional information (respond to claimant's response)
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        caseNumber = await caseListPage.processCaseFromCaseList();
+        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         await applicationTabPage.respondToAnApplication();
         await page.click('text=Sign out');
@@ -58,8 +56,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
         await legalRepPage.processNOCForClaimantOrRespondent  ('Eng/Wales - Singles', subRef, respondentName, firstName, lastName, false);
-        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        caseNumber = await caseListPage.processCaseFromCaseList();
+        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         //legal rep make an application
         await legalRepPage.legalRepMakeAnApplication();
@@ -68,8 +65,7 @@ test.describe('Make an application and view Recorded Decision', () => {
        //caseworker records a decision
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        await caseListPage.processCaseFromCaseList();
+        await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         await applicationTabPage.recordADecision();
         //Legal rep view decision in an application tab
@@ -91,8 +87,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         await page.goto(params.TestUrlForManageCaseAAT);
         await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
         await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, respondentName, firstName, lastName, true);
-        await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-        caseNumber = await caseListPage.processCaseFromCaseList();
+        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         //perform all ET3 events as a LR
         await caseListPage.selectNextEvent('ET3 - Respondent Details');
