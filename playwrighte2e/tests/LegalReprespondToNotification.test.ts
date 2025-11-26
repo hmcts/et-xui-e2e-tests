@@ -24,8 +24,7 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
     //caseworker send notification
     await page.goto(params.TestUrlForManageCaseAAT);
     await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-    await caseListPage.processCaseFromCaseList();
+    await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
     await notificationPage.selectNotificationLink();
     await notificationPage.sendNotification('ET1 claim');
@@ -33,8 +32,7 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
 
     //respond as a (claimant) Legal rep
     await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-    await caseListPage.processCaseFromCaseList();
+    await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
     //respond to an application
     await caseListPage.clickTab('Judgment');
@@ -55,8 +53,7 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
       //caseworker send notification
       await page.goto(params.TestUrlForManageCaseAAT);
       await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
-      await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-      await caseListPage.processCaseFromCaseList();
+      await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
       await notificationPage.selectNotificationLink();
       await notificationPage.sendNotification('ET1 claim');
@@ -64,8 +61,7 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
 
       //respond as a (respondent) Legal rep
       await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-      await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
-      await caseListPage.processCaseFromCaseList();
+      await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
       //respond to an application
       await caseListPage.clickTab('Judgment');
