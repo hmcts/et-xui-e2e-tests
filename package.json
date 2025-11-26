@@ -44,7 +44,7 @@
     "mocha": "11.7.2",
     "mocha-junit-reporter": "^2.2.1",
     "mocha-multi": "1.1.7",
-    "mochawesome": "7.1.3",
+    "mochawesome": "7.1.4",
     "openai": "^5.0.0",
     "prettier": "3.6.2",
     "totp-generator": "1.1.0",
