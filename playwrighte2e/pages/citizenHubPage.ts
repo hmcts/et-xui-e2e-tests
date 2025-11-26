@@ -21,7 +21,7 @@ export default class CitizenHubPage extends BasePage {
     supportingMaterialAttachment: '#supportingMaterialFile',
     uploadButton: '#upload',
     contactTribunalAboutMyCase: '[href="/contact-the-tribunal"]',
-    changeMyLegalRep: '[href="change-legal-representative"]',
+    changeMyLegalRep: '[href="/change-legal-representative"]',
     linkToET3Response: '[href="/case-document/response-from-respondent"]',
     contactTribunalLinkRegistered: '[href="/contact-the-tribunal"]',
     appointLegalRepLink:'[href="/appoint-legal-representative"]',

@@ -323,8 +323,9 @@ export default class CaseListPage extends BasePage{
     }
 
     async verifyAcasCertificateDetailsOnTab(documentValue: string, docTypeValue: string) {
+      await this.delay(2000)
       await expect(this.page
-        .locator(`//a[normalize-space()="${documentValue}"]`)).toBeVisible();
+        .locator(`//button[normalize-space()="${documentValue}"]`)).toBeVisible();
 
         await expect(this.page
           .locator(`//span[normalize-space()="${docTypeValue}"]`).first()).toBeVisible();
