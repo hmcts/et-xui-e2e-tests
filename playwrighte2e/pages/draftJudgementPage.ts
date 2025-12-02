@@ -12,7 +12,7 @@ export default class DraftJudgementPage extends BasePage {
 
     async submitDraftJudgement() {
 
-        await expect(this.page.getByText('Draft and Sign Judgment').nth(1)).toBeVisible();
+        await expect(this.page.getByText('Draft and Sign Judgment/Order').nth(1)).toBeVisible();
         await this.page.locator(this.elements.judgementYesEle).click();
 
         await this.addNewButtonClick();
