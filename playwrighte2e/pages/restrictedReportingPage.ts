@@ -48,7 +48,7 @@ export class RestrictedReportingPage extends BasePage {
         await this.delay(2000);
         await this.webActions.fillField(this.elements.restrictedReportingExcludedNames, 'Test Name');
         await this.webActions.clickElementByCss(this.elements.restrictedReportingDeletedPhyRegisterNo);
-        await this.submitButton();
+        await this.clickSubmitButton();
     }
 
     async verifyRule49BFlag(){

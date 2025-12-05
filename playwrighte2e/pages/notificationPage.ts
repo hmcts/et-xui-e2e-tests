@@ -57,7 +57,7 @@ export default class NotificationPage extends BasePage {
     }
     await this.webActions.checkElementByLabel('Both parties');
     await this.webActions.clickElementByRole('button', {name: 'Continue'});
-    await this.submitButton();
+    await this.clickSubmitButton();
     await this.webActions.clickElementByRole('button', {name: 'Close and Return to case'});
   }
 

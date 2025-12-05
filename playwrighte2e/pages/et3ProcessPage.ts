@@ -31,7 +31,7 @@ export default class ET3ProcessPage extends BasePage {
             ["Is the case listed for hearing?", '#et3IsCaseListedForHearing_No'],
             ["Is this location correct?", '#et3IsThisLocationCorrect-Yes']
           ]);
-    
+
         // @ts-ignore
       for (let [key, value] of elementMap) {
             await this.webActions.verifyElementContainsText(this.page.locator('legend span'), key, 3000);
@@ -48,7 +48,7 @@ export default class ET3ProcessPage extends BasePage {
         await this.webActions.verifyElementToBeVisible(this.page.locator('label span'));
         await this.clickContinue();
         await this.delay(2000);
-        await this.submitButton();
+        await this.clickSubmitButton();
 
         await this.webActions.verifyElementContainsText(this.page.locator('#confirmation-header markdown h1'), 'ET3 Processing complete', 10000);
         await this.closeAndReturn();

@@ -28,7 +28,7 @@ elements={
     await this.webActions.fillField('#hearingDetailsTimingFinish-hour', '');
     await this.webActions.fillField('#hearingDetailsTimingFinish-minute', '');
     await this.webActions.fillField('#hearingDetailsTimingFinish-second', '');
-    await this.submitButton();
+    await this.clickSubmitButton();
 
     await expect(this.page.locator('cut-alert')).toContainText('updated with event: Hearing Details');
   }

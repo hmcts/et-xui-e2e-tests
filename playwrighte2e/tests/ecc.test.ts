@@ -40,7 +40,7 @@ test.describe('ECC', () => {
       '#jurCodesCollection_2_judgmentOutcome',
       'Not allocated',
     );
-    await jurisdictionPage.submitButton();
+    await jurisdictionPage.clickSubmitButton();
     await expect(jurisdictionPage.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText(
       'Case Details',
     );
@@ -61,7 +61,7 @@ test.describe('ECC', () => {
       '#jurCodesCollection_1_judgmentOutcome',
       'Not allocated',
     );
-    await jurisdictionPage.submitButton();
+    await jurisdictionPage.clickSubmitButton();
     await expect(
       jurisdictionPage.page.getByText(
         "ECC jurisdiction code can only be added if there's a corresponding BOC jurisdiction code",
@@ -97,7 +97,7 @@ test.describe('ECC', () => {
     async ({ caseListPage, respondentDetailsPage }) => {
       await caseListPage.selectNextEvent('Respondent Details');
       await respondentDetailsPage.page.getByRole('group', { name: 'Is there an ECC?' }).getByLabel('Yes').check();
-      await respondentDetailsPage.submitButton();
+      await respondentDetailsPage.clickSubmitButton();
       await expect(caseListPage.page.getByRole('tab', { name: 'Respondents' })).toBeVisible();
       await caseListPage.navigateToTab('Respondents');
       await expect(caseListPage.page.getByText('Is there an ECC?', { exact: true })).toBeVisible();

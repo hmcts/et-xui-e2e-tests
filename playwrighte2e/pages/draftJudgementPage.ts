@@ -7,7 +7,7 @@ export default class DraftJudgementPage extends BasePage {
         judgementYesEle: '#draftAndSignJudgement_isJudgement_Yes',
         docUploadEle: '#draftAndSignJudgement_draftAndSignJudgementDocuments_0_uploadedDocument',
         directionTextEle: '#draftAndSignJudgement_furtherDirections'
-    
+
     }
 
     async submitDraftJudgement() {
@@ -23,6 +23,6 @@ export default class DraftJudgementPage extends BasePage {
         await this.page.locator(this.elements.directionTextEle).fill('Test Draft Judgement');
 
         await this.clickContinue();
-        await this.submitButton();
+        await this.clickSubmitButton();
     }
 }

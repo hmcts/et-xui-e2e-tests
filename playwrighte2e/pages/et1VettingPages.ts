@@ -110,7 +110,7 @@ export default class Et1VettingPages extends BasePage {
 
     await expect(this.page.locator('ccd-case-edit-submit')).toContainText('Check your answers');
     await expect(this.page.locator('ccd-case-edit-submit')).toContainText('Check the information below carefully.');
-    await this.submitButton();
+    await this.clickSubmitButton();
     }
 
   async processET1CaseVettingPage() {

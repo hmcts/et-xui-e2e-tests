@@ -50,7 +50,7 @@ export abstract class BasePage {
     await this.closeAndReturnButton.click();
   }
 
-  async submitButton(){
+  async clickSubmitButton(){
     await this.webActions.clickElementByRole('button', { name: 'Submit' });
   }
 

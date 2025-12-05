@@ -6,7 +6,7 @@ import { AxeUtils } from '@hmcts/playwright-common';
 
 let subRef: string;
 let submissionRef: string;
-let caseNumber;
+let caseNumber: string;
 
 const userDetailsData = require('../data/ui-data/user-details.json');
 

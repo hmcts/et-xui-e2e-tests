@@ -13,7 +13,7 @@ export default class SubmitClaimPage extends BasePage{
   async clickCheckYourAnswersLink() {
     await this.webActions.clickElementByCss('[href="/pcq?lng=en"]');
   }
-  
+
   async noPcqQuestions() {
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Equality and diversity questions');
     await this.webActions.clickElementByCss('[name=opt-out-button]');
@@ -21,9 +21,9 @@ export default class SubmitClaimPage extends BasePage{
 
   async clickSubmitOnCheckYourAnswers() {
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Check your answers');
-    await this.submitButton();
+    await this.clickSubmitButton();
   }
-  
+
   async verifyClaimSubmitted() {
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Your claim has been submitted');
 

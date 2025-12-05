@@ -92,7 +92,7 @@ export class ApplicationTabPage  extends BasePage {
         await this.delay(3000);
 
         // await this.submit.isVisible();
-        await this.submitButton();
+        await this.clickSubmitButton();
         await this.closeAndReturn();
     }
 
@@ -128,7 +128,7 @@ export class ApplicationTabPage  extends BasePage {
         await this.clickContinue();
 
         await this.delay(3000);
-        await this.submitButton();
+        await this.clickSubmitButton();
         await this.closeAndReturn();
     }
 
@@ -157,7 +157,7 @@ export class ApplicationTabPage  extends BasePage {
       await this.clickContinue();
       await this.delay(2000);
 
-      await this.submitButton();
+      await this.clickSubmitButton();
 
       await expect(this.page.locator('h3')).toContainText('What happens next');
       await this.closeAndReturn();

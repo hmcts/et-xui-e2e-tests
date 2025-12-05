@@ -27,7 +27,7 @@ export default class NocPage extends BasePage{
     await this.webActions.checkElementById(this.elements.confirmDetailsCheckBox);
     await this.webActions.checkElementById(this.elements.serveNoticeCheckBox);
 
-    await this.submitButton();
+    await this.clickSubmitButton();
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Notice of change successful You\'re now representing a client on case');
     await expect(this.page.locator('exui-noc-submit-success')).toContainText('What happens next');
   }

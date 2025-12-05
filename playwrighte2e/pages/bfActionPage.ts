@@ -18,7 +18,7 @@ export default class BfActionPage extends BasePage {
     await this.webActions.fillField(this.elements.bfMonth, '09');
     await this.webActions.fillField(this.elements.bfYear, '2024');
     await this.webActions.fillField('#bfActions_0_notes', 'bf action test');
-    await this.submitButton();
+    await this.clickSubmitButton();
     await expect(this.page.getByRole('tab', { name: 'BF Actions' })).toBeVisible();
     console.log('...BF action event completed successfully...')
   }

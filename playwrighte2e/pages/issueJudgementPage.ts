@@ -15,7 +15,7 @@ export default class IssueJudgementPage extends BasePage {
         judgementSentMonth: '#date_judgment_sent-month',
         judgementSentYear: '#date_judgment_sent-year',
 
-       
+
     }
 
     async issueJudgement() {
@@ -35,6 +35,6 @@ export default class IssueJudgementPage extends BasePage {
         await this.page.locator(this.elements.judgementSentMonth).fill('01');
         await this.page.locator(this.elements.judgementSentYear).fill('2025');
 
-        await this.submitButton();
+        await this.clickSubmitButton();
     }
 }
