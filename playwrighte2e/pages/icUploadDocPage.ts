@@ -45,7 +45,7 @@ export default class ICUploadDocPage extends BasePage {
         await this.delay(2000);
         await this.clickContinue();
 
-        await this.submitButton();
+        await this.clickSubmitButton();
         await expect(this.page.getByText(icPageData.icConfirmationText)).toBeVisible();
         await this.closeAndReturn();
     }

@@ -138,7 +138,7 @@ export default class CitizenHubPage extends BasePage {
     await this.clickContinue();
 
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Check your answers');
-    await this.submitButton();
+    await this.clickSubmitButton();
 
     await this.webActions.verifyElementContainsText(
       this.page.locator('h1'),
@@ -289,7 +289,7 @@ export default class CitizenHubPage extends BasePage {
     await this.page.check(this.elements.copyToOtherPartyYesOrNo);
     await this.clickContinue();
 
-    await this.submitButton();
+    await this.clickSubmitButton();
 
     await this.page.waitForSelector(this.elements.checkYourAnswerHeading);
     await this.closeAndReturn();
@@ -335,7 +335,7 @@ export default class CitizenHubPage extends BasePage {
     await this.clickContinue();
 
     await this.page.waitForSelector('text=Check your answers');
-    await this.submitButton();
+    await this.clickSubmitButton();
   }
 
   async validateApplicationBanner() {
@@ -413,7 +413,7 @@ export default class CitizenHubPage extends BasePage {
   async changeMyLegalRep(){
     await this.webActions.clickElementByCss(this.elements.changeMyLegalRep);
     await this.webActions.checkElementById('#legalRep-2');
-    await this.submitButton();
+    await this.clickSubmitButton();
   }
 
   async verifyLegalRepUnassignedNotificationBanner(){

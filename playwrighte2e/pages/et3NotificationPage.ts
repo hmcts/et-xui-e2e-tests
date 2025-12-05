@@ -21,7 +21,7 @@ export default class Et3NotificationPage extends BasePage {
 
   async processAcasPage() {
     await expect(this.page.locator('#caseEditForm')).toContainText('Email documents to Acas');
-    await this.submitButton();
+    await this.clickSubmitButton();
 
     await expect(this.page.locator('h5')).toContainText('We have notified the following parties:');
     await expect(this.page.locator('h3')).toContainText('Grayson Becker, Mrs Test Auto');

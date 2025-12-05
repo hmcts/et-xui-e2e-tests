@@ -46,7 +46,7 @@ export default class RespondentRepPage extends BasePage {
             await this.webActions.fillField(this.elements.searchForRegisteredOrg, orgName);
             await this.webActions.clickElementByCss(this.elements.selectOrgFromSearchResult);
             // await this.submit.isVisible();
-            await this.submitButton();
+            await this.clickSubmitButton();
             break;
           case 'notRegisteredSingle':
           case 'partResgisteredMultiple':
@@ -82,7 +82,7 @@ export default class RespondentRepPage extends BasePage {
       await this.webActions.clickElementByCss(this.elements.respEccYes);
       await this.delay(2000);
       await this.webActions.clickElementByCss(this.elements.respEccReplyYes);
-      await this.submitButton();
+      await this.clickSubmitButton();
     }
 
 

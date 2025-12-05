@@ -70,7 +70,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
         }
 
         await this.page.waitForSelector('text=Check your answers');
-        await this.submitButton();
+        await this.clickSubmitButton();
 
         await expect(this.page.locator('h1')).toContainText('You have sent your application to the tribunal');
         await this.closeAndReturn();
@@ -120,7 +120,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
       await this.webActions.fillField('#copyToOtherPartyText',"This is Correspondence No test");
       await this.clickContinue();
       await this.page.waitForSelector('text=Check your answers');
-      await this.submitButton();
+      await this.clickSubmitButton();
       await expect(this.page.locator('h1')).toContainText('You have sent your application to the tribunal');
       await this.closeAndReturn();
     }
@@ -137,7 +137,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
         await this.webActions.clickElementByRole('link', { name: 'Change my personal details' });
         await expect(this.page.locator('h1')).toContainText('Change my personal details')
         await this.webActions.checkElementById('#confirmCopied');
-        await this.submitButton();
+        await this.clickSubmitButton();
         await expect(this.page.locator('h1')).toContainText('You have sent your application to the tribunal');
         await this.closeAndReturn();
         await expect(this.page.locator('#main-content')).toContainText('Your request and applications');

@@ -224,7 +224,7 @@ elements = {
     await this.delay(2000);
 
     await this.page.locator('#submitEt1Confirmation-Yes').check();
-    await this.submitButton();
+    await this.clickSubmitButton();
 
     await expect(this.page.locator('#confirmation-header')).toContainText('You have submitted the ET1 claim');
     await this.closeAndReturn();

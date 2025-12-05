@@ -16,7 +16,7 @@ export default class UploadDocumentPage extends BasePage {
 
         await this.page.locator('#documentCollection_1_uploadedDocument').setInputFiles('test/data/welshTest.pdf');
         await this.page.waitForTimeout(3000);
-        await this.submitButton();
+        await this.clickSubmitButton();
     }
 
     async createDCF(){
@@ -24,7 +24,7 @@ export default class UploadDocumentPage extends BasePage {
         await this.webActions.clickElementByCss(this.createDcfLink);
         await this.webActions.waitForElementToBeVisible(this.createDcfRadio);
         await this.webActions.checkElementById(this.createDcfRadio);
-        await this.submitButton();
+        await this.clickSubmitButton();
     }
 
     async validateDCF(){
@@ -47,7 +47,7 @@ export default class UploadDocumentPage extends BasePage {
         await this.page.setInputFiles(`#documentCollection_${docNumber}_uploadedDocument`,`test/data/${fileName}`);
 
         await this.page.waitForTimeout(10000);
-        await this.submitButton();
+        await this.clickSubmitButton();
         await this.delay(4000);
     }
 

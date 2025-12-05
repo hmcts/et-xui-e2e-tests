@@ -13,6 +13,6 @@ export default class ManageCaseFlag extends BasePage {
         await this.clickContinue();
         await this.webActions.clickElementByRole('button', { name: 'Make inactive' });
         await this.clickContinue();
-        await this.submitButton();
+        await this.clickSubmitButton();
     }
 }

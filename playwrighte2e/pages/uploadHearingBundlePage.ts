@@ -16,7 +16,7 @@ export default class UploadHearingBundlePage extends BasePage {
         await this.webActions.fillField('#uploadHearingDocumentsDateSubmitted-day',dateUtilComponent.getCurrentDateParts().dd);
         await this.webActions.fillField('#uploadHearingDocumentsDateSubmitted-month',dateUtilComponent.getCurrentDateParts().mm);
         await this.webActions.fillField('#uploadHearingDocumentsDateSubmitted-year',dateUtilComponent.getCurrentDateParts().yyyy);
-        await this.submitButton();
+        await this.clickSubmitButton();
   }
 
   async validateHearingDocument(){

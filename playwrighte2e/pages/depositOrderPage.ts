@@ -41,7 +41,7 @@ export default class DepositOrderPage extends BasePage {
         await this.webActions.clickElementByCss(this.elements.depositRefundNo);
 
         await this.webActions.fillField(this.elements.depositNotes, depositOrderData.depositNote);
-        await this.submitButton();
+        await this.clickSubmitButton();
     }
 
 }

@@ -16,7 +16,7 @@ export default class RespondentDetailsPage extends BasePage {
   async processRespondentDetails() {
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.respondentName));
     await this.webActions.fillField(this.elements.respondentName, 'Mr Mark Gill');
-    await this.submitButton();
+    await this.clickSubmitButton();
   }
 
   async processRespondentDetailsET3(et3accepted:boolean){
@@ -30,7 +30,7 @@ export default class RespondentDetailsPage extends BasePage {
     } else {
       await this.webActions.selectByOptionFromDropDown('#respondentCollection_0_response_status', '4: Rejected');
     }
-    await this.submitButton();
+    await this.clickSubmitButton();
   }
 
   async processPanelPreference() {
@@ -42,7 +42,7 @@ export default class RespondentDetailsPage extends BasePage {
     await this.webActions.checkElementById(this.elements.orgRespondentType);
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.orgNameEle));
     await this.webActions.fillField(this.elements.orgNameEle, respPageData.orgName);
-    await this.submitButton();
+    await this.clickSubmitButton();
   }
 
   async verifyRespondentDetails() {

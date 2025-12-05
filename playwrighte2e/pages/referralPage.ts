@@ -39,7 +39,7 @@ export default class ReferralPage extends BasePage {
         await this.page.setInputFiles(this.elements.docUploadEle,'test/data/test.txt');
 
         await this.clickContinue();
-        await this.submitButton();
+        await this.clickSubmitButton();
 
         await expect(this.page.locator('markdown p')).toContainText(referralData.createRefConfirmationMsg);
         await this.closeAndReturn();
@@ -61,7 +61,7 @@ export default class ReferralPage extends BasePage {
         await this.page.setInputFiles(this.elements.replyDocUploadEle,'test/data/test.txt');
 
         await this.clickContinue();
-        await this.submitButton();
+        await this.clickSubmitButton();
 
         await expect(this.page.locator('markdown p')).toContainText(referralData.replyRefConfirmationMsg);
         await this.closeAndReturn();
@@ -78,7 +78,7 @@ export default class ReferralPage extends BasePage {
         await this.webActions.clickElementByCss(this.elements.confirmCloseReferralYes);
         await this.webActions.fillField(this.elements.closeReferralGeneralNotes, referralData.closeRefNotes);
         await this.clickContinue();
-        await this.submitButton();
+        await this.clickSubmitButton();
 
         await expect(this.page.locator('markdown p')).toContainText(referralData.closeRefConfirmationMsg);
         await this.closeAndReturn();

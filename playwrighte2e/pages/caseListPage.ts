@@ -39,11 +39,11 @@ export default class CaseListPage extends BasePage{
   };
 
     async navigateToCaseDetails(subRef: string, option: string) {
-      await this.page.waitForLoadState();
+      await this.page.waitForLoadState('load');
       const type = option === 'EnglandWales' ? 'ET_EnglandWales' : option === 'Scotland' ? 'Scotland' : '';
       const url = `${params.TestUrlForManageCaseAAT}/case-details/EMPLOYMENT/${type}/${subRef}`;
       await this.page.goto(url);
-      await this.page.waitForLoadState();
+      await this.page.waitForLoadState('load');
       await expect(this.page.getByText(subRef)).toBeVisible();
 
       const caseNumberText = await this.page.locator('h1', { hasText: 'Case Number:' }).textContent();
@@ -130,7 +130,7 @@ export default class CaseListPage extends BasePage{
       await this.webActions.clickElementByCss(this.elements.submitEventButton);
 
       await this.enterPostCode(postcode);
-      await this.submitButton();
+      await this.clickSubmitButton();
       await this.delay(2000);
     }
 
@@ -255,7 +255,7 @@ export default class CaseListPage extends BasePage{
 
     async generateReport(){
         await this.webActions.selectByLabelFromDropDown(this.elements.venueDropdown, 'Newcastle CFCTC');
-        await this.submitButton();
+        await this.clickSubmitButton();
     }
 
     async validateHearingReport(caseNumber){
