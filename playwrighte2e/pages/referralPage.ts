@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 import { BasePage } from "./basePage";
-import { params } from "../utils/config";
+import { params } from "../config/config";
 
 const referralData = require('../data/ui-data/referral-content.json');
 

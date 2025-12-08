@@ -1,5 +1,5 @@
 import { BasePage } from './basePage';
-import { params } from '../utils/config';
+import { params } from '../config/config';
 import { expect } from '@playwright/test';
 import { AxeUtils } from '@hmcts/playwright-common';
 const respondentName = 'Mrs Test Auto';

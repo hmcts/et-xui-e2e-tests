@@ -1,6 +1,6 @@
 import CaseListPage from "../pages/caseListPage";
 import { LegalRepPage } from "../pages/legalRepPage";
-import { ListHearingPage } from "../pages/listHearingPage";
+import { ListHearingPage } from "../pages/events/listHearingPage";
 import LoginPage from "../pages/loginPage";
 import {Page} from '@playwright/test';
 import CreateCaseThroughApi from "../pages/createCaseThroughApi";
@@ -45,11 +45,11 @@ export abstract class BaseStep {
         this.loginPage = new LoginPage(page);
         this.caseListPage = new CaseListPage(page);
         this.listHearingPage = new ListHearingPage(page);
-        this.legalRepPage = new LegalRepPage(page);    
+        this.legalRepPage = new LegalRepPage(page);
         this.createCaseThroughApi = new CreateCaseThroughApi(page);
-        this.et1CaseServingPage = new Et1CaseServingPage(page); 
-        this.et1VettingPage = new Et1VettingPages(page);      
-        this.citizenUiPage = new CitizenUiPage(page); 
+        this.et1CaseServingPage = new Et1CaseServingPage(page);
+        this.et1VettingPage = new Et1VettingPages(page);
+        this.citizenUiPage = new CitizenUiPage(page);
         this.taskListPage = new TaskListPage(page);
         this.personalDetailsPage = new PersonalDetailsPage(page);
         this.employmentAndRespondentDetailsPage = new EmploymentAndRespDetailsPage(page);

@@ -1,6 +1,6 @@
 import { Page, expect } from '@playwright/test';
 import { BasePage } from "./basePage";
-import { params } from '../utils/config';
+import { params } from '../config/config';
 
 export class ManageOrgPage extends BasePage {
 

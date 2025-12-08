@@ -1,7 +1,7 @@
 // @ts-ignore
 // @ts-ignore
 import querystring from 'querystring';
-import { params } from '../utils/config';
+import { params } from '../config/config';
 // @ts-ignore
 import engCase from '../data/et-england-case-data.json';
 // @ts-ignore

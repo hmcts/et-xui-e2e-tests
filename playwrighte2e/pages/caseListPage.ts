@@ -1,6 +1,6 @@
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
-import { params } from "../utils/config";
+import { params } from "../config/config";
 import dateUtilComponent from "../utils/DateUtilComponent";
 
 const referralData = require('../data/ui-data/referral-content.json');

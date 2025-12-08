@@ -1,6 +1,6 @@
 import { Page } from 'playwright';
-import { BasePage } from './basePage';
-import dateUtilComponent from '../utils/DateUtilComponent';
+import { BasePage } from '../basePage';
+import dateUtilComponent from '../../utils/DateUtilComponent';
 import { expect } from '@playwright/test';
 
 const today = new Date();
@@ -66,7 +66,6 @@ export class ListHearingPage extends BasePage {
     }
 
     async checkHearingFormat(hearingNumber: number, format: string) {
-        //hearingCollection_0_hearingFormat
         const hearingFormatOption = this.page.locator(`#hearingCollection_${hearingNumber}_hearingFormat-${format}`);
         await expect(hearingFormatOption).toBeVisible();
         await hearingFormatOption.check();

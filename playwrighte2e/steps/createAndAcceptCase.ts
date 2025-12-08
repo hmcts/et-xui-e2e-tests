@@ -1,4 +1,4 @@
-import { params } from "../utils/config";
+import { params } from "../config/config";
 import { BaseStep } from "./base";
 import { Page } from '@playwright/test';
 import { AxeUtils } from '@hmcts/playwright-common';
