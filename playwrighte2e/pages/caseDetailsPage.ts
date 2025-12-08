@@ -1,6 +1,6 @@
 import { BasePage } from "./basePage";
 import {expect} from "@playwright/test";
-import { CaseEvent } from '../helpers/case-data';
+import { CaseEvent } from '../config/case-data';
 
 export default class CaseDetailsPage extends BasePage {
     async addVPCaseFlag() {

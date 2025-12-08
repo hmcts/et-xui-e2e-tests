@@ -1,5 +1,5 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from "../utils/config";
+import { params } from "../config/config";
 
 const respondentName = 'Mrs Test Auto';
 let subRef: string;

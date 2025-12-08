@@ -1,7 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
 import axios from 'axios';
 import { BasePage } from './basePage';
-import { params } from "../utils/config";
+import { params } from "../config/config";
 import { faker } from '@faker-js/faker';
 
 const chance = require('chance');

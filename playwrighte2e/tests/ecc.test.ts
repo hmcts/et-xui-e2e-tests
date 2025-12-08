@@ -1,6 +1,6 @@
 import { test } from '../fixtures/common.fixture';
 import { expect } from '@playwright/test';
-import { params } from '../utils/config';
+import { params } from '../config/config';
 
 let subRef: any;
 let caseNumber: any;

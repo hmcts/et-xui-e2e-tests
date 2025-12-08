@@ -1,4 +1,4 @@
-import {params} from "../utils/config";
+import {params} from "../config/config";
 import { test } from '../fixtures/common.fixture';
 
 const respondentName = 'Mrs Test Auto';

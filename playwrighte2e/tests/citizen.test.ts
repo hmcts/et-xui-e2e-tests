@@ -1,7 +1,7 @@
 import {test} from "../fixtures/common.fixture";
 import createAndAcceptCase from "../steps/createAndAcceptCase";
 import NotificationPage from "../pages/notificationPage";
-import {params} from "../utils/config";
+import {params} from "../config/config";
 
 let caseNumber: any;
 let subRef;

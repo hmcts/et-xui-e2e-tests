@@ -1,10 +1,10 @@
 import { test  } from '../fixtures/common.fixture';
-import { params } from '../utils/config';
+import { params } from '../config/config';
 
 const userDetailsData = require('../data/ui-data/user-details.json');
 const acasCertData = require('../data/ui-data/acas-content.json');
 
-test.describe('Add & Search ACAS certificate tests', () => {    
+test.describe('Add & Search ACAS certificate tests', () => {
     let submissionReference: string;
     let caseNumber;
 
@@ -13,7 +13,7 @@ test.describe('Add & Search ACAS certificate tests', () => {
             (loginPage) => loginPage.processLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword),
             (employmentAndRespondentDetailsPage) => employmentAndRespondentDetailsPage.processStillWorkingJourney(userDetailsData.workPostcode, userDetailsData.selectedWorkAddress, userDetailsData.firstLineOfAddress)
           );
-      
+
           caseNumber = await createCaseStep.setupCaseCreatedViaCUI(page, 'EnglandWales', submissionReference, {
             user: params.TestEnvETCaseWorkerUser,
             password: params.TestEnvETPassword

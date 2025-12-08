@@ -1,6 +1,6 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from "../utils/config";
-import { Events } from '../helpers/case-data';
+import { params } from "../config/config";
+import { Events } from '../config/case-data';
 
 const respondentName = 'Mrs Test Auto';
 let subRef: string;
