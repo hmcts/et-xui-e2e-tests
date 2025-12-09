@@ -49,6 +49,7 @@ import ReinstateCasePage from '../pages/reinstateCasePage';
 import ClaimantRepresentativePage from '../pages/claimantRepresentativePage';
 import { CommonActionsHelper } from '../pages/helpers/CommonActionsHelper';
 import { UploadDocumentsForHearingPage } from '../pages/events/UploadDocumentsForHearingPage';
+import { CheckYourAnswersPage } from '../pages/helpers/CheckYourAnswersPage';
 
 const commonActionsHelper = new CommonActionsHelper();
 
@@ -94,7 +95,7 @@ export type PageFixtures = {
     taskPage:TaskPage;
     hearingDetailsPage:HearingDetailsPage;
     adrDocument:AdrDocumentPage;
-    caseDetails:CaseDetailsPage;
+    caseDetailsPage:CaseDetailsPage;
     et3NotificationPage: Et3NotificationPage;
     documentsTabPage: DocumentsTabPage;
     uploadHearingBundlePage:UploadHearingBundlePage;
@@ -103,6 +104,7 @@ export type PageFixtures = {
     closeCasePage:CloseCasePage;
     reinstateCasePage:ReinstateCasePage;
     uploadDocumentsForHearingPage: UploadDocumentsForHearingPage;
+    checkYourAnswersPage: CheckYourAnswersPage;
 }
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -266,7 +268,7 @@ export const pageFixtures = base.extend<PageFixtures>({
     adrDocument:async ({page}, use)=>{
         await use(new AdrDocumentPage(page));
     },
-    caseDetails:async ({page}, use)=>{
+    caseDetailsPage:async ({page}, use)=>{
         await use(new CaseDetailsPage(page));
     },
     et3NotificationPage:async ({page}, use)=>{
@@ -292,6 +294,8 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   uploadDocumentsForHearingPage:async({page}, use)=>{
     await use(new UploadDocumentsForHearingPage(page, commonActionsHelper));
-  }
-
+  },
+  checkYourAnswersPage:async({page}, use) => {
+    await use(new CheckYourAnswersPage(page));
+  },
 });

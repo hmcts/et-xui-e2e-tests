@@ -250,7 +250,8 @@ export default class CaseListPage extends BasePage{
   }
 
     async selectHearingReport(){
-        await this.webActions.clickElementByRole('link', { name: 'go to case with Case' });
+        await expect(this.page.getByText('ETCL - Cause List')).toBeVisible({timeout: 10000});
+        await this.webActions.clickElementByText( 'ETCL - Cause List' );
     }
 
     async generateReport(){

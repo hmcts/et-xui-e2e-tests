@@ -19,7 +19,7 @@ export class UploadDocumentsForHearingPage extends BasePage {
   private readonly supplementaryHearingDocOption: Locator;
   private readonly witnessStatementOption: Locator;
   private readonly uploadDocumentInput: Locator;
-  private readonly closeAndReturnButton: Locator;
+  private readonly closeAndReturnToCaseDetailsButton: Locator;
 
   public constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
     super(page);
@@ -36,7 +36,7 @@ export class UploadDocumentsForHearingPage extends BasePage {
     this.supplementaryHearingDocOption = this.page.locator("#bundlesRespondentTypeOfDocument-Supplementary\\ hearing\\ document");
     this.hearingDocWithWitnessStatementOption = this.page.locator(`bundlesRespondentWhatDocuments-Hearing documents,\\ including\\ witness\\ statements`);
     this.uploadDocumentInput = page.locator(`#bundlesRespondentUploadFile`);
-    this.closeAndReturnButton = this.page.getByRole('button', { name: 'Close and Return to case details' });
+    this.closeAndReturnToCaseDetailsButton = this.page.getByRole('button', { name: 'Close and Return to case details' });
   }
 
   async assertPageHeading() {
@@ -66,15 +66,16 @@ export class UploadDocumentsForHearingPage extends BasePage {
   }
 
   async assertHearingList(hearingList: string[] = ['0 Costs Hearing - Leeds ET - 6 January 2026']) {
-      const optionList = this.hearingsList.locator('.//option');
-      const optionCount = await optionList.count();
-      const actualOptions: string[] = [];
-      for (let i = 0; i < optionCount; i++) {
-        const optionText = await optionList.nth(i).innerText();
-        actualOptions.push(optionText.trim());
-      }
+    await expect(this.hearingsList).toBeVisible();
+    const options = this.hearingsList.locator('option');
+    const count = await options.count();
+    const optionTextList = [];
+    for (let i = 0; i < count; i++) {
+      if(i===0) continue; //skip first option 'Select'
+      optionTextList.push(await options.nth(i).textContent());
+    }
       for (const expectedOption of hearingList) {
-        if (!actualOptions.includes(expectedOption)) {
+        if (!optionTextList.includes(expectedOption)) {
           throw new Error(`Hearing option "${expectedOption}" not found in the list.`);
         }
       }
@@ -126,7 +127,7 @@ export class UploadDocumentsForHearingPage extends BasePage {
       this.page,
       this.uploadDocumentInput,
       await this.commonActionsHelper.createAliasPDFPayload
-        ('./playwright-e2e/test/data/welshTest.pdf', 'welshTest.pdf')
+        ('test/data/welshTest.pdf', 'welshTest.pdf')
     );
   }
 
@@ -136,8 +137,8 @@ export class UploadDocumentsForHearingPage extends BasePage {
   }
 
   async closeAndReturnToCaseDetails() {
-    await expect(this.closeAndReturnButton).toBeVisible();
-    await this.closeAndReturnButton.click();
+    await expect(this.closeAndReturnToCaseDetailsButton).toBeVisible();
+    await this.closeAndReturnToCaseDetailsButton.click();
   }
 
   async submitDocumentForHearing(param:{
@@ -177,7 +178,7 @@ export class UploadDocumentsForHearingPage extends BasePage {
       { cellItem: `Have you agreed with the other party that this PDF set of documents will be used by both parties at the hearing and that no other documents will be referred to?`,
         value: agreementOption
       },
-      { cellItem: `Select the hearing these documents are for`, value: param.whoseDocuments },
+      { cellItem: `Select the hearing these documents are for`, value: param.hearingOption },
       { cellItem: `Whose hearing documents are you uploading?`, value: whoseDoc },
       { cellItem: `What are these documents?`, value: docType },
       { cellItem: `Upload document`, value: `welshTest.pdf`},

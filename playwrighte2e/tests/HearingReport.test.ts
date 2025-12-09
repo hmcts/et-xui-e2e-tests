@@ -1,9 +1,9 @@
 import { test } from '../fixtures/common.fixture';
 import { params } from "../config/config";
+import { Events } from '../config/case-data';
 
-const respondentName = 'Mrs Test Auto';
 let subRef: string;
-let caseNumber;
+let caseNumber: string;
 
 test.describe('E/W Hearing Reports', () => {
     test.beforeEach(async ({ page, createCaseStep }) => {
@@ -11,17 +11,14 @@ test.describe('E/W Hearing Reports', () => {
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
     });
 
-    test('Generate Hearing Reports for Newcastle office', async ({ page, caseListPage, listHearingPage, et1CaseServingPage, loginPage, legalRepPage }) => {
+    test('Generate Hearing Reports for Newcastle office',
+      async ({caseListPage, listHearingPage, caseDetailsPage }) => {
+        //List 1 hearing for the case
 
-        //Retrieve claimant's first name and last name for NoC
-        const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
+        await caseListPage.selectNextEvent('List Hearing');
+        await listHearingPage.listCase('EnglandWales', 0, 'Newcastle CFCTC');
+        await caseDetailsPage.checkHasBeenCreated(Events.listHearing);
 
-        //List 2 hearings for the case
-        const hearingNumbers: number[] = [1];
-        for(const number of hearingNumbers) {
-            await caseListPage.selectNextEvent('List Hearing');
-            await listHearingPage.listCase('EnglandWales', number, true);
-        }
         await caseListPage.searchHearingReports('Eng/Wales - Hearings/Reports', 'Hearing Documents', 'Newcastle');
         await caseListPage.selectHearingReport();
         await caseListPage.selectNextEvent('Generate Report');

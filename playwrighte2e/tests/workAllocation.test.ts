@@ -70,7 +70,7 @@ test.describe('Work Allocation', () => {
 
             //list past hearing
             await caseListPage.selectNextEvent('List Hearing');
-            await listHearingPage.listCase('EnglandWales', 1,false);
+            await listHearingPage.listCase('EnglandWales', 0,'Leeds ET');
 
             //update hearing
             await caseListPage.selectNextEvent('Hearing Details');
@@ -81,7 +81,7 @@ test.describe('Work Allocation', () => {
              await caseListPage.signoutButton();
 
             //login as judge and assign a task
-            await loginPage.processLogin(params.TestEnvETJudgeUserWorkAllocation, params.TestEnvETJudgeUserPasswordWorkAllocation);
+            await loginPage.processLogin(params.TestEnvETJudgeUserWorkAllocation, params.TestEnvETJudgeUserPasswordWorkAllocation, 'cases');
             caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
             await caseListPage.clickTab('Tasks');
 

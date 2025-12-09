@@ -78,9 +78,9 @@ test.describe('Various events in mange case application for Scotland case', () =
 
 
 //RET-5806
-  test('Add speak to VP case flag for Scotland case', {tag: '@demo'}, async ({ caseListPage, caseDetails }) => {
+  test('Add speak to VP case flag for Scotland case', {tag: '@demo'}, async ({ caseListPage, caseDetailsPage }) => {
     await caseListPage.selectNextEvent('Case Details');
-    await caseDetails.addVPCaseFlag();
+    await caseDetailsPage.addVPCaseFlag();
   });
 
   //RET-5931, 5961

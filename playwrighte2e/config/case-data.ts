@@ -6,7 +6,11 @@ export interface CaseEvent {
 
 export const Events: Record<string, CaseEvent> = {
   listHearing: {
-    listItem: 'List hearing',
+    listItem: 'List Hearing',
     ccdCallback: 'addAmendHearing'
+  },
+  uploadDocumentsForHearing: {
+    listItem: 'Upload documents for hearing',
+    ccdCallback: 'bundlesRespondentPrepareDoc'
   }
 }
