@@ -56,7 +56,7 @@ test.describe('Notification', () => {
 
         //list hearing
         await caseListPage.selectNextEvent('List Hearing');
-        await listHearingPage.listCase('EnglandWales', 1,false);
+        await listHearingPage.listCase('EnglandWales', 0,'Amersham');
 
         //Caseworker send notification
         await notificationPage.selectNotificationLink();

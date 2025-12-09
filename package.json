@@ -48,7 +48,9 @@
     "openai": "^5.0.0",
     "prettier": "3.6.2",
     "totp-generator": "2.0.0",
-    "typescript": "5.9.2"
+    "typescript": "5.9.2",
+    "typescript-logging": "^2.2.0",
+    "typescript-logging-log4ts-style": "^2.2.0"
   },
   "devDependencies": {
     "@faker-js/faker": "10.0.0",

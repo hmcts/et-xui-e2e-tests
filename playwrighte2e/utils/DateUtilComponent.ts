@@ -83,7 +83,7 @@ export default class DateUtilComponent {
   };
 
   /**
-   * Returns the current date and time formatted as "d MMM yyyy, HH:mm" (e.g. "6 Aug 2025, 11:02").
+   * Returns the current date and time formatted as "d MMM yyyy, HH:mm" (e.g. "6 August 2025, 11:02").
    *
    * @returns Formatted current date and time string.
    */
@@ -91,15 +91,16 @@ export default class DateUtilComponent {
     const now = new Date();
     return now.toLocaleString('en-GB', {
       day: 'numeric',
-      month: 'short',
+      month: 'long',
       year: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
-      hour12: true,
+      hour12: false,
       timeZone: 'UTC'
     })
       .replace(/\b( am| pm)\b/i, '')
-      .replace(/\bSept\b/, 'Sep');
+      .replace(/\bSept\b/, 'Sep')
+      .replace(/\bat \b/, '');
   }
 
   /**
@@ -108,21 +109,19 @@ export default class DateUtilComponent {
    * @returns Formatted current date string.
    */
   static getTodayFullFormattedDate(): string {
-    const today = this.getCurrentDate();
-    return this.formatToDayMonthYear(today);
+    return this.formatToDayMonthYear(new Date());
   };
 
   /**
    * Converts a date string (ISO format) into a formatted date string
    * in the format "dd Month yyyy" (e.g. "06 August 2025").
    *
-   * @param dateStr - A valid ISO date string (e.g. "2025-08-06").
    * @returns A promise that resolves with the formatted date string.
+   * @param date
    */
-  static formatToDayMonthYear(dateStr: string): string {
-    const date = new Date(dateStr);
+  static formatToDayMonthYear(date: Date): string {
     return new Intl.DateTimeFormat('en-GB', {
-      day: '2-digit',
+      day: 'numeric',
       month: 'long',
       year: 'numeric'
     }).format(date);

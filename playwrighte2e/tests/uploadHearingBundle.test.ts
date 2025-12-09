@@ -18,10 +18,10 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
     const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
 
     //List 2 hearings for the case
-    const hearingNumbers: number[] = [1, 2];
+    const hearingNumbers: number[] = [0, 1];
     for(const number of hearingNumbers) {
       await caseListPage.selectNextEvent('List Hearing');
-      await listHearingPage.listCase('EnglandWales', number, false);
+      await listHearingPage.listCase('EnglandWales', number, "Leeds ET");
     }
     await page.click('text=Sign out');
 

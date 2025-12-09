@@ -1,5 +1,4 @@
 import { test as base } from '@playwright/test';
-import { BundleSteps } from '../steps/bundleSteps';
 import CreateCaseStep from '../steps/createAndAcceptCase';
 import ReferralSteps from '../steps/referralSteps';
 import JudgementSteps from '../steps/judgementSteps';
@@ -8,7 +7,6 @@ import AccessibilitySteps from '../steps/accessibilitySteps';
 
 export type StepFixtures = {
   createCaseStep: CreateCaseStep;
-  bundleSteps: BundleSteps;
   referralSteps: ReferralSteps;
   judgementSteps: JudgementSteps;
   et3ProcessingSteps: ET3ProcessingSteps;
@@ -19,11 +17,6 @@ export const stepFixtures = base.extend<StepFixtures>({
   createCaseStep: async ({ page }, use) => {
     await use(new CreateCaseStep(page));
   },
-
-  bundleSteps: async ({ page }, use) => {
-    await use(new BundleSteps(page));
-  },
-
   referralSteps: async ({ page }, use) => {
     await use(new ReferralSteps(page));
   },
