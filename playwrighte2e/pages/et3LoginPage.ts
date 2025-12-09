@@ -31,10 +31,11 @@ export default class Et3LoginPage extends BasePage {
   async processRespondentLogin(username: string, password: string, caseNumber: string) {
     await this.page.goto(params.TestUrlRespondentUi);
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Introduction');
-    await this.webActions.clickElementByCss('[href="/case-number-check"]');
-    await this.wait(10);
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Case Number');
-    await this.webActions.fillField(this.elements.caseNumber, caseNumber.toString());
+    await this.webActions.clickElementByCss('[href="/return-to-existing-response?lng=en"]');
+    await this.wait(1000);
+  //  await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Case Number');
+  //  await this.webActions.fillField(this.elements.caseNumber, caseNumber.toString());
+    await this.webActions.clickElementByCss('#return_number_or_account-2');
     await this.clickContinue();
     await this.loginRespondentUi(username, password);
   }
@@ -47,12 +48,11 @@ export default class Et3LoginPage extends BasePage {
 
 
   async replyToNewClaim(submissionRef, caseNumber, respName, firstName, lastName){
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Before you continue');
-
-    await this.clickContinue();
+   // await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Before you continue');
+    //await this.clickContinue();
     await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'ET3 Responses');
     await this.webActions.clickElementByCss(this.elements.respondToNewClaim);
-    await this.caseNumberPage(caseNumber);
+    await this.caseNumberPage(caseNumber.toString());
     await this.caseDetailsPage(submissionRef, respName, firstName, lastName);
     await this.checkAndSubmitPage(caseNumber);
   }

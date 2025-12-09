@@ -16,6 +16,7 @@ import { BasePage } from './basePage';
 
 const env = params.TestEnv;
 const idamBaseUrl = `https://idam-api.${env}.platform.hmcts.net/loginUser`;
+const idamTestingSupportUrl = `https://idam-testing-support-api.${env}.platform.hmcts.net`;
 const syaApiBaseUrl = params.EtCosPreviewEtSyaApiUrl || `http://et-sya-api-${env}.service.core-compute-${env}.internal`;
 const getUserIdurl = `https://idam-api.${env}.platform.hmcts.net/details`;
 const s2sBaseUrl = `http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease`;
@@ -376,7 +377,7 @@ async getS2SServiceTokenForCaseWorker() {
     };
 
     let createCaseBody = `${JSON.stringify(createCasetemp)}`;
-    console.log("sunil case body:" + createCaseBody)
+    console.log("case body:" + createCaseBody)
 
     let config = {
       method: 'post',
@@ -884,11 +885,60 @@ async getS2SServiceTokenForCaseWorker() {
       }
     };
 
-    return await axios.request(config).then((response) => {
-      console.log(JSON.stringify(response.data));
-      return initiateEventToken = response.data.token;
-    })
-      .catch((error) => {
+    return await axios
+      .request(config)
+      .then(response => {
+        console.log(JSON.stringify(response.data));
+        return (initiateEventToken = response.data.token);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  async createDynamicRespondentUser(userEmail,userPassword) {
+    const authToken = await this.getAuthToken(params.TestEnvApiUser, params.TestEnvApiPassword);
+    await this.createCitizenPostRequest(authToken,userEmail,userPassword);
+  }
+
+  private async createCitizenPostRequest(authToken: any,userEmail, userPassword) {
+    let idamUserCreationUrl = idamTestingSupportUrl + "/test/idam/users";
+    let respJsonBody= {
+      "password":`${userPassword}`,
+      "user": {
+        "email": `${userEmail}`,
+        "forename": "ET",
+        "surname": "respodent",
+        "displayName": "ET Respondent",
+        "roleNames": [
+          "citizen"
+        ],
+        "accountStatus": "ACTIVE",
+        "recordType": "LIVE"
+      }
+    }
+    console.log('body is:' + JSON.stringify(respJsonBody));
+
+    let data = respJsonBody;
+
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: idamUserCreationUrl,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+
+    return await axios
+      .request(config)
+      .then(response => {
+        console.log("User created response " + JSON.stringify(response.status));
+      })
+      .catch(error => {
         console.log(error);
       });
   }
