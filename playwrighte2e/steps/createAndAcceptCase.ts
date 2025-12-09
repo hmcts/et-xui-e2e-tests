@@ -130,4 +130,11 @@ export default class createAndAcceptCase extends BaseStep {
     async completeEt1VettingTask(){
         await this.et1VettingPage.processET1CaseVettingPages();
     }
+
+    async createRespUser(){
+        const userEmail = `ettestresp${Date.now()}@gmail.com`;
+        const userPassword ="Nagoya0102";
+        await this.createCaseThroughApi.createDynamicRespondentUser(userEmail,userPassword);
+        return {userEmail,userPassword};
+    }
 }

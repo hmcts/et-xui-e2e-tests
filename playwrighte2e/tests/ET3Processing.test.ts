@@ -20,7 +20,7 @@ test.describe('ET3 Process test', () => {
         await caseListPage.selectNextEvent('ET3 Processing');
         await et3ProcessingSteps.processET3();
 
-        await caseListPage.navigateToTab('Respondent');
+        await caseListPage.navigateToTab('Respondents');
         await caseListPage.verifyET3DetailsOnRespondentTab();
     });
 });
