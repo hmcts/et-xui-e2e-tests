@@ -20,7 +20,7 @@ export default class Et1CaseServingPage extends BasePage {
     await this.webActions.fillField(this.elements.date_accepted_month, String(today.getMonth() +1));
     await this.webActions.fillField(this.elements.date_accepted_year, String(today.getFullYear()));
     await this.page.locator(this.elements.date_accepted_month).click();
-    await this.submitButton();
+    await this.clickSubmitButton();
     await this.delay(5000);
   }
 
@@ -58,7 +58,7 @@ export default class Et1CaseServingPage extends BasePage {
     await this.clickContinue();
 
     await this.webActions.waitForElementToBeVisible('text=Email documents to Acas');
-    await this.submitButton();
+    await this.clickSubmitButton();
 
     await this.webActions.waitForElementToBeVisible('text=Documents sent');
     await this.closeAndReturn();

@@ -1,6 +1,6 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from '../utils/config';
-import {Helpers} from "../helpers/helper";
+import { params } from '../config/config';
+import {Helpers} from "../pages/helpers/helper";
 
 
 let caseNumber: any;

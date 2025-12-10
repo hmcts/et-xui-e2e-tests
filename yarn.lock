@@ -3792,6 +3792,8 @@ __metadata:
     prettier: "npm:3.6.2"
     totp-generator: "npm:2.0.0"
     typescript: "npm:5.9.2"
+    typescript-logging: "npm:^2.2.0"
+    typescript-logging-log4ts-style: "npm:^2.2.0"
     webdriverio: "npm:9.19.2"
   languageName: unknown
   linkType: soft
@@ -8357,6 +8359,22 @@ __metadata:
     eslint: ^8.57.0 || ^9.0.0
     typescript: ">=4.8.4 <6.0.0"
   checksum: 10/ba6914cc4006390908de9e3de295c2f7110461175a818608d198e2d1529e726c32d778fe9e224ea30464ba2c4a43c05f534d2dbc5aabf297354a2aa49a2e1cd6
+  languageName: node
+  linkType: hard
+
+"typescript-logging-log4ts-style@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "typescript-logging-log4ts-style@npm:2.2.0"
+  peerDependencies:
+    typescript-logging: ~2.2.0
+  checksum: 10/963c3f8345539059f95a4d2df7e2fab6a12bb1e68ec28ea9ec4f75f9bd4d6d60f92e71dbc857b99732331017633cc6bc3288414ef63e9488c2b0a03b7d4a07c7
+  languageName: node
+  linkType: hard
+
+"typescript-logging@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "typescript-logging@npm:2.2.0"
+  checksum: 10/e7dfa75f4b98af4c23ef76892f76df60b8898d66ee957947e3203ed5eae68d4dcb6668548bcd1142ef99fad5a4933f08d9d94e632b3d65af3fd62f93be42b3ab
   languageName: node
   linkType: hard
 

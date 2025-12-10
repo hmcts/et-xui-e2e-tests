@@ -1,5 +1,5 @@
 import { BasePage } from "./basePage";
-import { params } from "../utils/config";
+import { params } from "../config/config";
 import { expect, Page } from '@playwright/test';
 
 
@@ -80,7 +80,7 @@ export default class Et3LoginPage extends BasePage {
   async checkAndSubmitPage(caseNumber){
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Check and submit');
     await this.webActions.checkElementById('#confirmation');
-    await this.submitButton();
+    await this.clickSubmitButton();
 
     //validate claim is displayed in awaiting response
     await this.page.reload();
@@ -119,7 +119,7 @@ export default class Et3LoginPage extends BasePage {
     await expect(this.page.locator('legend')).toContainText('Do you want to change your legal representative?');
     //Yes, I confirm I wish to remove my legal representative and continue my case representing myself.
     await this.page.locator('#legalRep-2').click();
-    await this.submitButton();
+    await this.clickSubmitButton();
     await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
     await this.page.getByLabel('Important').filter({ hasText: 'You are no longer legally represented.'}).isVisible();
     await this.page.locator(this.elements.appointLegalRepLink).isVisible();

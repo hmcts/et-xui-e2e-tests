@@ -1,7 +1,7 @@
 import {test} from "../fixtures/common.fixture";
 import createAndAcceptCase from "../steps/createAndAcceptCase";
 import NotificationPage from "../pages/notificationPage";
-import {params} from "../utils/config";
+import {params} from "../config/config";
 
 let caseNumber: any;
 let subRef;
@@ -56,7 +56,7 @@ test.describe('Notification', () => {
 
         //list hearing
         await caseListPage.selectNextEvent('List Hearing');
-        await listHearingPage.listCase('EnglandWales', 1,false);
+        await listHearingPage.listCase('EnglandWales', 0,'Amersham');
 
         //Caseworker send notification
         await notificationPage.selectNotificationLink();

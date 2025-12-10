@@ -1,7 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
 import axios from 'axios';
 import { BasePage } from './basePage';
-import { params } from "../utils/config";
+import { params } from "../config/config";
 import { faker } from '@faker-js/faker';
 
 const chance = require('chance');
@@ -61,10 +61,11 @@ export default class LoginPage extends BasePage{
     await this.elements.submit.click();
   }
 
-  async processLogin(username: string, password: string) {
+  async processLogin(username: string, password: string, requiredPath: string = 'work/my-work/list') {
     await this.elements.username.fill(username);
     await this.elements.password.fill(password);
     await this.elements.submit.click();
+    await this.page.waitForURL(`${aatUrl}${requiredPath}`, { timeout: 20000 });
   }
 
 }

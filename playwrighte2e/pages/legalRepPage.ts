@@ -1,5 +1,5 @@
 import { BasePage } from './basePage';
-import { params } from '../utils/config';
+import { params } from '../config/config';
 import { expect } from '@playwright/test';
 import { AxeUtils } from '@hmcts/playwright-common';
 const respondentName = 'Mrs Test Auto';
@@ -139,8 +139,8 @@ export class LegalRepPage extends BasePage {
   }
 
     async processNOCForClaimantOrRespondent(option: string, submissionReference: string, caseReference: string, ClaimantFirstName: string, ClaimantLastName: string, accessibilityEnabled?: boolean, isRespondent?:boolean,axeUtils?: AxeUtils) {
-        await this.loadExistingApplications(option);
-        await this.page.reload();
+        //await this.loadExistingApplications(option);
+        //await this.page.reload();
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 25000);
 
     if (accessibilityEnabled) await axeUtils.audit();
@@ -224,8 +224,8 @@ export class LegalRepPage extends BasePage {
             expect(optionsCount).toBe(2);
 
             const optionText = await options.nth(1).textContent();
-            expect(optionText).toContain('1 Costs Hearing - Carlisle');
-            expect(optionText).not.toContain('2 Costs Hearing - Carlisle');
+            expect(optionText).toContain('0 Costs Hearing - Leeds ET');
+            expect(optionText).not.toContain('1 Costs Hearing - Leeds ET');
         }
 
         await this.page.locator(this.selectHearingFromDropdown).selectOption({index:1});

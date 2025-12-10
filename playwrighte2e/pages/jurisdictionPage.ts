@@ -17,7 +17,7 @@ export default class JurisdictionPage extends BasePage {
 
   async addJurisdictionCode(){
     await this.addJurisdictionCodeDDA();
-    await this.submitButton();
+    await this.clickSubmitButton();
     await expect(this.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText('Case Details');
   }
 
@@ -28,7 +28,7 @@ export default class JurisdictionPage extends BasePage {
     await this.webActions.selectByOptionFromDropDown(this.elements.jurisdictionDropdown, '3: ADT(ST)');
     await this.webActions.selectByLabelFromDropDown('#jurCodesCollection_1_judgmentOutcome', 'Not allocated');
 
-    await this.submitButton();
+    await this.clickSubmitButton();
     await expect(this.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText('Case Details');
   }
 
@@ -39,7 +39,7 @@ export default class JurisdictionPage extends BasePage {
 
   async closeJurisdictionCode(){
     await this.webActions.selectByLabelFromDropDown('#jurCodesCollection_0_judgmentOutcome', 'Input in error');
-    await this.submitButton();
+    await this.clickSubmitButton();
     await expect(this.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText('Case Details');
   }
 }

@@ -12,7 +12,7 @@ export default class SearchAcasPage extends BasePage {
     async findAcasCertificateSuccessfully(acasCertNum: string) {
         await expect(this.page.getByText('Please enter an ACAS Certificate number')).toBeVisible();
         await this.webActions.fillField(this.elements.acasCertificateTextBox, acasCertNum);
-        await this.submitButton();
+        await this.clickSubmitButton();
 
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.confirmationEle), 10000);
         await expect(this.page.getByText(`Please download the ACAS Certificate from : ${acasCertData.docName}`)).toBeVisible();

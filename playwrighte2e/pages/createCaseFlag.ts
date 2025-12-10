@@ -18,7 +18,7 @@ export default class CreateCaseFlag extends BasePage {
         await this.page.getByLabel('Add comments for this flag').fill('This is an urgent case.');
         await this.clickContinue();
 
-        await this.submitButton();
+        await this.clickSubmitButton();
         await expect(this.page.getByLabel('Important').getByRole('paragraph')).toContainText(' There is 1 active flag on this case. View case flags');
         await this.webActions.clickElementByRole('link', {name: 'View case flags'});
         await this.webActions.verifyElementContainsText(this.page.locator('ccd-read-case-flag-field'), 'Urgent case');

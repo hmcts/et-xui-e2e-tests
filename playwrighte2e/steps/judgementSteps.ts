@@ -1,5 +1,5 @@
 import { BaseStep } from "./base";
-import { params } from "../utils/config";
+import { params } from "../config/config";
 
 export default class JudgementSteps extends BaseStep {
 

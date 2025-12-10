@@ -21,7 +21,7 @@ export default class RespSubmitEt3 extends BasePage{
 
   async submitEt3() {
     await this.elements.cya.click();
-    await this.submitButton();
+    await this.clickSubmitButton();
     await expect(this.page.locator('h1')).toContainText('Your response has been submitted');
     await this.page.getByRole('button', { name: 'Close and return to case overview' }).click();
   }

@@ -33,7 +33,7 @@ export default class ClaimantDetailsPage extends BasePage{
     await this.webActions.checkElementById('#claimantHearingPreference_contact_language-English');
 
     if(hearingPanelPreference) await this.fillPanelPreference();
-    await this.submitButton();
+    await this.clickSubmitButton();
   }
 
   async verifyClaimantDetails() {

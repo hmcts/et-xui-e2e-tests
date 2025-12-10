@@ -1,6 +1,7 @@
 
 import { Page, expect, Locator } from "@playwright/test";
 import { WebAction } from "../common/web.action";
+import { CommonActionsHelper } from './helpers/CommonActionsHelper';
 
 
 export abstract class BasePage {
@@ -25,6 +26,7 @@ export abstract class BasePage {
 
   constructor(page: Page) {
     this.page = page;
+
     this.saveAsDraftButton = page.getByRole('button', { name: 'Save as draft' });
     this.closeAndReturnButton = this.page.getByRole('button', { name: 'Close and Return to case' });
     this.applyFilterButton = this.page.getByRole('button', { name: 'Apply filter' });
@@ -50,7 +52,7 @@ export abstract class BasePage {
     await this.closeAndReturnButton.click();
   }
 
-  async submitButton(){
+  async clickSubmitButton(){
     await this.webActions.clickElementByRole('button', { name: 'Submit' });
   }
 

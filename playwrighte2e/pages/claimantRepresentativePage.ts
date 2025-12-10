@@ -23,7 +23,7 @@ export default class ClaimantRepresentativePage extends BasePage {
 
     await this.webActions.fillField(this.elements.searchForOrg, 'ET Test Factory Solicitor');
     await this.webActions.clickElementByCss(this.elements.selectOrgFromSearchResult);
-    await this.submitButton();
+    await this.clickSubmitButton();
   }
 
   async validateRepresentativeDetails(){

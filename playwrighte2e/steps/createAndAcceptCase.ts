@@ -1,4 +1,4 @@
-import { params } from "../utils/config";
+import { params } from "../config/config";
 import { BaseStep } from "./base";
 import { Page } from '@playwright/test';
 import { AxeUtils } from '@hmcts/playwright-common';
@@ -6,7 +6,7 @@ import { AxeUtils } from '@hmcts/playwright-common';
 
 let subRef: string;
 let submissionRef: string;
-let caseNumber;
+let caseNumber: string;
 
 const userDetailsData = require('../data/ui-data/user-details.json');
 

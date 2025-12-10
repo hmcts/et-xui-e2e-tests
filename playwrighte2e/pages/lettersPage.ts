@@ -23,7 +23,7 @@ export default class LettersPage extends BasePage {
         const option = await selectBox.locator("option").filter({ hasText: letterPageData.hearingOption }).textContent();
         if(option) await selectBox.selectOption(option);
 
-      await this.submitButton();
+      await this.clickSubmitButton();
       await this.webActions.verifyElementToBeVisible(this.closeAndReturnButton);
       //await this.webActions.verifyElementContainsText(this.page.locator('markdown p'), letterPageData.confirmationTxt);
       await this.closeAndReturn();
@@ -36,7 +36,7 @@ export default class LettersPage extends BasePage {
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.part2DocsEle));
         await this.webActions.selectByLabelFromDropDown(this.elements.part2DocsEle, letterPageData.part2DocOptionNoHearing);
 
-        await this.submitButton();
+        await this.clickSubmitButton();
         await this.page.waitForSelector('markdown p', { timeout: 30000 });
         await this.webActions.verifyElementContainsText(this.page.locator('markdown p'), letterPageData.confirmationTxt);
         await this.closeAndReturn();

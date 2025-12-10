@@ -1,4 +1,4 @@
-import { params } from '../utils/config';
+import { params } from '../config/config';
 import { BaseStep } from './base';
 import { AxeUtils } from '@hmcts/playwright-common';
 import { Page } from '@playwright/test';
@@ -68,7 +68,7 @@ export default class AccessibilitySteps extends BaseStep {
         await this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
 
         //legal rep make an application
-        await this.legalRepPage.legalRepMakeAnApplication(accessibilityEnabled);
+        await this.legalRepPage.legalRepMakeAnApplication(accessibilityEnabled, axeUtils);
     }
 
     async scanWAPages(page, subRef, axeUtils:AxeUtils) {

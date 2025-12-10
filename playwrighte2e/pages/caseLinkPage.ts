@@ -2,7 +2,7 @@ import { Page } from '@playwright/test';
 import { BasePage } from './basePage';
 
 export class CaseLinkPage extends BasePage {
-    
+
     // @ts-ignore
   readonly nextButton = '#next-button';
     readonly caseLinkProposeButton = '#propose';
@@ -30,7 +30,7 @@ export class CaseLinkPage extends BasePage {
             await this.webActions.waitForElementToBeVisible('text=If the cases to be linked has no lead, you can start the linking journey from any of those cases.'),
             await this.delay(3000),
             // await this.page.click(this.nextButton)
-            await this.submitButton()
+            await this.clickSubmitButton()
         ]);
     }
 
@@ -53,7 +53,7 @@ export class CaseLinkPage extends BasePage {
             await this.page.waitForSelector(this.submitButtonLink),
             await this.page.waitForSelector('text=Check your answers'),
             await this.page.click(this.submitButtonLink)
-        ]);   
+        ]);
     }
 
     async enterCaseLinkReferenceWithoutHearing(submissionReference: string) {
