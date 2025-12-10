@@ -3,7 +3,6 @@ import { params } from "../config/config";
 import { Events } from '../config/case-data';
 import DateUtilComponent from '../utils/DateUtilComponent';
 
-const respondentName = 'Mrs Test Auto';
 let subRef: string, submissionRef: string;
 let caseNumber: string;
 
