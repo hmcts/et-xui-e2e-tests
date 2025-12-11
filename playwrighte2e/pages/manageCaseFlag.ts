@@ -1,12 +1,6 @@
-
-
 import { BasePage } from "./basePage";
 
-
 export default class ManageCaseFlag extends BasePage {
-
-    elements = {
-    }
 
     async manageCaseFlag() {
         await this.webActions.checkElementByLabel('Case level - Urgent case (');

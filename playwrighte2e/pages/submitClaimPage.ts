@@ -1,6 +1,4 @@
 import { BasePage } from "./basePage";
-import { expect } from "@playwright/test";
-
 
 export default class SubmitClaimPage extends BasePage{
   async submitClaim() {
@@ -9,6 +7,7 @@ export default class SubmitClaimPage extends BasePage{
     await this.clickSubmitOnCheckYourAnswers();
     return this.verifyClaimSubmitted();
   }
+
   //user clicks check your answers link
   async clickCheckYourAnswersLink() {
     await this.webActions.clickElementByCss('[href="/pcq?lng=en"]');

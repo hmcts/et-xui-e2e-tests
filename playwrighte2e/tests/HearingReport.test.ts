@@ -1,5 +1,4 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from "../config/config";
 import { Events } from '../config/case-data';
 
 let subRef: string;

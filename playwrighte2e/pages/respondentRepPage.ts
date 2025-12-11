@@ -27,67 +27,75 @@ export default class RespondentRepPage extends BasePage {
     respPostCode: '#respondentCollection_0_responseRespondentAddress_responseRespondentAddress_postcodeInput',
     respAddressDropDown: '#respondentCollection_0_responseRespondentAddress_responseRespondentAddress_addressList',
     respEccYes: '#respondentCollection_0_respondentEcc_Yes',
-    respEccReplyYes:'#respondentCollection_0_respondentEccReply_Yes'
+    respEccReplyYes: '#respondentCollection_0_respondentEccReply_Yes',
     //*[@id="mat-tab-label-0-5"]
-  }
-    async addRespondentRepresentative(regOption, orgName) {
-      await this.page.locator('#repCollection_0_0').isVisible();
-      await this.webActions.selectByLabelFromDropDown(this.elements.selectRespondent, 'Henry Marsh');
-      await this.webActions.fillField(this.elements.respondentName, 'Henry Marsh');
-      await this.webActions.fillField(this.elements.respondentRepresentativePhoneNumber, '01234657895');
-      await this.webActions.fillField(this.elements.respondentRepresentativeEmailAddress, 'et.tester@hmcts.net');
-      await this.webActions.selectByOptionFromDropDown(this.elements.respondentRepresentativeContactPreference, '1: Email');
+  };
 
-      try {
-        switch (regOption) {
-          case 'registered':
-            await this.webActions.checkElementById(this.elements.registeredLegalOrg);
-            await this.webActions.verifyElementContainsText(this.page.locator('ccd-write-organisation-field'), 'Search for an organisation');
-            await this.webActions.fillField(this.elements.searchForRegisteredOrg, orgName);
-            await this.webActions.clickElementByCss(this.elements.selectOrgFromSearchResult);
-            // await this.submit.isVisible();
-            await this.clickSubmitButton();
-            break;
-          case 'notRegisteredSingle':
-          case 'partResgisteredMultiple':
-            break;
-          default:
-            throw new Error('... check you options or add new option');
-        }
-      } catch (e) {
-        console.error('invalid option', e.message);
+  async addRespondentRepresentative(regOption: string, orgName: string) {
+    await this.page.locator('#repCollection_0_0').isVisible();
+    await this.webActions.selectByLabelFromDropDown(this.elements.selectRespondent, 'Henry Marsh');
+    await this.webActions.fillField(this.elements.respondentName, 'Henry Marsh');
+    await this.webActions.fillField(this.elements.respondentRepresentativePhoneNumber, '01234657895');
+    await this.webActions.fillField(this.elements.respondentRepresentativeEmailAddress, 'et.tester@hmcts.net');
+    await this.webActions.selectByOptionFromDropDown(
+      this.elements.respondentRepresentativeContactPreference,
+      '1: Email',
+    );
+
+    try {
+      switch (regOption) {
+        case 'registered':
+          await this.webActions.checkElementById(this.elements.registeredLegalOrg);
+          await this.webActions.verifyElementContainsText(
+            this.page.locator('ccd-write-organisation-field'),
+            'Search for an organisation',
+          );
+          await this.webActions.fillField(this.elements.searchForRegisteredOrg, orgName);
+          await this.webActions.clickElementByCss(this.elements.selectOrgFromSearchResult);
+          // await this.submit.isVisible();
+          await this.clickSubmitButton();
+          break;
+        case 'notRegisteredSingle':
+        case 'partResgisteredMultiple':
+          break;
+        default:
+          throw new Error('... check you options or add new option');
       }
+    } catch (e) {
+      console.error('invalid option', e);
     }
+  }
 
-    async enterRespType() {
+  async enterRespType() {
+    await this.webActions.clickElementByCss(this.elements.respondentTypeInd);
+    await this.webActions.fillField(this.elements.respFirstName, 'Mark');
+    await this.webActions.fillField(this.elements.respLastName, 'Gill');
+    await this.webActions.clickElementByCss(this.elements.respReceivedYes);
+    await this.webActions.fillField(this.elements.respFullName, 'Mark Gill');
+    await this.webActions.selectByLabelFromDropDown(this.elements.respStatusDropDown, 'Accepted');
+    await this.webActions.clickElementByCss(this.elements.respClaimYes);
 
-      await this.webActions.clickElementByCss(this.elements.respondentTypeInd);
-      await this.webActions.fillField(this.elements.respFirstName, 'Mark');
-      await this.webActions.fillField(this.elements.respLastName, 'Gill');
-      await this.webActions.clickElementByCss(this.elements.respReceivedYes);
-      await this.webActions.fillField(this.elements.respFullName, 'Mark Gill');
-      await this.webActions.selectByLabelFromDropDown(this.elements.respStatusDropDown, 'Accepted');
-      await this.webActions.clickElementByCss(this.elements.respClaimYes);
+    await this.webActions.fillField(this.elements.respReceivedDay, '01');
+    await this.webActions.fillField(this.elements.respReceivedMonth, '03');
+    await this.webActions.fillField(this.elements.respReceivedYear, '2025');
 
-      await this.webActions.fillField(this.elements.respReceivedDay, '01');
-      await this.webActions.fillField(this.elements.respReceivedMonth, '03');
-      await this.webActions.fillField(this.elements.respReceivedYear, '2025');
+    await this.webActions.fillField(this.elements.respPostCode, 'EX1 3DD');
+    await this.webActions.clickElementByCss(
+      '#respondentCollection_0_responseRespondentAddress_responseRespondentAddress_postcodeLookup button',
+    );
+    await this.delay(2000);
+    await this.webActions.selectByLabelFromDropDown(this.elements.respAddressDropDown, '68 East Wonford Hill, Exeter');
+    await this.delay(2000);
 
-      await this.webActions.fillField(this.elements.respPostCode, 'EX1 3DD');
-      await this.webActions.clickElementByCss('#respondentCollection_0_responseRespondentAddress_responseRespondentAddress_postcodeLookup button');
-      await this.delay(2000);
-      await this.webActions.selectByLabelFromDropDown(this.elements.respAddressDropDown, '68 East Wonford Hill, Exeter');
-      await this.delay(2000);
+    await this.webActions.clickElementByCss(this.elements.respEccYes);
+    await this.delay(2000);
+    await this.webActions.clickElementByCss(this.elements.respEccReplyYes);
+    await this.clickSubmitButton();
+  }
 
-      await this.webActions.clickElementByCss(this.elements.respEccYes);
-      await this.delay(2000);
-      await this.webActions.clickElementByCss(this.elements.respEccReplyYes);
-      await this.clickSubmitButton();
-    }
-
-
-    async validateRespondentRepDetail(){
-      await expect(this.page.locator('#case-viewer-field-read--repCollection')).toContainText('et.legalrep.superuser@gmail.com');
-
-    }
+  async validateRespondentRepDetail() {
+    await expect(this.page.locator('#case-viewer-field-read--repCollection')).toContainText(
+      'et.legalrep.superuser@gmail.com',
+    );
+  }
 }

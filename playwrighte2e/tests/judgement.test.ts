@@ -1,8 +1,8 @@
 import { test  } from '../fixtures/common.fixture';
 
-test.describe('Judgement tests', () => {    
+test.describe('Judgement tests', () => {
     let subRef: string;
-    let caseNumber;
+    let caseNumber: string;
 
     test.beforeEach(async ({ page, createCaseStep }) => {
         ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
@@ -10,7 +10,6 @@ test.describe('Judgement tests', () => {
 
     test('Submit and Issue Judgement', {tag: '@demo'}, async ({ caseListPage, judgementSteps }) => {
 
-    
         //Judge creates a draft judgement
         await judgementSteps.createDraftJudgement(subRef);
         await caseListPage.signoutButton();

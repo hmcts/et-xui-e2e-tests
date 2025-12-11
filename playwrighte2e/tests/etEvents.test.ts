@@ -1,10 +1,8 @@
 import { test } from "../fixtures/common.fixture";
-import { params } from "../config/config";
+import config from "../config/config";
 
-let caseNumber: any;
-let subRef;
-
-
+let caseNumber: string;
+let subRef: string;
 
 test.describe('Various events in mange case application', () => {
   test.beforeEach(async ({ page, createCaseStep }) => {
@@ -49,7 +47,6 @@ test.describe('Various events in mange case application', () => {
     await adrDocument.verifyAdrDocumentDetails();
   });
 
-
 });
 
 test.describe('Claimant retaining access to transferred case', () => {
@@ -65,7 +62,7 @@ test.describe('Claimant retaining access to transferred case', () => {
     let newSubRef= await caseTransferPage.checkYourAnswer(caseNumber);
 
     //login as claimant and access transferred case
-    await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+    await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
     await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(newSubRef);
   });
 

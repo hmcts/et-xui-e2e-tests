@@ -1,5 +1,5 @@
 import { test } from '../fixtures/common.fixture';
-import {params} from '../config/config';
+import config from '../config/config';
 
 let caseNumber: string;
 let subRef: string;
@@ -17,8 +17,8 @@ test.describe('Legal Representative Notifications', () => {
     await caseListPage.signoutButton();
 
     //view Notification as Legal rep
-    await page.goto(params.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+    await page.goto(config.TestUrlForManageCaseAAT);
+    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
     await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
     await notificationPage.viewNotification();
   });

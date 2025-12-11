@@ -1,7 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 
 const depositOrderData = require('../data/ui-data/deposit-order-content.json');
-let formattedAmount;
+let formattedAmount: string;
 
 test.describe('Deposit order test', () => {
 

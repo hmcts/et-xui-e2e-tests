@@ -1,7 +1,6 @@
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
 
-
 export default class HearingDetailsPage extends BasePage {
 elements={
   hearingDropdownOption:'#hearingDetailsHearing'
@@ -20,7 +19,6 @@ elements={
     await this.webActions.fillField('#hearingDetailsTimingStart-hour', '');
     await this.webActions.fillField('#hearingDetailsTimingStart-minute', '');
     await this.webActions.fillField('#hearingDetailsTimingStart-second', '');
-
 
     await this.webActions.fillField('#hearingDetailsTimingFinish-day', '');
     await this.webActions.fillField('#hearingDetailsTimingFinish-month', '');

@@ -1,6 +1,5 @@
 import { BasePage } from "./basePage";
-import { expect, Locator, Page } from "@playwright/test";
-
+import { expect } from "@playwright/test";
 
 export default class ClaimDetailsPage extends BasePage{
   async processClaimDetails() {
@@ -14,6 +13,7 @@ export default class ClaimDetailsPage extends BasePage{
     await this.whistleBlowingClaims();
     await this.claimDetailsCheck();
   }
+
   //clicks on the claim details link
   async clickClaimDetailsLink() {
     await expect(this.page.locator('ol')).toContainText('Tell us about your claim');
@@ -26,6 +26,7 @@ export default class ClaimDetailsPage extends BasePage{
     await this.webActions.checkElementById('#whistleBlowing');
     await this.clickContinue();
   }
+
   async selectClaimTypeDiscrimination() {
     await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'What type of discrimination are you claiming?');
     await this.webActions.checkElementById('#age');
@@ -33,12 +34,14 @@ export default class ClaimDetailsPage extends BasePage{
 
     await this.saveAndContinueButton();
   }
+
   async describeWhatHappened() {
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Describe your claim');
     await this.webActions.fillField('#claim-summary-text', 'Discrimination, Dismissal and Pay Cut.');
 
     await this.saveAndContinueButton();
   }
+
   async tellUsWhatYouWant() {
     await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'What do you want if your claim is successful? (optional)');
     await this.webActions.checkElementById('#compensationOnly');
@@ -46,6 +49,7 @@ export default class ClaimDetailsPage extends BasePage{
     await this.webActions.checkElementById('#oldJob');
     await this.saveAndContinueButton();
   }
+
   async compensation() {
     await this.webActions.verifyElementContainsText(this.page.locator('#main-form'), 'What compensation are you seeking?');
     await this.webActions.fillField('#compensationOutcome', 'Seeking months wage and job back');
@@ -53,12 +57,14 @@ export default class ClaimDetailsPage extends BasePage{
 
     await this.saveAndContinueButton();
   }
+
   async tribunalRecommendation() {
     await this.webActions.verifyElementContainsText(this.page.locator('label'), 'What tribunal recommendation would you like to make? (optional)');
     await this.webActions.fillField('#tribunalRecommendationRequest', 'Get Job back and my boss to say sorry');
 
     await this.saveAndContinueButton();
   }
+
   async whistleBlowingClaims() {
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Whistleblowing claims (optional)');
     await this.webActions.checkElementById('#whistleblowing-claim');

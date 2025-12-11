@@ -8,7 +8,6 @@ const restrictedYear = today.getFullYear();
 
 export class RestrictedReportingPage extends BasePage {
 
-
     elements = {
         headingEle: '.heading-h2',
         requestedByOption: '#restrictedReporting_dynamicRequestedBy',

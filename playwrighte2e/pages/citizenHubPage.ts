@@ -1,5 +1,5 @@
 import { BasePage } from "./basePage";
-import { params } from "../config/config";
+import config from "../config/config";
 import { expect } from "@playwright/test";
 
 
@@ -24,7 +24,7 @@ export default class CitizenHubPage extends BasePage {
     changeMyLegalRep: '[href="/change-legal-representative"]',
     linkToET3Response: '[href="/case-document/response-from-respondent"]',
     contactTribunalLinkRegistered: '[href="/contact-the-tribunal"]',
-    appointLegalRepLink:'[href="/appoint-legal-representative"]',
+    appointLegalRepLink: '[href="/appoint-legal-representative"]',
     openAllApplicationType: '//span[@class="govuk-accordion__show-all-text"]',
     welshContactTribunalLinkRegistered: '[href="/contact-the-tribunal?lng=cy"]',
     showAllApplicationType: '#contact-options',
@@ -86,8 +86,8 @@ export default class CitizenHubPage extends BasePage {
     clickRespondentContactDetailsLink: '[href="/respondent-contact-details"]',
   };
 
-  async processCitizenHubLogin(username, password) {
-    await this.page.goto(params.TestUrlCitizenUi);
+  async processCitizenHubLogin(username: string, password: string) {
+    await this.page.goto(config.TestUrlCitizenUi);
     await this.webActions.clickElementByCss(this.elements.returnToExistingClaim);
 
     await this.webActions.checkElementById(this.elements.employmentTribunalAccount);
@@ -95,31 +95,31 @@ export default class CitizenHubPage extends BasePage {
     await this.loginCitizenUi(username, password);
   }
 
-  async loginCitizenUi(username, password) {
+  async loginCitizenUi(username: string, password: string) {
     await this.webActions.fillField('#username', username);
     await this.webActions.fillField('#password', password);
     await this.elements.submit.click();
   }
 
-  async citizenHubCaseOverviewPage(caseNumber) {
+  async citizenHubCaseOverviewPage(caseNumber: string) {
     await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
     // await this.webActions.verifyElementContainsText(this.page.locator('#caseNumber'), 'Case number ' + caseNumber);
   }
 
-  async appointLegalRep(){
-      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.appointLegalRepLink));
-      await this.webActions.clickElementByCss(this.elements.appointLegalRepLink);
+  async appointLegalRep() {
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.appointLegalRepLink));
+    await this.webActions.clickElementByCss(this.elements.appointLegalRepLink);
 
-      await expect(this.page.locator('dl')).toContainText('Case reference');
-      await expect(this.page.locator('dl')).toContainText('Claimant name');
-      await expect(this.page.locator('dl')).toContainText('Tribunal Case Number');
+    await expect(this.page.locator('dl')).toContainText('Case reference');
+    await expect(this.page.locator('dl')).toContainText('Claimant name');
+    await expect(this.page.locator('dl')).toContainText('Tribunal Case Number');
 
-      await expect(this.page.locator('#main-content')).toContainText('download all your documents');
-    }
+    await expect(this.page.locator('#main-content')).toContainText('download all your documents');
+  }
 
-   async clicksViewLinkOnClaimantApplicationPage(submissionReference) {
-      await this.page.goto(params.TestUrlCitizenUi + '/citizen-hub/' + submissionReference);
-    }
+  async clicksViewLinkOnClaimantApplicationPage(submissionReference: string) {
+    await this.page.goto(config.TestUrlCitizenUi + '/citizen-hub/' + submissionReference);
+  }
 
   async makeAnApplication() {
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.contactTribunalLinkRegistered));
@@ -147,7 +147,7 @@ export default class CitizenHubPage extends BasePage {
     await this.closeAndReturn();
   }
 
-  async regAccountContactTribunal(applicationType) {
+  async regAccountContactTribunal(applicationType: string) {
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.contactTribunalLinkRegistered));
     await this.webActions.clickElementByCss(this.elements.contactTribunalLinkRegistered);
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Contact the tribunal about your case');
@@ -183,11 +183,11 @@ export default class CitizenHubPage extends BasePage {
           throw new Error('... invalid option, check you options');
       }
     } catch (e) {
-      console.error('invalid option', e.message);
+      console.error('invalid option', e);
     }
   }
 
-  async rule92Question(option) {
+  async rule92Question(option: string) {
     switch (option) {
       case 'yes':
         await this.webActions.checkElementById(this.elements.yesOptionOnRule92);
@@ -306,7 +306,7 @@ export default class CitizenHubPage extends BasePage {
     await expect(this.page.locator('body')).toContainText('Decision');
   }
 
-  async respondToRespondentApplication(option) {
+  async respondToRespondentApplication(option: string) {
     await this.page.getByRole('link', { name: "Respondent's applications" }).isVisible();
     await this.webActions.clickElementByRole('link', { name: "Respondent's applications" });
     await this.delay(2000);
@@ -354,7 +354,7 @@ export default class CitizenHubPage extends BasePage {
     await this.webActions.verifyElementContainsText(this.page.locator('dl'), 'Preferred method of contact');
   }
 
-  async verifyNotificationBanner(notificationType) {
+  async verifyNotificationBanner(notificationType: string) {
     switch (notificationType) {
       case 'ET1 claim':
       case 'CMO':
@@ -399,24 +399,26 @@ export default class CitizenHubPage extends BasePage {
     await expect(this.page.locator('#main-content')).toContainText('Notice of a Claim and Notice of Hearing');
   }
 
-  async verifyLegalRepNotificationBanner(){
+  async verifyLegalRepNotificationBanner() {
     await expect(this.page.locator('h3')).toContainText('You are now being legally represented by');
   }
 
-  async contactTheTribunalLink()
-  {
+  async contactTheTribunalLink() {
     await this.webActions.clickElementByCss(this.elements.contactTribunalLinkRegistered);
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Contact the tribunal about your case');
-    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'You are now being legally represented by');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('#main-content'),
+      'You are now being legally represented by',
+    );
   }
 
-  async changeMyLegalRep(){
+  async changeMyLegalRep() {
     await this.webActions.clickElementByCss(this.elements.changeMyLegalRep);
     await this.webActions.checkElementById('#legalRep-2');
     await this.clickSubmitButton();
   }
 
-  async verifyLegalRepUnassignedNotificationBanner(){
+  async verifyLegalRepUnassignedNotificationBanner() {
     await expect(this.page.getByLabel('Important')).toContainText('You are no longer legally represented.');
     await this.page.locator(this.elements.appointLegalRepLink).isVisible();
   }

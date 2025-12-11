@@ -1,7 +1,5 @@
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
-import { th } from '@faker-js/faker';
-
 
 export default class CaseNotesPage extends BasePage {
 

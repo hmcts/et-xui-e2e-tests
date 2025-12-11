@@ -1,23 +1,27 @@
-import { test } from "../fixtures/common.fixture";
-import CreateCaseThroughApi from "../pages/createCaseThroughApi";
-import assert = require('node:assert');
+import { test } from '../fixtures/common.fixture';
+import CreateCaseThroughApi from '../pages/createCaseThroughApi';
+import assert from 'node:assert';
 
 let caseNumber: any;
 let subRef: any;
 
-
 test.describe('Close Case & Reinstate Case', () => {
-  test.beforeEach(async ({page, createCaseStep}) => {
-    ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
-
+  test.beforeEach(async ({ page, createCaseStep }) => {
+    ({ subRef, caseNumber } = await createCaseStep.setupCaseCreatedViaApi(page, 'England', 'ET_EnglandWales'));
   });
 
-  test('Create a claim , Close case  & Reinstate Case', async ({page, caseListPage, jurisdictionPage, closeCasePage,reinstateCasePage}) => {
+  test('Create a claim , Close case  & Reinstate Case', async ({
+    page,
+    caseListPage,
+    jurisdictionPage,
+    closeCasePage,
+    reinstateCasePage,
+  }) => {
     await caseListPage.selectNextEvent('Jurisdiction');
     await jurisdictionPage.closeJurisdictionCode();
     await caseListPage.selectNextEvent('Close Case');
     await closeCasePage.closeCase();
-     //RET-6047 Close Case and validate TTL
+    //RET-6047 Close Case and validate TTL
     const createCaseThroughApi = new CreateCaseThroughApi(page);
     const caseData = await createCaseThroughApi.getCaseDataForCaseWorker(subRef);
     const systemTtl = caseData.case_data.TTL.SystemTTL;

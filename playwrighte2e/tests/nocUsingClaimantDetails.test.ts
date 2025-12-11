@@ -1,9 +1,8 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from "../config/config";
+import config from "../config/config";
 
-const respondentName = 'Mrs Test Auto';
 let subRef: string, submissionRef: string;
-let caseNumber;
+let caseNumber: string;
 
 test.describe('perform NOC for Claimant', () => {
 
@@ -23,7 +22,7 @@ test.describe('perform NOC for Claimant', () => {
       await page.click('text=Sign out');
 
       //citizen validates notification banner
-      await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+      await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
       await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.verifyLegalRepNotificationBanner();

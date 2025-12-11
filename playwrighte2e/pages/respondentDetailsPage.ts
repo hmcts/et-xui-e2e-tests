@@ -1,6 +1,5 @@
 import { BasePage } from "./basePage";
-
-const respPageData = require('../data/ui-data/respondent-page-content.json');
+import respPageData from '../data/ui-data/respondent-page-content.json';
 
 export default class RespondentDetailsPage extends BasePage {
 
@@ -54,9 +53,7 @@ export default class RespondentDetailsPage extends BasePage {
     await this.verifyRespondentDetailsOnTab("Hearing panel preference", respPageData.preferenceNameisJudge);
   }
 
-
   async verifyRespondentDetailsOnTab(fieldLabel: string, fieldValue: string) {
     await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`));
   }
-
 }

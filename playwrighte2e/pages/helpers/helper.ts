@@ -1,5 +1,4 @@
 import {  expect, Page } from "@playwright/test";
-// @ts-ignore
 import { Selectors } from "./selectors.ts";
 
 export class Helpers {

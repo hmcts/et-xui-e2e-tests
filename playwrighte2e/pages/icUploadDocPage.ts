@@ -1,10 +1,8 @@
 import { expect } from "@playwright/test";
 import { BasePage } from "./basePage";
-// @ts-ignore
 import path from "path";
-
-const icPageData = require('../data/ui-data/ic-page-content.json');
-const respPageData = require('../data/ui-data/respondent-page-content.json');
+import icPageData from '../data/ui-data/ic-page-content.json';
+import respPageData from '../data/ui-data/respondent-page-content.json';
 
 export default class ICUploadDocPage extends BasePage {
 
@@ -17,7 +15,6 @@ export default class ICUploadDocPage extends BasePage {
         documentHeading: '#icDocumentCollection1 h2',
         fileUploadEle: '#icDocumentCollection1_0_uploadedDocument',
     }
-
 
     async judgeUploadsDocument() {
         await expect(this.page.getByText(icPageData.icLandingPageContent)).toBeVisible();

@@ -1,15 +1,12 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from '../config/config';
 
-let caseNumber: any;
-let subRef;
+let caseNumber: string;
+let subRef: string;
 const respName ='Mrs Test Auto';
 const firstName ='Grayson';
 const lastName = 'Becker';
 let userEmail:any;
 let userPassword:any;
-
-
 
 test.describe('ET3/Respondent Journey', () => {
   test.beforeEach(async ({ page, createCaseStep, axeUtils }) => {

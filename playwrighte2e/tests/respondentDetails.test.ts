@@ -1,8 +1,8 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from "../config/config";
+import config from "../config/config";
 
 let subRef: string;
-let caseNumber;
+let caseNumber: string;
 
 test.describe('Respondent details test', () => {
 
@@ -23,7 +23,7 @@ test.describe('Respondent details test', () => {
         await caseListPage.signoutButton();
 
         //judge log in
-        await loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
+        await loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
         await caseListPage.selectNextEvent('Initial Consideration');
         await icUploadDocPage.verifyRespondentHearingPanelValues();

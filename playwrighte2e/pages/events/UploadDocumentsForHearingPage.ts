@@ -1,7 +1,6 @@
 import { BasePage } from '../basePage';
 import { expect, Locator, Page } from '@playwright/test';
 import { CommonActionsHelper } from '../helpers/CommonActionsHelper';
-import { s } from '@faker-js/faker/dist/airline-CHFQMWko';
 import { CheckYourAnswersPage } from '../helpers/CheckYourAnswersPage';
 
 export class UploadDocumentsForHearingPage extends BasePage {
@@ -53,12 +52,12 @@ export class UploadDocumentsForHearingPage extends BasePage {
       case 'Agreed With restriction':
         await expect( this.prepDocAgreeWithResOption).toBeVisible();
         await this.prepDocAgreeWithResOption.click();
-        await this.prepDocAgreeWithResTextField.fill(details);
+        await this.prepDocAgreeWithResTextField.fill(details? details : 'Agreed with restrictions details');
         return 'We have agreed that this set of documents will be uploaded but we disagree about whether some of the documents should be referred to at the hearing.';
       case 'No':
         await expect( this.prepDocNoAgreementOption).toBeVisible();
         await this.prepDocNoAgreementOption.click();
-        await this.prepDocNoAgreementTextField.fill(details);
+        await this.prepDocNoAgreementTextField.fill(details? details : 'NOT agreed details');
         return 'No, we have not agreed and I want to provide my own documents';
       default:
         throw new Error(`Invalid option: ${option}`);
@@ -187,12 +186,12 @@ export class UploadDocumentsForHearingPage extends BasePage {
     if (param.agreementOption === 'No') {
       rows.push({
         cellItem: `Tell us why you’ve not been able to agree with the other party`,
-        value: param.agreementDetails
+        value: param.agreementDetails ? param.agreementDetails : 'NOT agreed details'
       });
     } else if (param.agreementOption === 'Agreed With restriction') {
       rows.push({
         cellItem: `Tell us which documents are disputed`,
-        value: param.agreementDetails
+        value: param.agreementDetails ? param.agreementDetails : 'Agreed with restrictions details'
       });
     }
     // verify check you answers page

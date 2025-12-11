@@ -1,5 +1,5 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from "../config/config";
+import config from "../config/config";
 import { Events } from '../config/case-data';
 import DateUtilComponent from '../utils/DateUtilComponent';
 
@@ -38,8 +38,8 @@ test.describe('Upload hearing docs test', () => {
 
         const date = DateUtilComponent.formatToDayMonthYear(DateUtilComponent.addWeekdays(new Date(), 21));
         await page.click('text=Sign out');
-        await page.goto(params.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword, 'cases');
+        await page.goto(config.TestUrlForManageCaseAAT);
+        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, 'cases');
         await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
 
         await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')

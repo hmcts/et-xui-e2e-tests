@@ -1,10 +1,8 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from '../config/config';
+import config from '../config/config';
 
-const respondentName = 'Mrs Test Auto';
 let subRef: string;
-let caseNumber;
-
+let caseNumber: string;
 
 test.describe('Upload Hearing Bundle as a Caseworker', () => {
   test.beforeEach(async ({ page, createCaseStep }) => {
@@ -25,7 +23,7 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
     }
     await page.click('text=Sign out');
 
-    await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
     await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
     await  caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
     await caseListPage.selectNextEvent('Upload Hearing Documents');

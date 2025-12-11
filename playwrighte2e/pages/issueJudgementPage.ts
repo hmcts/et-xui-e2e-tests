@@ -15,7 +15,6 @@ export default class IssueJudgementPage extends BasePage {
         judgementSentMonth: '#date_judgment_sent-month',
         judgementSentYear: '#date_judgment_sent-year',
 
-
     }
 
     async issueJudgement() {
