@@ -1,13 +1,8 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from '../config/config';
-
+import config from '../config/config';
 
 let caseNumber: any;
 let submissionRef:string;
-const respName ='Mrs Test Auto';
-const firstName ='Grayson';
-const lastName = 'Becker';
-
 
 test.describe('Respondent Store Application for unrepresented cases', () => {
 
@@ -20,14 +15,14 @@ test.describe('Respondent Store Application for unrepresented cases', () => {
   test.skip(
     'Unrepresented Respondent to store Rule 92 application- Correspondence Yes',
     async ({ page, loginPage, caseListPage, et3LoginPage, respondentCaseOverviewPage }) => {
-      await page.goto(params.TestUrlForManageCaseAAT);
-      await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
+      await page.goto(config.TestUrlForManageCaseAAT);
+      await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
       caseNumber = await caseListPage.navigateToCaseDetails(submissionRef.toString(), 'EnglandWales');
 
       //RET-5466
       await et3LoginPage.processRespondentLoginForExistingCase(
-        params.TestEnvET3RespondentEmailAddress,
-        params.TestEnvET3RespondentPassword,
+        config.TestEnvET3RespondentEmailAddress,
+        config.TestEnvET3RespondentPassword,
         caseNumber,
       );
       await respondentCaseOverviewPage.unrepresentedRespondentMakeApplication('Rule92', true);
@@ -38,14 +33,14 @@ test.describe('Respondent Store Application for unrepresented cases', () => {
   test.skip(
     "Unrepresented Respondent to submit Rule 92 application- Correspondence No'",
     async ({ page, loginPage, caseListPage, et3LoginPage, respondentCaseOverviewPage }) => {
-      await page.goto(params.TestUrlForManageCaseAAT);
-      await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
+      await page.goto(config.TestUrlForManageCaseAAT);
+      await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
       caseNumber = await caseListPage.navigateToCaseDetails(submissionRef, 'EnglandWales');
 
       //RET-5466
       await et3LoginPage.processRespondentLoginForExistingCase(
-        params.TestEnvET3RespondentEmailAddress,
-        params.TestEnvET3RespondentPassword,
+        config.TestEnvET3RespondentEmailAddress,
+        config.TestEnvET3RespondentPassword,
         caseNumber,
       );
       await respondentCaseOverviewPage.unrepresentedRespondentMakeApplication('Rule92', false);

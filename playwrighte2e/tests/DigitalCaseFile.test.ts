@@ -1,9 +1,7 @@
 import { test } from "../fixtures/common.fixture";
 
-let caseNumber: any;
-let subRef;
-
-
+let caseNumber: string;
+let subRef: string;
 
 test.describe('Digital Case File', () => {
     test.beforeEach(async ({page, createCaseStep}) => {

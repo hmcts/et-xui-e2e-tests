@@ -1,5 +1,5 @@
-import {BasePage} from "./basePage";
-import { expect, Page } from '@playwright/test';
+import { BasePage } from './basePage';
+import { Page } from '@playwright/test';
 
 export default class RespContestClaim extends BasePage {
   constructor(page: Page) {
@@ -10,9 +10,9 @@ export default class RespContestClaim extends BasePage {
     return new RespContestClaim(page);
   }
 
-  elements={
+  elements = {
     contestClaimReason: "//*[@id=\'et3ResponseContestClaimDetails\']",
-    clickContestClaimLink:'[href="/respondent-contest-claim"]',
+    clickContestClaimLink: '[href="/respondent-contest-claim"]',
   };
 
   async et3Section3() {

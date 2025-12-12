@@ -1,9 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 
-
-let subRef, subRef2;
-let caseNumber1, caseNumber2;
-
+let subRef: string, subRef2: string;
+let caseNumber1: string, caseNumber2: string;
 
     test.describe('Link-2-Scottish-Cases - Multiple Reasons - Scotland', async () => {
 
@@ -17,7 +15,7 @@ let caseNumber1, caseNumber2;
         });
 
         test('Link-2-Cases - Multiple Reasons - Scotland', {tag: '@demo'}, async ({ caseListPage, caseLinkPage }) => {
-    
+
             // link cases
             await caseListPage.selectNextEvent('Link cases');
             await caseLinkPage.checksCaseLinkStartingPage();
@@ -37,7 +35,7 @@ let caseNumber1, caseNumber2;
         });
 
         test('Link-2-Cases - Multiple Reasons - England', {tag: '@demo'}, async ({ caseListPage, caseLinkPage }) => {
-        
+
             // link cases
             await caseListPage.selectNextEvent('Link cases');
             await caseLinkPage.checksCaseLinkStartingPage();

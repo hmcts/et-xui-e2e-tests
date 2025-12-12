@@ -1,5 +1,7 @@
-export const params = {
+import * as dotenv from 'dotenv';
+dotenv.config();
 
+const configuration = {
     TestUrlCitizenUi:process.env.TEST_URL_CITIZEN_UI||'',
     TestUrlRespondentUi:process.env.TEST_RESP_URL||'',
     TestUrlForManageCaseAAT:process.env.TEST_MANAGE_CASE_URL||'',
@@ -39,4 +41,13 @@ export const params = {
     TestEnvETJudgeUserPasswordWorkAllocation:process.env.ET_JUDGE_USER_PASSWORD_WORKALLOCATION || '',
     EtCosPreviewEtSyaApiUrl: process.env.ET_COS_PREVIEW_ET_SYA_API || '',
     EtCosPreviewCcdUrl: process.env.ET_COS_PREVIEW_CCD || '',
+
+    loginPaths: {
+        cases: 'cases',
+        worklist: 'work/my-work/list',
+        organisation: 'organisation',
+    }
 };
+
+type ConfigurationType = typeof configuration;
+export default configuration as ConfigurationType;

@@ -1,7 +1,6 @@
 import { BasePage } from "./basePage";
 import { expect } from '@playwright/test';
 
-
 export default class Et3NotificationPage extends BasePage {
 
   elements = {

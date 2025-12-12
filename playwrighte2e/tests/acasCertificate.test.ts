@@ -1,22 +1,22 @@
 import { test  } from '../fixtures/common.fixture';
-import { params } from '../config/config';
-
-const userDetailsData = require('../data/ui-data/user-details.json');
-const acasCertData = require('../data/ui-data/acas-content.json');
+import config from '../config/config';
+import userDetailsData from '../data/ui-data/user-details.json';
+import acasCertData from '../data/ui-data/acas-content.json';
 
 test.describe('Add & Search ACAS certificate tests', () => {
     let submissionReference: string;
-    let caseNumber;
+    let caseNumber: string;
 
     test.beforeEach(async ({ page, createCaseStep }) => {
         submissionReference = await createCaseStep.createCaseViaCUI(page, 'EnglandWales',
-            (loginPage) => loginPage.processLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword),
+            (loginPage) => loginPage.processLoginCitizenUi(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword),
             (employmentAndRespondentDetailsPage) => employmentAndRespondentDetailsPage.processStillWorkingJourney(userDetailsData.workPostcode, userDetailsData.selectedWorkAddress, userDetailsData.firstLineOfAddress)
           );
 
           caseNumber = await createCaseStep.setupCaseCreatedViaCUI(page, 'EnglandWales', submissionReference, {
-            user: params.TestEnvETCaseWorkerUser,
-            password: params.TestEnvETPassword
+            user: config.TestEnvETCaseWorkerUser,
+            password: config.TestEnvETPassword,
+            path: config.loginPaths.worklist
           });
     });
 

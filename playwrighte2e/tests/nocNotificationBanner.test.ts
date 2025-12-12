@@ -1,9 +1,8 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from "../config/config";
+import config from "../config/config";
 
-const respondentName = 'Mrs Test Auto';
 let subRef: string, submissionRef: string;
-let caseNumber;
+let caseNumber: string;
 const respName ='Mrs Test Auto';
 
 test.describe('NOC Notification Banner', () => {
@@ -19,18 +18,17 @@ test.describe('NOC Notification Banner', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
       await page.click('text=Sign out');
 
       //citizen validates notification banner
-      await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+      await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
       await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.verifyLegalRepNotificationBanner();
       await citizenHubPage.contactTheTribunalLink();
     });
-
 
   //RET-5791
   test('Perform NOC and validate the notification banner in  Respondent UI',
@@ -38,13 +36,13 @@ test.describe('NOC Notification Banner', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, true);
       await page.click('text=Sign out');
 
 
       //Assign a claim to respondent
-      await et3LoginPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
+      await et3LoginPage.processRespondentLogin(config.TestEnvET3RespondentEmailAddress, config.TestEnvET3RespondentPassword, caseNumber);
       await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);
 
       //citizen validates notification banner in respondent UI
@@ -55,8 +53,6 @@ test.describe('NOC Notification Banner', () => {
     });
 
 });
-
-
 
 test.describe('Share case', () => {
 
@@ -71,12 +67,12 @@ test.describe('Share case', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, true);
       await page.click('text=Sign out');
 
       //share case with other legal rep
-      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
       await caseListPage.checkAndShareCaseFromList(subRef);
       caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
@@ -92,12 +88,12 @@ test.describe('Share case', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
       await page.click('text=Sign out');
 
       //share case with other legal rep
-      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
       await caseListPage.checkAndShareCaseFromList(subRef);
       caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
@@ -114,12 +110,12 @@ test.describe('Share case', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
       await page.click('text=Sign out');
 
       //remove claimant legal rep
-      await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+      await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
       await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.changeMyLegalRep();

@@ -28,7 +28,7 @@ export class ListHearingPage extends BasePage {
         await judicialMediationOption.check();
     }
 
-    async selectManagingOfficeAndVenueScotland(hearingNumber: number, office: string, venue: string) {
+    async selectManagingOfficeAndVenueScotland(hearingNumber: number, office: string = 'Glasgow', venue: string = 'Glasgow ET') {
         const managingOfficeDropdown = this.page.locator(`#hearingCollection_${hearingNumber}_Hearing_venue_Scotland`);
         await expect(managingOfficeDropdown).toBeVisible();
         await managingOfficeDropdown.selectOption({ label: office });
@@ -37,7 +37,7 @@ export class ListHearingPage extends BasePage {
         await hearingVenueDropdown.selectOption({ label: venue });
     }
 
-    async selectHearingVenue(hearingNumber: number, venue: string) {
+    async selectHearingVenue(hearingNumber: number, venue: string = 'Leeds ET') {
         const hearingVenueDropdown = this.page.locator(`#hearingCollection_${hearingNumber}_Hearing_venue`);
         await expect(hearingVenueDropdown).toBeVisible();
         await hearingVenueDropdown.selectOption({ label: venue });
@@ -119,8 +119,8 @@ export class ListHearingPage extends BasePage {
         await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
         await this.clickSubmitButton();
         if(hearingNumber == 1) {
-            await this.webActions.verifyElementToBeVisible(this.page.locator(`h3:has-text("One of the listed dates are in the past.")`));
-            await this.clickSubmitButton();
+          await expect(this.page.getByRole('heading', { level: 3, name: 'One of the listed dates are in the past.' })).toBeVisible();
+          await this.clickSubmitButton();
         }
     }
 }

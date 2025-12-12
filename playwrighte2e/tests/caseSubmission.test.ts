@@ -1,8 +1,6 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from '../config/config';
-
-const userDetailsData = require('../data/ui-data/user-details.json');
-
+import config from '../config/config';
+import userDetailsData from '../data/ui-data/user-details.json';
 
 test.describe('Case creation in Citizen UI', () => {
 
@@ -11,20 +9,21 @@ test.describe('Case creation in Citizen UI', () => {
   }, async ({ page, createCaseStep, respondentRepPage, citizenHubPage, caseListPage }) => {
 
     const submissionReference = await createCaseStep.createCaseViaCUI(page, 'EnglandWales',
-      (loginPage) => loginPage.processLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword),
+      (loginPage) => loginPage.processLoginCitizenUi(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword),
       (employmentAndRespondentDetailsPage) => employmentAndRespondentDetailsPage.processStillWorkingJourney(userDetailsData.workPostcode, userDetailsData.selectedWorkAddress, userDetailsData.firstLineOfAddress)
     );
 
     const caseNumber = await createCaseStep.setupCaseCreatedViaCUI(page, 'EnglandWales', submissionReference, {
-      user: params.TestEnvETCaseWorkerUser,
-      password: params.TestEnvETPassword
+      user: config.TestEnvETCaseWorkerUser,
+      password: config.TestEnvETPassword,
+      path: config.loginPaths.worklist
     });
 
     await caseListPage.selectNextEvent('Respondent Representative');
     await respondentRepPage.addRespondentRepresentative('registered', 'ET Organisation');
     await respondentRepPage.signoutButton();
 
-    await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+    await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
     await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(submissionReference);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
     await citizenHubPage.regAccountContactTribunal('withdraw all or part of my claim');
@@ -40,11 +39,12 @@ test.describe('Case creation in Citizen UI', () => {
     );
 
     await createCaseStep.setupCaseCreatedViaCUI(page, 'EnglandWales', submissionReference, {
-      user: params.TestEnvETManageCaseUser,
-      password: params.TestEnvETManageCasePassword
+      user: config.TestEnvETManageCaseUser,
+      password: config.TestEnvETManageCasePassword,
+      path: config.loginPaths.worklist
+
     });
   });
-
 
   test('Create a claim for no longer working for organisation, submit and process within manage cases',
         async ({ page, createCaseStep }) => {
@@ -54,11 +54,11 @@ test.describe('Case creation in Citizen UI', () => {
     );
 
     await createCaseStep.setupCaseCreatedViaCUI(page, 'EnglandWales', submissionReference, {
-      user: params.TestEnvETManageCaseUser,
-      password: params.TestEnvETManageCasePassword
+      user: config.TestEnvETManageCaseUser,
+      password: config.TestEnvETManageCasePassword,
+      path: config.loginPaths.worklist
     });
   });
-
 
   test('Create a claim for DID NOT work for organisation, submit and process within manage cases',
         async ({ page, createCaseStep }) => {
@@ -68,11 +68,11 @@ test.describe('Case creation in Citizen UI', () => {
     );
 
     await createCaseStep.setupCaseCreatedViaCUI(page, 'EnglandWales', submissionReference, {
-      user: params.TestEnvETManageCaseUser,
-      password: params.TestEnvETManageCasePassword
+      user: config.TestEnvETManageCaseUser,
+      password: config.TestEnvETManageCasePassword,
+      path: config.loginPaths.worklist
     });
   });
-
 
   test('Submit a case from Scotland - Case Progressing Claimant Submit application - record a decision as ECM',
         async ({ page, createCaseStep }) => {
@@ -83,8 +83,9 @@ test.describe('Case creation in Citizen UI', () => {
     );
 
     await createCaseStep.setupCaseCreatedViaCUI(page, 'Scotland', submissionReference, {
-      user: params.TestEnvETManageCaseUser,
-      password: params.TestEnvETManageCasePassword
+      user: config.TestEnvETManageCaseUser,
+      password: config.TestEnvETManageCasePassword,
+      path: config.loginPaths.worklist
     });
   });
 
@@ -97,5 +98,3 @@ test.describe('Case creation in Citizen UI', () => {
 
       });
 });
-
-

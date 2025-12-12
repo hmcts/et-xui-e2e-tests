@@ -1,7 +1,5 @@
 import { test } from '../fixtures/common.fixture';
 
-
-
 test.describe('Case Flag', () => {
     test.beforeEach(async ({ page, createCaseStep }) => {
 
@@ -37,5 +35,3 @@ test.describe('Case Flag', () => {
             await manageCaseFlagPage.manageCaseFlag();
         });
     });
-
-

@@ -1,15 +1,13 @@
 import {test} from "../fixtures/common.fixture";
-import createAndAcceptCase from "../steps/createAndAcceptCase";
 import NotificationPage from "../pages/notificationPage";
-import {params} from "../config/config";
+import config from "../config/config";
 
-let caseNumber: any;
-let subRef;
+let caseNumber: string;
+let subRef: string;
 
-test.beforeEach(async ({ page, createCaseStep}) => {
-  ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, true));
+test.beforeEach(async ({ page, createCaseStep, axeUtils}) => {
+  ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, true, axeUtils));
 });
-
 
 test.describe('Various tests for Citizen application', () => {
 
@@ -19,7 +17,7 @@ test.describe('Various tests for Citizen application', () => {
     await caseListPage.signoutButton();
 
     //claimant verify notification
-    await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+    await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
     await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
 

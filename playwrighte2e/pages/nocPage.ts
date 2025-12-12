@@ -11,7 +11,7 @@ export default class NocPage extends BasePage{
     confirmDetailsCheckBox:'#affirmation',
     serveNoticeCheckBox:'#notifyEveryParty'
   }
-  async processNoc(submissionRef){
+  async processNoc(submissionRef: string){
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.nocLink));
     await this.webActions.clickElementByCss(this.elements.nocLink);
     await this.webActions.verifyElementContainsText(this.page.locator('label'), 'Online case reference number');

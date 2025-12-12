@@ -14,7 +14,10 @@ export default class Et1CaseServingPage extends BasePage {
   }
 
   async processET1CaseServingPages(accessibilityEnabled?: boolean, axeUtils?: AxeUtils) {
-    if(accessibilityEnabled) await axeUtils.audit();
+    if(accessibilityEnabled) {
+      // @ts-ignore
+      await axeUtils.audit();
+    }
     await this.webActions.checkElementByLabel('Yes');
     await this.webActions.fillField(this.elements.date_accepted_day, String(today.getDate()));
     await this.webActions.fillField(this.elements.date_accepted_month, String(today.getMonth() +1));

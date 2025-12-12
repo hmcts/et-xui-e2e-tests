@@ -1,12 +1,9 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from '../config/config';
+import config from '../config/config';
 import {Helpers} from "../pages/helpers/helper";
 
-
-let caseNumber: any;
-let subRef;
-
-
+let caseNumber: string;
+let subRef: string;
 const respName ='Mrs Test Auto';
 const firstName ='Grayson';
 const lastName = 'Becker';
@@ -24,7 +21,7 @@ test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
         //subRef='1745846012875831'
 
         //Assign a claim to respondent
-        await et3LoginPage.processRespondentLogin(params.TestEnvET3RespondentEmailAddress, params.TestEnvET3RespondentPassword, caseNumber);
+        await et3LoginPage.processRespondentLogin(config.TestEnvET3RespondentEmailAddress, config.TestEnvET3RespondentPassword, caseNumber);
         await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);
 
         //make type A application
@@ -35,7 +32,7 @@ test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
         await respondentCaseOverviewPage.signOutButtonSyr();
 
         //Citizen & caseworker can view an application
-        await citizenHubPage.processCitizenHubLogin(params.TestEnvETClaimantEmailAddress, params.TestEnvETClaimantPassword);
+        await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
         await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
         //RET-5754
         //await citizenHubPage.validateApplicationBanner();
@@ -47,8 +44,8 @@ test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
                                                                                            loginPage,
                                                                                            caseListPage
                                                                                        }) => {
-        await page.goto(params.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
+        await page.goto(config.TestUrlForManageCaseAAT);
+        await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         await caseListPage.clickTab('Tasks');

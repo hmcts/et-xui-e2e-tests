@@ -1,10 +1,7 @@
 import { BasePage } from "./basePage";
 import { expect } from "@playwright/test";
 
-
 export default class CreateCaseFlag extends BasePage {
-
-    elements = {}
 
     async createCaseFlag() {
         await this.webActions.waitForLabelToBeVisible('Case level');
@@ -24,5 +21,4 @@ export default class CreateCaseFlag extends BasePage {
         await this.webActions.verifyElementContainsText(this.page.locator('ccd-read-case-flag-field'), 'Urgent case');
         await this.webActions.verifyElementContainsText(this.page.locator('ccd-read-case-flag-field'), 'Active');
     }
-
 }

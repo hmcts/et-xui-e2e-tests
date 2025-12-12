@@ -1,6 +1,6 @@
 import { test } from '../fixtures/common.fixture';
 import { expect } from '@playwright/test';
-import { params } from '../config/config';
+import config from '../config/config';
 
 let subRef: any;
 let caseNumber: any;
@@ -8,9 +8,9 @@ let caseNumber: any;
 test.describe('ECC', () => {
   test.describe.configure({ mode: 'default' });
   test.beforeEach(async ({ page, createCaseStep, loginPage, caseListPage }) => {
-    subRef = await createCaseStep.setupCUIcaseVetAndAcceptViaApi(page, true);
-    await page.goto(params.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
+    subRef = await createCaseStep.setupCUIcaseVetAndAcceptViaApi(true);
+    await page.goto(config.TestUrlForManageCaseAAT);
+    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), "EnglandWales");
   });
 
@@ -81,8 +81,8 @@ test.describe('ECC', () => {
       await caseListPage.verifyBFActionsTab('Action', 'ECC served');
       await caseListPage.signoutButton();
       await citizenHubPage.processCitizenHubLogin(
-        params.TestEnvETClaimantEmailAddress,
-        params.TestEnvETClaimantPassword,
+        config.TestEnvETClaimantEmailAddress,
+        config.TestEnvETClaimantPassword,
       );
       await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);

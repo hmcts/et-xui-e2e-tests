@@ -1,4 +1,4 @@
-import { params } from '../config/config';
+import config from '../config/config';
 import { BaseStep } from './base';
 import { AxeUtils } from '@hmcts/playwright-common';
 import { Page } from '@playwright/test';
@@ -62,23 +62,23 @@ export default class AccessibilitySteps extends BaseStep {
   async scanLegalRepApplicationPages(page, subRef: string, caseNumber: string, firstName: string, lastName: string, accessibilityEnabled?: boolean,axeUtils: AxeUtils) {
 
         await page.click('text=Sign out');
-        await page.goto(params.TestUrlForManageCaseAAT);
-        await this.loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
-        await this.legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, accessibilityEnabled, false, axeUtils);
+        await page.goto(config.TestUrlForManageCaseAAT);
+        await this.loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+        await this.legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, accessibilityEnabled, true, axeUtils);
         await this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
 
         //legal rep make an application
         await this.legalRepPage.legalRepMakeAnApplication(accessibilityEnabled, axeUtils);
     }
 
-    async scanWAPages(page, subRef, axeUtils:AxeUtils) {
+    async scanWAPages(page: Page, subRef: string, axeUtils:AxeUtils) {
 
         await page.click('text=Sign out');
-        await page.goto(params.TestUrlForManageCaseAAT);
-        await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
+        await page.goto(config.TestUrlForManageCaseAAT);
+        await this.loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
         await this.caseListPage.delay(2000);
         await this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
-        // await page.goto(`${params.TestUrlForManageCaseAAT}/cases/case-details/${subRef}`);
+        // await page.goto(`${config.TestUrlForManageCaseAAT}/cases/case-details/${subRef}`);
         await this.caseListPage.navigateToTab('Case list');
         await this.caseListPage.delay(2000);
         await axeUtils.audit();

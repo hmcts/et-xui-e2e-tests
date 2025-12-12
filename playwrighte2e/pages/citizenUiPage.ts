@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { expect} from "@playwright/test";
 import { BasePage } from "./basePage";
 
 
@@ -11,7 +11,7 @@ export default class CitizenUiPage extends BasePage{
     legend: this.page.locator('legend')
   };
 
-  async processPreLoginPagesForTheDraftApplication(region) {
+  async processPreLoginPagesForTheDraftApplication(region: string) {
     await this.startDraftApplication();
     await this.processBeforeYourContinuePage();
     //await this.processWhatsThePostCodeYouHaveWorkedForPage(postcode);
@@ -31,13 +31,13 @@ export default class CitizenUiPage extends BasePage{
     await this.webActions.verifyElementContainsText(this.elements.header1, 'Before you continue');
     await this.clickContinue();
   }
-  async processWhatsThePostCodeYouHaveWorkedForPage(postcode) {
+  async processWhatsThePostCodeYouHaveWorkedForPage(postcode: string) {
     await expect(this.elements.header1).toContainText('What’s the postcode where you worked or work?');
     await this.elements.workPostcode.fill(postcode);
     await this.clickContinue();
   }
 
-  async processWhereYouCanMakeClaim(region){
+  async processWhereYouCanMakeClaim(region: string){
     await this.webActions.verifyElementContainsText(this.elements.header1, 'Where you can make your claim');
     await this.webActions.checkElementById(`//input[@value='ET_${region}']`);
     await this.clickContinue();

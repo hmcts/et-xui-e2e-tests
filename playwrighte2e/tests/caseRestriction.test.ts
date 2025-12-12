@@ -1,7 +1,5 @@
 import { test } from '../fixtures/common.fixture';
 
-
-
 test.describe('Restrict a case by applying rule 43 flag', () => {
     test.beforeEach(async ({ page, createCaseStep }) => {
 

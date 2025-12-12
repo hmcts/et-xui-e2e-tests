@@ -1,4 +1,3 @@
-import { Page } from '@playwright/test';
 import { BasePage } from './basePage';
 
 export class CaseOverviewPage extends BasePage{
@@ -32,7 +31,7 @@ export class CaseOverviewPage extends BasePage{
         await this.page.click('text=Continue');
         await this.page.waitForSelector(this.decisionForm, { timeout: 15000 });
         await this.page.fill(this.notificationTitleDecisionPage, 'adding a decision');
-        
+
         switch (decision) {
             case 'granted':
                 await this.page.check(this.decisionGranted);

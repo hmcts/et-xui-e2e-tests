@@ -1,7 +1,5 @@
 import { test } from '../fixtures/common.fixture';
-
-const fileUploadData = require('../data/ui-data/file-upload-content.json');
-
+import fileUploadData from '../data/ui-data/file-upload-content.json';
 
 test.describe('Upload Document with multiple file extensions', () => {
     test.beforeEach(async ({ page, createCaseStep }) => {
@@ -10,7 +8,7 @@ test.describe('Upload Document with multiple file extensions', () => {
     });
 
     test('Multiple file extension test', {tag: '@demo'}, async ({ caseListPage, uploadDocumentPage }) => {
-        
+
         const fileNames: string[] = [fileUploadData.textFile, fileUploadData.imageFile, fileUploadData.audioFile, fileUploadData.rtfFile];
         let i =1;
 

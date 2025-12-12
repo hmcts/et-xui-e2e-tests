@@ -1,22 +1,21 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { expect } from '@playwright/test';
 import axios from 'axios';
 import { BasePage } from './basePage';
-import { params } from "../config/config";
+import config from '../config/config';
 import { faker } from '@faker-js/faker';
 
-const chance = require('chance');
-const aatUrl = params.TestUrlForManageCaseAAT;
-const idamUrl = params.TestIdamUrl;
+const aatUrl = config.TestUrlForManageCaseAAT;
+const idamUrl = config.TestIdamUrl;
 
 declare global {
   var newUserEmail: string;
 }
 
-export default class LoginPage extends BasePage{
-  elements={
+export default class LoginPage extends BasePage {
+  elements = {
     username: this.page.locator('#username'),
     password: this.page.locator('#password'),
-    submit:this.page.locator('[type="submit"]')
+    submit: this.page.locator('[type="submit"]'),
   };
 
   async registerNewAccount() {
@@ -29,7 +28,7 @@ export default class LoginPage extends BasePage{
         forename: firstName,
         surname: lastName,
         email: emailAddress,
-        password: params.TestEnvETPassword,
+        password: config.TestEnvETPassword,
         active: true,
         roles: [
           {
@@ -49,7 +48,7 @@ export default class LoginPage extends BasePage{
       global.newUserEmail = idamResponse.data.email;
       return global.newUserEmail;
     } catch (error) {
-      return error.message;
+      return "ERROR occurred creating new User "+error;
     }
   }
 
@@ -57,15 +56,20 @@ export default class LoginPage extends BasePage{
     global.newUserEmail = await this.registerNewAccount();
     console.log('.... checking email address:', global.newUserEmail);
     await this.elements.username.fill(global.newUserEmail);
-    await this.elements.password.fill(params.TestEnvETPassword);
+    await this.elements.password.fill(config.TestEnvETPassword);
     await this.elements.submit.click();
   }
 
-  async processLogin(username: string, password: string, requiredPath: string = 'work/my-work/list') {
+  async processLogin(username: string, password: string, requiredPath: string = config.loginPaths.worklist, baseUrl : string = aatUrl) {
     await this.elements.username.fill(username);
     await this.elements.password.fill(password);
     await this.elements.submit.click();
-    await this.page.waitForURL(`${aatUrl}${requiredPath}`, { timeout: 20000 });
+    await this.page.waitForURL(`${baseUrl}${requiredPath}`, { timeout: 20000 });
   }
 
+  async processLoginCitizenUi(username: string, password: string) {
+    await this.elements.username.fill(username);
+    await this.elements.password.fill(password);
+    await this.elements.submit.click();
+  }
 }

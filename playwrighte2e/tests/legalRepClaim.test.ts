@@ -1,8 +1,8 @@
 import {test} from '../fixtures/common.fixture';
-import {params} from '../config/config';
-let caseNumber: any;
-let subRef;
+import config from '../config/config';
 
+let caseNumber: string;
+let subRef: string;
 
 test.beforeEach(async ({ page, createCaseStep}) => {
   ({subRef, caseNumber}  = await createCaseStep.setUpLegalRepCase(page));
@@ -22,8 +22,8 @@ test.describe('Legal Representative submits a case and perform various events', 
         await caseListPage.signoutButton();
 
         // Perform NOC using original Claimant and Respondent names (different org)
-        await page.goto(params.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(params.TestEnvETRespondentEmailAddress, params.TestEnvETRespondentPassword);
+        await page.goto(config.TestUrlForManageCaseAAT);
+        await loginPage.processLogin(config.TestEnvETRespondentEmailAddress, config.TestEnvETRespondentPassword, config.loginPaths.cases);
         await nocPage.processNoc(subRef);
     });
 });

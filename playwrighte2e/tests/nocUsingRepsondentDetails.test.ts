@@ -1,9 +1,9 @@
 import { test } from '../fixtures/common.fixture';
-import { params } from "../config/config";
+import config from "../config/config";
 
 const respondentName = 'Mrs Test Auto';
 let subRef: string, submissionRef: string;
-let caseNumber;
+let caseNumber: string;
 
 test.describe('perform NOC for respondent', () => {
 
@@ -17,7 +17,7 @@ test.describe('perform NOC for respondent', () => {
     async ({ page, caseListPage, et1CaseServingPage, listHearingPage, loginPage, legalRepPage, axeUtils }) => {
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       // @ts-ignore
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, "", "", true, true,axeUtils);
     });
@@ -37,19 +37,19 @@ test.describe('perform NOC for claimant and assign a new claimant representative
       let caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       // @ts-ignore
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, true, false,axeUtils);
 
       await page.click('text=Sign out');
 
       //Assign a case to another legal representative
-      await loginPage.processLogin(params.TestEnvETRespondentEmailAddress, params.TestEnvETRespondentPassword);
+      await loginPage.processLogin(config.TestEnvETRespondentEmailAddress, config.TestEnvETRespondentPassword, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false);
       await page.click('text=Sign out');
 
       //validate case no longer accessible by original legal representative
-      await loginPage.processLogin(params.TestEnvETLegalRepUser, params.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
       //TODO
       // add validation

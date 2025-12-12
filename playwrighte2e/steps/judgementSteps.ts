@@ -1,17 +1,16 @@
 import { BaseStep } from "./base";
-import { params } from "../config/config";
+import config from "../config/config";
 
 export default class JudgementSteps extends BaseStep {
 
     async createDraftJudgement(subRef: string){
 
         await this.caseListPage.signoutButton();
-        await this.page.goto(params.TestUrlForManageCaseAAT);
+        await this.page.goto(config.TestUrlForManageCaseAAT);
 
         //judge logs in
-        await this.loginPage.processLogin(params.TestEnvETJudgeUserEng, params.TestEnvETJudgeUserEngPassword);
+        await this.loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword, config.loginPaths.cases);
         await  this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
-
 
         //Create a draft judgement
         await this.caseListPage.navigateToTab('Judgments');
@@ -25,7 +24,7 @@ export default class JudgementSteps extends BaseStep {
 
     async issueJudgement(subRef: string){
 
-        await this.loginPage.processLogin(params.TestEnvETCaseWorkerUser, params.TestEnvETPassword);
+        await this.loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
         await  this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
         await this.caseListPage.selectNextEvent('Judgment');
 

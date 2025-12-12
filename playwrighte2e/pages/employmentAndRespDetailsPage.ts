@@ -7,34 +7,36 @@ const listMonth = today.getMonth() + 1;
 const listYear = today.getFullYear() + 1;
 let inNoticePeriod: boolean = true;
 
-export default class EmploymentAndRespDetailsPage extends BasePage{
-
-  addAnotherRespondentButton: '#main-form-submit';
+export default class EmploymentAndRespDetailsPage extends BasePage {
   //still working for organisation/person scenario
-  async processStillWorkingJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
-   await this.clickEmploymentStatusLink();
-   await this.workedForOrganisation('Yes');
-   await this.stillWorkingForOrganisation();
-   await this.enterEmploymentJobTitle();
-   await this.enterEmploymentStartDate();
-   await this.selectYesNoticePeriod();
-   await this.selectNoticeType();
-   await this.enterNoticePeriodLength(!inNoticePeriod);
-   await this.enterAverageWeeklyHours();
-   await this.enterPay();
-   await this.enterPensionContribution();
-   await this.enterEmployeeBenefits();
-   await this.enterRespondentName();
-   await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
-   await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
+  async processStillWorkingJourney(workPostcode: string, selectedWorkAddress: string, firstLineOfAddress: string) {
+    await this.clickEmploymentStatusLink();
+    await this.workedForOrganisation('Yes');
+    await this.stillWorkingForOrganisation();
+    await this.enterEmploymentJobTitle();
+    await this.enterEmploymentStartDate();
+    await this.selectYesNoticePeriod();
+    await this.selectNoticeType();
+    await this.enterNoticePeriodLength(!inNoticePeriod);
+    await this.enterAverageWeeklyHours();
+    await this.enterPay();
+    await this.enterPensionContribution();
+    await this.enterEmployeeBenefits();
+    await this.enterRespondentName();
+    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
+    await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
     //this.selectNoToAcas();
-   await this.selectYesToAcas();
-   await this.checkRespondentDetails();
-   await this.completeEmploymentAndRespondentDetails();
+    await this.selectYesToAcas();
+    await this.checkRespondentDetails();
+    await this.completeEmploymentAndRespondentDetails();
   }
 
   //working notice period for organisation/person scenario
-  async processWorkingNoticePeriodJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
+  async processWorkingNoticePeriodJourney(
+    workPostcode: string,
+    selectedWorkAddress: string,
+    firstLineOfAddress: string,
+  ) {
     await this.clickEmploymentStatusLink();
     await this.workedForOrganisation('Yes');
     await this.workingNoticePeriodForOrganisation();
@@ -55,7 +57,11 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.completeEmploymentAndRespondentDetails();
   }
   // //No longer working for organisation/person scenario
-  async processNoLongerWorkingForOrgJourney(workPostcode, selectedWorkAddress, firstLineOfAddress) {
+  async processNoLongerWorkingForOrgJourney(
+    workPostcode: string,
+    selectedWorkAddress: string,
+    firstLineOfAddress: string,
+  ) {
     await this.clickEmploymentStatusLink();
     await this.workedForOrganisation('Yes');
     await this.noLongerWorkingForOrganisation();
@@ -81,7 +87,7 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
   }
 
   // //Did not work for organisation scenario
-  async processDidNotWorkForOrganisationMakingClaimAgainst(workPostcode, selectedWorkAddress) {
+  async processDidNotWorkForOrganisationMakingClaimAgainst(workPostcode: string, selectedWorkAddress: string) {
     await this.clickEmploymentStatusLink();
     await this.workedForOrganisation('No');
     await this.enterRespondentName();
@@ -91,7 +97,7 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.completeEmploymentAndRespondentDetails();
   }
 
-  async multipleAcasCertificate(workPostcode, selectedWorkAddress, firstLineOfAddress) {
+  async multipleAcasCertificate(workPostcode: string, selectedWorkAddress: string, firstLineOfAddress: string) {
     await this.clickEmploymentStatusLink();
     await this.workedForOrganisation('Yes');
     await this.workingNoticePeriodForOrganisation();
@@ -109,17 +115,20 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
     await this.selectYesToAcas();
     await this.addMultipleAcasCertificate();
-    await this.addSecondRespondentDetails(workPostcode, selectedWorkAddress)
+    await this.addSecondRespondentDetails(workPostcode, selectedWorkAddress);
     await this.checkRespondentDetails();
     await this.completeEmploymentAndRespondentDetails();
   }
   //clicks employment status link
   async clickEmploymentStatusLink() {
     await this.webActions.clickElementByCss('[href="/past-employer?lng=en"]');
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Did you work for the organisation or person you’re making your claim against?');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('h1'),
+      'Did you work for the organisation or person you’re making your claim against?',
+    );
   }
   //function to click yes worked for organisation on /past-employer page
-  async workedForOrganisation(workedForOrg) {
+  async workedForOrganisation(workedForOrg: string) {
     if (workedForOrg === 'Yes') {
       await this.webActions.clickElementByCss('#past-employer');
     } else if (workedForOrg === 'No') {
@@ -129,19 +138,28 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
   }
   //selects still working for respondent on /are-you-still-working page
   async stillWorkingForOrganisation() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Are you still working for the organisation or person you\'re making your claim against?');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('h1'),
+      "Are you still working for the organisation or person you're making your claim against?",
+    );
     await this.webActions.checkElementById('#still-working');
     await this.saveAndContinueButton();
   }
   //selects working notice period for respondent on /are-you-still-working page
   async workingNoticePeriodForOrganisation() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Are you still working for the organisation or person you\'re making your claim against?');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('h1'),
+      "Are you still working for the organisation or person you're making your claim against?",
+    );
     await this.webActions.checkElementById('#still-working-2');
     await this.saveAndContinueButton();
   }
   // //selects i'm no longer working for respondent on /are-you-still-working page
   async noLongerWorkingForOrganisation() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Are you still working for the organisation or person you\'re making your claim against?');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('h1'),
+      "Are you still working for the organisation or person you're making your claim against?",
+    );
     await this.webActions.checkElementById('#still-working-3');
     await this.saveAndContinueButton();
   }
@@ -161,13 +179,19 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
   }
   //select yes to notice period on /got-a-notice-period page
   async selectYesNoticePeriod() {
-    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you have a written contract with a notice period? (optional)');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('legend'),
+      'Do you have a written contract with a notice period? (optional)',
+    );
     await this.webActions.checkElementById('#notice-period');
     await this.saveAndContinueButton();
   }
   //selects yes to did you have or work a notice period on /got-a-notice-period page
   async selectYesNoticePeriodNoLongerWorking() {
-    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Did you have or work a notice period? (optional)');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('legend'),
+      'Did you have or work a notice period? (optional)',
+    );
     await this.webActions.checkElementById('#notice-period');
     await this.saveAndContinueButton();
   }
@@ -189,13 +213,15 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
   }
   //select weeks for notice type on /notice-type page
   async selectNoticeType() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Is your notice period in weeks or months? (optional)');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('h1'),
+      'Is your notice period in weeks or months? (optional)',
+    );
     await this.webActions.checkElementById('#notice-type');
     await this.saveAndContinueButton();
   }
   //enter notice length on /notice-length page
-  async enterNoticePeriodLength(inNoticePeriod) {
-
+  async enterNoticePeriodLength(inNoticePeriod: boolean) {
     const noticePeriodText = inNoticePeriod
       ? 'How many weeks of your notice period are you being paid for? (optional)'
       : 'How many weeks in your notice period? (optional)';
@@ -206,25 +232,37 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
   }
   //select yes for did you have or work a notice period question
   async selectNoticeTypeNoLongerWorking() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Was your notice period in weeks or months? (optional)');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('h1'),
+      'Was your notice period in weeks or months? (optional)',
+    );
     await this.webActions.checkElementById('#notice-type');
     await this.saveAndContinueButton();
   }
   //enter notice length on /notice-length page
   async enterNoticePeriodLengthNoLongerWorking() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'How many weeks in your notice period? (optional)');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('h1'),
+      'How many weeks in your notice period? (optional)',
+    );
     await this.webActions.fillField('input[id=notice-length]', '4');
     await this.saveAndContinueButton();
   }
   //enter average weekly hours
   async enterAverageWeeklyHours() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'What are your average weekly hours? (optional)');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('h1'),
+      'What are your average weekly hours? (optional)',
+    );
     await this.webActions.fillField('#avg-weekly-hrs', '20');
     await this.saveAndContinueButton();
   }
   //enter average weekly hours for no longer working
   async enterAverageWeeklyHoursNoLongerWorking() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'What were your average weekly hours? (optional)');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('h1'),
+      'What were your average weekly hours? (optional)',
+    );
     await this.webActions.fillField('#avg-weekly-hrs', '20');
     await this.saveAndContinueButton();
   }
@@ -238,20 +276,29 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
   }
   //enter Pension contribution on /pension page
   async enterPensionContribution() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Did the respondent make any contributions to your pension? (optional)');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('h1'),
+      'Did the respondent make any contributions to your pension? (optional)',
+    );
     await this.webActions.checkElementById('#pension');
     await this.webActions.fillField('#pension-contributions', '200');
     await this.saveAndContinueButton();
   }
   //enter employee benefits on /benefits page
   async enterEmployeeBenefits() {
-    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you or did you receive any employee benefits? (optional)');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('legend'),
+      'Do you or did you receive any employee benefits? (optional)',
+    );
     await this.webActions.checkElementById('#employee-benefits');
     await this.saveAndContinueButton();
   }
   //enter employment benefir for no longer working different to flow on R1.1.2
   async enterEmployeeBenefitsForNoLongerWorking() {
-    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Did you receive any employee benefits? (optional)');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('legend'),
+      'Did you receive any employee benefits? (optional)',
+    );
     await this.webActions.checkElementById('#employee-benefits');
     await this.saveAndContinueButton();
   }
@@ -280,12 +327,15 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
   }
   //verify user is on respondent-name page and then enters a respondent name
   async enterRespondentName() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'What is the name of the respondent you\'re making the claim against?');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('h1'),
+      "What is the name of the respondent you're making the claim against?",
+    );
     await this.webActions.fillField('#respondentName', 'Henry Marsh');
     await this.saveAndContinueButton();
   }
   //enters address for respondent
-  async enterRespondentAddress(workPostcode, selectedWorkAddress) {
+  async enterRespondentAddress(workPostcode: string, selectedWorkAddress: string) {
     await this.webActions.verifyElementContainsText(this.page.locator('label'), 'Enter a UK postcode');
     await this.webActions.fillField('#respondentEnterPostcode', workPostcode);
 
@@ -294,18 +344,24 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.webActions.selectByOptionFromDropDown('#respondentAddressTypes', selectedWorkAddress);
 
     await this.saveAndContinueButton();
-    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'This should be the same respondent address given to Acas.');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('#main-content'),
+      'This should be the same respondent address given to Acas.',
+    );
     await this.saveAndContinueButton();
   }
   //selects yes to working at respondent address
-  async selectYesToWorkingAtRespondentAddress(firstLineOfAddress) {
+  async selectYesToWorkingAtRespondentAddress(firstLineOfAddress: string) {
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Did you work at');
     await this.webActions.checkElementById('#work-address');
     await this.saveAndContinueButton();
   }
   //selects no option for acas cerificate question on /acas-cer-num page
   async selectNoToAcas() {
-    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you have an Acas certificate number for Henry Marsh?');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('legend'),
+      'Do you have an Acas certificate number for Henry Marsh?',
+    );
     await this.webActions.checkElementById('#acasCert-2');
 
     await this.saveAndContinueButton();
@@ -315,20 +371,26 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
   }
 
   async selectYesToAcas() {
-    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you have an Acas certificate number for');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('legend'),
+      'Do you have an Acas certificate number for',
+    );
     await this.webActions.checkElementById('#acasCert');
     await this.webActions.fillField('#acasCertNum', 'R444444/89/74');
     await this.delay(2000);
     await this.saveAndContinueButton();
   }
 
-  async addMultipleAcasCertificate(){
+  async addMultipleAcasCertificate() {
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Check the respondent details');
     await this.addRespondentButton();
   }
 
-  async addSecondRespondentDetails(workPostcode, selectedWorkAddress){
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'What is the name of the respondent you\'re making the claim against?');
+  async addSecondRespondentDetails(workPostcode: string, selectedWorkAddress: string) {
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('h1'),
+      "What is the name of the respondent you're making the claim against?",
+    );
     await this.webActions.fillField('#respondentName', 'Annie Ray');
     await this.saveAndContinueButton();
 
@@ -340,10 +402,16 @@ export default class EmploymentAndRespDetailsPage extends BasePage{
     await this.webActions.selectByOptionFromDropDown('#respondentAddressTypes', selectedWorkAddress);
 
     await this.saveAndContinueButton();
-    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'This should be the same respondent address given to Acas.');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('#main-content'),
+      'This should be the same respondent address given to Acas.',
+    );
     await this.saveAndContinueButton();
 
-    await this.webActions.verifyElementContainsText(this.page.locator('legend'), 'Do you have an Acas certificate number for');
+    await this.webActions.verifyElementContainsText(
+      this.page.locator('legend'),
+      'Do you have an Acas certificate number for',
+    );
     await this.webActions.checkElementById('#acasCert');
     await this.webActions.fillField('#acasCertNum', 'R872259/22/64');
     await this.delay(2000);

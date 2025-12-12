@@ -12,7 +12,7 @@ test.describe('Generate Letters', () => {
 
     test('ET2 - Short track letter', {tag: '@demo'}, async({caseListPage, listHearingPage, lettersPage}) => {
 
-        await caseListPage.selectNextEvent(Events.listHearing);
+        await caseListPage.selectNextEvent(Events.listHearing.listItem);
         await listHearingPage.listCase('EnglandWales', 0,'Leeds ET');
 
         await caseListPage.selectNextEvent(letterPageData.letterEvent);
