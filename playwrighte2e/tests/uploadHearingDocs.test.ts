@@ -39,7 +39,7 @@ test.describe('Upload hearing docs test', () => {
         const date = DateUtilComponent.formatToDayMonthYear(DateUtilComponent.addWeekdays(new Date(), 21));
         await page.click('text=Sign out');
         await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, 'cases');
+        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
         await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
 
         await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')

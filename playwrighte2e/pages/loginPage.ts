@@ -60,10 +60,16 @@ export default class LoginPage extends BasePage {
     await this.elements.submit.click();
   }
 
-  async processLogin(username: string, password: string, requiredPath: string = 'work/my-work/list') {
+  async processLogin(username: string, password: string, requiredPath: string = config.loginPaths.worklist, baseUrl : string = aatUrl) {
     await this.elements.username.fill(username);
     await this.elements.password.fill(password);
     await this.elements.submit.click();
-    await this.page.waitForURL(`${aatUrl}${requiredPath}`, { timeout: 20000 });
+    await this.page.waitForURL(`${baseUrl}${requiredPath}`, { timeout: 20000 });
+  }
+
+  async processLoginCitizenUi(username: string, password: string) {
+    await this.elements.username.fill(username);
+    await this.elements.password.fill(password);
+    await this.elements.submit.click();
   }
 }

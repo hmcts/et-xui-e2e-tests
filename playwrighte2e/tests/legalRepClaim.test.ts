@@ -23,7 +23,7 @@ test.describe('Legal Representative submits a case and perform various events', 
 
         // Perform NOC using original Claimant and Respondent names (different org)
         await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETRespondentEmailAddress, config.TestEnvETRespondentPassword);
+        await loginPage.processLogin(config.TestEnvETRespondentEmailAddress, config.TestEnvETRespondentPassword, config.loginPaths.cases);
         await nocPage.processNoc(subRef);
     });
 });

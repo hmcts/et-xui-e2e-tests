@@ -25,7 +25,7 @@ test.describe('Citizen applications', () => {
     // perform NOC
     await page.click('text=Sign out');
     await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
     await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, respondentName, firstName, lastName, false, true);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
     await page.click('text=Sign out');
@@ -38,7 +38,7 @@ test.describe('Citizen applications', () => {
 
     // Legal Rep respond to an application
     await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
     await applicationTabPage.legalRepRespondToAnApplication();
@@ -46,7 +46,7 @@ test.describe('Citizen applications', () => {
 
     // Caseworker validates Document tab
     await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
     await caseListPage.navigateToTab('Documents');

@@ -40,7 +40,7 @@ export default class CaseListPage extends BasePage {
   async navigateToCaseDetails(subRef: string, option: string): Promise<string> {
     await this.page.waitForLoadState('load');
     const type = option === 'EnglandWales' ? 'ET_EnglandWales' : option === 'Scotland' ? 'Scotland' : '';
-    const url = `${config.TestUrlForManageCaseAAT}/case-details/EMPLOYMENT/${type}/${subRef}`;
+    const url = `${config.TestUrlForManageCaseAAT}/case-details/EMPLOYMENT/${type}/${subRef}#Case%20Details`;
     await this.page.goto(url);
     await this.page.waitForLoadState('load');
     await expect(this.page.getByText(subRef)).toBeVisible();

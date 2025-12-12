@@ -23,7 +23,7 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
     }
     await page.click('text=Sign out');
 
-    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
     await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
     await  caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
     await caseListPage.selectNextEvent('Upload Hearing Documents');

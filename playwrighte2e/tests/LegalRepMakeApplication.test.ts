@@ -17,7 +17,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         //perform NOC
         await page.click('text=Sign out');
         await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
         await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
@@ -34,7 +34,7 @@ test.describe('Make an application and view Recorded Decision', () => {
 
         //Case Worker Request for additional information (respond to claimant's response)
         await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+        await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         await applicationTabPage.respondToAnApplication();
@@ -54,7 +54,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         //perform NOC
         await page.click('text=Sign out');
         await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
         await legalRepPage.processNOCForClaimantOrRespondent  ('Eng/Wales - Singles', subRef, respondentName, firstName, lastName, false);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
@@ -64,7 +64,7 @@ test.describe('Make an application and view Recorded Decision', () => {
 
        //caseworker records a decision
         await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+        await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
         await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         await applicationTabPage.recordADecision();
@@ -85,7 +85,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         //perform NOC
         await page.click('text=Sign out');
         await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
         await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, respondentName, firstName, lastName, true);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 

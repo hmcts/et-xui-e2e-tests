@@ -18,7 +18,7 @@ test.describe('Legal Representative Notifications', () => {
 
     //view Notification as Legal rep
     await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
     await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
     await notificationPage.viewNotification();
   });

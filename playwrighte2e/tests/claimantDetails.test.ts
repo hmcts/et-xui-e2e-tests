@@ -23,7 +23,7 @@ test.describe('Claimant details test', () => {
         await caseListPage.signoutButton();
 
         //judge log in
-        await loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword);
+        await loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword, config.loginPaths.cases);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
         await caseListPage.selectNextEvent('Initial Consideration');
         await icUploadDocPage.verifyClaimantHearingPanelValues();

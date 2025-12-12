@@ -10,7 +10,7 @@ test.describe('ECC', () => {
   test.beforeEach(async ({ page, createCaseStep, loginPage, caseListPage }) => {
     subRef = await createCaseStep.setupCUIcaseVetAndAcceptViaApi(true);
     await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), "EnglandWales");
   });
 

@@ -64,7 +64,7 @@ test.describe('ET3/Respondent Applications', () => {
 
         // legal rep view application
         await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         // legal rep can see an application

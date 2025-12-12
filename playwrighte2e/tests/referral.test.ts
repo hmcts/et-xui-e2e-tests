@@ -26,7 +26,7 @@ test.describe.serial('England - Referral test', () => {
         await page.goto(config.TestUrlForManageCaseAAT);
 
         //judge logs in
-        await loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword);
+        await loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword, config.loginPaths.cases);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         //Reply & verify a referral
@@ -45,7 +45,7 @@ test.describe.serial('England - Referral test', () => {
         await page.goto(config.TestUrlForManageCaseAAT);
 
         //judge logs in
-        await loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword);
+        await loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword, config.loginPaths.cases);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         // Close & verify a referral

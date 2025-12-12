@@ -13,7 +13,7 @@ test.describe('ET3/Respondent Journey validates respondent/claimant details', ()
   test('Citizen user validates respondent contact details', async ({page, loginPage,caseListPage, respondentDetailsPage, citizenHubPage }) => {
     //caseworker completes respondent details
     await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
 
     await caseListPage.selectNextEvent('Respondent Details');
@@ -31,7 +31,7 @@ test.describe('ET3/Respondent Journey validates respondent/claimant details', ()
   //RET-5767
   test('Respondent validates claimant contact details', {tag: '@demo'}, async ({ page, loginPage, caseListPage, respondentCaseOverviewPage , et3LoginPage}) => {
     await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
     await caseListPage.signoutButton();
 

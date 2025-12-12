@@ -37,6 +37,7 @@ test.describe('Work Allocation', () => {
     await loginPage.processLogin(
       config.TestEnvETJudgeUserWorkAllocation,
       config.TestEnvETJudgeUserPasswordWorkAllocation,
+      config.loginPaths.cases
     );
     caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
     await caseListPage.clickTab('Tasks');
@@ -98,7 +99,7 @@ test.describe('Work Allocation- Judge completes tasks', () => {
     await loginPage.processLogin(
       config.TestEnvETJudgeUserWorkAllocation,
       config.TestEnvETJudgeUserPasswordWorkAllocation,
-      'cases',
+      config.loginPaths.cases,
     );
     caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
     await caseListPage.clickTab('Tasks');

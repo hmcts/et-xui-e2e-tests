@@ -21,7 +21,7 @@ test.describe('England - Caseworker Bundles test', () => {
         await listHearingPage.listCase(region, 0,"Leeds ET");
         await page.click('text=Sign out');
 
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, 'cases');
+        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
         const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
 
         await legalRepPage.processNOCForClaimantOrRespondent(searchReference, subRef, caseNumber, firstName, lastName, false, true);
@@ -74,7 +74,7 @@ test.describe('Scotland - Caseworker Bundles test', () => {
         await listHearingPage.listCase(region, 1,"Glasgow ET", 'Scotland');
         await page.click('text=Sign out');
 
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
         const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
 
         await legalRepPage.processNOCForClaimantOrRespondent(searchReference, subRef, caseNumber, firstName, lastName, false, true);
@@ -103,7 +103,7 @@ test.describe('England - Claimant Bundles test', () => {
         await listHearingPage.listCase('EnglandWales', 0,'Amersham');
         await page.click('text=Sign out');
 
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, 'cases');
+        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
         await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false);
 
         await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);

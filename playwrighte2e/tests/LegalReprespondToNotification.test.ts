@@ -17,13 +17,13 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
     const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
     await page.click('text=Sign out');
 
-    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
     await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false);
     await page.click('text=Sign out');
 
     //caseworker send notification
     await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
     await notificationPage.selectNotificationLink();
@@ -31,7 +31,7 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
     await caseListPage.signoutButton();
 
     //respond as a (claimant) Legal rep
-    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
     await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
     //respond to an application
@@ -46,13 +46,13 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
       await page.click('text=Sign out');
 
       //caseworker send notification
       await page.goto(config.TestUrlForManageCaseAAT);
-      await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+      await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
       await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
       await notificationPage.selectNotificationLink();
@@ -60,7 +60,7 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
       await caseListPage.signoutButton();
 
       //respond as a (respondent) Legal rep
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
       //respond to an application

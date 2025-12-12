@@ -2,6 +2,7 @@ import config from "../config/config";
 import { BaseStep } from "./base";
 import { Page } from '@playwright/test';
 import { AxeUtils } from '@hmcts/playwright-common';
+import path from 'path';
 
 let subRef: string;
 let submissionRef: string;
@@ -19,7 +20,7 @@ export default class createAndAcceptCase extends BaseStep {
     subRef = submissionRef.toString();
 
     await page.goto(config.TestUrlForManageCaseAAT);
-    await this.loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+    await this.loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     const searchReference = region === 'England' ? 'EnglandWales' : region;
     caseNumber = await this.caseListPage.navigateToCaseDetails(subRef, searchReference);
 
@@ -42,7 +43,7 @@ export default class createAndAcceptCase extends BaseStep {
     subRef = submissionRef.toString();
 
     await page.goto(config.TestUrlForManageCaseAAT);
-    await this.loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+    await this.loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     caseNumber = await this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
     if (et1VettingFlag) {
@@ -99,10 +100,10 @@ export default class createAndAcceptCase extends BaseStep {
     page: Page,
     region: string,
     submissionReference: string,
-    loginCredentials: { user: string; password: string },
+    loginCredentials: { user: string; password: string, path: string },
   ) {
     await page.goto(config.TestUrlForManageCaseAAT);
-    await this.loginPage.processLogin(loginCredentials.user, loginCredentials.password);
+    await this.loginPage.processLogin(loginCredentials.user, loginCredentials.password, loginCredentials.path);
     const searchReference = region === 'England' ? 'EnglandWales' : region;
     caseNumber = await this.caseListPage.navigateToCaseDetails(submissionReference, searchReference);
     await this.caseListPage.verifyCaseDetailsPage(true);
@@ -118,7 +119,7 @@ export default class createAndAcceptCase extends BaseStep {
 
   async setUpLegalRepCase(page: Page) {
     await page.goto(config.TestUrlForManageCaseAAT);
-    await this.loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+    await this.loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
     await this.caseListPage.claimantRepCreateCase('Employment', 'Eng/Wales - Singles', 'LS1 2AJ');
 
     await this.et1CreateDraftClaim.et1Section1(userDetailsData.claimantsFirstName, userDetailsData.claimantsLastName);
@@ -134,7 +135,7 @@ export default class createAndAcceptCase extends BaseStep {
 
     //vet the case
     await page.goto(config.TestUrlForManageCaseAAT);
-    await this.loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+    await this.loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     let caseNumber = await this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
     await this.caseListPage.selectNextEvent('ET1 case vetting');
     await this.et1VettingPage.processET1CaseVettingPages();

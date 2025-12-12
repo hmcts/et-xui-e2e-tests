@@ -41,6 +41,12 @@ const configuration = {
     TestEnvETJudgeUserPasswordWorkAllocation:process.env.ET_JUDGE_USER_PASSWORD_WORKALLOCATION || '',
     EtCosPreviewEtSyaApiUrl: process.env.ET_COS_PREVIEW_ET_SYA_API || '',
     EtCosPreviewCcdUrl: process.env.ET_COS_PREVIEW_CCD || '',
+
+    loginPaths: {
+        cases: 'cases',
+        worklist: 'work/my-work/list',
+        organisation: 'organisation',
+    }
 };
 
 type ConfigurationType = typeof configuration;

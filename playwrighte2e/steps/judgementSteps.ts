@@ -9,7 +9,7 @@ export default class JudgementSteps extends BaseStep {
         await this.page.goto(config.TestUrlForManageCaseAAT);
 
         //judge logs in
-        await this.loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword);
+        await this.loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword, config.loginPaths.cases);
         await  this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
 
         //Create a draft judgement
@@ -24,7 +24,7 @@ export default class JudgementSteps extends BaseStep {
 
     async issueJudgement(subRef: string){
 
-        await this.loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+        await this.loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
         await  this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
         await this.caseListPage.selectNextEvent('Judgment');
 

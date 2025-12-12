@@ -18,7 +18,7 @@ test.describe('NOC Notification Banner', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
       await page.click('text=Sign out');
 
@@ -36,7 +36,7 @@ test.describe('NOC Notification Banner', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, true);
       await page.click('text=Sign out');
 
@@ -67,12 +67,12 @@ test.describe('Share case', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, true);
       await page.click('text=Sign out');
 
       //share case with other legal rep
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
       await caseListPage.checkAndShareCaseFromList(subRef);
       caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
@@ -88,12 +88,12 @@ test.describe('Share case', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
       await page.click('text=Sign out');
 
       //share case with other legal rep
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
       await caseListPage.checkAndShareCaseFromList(subRef);
       caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
@@ -110,7 +110,7 @@ test.describe('Share case', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
+      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
       await page.click('text=Sign out');
 

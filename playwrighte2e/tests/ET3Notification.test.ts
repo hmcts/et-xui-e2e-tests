@@ -19,7 +19,7 @@ test.describe('ET3 Notification', () => {
                                                                                        et3NotificationPage
                                                                                      }) => {
     await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
 
     //reject ET3 Response
@@ -40,7 +40,7 @@ test.describe('ET3 Notification', () => {
                                                                                         et3NotificationPage
                                                                                       }) => {
     await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
 
     //reject ET3 Response
@@ -61,7 +61,7 @@ test.describe('ET3 Notification', () => {
                                                                          et3NotificationPage
                                                                        }) => {
     await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
 
     //attempt to send ET3 notification

@@ -63,8 +63,8 @@ export default class AccessibilitySteps extends BaseStep {
 
         await page.click('text=Sign out');
         await page.goto(config.TestUrlForManageCaseAAT);
-        await this.loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword);
-        await this.legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, accessibilityEnabled, false, axeUtils);
+        await this.loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+        await this.legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, accessibilityEnabled, true, axeUtils);
         await this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
 
         //legal rep make an application
@@ -75,7 +75,7 @@ export default class AccessibilitySteps extends BaseStep {
 
         await page.click('text=Sign out');
         await page.goto(config.TestUrlForManageCaseAAT);
-        await this.loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword);
+        await this.loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
         await this.caseListPage.delay(2000);
         await this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
         // await page.goto(`${config.TestUrlForManageCaseAAT}/cases/case-details/${subRef}`);

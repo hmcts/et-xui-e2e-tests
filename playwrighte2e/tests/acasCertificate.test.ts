@@ -9,13 +9,14 @@ test.describe('Add & Search ACAS certificate tests', () => {
 
     test.beforeEach(async ({ page, createCaseStep }) => {
         submissionReference = await createCaseStep.createCaseViaCUI(page, 'EnglandWales',
-            (loginPage) => loginPage.processLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword),
+            (loginPage) => loginPage.processLoginCitizenUi(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword),
             (employmentAndRespondentDetailsPage) => employmentAndRespondentDetailsPage.processStillWorkingJourney(userDetailsData.workPostcode, userDetailsData.selectedWorkAddress, userDetailsData.firstLineOfAddress)
           );
 
           caseNumber = await createCaseStep.setupCaseCreatedViaCUI(page, 'EnglandWales', submissionReference, {
             user: config.TestEnvETCaseWorkerUser,
-            password: config.TestEnvETPassword
+            password: config.TestEnvETPassword,
+            path: config.loginPaths.worklist
           });
     });
 
