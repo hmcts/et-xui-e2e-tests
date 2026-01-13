@@ -1,5 +1,5 @@
-import { BasePage } from "./basePage";
-import respPageData from '../data/ui-data/respondent-page-content.json';
+import { BasePage } from "../basePage.ts";
+import respPageData from '../../data/ui-data/respondent-page-content.json';
 
 export default class RespondentDetailsPage extends BasePage {
 

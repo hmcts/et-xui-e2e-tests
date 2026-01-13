@@ -1,7 +1,7 @@
 import { BasePage } from "./basePage";
-import { expect } from "@playwright/test";
+import { expect, Locator } from '@playwright/test';
 import config from "../config/config";
-import dateUtilComponent from "../utils/DateUtilComponent";
+import dateUtilComponent from "../data-utils/DateUtilComponent";
 
 const referralData = require('../data/ui-data/referral-content.json');
 
@@ -36,6 +36,48 @@ export default class CaseListPage extends BasePage {
     judgmentTab: '//div[contains(text(), "Judgement")]',
     claimantRepresentative: '//div[contains(text(), "Claimant Representative")]',
   };
+
+  async selectJurisdiction(jurisdiction: string) {
+    const jurisdictionDropdown = this.page.getByLabel('Jurisdiction');
+    await expect(jurisdictionDropdown).toBeVisible();
+    await jurisdictionDropdown.selectOption(jurisdiction);
+  }
+
+  async selectCaseType(caseType: string) {
+    const caseTypeDropdown = this.page.getByLabel('Case type');
+    await expect(caseTypeDropdown).toBeVisible();
+    await caseTypeDropdown.selectOption(caseType);
+  }
+
+  async selectState(state: string) {
+    const stateDropdown = this.page.getByLabel('State');
+    await expect(stateDropdown).toBeVisible();
+    await stateDropdown.selectOption(state);
+  }
+
+  async selectTribunalOffice(office: string) {
+    const tribunalOfficeDropdown = this.page.getByLabel('Tribunal office');
+    await expect(tribunalOfficeDropdown).toBeVisible();
+    await tribunalOfficeDropdown.selectOption(office);
+  }
+
+  async enterCaseNumber(caseNumber: string) {
+    const caseNumberField = this.page.getByLabel('Case Number');
+    await expect(caseNumberField).toBeVisible();
+    await caseNumberField.fill(caseNumber);
+  }
+
+  async enterSubmissionReference(submissionReference: string) {
+    const submissionReferenceField = this.page.getByLabel('Submission Reference');
+    await expect(submissionReferenceField).toBeVisible();
+    await submissionReferenceField.fill(submissionReference);
+  }
+
+  async selectManagingOffice(office: string) {
+    const managingOfficeDropdown = this.page.getByLabel('Managing Office');
+    await expect(managingOfficeDropdown).toBeVisible();
+    await managingOfficeDropdown.selectOption(office);
+  }
 
   async navigateToCaseDetails(subRef: string, option: string): Promise<string> {
     await this.page.waitForLoadState('load');
@@ -76,7 +118,7 @@ export default class CaseListPage extends BasePage {
 
     await this.webActions.fillField(this.elements.submissionReferenceLocator, submissionReference);
     await this.webActions.clickElementByCss(this.elements.applyButton);
-    await this.webActions.verifyElementContainsText(this.page.locator('#search-result'), submissionReference);
+   // await this.webActions.verifyElementContainsText(this.page.locator('#search-result'), submissionReference);
   }
 
   async checkAndShareCaseFromList(subRef: string) {
@@ -133,6 +175,7 @@ export default class CaseListPage extends BasePage {
   }
 
   async navigateToTab(tabName: string): Promise<void> {
+    await this.page.waitForLoadState('load');
     switch (tabName) {
       case 'ICTab': {
         await this.webActions.clickElementByRole('tab', { name: 'Initial Consideration', exact: true });
@@ -190,11 +233,6 @@ export default class CaseListPage extends BasePage {
         await ele.click();
         break;
       }
-      case 'Tasks': {
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.tasksTab));
-        await this.webActions.clickElementByCss(this.elements.tasksTab);
-        break;
-      }
       case 'Hearing Documents': {
         await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingTab));
         await this.webActions.clickElementByCss(this.elements.hearingTab);
@@ -212,10 +250,45 @@ export default class CaseListPage extends BasePage {
         break;
       }
       default: {
-        break;
+        await this.page.waitForLoadState('load');
+        const xpath = `//div[@role='tab']/div[normalize-space()='${tabName}']`;
+        const tabHeader = this.page.locator(xpath);
+
+        const tryPaginateAncClickTab = async(direction: string) => {
+          let paginateDirectionButton = this.page.locator(`button.mat-tab-header-pagination-${direction}[aria-hidden="true"]:not([disabled])`);
+          while (await paginateDirectionButton.count() > 0) {
+            await paginateDirectionButton.click();
+            try {
+              await tabHeader.click({ trial: true, timeout:1000 });
+              await tabHeader.click();
+              console.log(`Clicked on tab after paginating ${direction}: ` + tabName);
+              return true;
+            } catch {
+            }
+            paginateDirectionButton = this.page.locator(`button.mat-tab-header-pagination-${direction}[aria-hidden="true"]:not([disabled])`);
+          }
+          return false;
+        };
+
+        try {
+          await tabHeader.click({ trial: true, timeout:1000 }); // trial: true checks if clickable
+          await tabHeader.click();
+          console.log('Clicked on tab: ' + tabName);
+          return;
+        } catch {
+          // Try paginating before
+         if (await tryPaginateAncClickTab('before'))  return;
+          // Try paginating After
+         if (await tryPaginateAncClickTab('after'))  return;
+         // if nothing worked then throw error
+          throw new Error('Not able to navigate to Tab ' + tabName);
+        }
       }
     }
+
   }
+
+
 
   async searchHearingReports(option: string, state: string, officeLocation: string) {
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseListLink));
@@ -361,5 +434,10 @@ export default class CaseListPage extends BasePage {
         this.page.locator(`//*[normalize-space()="${key}"]/../../td[normalize-space()="${value}"]`),
       );
     }
+  }
+
+  async verifyNoCasesFoundMessage() {
+    await this.page.waitForLoadState('load');
+    await expect(this.page.getByText('No cases found. Try using different filters.')).toBeVisible();
   }
 }

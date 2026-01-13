@@ -270,6 +270,7 @@ export default class CreateCaseThroughApi extends BasePage {
         console.log(error);
       });
   }
+
   async createACaseGetRequest(authToken: string, serviceToken: string, userId: string, location: string) {
     const ccdStartCasePath = `/caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${location}/event-triggers/initiateCase/token`;
 

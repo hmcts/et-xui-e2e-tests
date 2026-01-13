@@ -1,5 +1,5 @@
 import { BasePage } from '../basePage';
-import dateUtilComponent from '../../utils/DateUtilComponent';
+import dateUtilComponent from '../../data-utils/DateUtilComponent';
 import { expect } from '@playwright/test';
 
 export class ListHearingPage extends BasePage {

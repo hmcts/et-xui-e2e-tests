@@ -26,7 +26,7 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
     await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
-    await notificationPage.selectNotificationLink();
+    await notificationPage.navigateToSendANotifications();
     await notificationPage.sendNotification('ET1 claim');
     await caseListPage.signoutButton();
 
@@ -55,7 +55,7 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
       await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
       await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
-      await notificationPage.selectNotificationLink();
+      await notificationPage.navigateToSendANotifications();
       await notificationPage.sendNotification('ET1 claim');
       await caseListPage.signoutButton();
 

@@ -1,5 +1,5 @@
 import { test } from "../fixtures/common.fixture";
-import dateUtilComponent from '../utils/DateUtilComponent';
+import dateUtilComponent from '../data-utils/DateUtilComponent';
 import { Events } from '../config/case-data';
 
 const letterPageData = require('../data/ui-data/letter-content.json');

@@ -19,7 +19,7 @@ test.describe('perform NOC for respondent', () => {
 
       await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       // @ts-ignore
-      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, "", "", true, true,axeUtils);
+      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, "", "", false, true,axeUtils);
     });
 });
 
@@ -39,7 +39,7 @@ test.describe('perform NOC for claimant and assign a new claimant representative
 
       await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       // @ts-ignore
-      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, true, false,axeUtils);
+      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false,axeUtils);
 
       await page.click('text=Sign out');
 
@@ -50,8 +50,7 @@ test.describe('perform NOC for claimant and assign a new claimant representative
 
       //validate case no longer accessible by original legal representative
       await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
-      await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
-      //TODO
-      // add validation
+      await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
+      await caseListPage.verifyNoCasesFoundMessage();
     });
 });

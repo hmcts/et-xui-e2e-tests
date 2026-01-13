@@ -16,7 +16,7 @@ import Et1CreateDraftClaim from "../pages/et1CreateDraftClaim";
 import ReferralPage from "../pages/referralPage";
 import DraftJudgementPage from "../pages/draftJudgementPage";
 import IssueJudgementPage from "../pages/issueJudgementPage";
-import RespondentRepPage from "../pages/respondentRepPage";
+import RespondentRepPage from "../pages/respondent/respondentRepPage.ts";
 import ET3ProcessPage from "../pages/et3ProcessPage";
 
 export abstract class BaseStep {
