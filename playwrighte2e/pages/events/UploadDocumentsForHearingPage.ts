@@ -2,8 +2,9 @@ import { BasePage } from '../basePage';
 import { expect, Locator, Page } from '@playwright/test';
 import { CommonActionsHelper } from '../helpers/CommonActionsHelper';
 import { CheckYourAnswersPage } from '../helpers/CheckYourAnswersPage';
+import { BaseEventPage } from './BaseEventPage.ts';
 
-export class UploadDocumentsForHearingPage extends BasePage {
+export class UploadDocumentsForHearingPage extends BaseEventPage {
   private readonly commonActionsHelper: CommonActionsHelper;
 
   private readonly prepDocYesOption: Locator;

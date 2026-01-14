@@ -50,6 +50,7 @@ import ClaimantRepresentativePage from '../pages/claimantRepresentativePage';
 import { CommonActionsHelper } from '../pages/helpers/CommonActionsHelper';
 import { UploadDocumentsForHearingPage } from '../pages/events/UploadDocumentsForHearingPage';
 import { CheckYourAnswersPage } from '../pages/helpers/CheckYourAnswersPage';
+import { BaseEventPage } from '../pages/events/BaseEventPage.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
 
@@ -105,6 +106,7 @@ export type PageFixtures = {
     reinstateCasePage:ReinstateCasePage;
     uploadDocumentsForHearingPage: UploadDocumentsForHearingPage;
     checkYourAnswersPage: CheckYourAnswersPage;
+    baseEventPage: BaseEventPage;
 }
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -298,4 +300,7 @@ export const pageFixtures = base.extend<PageFixtures>({
   checkYourAnswersPage:async({page}, use) => {
     await use(new CheckYourAnswersPage(page));
   },
+  baseEventPage:async({page}, use) => {
+    await use(new BaseEventPage(page));
+  }
 });

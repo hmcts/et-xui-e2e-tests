@@ -1,8 +1,9 @@
 import { BasePage } from '../basePage';
 import dateUtilComponent from '../../data-utils/DateUtilComponent';
 import { expect } from '@playwright/test';
+import { BaseEventPage } from './BaseEventPage.ts';
 
-export class ListHearingPage extends BasePage {
+export class ListHearingPage extends BaseEventPage {
 
     async enterHearingNumber(hearingNumber: number) {
         const hearingNumberText = this.page.locator(`#hearingCollection_${hearingNumber}_hearingNumber`);

@@ -124,8 +124,9 @@ export default class CaseListPage extends BasePage {
   async checkAndShareCaseFromList(subRef: string) {
     await this.page.locator('#select-' + subRef).check();
     await this.clickShareCaseButton();
-    await this.page.getByRole('combobox', { name: 'Search by name or email' }).fill('et');
-    await this.page.getByText('Test Factory - et.legalrep.').click();
+    await this.page.waitForLoadState('load', {timeout: 3000});
+    await this.page.getByRole('combobox', { name: 'Search by name or email' }).pressSequentially(config.TestEnvETManageOrgSuperUserName, { delay: 100 });
+    await this.page.locator(`//mat-option[@role='option']/span[contains(.,'${config.TestEnvETManageOrgSuperUserName}')]`).click();
     await this.page.getByRole('button', { name: 'Add user' }).click();
     await this.clickContinue();
     await this.page.getByRole('button', { name: 'Confirm' }).click();
@@ -250,15 +251,17 @@ export default class CaseListPage extends BasePage {
         break;
       }
       default: {
-        await this.page.waitForLoadState('load');
+        await this.page.waitForLoadState('load', {timeout: 5000});
         const xpath = `//div[@role='tab']/div[normalize-space()='${tabName}']`;
-        const tabHeader = this.page.locator(xpath);
+        let tabHeader = this.page.locator(xpath);
 
         const tryPaginateAncClickTab = async(direction: string) => {
           let paginateDirectionButton = this.page.locator(`button.mat-tab-header-pagination-${direction}[aria-hidden="true"]:not([disabled])`);
           while (await paginateDirectionButton.count() > 0) {
             await paginateDirectionButton.click();
             try {
+              await this.page.waitForLoadState('load');
+              tabHeader = this.page.locator(xpath);
               await tabHeader.click({ trial: true, timeout:1000 });
               await tabHeader.click();
               console.log(`Clicked on tab after paginating ${direction}: ` + tabName);
@@ -271,15 +274,17 @@ export default class CaseListPage extends BasePage {
         };
 
         try {
+          await this.page.waitForLoadState('load');
+          tabHeader = this.page.locator(xpath);
           await tabHeader.click({ trial: true, timeout:1000 }); // trial: true checks if clickable
           await tabHeader.click();
           console.log('Clicked on tab: ' + tabName);
           return;
         } catch {
           // Try paginating before
-         if (await tryPaginateAncClickTab('before'))  return;
+          if (await tryPaginateAncClickTab('before'))  return;
           // Try paginating After
-         if (await tryPaginateAncClickTab('after'))  return;
+          if (await tryPaginateAncClickTab('after'))  return;
          // if nothing worked then throw error
           throw new Error('Not able to navigate to Tab ' + tabName);
         }

@@ -41,6 +41,7 @@ export abstract class BasePage {
 
   async clickSubmitButton() {
     await this.webActions.clickElementByRole('button', { name: 'Submit' });
+    await this.page.waitForLoadState('load', { timeout: 5000 });
   }
 
   async delay(ms: number) {
