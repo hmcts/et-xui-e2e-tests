@@ -208,7 +208,7 @@ export const pageFixtures = base.extend<PageFixtures>({
     },
 
     respondentDetailsPage:async ({page}, use) => {
-        await use(new RespondentDetailsPage(page));
+        await use(new RespondentDetailsPage(page, commonActionsHelper));
     },
 
     nocPage:async ({page}, use) => {

@@ -33,6 +33,7 @@ export class WebAction {
   }
 
   async checkElementById(elementId: string) {
+    await this.page.locator(elementId).scrollIntoViewIfNeeded();
     await this.page.locator(elementId).click();
   }
 

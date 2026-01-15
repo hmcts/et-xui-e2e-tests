@@ -1,7 +1,20 @@
 import { BasePage } from "../basePage.ts";
 import respPageData from '../../data/ui-data/respondent-page-content.json';
+import DateUtilComponent from '../../data-utils/DateUtilComponent.ts';
+import { expect, Locator, Page } from '@playwright/test';
+import { CommonActionsHelper } from '../helpers/CommonActionsHelper.ts';
 
 export default class RespondentDetailsPage extends BasePage {
+
+  private readonly commonActionsHelper: CommonActionsHelper;
+  private readonly respondentReceivedDateField: Locator;
+
+
+  constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
+    super(page);
+    this.commonActionsHelper = commonActionsHelper;
+    this.respondentReceivedDateField = this.page.locator('#responseReceivedDate');
+  }
 
   elements = {
     respondentName: '#respondentCollection_0_respondent_name',
@@ -12,6 +25,27 @@ export default class RespondentDetailsPage extends BasePage {
     expandImgIcon: 'div a img'
   }
 
+  async enterResponseReceivedDate(position: number = 1) {
+    const [year, month, day] = DateUtilComponent.getCurrentDateSliced();
+
+    const dateGroups = await this.respondentReceivedDateField.all();
+    const dateGroup = dateGroups[position - 1];
+
+    await expect(dateGroup).toBeVisible();
+
+    await dateGroup.locator('input[name="responseReceivedDate-day"]').fill(day);
+    await dateGroup.locator('input[name="responseReceivedDate-month"]').fill(month);
+    await dateGroup.locator('input[name="responseReceivedDate-year"]').fill(year);
+  }
+
+  async enterAddressForRespondentFromET3(position: number = 1 ){
+    const postCodeLookup = this.page.locator(`#respondentCollection_${position-1}_responseRespondentAddress_responseRespondentAddress_postcodeInput`)
+    const selectAddress = this.page.locator(`#respondentCollection_${position-1}_responseRespondentAddress_responseRespondentAddress_addressList`);
+
+    await expect(postCodeLookup).toBeVisible();
+    await this.commonActionsHelper.enterUkAddressWithPostcode(postCodeLookup, selectAddress);
+  }
+
   async processRespondentDetails() {
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.respondentName));
     await this.webActions.fillField(this.elements.respondentName, 'Mr Mark Gill');
@@ -20,10 +54,13 @@ export default class RespondentDetailsPage extends BasePage {
 
   async processRespondentDetailsET3(et3accepted:boolean){
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.respondentName));
+    await this.webActions.checkElementById(`#respondentCollection_0_responseReceived_Yes`);
+    await this.enterResponseReceivedDate();
     await this.webActions.checkElementById('#respondentCollection_0_respondentType-Individual');
     await this.webActions.verifyElementToBeVisible(this.page.locator('#respondentCollection_0_respondentFirstName'));
     await this.webActions.fillField('#respondentCollection_0_respondentFirstName', 'Test');
     await this.webActions.fillField('#respondentCollection_0_respondentLastName', 'Respondent');
+    await this.enterAddressForRespondentFromET3();
     if(et3accepted){
       await this.webActions.selectByOptionFromDropDown('#respondentCollection_0_response_status', '1: Accepted');
     } else {
