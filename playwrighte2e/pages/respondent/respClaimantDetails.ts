@@ -1,4 +1,4 @@
-import { BasePage } from './basePage';
+import { BasePage } from '../basePage.ts';
 import { Page } from '@playwright/test';
 
 class RespClaimantDetails extends BasePage {

@@ -1,5 +1,5 @@
 import { BasePage } from './basePage';
-import dateUtilComponent from '../utils/DateUtilComponent';
+import dateUtilComponent from '../data-utils/DateUtilComponent';
 
 export default class UploadHearingBundlePage extends BasePage {
   futureHearing = '#uploadHearingDocumentsSelectPastOrFutureHearing-Future';

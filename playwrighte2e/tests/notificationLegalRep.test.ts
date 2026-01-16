@@ -12,7 +12,7 @@ test.describe('Legal Representative Notifications', () => {
       ({subRef, caseNumber}  = await createCaseStep.setUpLegalRepCase(page));
 
     //send Notification
-    await notificationPage.selectNotificationLink();
+    await notificationPage.navigateToSendANotifications();
     await notificationPage.sendNotification('ET1 claim');
     await caseListPage.signoutButton();
 

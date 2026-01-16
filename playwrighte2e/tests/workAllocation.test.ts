@@ -40,7 +40,7 @@ test.describe('Work Allocation', () => {
       config.loginPaths.cases
     );
     caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
-    await caseListPage.clickTab('Tasks');
+    await caseListPage.navigateToTab('Tasks');
 
     await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'Review Referral #1 - ET1', 'Reply to the Referral');
     await referralSteps.processReferralsForWa(referralPage => referralPage.replyToReferral());
@@ -54,9 +54,9 @@ test.describe('Work Allocation', () => {
     referralSteps,
     taskPage,
   }) => {
-    await caseListPage.clickTab('Tasks');
+    await caseListPage.navigateToTab('Tasks');
     await Helpers.waitForTask(page, 'Et1 Vetting');
-    await caseListPage.clickTab('Roles and access');
+    await caseListPage.navigateToTab('Roles and access');
     await rolesAndAccessPage.assignAccessToCtscUser();
 
     //new task - send a referral
@@ -64,7 +64,7 @@ test.describe('Work Allocation', () => {
       referralPage.sendNewReferral(true),
     );
 
-    await caseListPage.clickTab('Tasks');
+    await caseListPage.navigateToTab('Tasks');
     await Helpers.waitForTask(page, 'Review Referral #1 - ET1');
     await taskPage.validateTaskAssignToUser();
   });
@@ -91,7 +91,7 @@ test.describe('Work Allocation- Judge completes tasks', () => {
     await caseListPage.selectNextEvent('Hearing Details');
     await hearingDetailsPage.updateHearing();
     //wait for draft and sign document task
-    await caseListPage.clickTab('Tasks');
+    await caseListPage.navigateToTab('Tasks');
     await Helpers.waitForTask(page, 'Draft And Sign Judgment');
     await caseListPage.signoutButton();
 
@@ -102,7 +102,7 @@ test.describe('Work Allocation- Judge completes tasks', () => {
       config.loginPaths.cases,
     );
     caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
-    await caseListPage.clickTab('Tasks');
+    await caseListPage.navigateToTab('Tasks');
 
     await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'Draft And Sign Judgment', 'Draft and Sign Judgment');
     await draftJudgementPage.submitDraftJudgement();

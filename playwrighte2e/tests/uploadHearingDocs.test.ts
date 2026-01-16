@@ -1,7 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 import config from "../config/config";
 import { Events } from '../config/case-data';
-import DateUtilComponent from '../utils/DateUtilComponent';
+import DateUtilComponent from '../data-utils/DateUtilComponent';
 
 let subRef: string;
 let caseNumber: string;

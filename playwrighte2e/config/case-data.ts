@@ -12,5 +12,9 @@ export const Events: Record<string, CaseEvent> = {
   uploadDocumentsForHearing: {
     listItem: 'Upload documents for hearing',
     ccdCallback: 'bundlesRespondentPrepareDoc'
+  },
+  refreshSharedUsers: {
+    listItem: 'Refresh Shared Users',
+    ccdCallback: 'refreshSharedUsers'
   }
 }

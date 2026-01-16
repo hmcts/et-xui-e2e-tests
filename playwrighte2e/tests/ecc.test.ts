@@ -74,7 +74,7 @@ test.describe('ECC', () => {
     'ECC Notification - should create BF Action and show notification banner to claimant',
     { tag: '@ecc' },
     async ({ notificationPage, caseListPage, citizenHubPage }) => {
-      await notificationPage.selectNotificationLink();
+      await notificationPage.navigateToSendANotifications();
       await notificationPage.sendNotification('ECC');
       await expect(caseListPage.page.getByRole('tab', { name: 'BF Actions' })).toBeVisible();
       await caseListPage.navigateToTab('BF Actions');

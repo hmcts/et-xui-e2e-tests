@@ -6,7 +6,7 @@ let caseNumber: any;
 let subRef: string;
 
 test.beforeEach(async ({ page, createCaseStep, axeUtils }) => {
-  ({ subRef, caseNumber } = await createCaseStep.setupCUICaseCreatedViaApi(page, true, true, axeUtils));
+  ({ subRef, caseNumber } = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false, axeUtils));
 });
 
 test.describe('Notification', () => {
@@ -19,7 +19,7 @@ test.describe('Notification', () => {
     let notificationPage = new NotificationPage(page);
 
     //Caseworker send notification
-    await notificationPage.selectNotificationLink();
+    await notificationPage.navigateToSendANotifications();
     await notificationPage.sendNotification('ET1 claim');
     await caseListPage.signoutButton();
 
@@ -36,7 +36,7 @@ test.describe('Notification', () => {
     let notificationPage = new NotificationPage(page);
 
     //Caseworker send notification
-    await notificationPage.selectNotificationLink();
+    await notificationPage.navigateToSendANotifications();
     await notificationPage.sendNotification('CMO');
     await caseListPage.signoutButton();
 
@@ -63,7 +63,7 @@ test.describe('Notification', () => {
     await listHearingPage.listCase('EnglandWales', 0, 'Amersham');
 
     //Caseworker send notification
-    await notificationPage.selectNotificationLink();
+    await notificationPage.navigateToSendANotifications();
     await notificationPage.sendNotification('Hearing');
     await caseListPage.signoutButton();
 

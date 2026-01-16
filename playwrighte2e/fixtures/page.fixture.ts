@@ -9,21 +9,21 @@ import { ListHearingPage } from '../pages/events/listHearingPage';
 import { LegalRepPage } from '../pages/legalRepPage';
 import CitizenHubPage from '../pages/citizenHubPage';
 import { CaseLinkPage } from '../pages/caseLinkPage';
-import RespondentRepPage from '../pages/respondentRepPage';
+import RespondentRepPage from '../pages/respondent/respondentRepPage.ts';
 import ET3LoginPage from '../pages/et3LoginPage';
-import RespondentCaseOverviewPage from '../pages/respondentCaseOverviewPage';
-import RespondentTaskListPage from '../pages/respondentTaskListPage';
-import ResponseLandingPage from '../pages/responseLandingPage';
-import RespContactDetailsPages from '../pages/respContactDetailsPages';
-import RespClaimantDetails from '../pages/respClaimantDetails';
-import RespContestClaim from '../pages/respContestClaim';
-import RespSubmitEt3 from '../pages/respSubmitEt3';
+import RespondentCaseOverviewPage from '../pages/respondent/respondentCaseOverviewPage.ts';
+import RespondentTaskListPage from '../pages/respondent/respondentTaskListPage.ts';
+import ResponseLandingPage from '../pages/respondent/responseLandingPage.ts';
+import RespContactDetailsPages from '../pages/respondent/respContactDetailsPages.ts';
+import RespClaimantDetails from '../pages/respondent/respClaimantDetails.ts';
+import RespContestClaim from '../pages/respondent/respContestClaim.ts';
+import RespSubmitEt3 from '../pages/respondent/respSubmitEt3.ts';
 import BfActionPage from '../pages/bfActionPage';
 import JurisdictionPage from '../pages/jurisdictionPage';
 import CaseTransferPage from '../pages/caseTransferPage';
 import NotificationPage from '../pages/notificationPage';
 import ClaimantDetailsPage from '../pages/claimantDetailsPage';
-import RespondentDetailsPage from '../pages/respondentDetailsPage';
+import RespondentDetailsPage from '../pages/respondent/respondentDetailsPage.ts';
 import NocPage from '../pages/nocPage';
 import { ManageOrgPage } from '../pages/manageOrgPage';
 import ICUploadDocPage from '../pages/icUploadDocPage';
@@ -50,6 +50,7 @@ import ClaimantRepresentativePage from '../pages/claimantRepresentativePage';
 import { CommonActionsHelper } from '../pages/helpers/CommonActionsHelper';
 import { UploadDocumentsForHearingPage } from '../pages/events/UploadDocumentsForHearingPage';
 import { CheckYourAnswersPage } from '../pages/helpers/CheckYourAnswersPage';
+import { BaseEventPage } from '../pages/events/BaseEventPage.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
 
@@ -105,6 +106,7 @@ export type PageFixtures = {
     reinstateCasePage:ReinstateCasePage;
     uploadDocumentsForHearingPage: UploadDocumentsForHearingPage;
     checkYourAnswersPage: CheckYourAnswersPage;
+    baseEventPage: BaseEventPage;
 }
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -206,7 +208,7 @@ export const pageFixtures = base.extend<PageFixtures>({
     },
 
     respondentDetailsPage:async ({page}, use) => {
-        await use(new RespondentDetailsPage(page));
+        await use(new RespondentDetailsPage(page, commonActionsHelper));
     },
 
     nocPage:async ({page}, use) => {
@@ -298,4 +300,7 @@ export const pageFixtures = base.extend<PageFixtures>({
   checkYourAnswersPage:async({page}, use) => {
     await use(new CheckYourAnswersPage(page));
   },
+  baseEventPage:async({page}, use) => {
+    await use(new BaseEventPage(page));
+  }
 });

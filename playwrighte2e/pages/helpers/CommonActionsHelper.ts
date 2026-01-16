@@ -60,5 +60,14 @@ export class CommonActionsHelper {
     }
   }
 
+  async enterUkAddressWithPostcode(postCodeLocator: Locator, selectAddress: Locator, postcode: string = 'NW11NW'): Promise<void> {
+    await expect(postCodeLocator).toBeVisible();
+    await postCodeLocator.fill(postcode);
+    const findAddressButton = postCodeLocator.locator('xpath=..//following-sibling::button[contains(text(), "Find address")]');
+    await expect(findAddressButton).toBeVisible();
+    await findAddressButton.click();
+    await expect(selectAddress).toBeVisible();
+    await selectAddress.selectOption({ index: 1 }); // select the first address in the dropdown
+  }
 
 }
