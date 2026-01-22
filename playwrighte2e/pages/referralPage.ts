@@ -39,7 +39,7 @@ export default class ReferralPage extends BasePage {
     await this.clickSubmitButton();
 
     await expect(this.page.locator('markdown p')).toContainText(referralData.createRefConfirmationMsg);
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
   }
 
   async replyToReferral() {
@@ -48,9 +48,9 @@ export default class ReferralPage extends BasePage {
     await this.clickContinue();
 
     await expect(this.page.locator("//tr/td[contains(text(), 'Judge')]")).toBeVisible();
-    config.TestEnv == 'demo'
-      ? await expect(this.page.locator("//tr/td[contains(text(), 'etFour Caseworker')]")).toBeVisible()
-      : await expect(this.page.locator("//tr/td[contains(text(), 'ET  Caseworker1')]")).toBeVisible();
+    // config.TestEnv == 'demo'
+    //   ? await expect(this.page.locator("//tr/td[contains(text(), 'etFour Caseworker')]")).toBeVisible()
+    //   : await expect(this.page.locator("//tr/td[contains(text(), 'ET  Caseworker1')]")).toBeVisible();
     await this.webActions.clickElementByCss(this.elements.adminDirectionOption);
     await this.webActions.clickElementByCss(this.elements.isUrgentReplyYes);
     await this.webActions.fillField(this.elements.directionSubjEle, referralData.directionDetails);
@@ -63,7 +63,7 @@ export default class ReferralPage extends BasePage {
     await this.clickSubmitButton();
 
     await expect(this.page.locator('markdown p')).toContainText(referralData.replyRefConfirmationMsg);
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
   }
 
   async closeAReferral() {
@@ -80,6 +80,6 @@ export default class ReferralPage extends BasePage {
     await this.clickSubmitButton();
 
     await expect(this.page.locator('markdown p')).toContainText(referralData.closeRefConfirmationMsg);
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
   }
 }

@@ -24,7 +24,7 @@ export default class Et3NotificationPage extends BasePage {
 
     await expect(this.page.locator('h5')).toContainText('We have notified the following parties:');
     await expect(this.page.locator('h3')).toContainText('Grayson Becker, Mrs Test Auto');
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
   }
 
   async verifyEt3NotificationErrorMessage(){

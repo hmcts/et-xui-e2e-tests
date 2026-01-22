@@ -21,7 +21,7 @@ import RespSubmitEt3 from '../pages/respondent/respSubmitEt3.ts';
 import BfActionPage from '../pages/bfActionPage';
 import JurisdictionPage from '../pages/jurisdictionPage';
 import CaseTransferPage from '../pages/caseTransferPage';
-import NotificationPage from '../pages/notificationPage';
+import CaseWorkerNotificationPage from '../pages/notifications/caseWorkerNotificationPage.ts';
 import ClaimantDetailsPage from '../pages/claimantDetailsPage';
 import RespondentDetailsPage from '../pages/respondent/respondentDetailsPage.ts';
 import NocPage from '../pages/nocPage';
@@ -30,8 +30,8 @@ import ICUploadDocPage from '../pages/icUploadDocPage';
 import { RestrictedReportingPage } from '../pages/restrictedReportingPage';
 import UploadDocumentPage from "../pages/uploadDocumentPage";
 import ReferralPage from '../pages/referralPage';
-import DraftJudgementPage from '../pages/draftJudgementPage';
-import IssueJudgementPage from '../pages/issueJudgementPage';
+import DraftJudgementPage from '../pages/events/draftJudgementPage.ts';
+import IssueJudgementPage from '../pages/events/issueJudgementPage.ts';
 import SearchAcasPage from '../pages/searchAcasPage';
 import LettersPage from '../pages/lettersPage';
 import DepositOrderPage from '../pages/depositOrderPage';
@@ -46,11 +46,12 @@ import UploadHearingBundlePage from '../pages/uploadHearingBundlePage';
 import CaseNotesPage from '../pages/caseNotesPage';
 import CloseCasePage from '../pages/closeCasePage';
 import ReinstateCasePage from '../pages/reinstateCasePage';
-import ClaimantRepresentativePage from '../pages/claimantRepresentativePage';
+import ClaimantRepresentativePage from '../pages/events/claimantRepresentativePage.ts';
 import { CommonActionsHelper } from '../pages/helpers/CommonActionsHelper';
 import { UploadDocumentsForHearingPage } from '../pages/events/UploadDocumentsForHearingPage';
 import { CheckYourAnswersPage } from '../pages/helpers/CheckYourAnswersPage';
 import { BaseEventPage } from '../pages/events/BaseEventPage.ts';
+import LegalRepNotificationPage from '../pages/notifications/legalRepNotificationPage.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
 
@@ -78,7 +79,8 @@ export type PageFixtures = {
     bfActionPage: BfActionPage;
     jurisdictionPage: JurisdictionPage;
     caseTransferPage: CaseTransferPage;
-    notificationPage: NotificationPage;
+    caseWorkerNotificationPage: CaseWorkerNotificationPage;
+    legalRepNotificationPage: LegalRepNotificationPage;
     claimantDetailsPage: ClaimantDetailsPage;
     respondentDetailsPage: RespondentDetailsPage;
     nocPage: NocPage;
@@ -199,8 +201,8 @@ export const pageFixtures = base.extend<PageFixtures>({
         await use(new CaseTransferPage(page));
     },
 
-    notificationPage:async ({page}, use) => {
-        await use(new NotificationPage(page));
+    caseWorkerNotificationPage:async ({page}, use) => {
+        await use(new CaseWorkerNotificationPage(page));
     },
 
     claimantDetailsPage:async ({page}, use) => {
@@ -236,7 +238,7 @@ export const pageFixtures = base.extend<PageFixtures>({
     },
 
     draftJudgementPage:async ({page}, use)=>{
-        await use(new DraftJudgementPage(page));
+        await use(new DraftJudgementPage(page, commonActionsHelper));
     },
 
     issueJudgementPage:async ({page}, use)=>{
@@ -280,13 +282,13 @@ export const pageFixtures = base.extend<PageFixtures>({
       await use(new DocumentsTabPage(page));
     },
   uploadHearingBundlePage:async({page}, use)=>{
-      await use(new UploadHearingBundlePage(page));
+      await use(new UploadHearingBundlePage(page, commonActionsHelper));
   },
   caseNotesPage:async({page}, use)=>{
     await use(new CaseNotesPage(page));
   },
   claimantRepresentativePage:async ({page}, use) => {
-      await use(new ClaimantRepresentativePage(page));
+      await use(new ClaimantRepresentativePage(page, commonActionsHelper));
   },
   closeCasePage:async({page}, use)=>{
     await use(new CloseCasePage(page));
@@ -302,5 +304,8 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   baseEventPage:async({page}, use) => {
     await use(new BaseEventPage(page));
+  },
+  legalRepNotificationPage:async ({page}, use) => {
+      await use(new LegalRepNotificationPage(page, commonActionsHelper));
   }
 });

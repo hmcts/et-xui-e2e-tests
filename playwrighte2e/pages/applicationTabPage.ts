@@ -93,7 +93,7 @@ export class ApplicationTabPage extends BasePage {
 
     // await this.submit.isVisible();
     await this.clickSubmitButton();
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
   }
 
   async validateRecordDecisionDetails() {
@@ -129,7 +129,7 @@ export class ApplicationTabPage extends BasePage {
 
     await this.delay(3000);
     await this.clickSubmitButton();
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
   }
 
   async legalRepRespondToAnApplication() {
@@ -160,6 +160,6 @@ export class ApplicationTabPage extends BasePage {
     await this.clickSubmitButton();
 
     await expect(this.page.locator('h3')).toContainText('What happens next');
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
   }
 }

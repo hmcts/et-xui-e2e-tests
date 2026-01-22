@@ -8,7 +8,7 @@ test.describe('End to End Tests for Manage Organisation for Assigning and Non As
 
         await page.goto(config.TestUrlForManageOrg);
         await loginPage.processLogin(config.TestEnvETManageOrgSuperUserName, config.TestEnvETManageOrgSuperPassword, config.loginPaths.organisation, config.TestUrlForManageOrg);
-        await manageOrgPage.assignCaseToSolicitor(userDetailsData.assigneeName, userDetailsData.caseReferenceNumber);
-        // await manageOrgPage.unassignCaseFromSolicitor();
+        await manageOrgPage.assignCaseToSolicitor(userDetailsData.assigneeName);
+        await manageOrgPage.unassignCaseFromSolicitor();
     });
 });

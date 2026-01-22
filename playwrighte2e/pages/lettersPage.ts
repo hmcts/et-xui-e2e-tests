@@ -26,7 +26,7 @@ export default class LettersPage extends BasePage {
       await this.clickSubmitButton();
       await this.webActions.verifyElementToBeVisible(this.closeAndReturnButton);
       //await this.webActions.verifyElementContainsText(this.page.locator('markdown p'), letterPageData.confirmationTxt);
-      await this.closeAndReturn();
+      await this.clickCloseAndReturn();
     }
 
     async generateNoHearingDateLetter() {
@@ -39,6 +39,6 @@ export default class LettersPage extends BasePage {
         await this.clickSubmitButton();
         await this.page.waitForSelector('markdown p', { timeout: 30000 });
         await this.webActions.verifyElementContainsText(this.page.locator('markdown p'), letterPageData.confirmationTxt);
-        await this.closeAndReturn();
+        await this.clickCloseAndReturn();
     }
 }

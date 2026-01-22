@@ -234,20 +234,10 @@ export default class CaseListPage extends BasePage {
         await ele.click();
         break;
       }
-      case 'Hearing Documents': {
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingTab));
-        await this.webActions.clickElementByCss(this.elements.hearingTab);
-        break;
-      }
       case 'Judgment': {
         const ele = this.page.locator(this.elements.judgmentTab).nth(1);
         await this.webActions.verifyElementToBeVisible(ele);
         await ele.click();
-        break;
-      }
-      case 'Claimant Representative': {
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.claimantRepresentative));
-        await this.webActions.clickElementByCss(this.elements.claimantRepresentative);
         break;
       }
       default: {
@@ -262,7 +252,7 @@ export default class CaseListPage extends BasePage {
             try {
               await this.page.waitForLoadState('load');
               tabHeader = this.page.locator(xpath);
-              await tabHeader.click({ trial: true, timeout:1000 });
+              await tabHeader.click({ trial: true, timeout:2000 });
               await tabHeader.click();
               console.log(`Clicked on tab after paginating ${direction}: ` + tabName);
               return true;
@@ -276,7 +266,7 @@ export default class CaseListPage extends BasePage {
         try {
           await this.page.waitForLoadState('load');
           tabHeader = this.page.locator(xpath);
-          await tabHeader.click({ trial: true, timeout:1000 }); // trial: true checks if clickable
+          await tabHeader.click({ trial: true, timeout:2000 }); // trial: true checks if clickable
           await tabHeader.click();
           console.log('Clicked on tab: ' + tabName);
           return;

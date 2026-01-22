@@ -111,7 +111,7 @@ export default class Et1VettingPages extends BasePage {
 
   async processET1CaseVettingPage() {
     await expect(this.page.locator('#confirmation-body')).toContainText('You must accept or reject the case or refer the case.');
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
   }
 
 }

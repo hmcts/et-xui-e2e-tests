@@ -8,7 +8,7 @@ const respondentName = 'Mrs Test Auto';
 export class LegalRepPage extends BasePage {
   applyButtonOnLegalRep = '.workbasket-filters-apply';
   manageCasesLinkLegalRep = '[aria-label="Manage Cases"]';
-  continueButton = '.button';
+  continueButton = `//button[text()='Continue']`;
   nocLinkLegalRep = '//a[contains(.,"Notice of change")]';
   continueLegalRepButton = '//button[@class="button"]';
   submitButtonLegalRep = '//button[@class="button"]';
@@ -57,7 +57,7 @@ export class LegalRepPage extends BasePage {
   selectJudgmentOrderorNotificationDropdown = '#pseRespondentSelectJudgmentOrderNotification';
   viewApplicationDropdown = '#tseViewApplicationSelect';
   lrRespondToTribunal = '//a[.="Respond to an order or request from the tribunal"]';
-  responseNotificationDropdown = '#pseRespondentSelectOrderOrRequest';
+  responseNotificationDropdown = '#claimantSelectNotification';
   casedetailsEditForm = '#caseEditForm';
   lrAddCommentToResponse = '#pseRespondentOrdReqResponseText';
   noSupportingMaterial = '#pseRespondentOrdReqHasSupportingMaterial_No';
@@ -316,27 +316,6 @@ export class LegalRepPage extends BasePage {
     await expect(
       this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`),
     ).toBeVisible();
-  }
-
-  async respondToNotificationFromTribunal() {
-    await this.page.click(this.viewJudgmentOrderOrNotificationLink);
-    await this.page.waitForSelector(this.lrRespondToTribunal, { timeout: 10000 });
-    await this.page.click(this.lrRespondToTribunal);
-    await this.page.waitForSelector(this.responseNotificationDropdown, { timeout: 15000 });
-    await this.page.selectOption(this.responseNotificationDropdown, '1:2');
-    await this.page.waitForTimeout(2000);
-    await this.page.click(this.continueButton);
-    await this.page.waitForSelector(this.casedetailsEditForm, { timeout: 10000 });
-    await this.page.fill(this.lrAddCommentToResponse, 'test response to notification from Trib');
-    await this.page.check(this.noSupportingMaterial);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.legalRepYesOptionR92, { timeout: 10000 });
-    await this.page.check(this.legalRepYesOptionR92);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.casedetailsEditForm, { timeout: 10000 });
-    await this.page.waitForSelector('text=Check your answers');
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector('//button[@class="button"]');
   }
 
   async completeDraftET3ResponseForm() {

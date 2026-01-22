@@ -1,7 +1,7 @@
-import { BasePage } from "./basePage";
+import { BasePage } from "../basePage.ts";
 import { expect, Locator, Page } from '@playwright/test';
 
-export default class NotificationPage extends BasePage {
+export default class CaseWorkerNotificationPage extends BasePage {
   private readonly enterNotificationText: Locator;
   private readonly letterToSendOutRadio: Locator;
   private readonly notificationSubjectCheckbox: Locator;
@@ -43,6 +43,7 @@ export default class NotificationPage extends BasePage {
     await this.webActions.clickElementByText('Notifications');
     await this.webActions.clickElementByCss(this.notification_link);
   }
+
   async assertSendANotificationPage() {
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Send a notification');
   }
@@ -123,8 +124,9 @@ export default class NotificationPage extends BasePage {
   }
 
   async sendNotification(notificationType: string, responseToTribunal: string = 'No', partiesToNotify: string = 'Both parties') {
+    const notificationTitle = `Test Notification`;
     await this.assertSendANotificationPage();
-    await this.enterNotificationTitle('test Notification');
+    await this.enterNotificationTitle(notificationTitle);
     await this.selectIsThereLetterToSendOut("No");
 
     switch (notificationType) {
@@ -156,6 +158,7 @@ export default class NotificationPage extends BasePage {
     await this.webActions.clickElementByRole('button', { name: 'Continue' });
     await this.clickSubmitButton();
     await this.webActions.clickElementByRole('button', { name: 'Close and Return to case' });
+    return notificationTitle;
   }
 
   async viewNotification() {

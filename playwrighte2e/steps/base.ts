@@ -14,8 +14,8 @@ import SubmitClaimPage from "../pages/submitClaimPage";
 import Et1VettingPages from "../pages/et1VettingPages";
 import Et1CreateDraftClaim from "../pages/et1CreateDraftClaim";
 import ReferralPage from "../pages/referralPage";
-import DraftJudgementPage from "../pages/draftJudgementPage";
-import IssueJudgementPage from "../pages/issueJudgementPage";
+import DraftJudgementPage from "../pages/events/draftJudgementPage.ts";
+import IssueJudgementPage from "../pages/events/issueJudgementPage.ts";
 import RespondentRepPage from "../pages/respondent/respondentRepPage.ts";
 import ET3ProcessPage from "../pages/et3ProcessPage";
 

@@ -64,7 +64,7 @@ export default class Et1CaseServingPage extends BasePage {
     await this.clickSubmitButton();
 
     await this.webActions.waitForElementToBeVisible('text=Documents sent');
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
   }
 
   async validateEt1ErrorMessage(){
