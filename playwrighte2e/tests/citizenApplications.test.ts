@@ -26,7 +26,7 @@ test.describe('Citizen applications', () => {
     await page.click('text=Sign out');
     await page.goto(config.TestUrlForManageCaseAAT);
     await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
-    await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, respondentName, firstName, lastName, false, true);
+    await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
     await page.click('text=Sign out');
 

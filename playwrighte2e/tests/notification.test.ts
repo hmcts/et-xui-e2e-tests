@@ -1,5 +1,5 @@
 import { test } from '../fixtures/common.fixture';
-import NotificationPage from '../pages/notificationPage';
+import CaseWorkerNotificationPage from '../pages/notifications/caseWorkerNotificationPage.ts';
 import config from '../config/config';
 
 let caseNumber: any;
@@ -16,7 +16,7 @@ test.describe('Notification', () => {
     citizenHubPage,
     caseListPage,
   }) => {
-    let notificationPage = new NotificationPage(page);
+    let notificationPage = new CaseWorkerNotificationPage(page);
 
     //Caseworker send notification
     await notificationPage.navigateToSendANotifications();
@@ -33,7 +33,7 @@ test.describe('Notification', () => {
   });
 
   test('Tribunal/caseworker sends CMO notification to claimant', async ({ page, citizenHubPage, caseListPage }) => {
-    let notificationPage = new NotificationPage(page);
+    let notificationPage = new CaseWorkerNotificationPage(page);
 
     //Caseworker send notification
     await notificationPage.navigateToSendANotifications();
@@ -56,7 +56,7 @@ test.describe('Notification', () => {
     caseListPage,
     listHearingPage,
   }) => {
-    let notificationPage = new NotificationPage(page);
+    let notificationPage = new CaseWorkerNotificationPage(page);
 
     //list hearing
     await caseListPage.selectNextEvent('List Hearing');

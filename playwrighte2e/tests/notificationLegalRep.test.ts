@@ -8,18 +8,18 @@ test.describe('Legal Representative Notifications', () => {
   //RET-5309
   test('Legal Representative creates a claim and tribunal sends notification, Legal Rep view notification',
     {tag: '@demo'},
-    async ({ page, createCaseStep, notificationPage, caseListPage, loginPage }) => {
+    async ({ page, createCaseStep, caseWorkerNotificationPage, caseListPage, loginPage }) => {
       ({subRef, caseNumber}  = await createCaseStep.setUpLegalRepCase(page));
 
     //send Notification
-    await notificationPage.navigateToSendANotifications();
-    await notificationPage.sendNotification('ET1 claim');
+    await caseWorkerNotificationPage.navigateToSendANotifications();
+    await caseWorkerNotificationPage.sendNotification('ET1 claim');
     await caseListPage.signoutButton();
 
     //view Notification as Legal rep
     await page.goto(config.TestUrlForManageCaseAAT);
     await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
     await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
-    await notificationPage.viewNotification();
+    await caseWorkerNotificationPage.viewNotification();
   });
 });

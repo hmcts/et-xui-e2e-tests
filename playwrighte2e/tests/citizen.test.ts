@@ -1,5 +1,5 @@
 import {test} from "../fixtures/common.fixture";
-import NotificationPage from "../pages/notificationPage";
+import CaseWorkerNotificationPage from "../pages/notifications/caseWorkerNotificationPage.ts";
 import config from "../config/config";
 
 let caseNumber: string;
@@ -13,7 +13,7 @@ test.describe('Various tests for Citizen application', () => {
 
 //RET-5415
   test.skip('Citizen varifies legal representative details', async ({ page, citizenHubPage, caseListPage }) => {
-    let notificationPage = new NotificationPage(page);
+    let notificationPage = new CaseWorkerNotificationPage(page);
     await caseListPage.signoutButton();
 
     //claimant verify notification

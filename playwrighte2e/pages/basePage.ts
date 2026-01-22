@@ -35,7 +35,7 @@ export abstract class BasePage {
     await this.saveAsDraftButton.click();
   }
 
-  async closeAndReturn() {
+  async clickCloseAndReturn() {
     await this.closeAndReturnButton.click();
   }
 

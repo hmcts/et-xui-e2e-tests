@@ -9,7 +9,6 @@ export default class RespondentDetailsPage extends BasePage {
   private readonly commonActionsHelper: CommonActionsHelper;
   private readonly respondentReceivedDateField: Locator;
 
-
   constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
     super(page);
     this.commonActionsHelper = commonActionsHelper;

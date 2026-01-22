@@ -144,7 +144,7 @@ export default class CitizenHubPage extends BasePage {
       this.page.locator('h1'),
       'You have sent your application to the tribunal',
     );
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
   }
 
   async regAccountContactTribunal(applicationType: string) {
@@ -292,7 +292,7 @@ export default class CitizenHubPage extends BasePage {
     await this.clickSubmitButton();
 
     await this.page.waitForSelector(this.elements.checkYourAnswerHeading);
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
   }
 
   async validateResponseOfResponse() {
@@ -400,7 +400,7 @@ export default class CitizenHubPage extends BasePage {
   }
 
   async verifyLegalRepNotificationBanner() {
-    await expect(this.page.locator('h3')).toContainText('You are now being legally represented by');
+    await expect(this.page.locator('h3')).toContainText('You are now being legally represented.');
   }
 
   async contactTheTribunalLink() {

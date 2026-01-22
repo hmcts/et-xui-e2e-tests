@@ -1,5 +1,6 @@
 import { test } from '../fixtures/common.fixture';
 import config from "../config/config";
+import { Events } from '../config/case-data.ts';
 
 let subRef: string, submissionRef: string;
 let caseNumber: string;
@@ -13,12 +14,20 @@ test.describe('perform NOC for Claimant', () => {
 
   //RET-5954
   test('Caseworker assigns a claimant representative via manage case',
-    async ({ page, caseListPage, claimantRepresentativePage, citizenHubPage }) => {
+    async ({ page, caseListPage, claimantRepresentativePage, citizenHubPage, caseDetailsPage }) => {
       //Caseworker assign a claimant representative
-      await caseListPage.selectNextEvent('Claimant Representative');
+      await caseListPage.selectNextEvent(Events.claimantRepresentative.listItem);
       await claimantRepresentativePage.addClaimantRepresentative();
       await caseListPage.navigateToTab('Claimant Representative');
-      await claimantRepresentativePage.validateRepresentativeDetails();
+      await caseDetailsPage.assertTabData([
+        {
+          tabName: 'Claimant Representative',
+          tabContent: [
+            { tabItem:'Name of Representative', value: 'Test Claimant Representative' },
+            { tabItem:'Name:', value: 'ET Test Factory Solicitor' }
+          ]
+        }
+      ])
       await page.click('text=Sign out');
 
       //citizen validates notification banner

@@ -44,7 +44,7 @@ export default class ICUploadDocPage extends BasePage {
 
         await this.clickSubmitButton();
         await expect(this.page.getByText(icPageData.icConfirmationText)).toBeVisible();
-        await this.closeAndReturn();
+        await this.clickCloseAndReturn();
     }
 
     async verifyRespondentHearingPanelValues() {

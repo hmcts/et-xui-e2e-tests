@@ -78,7 +78,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
     await this.clickSubmitButton();
 
     await expect(this.page.locator('h1')).toContainText('You have sent your application to the tribunal');
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
     await expect(this.page.locator('#main-content')).toContainText('Your request and applications');
   }
 
@@ -122,7 +122,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
       await this.page.waitForSelector('text=Check your answers');
       await this.webActions.clickElementByRole('button', { name: 'Store application' });
       await expect(this.page.locator('h1')).toContainText('You have stored your application');
-      await this.closeAndReturn();
+      await this.clickCloseAndReturn();
     } else {
       await this.page.locator('#copyToOtherPartyYesOrNo-2').isVisible();
       await this.webActions.checkElementByLabel('No, I do not want to copy this correspondence to the other party.');
@@ -131,7 +131,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
       await this.page.waitForSelector('text=Check your answers');
       await this.clickSubmitButton();
       await expect(this.page.locator('h1')).toContainText('You have sent your application to the tribunal');
-      await this.closeAndReturn();
+      await this.clickCloseAndReturn();
     }
     await expect(this.page.locator('#main-content')).toContainText('Your request and applications');
   }
@@ -150,7 +150,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
       await this.webActions.checkElementById('#confirmCopied');
       await this.clickSubmitButton();
       await expect(this.page.locator('h1')).toContainText('You have sent your application to the tribunal');
-      await this.closeAndReturn();
+      await this.clickCloseAndReturn();
       await expect(this.page.locator('#main-content')).toContainText('Your request and applications');
       await this.webActions.clickElementByRole('link', { name: 'Your request and applications' });
       await expect(this.page.getByRole('caption')).toContainText('Your applications to the tribunal');

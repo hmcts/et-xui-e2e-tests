@@ -51,6 +51,6 @@ export default class ET3ProcessPage extends BasePage {
         await this.clickSubmitButton();
 
         await this.webActions.verifyElementContainsText(this.page.locator('#confirmation-header markdown h1'), 'ET3 Processing complete', 10000);
-        await this.closeAndReturn();
+        await this.clickCloseAndReturn();
     }
 }

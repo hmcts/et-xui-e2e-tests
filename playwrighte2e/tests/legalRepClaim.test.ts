@@ -12,7 +12,7 @@ test.describe('Legal Representative submits a case and perform various events', 
 
     test('CR creates a claim, amend claimant/respondent names and persist NOC with original claimant/respondent names',
         {tag: '@demo'},
-        async ({ page, caseListPage, claimantDetailsPage, respondentDetailsPage, loginPage, nocPage }) => {
+        async ({ page, caseListPage, claimantDetailsPage, respondentDetailsPage, loginPage, nocPage, legalRepPage }) => {
 
         // Amend Claimant and Respondent names
         await caseListPage.selectNextEvent('Claimant Details');
@@ -24,6 +24,6 @@ test.describe('Legal Representative submits a case and perform various events', 
         // Perform NOC using original Claimant and Respondent names (different org)
         await page.goto(config.TestUrlForManageCaseAAT);
         await loginPage.processLogin(config.TestEnvETRespondentEmailAddress, config.TestEnvETRespondentPassword, config.loginPaths.cases);
-        await nocPage.processNoc(subRef);
+        await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, 'Mark', 'McDonald', false, false);
     });
 });

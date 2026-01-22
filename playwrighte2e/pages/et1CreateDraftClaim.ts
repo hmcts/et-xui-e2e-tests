@@ -49,8 +49,8 @@ export default class Et1CreateDraftClaim extends BasePage {
       'ET1 Section 3 - Details of the claim',
     );
     await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
-
-    await this.elements.et1Section1Link.click();
+    await this.delay(2000);
+    await this.elements.et1Section1Link.click({ clickCount: 4, force: true });
     await this.delay(2000);
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Make a claim to an employment tribunal');
     await this.clickContinue();
@@ -113,7 +113,7 @@ export default class Et1CreateDraftClaim extends BasePage {
     await this.saveAsDraft();
 
     await expect(this.page.locator('#confirmation-body')).toContainText('Your answers have been saved.');
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
     await this.delay(2000);
   }
 
@@ -191,7 +191,7 @@ export default class Et1CreateDraftClaim extends BasePage {
     await this.saveAsDraft();
 
     await expect(this.page.locator('#confirmation-body')).toContainText('Your answers have been saved.');
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
     await this.delay(2000);
   }
 
@@ -222,7 +222,7 @@ export default class Et1CreateDraftClaim extends BasePage {
     await this.saveAsDraft();
 
     await expect(this.page.locator('#confirmation-body')).toContainText('Your answers have been saved.');
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
     await this.delay(2000);
   }
 
@@ -235,7 +235,7 @@ export default class Et1CreateDraftClaim extends BasePage {
     await this.clickSubmitButton();
 
     await expect(this.page.locator('#confirmation-header')).toContainText('You have submitted the ET1 claim');
-    await this.closeAndReturn();
+    await this.clickCloseAndReturn();
 
     await this.elements.caseDetailsTab.isVisible();
     const submissionRef = await this.page.locator('//*[@id="case-viewer-field-read--feeGroupReference"]').innerText();

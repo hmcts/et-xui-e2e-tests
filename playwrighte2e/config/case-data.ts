@@ -16,5 +16,13 @@ export const Events: Record<string, CaseEvent> = {
   refreshSharedUsers: {
     listItem: 'Refresh Shared Users',
     ccdCallback: 'refreshSharedUsers'
+  },
+  judgment: {
+    listItem: 'Judgment',
+    ccdCallback: 'addAmendJudgment'
+  },
+  claimantRepresentative: {
+    listItem: 'Claimant Representative',
+    ccdCallback: 'addAmendClaimantRepresentative'
   }
 }

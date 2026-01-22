@@ -18,7 +18,7 @@ test.describe('Respondent Notification scenarios tests', () =>{
   test.skip('Respondent Notification - Verify respondent receives notification and can view case details',
     async ({ page, loginPage,
              et3LoginPage,
-             notificationPage,
+             caseWorkerNotificationPage,
              et1CaseServingPage,
              caseListPage,
              respondentDetailsPage, responseLandingPage, respContactDetailsPages, respClaimantDetails, respContestClaim,
@@ -36,8 +36,8 @@ test.describe('Respondent Notification scenarios tests', () =>{
       await page.goto(config.TestUrlForManageCaseAAT);
      // await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
       await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
-      await notificationPage.navigateToSendANotifications();
-      await notificationPage.sendNotification('ET1 claim', 'No');
+      await caseWorkerNotificationPage.navigateToSendANotifications();
+      await caseWorkerNotificationPage.sendNotification('ET1 claim', 'No');
       await caseListPage.signoutButton();
 
       //Respondent verify notification

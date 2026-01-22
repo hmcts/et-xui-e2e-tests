@@ -1,5 +1,6 @@
 import { test } from '../fixtures/common.fixture';
 import config from '../config/config';
+import { Events } from '../config/case-data.ts';
 
 let subRef: string;
 let caseNumber: string;
@@ -18,13 +19,16 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
     //List 2 hearings for the case
     const hearingNumbers: number[] = [0, 1];
     for(const number of hearingNumbers) {
-      await caseListPage.selectNextEvent('List Hearing');
+      await caseListPage.selectNextEvent(Events.listHearing.listItem);
       await listHearingPage.listCase('EnglandWales', number, "Leeds ET");
     }
     await page.click('text=Sign out');
 
     await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
     await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
+    await page.click('text=Sign out');
+
+    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     await  caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
     await caseListPage.selectNextEvent('Upload Hearing Documents');
     await uploadHearingBundlePage.uploadHearingBundleDocuments();

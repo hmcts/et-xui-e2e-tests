@@ -70,4 +70,16 @@ export class CommonActionsHelper {
     await selectAddress.selectOption({ index: 1 }); // select the first address in the dropdown
   }
 
+  async selectOrganisation(page: Page, orgName: string) {
+    const searchOrganisationField = page.locator('#search-org-text');
+    await expect(searchOrganisationField).toBeVisible();
+    await searchOrganisationField.fill(orgName);
+
+    const selectOrgLink = page.locator('//a[contains(.,"Select")]').first();
+    await expect(selectOrgLink).toBeVisible();
+    await selectOrgLink.click();
+
+    await page.waitForLoadState('load');
+  }
+
 }

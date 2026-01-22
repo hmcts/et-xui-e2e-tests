@@ -6,7 +6,7 @@ export class ManageOrgPage extends BasePage {
   ClickAssignedCases = '//a[.="Assigned cases"]';
   ClickUnassignedCases = '//a[.="Unassigned cases"]';
   ClickShowCasesFilter = '.govuk-button--secondary';
-  ClickShowUnassignedCasesFilter = '.govuk-button';
+  ClickShowUnassignedCasesFilter = '//button[normalize-space()=\'Show unassigned cases filter\']';
   AllAssigneesRadio = '[for="caa-filter-all-assignees"]';
   AssignedCasesElement = '.govuk-heading-xl';
   AssigneeNameSearchBox = '#assignee-person';
@@ -39,6 +39,9 @@ export class ManageOrgPage extends BasePage {
     await this.applyFilterButton.click();
     // flaky validation
     //(config.TestEnv == 'demo') ? await this.verifyResultsCount(5): await this.verifyResultsCount(2);
+    const firstResult = this.page.locator(`xpath=//table/tbody/tr[1]/td[2]`);
+    await firstResult.waitFor({state: 'visible', timeout: 10000});
+    return await firstResult.textContent();
   }
 
   async verifyResultsCount(expTotCount: number) {
@@ -58,7 +61,6 @@ export class ManageOrgPage extends BasePage {
   }
 
   async unassignedCases() {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.ElementManageOrg), 20000);
     await this.webActions.clickElementByCss(this.ClickUnassignedCases);
     await this.page.waitForSelector('text=Unassigned Cases');
     await this.page.waitForSelector('text=Show unassigned cases filter');
@@ -69,10 +71,10 @@ export class ManageOrgPage extends BasePage {
     await this.applyFilterButton.click();
   }
 
-  async assignCaseToSolicitor(assigneeName: string, caseReferenceNumber: string) {
+  async assignCaseToSolicitor(assigneeName: string) {
     await this.allAssignedCases();
-    await this.filterByAssigneeName(assigneeName);
-    await this.filterByReferenceNumber(caseReferenceNumber);
+    let caseReferenceNumber = await this.filterByAssigneeName(assigneeName);
+    await this.filterByReferenceNumber(caseReferenceNumber?? '');
   }
 
   async unassignCaseFromSolicitor() {

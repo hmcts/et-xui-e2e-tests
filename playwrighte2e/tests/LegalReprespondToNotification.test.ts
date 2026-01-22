@@ -13,7 +13,7 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
 
 //RET-5921
 test('Perform NOC using claimant details, caseworker sends notification and (claimant)legal rep respond to notification',
-  async ({ page, et1CaseServingPage, loginPage, legalRepPage, caseListPage, notificationPage }) => {
+  async ({ page, et1CaseServingPage, loginPage, legalRepPage, caseListPage, caseWorkerNotificationPage, legalRepNotificationPage }) => {
     const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
     await page.click('text=Sign out');
 
@@ -26,8 +26,8 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
     await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
     await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
-    await notificationPage.navigateToSendANotifications();
-    await notificationPage.sendNotification('ET1 claim');
+    await caseWorkerNotificationPage.navigateToSendANotifications();
+    const notificationTitle = await caseWorkerNotificationPage.sendNotification('ET1 claim', 'Yes', 'Both parties');
     await caseListPage.signoutButton();
 
     //respond as a (claimant) Legal rep
@@ -36,13 +36,20 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
 
     //respond to an application
     await caseListPage.clickTab('Judgment');
-    await legalRepPage.respondToNotificationFromTribunal();
+    await legalRepNotificationPage.respondToTribunal(
+      {
+        notificationName: notificationTitle,
+        responseText: 'Responding to notification from tribunal - claimant legal rep',
+        supportingMaterialFiles: [],
+        notifyOtherParty: 'Yes'
+      }
+    )
 
   });
 
 //RET-5924
   test.skip('Perform NOC using respondent details, caseworker sends notification and (respondent)legal rep respond to notification',
-    async ({ page, et1CaseServingPage, loginPage, legalRepPage, caseListPage, notificationPage }) => {
+    async ({ page, et1CaseServingPage, loginPage, legalRepPage, caseListPage, caseWorkerNotificationPage, legalRepNotificationPage }) => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
@@ -55,8 +62,8 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
       await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
       await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
-      await notificationPage.navigateToSendANotifications();
-      await notificationPage.sendNotification('ET1 claim');
+      await caseWorkerNotificationPage.navigateToSendANotifications();
+      const notificationTitle = await caseWorkerNotificationPage.sendNotification('ET1 claim', 'Yes', 'Both parties');
       await caseListPage.signoutButton();
 
       //respond as a (respondent) Legal rep
@@ -65,7 +72,14 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
 
       //respond to an application
       await caseListPage.clickTab('Judgment');
-      await legalRepPage.respondToNotificationFromTribunal();
+      await legalRepNotificationPage.respondToTribunal(
+        {
+          notificationName: notificationTitle,
+          responseText: 'Responding to notification from tribunal - claimant legal rep',
+          supportingMaterialFiles: [],
+          notifyOtherParty: 'Yes'
+        }
+      )
     });
 
 });

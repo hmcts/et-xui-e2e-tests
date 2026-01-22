@@ -10,7 +10,7 @@ test.describe('IC Upload documents', () => {
 
     });
 
-    test('Judge uploads Internal consideration document', {tag: '@demo'}, async({ caseListPage, loginPage, icUploadDocPage }) => {
+    test('Judge uploads Internal consideration document', {tag: '@demo'}, async({ caseListPage, loginPage, icUploadDocPage, caseDetailsPage }) => {
 
         await caseListPage.signoutButton();
 
@@ -24,8 +24,15 @@ test.describe('IC Upload documents', () => {
         await caseListPage.navigateToTab('ICTab');
 
         //verify the uploaded document details
-        await icUploadDocPage.verifyICDetailsOnTab('Initial Consideration Document', 'Initial Consideration.pdf');
-        await icUploadDocPage.verifyICDetailsOnTab('Document', 'test-doc.pdf');
-        await icUploadDocPage.verifyICDetailsOnTab('Initial consideration completed by:', 'Michael Brain');
+        await caseDetailsPage.assertTabData([
+          {
+            tabName: 'Initial Consideration',
+            tabContent: [
+              { tabItem: 'Initial Consideration Document', value: 'Initial Consideration.pdf' },
+              { tabItem: 'Document', value: 'test-doc.pdf' },
+              { tabItem: 'Initial consideration completed by:', value: 'ET Judge1' }
+            ]
+          }
+        ])
     });
 })

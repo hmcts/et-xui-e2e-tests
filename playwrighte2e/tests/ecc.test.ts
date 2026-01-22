@@ -73,9 +73,9 @@ test.describe('ECC', () => {
   test(
     'ECC Notification - should create BF Action and show notification banner to claimant',
     { tag: '@ecc' },
-    async ({ notificationPage, caseListPage, citizenHubPage }) => {
-      await notificationPage.navigateToSendANotifications();
-      await notificationPage.sendNotification('ECC');
+    async ({ caseWorkerNotificationPage, caseListPage, citizenHubPage }) => {
+      await caseWorkerNotificationPage.navigateToSendANotifications();
+      await caseWorkerNotificationPage.sendNotification('ECC');
       await expect(caseListPage.page.getByRole('tab', { name: 'BF Actions' })).toBeVisible();
       await caseListPage.navigateToTab('BF Actions');
       await caseListPage.verifyBFActionsTab('Action', 'ECC served');
@@ -95,6 +95,8 @@ test.describe('ECC', () => {
     'Should show ECC in table once set on respondent',
     { tag: '@ecc' },
     async ({ caseListPage, respondentDetailsPage }) => {
+      await caseListPage.selectNextEvent('Respondent Details');
+      await respondentDetailsPage.processRespondentDetailsET3(true);
       await caseListPage.selectNextEvent('Respondent Details');
       await respondentDetailsPage.page.getByRole('group', { name: 'Is there an ECC?' }).getByLabel('Yes').check();
       await respondentDetailsPage.clickSubmitButton();
