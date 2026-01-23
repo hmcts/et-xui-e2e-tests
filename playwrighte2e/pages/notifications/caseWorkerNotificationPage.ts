@@ -168,7 +168,7 @@ export default class CaseWorkerNotificationPage extends BasePage {
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('View a judgment, order or notification');
     await this.page.locator(this.notificationDropDown).selectOption('1: 1');
     await this.page.getByRole('button', { name: 'Continue' }).click();
-    await this.webActions.verifyElementContainsText(this.page.locator('tbody'), 'test Notification');
+    await this.webActions.verifyElementContainsText(this.page.locator('tbody'), 'Test Notification');
     await this.webActions.verifyElementContainsText(this.page.locator('thead'), 'View Notification');
     await this.webActions.verifyElementContainsText(this.page.locator('tbody'), 'Both parties');
   }
