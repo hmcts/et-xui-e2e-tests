@@ -400,7 +400,7 @@ export default class CitizenHubPage extends BasePage {
   }
 
   async verifyLegalRepNotificationBanner() {
-    await expect(this.page.locator('h3')).toContainText('You are now being legally represented.');
+    await expect(this.page.locator('h3')).toContainText('You are now being legally represented by');
   }
 
   async contactTheTribunalLink() {
