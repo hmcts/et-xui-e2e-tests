@@ -39,7 +39,7 @@
     "eslint-plugin-codeceptjs": "1.3.0",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-mocha": "11.1.0",
-    "eslint-plugin-prettier": "5.2.1",
+    "eslint-plugin-prettier": "5.5.5",
     "groq-sdk": "0.37.0",
     "lint-staged": "16.1.6",
     "mocha": "11.7.5",
