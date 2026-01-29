@@ -1,9 +1,22 @@
-import { BasePage } from "./basePage";
-import config from "../config/config";
-import { expect } from "@playwright/test";
-
+import { BasePage } from "../basePage.ts";
+import config from "../../config/config.ts";
+import { expect, Locator, Page } from '@playwright/test';
 
 export default class CitizenHubPage extends BasePage {
+
+  private readonly caseOverviewPageTitle: Locator;
+  private readonly caseNumberText: Locator;
+  private readonly contactTribunalLink: Locator;
+  private readonly appointALegalRepLink: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.caseOverviewPageTitle = this.page.locator(`xpath=//h2[contains(normalize-space(),'Case overview')]`);
+    this.caseNumberText = this.page.locator('#caseNumber');
+    this.contactTribunalLink = this.page.locator(`xpath=//a[normalize-space()='Contact the tribunal about my case']`);
+    this.appointALegalRepLink = this.page.locator(`xpath=//a[normalize-space()='Appoint a legal representative']`);
+  }
+
   elements = {
     returnToExistingClaim: '[href="/return-to-existing?lng=en"]',
     employmentTribunalAccount: '#return_number_or_account-2',
@@ -86,39 +99,31 @@ export default class CitizenHubPage extends BasePage {
     clickRespondentContactDetailsLink: '[href="/respondent-contact-details"]',
   };
 
-  async processCitizenHubLogin(username: string, password: string) {
-    await this.page.goto(config.TestUrlCitizenUi);
-    await this.webActions.clickElementByCss(this.elements.returnToExistingClaim);
-
-    await this.webActions.checkElementById(this.elements.employmentTribunalAccount);
-    await this.clickContinue();
-    await this.loginCitizenUi(username, password);
-  }
-
-  async loginCitizenUi(username: string, password: string) {
-    await this.webActions.fillField('#username', username);
-    await this.webActions.fillField('#password', password);
-    await this.elements.submit.click();
+  async navigateToSubmittedCaseOverviewOfClaimant(submissionReference: string) {
+    await this.page.goto(config.TestUrlCitizenUi + '/citizen-hub/' + submissionReference);
+    await this.page.waitForLoadState('load');
   }
 
   async citizenHubCaseOverviewPage(caseNumber: string) {
-    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
-    // await this.webActions.verifyElementContainsText(this.page.locator('#caseNumber'), 'Case number ' + caseNumber);
+    await expect(this.caseOverviewPageTitle).toBeVisible();
+    await expect(this.caseNumberText).toHaveText('Case number ' + caseNumber);
+  }
+
+  async navigateToContactTheTribunalPage() {
+    await expect(this.contactTribunalLink).toBeVisible();
+    await this.contactTribunalLink.click();
+    await this.page.waitForLoadState('load');
   }
 
   async appointLegalRep() {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.appointLegalRepLink));
-    await this.webActions.clickElementByCss(this.elements.appointLegalRepLink);
+    await expect(this.appointALegalRepLink).toBeVisible();
+    await this.appointALegalRepLink.click();
+    await this.page.waitForLoadState('load');
 
-    await expect(this.page.locator('dl')).toContainText('Case reference');
+    await expect(this.page.locator('dl')).toContainText('case reference');
     await expect(this.page.locator('dl')).toContainText('Claimant name');
-    await expect(this.page.locator('dl')).toContainText('Tribunal Case Number');
-
-    await expect(this.page.locator('#main-content')).toContainText('download all your documents');
-  }
-
-  async clicksViewLinkOnClaimantApplicationPage(submissionReference: string) {
-    await this.page.goto(config.TestUrlCitizenUi + '/citizen-hub/' + submissionReference);
+    await expect(this.page.locator('dl')).toContainText('Tribunal case number');
+    await expect(this.page.locator('#main-content')).toContainText('Download documents');
   }
 
   async makeAnApplication() {

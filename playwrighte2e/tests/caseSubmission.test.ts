@@ -6,7 +6,7 @@ test.describe('Case creation in Citizen UI', () => {
 
   test('Create a claim for still working for organisation, submit and process within manage cases', {
     tag: ['@cx', '@smoke', '@ccd-callback-tests']
-  }, async ({ page, createCaseStep, respondentRepPage, citizenHubPage, caseListPage }) => {
+  }, async ({ page, createCaseStep, respondentRepPage, citizenHubLoginPage, citizenHubPage, caseListPage }) => {
 
     const submissionReference = await createCaseStep.createCaseViaCUI(page, 'EnglandWales',
       (loginPage) => loginPage.processLoginCitizenUi(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword),
@@ -23,8 +23,8 @@ test.describe('Case creation in Citizen UI', () => {
     await respondentRepPage.addRespondentRepresentative('registered', 'ET Organisation');
     await respondentRepPage.signoutButton();
 
-    await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(submissionReference);
+    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(submissionReference);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
     await citizenHubPage.regAccountContactTribunal('withdraw all or part of my claim');
     await citizenHubPage.rule92Question('yes');

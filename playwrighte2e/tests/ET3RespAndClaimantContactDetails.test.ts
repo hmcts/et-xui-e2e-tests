@@ -10,7 +10,7 @@ test.describe('ET3/Respondent Journey validates respondent/claimant details', ()
   });
 
   //RET-5516
-  test('Citizen user validates respondent contact details', async ({page, loginPage,caseListPage, respondentDetailsPage, citizenHubPage }) => {
+  test('Citizen user validates respondent contact details', async ({page, loginPage,caseListPage, respondentDetailsPage, citizenHubLoginPage, citizenHubPage }) => {
     //caseworker completes respondent details
     await page.goto(config.TestUrlForManageCaseAAT);
     await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
@@ -21,8 +21,8 @@ test.describe('ET3/Respondent Journey validates respondent/claimant details', ()
     await caseListPage.signoutButton();
 
     //citizen validates respondent contact details
-    await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
     await citizenHubPage.clickRespondentContactDetailsLink();
     await citizenHubPage.verifyRespondentContactDetails();

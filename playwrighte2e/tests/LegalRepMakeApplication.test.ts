@@ -12,7 +12,7 @@ test.describe('Make an application and view Recorded Decision', () => {
     });
 
     //RET-5787
-    test.skip('Legal representatives make and application - England', async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
+    test.skip('Legal representatives make and application - England', async ({ page,citizenHubLoginPage, citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
         //perform NOC
         await page.click('text=Sign out');
@@ -26,8 +26,8 @@ test.describe('Make an application and view Recorded Decision', () => {
         await page.click('text=Sign out');
 
        // Claimant Reply to Application from Legal Rep
-        await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-        await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+        await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+        await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
         await citizenHubPage.respondToAnApplication();
         await page.click('text=Sign out');
 
@@ -41,15 +41,15 @@ test.describe('Make an application and view Recorded Decision', () => {
         await page.click('text=Sign out');
 
         //claimant see response of respond
-        await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-        await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+        await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+        await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
         await citizenHubPage.validateResponseOfResponse();
     });
 
     //RET-5787
     test.skip('Legal representatives make and application, caseworker record a decision, LR and citizen view a decision - E/W',
         {tag: '@demo'},
-        async ({ page,citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
+        async ({ page,citizenHubLoginPage, citizenHubPage,loginPage,legalRepPage,et1CaseServingPage,caseListPage, applicationTabPage  }) => {
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
         //perform NOC
         await page.click('text=Sign out');
@@ -73,8 +73,8 @@ test.describe('Make an application and view Recorded Decision', () => {
         await page.click('text=Sign out');
 
         //citizen view notification about decision
-        await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-        await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+        await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+        await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
         //  await citizenHubPage.validateRecordDecisionBanner(); RET-5707 bug ticket raised for the failing step
         await page.click('text=Sign out');
     });

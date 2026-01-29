@@ -56,14 +56,14 @@ test.describe('Claimant retaining access to transferred case', () => {
   });
 
   //EXUI-3451
-  test.skip('Create a England/Wales claim and transfer to Scotland, Claimant retains case', async ({ caseListPage, caseTransferPage, citizenHubPage }) => {
+  test.skip('Create a England/Wales claim and transfer to Scotland, Claimant retains case', async ({ caseListPage, caseTransferPage, citizenHubLoginPage, citizenHubPage }) => {
     await caseListPage.selectNextEvent('Case Transfer (Scotland)');
     await caseTransferPage.progressCaseTransfer();
     let newSubRef= await caseTransferPage.checkYourAnswer(caseNumber);
 
     //login as claimant and access transferred case
-    await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(newSubRef);
+    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(newSubRef);
   });
 
 });

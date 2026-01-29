@@ -11,7 +11,7 @@ const lastName = 'Becker';
 test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
 
     test('Respondent makes Type A Application, Claimant respond to an application successfully', async ({
-                                                                                                            page,
+                                                                                                            page, citizenHubLoginPage,
                                                                                                             createCaseStep,
                                                                                                             et3LoginPage,
                                                                                                             respondentCaseOverviewPage,
@@ -32,8 +32,8 @@ test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
         await respondentCaseOverviewPage.signOutButtonSyr();
 
         //Citizen & caseworker can view an application
-        await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-        await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+        await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+        await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
         //RET-5754
         //await citizenHubPage.validateApplicationBanner();
         await citizenHubPage.respondToRespondentApplication('TypeA');

@@ -95,7 +95,7 @@ test.describe('England - Claimant Bundles test', () => {
     });
 
     test('Bundles - Claimant Submitting hearing preparation document - England', {tag: '@demo'},
-        async ({ page, caseListPage, et1CaseServingPage, listHearingPage, loginPage, legalRepPage, citizenHubPage }) => {
+        async ({ page, caseListPage, et1CaseServingPage, listHearingPage, loginPage, legalRepPage, citizenHubLoginPage, citizenHubPage }) => {
 
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
 
@@ -106,8 +106,8 @@ test.describe('England - Claimant Bundles test', () => {
         await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
         await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false);
 
-        await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-        await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+        await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+        await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
         await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
         await citizenHubPage.regAccountContactTribunal('submit document for hearing');
         await citizenHubPage.submitDocumentForHearingClaimant();

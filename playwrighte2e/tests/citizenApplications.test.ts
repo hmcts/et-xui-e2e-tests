@@ -13,6 +13,7 @@ test.describe('Citizen applications', () => {
 
   test('Citizen make an application, legal rep respond to it and caseworker validate documents - England', async ({
                                                                              page,
+                                                                             citizenHubLoginPage,
                                                                              citizenHubPage,
                                                                              loginPage,
                                                                              legalRepPage,
@@ -31,8 +32,8 @@ test.describe('Citizen applications', () => {
     await page.click('text=Sign out');
 
     // Citizen rep make an application
-    await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
     await citizenHubPage.makeAnApplication();
     await page.click('text=Sign out');
 

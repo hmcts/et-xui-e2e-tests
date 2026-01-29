@@ -73,18 +73,18 @@ test.describe('ECC', () => {
   test(
     'ECC Notification - should create BF Action and show notification banner to claimant',
     { tag: '@ecc' },
-    async ({ caseWorkerNotificationPage, caseListPage, citizenHubPage }) => {
+    async ({ caseWorkerNotificationPage, caseListPage, citizenHubLoginPage, citizenHubPage }) => {
       await caseWorkerNotificationPage.navigateToSendANotifications();
       await caseWorkerNotificationPage.sendNotification('ECC');
       await expect(caseListPage.page.getByRole('tab', { name: 'BF Actions' })).toBeVisible();
       await caseListPage.navigateToTab('BF Actions');
       await caseListPage.verifyBFActionsTab('Action', 'ECC served');
       await caseListPage.signoutButton();
-      await citizenHubPage.processCitizenHubLogin(
+      await citizenHubLoginPage.processCitizenHubLogin(
         config.TestEnvETClaimantEmailAddress,
         config.TestEnvETClaimantPassword,
       );
-      await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+      await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.verifyNotificationBanner('ECC')
 

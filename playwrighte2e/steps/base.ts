@@ -5,7 +5,7 @@ import LoginPage from "../pages/loginPage";
 import {Page} from '@playwright/test';
 import CreateCaseThroughApi from "../pages/createCaseThroughApi";
 import Et1CaseServingPage from "../pages/et1CaseServingPage";
-import CitizenUiPage from "../pages/citizenUiPage";
+import CitizenUiPage from "../pages/ClaimantCitizenHub/citizenUiPage.ts";
 import TaskListPage from "../pages/taskListPage";
 import PersonalDetailsPage from "../pages/personalDetailsPage";
 import EmploymentAndRespDetailsPage from "../pages/employmentAndRespDetailsPage";
@@ -16,7 +16,7 @@ import Et1CreateDraftClaim from "../pages/et1CreateDraftClaim";
 import ReferralPage from "../pages/referralPage";
 import DraftJudgementPage from "../pages/events/draftJudgementPage.ts";
 import IssueJudgementPage from "../pages/events/issueJudgementPage.ts";
-import RespondentRepPage from "../pages/respondent/respondentRepPage.ts";
+import RespondentRepPage from "../pages/respondentCitizenHub/respondentRepPage.ts";
 import ET3ProcessPage from "../pages/et3ProcessPage";
 
 export abstract class BaseStep {

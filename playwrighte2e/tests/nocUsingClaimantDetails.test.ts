@@ -14,7 +14,7 @@ test.describe('perform NOC for Claimant', () => {
 
   //RET-5954
   test('Caseworker assigns a claimant representative via manage case',
-    async ({ page, caseListPage, claimantRepresentativePage, citizenHubPage, caseDetailsPage }) => {
+    async ({ page, caseListPage, claimantRepresentativePage, citizenHubLoginPage, citizenHubPage, caseDetailsPage }) => {
       //Caseworker assign a claimant representative
       await caseListPage.selectNextEvent(Events.claimantRepresentative.listItem);
       await claimantRepresentativePage.addClaimantRepresentative();
@@ -31,8 +31,8 @@ test.describe('perform NOC for Claimant', () => {
       await page.click('text=Sign out');
 
       //citizen validates notification banner
-      await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-      await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+      await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+      await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.verifyLegalRepNotificationBanner();
       await citizenHubPage.contactTheTribunalLink();

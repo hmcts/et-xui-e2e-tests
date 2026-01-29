@@ -7,23 +7,23 @@ import Et1CaseServingPage from '../pages/et1CaseServingPage';
 import LoginPage from '../pages/loginPage';
 import { ListHearingPage } from '../pages/events/listHearingPage';
 import { LegalRepPage } from '../pages/legalRepPage';
-import CitizenHubPage from '../pages/citizenHubPage';
+import CitizenHubPage from '../pages/ClaimantCitizenHub/citizenHubPage.ts';
 import { CaseLinkPage } from '../pages/caseLinkPage';
-import RespondentRepPage from '../pages/respondent/respondentRepPage.ts';
+import RespondentRepPage from '../pages/respondentCitizenHub/respondentRepPage.ts';
 import ET3LoginPage from '../pages/et3LoginPage';
-import RespondentCaseOverviewPage from '../pages/respondent/respondentCaseOverviewPage.ts';
-import RespondentTaskListPage from '../pages/respondent/respondentTaskListPage.ts';
-import ResponseLandingPage from '../pages/respondent/responseLandingPage.ts';
-import RespContactDetailsPages from '../pages/respondent/respContactDetailsPages.ts';
-import RespClaimantDetails from '../pages/respondent/respClaimantDetails.ts';
-import RespContestClaim from '../pages/respondent/respContestClaim.ts';
-import RespSubmitEt3 from '../pages/respondent/respSubmitEt3.ts';
+import RespondentCaseOverviewPage from '../pages/respondentCitizenHub/respondentCaseOverviewPage.ts';
+import RespondentTaskListPage from '../pages/respondentCitizenHub/respondentTaskListPage.ts';
+import ResponseLandingPage from '../pages/respondentCitizenHub/responseLandingPage.ts';
+import RespContactDetailsPages from '../pages/respondentCitizenHub/respContactDetailsPages.ts';
+import RespClaimantDetails from '../pages/respondentCitizenHub/respClaimantDetails.ts';
+import RespContestClaim from '../pages/respondentCitizenHub/respContestClaim.ts';
+import RespSubmitEt3 from '../pages/respondentCitizenHub/respSubmitEt3.ts';
 import BfActionPage from '../pages/bfActionPage';
 import JurisdictionPage from '../pages/jurisdictionPage';
 import CaseTransferPage from '../pages/caseTransferPage';
 import CaseWorkerNotificationPage from '../pages/notifications/caseWorkerNotificationPage.ts';
 import ClaimantDetailsPage from '../pages/claimantDetailsPage';
-import RespondentDetailsPage from '../pages/respondent/respondentDetailsPage.ts';
+import RespondentDetailsPage from '../pages/respondentCitizenHub/respondentDetailsPage.ts';
 import NocPage from '../pages/nocPage';
 import { ManageOrgPage } from '../pages/manageOrgPage';
 import ICUploadDocPage from '../pages/icUploadDocPage';
@@ -52,6 +52,7 @@ import { UploadDocumentsForHearingPage } from '../pages/events/UploadDocumentsFo
 import { CheckYourAnswersPage } from '../pages/helpers/CheckYourAnswersPage';
 import { BaseEventPage } from '../pages/events/BaseEventPage.ts';
 import LegalRepNotificationPage from '../pages/notifications/legalRepNotificationPage.ts';
+import CitizenHubLoginPage from '../pages/ClaimantCitizenHub/citizenHubLoginPage.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
 
@@ -65,6 +66,7 @@ export type PageFixtures = {
     loginPage: LoginPage;
     listHearingPage: ListHearingPage;
     legalRepPage: LegalRepPage;
+    citizenHubLoginPage: CitizenHubLoginPage;
     citizenHubPage: CitizenHubPage;
     caseLinkPage: CaseLinkPage;
     respondentRepPage: RespondentRepPage;
@@ -281,31 +283,35 @@ export const pageFixtures = base.extend<PageFixtures>({
     documentsTabPage:async ({page}, use)=>{
       await use(new DocumentsTabPage(page));
     },
-  uploadHearingBundlePage:async({page}, use)=>{
-      await use(new UploadHearingBundlePage(page, commonActionsHelper));
-  },
-  caseNotesPage:async({page}, use)=>{
-    await use(new CaseNotesPage(page));
-  },
-  claimantRepresentativePage:async ({page}, use) => {
-      await use(new ClaimantRepresentativePage(page, commonActionsHelper));
-  },
-  closeCasePage:async({page}, use)=>{
-    await use(new CloseCasePage(page));
-  },
-  reinstateCasePage:async({page}, use)=>{
-    await use(new ReinstateCasePage(page));
-  },
-  uploadDocumentsForHearingPage:async({page}, use)=>{
-    await use(new UploadDocumentsForHearingPage(page, commonActionsHelper));
-  },
-  checkYourAnswersPage:async({page}, use) => {
-    await use(new CheckYourAnswersPage(page));
-  },
-  baseEventPage:async({page}, use) => {
-    await use(new BaseEventPage(page));
-  },
-  legalRepNotificationPage:async ({page}, use) => {
-      await use(new LegalRepNotificationPage(page, commonActionsHelper));
+    uploadHearingBundlePage:async({page}, use)=>{
+        await use(new UploadHearingBundlePage(page, commonActionsHelper));
+    },
+    caseNotesPage:async({page}, use)=>{
+      await use(new CaseNotesPage(page));
+    },
+    claimantRepresentativePage:async ({page}, use) => {
+        await use(new ClaimantRepresentativePage(page, commonActionsHelper));
+    },
+    closeCasePage:async({page}, use)=>{
+      await use(new CloseCasePage(page));
+    },
+    reinstateCasePage:async({page}, use)=>{
+      await use(new ReinstateCasePage(page));
+    },
+    uploadDocumentsForHearingPage:async({page}, use)=>{
+      await use(new UploadDocumentsForHearingPage(page, commonActionsHelper));
+    },
+    checkYourAnswersPage:async({page}, use) => {
+      await use(new CheckYourAnswersPage(page));
+    },
+    baseEventPage:async({page}, use) => {
+      await use(new BaseEventPage(page));
+    },
+    legalRepNotificationPage:async ({page}, use) => {
+        await use(new LegalRepNotificationPage(page, commonActionsHelper));
+    },
+
+  citizenHubLoginPage:async({page}, use) => {
+    await use (new CitizenHubLoginPage (page));
   }
 });

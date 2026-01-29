@@ -15,7 +15,7 @@ test.describe('NOC Notification Banner', () => {
 
   //RET-5419
   test('Perform NOC and validate the notification banner in CUI',
-    async ({ page, et1CaseServingPage, loginPage, legalRepPage, citizenHubPage }) => {
+    async ({ page, et1CaseServingPage, loginPage, legalRepPage, citizenHubLoginPage, citizenHubPage }) => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
@@ -24,8 +24,8 @@ test.describe('NOC Notification Banner', () => {
       await page.click('text=Sign out');
 
       //citizen validates notification banner
-      await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-      await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+      await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+      await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.verifyLegalRepNotificationBanner();
       await citizenHubPage.contactTheTribunalLink();
@@ -123,7 +123,7 @@ test.describe('Share case', () => {
 
   //RET-5416
   test('Perform NOC and Remove claimant legal representative as a citizen, claimant reinstated case',
-    async ({ page, et1CaseServingPage, loginPage, legalRepPage, citizenHubPage }) => {
+    async ({ page, et1CaseServingPage, loginPage, legalRepPage, citizenHubLoginPage, citizenHubPage }) => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
@@ -132,8 +132,8 @@ test.describe('Share case', () => {
       await page.click('text=Sign out');
 
       //remove claimant legal rep
-      await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-      await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+      await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+      await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.changeMyLegalRep();
       await citizenHubPage.verifyLegalRepUnassignedNotificationBanner();

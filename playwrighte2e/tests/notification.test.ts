@@ -13,6 +13,7 @@ test.describe('Notification', () => {
   //RET-5718
   test('Tribunal/caseworker sends ET1 claim notification to claimant', async ({
     page,
+    citizenHubLoginPage,
     citizenHubPage,
     caseListPage,
   }) => {
@@ -24,15 +25,15 @@ test.describe('Notification', () => {
     await caseListPage.signoutButton();
 
     //claimant verify notification
-    await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
 
     //claimant validates notification banner
     await citizenHubPage.verifyNotificationBanner('ET1 claim');
   });
 
-  test('Tribunal/caseworker sends CMO notification to claimant', async ({ page, citizenHubPage, caseListPage }) => {
+  test('Tribunal/caseworker sends CMO notification to claimant', async ({ page, citizenHubLoginPage, citizenHubPage, caseListPage }) => {
     let notificationPage = new CaseWorkerNotificationPage(page);
 
     //Caseworker send notification
@@ -41,8 +42,8 @@ test.describe('Notification', () => {
     await caseListPage.signoutButton();
 
     //claimant verify notification
-    await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
 
     //claimant validates notification banner
@@ -52,6 +53,7 @@ test.describe('Notification', () => {
   //RET-4646
   test('Tribunal/caseworker sends Hearing notification to claimant', async ({
     page,
+    citizenHubLoginPage,
     citizenHubPage,
     caseListPage,
     listHearingPage,
@@ -68,8 +70,8 @@ test.describe('Notification', () => {
     await caseListPage.signoutButton();
 
     //claimant verify notification
-    await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
 
     //claimant validates notification banner
@@ -89,7 +91,7 @@ test.describe('Notification', () => {
 
   //RET-5850, 5627
   test('Tribunal/caseworker perform ET1 serving, claimant validates notification', async ({
-    citizenHubPage,
+    citizenHubPage, citizenHubLoginPage,
     caseListPage,
     et1CaseServingPage,
   }) => {
@@ -98,8 +100,8 @@ test.describe('Notification', () => {
     await et1CaseServingPage.et1ServingEventNoticeOfClaim();
     await caseListPage.signoutButton();
 
-    await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
+    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
 
     //claimant validates notification banner
