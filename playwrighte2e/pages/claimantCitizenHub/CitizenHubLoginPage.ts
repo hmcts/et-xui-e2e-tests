@@ -1,4 +1,3 @@
-import { BasePage } from '../basePage.ts';
 import { expect, Locator, Page } from '@playwright/test';
 import config from '../../config/config.ts';
 import LoginPage from '../loginPage.ts';

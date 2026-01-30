@@ -33,6 +33,7 @@ test.describe('perform NOC for claimant and assign a new claimant representative
   //RET-5787
   test('Process NOC using claimant details, assign a new claimant representative and check original claimant representative cannot access a case',
     async ({ page, caseListPage, et1CaseServingPage, listHearingPage, loginPage, legalRepPage, citizenHubPage,axeUtils}) => {
+      await caseListPage.navigateToTab('Claimant');
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       let caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
       await page.click('text=Sign out');

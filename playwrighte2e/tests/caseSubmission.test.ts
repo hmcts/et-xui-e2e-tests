@@ -6,7 +6,7 @@ test.describe('Case creation in Citizen UI', () => {
 
   test('Create a claim for still working for organisation, submit and process within manage cases', {
     tag: ['@cx', '@smoke', '@ccd-callback-tests']
-  }, async ({ page, createCaseStep, respondentRepPage, citizenHubLoginPage, citizenHubPage, caseListPage }) => {
+  }, async ({ page, createCaseStep, respondentRepPage, citizenHubLoginPage, citizenHubPage, caseListPage, contactTheTribunalPage }) => {
 
     const submissionReference = await createCaseStep.createCaseViaCUI(page, 'EnglandWales',
       (loginPage) => loginPage.processLoginCitizenUi(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword),
@@ -26,9 +26,11 @@ test.describe('Case creation in Citizen UI', () => {
     await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(submissionReference);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPage.regAccountContactTribunal('withdraw all or part of my claim');
-    await citizenHubPage.rule92Question('yes');
-    await citizenHubPage.cyaPageVerification();
+    await citizenHubPage.navigateToContactTheTribunalPage();
+    await contactTheTribunalPage.makeApplicationToTribunal('withdraw', 'Citizen withdrawing an application', 'Yes')
+    await contactTheTribunalPage.clickSubmitButton();
+    await contactTheTribunalPage.assertApplicationSentSuccessPageIsDisplayed();
+    await contactTheTribunalPage.clickCloseAndReturn();
   });
 
   test('Create a claim for working notice period for organisation, submit and process within manage cases',

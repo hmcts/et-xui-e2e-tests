@@ -19,8 +19,10 @@ test.describe('Citizen applications', () => {
                                                                              legalRepPage,
                                                                              et1CaseServingPage,
                                                                              caseListPage,
-                                                                             applicationTabPage, documentsTabPage
+                                                                             applicationTabPage, documentsTabPage,
+                                                                             contactTheTribunalPage
                                                                            }) => {
+    await caseListPage.navigateToTab('Claimant');
     const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
 
     // perform NOC
@@ -34,7 +36,11 @@ test.describe('Citizen applications', () => {
     // Citizen rep make an application
     await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
-    await citizenHubPage.makeAnApplication();
+    await citizenHubPage.navigateToContactTheTribunalPage();
+    await contactTheTribunalPage.makeApplicationToTribunal('change personal details', 'Citizen made an application', 'Yes')
+    await contactTheTribunalPage.clickSubmitButton();
+    await contactTheTribunalPage.assertApplicationSentSuccessPageIsDisplayed();
+    await contactTheTribunalPage.clickCloseAndReturn();
     await page.click('text=Sign out');
 
     // Legal Rep respond to an application

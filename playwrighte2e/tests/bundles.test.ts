@@ -15,6 +15,7 @@ test.describe('England - Caseworker Bundles test', () => {
 
     test('Bundles - Legal rep submit hearing preparation document - England & Wales',
       async ({ page, et1CaseServingPage, caseListPage, listHearingPage, loginPage, legalRepPage,uploadDocumentsForHearingPage,checkYourAnswersPage, caseDetailsPage }) => {
+        await caseListPage.navigateToTab('Claimant');
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
         let region = 'EnglandWales';
         await caseListPage.selectNextEvent('List Hearing');
@@ -66,7 +67,8 @@ test.describe('Scotland - Caseworker Bundles test', () => {
     //Flaky xui- claimant tab issue
     test.skip('Bundles - Legal rep submit hearing preparation document - Scotland', {tag: '@demo'},
       async ({ page, et1CaseServingPage, caseListPage, loginPage, legalRepPage, listHearingPage, uploadDocumentsForHearingPage,checkYourAnswersPage, caseDetailsPage  }) => {
-      const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
+        await caseListPage.navigateToTab('Claimant');
+        const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
        // await bundleSteps.submitHearingPreparationDocument(page, 'Scotland', subRef, respondentName, firstName, lastName);
 
         let region = 'Scotland';
@@ -95,22 +97,16 @@ test.describe('England - Claimant Bundles test', () => {
     });
 
     test('Bundles - Claimant Submitting hearing preparation document - England', {tag: '@demo'},
-        async ({ page, caseListPage, et1CaseServingPage, listHearingPage, loginPage, legalRepPage, citizenHubLoginPage, citizenHubPage }) => {
-
-        const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
-
+        async ({ page, caseListPage, listHearingPage, citizenHubLoginPage, citizenHubPage, prepareAbdSubmitDocumentPage }) => {
         await caseListPage.selectNextEvent('List Hearing');
         await listHearingPage.listCase('EnglandWales', 0,'Amersham');
         await page.click('text=Sign out');
 
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
-        await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false);
-
         await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
         await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
         await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
-        await citizenHubPage.regAccountContactTribunal('submit document for hearing');
-        await citizenHubPage.submitDocumentForHearingClaimant();
+        await citizenHubPage.navigateToContactTheTribunalPage();
+        await prepareAbdSubmitDocumentPage.submitDocumentsForHearing();
     });
 
 });

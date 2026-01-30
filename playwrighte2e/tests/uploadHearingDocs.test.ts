@@ -25,6 +25,7 @@ test.describe('Upload hearing docs test', () => {
                checkYourAnswersPage
              }) => {
 
+        await caseListPage.navigateToTab('Claimant');
         //Retrieve claimant's first name and last name for NoC
         const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
 

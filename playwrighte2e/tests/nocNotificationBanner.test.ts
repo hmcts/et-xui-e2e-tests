@@ -15,7 +15,8 @@ test.describe('NOC Notification Banner', () => {
 
   //RET-5419
   test('Perform NOC and validate the notification banner in CUI',
-    async ({ page, et1CaseServingPage, loginPage, legalRepPage, citizenHubLoginPage, citizenHubPage }) => {
+    async ({ page, caseListPage, et1CaseServingPage, loginPage, legalRepPage, citizenHubLoginPage, citizenHubPage }) => {
+      await caseListPage.navigateToTab('Claimant');
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
@@ -33,7 +34,8 @@ test.describe('NOC Notification Banner', () => {
 
   //RET-5791
   test('Perform NOC and validate the notification banner in  Respondent UI',
-    async ({ page, et1CaseServingPage, loginPage, legalRepPage, et3LoginPage }) => {
+    async ({ page, caseListPage, et1CaseServingPage, loginPage, legalRepPage, et3LoginPage }) => {
+      await caseListPage.navigateToTab('Claimant');
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
@@ -65,6 +67,7 @@ test.describe('Share case', () => {
   //RET-5425
   test('Share case (respondent representative)',
     async ({ page, et1CaseServingPage, loginPage, legalRepPage, caseListPage, caseDetailsPage, baseEventPage }) => {
+      await caseListPage.navigateToTab('Claimant');
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
@@ -96,6 +99,7 @@ test.describe('Share case', () => {
   //RET-5425
   test('Share case (claimant representative)',
     async ({ page, et1CaseServingPage, loginPage, legalRepPage, caseListPage, caseDetailsPage, baseEventPage }) => {
+      await caseListPage.navigateToTab('Claimant');
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
@@ -123,7 +127,8 @@ test.describe('Share case', () => {
 
   //RET-5416
   test('Perform NOC and Remove claimant legal representative as a citizen, claimant reinstated case',
-    async ({ page, et1CaseServingPage, loginPage, legalRepPage, citizenHubLoginPage, citizenHubPage }) => {
+    async ({ page, caseListPage, et1CaseServingPage, loginPage, legalRepPage, citizenHubLoginPage, citizenHubPage }) => {
+      await caseListPage.navigateToTab('Claimant');
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 

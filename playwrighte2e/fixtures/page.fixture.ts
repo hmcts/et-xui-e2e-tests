@@ -7,7 +7,7 @@ import Et1CaseServingPage from '../pages/et1CaseServingPage';
 import LoginPage from '../pages/loginPage';
 import { ListHearingPage } from '../pages/events/listHearingPage';
 import { LegalRepPage } from '../pages/legalRepPage';
-import CitizenHubPage from '../pages/ClaimantCitizenHub/citizenHubPage.ts';
+import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
 import { CaseLinkPage } from '../pages/caseLinkPage';
 import RespondentRepPage from '../pages/respondentCitizenHub/respondentRepPage.ts';
 import ET3LoginPage from '../pages/et3LoginPage';
@@ -52,7 +52,9 @@ import { UploadDocumentsForHearingPage } from '../pages/events/UploadDocumentsFo
 import { CheckYourAnswersPage } from '../pages/helpers/CheckYourAnswersPage';
 import { BaseEventPage } from '../pages/events/BaseEventPage.ts';
 import LegalRepNotificationPage from '../pages/notifications/legalRepNotificationPage.ts';
-import CitizenHubLoginPage from '../pages/ClaimantCitizenHub/citizenHubLoginPage.ts';
+import CitizenHubLoginPage from '../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
+import ContactTheTribunalPage from '../pages/claimantCitizenHub/ContactTheTribunalPage.ts';
+import PrepareAndSubmitDocumentPage from '../pages/claimantCitizenHub/PrepareAndSubmitDocumentPage.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
 
@@ -111,6 +113,8 @@ export type PageFixtures = {
     uploadDocumentsForHearingPage: UploadDocumentsForHearingPage;
     checkYourAnswersPage: CheckYourAnswersPage;
     baseEventPage: BaseEventPage;
+    contactTheTribunalPage: ContactTheTribunalPage;
+    prepareAbdSubmitDocumentPage: PrepareAndSubmitDocumentPage;
 }
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -310,8 +314,13 @@ export const pageFixtures = base.extend<PageFixtures>({
     legalRepNotificationPage:async ({page}, use) => {
         await use(new LegalRepNotificationPage(page, commonActionsHelper));
     },
-
-  citizenHubLoginPage:async({page}, use) => {
-    await use (new CitizenHubLoginPage (page));
-  }
+   citizenHubLoginPage:async({page}, use) => {
+      await use (new CitizenHubLoginPage (page));
+    },
+    contactTheTribunalPage:async({page}, use) => {
+      await use (new ContactTheTribunalPage (page));
+    },
+    prepareAbdSubmitDocumentPage:async({page}, use) => {
+      await use (new PrepareAndSubmitDocumentPage (page));
+    }
 });

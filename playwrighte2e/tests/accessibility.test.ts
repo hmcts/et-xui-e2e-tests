@@ -26,8 +26,9 @@ test.describe('Accessibility test', () => {
   test(
     'Scan exui pages- Legal Representative journey',
     { tag: '@accessibility' },
-    async ({ page, et1CaseServingPage, accessibilitySteps, axeUtils }) => {
+    async ({ page, caseListPage, et1CaseServingPage, accessibilitySteps, axeUtils }) => {
       //RET-5787
+      await caseListPage.navigateToTab('Claimant');
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await accessibilitySteps.scanLegalRepApplicationPages(
         page,

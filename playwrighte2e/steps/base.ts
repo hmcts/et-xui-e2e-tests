@@ -5,7 +5,7 @@ import LoginPage from "../pages/loginPage";
 import {Page} from '@playwright/test';
 import CreateCaseThroughApi from "../pages/createCaseThroughApi";
 import Et1CaseServingPage from "../pages/et1CaseServingPage";
-import CitizenUiPage from "../pages/ClaimantCitizenHub/citizenUiPage.ts";
+import CitizenUiPage from "../pages/claimantCitizenHub/CitizenUiPage.ts";
 import TaskListPage from "../pages/taskListPage";
 import PersonalDetailsPage from "../pages/personalDetailsPage";
 import EmploymentAndRespDetailsPage from "../pages/employmentAndRespDetailsPage";

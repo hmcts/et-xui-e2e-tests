@@ -69,6 +69,9 @@ export default class ContactTheTribunalPage extends BasePage {
       case 'something else':
         applicationTypeLocator = this.page.locator(`xpath=//a[@href='/contact-the-tribunal/other?lng=en']`)
         break;
+      case 'submit document for hearing':
+        applicationTypeLocator = this.page.locator(`xpath=//a[@href='/prepare-documents?lng=en']`)
+        break;
       default:
         throw new Error(`Application type: ${applicationType} is not recognized.`);
     }
@@ -126,7 +129,13 @@ export default class ContactTheTribunalPage extends BasePage {
     const r92Cya = this.page
       .locator(`xpath=//dt[normalize-space()='Do you want to copy this correspondence to the other party to satisfy the Rules of Procedure?']/following-sibling::dd[1]`);
     await expect(r92Cya).toBeVisible();
-    await expect(r92Cya).toHaveText(r92Option);
+    await expect(r92Cya).toContainText(r92Option);
+  }
+
+  async assertApplicationSentSuccessPageIsDisplayed() {
+    await this.page.waitForLoadState('load');
+    const applicationSentSuccessPageTitle = this.page.getByRole('heading', {name: 'You have sent your application to the tribunal'});
+    await expect(applicationSentSuccessPageTitle).toBeVisible();
   }
 
   async makeApplicationToTribunal(applicationType: string, details: string, r92Option: string) {
@@ -142,6 +151,5 @@ export default class ContactTheTribunalPage extends BasePage {
 
     await this.assertCheckYourAnswersPage(applicationTypeText, details, r92Option);
   }
-
 
 }

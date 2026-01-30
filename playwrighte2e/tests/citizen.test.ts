@@ -1,5 +1,4 @@
 import {test} from "../fixtures/common.fixture";
-import CaseWorkerNotificationPage from "../pages/notifications/caseWorkerNotificationPage.ts";
 import config from "../config/config";
 
 let caseNumber: string;
@@ -12,8 +11,8 @@ test.beforeEach(async ({ page, createCaseStep, axeUtils}) => {
 test.describe('Various tests for Citizen application', () => {
 
 //RET-5415
-  test.skip('Citizen varifies legal representative details', async ({ page,citizenHubLoginPage, citizenHubPage, caseListPage }) => {
-    let notificationPage = new CaseWorkerNotificationPage(page);
+  test('Citizen varifies legal representative details', async ({citizenHubLoginPage, citizenHubPage, caseListPage }) => {
+
     await caseListPage.signoutButton();
 
     //claimant verify notification
@@ -22,6 +21,6 @@ test.describe('Various tests for Citizen application', () => {
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
 
     //claimant verify legal rep's details
-    await citizenHubPage.appointLegalRep();
+    await citizenHubPage.appointLegalRep(caseNumber, subRef);
   });
 });
