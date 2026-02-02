@@ -1,5 +1,5 @@
 import { expect} from "@playwright/test";
-import { BasePage } from "./basePage";
+import { BasePage } from "../basePage.ts";
 
 
 export default class CitizenUiPage extends BasePage{

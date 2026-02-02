@@ -29,7 +29,6 @@ export default class Et1CaseServingPage extends BasePage {
 
 
   async getClaimantFirstName() {
-    await this.webActions.clickElementByCss('//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Claimant"]');
     const firstName = await this.page.locator('#case-viewer-field-read--claimantIndType tr:nth-of-type(2) span:nth-of-type(1) span:nth-of-type(1)').innerText();
     const lastName = await this.page.locator('#case-viewer-field-read--claimantIndType tr:nth-of-type(3) span:nth-of-type(1) span:nth-of-type(1)').innerText();
     console.log(firstName);

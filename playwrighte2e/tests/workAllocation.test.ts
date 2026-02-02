@@ -1,5 +1,5 @@
 import { test } from '../fixtures/common.fixture';
-import { Helpers } from '../pages/helpers/helper';
+import { Helpers } from '../pages/helpers/Helper.ts';
 import config from '../config/config';
 import referralData from '../data/ui-data/referral-content.json';
 

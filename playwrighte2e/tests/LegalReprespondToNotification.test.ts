@@ -14,6 +14,7 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
 //RET-5921
 test('Perform NOC using claimant details, caseworker sends notification and (claimant)legal rep respond to notification',
   async ({ page, et1CaseServingPage, loginPage, legalRepPage, caseListPage, caseWorkerNotificationPage, legalRepNotificationPage }) => {
+    await caseListPage.navigateToTab('Claimant');
     const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
     await page.click('text=Sign out');
 
@@ -50,6 +51,7 @@ test('Perform NOC using claimant details, caseworker sends notification and (cla
 //RET-5924
   test.skip('Perform NOC using respondent details, caseworker sends notification and (respondent)legal rep respond to notification',
     async ({ page, et1CaseServingPage, loginPage, legalRepPage, caseListPage, caseWorkerNotificationPage, legalRepNotificationPage }) => {
+      await caseListPage.navigateToTab('Claimant');
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 

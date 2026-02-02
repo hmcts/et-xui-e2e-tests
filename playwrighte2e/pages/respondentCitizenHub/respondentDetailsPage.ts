@@ -65,6 +65,8 @@ export default class RespondentDetailsPage extends BasePage {
     } else {
       await this.webActions.selectByOptionFromDropDown('#respondentCollection_0_response_status', '4: Rejected');
     }
+    await this.webActions.fillField(`#respondentCollection_0_respondent_email`, 'email@email.com')
+    await this.webActions.selectByOptionFromDropDown(`#respondentCollection_0_respondent_contact_preference`, 'Email');
     await this.clickSubmitButton();
   }
 

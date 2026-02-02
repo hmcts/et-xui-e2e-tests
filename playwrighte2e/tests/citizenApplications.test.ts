@@ -13,13 +13,16 @@ test.describe('Citizen applications', () => {
 
   test('Citizen make an application, legal rep respond to it and caseworker validate documents - England', async ({
                                                                              page,
+                                                                             citizenHubLoginPage,
                                                                              citizenHubPage,
                                                                              loginPage,
                                                                              legalRepPage,
                                                                              et1CaseServingPage,
                                                                              caseListPage,
-                                                                             applicationTabPage, documentsTabPage
+                                                                             applicationTabPage, documentsTabPage,
+                                                                             contactTheTribunalPage
                                                                            }) => {
+    await caseListPage.navigateToTab('Claimant');
     const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
 
     // perform NOC
@@ -31,9 +34,13 @@ test.describe('Citizen applications', () => {
     await page.click('text=Sign out');
 
     // Citizen rep make an application
-    await citizenHubPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
-    await citizenHubPage.clicksViewLinkOnClaimantApplicationPage(subRef);
-    await citizenHubPage.makeAnApplication();
+    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
+    await citizenHubPage.navigateToContactTheTribunalPage();
+    await contactTheTribunalPage.makeApplicationToTribunal('change personal details', 'Citizen made an application', 'Yes')
+    await contactTheTribunalPage.clickSubmitButton();
+    await contactTheTribunalPage.assertApplicationSentSuccessPageIsDisplayed();
+    await contactTheTribunalPage.clickCloseAndReturn();
     await page.click('text=Sign out');
 
     // Legal Rep respond to an application

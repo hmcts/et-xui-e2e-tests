@@ -1,19 +1,23 @@
-import { BasePage } from "./basePage";
-import config from "../config/config";
-import { expect } from "@playwright/test";
-
+import { BasePage } from "../basePage.ts";
+import config from "../../config/config.ts";
+import { expect, Locator, Page } from '@playwright/test';
 
 export default class CitizenHubPage extends BasePage {
+
+  private readonly caseOverviewPageTitle: Locator;
+  private readonly caseNumberText: Locator;
+  private readonly contactTribunalLink: Locator;
+  private readonly appointALegalRepLink: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.caseOverviewPageTitle = this.page.locator(`xpath=//h2[contains(normalize-space(),'Case overview')]`);
+    this.caseNumberText = this.page.locator('#caseNumber');
+    this.contactTribunalLink = this.page.locator(`xpath=//a[normalize-space()='Contact the tribunal about my case']`);
+    this.appointALegalRepLink = this.page.locator(`xpath=//a[normalize-space()='Appoint a legal representative']`);
+  }
+
   elements = {
-    returnToExistingClaim: '[href="/return-to-existing?lng=en"]',
-    employmentTribunalAccount: '#return_number_or_account-2',
-    veiwResponseLink: '[href="/case-document/response-acknowledgement"]',
-    et3ResponseLink: '[href="/case-document/response-from-respondent"]',
-    statusBeforeView: '.govuk-tag--blue',
-    statusAfterView: '//strong[contains(.,"Viewed")]',
-    welshToggle: '//a[.="Cymraeg"]',
-    linkToAttachedDocument: '[class="govuk-link"]',
-    linkToReplyRespondentApplications: '//a[contains(.,"Respondent\'s applications")]',
     respondButton: '#respond-button',
     responseTextElement: '.govuk-label--m',
     providingMaterialYes: '#supporting-material-yes-no',
@@ -86,182 +90,55 @@ export default class CitizenHubPage extends BasePage {
     clickRespondentContactDetailsLink: '[href="/respondent-contact-details"]',
   };
 
-  async processCitizenHubLogin(username: string, password: string) {
-    await this.page.goto(config.TestUrlCitizenUi);
-    await this.webActions.clickElementByCss(this.elements.returnToExistingClaim);
-
-    await this.webActions.checkElementById(this.elements.employmentTribunalAccount);
-    await this.clickContinue();
-    await this.loginCitizenUi(username, password);
-  }
-
-  async loginCitizenUi(username: string, password: string) {
-    await this.webActions.fillField('#username', username);
-    await this.webActions.fillField('#password', password);
-    await this.elements.submit.click();
+  async navigateToSubmittedCaseOverviewOfClaimant(submissionReference: string) {
+    await this.page.goto(config.TestUrlCitizenUi + '/citizen-hub/' + submissionReference);
+    await this.page.waitForLoadState('load');
   }
 
   async citizenHubCaseOverviewPage(caseNumber: string) {
-    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
-    // await this.webActions.verifyElementContainsText(this.page.locator('#caseNumber'), 'Case number ' + caseNumber);
+    await expect(this.caseOverviewPageTitle).toBeVisible();
+    await expect(this.caseNumberText).toHaveText('Case number ' + caseNumber);
   }
 
-  async appointLegalRep() {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.appointLegalRepLink));
-    await this.webActions.clickElementByCss(this.elements.appointLegalRepLink);
-
-    await expect(this.page.locator('dl')).toContainText('Case reference');
-    await expect(this.page.locator('dl')).toContainText('Claimant name');
-    await expect(this.page.locator('dl')).toContainText('Tribunal Case Number');
-
-    await expect(this.page.locator('#main-content')).toContainText('download all your documents');
+  async navigateToContactTheTribunalPage() {
+    await expect(this.contactTribunalLink).toBeVisible();
+    await this.contactTribunalLink.click();
+    await this.page.waitForLoadState('load');
   }
 
-  async clicksViewLinkOnClaimantApplicationPage(submissionReference: string) {
-    await this.page.goto(config.TestUrlCitizenUi + '/citizen-hub/' + submissionReference);
-  }
+  async appointLegalRep(caseNumber: string, submissionReference: string) {
+    await expect(this.appointALegalRepLink).toBeVisible();
+    await this.appointALegalRepLink.click();
+    await this.page.waitForLoadState('load');
 
-  async makeAnApplication() {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.contactTribunalLinkRegistered));
-    await this.webActions.clickElementByCss(this.elements.contactTribunalLinkRegistered);
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Contact the tribunal about your case');
-    await this.webActions.clickElementByRole('button', { name: 'Show all sections' });
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.changePersonalDetail));
-    await this.webActions.clickElementByCss(this.elements.changePersonalDetail);
+    const caseNumberLocator = this.page.locator(`xpath=//dt[normalize-space()='Online case reference number']/following-sibling::dd`);
+    await expect(caseNumberLocator).toBeVisible();
+    const caseRefText = await caseNumberLocator.textContent();
+    expect(caseRefText).toBeDefined();
+    expect(caseRefText?.trim()).toEqual(submissionReference);
 
-    await this.webActions.fillField('#Contact-Application-Text', 'Citizen made an application');
-    await this.page.setInputFiles('#contactApplicationFile', `test/data/test.txt`);
-    await this.clickContinue();
+    const claimantNameLocator = this.page.locator(`xpath=//dt[normalize-space()='Claimant name']/following-sibling::dd`);
+    await expect(claimantNameLocator).toBeVisible();
+    const claimantNameText = await claimantNameLocator.textContent();
+    expect(claimantNameText).toBeDefined();
 
-    await this.page.locator('#copyToOtherPartyYesOrNo').isVisible();
-    await this.webActions.checkElementById('#copyToOtherPartyYesOrNo');
-    await this.clickContinue();
+    const tribunalCaseNumberLocator = this.page.locator(`xpath=//dt[normalize-space()='Tribunal case number']/following-sibling::dd`);
+    await expect(tribunalCaseNumberLocator).toBeVisible();
+    const tribunalCaseNumberText = await tribunalCaseNumberLocator.textContent();
+    expect(tribunalCaseNumberText).toBeDefined();
+    expect(tribunalCaseNumberText?.trim()).toEqual(caseNumber);
 
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Check your answers');
-    await this.clickSubmitButton();
+    await expect(this.page.getByRole('heading', { name: 'Download documents'})).toBeVisible();
 
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('h1'),
-      'You have sent your application to the tribunal',
-    );
-    await this.clickCloseAndReturn();
-  }
+    const documents = this.page.locator(`xpath=//a[@href='/all-documents']`);
+    await expect(documents).toBeVisible();
+    await documents.click();
 
-  async regAccountContactTribunal(applicationType: string) {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.contactTribunalLinkRegistered));
-    await this.webActions.clickElementByCss(this.elements.contactTribunalLinkRegistered);
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Contact the tribunal about your case');
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('#main-content'),
-      'Call the Employment Tribunal customer contact centre',
-    );
-    await this.webActions.clickElementByRole('button', { name: 'Show all sections' });
+    const docName = `ET1 - ${claimantNameText?.trim()}.pdf`;
+    const documentLinkLocator = this.page.locator(`xpath=//a[normalize-space()='${docName}']`);
+    await expect(documentLinkLocator).toBeVisible();
 
-    try {
-      switch (applicationType) {
-        case 'withdraw all or part of my claim':
-          await this.webActions.verifyElementToBeVisible(this.page.locator('#contact-options-heading-1'));
-
-          await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.withdrawClaimLink));
-          await this.webActions.clickElementByCss(this.elements.withdrawClaimLink);
-          await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.applicationTextField));
-          await this.webActions.fillField(this.elements.applicationTextField, 'blah blah');
-
-          await this.clickContinue();
-          break;
-        case 'submit document for hearing':
-          await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.submitHearingDocument), 20000);
-          await this.webActions.clickElementByCss(this.elements.submitHearingDocument);
-          await this.webActions.verifyElementToBeVisible(this.page.locator('#main-content'), 20000);
-
-          await this.webActions.verifyElementContainsText(
-            this.page.locator('h2.govuk-heading-l'),
-            'Prepare and submit documents for a hearing',
-          );
-          break;
-        default:
-          throw new Error('... invalid option, check you options');
-      }
-    } catch (e) {
-      console.error('invalid option', e);
-    }
-  }
-
-  async rule92Question(option: string) {
-    switch (option) {
-      case 'yes':
-        await this.webActions.checkElementById(this.elements.yesOptionOnRule92);
-        break;
-      case 'no':
-        await this.webActions.checkElementById(this.elements.noOptionOnRule92);
-        await this.webActions.fillField(this.elements.addInfoToNoOption, 'dont want other party to see this');
-        break;
-      default:
-        throw new Error('... you can only select a yes or no option on rule 92 page');
-    }
-    await this.clickContinue();
-  }
-  async cyaPageVerification() {
-    await this.webActions.verifyElementContainsText(this.page.locator('dl'), 'Application type');
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('dl'),
-      'What do you want to tell or ask the tribunal?',
-    );
-    await this.webActions.verifyElementContainsText(this.page.locator('dl'), 'Supporting material');
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('dl'),
-      'Do you want to copy this correspondence to the other party to satisfy the Rules of Procedure?',
-    );
-
-    await this.webActions.clickElementByCss(this.elements.submitApplicationButton);
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('h1'),
-      'You have sent your application to the tribunal',
-    );
-    await this.webActions.clickElementByCss(this.elements.returntoCUIcaseOverviewButton);
-  }
-
-  async submitDocumentForHearingClaimant() {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.startPreparingHearingDoc), 10000);
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('h2.govuk-heading-l'),
-      'Prepare and submit documents for a hearing',
-    );
-    await this.webActions.clickElementByCss(this.elements.startPreparingHearingDoc);
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingDocAgreeDoc), 5000);
-    await this.webActions.checkElementById(this.elements.hearingDocAgreeDoc);
-    await this.clickContinue();
-
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.firstListedCase), 10000);
-    await this.webActions.checkElementById(this.elements.firstListedCase);
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'About your hearing documents');
-    await this.webActions.checkElementById(this.elements.myDocumentOption);
-    await this.webActions.checkElementById(this.elements.witnessStatementOnly);
-    await this.webActions.clickElementByCss(this.elements.continueButton);
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.uploadHearingFile), 10000);
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Upload your file of documents');
-
-    await this.page.setInputFiles(this.elements.uploadHearingDocButton, 'test/data/welshTest.pdf');
-    await this.page.waitForTimeout(3000);
-    await this.webActions.clickElementByCss(this.elements.uploadHearingFile);
-
-    await this.page.waitForTimeout(3000);
-    await this.webActions.clickElementByCss(this.elements.continueButton);
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.changeYourDocument), 10000);
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Check your answers');
-
-    await this.webActions.clickElementByCss(this.elements.submitApplicationButton);
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.closeAndReturnButton), 10000);
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('h1'),
-      'You have sent your hearing documents to the tribunal',
-    );
-
-    await expect(this.page.locator('//*[@id="main-content"]/div/div[1]/p')).toHaveText(
-      'Your documents are now uploaded. The tribunal will let you know ' +
-        'if they have any questions about the documents you have submitted.',
-    );
-    await this.webActions.clickElementByCss(this.elements.closeAndReturnButton);
+    return { caseRef: caseRefText??'', claimantName: claimantNameText??'', tribunalCaseNumber: tribunalCaseNumberText??'' };
   }
 
   async respondToAnApplication() {

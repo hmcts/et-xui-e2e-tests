@@ -12,7 +12,7 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
 
   //RET-5927
   test('Caseworker uploads hearing bundle', async ({ caseListPage, uploadHearingBundlePage, et1CaseServingPage, listHearingPage, page, loginPage, legalRepPage}) => {
-
+    await caseListPage.navigateToTab('Claimant');
     //Retrieve claimant's first name and last name for NoC
     const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
 
