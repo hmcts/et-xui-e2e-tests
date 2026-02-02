@@ -1,5 +1,5 @@
 import { test } from '../fixtures/common.fixture';
-import CaseWorkerNotificationPage from '../pages/notifications/caseWorkerNotificationPage.ts';
+import CaseWorkerNotificationPage from '../pages/notifications/CaseWorkerNotificationPage.ts';
 import config from '../config/config';
 
 let caseNumber: any;
