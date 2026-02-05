@@ -1,5 +1,5 @@
-import { BasePage } from "./basePage";
-import { expect } from "@playwright/test";
+import { expect, Locator, Page } from '@playwright/test';
+import CitizenHubPage from './CitizenHubPage.ts';
 
 const today = new Date();
 const listDay = today.getDate();
@@ -7,135 +7,36 @@ const listMonth = today.getMonth() + 1;
 const listYear = today.getFullYear() + 1;
 let inNoticePeriod: boolean = true;
 
-export default class EmploymentAndRespDetailsPage extends BasePage {
-  //still working for organisation/person scenario
-  async processStillWorkingJourney(workPostcode: string, selectedWorkAddress: string, firstLineOfAddress: string) {
-    await this.clickEmploymentStatusLink();
-    await this.workedForOrganisation('Yes');
-    await this.stillWorkingForOrganisation();
-    await this.enterEmploymentJobTitle();
-    await this.enterEmploymentStartDate();
-    await this.selectYesNoticePeriod();
-    await this.selectNoticeType();
-    await this.enterNoticePeriodLength(!inNoticePeriod);
-    await this.enterAverageWeeklyHours();
-    await this.enterPay();
-    await this.enterPensionContribution();
-    await this.enterEmployeeBenefits();
-    await this.enterRespondentName();
-    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
-    await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
-    //this.selectNoToAcas();
-    await this.selectYesToAcas();
-    await this.checkRespondentDetails();
-    await this.completeEmploymentAndRespondentDetails();
+export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
+
+  private readonly employmentStatusLink: Locator;
+  private readonly workedForOrganisationGroup: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.employmentStatusLink = this.page.locator('a[href="/past-employer?lng=en"]');
+    this.workedForOrganisationGroup = page.locator('fieldset:has(legend:text("Did you work for the organisation or person you’re making your claim against? (Optional)"))');
   }
 
-  //working notice period for organisation/person scenario
-  async processWorkingNoticePeriodJourney(
-    workPostcode: string,
-    selectedWorkAddress: string,
-    firstLineOfAddress: string,
-  ) {
-    await this.clickEmploymentStatusLink();
-    await this.workedForOrganisation('Yes');
-    await this.workingNoticePeriodForOrganisation();
-    await this.enterEmploymentJobTitle();
-    await this.enterEmploymentStartDate();
-    await this.noticePeriodEndDate();
-    await this.selectNoticeType();
-    await this.enterNoticePeriodLength(inNoticePeriod);
-    await this.enterAverageWeeklyHours();
-    await this.enterPay();
-    await this.enterPensionContribution();
-    await this.enterEmployeeBenefits();
-    await this.enterRespondentName();
-    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
-    await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
-    await this.selectYesToAcas();
-    await this.checkRespondentDetails();
-    await this.completeEmploymentAndRespondentDetails();
-  }
-  // //No longer working for organisation/person scenario
-  async processNoLongerWorkingForOrgJourney(
-    workPostcode: string,
-    selectedWorkAddress: string,
-    firstLineOfAddress: string,
-  ) {
-    await this.clickEmploymentStatusLink();
-    await this.workedForOrganisation('Yes');
-    await this.noLongerWorkingForOrganisation();
-    await this.enterEmploymentJobTitle();
-    await this.enterEmploymentStartDate();
-    await this.enterEmploymentEndDate();
-    await this.selectYesNoticePeriodNoLongerWorking();
-    await this.selectNoticeTypeNoLongerWorking();
-    await this.enterNoticePeriodLengthNoLongerWorking();
-    await this.enterAverageWeeklyHoursNoLongerWorking();
-    await this.enterPay();
-    await this.enterPensionContribution();
-    await this.enterEmployeeBenefitsForNoLongerWorking();
-    await this.newJob();
-    await this.enterNewJobStartDates();
-    await this.enterNewJobPay();
-    await this.enterRespondentName();
-    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
-    await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
-    await this.selectNoToAcas();
-    await this.checkRespondentDetails();
-    await this.completeEmploymentAndRespondentDetails();
-  }
-
-  // //Did not work for organisation scenario
-  async processDidNotWorkForOrganisationMakingClaimAgainst(workPostcode: string, selectedWorkAddress: string) {
-    await this.clickEmploymentStatusLink();
-    await this.workedForOrganisation('No');
-    await this.enterRespondentName();
-    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
-    await this.selectNoToAcas();
-    await this.checkRespondentDetails();
-    await this.completeEmploymentAndRespondentDetails();
-  }
-
-  async multipleAcasCertificate(workPostcode: string, selectedWorkAddress: string, firstLineOfAddress: string) {
-    await this.clickEmploymentStatusLink();
-    await this.workedForOrganisation('Yes');
-    await this.workingNoticePeriodForOrganisation();
-    await this.enterEmploymentJobTitle();
-    await this.enterEmploymentStartDate();
-    await this.noticePeriodEndDate();
-    await this.selectNoticeType();
-    await this.enterNoticePeriodLength(inNoticePeriod);
-    await this.enterAverageWeeklyHours();
-    await this.enterPay();
-    await this.enterPensionContribution();
-    await this.enterEmployeeBenefits();
-    await this.enterRespondentName();
-    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
-    await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
-    await this.selectYesToAcas();
-    await this.addMultipleAcasCertificate();
-    await this.addSecondRespondentDetails(workPostcode, selectedWorkAddress);
-    await this.checkRespondentDetails();
-    await this.completeEmploymentAndRespondentDetails();
-  }
   //clicks employment status link
   async clickEmploymentStatusLink() {
-    await this.webActions.clickElementByCss('[href="/past-employer?lng=en"]');
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('h1'),
-      'Did you work for the organisation or person you’re making your claim against?',
-    );
+    await this.page.waitForLoadState('load');
+    await expect(this.employmentStatusLink).toBeVisible();
+    await this.employmentStatusLink.click();
   }
   //function to click yes worked for organisation on /past-employer page
-  async workedForOrganisation(workedForOrg: string) {
+  async selectWorkedForOrganisation(workedForOrg: string) {
+    await this.page.waitForLoadState('load');
+    await expect(this.workedForOrganisationGroup).toBeVisible();
+
     if (workedForOrg === 'Yes') {
-      await this.webActions.clickElementByCss('#past-employer');
+      await this.workedForOrganisationGroup.locator('#past-employer').click();
     } else if (workedForOrg === 'No') {
-      await this.webActions.clickElementByCss('#past-employer-2');
+      await this.workedForOrganisationGroup.locator('#past-employer-2').click();
     }
     await this.saveAndContinueButton();
   }
+
   //selects still working for respondent on /are-you-still-working page
   async stillWorkingForOrganisation() {
     await this.webActions.verifyElementContainsText(
@@ -325,6 +226,9 @@ export default class EmploymentAndRespDetailsPage extends BasePage {
     await this.webActions.checkElementById('#new-job-pay-interval-3');
     await this.saveAndContinueButton();
   }
+
+  // RESPONDENT DETAILS
+  
   //verify user is on respondent-name page and then enters a respondent name
   async enterRespondentName() {
     await this.webActions.verifyElementContainsText(
@@ -428,5 +332,117 @@ export default class EmploymentAndRespDetailsPage extends BasePage {
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Have you completed this section?');
     await this.webActions.checkElementById('#tasklist-check');
     await this.saveAndContinueButton();
+  }
+
+  //still working for organisation/person scenario
+  async processStillWorkingJourney(workPostcode: string, selectedWorkAddress: string, firstLineOfAddress: string) {
+    await this.clickEmploymentStatusLink();
+    await this.selectWorkedForOrganisation('Yes');
+    await this.stillWorkingForOrganisation();
+    await this.enterEmploymentJobTitle();
+    await this.enterEmploymentStartDate();
+    await this.selectYesNoticePeriod();
+    await this.selectNoticeType();
+    await this.enterNoticePeriodLength(!inNoticePeriod);
+    await this.enterAverageWeeklyHours();
+    await this.enterPay();
+    await this.enterPensionContribution();
+    await this.enterEmployeeBenefits();
+    await this.enterRespondentName();
+    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
+    await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
+    //this.selectNoToAcas();
+    await this.selectYesToAcas();
+    await this.checkRespondentDetails();
+    await this.completeEmploymentAndRespondentDetails();
+  }
+
+  //working notice period for organisation/person scenario
+  async processWorkingNoticePeriodJourney(
+    workPostcode: string,
+    selectedWorkAddress: string,
+    firstLineOfAddress: string,
+  ) {
+    await this.clickEmploymentStatusLink();
+    await this.selectWorkedForOrganisation('Yes');
+    await this.workingNoticePeriodForOrganisation();
+    await this.enterEmploymentJobTitle();
+    await this.enterEmploymentStartDate();
+    await this.noticePeriodEndDate();
+    await this.selectNoticeType();
+    await this.enterNoticePeriodLength(inNoticePeriod);
+    await this.enterAverageWeeklyHours();
+    await this.enterPay();
+    await this.enterPensionContribution();
+    await this.enterEmployeeBenefits();
+    await this.enterRespondentName();
+    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
+    await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
+    await this.selectYesToAcas();
+    await this.checkRespondentDetails();
+    await this.completeEmploymentAndRespondentDetails();
+  }
+  // //No longer working for organisation/person scenario
+  async processNoLongerWorkingForOrgJourney(
+    workPostcode: string,
+    selectedWorkAddress: string,
+    firstLineOfAddress: string,
+  ) {
+    await this.clickEmploymentStatusLink();
+    await this.selectWorkedForOrganisation('Yes');
+    await this.noLongerWorkingForOrganisation();
+    await this.enterEmploymentJobTitle();
+    await this.enterEmploymentStartDate();
+    await this.enterEmploymentEndDate();
+    await this.selectYesNoticePeriodNoLongerWorking();
+    await this.selectNoticeTypeNoLongerWorking();
+    await this.enterNoticePeriodLengthNoLongerWorking();
+    await this.enterAverageWeeklyHoursNoLongerWorking();
+    await this.enterPay();
+    await this.enterPensionContribution();
+    await this.enterEmployeeBenefitsForNoLongerWorking();
+    await this.newJob();
+    await this.enterNewJobStartDates();
+    await this.enterNewJobPay();
+    await this.enterRespondentName();
+    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
+    await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
+    await this.selectNoToAcas();
+    await this.checkRespondentDetails();
+    await this.completeEmploymentAndRespondentDetails();
+  }
+
+  // //Did not work for organisation scenario
+  async processDidNotWorkForOrganisationMakingClaimAgainst(workPostcode: string, selectedWorkAddress: string) {
+    await this.clickEmploymentStatusLink();
+    await this.selectWorkedForOrganisation('No');
+    await this.enterRespondentName();
+    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
+    await this.selectNoToAcas();
+    await this.checkRespondentDetails();
+    await this.completeEmploymentAndRespondentDetails();
+  }
+
+  async multipleAcasCertificate(workPostcode: string, selectedWorkAddress: string, firstLineOfAddress: string) {
+    await this.clickEmploymentStatusLink();
+    await this.selectWorkedForOrganisation('Yes');
+    await this.workingNoticePeriodForOrganisation();
+    await this.enterEmploymentJobTitle();
+    await this.enterEmploymentStartDate();
+    await this.noticePeriodEndDate();
+    await this.selectNoticeType();
+    await this.enterNoticePeriodLength(inNoticePeriod);
+    await this.enterAverageWeeklyHours();
+    await this.enterPay();
+    await this.enterPensionContribution();
+    await this.enterEmployeeBenefits();
+    await this.enterRespondentName();
+    await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
+    await this.selectYesToWorkingAtRespondentAddress(firstLineOfAddress);
+    await this.selectYesToAcas();
+    await this.addMultipleAcasCertificate();
+    await this.addSecondRespondentDetails(workPostcode, selectedWorkAddress);
+    await this.checkRespondentDetails();
+    await this.completeEmploymentAndRespondentDetails();
   }
 }

@@ -283,8 +283,6 @@ export default class CaseListPage extends BasePage {
 
   }
 
-
-
   async searchHearingReports(option: string, state: string, officeLocation: string) {
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseListLink));
     await this.webActions.clickElementByCss(this.elements.caseListLink);

@@ -1,4 +1,4 @@
-import { BasePage } from "./basePage";
+import { BasePage } from "../basePage.ts";
 
 export default class SubmitClaimPage extends BasePage{
   async submitClaim() {

@@ -9,12 +9,19 @@ export default class CitizenHubPage extends BasePage {
   private readonly contactTribunalLink: Locator;
   private readonly appointALegalRepLink: Locator;
 
+  private readonly haveYouCompletedThisSectionHeading: Locator;
+  private readonly yesOptionHaveYouCompletedThisSection: Locator;
+  private readonly noOptionHaveYouCompletedThisSection: Locator;
+
   constructor(page: Page) {
     super(page);
     this.caseOverviewPageTitle = this.page.locator(`xpath=//h2[contains(normalize-space(),'Case overview')]`);
     this.caseNumberText = this.page.locator('#caseNumber');
     this.contactTribunalLink = this.page.locator(`xpath=//a[normalize-space()='Contact the tribunal about my case']`);
     this.appointALegalRepLink = this.page.locator(`xpath=//a[normalize-space()='Appoint a legal representative']`);
+    this.haveYouCompletedThisSectionHeading = this.page.getByRole('heading', {name: 'Have you completed this section?'});
+    this.yesOptionHaveYouCompletedThisSection = this.page.locator(`#tasklist-check`);
+    this.noOptionHaveYouCompletedThisSection = this.page.locator(`#tasklist-check-2`);
   }
 
   elements = {
@@ -104,6 +111,24 @@ export default class CitizenHubPage extends BasePage {
     await expect(this.contactTribunalLink).toBeVisible();
     await this.contactTribunalLink.click();
     await this.page.waitForLoadState('load');
+  }
+
+  async confirmHaveYouCompletedThisSection(option: string = 'Yes') {
+    await this.page.waitForLoadState('load');
+    await expect(this.haveYouCompletedThisSectionHeading).toBeVisible();
+    switch (option) {
+      case 'Yes':
+        await expect(this.yesOptionHaveYouCompletedThisSection).toBeVisible();
+        await this.yesOptionHaveYouCompletedThisSection.check();
+        break;
+      case 'No':
+        await expect(this.noOptionHaveYouCompletedThisSection).toBeVisible();
+        await this.noOptionHaveYouCompletedThisSection.check();
+        break;
+      default:
+        throw new Error(`Option: ${option} is not recognized. Please select either 'Yes' or 'No'.`);
+    }
+    await this.saveAndContinueButton();
   }
 
   async appointLegalRep(caseNumber: string, submissionReference: string) {
