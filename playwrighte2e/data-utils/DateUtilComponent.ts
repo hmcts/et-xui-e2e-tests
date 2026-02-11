@@ -3,17 +3,18 @@ export default class DateUtilComponent {
     static addWeekdays(startDate: Date, days: number): Date {
         let count = 0;
         let currentDate = new Date(startDate);
+        const increment = days > 0 ? 1 : -1;
 
-        while (count < days) {
-            currentDate.setDate(currentDate.getDate() + 1);
+        while (Math.abs(count) < Math.abs(days)) {
+            currentDate.setDate(currentDate.getDate() + increment);
             const dayOfWeek = currentDate.getDay();
             if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-                count++;
+                count += increment;
             }
         }
-
         return currentDate;
     }
+
 
     static formatTodaysDate(date: Date): string {
 
@@ -144,4 +145,3 @@ export default class DateUtilComponent {
   }
 
 }
-

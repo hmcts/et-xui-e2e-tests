@@ -92,7 +92,6 @@ export default class createAndAcceptCase extends BaseStep {
     await this.claimDetailsPage.processClaimDetails();
     const submissionReference = await this.submitClaimPage.submitClaim();
     await this.submitClaimPage.signoutButton();
-
     return submissionReference;
   }
 

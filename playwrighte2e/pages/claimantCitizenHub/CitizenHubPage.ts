@@ -10,8 +10,6 @@ export default class CitizenHubPage extends BasePage {
   private readonly appointALegalRepLink: Locator;
 
   private readonly haveYouCompletedThisSectionHeading: Locator;
-  private readonly yesOptionHaveYouCompletedThisSection: Locator;
-  private readonly noOptionHaveYouCompletedThisSection: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -19,9 +17,9 @@ export default class CitizenHubPage extends BasePage {
     this.caseNumberText = this.page.locator('#caseNumber');
     this.contactTribunalLink = this.page.locator(`xpath=//a[normalize-space()='Contact the tribunal about my case']`);
     this.appointALegalRepLink = this.page.locator(`xpath=//a[normalize-space()='Appoint a legal representative']`);
-    this.haveYouCompletedThisSectionHeading = this.page.getByRole('heading', {name: 'Have you completed this section?'});
-    this.yesOptionHaveYouCompletedThisSection = this.page.locator(`#tasklist-check`);
-    this.noOptionHaveYouCompletedThisSection = this.page.locator(`#tasklist-check-2`);
+    this.haveYouCompletedThisSectionHeading = this.page.locator(
+      `fieldset:has(legend:has(h1:text("Have you completed this section?")))`,
+    );
   }
 
   elements = {
@@ -118,12 +116,14 @@ export default class CitizenHubPage extends BasePage {
     await expect(this.haveYouCompletedThisSectionHeading).toBeVisible();
     switch (option) {
       case 'Yes':
-        await expect(this.yesOptionHaveYouCompletedThisSection).toBeVisible();
-        await this.yesOptionHaveYouCompletedThisSection.check();
+        const yesOption = this.haveYouCompletedThisSectionHeading.locator('input[type="radio"][value="Yes"]');
+        await expect(yesOption).toBeVisible();
+        await yesOption.check();
         break;
       case 'No':
-        await expect(this.noOptionHaveYouCompletedThisSection).toBeVisible();
-        await this.noOptionHaveYouCompletedThisSection.check();
+        const noOption = this.haveYouCompletedThisSectionHeading.locator('input[type="radio"][value="No"]');
+        await expect(noOption).toBeVisible();
+        await noOption.check();
         break;
       default:
         throw new Error(`Option: ${option} is not recognized. Please select either 'Yes' or 'No'.`);

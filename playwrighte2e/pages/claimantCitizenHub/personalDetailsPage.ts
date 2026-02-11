@@ -28,7 +28,7 @@ export default class PersonalDetailsPage extends CitizenHubPage {
   constructor(page: Page) {
     super(page);
     this.personalDetailsLink = this.page.locator(`a[href="/dob-details?lng=en"]`);
-    this.dobHeading = this.page.getByRole('heading', { name: 'What is your date of birth?' });
+    this.dobHeading = this.page.locator(`fieldset:has(legend:text("What is your date of birth?"))`);
     this.dobGroup = this.page.locator('#dobDate');
     this.sexAndPreferredTitleHeading = this.page.getByRole('heading', { name: 'Sex and preferred title' });
     this.homeAddressHeading = this.page.getByRole('heading', { name: 'What is your contact or home address?' });
@@ -57,16 +57,14 @@ export default class PersonalDetailsPage extends CitizenHubPage {
   }
 
   async enterDob() {
-    await expect(this.dobHeading).toBeVisible();
-    await expect(this.dobGroup).toBeVisible();
-
-    //enter date of birth
     await Promise.all([
-      this.dobGroup.getByLabel('Day').fill('01'),
-      this.dobGroup.getByLabel('Month').fill('01'),
-      this.dobGroup.getByLabel('Year').fill('1990')
+      expect(this.dobHeading).toBeVisible(),
+       expect(this.dobGroup).toBeVisible()
     ]);
-
+    //enter date of birth
+    await this.dobGroup.getByLabel('Day').fill('02');
+    await this.dobGroup.getByLabel('Month').fill('01');
+    await this.dobGroup.getByLabel('Year').fill('1990');
     await this.saveAndContinueButton();
   }
 
@@ -104,13 +102,15 @@ export default class PersonalDetailsPage extends CitizenHubPage {
   }
 
   private async selectFormatOfContact(option: string) {
-    await expect(this.languageRadioGroup).toBeVisible();
+    await this.page.waitForLoadState('load');
+    await expect(this.formatOfContactRadioGroup).toBeVisible();
     const optionLocator = this.formatOfContactRadioGroup.getByRole('radio', { name: option });
     await expect(optionLocator).toBeVisible();
     await optionLocator.check();
   }
 
   private async selectLanguageTobeContactedIn(option: string) {
+    await this.page.waitForLoadState('load');
     await expect(this.languageRadioGroup).toBeVisible();
     const optionLocator = this.languageRadioGroup.getByRole('radio', { name: option });
     await expect(optionLocator).toBeVisible();
@@ -118,6 +118,7 @@ export default class PersonalDetailsPage extends CitizenHubPage {
   }
 
   private async selectHearingLanguage(option: string) {
+    await this.page.waitForLoadState('load');
     await expect(this.speakingLanguageRadioGroup).toBeVisible();
     const optionLocator = this.speakingLanguageRadioGroup.getByRole('radio', { name: option });
     await expect(optionLocator).toBeVisible();
@@ -153,10 +154,13 @@ export default class PersonalDetailsPage extends CitizenHubPage {
   async selectHearingPreference() {
     await this.page.waitForLoadState('load');
     //Select hearing preference option - video hearing
-    await expect(this.hearingFormatHeading).toBeVisible();
-    await expect(this.hearingFormatQuestion).toBeVisible();
-    await expect(this.hearingFormatAudioOption).toBeVisible();
-    await expect(this.hearingFormatVideoOption).toBeVisible();
+    await Promise.all([
+      expect(this.hearingFormatHeading).toBeVisible(),
+      expect(this.hearingFormatQuestion).toBeVisible(),
+      expect(this.hearingFormatAudioOption).toBeVisible(),
+      expect(this.hearingFormatVideoOption).toBeVisible()
+    ]);
+
 
     await this.hearingFormatVideoOption.click();
     await this.saveAndContinueButton();
@@ -165,10 +169,12 @@ export default class PersonalDetailsPage extends CitizenHubPage {
   async selectReasonableAdjustment() {
     //Select No to reasonable adjustment question
     await this.page.waitForLoadState('load');
-    await expect(this.extraSupportHeading).toBeVisible();
-    await expect(this.reasonableAdjustmentQuestion).toBeVisible();
-    await expect(this.reasonableAdjustmentNo).toBeVisible();
+    await Promise.all([
+      expect(this.extraSupportHeading).toBeVisible(),
+      expect(this.reasonableAdjustmentQuestion).toBeVisible(),
+      expect(this.reasonableAdjustmentNo).toBeVisible()
 
+  ]);
     await this.reasonableAdjustmentNo.click();
     await this.saveAndContinueButton();
   }

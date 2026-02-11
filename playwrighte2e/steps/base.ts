@@ -9,7 +9,7 @@ import CUIPreLoginPage from "../pages/claimantCitizenHub/CUIPreLoginPage.ts";
 import CUIPostLoginPages from "../pages/claimantCitizenHub/CUIPostLoginPages.ts";
 import PersonalDetailsPage from "../pages/claimantCitizenHub/personalDetailsPage.ts";
 import EmploymentAndRespDetailsPage from "../pages/claimantCitizenHub/employmentAndRespDetailsPage.ts";
-import ClaimDetailsPage from "../pages/claimDetailsPage";
+import ClaimDetailsPage from "../pages/claimantCitizenHub/claimDetailsPage.ts";
 import SubmitClaimPage from "../pages/claimantCitizenHub/submitClaimPage.ts";
 import Et1VettingPages from "../pages/et1VettingPages";
 import Et1CreateDraftClaim from "../pages/et1CreateDraftClaim";
