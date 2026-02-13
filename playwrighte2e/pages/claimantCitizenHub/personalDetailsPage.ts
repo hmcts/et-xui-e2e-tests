@@ -112,9 +112,21 @@ export default class PersonalDetailsPage extends CitizenHubPage {
   private async selectLanguageTobeContactedIn(option: string) {
     await this.page.waitForLoadState('load');
     await expect(this.languageRadioGroup).toBeVisible();
-    const optionLocator = this.languageRadioGroup.getByRole('radio', { name: option });
+    let optionLocator = this.languageRadioGroup.getByRole('radio', { name: option });
+    switch (option.toLowerCase()) {
+      case 'english':
+        optionLocator = this.languageRadioGroup.locator(`#update-preference-language-2`);
+        break;
+      case 'welsh':
+        optionLocator = this.languageRadioGroup.locator(`#update-preference-language`);
+        break;
+      default:
+        throw new Error(
+          '... check the provided language option. you have not specified a valid language such as English or Welsh',
+        );
+    }
     await expect(optionLocator).toBeVisible();
-    await optionLocator.check();
+    await optionLocator.click();
   }
 
   private async selectHearingLanguage(option: string) {
