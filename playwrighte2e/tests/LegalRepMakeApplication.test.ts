@@ -17,8 +17,8 @@ test.describe('Make an application and view Recorded Decision', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
         //perform NOC
         await page.click('text=Sign out');
-        await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+        await page.goto(config.manageCaseBaseUrl);
+        await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
         await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
@@ -27,21 +27,21 @@ test.describe('Make an application and view Recorded Decision', () => {
         await page.click('text=Sign out');
 
        // Claimant Reply to Application from Legal Rep
-        await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+        await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
         await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
         await citizenHubPage.respondToAnApplication();
         await page.click('text=Sign out');
 
         //Case Worker Request for additional information (respond to claimant's response)
-        await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
+        await page.goto(config.manageCaseBaseUrl);
+        await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         await applicationTabPage.respondToAnApplication();
         await page.click('text=Sign out');
 
         //claimant see response of respond
-        await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+        await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
         await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
         await citizenHubPage.validateResponseOfResponse();
     });
@@ -54,8 +54,8 @@ test.describe('Make an application and view Recorded Decision', () => {
           const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
           //perform NOC
           await page.click('text=Sign out');
-          await page.goto(config.TestUrlForManageCaseAAT);
-          await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+          await page.goto(config.manageCaseBaseUrl);
+          await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
           await legalRepPage.processNOCForClaimantOrRespondent  ('Eng/Wales - Singles', subRef, respondentName, firstName, lastName, false);
           caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
@@ -64,8 +64,8 @@ test.describe('Make an application and view Recorded Decision', () => {
           await page.click('text=Sign out');
 
          //caseworker records a decision
-          await page.goto(config.TestUrlForManageCaseAAT);
-          await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
+          await page.goto(config.manageCaseBaseUrl);
+          await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
           await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
           await applicationTabPage.recordADecision();
@@ -74,7 +74,7 @@ test.describe('Make an application and view Recorded Decision', () => {
           await page.click('text=Sign out');
 
           //citizen view notification about decision
-          await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+          await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
           await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
           //  await citizenHubPage.validateRecordDecisionBanner(); RET-5707 bug ticket raised for the failing step
           await page.click('text=Sign out');
@@ -86,8 +86,8 @@ test.describe('Make an application and view Recorded Decision', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       //perform NOC
       await page.click('text=Sign out');
-      await page.goto(config.TestUrlForManageCaseAAT);
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+      await page.goto(config.manageCaseBaseUrl);
+      await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, respondentName, firstName, lastName, true);
       caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 

@@ -36,7 +36,6 @@ export abstract class BaseStep {
     protected submitClaimPage: SubmitClaimPage;
     protected et1CreateDraftClaim: Et1CreateDraftClaim;
     protected referralPage: ReferralPage;
-    protected draftJudgementPage: DraftJudgementPage;
     protected issueJudgementPage: IssueJudgementPage;
     protected respondentRepPage: RespondentRepPage;
     protected et3ProcessPage: ET3ProcessPage;
@@ -57,7 +56,6 @@ export abstract class BaseStep {
         this.submitClaimPage = new SubmitClaimPage(page);
         this.et1CreateDraftClaim = new Et1CreateDraftClaim(page);
         this.referralPage = new ReferralPage(page);
-        this.draftJudgementPage = new DraftJudgementPage(page);
         this.issueJudgementPage = new IssueJudgementPage(page);
         this.respondentRepPage = new RespondentRepPage(page);
         this.et3ProcessPage = new ET3ProcessPage(page);

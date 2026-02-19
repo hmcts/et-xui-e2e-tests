@@ -15,7 +15,7 @@ test.describe('ET3/Respondent Applications', () => {
 
     test('Respondent makes Type B Application, Claimant respond to an application successfully', async ({ et3LoginPage, respondentCaseOverviewPage, citizenHubLoginPage, citizenHubPage}) => {
         //Assign a claim to respondent
-        await et3LoginPage.processRespondentLogin(config.TestEnvET3RespondentEmailAddress, config.TestEnvET3RespondentPassword, caseNumber);
+        await et3LoginPage.processRespondentLogin(config.etRespondent.email, config.etRespondent.password, caseNumber);
         await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);
 
         //make type B application
@@ -26,14 +26,14 @@ test.describe('ET3/Respondent Applications', () => {
         await respondentCaseOverviewPage.signOutButtonSyr();
 
         //Citizen & caseworker can view an application
-        await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+        await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
         await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
         await citizenHubPage.respondToRespondentApplication('TypeB');
     });
 
     test('Respondent makes Type C Application successfully', async ({ et3LoginPage, respondentCaseOverviewPage, citizenHubPage}) => {
         //Assign a claim to respondent
-        await et3LoginPage.processRespondentLogin(config.TestEnvET3RespondentEmailAddress, config.TestEnvET3RespondentPassword, caseNumber);
+        await et3LoginPage.processRespondentLogin(config.etRespondent.email, config.etRespondent.password, caseNumber);
         await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);
 
         //make type B application
@@ -57,14 +57,14 @@ test.describe('ET3/Respondent Applications', () => {
         await caseListPage.signoutButton();
 
         // assign case to respondent and make application
-        await et3LoginPage.processRespondentLogin(config.TestEnvET3RespondentEmailAddress, config.TestEnvET3RespondentPassword, caseNumber);
+        await et3LoginPage.processRespondentLogin(config.etRespondent.email, config.etRespondent.password, caseNumber);
         await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);
         await respondentCaseOverviewPage.respondentMakeApplication('TypeA', true);
         await respondentCaseOverviewPage.signOutButtonSyr();
 
         // legal rep view application
-        await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+        await page.goto(config.manageCaseBaseUrl);
+        await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         // legal rep can see an application

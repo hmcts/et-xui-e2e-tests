@@ -19,10 +19,10 @@ test.describe('Judgement tests', () => {
     }) => {
       //Judge creates a draft judgement
       await caseListPage.signoutButton();
-      await page.goto(config.TestUrlForManageCaseAAT);
+      await page.goto(config.manageCaseBaseUrl);
 
       //judge logs in
-      await loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword, config.loginPaths.cases);
+      await loginPage.processLogin(config.etEnglandJudge.email, config.etEnglandJudge.password, config.loginPaths.cases);
       await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
 
       //Create a draft judgement
@@ -44,7 +44,7 @@ test.describe('Judgement tests', () => {
       await caseListPage.signoutButton();
 
         //Case worker issues the judgement
-      await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
+      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
       await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
 
       await caseListPage.selectNextEvent(Events.judgment.listItem);

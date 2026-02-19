@@ -27,14 +27,14 @@ test.describe('Citizen applications', () => {
 
     // perform NOC
     await page.click('text=Sign out');
-    await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+    await page.goto(config.manageCaseBaseUrl);
+    await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
     await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
     await page.click('text=Sign out');
 
     // Citizen rep make an application
-    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
     await citizenHubPage.navigateToContactTheTribunalPage();
     await contactTheTribunalPage.makeApplicationToTribunal('change personal details', 'Citizen made an application', 'Yes')
@@ -44,16 +44,16 @@ test.describe('Citizen applications', () => {
     await page.click('text=Sign out');
 
     // Legal Rep respond to an application
-    await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+    await page.goto(config.manageCaseBaseUrl);
+    await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
     await applicationTabPage.legalRepRespondToAnApplication();
     await page.click('text=Sign out');
 
     // Caseworker validates Document tab
-    await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
+    await page.goto(config.manageCaseBaseUrl);
+    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
     caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
     await caseListPage.navigateToTab('Documents');

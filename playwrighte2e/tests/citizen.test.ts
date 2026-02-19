@@ -16,7 +16,7 @@ test.describe('Various tests for Citizen application', () => {
     await caseListPage.signoutButton();
 
     //claimant verify notification
-    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
 

@@ -1,7 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 import { Helpers } from '../pages/helpers/Helper.ts';
 import config from '../config/config';
-import referralData from '../data/ui-data/referral-content.json';
+import referralData from '../resources/payload/referral-content.json';
 
 let caseNumber: string;
 let subRef: string;
@@ -35,8 +35,8 @@ test.describe('Work Allocation', () => {
 
     //log in as judge & assign and completes a task
     await loginPage.processLogin(
-      config.TestEnvETJudgeUserWorkAllocation,
-      config.TestEnvETJudgeUserPasswordWorkAllocation,
+      config.etWorkAllocationJudge.email,
+      config.etWorkAllocationJudge.password,
       config.loginPaths.cases
     );
     caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
@@ -97,8 +97,8 @@ test.describe('Work Allocation- Judge completes tasks', () => {
 
     //login as judge and assign a task
     await loginPage.processLogin(
-      config.TestEnvETJudgeUserWorkAllocation,
-      config.TestEnvETJudgeUserPasswordWorkAllocation,
+      config.etWorkAllocationJudge.email,
+      config.etWorkAllocationJudge.password,
       config.loginPaths.cases,
     );
     caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');

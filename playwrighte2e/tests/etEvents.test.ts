@@ -62,7 +62,7 @@ test.describe('Claimant retaining access to transferred case', () => {
     let newSubRef= await caseTransferPage.checkYourAnswer(caseNumber);
 
     //login as claimant and access transferred case
-    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(newSubRef);
   });
 

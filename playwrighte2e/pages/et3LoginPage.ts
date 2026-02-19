@@ -25,7 +25,7 @@ export default class Et3LoginPage extends BasePage {
     appointLegalRepLink: '[href="/appoint-legal-representative"]',
   };
   async processRespondentLogin(username: string, password: string, caseNumber: string) {
-    await this.page.goto(config.TestUrlRespondentUi);
+    await this.page.goto(config.etSyrUiUrl);
     await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Introduction');
     await this.webActions.clickElementByCss('[href="/return-to-existing-response?lng=en"]');
     await this.wait(1000);
@@ -91,7 +91,7 @@ export default class Et3LoginPage extends BasePage {
   }
 
   async processRespondentLoginForExistingCase(username: string, password: string, caseNumber: string) {
-    await this.page.goto(config.TestUrlRespondentUi);
+    await this.page.goto(config.etSyrUiUrl);
     await this.webActions.clickElementByCss(this.elements.returnToExistingResponse);
     await this.webActions.checkElementById('#return_number_or_account-2');
     await this.clickContinue();

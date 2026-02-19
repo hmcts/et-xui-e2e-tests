@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { BasePage } from './basePage';
 import config from '../config/config';
-import referralData from '../data/ui-data/referral-content.json';
+import referralData from '../resources/payload/referral-content.json';
 
 export default class ReferralPage extends BasePage {
   elements = {

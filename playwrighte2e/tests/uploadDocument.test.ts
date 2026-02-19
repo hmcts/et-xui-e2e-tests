@@ -1,5 +1,5 @@
 import { test } from '../fixtures/common.fixture';
-import fileUploadData from '../data/ui-data/file-upload-content.json';
+import fileUploadData from '../resources/payload/file-upload-content.json';
 
 test.describe('Upload Document with multiple file extensions', () => {
     test.beforeEach(async ({ page, createCaseStep }) => {

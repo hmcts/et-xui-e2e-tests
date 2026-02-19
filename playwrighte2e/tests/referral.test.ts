@@ -1,6 +1,6 @@
 import { test } from '../fixtures/common.fixture';
 import config from "../config/config";
-import referralData from '../data/ui-data/referral-content.json';
+import referralData from '../resources/payload/referral-content.json';
 
 let subRef: string;
 let caseNumber: string;
@@ -23,10 +23,10 @@ test.describe.serial('England - Referral test', () => {
 
     test('Reply to a referral', {tag: '@demo'}, async ({ page, caseListPage, loginPage, referralSteps }) => {
 
-        await page.goto(config.TestUrlForManageCaseAAT);
+        await page.goto(config.manageCaseBaseUrl);
 
         //judge logs in
-        await loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword, config.loginPaths.cases);
+        await loginPage.processLogin(config.etEnglandJudge.email, config.etEnglandJudge.password, config.loginPaths.cases);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         //Reply & verify a referral
@@ -42,10 +42,10 @@ test.describe.serial('England - Referral test', () => {
 
     test('Z - Close a referral', {tag: '@demo'}, async ({ page, caseListPage, loginPage, referralSteps }) => {
 
-        await page.goto(config.TestUrlForManageCaseAAT);
+        await page.goto(config.manageCaseBaseUrl);
 
         //judge logs in
-        await loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword, config.loginPaths.cases);
+        await loginPage.processLogin(config.etEnglandJudge.email, config.etEnglandJudge.password, config.loginPaths.cases);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         // Close & verify a referral

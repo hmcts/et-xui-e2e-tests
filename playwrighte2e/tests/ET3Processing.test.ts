@@ -1,6 +1,6 @@
 import { test } from '../fixtures/common.fixture';
 
-const letterPageData = require('../data/ui-data/letter-content.json');
+const letterPageData = require('../resources/payload/letter-content.json');
 
 test.describe('ET3 Process test', () => {
 

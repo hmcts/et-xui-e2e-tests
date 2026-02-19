@@ -2,7 +2,7 @@ import { test } from "../fixtures/common.fixture";
 import dateUtilComponent from '../data-utils/DateUtilComponent';
 import { Events } from '../config/case-data';
 
-const letterPageData = require('../data/ui-data/letter-content.json');
+const letterPageData = require('../resources/payload/letter-content.json');
 
 test.describe('Generate Letters', () => {
 

@@ -185,7 +185,7 @@ export class LegalRepPage extends BasePage {
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.successfulMessageHeader), 20000);
 
     await this.page.goto(
-      `${config.TestUrlForManageCaseAAT}/case-details/EMPLOYMENT/ET_EnglandWales/${submissionReference}`,
+      `${config.manageCaseBaseUrl}/case-details/EMPLOYMENT/ET_EnglandWales/${submissionReference}`,
     );
     await this.page.waitForTimeout(10000);
   }

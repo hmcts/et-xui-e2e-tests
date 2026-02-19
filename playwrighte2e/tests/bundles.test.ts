@@ -22,7 +22,7 @@ test.describe('England - Caseworker Bundles test', () => {
         await listHearingPage.listCase(region, 0,"Leeds ET");
         await page.click('text=Sign out');
 
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+        await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
         const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
 
         await legalRepPage.processNOCForClaimantOrRespondent(searchReference, subRef, caseNumber, firstName, lastName, false, true);
@@ -76,7 +76,7 @@ test.describe('Scotland - Caseworker Bundles test', () => {
         await listHearingPage.listCase(region, 1,"Glasgow ET", 'Scotland');
         await page.click('text=Sign out');
 
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+        await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
         const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
 
         await legalRepPage.processNOCForClaimantOrRespondent(searchReference, subRef, caseNumber, firstName, lastName, false, true);
@@ -102,7 +102,7 @@ test.describe('England - Claimant Bundles test', () => {
         await listHearingPage.listCase('EnglandWales', 0,'Amersham');
         await page.click('text=Sign out');
 
-        await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+        await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
         await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
         await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
         await citizenHubPage.navigateToContactTheTribunalPage();

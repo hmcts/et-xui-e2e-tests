@@ -24,11 +24,11 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
     }
     await page.click('text=Sign out');
 
-    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+    await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
     await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
     await page.click('text=Sign out');
 
-    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
+    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
     await  caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
     await caseListPage.selectNextEvent('Upload Hearing Documents');
     await uploadHearingBundlePage.uploadHearingBundleDocuments();

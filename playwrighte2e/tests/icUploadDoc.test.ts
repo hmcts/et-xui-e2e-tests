@@ -1,22 +1,20 @@
 import  { test } from "../fixtures/common.fixture";
 import config from "../config/config";
+import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 
 test.describe('IC Upload documents', () => {
 
-    let subRef: string, caseNumber: string;
+    let caseId: string, caseNumber: string;
 
-    test.beforeEach(async ({ page, createCaseStep }) => {
-        ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
-
+    test.beforeEach(async () => {
+        ({caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandCaseAndAcceptCase());
     });
 
-    test('Judge uploads Internal consideration document', {tag: '@demo'}, async({ caseListPage, loginPage, icUploadDocPage, caseDetailsPage }) => {
-
-        await caseListPage.signoutButton();
-
+    test('Judge uploads Internal consideration document', {tag: '@demo'}, async({ page, caseListPage, loginPage, icUploadDocPage, caseDetailsPage }) => {
+        await page.goto(config.manageCaseBaseUrl);
         //judge log in
-        await loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword, config.loginPaths.cases);
-        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
+        await loginPage.processLogin(config.etEnglandJudge.email, config.etEnglandJudge.password, config.loginPaths.cases);
+        caseNumber = await caseListPage.navigateToCaseDetails(caseId, 'EnglandWales');
         await caseListPage.selectNextEvent('Initial Consideration');
 
         //judge uploads document

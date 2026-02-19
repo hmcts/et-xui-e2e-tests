@@ -25,7 +25,7 @@ test.describe('Notification', () => {
     await caseListPage.signoutButton();
 
     //claimant verify notification
-    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
 
@@ -42,7 +42,7 @@ test.describe('Notification', () => {
     await caseListPage.signoutButton();
 
     //claimant verify notification
-    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
 
@@ -70,7 +70,7 @@ test.describe('Notification', () => {
     await caseListPage.signoutButton();
 
     //claimant verify notification
-    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
 
@@ -100,7 +100,7 @@ test.describe('Notification', () => {
     await et1CaseServingPage.et1ServingEventNoticeOfClaim();
     await caseListPage.signoutButton();
 
-    await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+    await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
 

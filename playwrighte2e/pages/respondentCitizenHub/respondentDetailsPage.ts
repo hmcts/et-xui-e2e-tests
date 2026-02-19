@@ -1,5 +1,5 @@
 import { BasePage } from "../basePage.ts";
-import respPageData from '../../data/ui-data/respondent-page-content.json';
+import respPageData from '../../resources/payload/respondent-page-content.json';
 import DateUtilComponent from '../../data-utils/DateUtilComponent.ts';
 import { expect, Locator, Page } from '@playwright/test';
 import { CommonActionsHelper } from '../helpers/CommonActionsHelper.ts';

@@ -31,7 +31,7 @@ test.describe('perform NOC for Claimant', () => {
       await page.click('text=Sign out');
 
       //citizen validates notification banner
-      await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+      await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
       await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.verifyLegalRepNotificationBanner();

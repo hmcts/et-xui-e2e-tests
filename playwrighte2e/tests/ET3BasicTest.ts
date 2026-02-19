@@ -1,4 +1,4 @@
-import { test } from '../fixtures/common.fixture';
+import { idamApi, test } from '../fixtures/common.fixture';
 
 let caseNumber: string;
 let subRef: string;
@@ -12,7 +12,7 @@ test.describe('ET3/Respondent Journey', () => {
   test.beforeEach(async ({ page, createCaseStep, axeUtils }) => {
     ({ subRef, caseNumber } = await createCaseStep.setupCUICaseCreatedViaApi(page, true, true,axeUtils));
     // Create dynamic respondent user
-    ({userEmail, userPassword} = await createCaseStep.createRespUser());
+    ({userEmail, userPassword} = await idamApi.createDynamicRespondentUser());
 
   });
 

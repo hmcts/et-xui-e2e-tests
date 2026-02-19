@@ -1,4 +1,4 @@
-import { test } from '../fixtures/common.fixture';
+import { idamApi, test } from '../fixtures/common.fixture';
 
 // let caseId: { toString: () => any; };
 let caseNumber: string;
@@ -13,7 +13,7 @@ test.describe('ET3/Respondent Journey', () => {
   test.beforeEach(async ({ page, createCaseStep }) => {
     ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
     // Create dynamic respondent user
-    ({userEmail, userPassword} = await createCaseStep.createRespUser());
+    ({userEmail, userPassword} = await idamApi.createDynamicRespondentUser());
   });
 
   test('Validate ET3 Form start page and check case sensitivity', async ({ et3LoginPage, respondentCaseOverviewPage, respondentTaskListPage }) => {

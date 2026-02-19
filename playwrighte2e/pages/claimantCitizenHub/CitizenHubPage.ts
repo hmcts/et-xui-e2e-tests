@@ -96,7 +96,7 @@ export default class CitizenHubPage extends BasePage {
   };
 
   async navigateToSubmittedCaseOverviewOfClaimant(submissionReference: string) {
-    await this.page.goto(config.TestUrlCitizenUi + '/citizen-hub/' + submissionReference);
+    await this.page.goto(config.etSyaUiUrl + '/citizen-hub/' + submissionReference);
     await this.page.waitForLoadState('load');
   }
 

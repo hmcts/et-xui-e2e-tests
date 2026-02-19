@@ -17,7 +17,7 @@ test.describe('perform NOC for respondent', () => {
     async ({ page, caseListPage, et1CaseServingPage, listHearingPage, loginPage, legalRepPage, axeUtils }) => {
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+      await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
       // @ts-ignore
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, "", "", false, true,axeUtils);
     });
@@ -38,19 +38,19 @@ test.describe('perform NOC for claimant and assign a new claimant representative
       let caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+      await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
       // @ts-ignore
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false,axeUtils);
 
       await page.click('text=Sign out');
 
       //Assign a case to another legal representative
-      await loginPage.processLogin(config.TestEnvETRespondentEmailAddress, config.TestEnvETRespondentPassword, config.loginPaths.cases);
+      await loginPage.processLogin(config.etLegalRepresentative2.email, config.etLegalRepresentative2.password, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, false);
       await page.click('text=Sign out');
 
       //validate case no longer accessible by original legal representative
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+      await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
       await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
       await caseListPage.verifyNoCasesFoundMessage();
     });

@@ -3,7 +3,7 @@ import { expect, Locator } from '@playwright/test';
 import config from "../config/config";
 import dateUtilComponent from "../data-utils/DateUtilComponent";
 
-const referralData = require('../data/ui-data/referral-content.json');
+const referralData = require('../resources/payload/referral-content.json');
 
 export default class CaseListPage extends BasePage {
   elements = {
@@ -82,7 +82,7 @@ export default class CaseListPage extends BasePage {
   async navigateToCaseDetails(subRef: string, option: string): Promise<string> {
     await this.page.waitForLoadState('load');
     const type = option === 'EnglandWales' ? 'ET_EnglandWales' : option === 'Scotland' ? 'Scotland' : '';
-    const url = `${config.TestUrlForManageCaseAAT}/case-details/EMPLOYMENT/${type}/${subRef}#Case%20Details`;
+    const url = `${config.manageCaseBaseUrl}/case-details/EMPLOYMENT/${type}/${subRef}#Case%20Details`;
     await this.page.goto(url);
     await this.page.waitForLoadState('load');
     await expect(this.page.getByText(subRef)).toBeVisible();
@@ -125,8 +125,8 @@ export default class CaseListPage extends BasePage {
     await this.page.locator('#select-' + subRef).check();
     await this.clickShareCaseButton();
     await this.page.waitForLoadState('load', {timeout: 3000});
-    await this.page.getByRole('combobox', { name: 'Search by name or email' }).pressSequentially(config.TestEnvETManageOrgSuperUserName, { delay: 100 });
-    await this.page.locator(`//mat-option[@role='option']/span[contains(.,'${config.TestEnvETManageOrgSuperUserName}')]`).click();
+    await this.page.getByRole('combobox', { name: 'Search by name or email' }).pressSequentially(config.etManageOrgSuperUser.email, { delay: 100 });
+    await this.page.locator(`//mat-option[@role='option']/span[contains(.,'${config.etManageOrgSuperUser.email}')]`).click();
     await this.page.getByRole('button', { name: 'Add user' }).click();
     await this.clickContinue();
     await this.page.getByRole('button', { name: 'Confirm' }).click();

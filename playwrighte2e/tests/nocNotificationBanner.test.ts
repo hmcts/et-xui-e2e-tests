@@ -20,12 +20,12 @@ test.describe('NOC Notification Banner', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+      await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
       await page.click('text=Sign out');
 
       //citizen validates notification banner
-      await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+      await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
       await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.verifyLegalRepNotificationBanner();
@@ -39,13 +39,13 @@ test.describe('NOC Notification Banner', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+      await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, true);
       await page.click('text=Sign out');
 
 
       //Assign a claim to respondent
-      await et3LoginPage.processRespondentLogin(config.TestEnvET3RespondentEmailAddress, config.TestEnvET3RespondentPassword, caseNumber);
+      await et3LoginPage.processRespondentLogin(config.etRespondent.email, config.etRespondent.password, caseNumber);
       await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);
 
       //citizen validates notification banner in respondent UI
@@ -71,8 +71,8 @@ test.describe('Share case', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      page.goto(config.TestUrlForManageCaseAAT);
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+      page.goto(config.manageCaseBaseUrl);
+      await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, true);
 
       await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
@@ -90,7 +90,7 @@ test.describe('Share case', () => {
             { tabItem: 'Respondent who is being represented', value: respName },
             { tabItem: 'First name', value: 'Test' },
             { tabItem: 'Last name', value: 'Factory' },
-            { tabItem: 'Email address', value: config.TestEnvETManageOrgSuperUserName, position: 1 } // position starts from 0
+            { tabItem: 'Email address', value: config.etManageOrgSuperUser.email, position: 1 } // position starts from 0
             ]
         }
       ]);
@@ -103,7 +103,7 @@ test.describe('Share case', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+      await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
 
       await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', subRef);
@@ -119,7 +119,7 @@ test.describe('Share case', () => {
             'Claimant Representative Details',
             { tabItem: 'First name', value: 'Test', position: 1 },
             { tabItem: 'Last name', value: 'Factory', position: 1 },
-            { tabItem: 'Email address', value: config.TestEnvETManageOrgSuperUserName, position: 2 } // position starts from 0
+            { tabItem: 'Email address', value: config.etManageOrgSuperUser.email, position: 2 } // position starts from 0
           ]
         }
       ]);
@@ -132,12 +132,12 @@ test.describe('Share case', () => {
       const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
       await page.click('text=Sign out');
 
-      await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+      await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
       await page.click('text=Sign out');
 
       //remove claimant legal rep
-      await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+      await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email , config.etClaimant.password);
       await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.changeMyLegalRep();

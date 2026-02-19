@@ -62,8 +62,8 @@ export default class AccessibilitySteps extends BaseStep {
   async scanLegalRepApplicationPages(page, subRef: string, caseNumber: string, firstName: string, lastName: string, accessibilityEnabled?: boolean,axeUtils: AxeUtils) {
 
         await page.click('text=Sign out');
-        await page.goto(config.TestUrlForManageCaseAAT);
-        await this.loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
+        await page.goto(config.manageCaseBaseUrl);
+        await this.loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
         await this.legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, accessibilityEnabled, true, axeUtils);
         await this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
 
@@ -74,8 +74,8 @@ export default class AccessibilitySteps extends BaseStep {
     async scanWAPages(page: Page, subRef: string, axeUtils:AxeUtils) {
 
         await page.click('text=Sign out');
-        await page.goto(config.TestUrlForManageCaseAAT);
-        await this.loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
+        await page.goto(config.manageCaseBaseUrl);
+        await this.loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
         await this.caseListPage.delay(2000);
         await this.caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
         // await page.goto(`${config.TestUrlForManageCaseAAT}/cases/case-details/${subRef}`);

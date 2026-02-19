@@ -21,7 +21,7 @@ test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
         //subRef='1745846012875831'
 
         //Assign a claim to respondent
-        await et3LoginPage.processRespondentLogin(config.TestEnvET3RespondentEmailAddress, config.TestEnvET3RespondentPassword, caseNumber);
+        await et3LoginPage.processRespondentLogin(config.etRespondent.email, config.etRespondent.password, caseNumber);
         await et3LoginPage.replyToNewClaim(subRef, caseNumber, respName, firstName, lastName);
 
         //make type A application
@@ -32,7 +32,7 @@ test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
         await respondentCaseOverviewPage.signOutButtonSyr();
 
         //Citizen & caseworker can view an application
-        await citizenHubLoginPage.processCitizenHubLogin(config.TestEnvETClaimantEmailAddress, config.TestEnvETClaimantPassword);
+        await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
         await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
         //RET-5754
         //await citizenHubPage.validateApplicationBanner();
@@ -44,8 +44,8 @@ test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
                                                                                            loginPage,
                                                                                            caseListPage
                                                                                        }) => {
-        await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
+        await page.goto(config.manageCaseBaseUrl);
+        await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
         caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
 
         await caseListPage.clickTab('Tasks');
