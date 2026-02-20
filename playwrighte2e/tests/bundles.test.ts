@@ -1,32 +1,46 @@
 import { test } from '../fixtures/common.fixture';
 import config from "../config/config";
-import { Events } from '../config/case-data';
+import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data';
 import DateUtilComponent from '../data-utils/DateUtilComponent';
+import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 
-let subRef: string;
+let caseId: string;
 let caseNumber: string;
 
 test.describe('England - Caseworker Bundles test', () => {
 
-    test.beforeEach(async ({ page, createCaseStep }) => {
-
-        ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
+    test.beforeEach(async () => {
+      ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
     });
 
     test('Bundles - Legal rep submit hearing preparation document - England & Wales',
-      async ({ page, et1CaseServingPage, caseListPage, listHearingPage, loginPage, legalRepPage,uploadDocumentsForHearingPage,checkYourAnswersPage, caseDetailsPage }) => {
-        await caseListPage.navigateToTab('Claimant');
-        const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
+      async ({ manageCaseDashboardPage, caseListPage, listHearingPage, loginPage, legalRepPage,uploadDocumentsForHearingPage,checkYourAnswersPage, caseDetailsPage }) => {
+        await manageCaseDashboardPage.visit();
+        await loginPage.processLogin(
+          config.etCaseWorker.email,
+          config.etCaseWorker.password,
+          config.loginPaths.worklist,
+        );
+
+        caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
         let region = 'EnglandWales';
         await caseListPage.selectNextEvent('List Hearing');
         await listHearingPage.listCase(region, 0,"Leeds ET");
-        await page.click('text=Sign out');
+        await manageCaseDashboardPage.signOut();
 
         await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
         const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
 
-        await legalRepPage.processNOCForClaimantOrRespondent(searchReference, subRef, caseNumber, firstName, lastName, false, true);
-        await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
+        await legalRepPage.processNOCForClaimantOrRespondent(
+          searchReference,
+          caseId,
+          caseNumber,
+          CaseDetailsValues.claimantFirstName,
+          CaseDetailsValues.claimantLastName,
+          false,
+          true,
+        );
+        await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         await caseListPage.selectNextEvent('Upload documents for hearing');
         const date = DateUtilComponent.formatToDayMonthYear(DateUtilComponent.addWeekdays(new Date(), 21));
@@ -59,41 +73,58 @@ test.describe('England - Caseworker Bundles test', () => {
 
 test.describe('Scotland - Caseworker Bundles test', () => {
 
-    test.beforeEach(async ({ page, createCaseStep }) => {
-
-        ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "Scotland", "ET_Scotland"));
+    test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
+      ({ caseId, caseNumber } = await CaseworkerCaseFactory.createScotlandAndAcceptCase());
+      await manageCaseDashboardPage.visit();
+      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+      caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.Scotland);
     });
 
     //Flaky xui- claimant tab issue
-    test.skip('Bundles - Legal rep submit hearing preparation document - Scotland', {tag: '@demo'},
-      async ({ page, et1CaseServingPage, caseListPage, loginPage, legalRepPage, listHearingPage, uploadDocumentsForHearingPage,checkYourAnswersPage, caseDetailsPage  }) => {
-        await caseListPage.navigateToTab('Claimant');
-        const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
-       // await bundleSteps.submitHearingPreparationDocument(page, 'Scotland', subRef, respondentName, firstName, lastName);
+    test(
+      'Bundles - Legal rep submit hearing preparation document - Scotland',
+      { tag: '@demo' },
+      async ({ page, manageCaseDashboardPage, caseListPage, loginPage, legalRepPage, listHearingPage }) => {
+        const firstName = CaseDetailsValues.claimantFirstName;
+        const lastName = CaseDetailsValues.claimantLastName;
+        // await bundleSteps.submitHearingPreparationDocument(page, 'Scotland', subRef, respondentName, firstName, lastName);
 
         let region = 'Scotland';
         await caseListPage.selectNextEvent('List Hearing');
-        await listHearingPage.listCase(region, 1,"Glasgow ET", 'Scotland');
+        await listHearingPage.listCase(region, 0, 'Glasgow', 'Scotland');
         await page.click('text=Sign out');
 
-        await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
-        const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
+        await loginPage.processLogin(
+          config.etLegalRepresentative.email,
+          config.etLegalRepresentative.password,
+          config.loginPaths.cases,
+        );
+        const searchReference = region === 'England' ? 'Eng/Wales - Singles' : `${region} - Singles`;
 
-        await legalRepPage.processNOCForClaimantOrRespondent(searchReference, subRef, caseNumber, firstName, lastName, false, true);
-        await caseListPage.navigateToCaseDetails(subRef, 'Scotland')
+        await legalRepPage.processNOCForClaimantOrRespondent(
+          searchReference,
+          caseId,
+          caseNumber,
+          firstName,
+          lastName,
+          false,
+          true,
+        );
+        manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.Scotland);
 
         await caseListPage.selectNextEvent('Upload documents for hearing');
         await legalRepPage.submitDocumentForHearingRespondent('Yes', 'Both Parties', 'Witness statement only');
         await caseListPage.navigateToTab('Hearing Documents');
         await legalRepPage.verifyHearingDocumentTabLegalRep();
-    });
+      },
+    );
 });
 
 test.describe('England - Claimant Bundles test', () => {
 
     test.beforeEach(async ({ page, createCaseStep}) => {
 
-        ({subRef, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
+        ({ subRef: caseId, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
     });
 
     test('Bundles - Claimant Submitting hearing preparation document - England', {tag: '@demo'},
@@ -103,7 +134,7 @@ test.describe('England - Claimant Bundles test', () => {
         await page.click('text=Sign out');
 
         await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
-        await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
+        await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
         await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
         await citizenHubPage.navigateToContactTheTribunalPage();
         await prepareAbdSubmitDocumentPage.submitDocumentsForHearing();

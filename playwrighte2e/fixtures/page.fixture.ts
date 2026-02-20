@@ -62,12 +62,14 @@ import PersonalDetailsPage from '../pages/claimantCitizenHub/personalDetailsPage
 import EmploymentAndRespDetailsPage from '../pages/claimantCitizenHub/employmentAndRespDetailsPage.ts';
 import ClaimDetailsPage from '../pages/claimantCitizenHub/claimDetailsPage.ts';
 import SubmitClaimPage from '../pages/claimantCitizenHub/submitClaimPage.ts';
+import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
 
 export type PageFixtures = {
 
     applicationTabPage: ApplicationTabPage;
+    manageCaseDashboardPage: ManageCaseDashboardPage;
     caseListPage: CaseListPage;
     createCaseFlagPage: CreateCaseFlagPage;
     manageCaseFlagPage: ManageCaseFlagPage;
@@ -135,6 +137,10 @@ export const pageFixtures = base.extend<PageFixtures>({
 
     applicationTabPage: async ({ page }, use) => {
         await use(new ApplicationTabPage(page));
+    },
+
+    manageCaseDashboardPage: async ({page}, use) => {
+      await use(new ManageCaseDashboardPage(page));
     },
 
     caseListPage: async ({page}, use) => {

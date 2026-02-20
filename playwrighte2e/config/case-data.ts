@@ -5,6 +5,12 @@ export enum CaseTypeLocation {
   Scotland = 'ET_Scotland',
 }
 
+export const CaseDetailsValues = {
+  claimantFirstName: 'Grayson',
+  claimantLastName: 'Becker',
+  respondentName: 'Mrs Test Auto',
+}
+
 export const PayloadPath = {
   CaseWorker: {
     england: './playwrighte2e/resources/payload/caseworker/et-england-case-data-caseworker.json',

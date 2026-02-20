@@ -61,13 +61,13 @@ export class CitizenClaimantFactory {
    *   const caseId = await CitizenClaimantFactory.progressCaseFromCreateToEt3(CaseJurisdiction.EnglandAndWales);
    */
   static async progressCaseFromCreateToEt3(caseTypeLocation: CaseTypeLocation): Promise<string> {
-      const caseId = await this.createAndSubmitClaim(caseTypeLocation);
-      await cuiApi.vetAndAcceptCuiCase(config.etClaimant.email, config.etClaimant.password, caseId);
-      const respondentCcdId = await cuiApi.assignCaseToRespondent(
-        config.etRespondent.email,
-        config.etRespondent.password,
-        caseId,
-      );
+    const caseId = await this.createAndSubmitClaim(caseTypeLocation);
+    await cuiApi.vetAndAcceptCuiCase(config.etClaimant.email, config.etClaimant.password, caseId);
+    const respondentCcdId = await cuiApi.assignCaseToRespondent(
+      config.etRespondent.email,
+      config.etRespondent.password,
+      caseId,
+    );
     await cuiApi.submitET3(
       config.etRespondent.email,
       config.etRespondent.password,
@@ -79,4 +79,7 @@ export class CitizenClaimantFactory {
     return caseId;
   }
 
+  static async getCaseDataForCaseWorker(case_id: string) {
+    return await cuiApi.getCaseData(config.etApiUser.email, config.etApiUser.password, case_id);
+  }
 }

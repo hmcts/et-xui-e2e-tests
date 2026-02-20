@@ -7,7 +7,6 @@ import {getServiceToken, getUserId, getUserAuthToken} from './TokenHelperApi.ts'
 import {AxiosResponse} from 'axios';
 import config from '../../config/config.ts';
 import { CaseTypeLocation } from '../../config/case-data.ts';
-import engCase from '../../resources/payload/citizen/et-england-case-data.json';
 
 const env = config.env;
 const ccdApiUrl = config.EtCosPreviewCcdUrl || `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
@@ -85,7 +84,7 @@ export class CcdApi {
     dataModifications: ReplacementAction[] = [],
   ): Promise<{ caseId: string; caseNumber: string }> {
     if (!process.env.CI) {
-      console.info('Creating CCD case with event %s...', eventId);
+      console.info('Creating CCD case with event %s for type %s...', eventId, caseTypeLocation);
     }
     const authToken = await getUserAuthToken(userName, password);
     const userId = await getUserId(authToken, userName);
@@ -113,9 +112,9 @@ export class CcdApi {
 
     const saveCaseResponse = await this.saveCase(ccdSaveCasePath, authToken, serviceToken, payload);
     const caseId = saveCaseResponse.data.id;
-    const caseNumber = saveCaseResponse.data.ethosCaseReference;
+    const caseNumber = saveCaseResponse.data.case_data.ethosCaseReference;
     if (!process.env.CI) {
-      console.info('Created case with id %s for event %s', caseId, eventId);
+      console.info('Created case with id %s and number %s', caseId, caseNumber);
     }
 
     return { caseId, caseNumber };
@@ -143,7 +142,7 @@ export class CcdApi {
     replacements: ReplacementAction[] = [],
   ): Promise<any> {
     if (!process.env.CI) {
-      console.info('Updating CCD case id %s with event %s...', caseId, eventId);
+      console.info('Updating CCD case id %s %s with event %s...', caseId, caseTypeLocation, eventId);
     }
 
     const authToken = await getUserAuthToken(userName, password);

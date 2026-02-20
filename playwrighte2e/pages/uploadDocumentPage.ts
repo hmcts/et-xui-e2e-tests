@@ -27,8 +27,7 @@ export default class UploadDocumentPage extends BasePage {
 
   async validateDCF() {
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.createDcfLink));
-    await this.delay(120000);
-    await this.page.reload();
+    await this.delay(10000);
     await expect(this.page.locator('ccd-read-complex-field-table')).toContainText('-DCF.pdf');
     await expect(this.page.locator('ccd-read-complex-field-table')).toContainText('DCF Generated:');
   }
@@ -41,7 +40,10 @@ export default class UploadDocumentPage extends BasePage {
     await expect(this.page.locator(`#documentCollection_${docNumber}_miscDocuments`)).toBeVisible();
     await this.page.selectOption(`#documentCollection_${docNumber}_miscDocuments`, 'Tribunal case file');
     await this.page.waitForSelector(`#documentCollection_${docNumber}_uploadedDocument`);
-    await this.page.setInputFiles(`#documentCollection_${docNumber}_uploadedDocument`, `test/data/${fileName}`);
+    await this.page.setInputFiles(
+      `#documentCollection_${docNumber}_uploadedDocument`,
+      `playwrighte2e/resources/test_file/${fileName}`,
+    );
 
     await this.page.waitForTimeout(10000);
     await this.clickSubmitButton();

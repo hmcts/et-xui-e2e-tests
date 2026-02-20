@@ -281,5 +281,13 @@
     "claimant_hearing_panel_preference": null,
     "claimant_hearing_panel_preference_why": null,
     "hearing_preferences": ["Video", "Phone"]
-  }
+  },
+  "jurCodesCollection": [
+    {
+      "id": "f7f10b22-88c0-43b9-a917-f7fff81e006y",
+      "value": {
+        "juridictionCodesList": "DAG"
+      }
+    }
+  ]
 }

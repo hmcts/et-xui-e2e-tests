@@ -1,31 +1,44 @@
 import { test } from '../fixtures/common.fixture';
 import config from "../config/config";
+import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
+import { CaseTypeLocation } from '../config/case-data.ts';
 
-let subRef: string;
+
 let caseNumber: string;
+let caseId: string;
 
 test.describe('Claimant details test', () => {
 
-    test.beforeEach(async ({ page, createCaseStep }) => {
+    test.beforeEach(async () => {
 
-        ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
+      ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
     });
 
-    test('England - Claimant details', {tag: ['@ccd-callback-tests', '@demo']}, async ({ loginPage, caseListPage, claimantDetailsPage, icUploadDocPage }) => {
+    test('England - Claimant details', {tag: ['@ccd-callback-tests', '@demo']}, async ({manageCaseDashboardPage, loginPage, caseListPage, claimantDetailsPage, icUploadDocPage }) => {
+      await manageCaseDashboardPage.visit();
+      await loginPage.processLogin(
+        config.etCaseWorker.email,
+        config.etCaseWorker.password,
+        config.loginPaths.worklist,
+      );
 
-        await caseListPage.selectNextEvent('Claimant Details');
-        // Check case file view
-        await claimantDetailsPage.processClaimantDetails(true);
-        await caseListPage.navigateToTab('Claimant');
-        await claimantDetailsPage.verifyClaimantDetails();
+      caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(
+        caseId,
+        CaseTypeLocation.EnglandAndWales,
+      );
+      await caseListPage.selectNextEvent('Claimant Details');
+      // Check case file view
+      await claimantDetailsPage.processClaimantDetails(true);
+      await caseListPage.navigateToTab('Claimant');
+      await claimantDetailsPage.verifyClaimantDetails();
 
-        //sign out as caseworker
-        await caseListPage.signoutButton();
+      //sign out as caseworker
+      await manageCaseDashboardPage.signOut();
 
-        //judge log in
-        await loginPage.processLogin(config.etEnglandJudge.email, config.etEnglandJudge.password, config.loginPaths.cases);
-        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
-        await caseListPage.selectNextEvent('Initial Consideration');
-        await icUploadDocPage.verifyClaimantHearingPanelValues();
+      //judge log in
+      await loginPage.processLogin(config.etEnglandJudge.email, config.etEnglandJudge.password, config.loginPaths.cases);
+      await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
+      await caseListPage.selectNextEvent('Initial Consideration');
+      await icUploadDocPage.verifyClaimantHearingPanelValues();
     });
 });

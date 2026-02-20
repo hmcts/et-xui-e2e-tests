@@ -58,4 +58,18 @@ export class CaseEventApi {
       },
     ]);
   }
+
+  static async caseWorkerDoesEt1VettingAndAcceptCaseScotland(caseId: string) {
+    await this.updateCaseWorkerSteps(caseId, CaseTypeLocation.Scotland, [
+      { event: Events.et1Vetting.ccdCallback, payload: PayloadPath.events.et1vetting },
+      {
+        event: Events.acceptRejectCase.ccdCallback,
+        payload: PayloadPath.events.acceptCase,
+        replacements: [
+          { action: 'delete', key: 'preAcceptCase.dateAccepted' },
+          { action: 'insert', key: 'preAcceptCase.dateAccepted', value: DateUtilComponent.getCurrentDate() },
+        ],
+      },
+    ]);
+  }
 }

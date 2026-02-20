@@ -42,7 +42,7 @@ export class WebAction {
   }
 
   async fillField(element: string, text: string) {
-    await this.page.locator(element).fill(text);
+    await this.page.locator(element).fill(text.toString());
   }
 
   // @ts-ignore

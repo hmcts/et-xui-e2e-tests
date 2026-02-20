@@ -53,7 +53,7 @@ export default class Et3LoginPage extends BasePage {
     //await this.clickContinue();
     await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'ET3 Responses');
     await this.webActions.clickElementByCss(this.elements.respondToNewClaim);
-    await this.caseNumberPage(caseNumber.toString());
+    await this.caseNumberPage(caseNumber);
     await this.caseDetailsPage(submissionRef, respName, firstName, lastName);
     await this.checkAndSubmitPage(caseNumber);
   }
@@ -87,7 +87,7 @@ export default class Et3LoginPage extends BasePage {
     await this.page.reload();
     await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'ET3 Responses');
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.respondToNewClaim));
-    await this.webActions.clickElementByLabel('view ' + caseNumber.toString() + ':');
+    await this.webActions.clickElementByLabel('view ' + caseNumber + ':');
   }
 
   async processRespondentLoginForExistingCase(username: string, password: string, caseNumber: string) {

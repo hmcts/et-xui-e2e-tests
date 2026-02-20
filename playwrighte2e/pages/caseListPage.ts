@@ -81,7 +81,7 @@ export default class CaseListPage extends BasePage {
 
   async navigateToCaseDetails(subRef: string, option: string): Promise<string> {
     await this.page.waitForLoadState('load');
-    const type = option === 'EnglandWales' ? 'ET_EnglandWales' : option === 'Scotland' ? 'Scotland' : '';
+    const type = option === 'EnglandWales' ? 'ET_EnglandWales' : option === 'Scotland' ? 'Scotland' : option;
     const url = `${config.manageCaseBaseUrl}/case-details/EMPLOYMENT/${type}/${subRef}#Case%20Details`;
     await this.page.goto(url);
     await this.page.waitForLoadState('load');
@@ -187,10 +187,6 @@ export default class CaseListPage extends BasePage {
         break;
       }
       // When there is an ECC, the tab name for Respondent is appended with an s as the names can't be the same
-      case 'Respondents': {
-        await this.webActions.clickElementByRole('tab', { name: 'Respondents', exact: true });
-        break;
-      }
       case 'Claimant': {
         await this.webActions.clickElementByRole('tab', { name: 'Claimant', exact: true });
         break;
