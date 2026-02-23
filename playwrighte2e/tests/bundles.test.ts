@@ -3,6 +3,8 @@ import config from "../config/config";
 import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data';
 import DateUtilComponent from '../data-utils/DateUtilComponent';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
+import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
+import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 
 let caseId: string;
 let caseNumber: string;
@@ -122,23 +124,37 @@ test.describe('Scotland - Caseworker Bundles test', () => {
 
 test.describe('England - Claimant Bundles test', () => {
 
-    test.beforeEach(async ({ page, createCaseStep}) => {
-
-        ({ subRef: caseId, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
+    test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
+      caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
+      const response = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
+      caseNumber = response.case_data.ethosCaseReference;
+      await manageCaseDashboardPage.visit();
+      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+      caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     });
 
-    test('Bundles - Claimant Submitting hearing preparation document - England', {tag: '@demo'},
-        async ({ page, caseListPage, listHearingPage, citizenHubLoginPage, citizenHubPage, prepareAbdSubmitDocumentPage }) => {
+    test(
+      'Bundles - Claimant Submitting hearing preparation document - England',
+      { tag: '@demo' },
+      async ({
+        manageCaseDashboardPage,
+        caseListPage,
+        listHearingPage,
+        citizenHubLoginPage,
+        citizenHubPage,
+        prepareAbdSubmitDocumentPage,
+      }) => {
         await caseListPage.selectNextEvent('List Hearing');
-        await listHearingPage.listCase('EnglandWales', 0,'Amersham');
-        await page.click('text=Sign out');
+        await listHearingPage.listCase('EnglandWales', 0, 'Amersham');
+        await manageCaseDashboardPage.signOut();
 
         await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
         await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
         await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
         await citizenHubPage.navigateToContactTheTribunalPage();
         await prepareAbdSubmitDocumentPage.submitDocumentsForHearing();
-    });
+      },
+    );
 
 });
 

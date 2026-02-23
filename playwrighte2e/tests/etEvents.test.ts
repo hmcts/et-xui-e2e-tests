@@ -2,6 +2,8 @@ import { test } from "../fixtures/common.fixture";
 import config from "../config/config";
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { CaseTypeLocation } from '../config/case-data.ts';
+import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
+import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 
 let caseNumber: string;
 let caseId: string;
@@ -55,16 +57,21 @@ test.describe('Various events in mange case application', () => {
 });
 
 test.describe('Claimant retaining access to transferred case', () => {
-  test.beforeEach(async ({ page, createCaseStep }) => {
-    ({ subRef: caseId, caseNumber} = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
-
+  test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
+    caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
+    const response = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
+    caseNumber = response.case_data.ethosCaseReference;
+    await manageCaseDashboardPage.visit();
+    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
   //EXUI-3451
-  test.skip('Create a England/Wales claim and transfer to Scotland, Claimant retains case', async ({ caseListPage, caseTransferPage, citizenHubLoginPage, citizenHubPage }) => {
+  test('Create a England/Wales claim and transfer to Scotland, Claimant retains case', async ({ manageCaseDashboardPage, caseListPage, caseTransferPage, citizenHubLoginPage, citizenHubPage }) => {
     await caseListPage.selectNextEvent('Case Transfer (Scotland)');
     await caseTransferPage.progressCaseTransfer();
     let newSubRef= await caseTransferPage.checkYourAnswer(caseNumber);
+    await manageCaseDashboardPage.signOut();
 
     //login as claimant and access transferred case
     await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);

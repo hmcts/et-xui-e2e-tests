@@ -1,62 +1,67 @@
 import { test } from '../fixtures/common.fixture';
 import config from '../config/config';
+import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
+import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
+import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 
-const respondentName = 'Mrs Test Auto';
-let subRef: string;
+let caseId: string;
 let caseNumber: string;
 
 test.describe('Citizen applications', () => {
   //RET-5818
-  test.beforeEach(async ({ page, createCaseStep}) => {
-    ({ subRef, caseNumber } = await createCaseStep.setupCUICaseCreatedViaApi(page, true, false));
+  test.beforeEach(async () => {
+    caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
+    const response = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
+    caseNumber = response.case_data.ethosCaseReference;
   });
 
-  test('Citizen make an application, legal rep respond to it and caseworker validate documents - England', async ({
-                                                                             page,
-                                                                             citizenHubLoginPage,
-                                                                             citizenHubPage,
-                                                                             loginPage,
-                                                                             legalRepPage,
-                                                                             et1CaseServingPage,
-                                                                             caseListPage,
-                                                                             applicationTabPage, documentsTabPage,
-                                                                             contactTheTribunalPage
-                                                                           }) => {
-    await caseListPage.navigateToTab('Claimant');
-    const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
+  test('Citizen make an application, legal rep respond to it and caseworker validate documents - England',
+    async ({
+             page,
+             manageCaseDashboardPage,
+             citizenHubLoginPage,
+             citizenHubPage,
+             loginPage,
+             legalRepPage,
+             caseListPage,
+             applicationTabPage, documentsTabPage,
+             contactTheTribunalPage
+         }) => {
+    const firstName = CaseDetailsValues.claimantFirstName;
+    const lastName = CaseDetailsValues.claimantLastName;
 
     // perform NOC
-    await page.click('text=Sign out');
-    await page.goto(config.manageCaseBaseUrl);
+    await manageCaseDashboardPage.visit();
     await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
-    await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
-    caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
-    await page.click('text=Sign out');
+    await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', caseId, caseNumber, firstName, lastName, false, true);
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
+    await manageCaseDashboardPage.signOut();
 
     // Citizen rep make an application
     await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
-    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
+    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
     await citizenHubPage.navigateToContactTheTribunalPage();
     await contactTheTribunalPage.makeApplicationToTribunal('change personal details', 'Citizen made an application', 'Yes')
     await contactTheTribunalPage.clickSubmitButton();
     await contactTheTribunalPage.assertApplicationSentSuccessPageIsDisplayed();
     await contactTheTribunalPage.clickCloseAndReturn();
-    await page.click('text=Sign out');
+    await manageCaseDashboardPage.signOut();
 
     // Legal Rep respond to an application
-    await page.goto(config.manageCaseBaseUrl);
+    await manageCaseDashboardPage.visit();
     await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
-    caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
     await applicationTabPage.legalRepRespondToAnApplication();
-    await page.click('text=Sign out');
+    await manageCaseDashboardPage.signOut();
 
     // Caseworker validates Document tab
-    await page.goto(config.manageCaseBaseUrl);
+    await manageCaseDashboardPage.visit();
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-    caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
     await caseListPage.navigateToTab('Documents');
     await documentsTabPage.validateApplicationDocuments();
+    await manageCaseDashboardPage.signOut();
   });
 });

@@ -46,7 +46,7 @@ export class CaseEventApi {
   }
 
   static async caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId: string) {
-    await this.updateCaseWorkerSteps(caseId, CaseTypeLocation.EnglandAndWales, [
+    return await this.updateCaseWorkerSteps(caseId, CaseTypeLocation.EnglandAndWales, [
       { event: Events.et1Vetting.ccdCallback, payload: PayloadPath.events.et1vetting },
       {
         event: Events.acceptRejectCase.ccdCallback,
@@ -60,7 +60,7 @@ export class CaseEventApi {
   }
 
   static async caseWorkerDoesEt1VettingAndAcceptCaseScotland(caseId: string) {
-    await this.updateCaseWorkerSteps(caseId, CaseTypeLocation.Scotland, [
+    return await this.updateCaseWorkerSteps(caseId, CaseTypeLocation.Scotland, [
       { event: Events.et1Vetting.ccdCallback, payload: PayloadPath.events.et1vetting },
       {
         event: Events.acceptRejectCase.ccdCallback,

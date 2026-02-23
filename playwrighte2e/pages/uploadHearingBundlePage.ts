@@ -18,7 +18,7 @@ export default class UploadHearingBundlePage extends BasePage {
     await this.webActions.checkElementById(this.futureHearing);
     await this.webActions.selectByOptionFromDropDown(this.hearingCombo, '1: 1');
     await this.addNewButtonClick();
-    await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.page.locator('#uploadHearingDocumentType_0_document'), `test/data/welshTest.pdf`);
+    await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.page.locator('#uploadHearingDocumentType_0_document'), `playwrighte2e/resources/test_file/welshTest.pdf`);
     const whatHearingDocument = this.page.locator(`#uploadHearingDocumentType_0_type`);
     await whatHearingDocument.getByRole('radio', { name: 'Hearing Bundle' }).check();
 

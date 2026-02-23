@@ -57,7 +57,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
 
     // await this.page.getByRole('textbox', { name: 'Document' }).setInputFiles('empty.pdf');
 
-    await this.page.setInputFiles('#contactApplicationFile', `test/data/test.txt`);
+    await this.page.setInputFiles('#contactApplicationFile', `playwrighte2e/resources/test_file/test.txt`);
     await this.webActions.clickElementByRole('button', { name: 'Upload file' });
     await expect(this.page.locator('#contactApplicationFile-hint')).toContainText(
       'You have previously uploaded: test.txt',
@@ -103,7 +103,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
 
     // await this.page.getByRole('textbox', { name: 'Document' }).setInputFiles('empty.pdf');
 
-    await this.page.setInputFiles('#contactApplicationFile', `test/data/test.txt`);
+    await this.page.setInputFiles('#contactApplicationFile', `playwrighte2e/resources/test_file/test.txt`);
     await this.webActions.clickElementByRole('button', { name: 'Upload file' });
     await expect(this.page.locator('#contactApplicationFile-hint')).toContainText(
       'You have previously uploaded: test.txt',

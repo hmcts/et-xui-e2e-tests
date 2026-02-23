@@ -12,7 +12,7 @@ export default class UploadDocumentPage extends BasePage {
     await this.webActions.selectByOptionFromDropDown('#documentCollection_1_caseManagementDocuments', 'Deposit Order');
     await this.webActions.clickElementByCss('#documentCollection_1_uploadedDocument');
 
-    await this.page.locator('#documentCollection_1_uploadedDocument').setInputFiles('test/data/welshTest.pdf');
+    await this.page.locator('#documentCollection_1_uploadedDocument').setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
     await this.page.waitForTimeout(3000);
     await this.clickSubmitButton();
   }

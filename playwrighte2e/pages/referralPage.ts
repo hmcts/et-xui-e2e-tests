@@ -33,7 +33,7 @@ export default class ReferralPage extends BasePage {
 
     await this.addNewButtonClick();
     await this.page.waitForSelector(this.elements.docUploadEle);
-    await this.page.setInputFiles(this.elements.docUploadEle, 'test/data/test.txt');
+    await this.page.setInputFiles(this.elements.docUploadEle, 'playwrighte2e/resources/test_file/test.txt');
 
     await this.clickContinue();
     await this.clickSubmitButton();
@@ -57,7 +57,7 @@ export default class ReferralPage extends BasePage {
 
     await this.addNewButtonClick();
     await this.page.waitForSelector(this.elements.replyDocUploadEle);
-    await this.page.setInputFiles(this.elements.replyDocUploadEle, 'test/data/test.txt');
+    await this.page.setInputFiles(this.elements.replyDocUploadEle, 'playwrighte2e/resources/test_file/test.txt');
 
     await this.clickContinue();
     await this.clickSubmitButton();

@@ -86,7 +86,7 @@ export default class ContactTheTribunalPage extends BasePage {
     await expect(this.applicationTextArea).toBeVisible();
     await this.applicationTextArea.fill(details);
 
-    await this.applicationFileUploadInput.setInputFiles(`test/data/test.txt`);
+    await this.applicationFileUploadInput.setInputFiles(`playwrighte2e/resources/test_file/test.txt`);
   }
 
   async selectR92Option(option: string) {

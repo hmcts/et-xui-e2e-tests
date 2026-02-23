@@ -4,13 +4,17 @@ import config from '../config/config';
 import referralData from '../resources/payload/referral-content.json';
 import { CaseTypeLocation } from '../config/case-data.ts';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
+import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 
 let caseNumber: string;
 let caseId: string;
 
 test.describe('Work Allocation', () => {
-  test.beforeEach(async ({ page, createCaseStep }) => {
-    ({ subRef: caseId, caseNumber } = await createCaseStep.setupCUICaseCreatedViaApi(page, false, false));
+  test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
+    caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
+    await manageCaseDashboardPage.visit();
+    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
   test('CTSC user assign a task to itself and completes a task', async ({ page, caseListPage, createCaseStep }) => {
@@ -50,7 +54,6 @@ test.describe('Work Allocation', () => {
 
   test('Roles and Access', async ({
     page,
-    createCaseStep,
     caseListPage,
     rolesAndAccessPage,
     referralSteps,
