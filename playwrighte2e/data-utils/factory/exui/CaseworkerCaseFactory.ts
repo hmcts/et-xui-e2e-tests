@@ -14,6 +14,10 @@ export class CaseworkerCaseFactory {
     { action: 'insert', key: 'respondentCollection[0].value.respondent_name', value: 'Mrs Test Auto' },
   ];
 
+  /**
+   * Creates a new England and Wales case with default replacements for claimant and respondent details.
+   * @returns {Promise<any>} The created case data.
+   */
   static async createEnglandWalesCase() {
     return await new CaseDataBuilder(CaseTypeLocation.EnglandAndWales, Events.createCase.ccdCallback)
       .withCaseWorkerUser()
@@ -22,6 +26,10 @@ export class CaseworkerCaseFactory {
       .create();
   }
 
+  /**
+   * Creates a new Scotland case with default replacements for claimant and respondent details.
+   * @returns {Promise<any>} The created case data.
+   */
   static async createScotlandCase() {
     return await new CaseDataBuilder(CaseTypeLocation.Scotland, Events.createCase.ccdCallback)
       .withCaseWorkerUser()
@@ -30,12 +38,20 @@ export class CaseworkerCaseFactory {
       .create();
   }
 
+  /**
+   * Creates a new England and Wales case, then performs vetting and acceptance for the caseworker.
+   * @returns {Promise<{ caseId: string, caseNumber: string }>} The case id and case number.
+   */
   static async createEnglandAndAcceptCase() {
     const { caseId, caseNumber } = await this.createEnglandWalesCase();
     await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
     return { caseId, caseNumber };
   }
 
+  /**
+   * Creates a new Scotland case, then performs vetting and acceptance for the caseworker.
+   * @returns {Promise<{ caseId: string, caseNumber: string }>} The case id and case number.
+   */
   static async createScotlandAndAcceptCase() {
     const { caseId, caseNumber } = await this.createScotlandCase();
     await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseScotland(caseId);
