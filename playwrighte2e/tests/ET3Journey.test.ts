@@ -1,5 +1,6 @@
-import { idamApi, test } from '../fixtures/common.fixture';
+import { test } from '../fixtures/common.fixture';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
+import config from '../config/config.ts';
 
 // let caseId: { toString: () => any; };
 let caseNumber: string;
@@ -13,8 +14,8 @@ let userPassword:any;
 test.describe('ET3/Respondent Journey', () => {
   test.beforeEach(async () => {
     ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
-    // Create dynamic respondent user
-    ({userEmail, userPassword} = await idamApi.createDynamicRespondentUser());
+    userEmail = config.etRespondent.email;
+    userPassword = config.etRespondent.password;
   });
 
   test('Validate ET3 Form start page and check case sensitivity', async ({et3LoginPage,

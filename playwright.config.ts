@@ -24,6 +24,7 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   timeout: 4 * 60 * 1000,
+  globalSetup: './playwrighte2e/config/global-setup',
   globalTeardown: './playwrighte2e/config/global-teardown',
   expect: {
     timeout: 50 * 1000,

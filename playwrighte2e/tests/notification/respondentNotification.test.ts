@@ -1,4 +1,4 @@
-import { idamApi, test } from '../../fixtures/common.fixture.ts';
+import { test } from '../../fixtures/common.fixture.ts';
 import config from '../../config/config.ts';
 import { CaseworkerCaseFactory } from '../../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { CaseDetailsValues, CaseTypeLocation } from '../../config/case-data.ts';
@@ -14,7 +14,8 @@ const lastName = CaseDetailsValues.claimantLastName;
 test.describe('Respondent Notification scenarios tests', () =>{
   test.beforeEach(async () => {
     ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
-    ({ userEmail, userPassword } = await idamApi.createDynamicRespondentUser());
+    userEmail = config.etRespondent.email;
+    userPassword = config.etRespondent.password;
   });
 
   test('Respondent Notification - Verify respondent receives notification and can view case details',

@@ -56,7 +56,7 @@ export class IdamApi {
     const userEmail = `ettestclaimant${Date.now()}@gmail.com`;
     const userPassword = 'Nagoya0102';
     const authToken = await getUserAuthToken(config.etApiUser.email, config.etApiUser.password);
-    await this.createCitizenPostRequest(authToken, userEmail, userPassword);
+    await this.createCitizenPostRequest(authToken, userEmail, userPassword, 'ET', 'Claimant');
     return { userEmail, userPassword };
   }
 }

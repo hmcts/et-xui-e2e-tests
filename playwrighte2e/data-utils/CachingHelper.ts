@@ -3,6 +3,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 const CACHE_PATH = path.resolve(__dirname, '../../token-cache.json');
+const TEST_USERS_PATH = path.resolve(__dirname, '../../.tmp/test-users.json');
 
 export type CachedToken = {
   token: string;
@@ -65,4 +66,36 @@ export async function deleteCacheFile(): Promise<void> {
       });
     }
   }
+}
+
+export async function deleteUserCredFile(): Promise<void> {
+  let release: (() => Promise<void>) | undefined;
+  try {
+    release = await lockfile.lock(TEST_USERS_PATH, { retries: 5, realpath: false });
+    const exists = await fs.pathExists(TEST_USERS_PATH);
+    if (exists) {
+      await fs.remove(TEST_USERS_PATH);
+    }
+  } catch (err) {
+    console.error('Error deleting test users cache:', err);
+  } finally {
+    if (release) {
+      await release().catch(err => {
+        console.error('Error releasing lock after delete:', err);
+      });
+    }
+  }
+}
+
+export function getDynamicUser(key: string) {
+  const tmpFile = path.resolve(TEST_USERS_PATH);
+  if (fs.existsSync(tmpFile)) {
+    try {
+      const users = JSON.parse(fs.readFileSync(tmpFile, 'utf-8'));
+      return users[key] || {};
+    } catch {
+      return {};
+    }
+  }
+  return {};
 }
