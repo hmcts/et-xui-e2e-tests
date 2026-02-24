@@ -29,19 +29,19 @@ export class ListHearingPage extends BaseEventPage {
         await judicialMediationOption.check();
     }
 
-    async selectManagingOfficeAndVenueScotland(hearingNumber: number, office: string = 'Glasgow', venue: string = 'Glasgow ET') {
+    async selectManagingOfficeAndVenueScotland(hearingNumber: number, office: string = 'Glasgow') {
         const managingOfficeDropdown = this.page.locator(`#hearingCollection_${hearingNumber}_Hearing_venue_Scotland`);
         await expect(managingOfficeDropdown).toBeVisible();
-        await managingOfficeDropdown.selectOption({ label: office });
-        const hearingVenueDropdown = this.page.locator(`#hearingCollection_${hearingNumber}_Hearing_${office}`);
+        const loc = await managingOfficeDropdown.selectOption({ index: 1 });
+        const hearingVenueDropdown = this.page.locator(`#hearingCollection_${hearingNumber}_Hearing_${loc[0].substring(3)}`);
         await expect(hearingVenueDropdown).toBeVisible();
-        await hearingVenueDropdown.selectOption({ label: venue });
+        await hearingVenueDropdown.selectOption({ index: 1 });
     }
 
     async selectHearingVenue(hearingNumber: number, venue: string = 'Leeds ET') {
         const hearingVenueDropdown = this.page.locator(`#hearingCollection_${hearingNumber}_Hearing_venue`);
         await expect(hearingVenueDropdown).toBeVisible();
-        await hearingVenueDropdown.selectOption({ label: venue });
+        await hearingVenueDropdown.selectOption({label: venue});
     }
 
     async enterEstimatedHearingLengthAndType(hearingNumber: number, lengthNum: string, lengthType: string) {
@@ -90,38 +90,41 @@ export class ListHearingPage extends BaseEventPage {
     }
 
     async listCase(location: string, hearingNumber: number = 0, venue?: string, office?: string) {
-        let [year, month, day] = dateUtilComponent.addWeekdays(new Date(), 21).toISOString().split('T')[0].split('-');
-        if (hearingNumber > 0) {
-            await this.addNewHearingButtonClick();
-        }
-        await this.enterHearingNumber(hearingNumber);
-        await this.selectHearingType(hearingNumber, 'Costs Hearing')
-        await this.checkHearingFormat(hearingNumber, 'Hybrid');
-        await this.selectJudicialMediationRadio(hearingNumber, 'No');
+      let [year, month, day] = dateUtilComponent.addWeekdays(new Date(), 21).toISOString().split('T')[0].split('-');
+      if (hearingNumber > 0) {
+        await this.addNewHearingButtonClick();
+      }
+      await this.enterHearingNumber(hearingNumber);
 
-        if(location === 'Scotland'){
-            await this.selectManagingOfficeAndVenueScotland(hearingNumber, office, venue);
-        }else{
-           await this.selectHearingVenue(hearingNumber, venue);
+      await this.checkHearingFormat(hearingNumber, 'Hybrid');
+      await this.selectJudicialMediationRadio(hearingNumber, 'No');
 
-        }
+      if (location === 'Scotland') {
+        await this.selectHearingType(hearingNumber, 'Expenses/Wasted Costs Hearing');
+        await this.selectManagingOfficeAndVenueScotland(hearingNumber, office);
+      } else {
+        await this.selectHearingType(hearingNumber, 'Costs Hearing');
+        await this.selectHearingVenue(hearingNumber, venue);
+      }
 
-        await this.enterEstimatedHearingLengthAndType(hearingNumber, '1', 'Hours');
-        await this.selectPanelType(hearingNumber, 'Sit Alone');
-        await this.selectEQPStageHearing(hearingNumber, 'Stage 1');
-        await this.clickAddNewDateButton(hearingNumber);
-        if (hearingNumber == 1) {
-            await this.setHearingDate(hearingNumber, '6', '1', '2025');
-        } else {
-            await this.setHearingDate(hearingNumber, day, month, year);
-        }
-        await this.enterHearingNotes(hearingNumber, 'The hearing should be help as soon as possible....');
+      await this.enterEstimatedHearingLengthAndType(hearingNumber, '1', 'Hours');
+      await this.selectPanelType(hearingNumber, 'Sit Alone');
+      await this.selectEQPStageHearing(hearingNumber, 'Stage 1');
+      await this.clickAddNewDateButton(hearingNumber);
+      if (hearingNumber == 1) {
+        await this.setHearingDate(hearingNumber, '6', '1', '2025');
+      } else {
+        await this.setHearingDate(hearingNumber, day, month, year);
+      }
+      await this.enterHearingNotes(hearingNumber, 'The hearing should be help as soon as possible....');
 
-        await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await this.clickSubmitButton();
+      if (hearingNumber == 1) {
+        await expect(
+          this.page.getByRole('heading', { level: 3, name: 'One of the listed dates are in the past.' }),
+        ).toBeVisible();
         await this.clickSubmitButton();
-        if(hearingNumber == 1) {
-          await expect(this.page.getByRole('heading', { level: 3, name: 'One of the listed dates are in the past.' })).toBeVisible();
-          await this.clickSubmitButton();
-        }
+      }
     }
 }

@@ -3,7 +3,6 @@ import { LegalRepPage } from "../pages/legalRepPage";
 import { ListHearingPage } from "../pages/events/listHearingPage";
 import LoginPage from "../pages/loginPage";
 import {Page} from '@playwright/test';
-import CreateCaseThroughApi from "../pages/createCaseThroughApi";
 import Et1CaseServingPage from "../pages/et1CaseServingPage";
 import CUIPreLoginPage from "../pages/claimantCitizenHub/CUIPreLoginPage.ts";
 import CUIPostLoginPages from "../pages/claimantCitizenHub/CUIPostLoginPages.ts";
@@ -25,7 +24,6 @@ export abstract class BaseStep {
     protected caseListPage: CaseListPage;
     protected listHearingPage: ListHearingPage;
     protected legalRepPage: LegalRepPage;
-    protected createCaseThroughApi: CreateCaseThroughApi
     protected et1CaseServingPage: Et1CaseServingPage;
     protected et1VettingPage: Et1VettingPages;
     protected citizenUiPage: CUIPreLoginPage;
@@ -36,7 +34,6 @@ export abstract class BaseStep {
     protected submitClaimPage: SubmitClaimPage;
     protected et1CreateDraftClaim: Et1CreateDraftClaim;
     protected referralPage: ReferralPage;
-    protected draftJudgementPage: DraftJudgementPage;
     protected issueJudgementPage: IssueJudgementPage;
     protected respondentRepPage: RespondentRepPage;
     protected et3ProcessPage: ET3ProcessPage;
@@ -46,7 +43,6 @@ export abstract class BaseStep {
         this.caseListPage = new CaseListPage(page);
         this.listHearingPage = new ListHearingPage(page);
         this.legalRepPage = new LegalRepPage(page);
-        this.createCaseThroughApi = new CreateCaseThroughApi(page);
         this.et1CaseServingPage = new Et1CaseServingPage(page);
         this.et1VettingPage = new Et1VettingPages(page);
         this.citizenUiPage = new CUIPreLoginPage(page);
@@ -57,7 +53,6 @@ export abstract class BaseStep {
         this.submitClaimPage = new SubmitClaimPage(page);
         this.et1CreateDraftClaim = new Et1CreateDraftClaim(page);
         this.referralPage = new ReferralPage(page);
-        this.draftJudgementPage = new DraftJudgementPage(page);
         this.issueJudgementPage = new IssueJudgementPage(page);
         this.respondentRepPage = new RespondentRepPage(page);
         this.et3ProcessPage = new ET3ProcessPage(page);

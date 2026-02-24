@@ -117,7 +117,7 @@ export default class PrepareAndSubmitDocumentPage extends ContactTheTribunalPage
     await expect(this.uploadYourFileOfDocumentsPage).toBeVisible();
   }
 
-  async uploadYourFileOfDocuments(files: string[] = ['test/data/welshTest.pdf']) {
+  async uploadYourFileOfDocuments(files: string[] = ['playwrighte2e/resources/test_file/welshTest.pdf']) {
       for (let file of files) {
         await expect(this.chooseFile).toBeVisible();
         await this.chooseFile.setInputFiles(file);

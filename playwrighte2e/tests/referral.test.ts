@@ -1,58 +1,89 @@
 import { test } from '../fixtures/common.fixture';
 import config from "../config/config";
-import referralData from '../data/ui-data/referral-content.json';
+import referralData from '../resources/payload/referral-content.json';
+import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
+import { CaseTypeLocation } from '../config/case-data.ts';
 
-let subRef: string;
+let caseId: string;
 let caseNumber: string;
 
 test.describe.serial('England - Referral test', () => {
 
-    test('New referral', {tag: '@demo'}, async ({ page, createCaseStep, caseListPage, referralSteps }) => {
+    test(
+      'New referral',
+      { tag: '@demo' },
+      async ({ manageCaseDashboardPage, loginPage, caseListPage, referralSteps }) => {
+        ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
+        await manageCaseDashboardPage.visit();
+        await loginPage.processLogin(
+          config.etCaseWorker.email,
+          config.etCaseWorker.password,
+          config.loginPaths.worklist,
+        );
 
-        ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
+        caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         //Send & verify new referral
-        await referralSteps.processReferrals(referralData.createNewReferral,
-            (referralPage) => referralPage.sendNewReferral(false),
-            (caseListPage) => caseListPage.verifyReferralDetails()
+        await referralSteps.processReferrals(
+          referralData.createNewReferral,
+          referralPage => referralPage.sendNewReferral(false),
+          caseListPage => caseListPage.verifyReferralDetails(),
         );
 
         //sign out as caseworker
-        await caseListPage.signoutButton();
-    });
+        await manageCaseDashboardPage.signOut();
+      },
+    );
 
-    test('Reply to a referral', {tag: '@demo'}, async ({ page, caseListPage, loginPage, referralSteps }) => {
-
-        await page.goto(config.TestUrlForManageCaseAAT);
+    test(
+      'Reply to a referral',
+      { tag: '@demo' },
+      async ({ manageCaseDashboardPage, caseListPage, loginPage, referralSteps }) => {
+        await manageCaseDashboardPage.visit();
 
         //judge logs in
-        await loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword, config.loginPaths.cases);
-        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
+        await loginPage.processLogin(
+          config.etEnglandJudge.email,
+          config.etEnglandJudge.password,
+          config.loginPaths.cases,
+        );
+        caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         //Reply & verify a referral
-        await referralSteps.processReferrals(referralData.replyToReferral,
-            (referralPage) => referralPage.replyToReferral(),
-            (caseListPage) => caseListPage.verifyReplyReferralDetails()
+        await referralSteps.processReferrals(
+          referralData.replyToReferral,
+          referralPage => referralPage.replyToReferral(),
+          caseListPage => caseListPage.verifyReplyReferralDetails(),
         );
 
         await caseListPage.verifyReplyDetailsOnTab('Admin');
         await caseListPage.verifyReplyDetailsOnTab('This is a test direction');
+        await manageCaseDashboardPage.signOut();
+      },
+    );
 
-    });
-
-    test('Z - Close a referral', {tag: '@demo'}, async ({ page, caseListPage, loginPage, referralSteps }) => {
-
-        await page.goto(config.TestUrlForManageCaseAAT);
+    test(
+      'Z - Close a referral',
+      { tag: '@demo' },
+      async ({ manageCaseDashboardPage, loginPage, referralSteps }) => {
+        await manageCaseDashboardPage.visit();
 
         //judge logs in
-        await loginPage.processLogin(config.TestEnvETJudgeUserEng, config.TestEnvETJudgeUserEngPassword, config.loginPaths.cases);
-        caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
+        await loginPage.processLogin(
+          config.etEnglandJudge.email,
+          config.etEnglandJudge.password,
+          config.loginPaths.cases,
+        );
+        caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         // Close & verify a referral
-        await referralSteps.processReferrals(referralData.closeReferral,
-            (referralPage) => referralPage.closeAReferral(),
-            (caseListPage) => caseListPage.verifyCloseReferralDetails()
+        await referralSteps.processReferrals(
+          referralData.closeReferral,
+          referralPage => referralPage.closeAReferral(),
+          caseListPage => caseListPage.verifyCloseReferralDetails(),
         );
-    });
+        await manageCaseDashboardPage.signOut();
+      },
+    );
 
 });

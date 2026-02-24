@@ -1,5 +1,5 @@
 import { BasePage } from "./basePage";
-import depositOrderData from '../data/ui-data/deposit-order-content.json';
+import depositOrderData from '../resources/payload/deposit-order-content.json';
 
 export default class DepositOrderPage extends BasePage {
 

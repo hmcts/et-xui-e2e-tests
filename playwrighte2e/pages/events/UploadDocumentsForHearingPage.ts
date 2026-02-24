@@ -127,7 +127,7 @@ export class UploadDocumentsForHearingPage extends BaseEventPage {
       this.page,
       this.uploadDocumentInput,
       await this.commonActionsHelper.createAliasPDFPayload
-        ('test/data/welshTest.pdf', 'welshTest.pdf')
+        ('playwrighte2e/resources/test_file/welshTest.pdf', 'welshTest.pdf')
     );
   }
 

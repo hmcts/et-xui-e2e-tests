@@ -1,20 +1,24 @@
 import { test } from '../fixtures/common.fixture';
 import config from '../config/config';
-import { Events } from '../config/case-data.ts';
+import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data.ts';
+import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 
-let subRef: string;
+let caseId: string;
 let caseNumber: string;
 
 test.describe('Upload Hearing Bundle as a Caseworker', () => {
-  test.beforeEach(async ({ page, createCaseStep }) => {
-    ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
+  test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
+    ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
+    await manageCaseDashboardPage.visit();
+    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
   //RET-5927
-  test('Caseworker uploads hearing bundle', async ({ caseListPage, uploadHearingBundlePage, et1CaseServingPage, listHearingPage, page, loginPage, legalRepPage}) => {
-    await caseListPage.navigateToTab('Claimant');
-    //Retrieve claimant's first name and last name for NoC
-    const { firstName, lastName } = await et1CaseServingPage.getClaimantFirstName();
+  test('Caseworker uploads hearing bundle', async ({ manageCaseDashboardPage, caseListPage, uploadHearingBundlePage, et1CaseServingPage, listHearingPage, loginPage, legalRepPage}) => {
+    const firstName = CaseDetailsValues.claimantFirstName;
+    const lastName = CaseDetailsValues.claimantLastName;
 
     //List 2 hearings for the case
     const hearingNumbers: number[] = [0, 1];
@@ -22,17 +26,18 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
       await caseListPage.selectNextEvent(Events.listHearing.listItem);
       await listHearingPage.listCase('EnglandWales', number, "Leeds ET");
     }
-    await page.click('text=Sign out');
+    await manageCaseDashboardPage.signOut();
 
-    await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
-    await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber.toString(), firstName, lastName, false, false);
-    await page.click('text=Sign out');
+    await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
+    await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', caseId, caseNumber.toString(), firstName, lastName, false, false);
+    await manageCaseDashboardPage.signOut();
 
-    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
-    await  caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
+    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     await caseListPage.selectNextEvent('Upload Hearing Documents');
     await uploadHearingBundlePage.uploadHearingBundleDocuments();
     await caseListPage.navigateToTab('Hearing Documents');
     await uploadHearingBundlePage.validateHearingDocument();
+    await manageCaseDashboardPage.signOut();
   });
 });

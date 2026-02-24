@@ -1,13 +1,20 @@
 import { test } from "../fixtures/common.fixture";
 import dateUtilComponent from '../data-utils/DateUtilComponent';
-import { Events } from '../config/case-data';
+import { CaseTypeLocation, Events } from '../config/case-data';
+import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
+import config from '../config/config.ts';
 
-const letterPageData = require('../data/ui-data/letter-content.json');
-
+const letterPageData = require('../resources/payload/letter-content.json');
+let caseNumber: string;
+let caseId: string;
 test.describe('Generate Letters', () => {
 
-    test.beforeEach(async({ page, createCaseStep }) => {
-        await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales");
+    test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
+      ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
+      await manageCaseDashboardPage.visit();
+      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+
+      caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     });
 
     test('ET2 - Short track letter', {tag: '@demo'}, async({caseListPage, listHearingPage, lettersPage}) => {

@@ -96,7 +96,7 @@ export default class CitizenHubPage extends BasePage {
   };
 
   async navigateToSubmittedCaseOverviewOfClaimant(submissionReference: string) {
-    await this.page.goto(config.TestUrlCitizenUi + '/citizen-hub/' + submissionReference);
+    await this.page.goto(config.etSyaUiUrl + '/citizen-hub/' + submissionReference);
     await this.page.waitForLoadState('load');
   }
 
@@ -140,7 +140,7 @@ export default class CitizenHubPage extends BasePage {
     await expect(caseNumberLocator).toBeVisible();
     const caseRefText = await caseNumberLocator.textContent();
     expect(caseRefText).toBeDefined();
-    expect(caseRefText?.trim()).toEqual(submissionReference);
+    expect(caseRefText?.trim()).toEqual(submissionReference.toString());
 
     const claimantNameLocator = this.page.locator(`xpath=//dt[normalize-space()='Claimant name']/following-sibling::dd`);
     await expect(claimantNameLocator).toBeVisible();
@@ -181,7 +181,7 @@ export default class CitizenHubPage extends BasePage {
     await this.clickContinue();
 
     await this.page.waitForSelector(this.elements.supportingMaterialFile);
-    await this.page.setInputFiles(this.elements.supportingMaterialFile, 'test/data/welshTest.pdf');
+    await this.page.setInputFiles(this.elements.supportingMaterialFile, 'playwrighte2e/resources/test_file/welshTest.pdf');
 
     await this.page.waitForSelector(this.elements.uploadFielButton);
     await this.page.click(this.elements.uploadFielButton);

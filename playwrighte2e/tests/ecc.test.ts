@@ -1,17 +1,19 @@
 import { test } from '../fixtures/common.fixture';
 import { expect } from '@playwright/test';
 import config from '../config/config';
+import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
+import { CaseTypeLocation } from '../config/case-data.ts';
 
 let subRef: any;
 let caseNumber: any;
 
 test.describe('ECC', () => {
   test.describe.configure({ mode: 'default' });
-  test.beforeEach(async ({ page, createCaseStep, loginPage, caseListPage }) => {
-    subRef = await createCaseStep.setupCUIcaseVetAndAcceptViaApi(true);
-    await page.goto(config.TestUrlForManageCaseAAT);
-    await loginPage.processLogin(config.TestEnvETCaseWorkerUser, config.TestEnvETPassword, config.loginPaths.worklist);
-    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), "EnglandWales");
+  test.beforeEach(async ({ page, loginPage, caseListPage }) => {
+    subRef = await CitizenClaimantFactory.progressCaseFromCreateToEt3(CaseTypeLocation.EnglandAndWales);
+    await page.goto(config.manageCaseBaseUrl);
+    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
   });
 
   test('Validate ECC flag is set on case', { tag: '@ecc' }, async ({ caseListPage, jurisdictionPage }) => {
@@ -80,14 +82,10 @@ test.describe('ECC', () => {
       await caseListPage.navigateToTab('BF Actions');
       await caseListPage.verifyBFActionsTab('Action', 'ECC served');
       await caseListPage.signoutButton();
-      await citizenHubLoginPage.processCitizenHubLogin(
-        config.TestEnvETClaimantEmailAddress,
-        config.TestEnvETClaimantPassword,
-      );
+      await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
       await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
-      await citizenHubPage.verifyNotificationBanner('ECC')
-
+      await citizenHubPage.verifyNotificationBanner('ECC');
     },
   );
 

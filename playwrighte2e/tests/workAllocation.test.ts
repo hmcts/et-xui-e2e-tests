@@ -1,14 +1,20 @@
 import { test } from '../fixtures/common.fixture';
 import { Helpers } from '../pages/helpers/Helper.ts';
 import config from '../config/config';
-import referralData from '../data/ui-data/referral-content.json';
+import referralData from '../resources/payload/referral-content.json';
+import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
+import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 
 let caseNumber: string;
-let subRef: string;
+let caseId: string;
 
 test.describe('Work Allocation', () => {
-  test.beforeEach(async ({ page, createCaseStep }) => {
-    ({ subRef, caseNumber } = await createCaseStep.setupCUICaseCreatedViaApi(page, false, false));
+  test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
+    caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
+    await manageCaseDashboardPage.visit();
+    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
   test('CTSC user assign a task to itself and completes a task', async ({ page, caseListPage, createCaseStep }) => {
@@ -19,7 +25,7 @@ test.describe('Work Allocation', () => {
   });
 
   test('Caseworker sends Referral- Referral task generated, Judge assign and completes referral task', async ({
-    page,
+    page, manageCaseDashboardPage,
     caseListPage,
     referralSteps,
     loginPage,
@@ -35,11 +41,11 @@ test.describe('Work Allocation', () => {
 
     //log in as judge & assign and completes a task
     await loginPage.processLogin(
-      config.TestEnvETJudgeUserWorkAllocation,
-      config.TestEnvETJudgeUserPasswordWorkAllocation,
+      config.etWorkAllocationJudge.email,
+      config.etWorkAllocationJudge.password,
       config.loginPaths.cases
     );
-    caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     await caseListPage.navigateToTab('Tasks');
 
     await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'Review Referral #1 - ET1', 'Reply to the Referral');
@@ -48,7 +54,6 @@ test.describe('Work Allocation', () => {
 
   test('Roles and Access', async ({
     page,
-    createCaseStep,
     caseListPage,
     rolesAndAccessPage,
     referralSteps,
@@ -71,12 +76,16 @@ test.describe('Work Allocation', () => {
 });
 
 test.describe('Work Allocation- Judge completes tasks', () => {
-  test.beforeEach(async ({ page, createCaseStep }) => {
-    ({ subRef, caseNumber } = await createCaseStep.setupCaseCreatedViaApi(page, 'England', 'ET_EnglandWales'));
+  test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
+    ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
+    await manageCaseDashboardPage.visit();
+    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
   test('Judge completes Draft and sign document task', async ({
-    page,
+    page, manageCaseDashboardPage,
     caseListPage,
     listHearingPage,
     hearingDetailsPage,
@@ -97,11 +106,11 @@ test.describe('Work Allocation- Judge completes tasks', () => {
 
     //login as judge and assign a task
     await loginPage.processLogin(
-      config.TestEnvETJudgeUserWorkAllocation,
-      config.TestEnvETJudgeUserPasswordWorkAllocation,
+      config.etWorkAllocationJudge.email,
+      config.etWorkAllocationJudge.password,
       config.loginPaths.cases,
     );
-    caseNumber = await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales');
+    await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     await caseListPage.navigateToTab('Tasks');
 
     await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'Draft And Sign Judgment', 'Draft and Sign Judgment');

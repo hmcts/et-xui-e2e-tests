@@ -35,7 +35,7 @@ export default class CitizenHubLoginPage extends LoginPage {
   }
 
   async processCitizenHubLogin(username: string, password: string){
-    const claimantUri = config.TestUrlCitizenUi;
+    const claimantUri = config.etSyaUiUrl;
     await this.page.goto(claimantUri);
     await this.page.waitForLoadState('load');
 

@@ -42,7 +42,7 @@ export default class Et1CaseServingPage extends BasePage {
   async et1ServingEvent(){
     await this.addNewButtonClick();
     await this.webActions.selectByOptionFromDropDown('#servingDocumentCollection_0_typeOfDocument', '7.7 In person preliminary hearing - notice of case management discussion');
-    await this.page.locator('#servingDocumentCollection_0_uploadedDocument').setInputFiles('test/data/welshTest.pdf');
+    await this.page.locator('#servingDocumentCollection_0_uploadedDocument').setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
     await this.page.waitForTimeout(3000);
     await this.webActions.fillField('#servingDocumentCollection_0_shortDescription', 'ET1 serving');
     await this.clickContinue();
@@ -51,7 +51,7 @@ export default class Et1CaseServingPage extends BasePage {
   async et1ServingEventNoticeOfClaim(){
     await this.addNewButtonClick();
     await this.webActions.selectByOptionFromDropDown('#servingDocumentCollection_0_typeOfDocument', '2.7 ET2 short track claim');
-    await this.page.locator('#servingDocumentCollection_0_uploadedDocument').setInputFiles('test/data/welshTest.pdf');
+    await this.page.locator('#servingDocumentCollection_0_uploadedDocument').setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
     await this.page.waitForTimeout(3000);
     await this.webActions.fillField('#servingDocumentCollection_0_shortDescription', 'ET1 serving');
     await this.clickContinue();

@@ -1,8 +1,8 @@
 import { expect } from "@playwright/test";
 import { BasePage } from "./basePage";
 import path from "path";
-import icPageData from '../data/ui-data/ic-page-content.json';
-import respPageData from '../data/ui-data/respondent-page-content.json';
+import icPageData from '../resources/payload/ic-page-content.json';
+import respPageData from '../resources/payload/respondent-page-content.json';
 
 export default class ICUploadDocPage extends BasePage {
 
@@ -38,7 +38,7 @@ export default class ICUploadDocPage extends BasePage {
         const fileChooserPromise = this.page.waitForEvent('filechooser');
         await this.page.locator(this.elements.fileUploadEle).click();
         const fileChooser = await fileChooserPromise;
-        await fileChooser.setFiles(path.join(__dirname, '../data/test-file/test-doc.pdf'));
+        await fileChooser.setFiles(path.join(__dirname, '../resources/test_file/test-doc.pdf'));
         await this.delay(2000);
         await this.clickContinue();
 

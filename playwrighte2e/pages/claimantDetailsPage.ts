@@ -1,5 +1,5 @@
 import { BasePage } from "./basePage";
-import respPageData from '../data/ui-data/respondent-page-content.json';
+import respPageData from '../resources/payload/respondent-page-content.json';
 
 export default class ClaimantDetailsPage extends BasePage{
 

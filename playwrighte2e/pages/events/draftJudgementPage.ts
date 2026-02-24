@@ -42,7 +42,7 @@ export default class DraftJudgementPage extends BasePage {
         await this.assertDraftJudgementPageIsDisplayed();
         await this.selectIsThisAJudgement('Yes');
         await this.addNewButtonClick();
-        await this.uploadDocument(0,'test/data/test.txt');
+        await this.uploadDocument(0,'playwrighte2e/resources/test_file/test.txt');
         await this.fillAnyFurtherDirections('Test Draft Judgement');
         await this.clickContinue();
         await this.clickSubmitButton();

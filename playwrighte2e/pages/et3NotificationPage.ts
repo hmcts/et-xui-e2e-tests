@@ -13,7 +13,7 @@ export default class Et3NotificationPage extends BasePage {
     await this.page.waitForSelector(this.elements.typeOfDocument);
     await this.webActions.selectByOptionFromDropDown(this.elements.typeOfDocument, '2.11 Response accepted');
     //Can't upload file via playwright
-    await this.page.setInputFiles(this.elements.documentUpload,'test/data/welshTest.pdf');
+    await this.page.setInputFiles(this.elements.documentUpload,'playwrighte2e/resources/test_file/welshTest.pdf');
     await this.page.waitForTimeout(5000);
     await this.clickContinue();
   }

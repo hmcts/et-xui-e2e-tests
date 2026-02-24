@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
 import { BasePage } from "./basePage";
 
-const letterPageData = require('../data/ui-data/letter-content.json');
+const letterPageData = require('../resources/payload/letter-content.json');
 
 export default class LettersPage extends BasePage {
 

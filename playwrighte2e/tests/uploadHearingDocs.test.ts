@@ -1,14 +1,19 @@
 import { test } from '../fixtures/common.fixture';
 import config from "../config/config";
-import { Events } from '../config/case-data';
+import { CaseTypeLocation, Events } from '../config/case-data';
 import DateUtilComponent from '../data-utils/DateUtilComponent';
+import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 
-let subRef: string;
+let caseId: string;
 let caseNumber: string;
 
 test.describe('Upload hearing docs test', () => {
-    test.beforeEach(async ({ page, createCaseStep }) => {
-        ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
+    test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
+      ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
+      await manageCaseDashboardPage.visit();
+      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+
+      caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     });
 
   //RET-5787
@@ -39,11 +44,11 @@ test.describe('Upload hearing docs test', () => {
 
         const date = DateUtilComponent.formatToDayMonthYear(DateUtilComponent.addWeekdays(new Date(), 21));
         await page.click('text=Sign out');
-        await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETLegalRepUser, config.TestEnvETLegalRepPassword, config.loginPaths.cases);
-        await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, firstName, lastName, false, true);
+        await page.goto(config.manageCaseBaseUrl);
+        await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
+        await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', caseId, caseNumber, firstName, lastName, false, true);
 
-        await caseListPage.navigateToCaseDetails(subRef, 'EnglandWales')
+        await caseListPage.navigateToCaseDetails(caseId, 'EnglandWales')
         await caseListPage.selectNextEvent(Events.uploadDocumentsForHearing.listItem);
 
         // //Verify only future hearings are shown in the options

@@ -55,16 +55,26 @@ import LegalRepNotificationPage from '../pages/notifications/LegalRepNotificatio
 import CitizenHubLoginPage from '../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
 import ContactTheTribunalPage from '../pages/claimantCitizenHub/ContactTheTribunalPage.ts';
 import PrepareAndSubmitDocumentPage from '../pages/claimantCitizenHub/PrepareAndSubmitDocumentPage.ts';
+import Et1VettingPages from '../pages/et1VettingPages.ts';
+import CUIPreLoginPage from '../pages/claimantCitizenHub/CUIPreLoginPage.ts';
+import CUIPostLoginPages from '../pages/claimantCitizenHub/CUIPostLoginPages.ts';
+import PersonalDetailsPage from '../pages/claimantCitizenHub/personalDetailsPage.ts';
+import EmploymentAndRespDetailsPage from '../pages/claimantCitizenHub/employmentAndRespDetailsPage.ts';
+import ClaimDetailsPage from '../pages/claimantCitizenHub/claimDetailsPage.ts';
+import SubmitClaimPage from '../pages/claimantCitizenHub/submitClaimPage.ts';
+import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
 
 export type PageFixtures = {
 
     applicationTabPage: ApplicationTabPage;
+    manageCaseDashboardPage: ManageCaseDashboardPage;
     caseListPage: CaseListPage;
     createCaseFlagPage: CreateCaseFlagPage;
     manageCaseFlagPage: ManageCaseFlagPage;
     et1CaseServingPage: Et1CaseServingPage;
+    et1VettingPage: Et1VettingPages;
     loginPage: LoginPage;
     listHearingPage: ListHearingPage;
     legalRepPage: LegalRepPage;
@@ -115,12 +125,22 @@ export type PageFixtures = {
     baseEventPage: BaseEventPage;
     contactTheTribunalPage: ContactTheTribunalPage;
     prepareAbdSubmitDocumentPage: PrepareAndSubmitDocumentPage;
+    citizenPreLoginPage: CUIPreLoginPage;
+    citizenPostLoginPage: CUIPostLoginPages;
+    personalDetailsPage: PersonalDetailsPage;
+    employmentAndRespondentDetailsPage: EmploymentAndRespDetailsPage;
+    claimDetailsPage: ClaimDetailsPage;
+    submitClaimPage: SubmitClaimPage;
 }
 
 export const pageFixtures = base.extend<PageFixtures>({
 
     applicationTabPage: async ({ page }, use) => {
         await use(new ApplicationTabPage(page));
+    },
+
+    manageCaseDashboardPage: async ({page}, use) => {
+      await use(new ManageCaseDashboardPage(page));
     },
 
     caseListPage: async ({page}, use) => {
@@ -322,5 +342,26 @@ export const pageFixtures = base.extend<PageFixtures>({
     },
     prepareAbdSubmitDocumentPage:async({page}, use) => {
       await use (new PrepareAndSubmitDocumentPage (page));
-    }
+    },
+  et1VettingPage:async ({page}, use)=>{
+    await use(new Et1VettingPages(page));
+  },
+  citizenPreLoginPage:async({page}, use) => {
+    await use (new CUIPreLoginPage (page));
+  },
+  citizenPostLoginPage:async({page}, use)=>{
+    await use (new CUIPostLoginPages (page));
+  },
+  personalDetailsPage:async({page}, use)=>{
+    await use (new PersonalDetailsPage (page));
+  },
+  employmentAndRespondentDetailsPage:async({page}, use)=>{
+    await use (new EmploymentAndRespDetailsPage (page));
+  },
+  claimDetailsPage:async({page}, use)=>{
+    await use (new ClaimDetailsPage (page));
+  },
+  submitClaimPage:async({page}, use)=>{
+    await use (new SubmitClaimPage (page));
+  }
 });

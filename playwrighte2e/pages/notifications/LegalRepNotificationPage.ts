@@ -14,11 +14,18 @@ export default class LegalRepNotificationPage extends BasePage {
   constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
     super(page);
     this.commonActionsHelper = commonActionsHelper;
-    this.notificationList = page.locator(`#claimantSelectNotification`);
-    this.responseToTribunalText = page.locator(`#claimantNotificationResponseText`);
-    this.anySupportingMaterialRadio = page.locator(`#claimantNotificationSupportingMaterial`);
-    this.yesNotifyOtherPartyRadio = page.locator('#claimantNotificationCopyToOtherParty-Yes');
-    this.noNotifyOtherPartyRadio = page.locator('#claimantNotificationCopyToOtherParty-No');
+    // Added Respondent and Claimant locators in the same element as they are same and only differ in id which can be handled by locator
+    this.notificationList = page.locator('#pseRespondentSelectOrderOrRequest, #claimantSelectNotification');
+    this.responseToTribunalText = page.locator(`#claimantNotificationResponseText, #pseRespondentOrdReqResponseText`);
+    this.anySupportingMaterialRadio = page.locator(
+      `#claimantNotificationSupportingMaterial, #pseRespondentOrdReqHasSupportingMaterial`,
+    );
+    this.yesNotifyOtherPartyRadio = page.locator(
+      '#claimantNotificationCopyToOtherParty-Yes, #pseRespondentOrdReqCopyToOtherParty-Yes',
+    );
+    this.noNotifyOtherPartyRadio = page.locator(
+      '#claimantNotificationCopyToOtherParty-No, #pseRespondentOrdReqCopyToOtherParty-No',
+    );
   }
 
   async navigateToRespondToOrderOrRequestFromTheTribunal() {
@@ -46,11 +53,15 @@ export default class LegalRepNotificationPage extends BasePage {
   async uploadSupportDocument(filePaths: string[]) {
     for (let i=0; i< filePaths.length; i++) {
         await this.page.getByRole('button', { name: 'Add new' }).click();
-        const documentUpload = this.page.locator(`#claimantNotificationDocuments_${i}_uploadedDocument`);
+        const documentUpload = this.page.locator(
+          `#claimantNotificationDocuments_${i}_uploadedDocument, #pseRespondentOrdReqUploadDocument_${i}_uploadedDocument`,
+        );
         await expect(documentUpload).toBeVisible();
         await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, documentUpload, filePaths[i]);
 
-        const shortDesc = this.page.locator(`#claimantNotificationDocuments_${i}_shortDescription`);
+        const shortDesc = this.page.locator(
+          `#claimantNotificationDocuments_${i}_shortDescription, #pseRespondentOrdReqUploadDocument_${i}_shortDescription`,
+        );
         await expect(shortDesc).toBeVisible();
         await shortDesc.fill(`Support Document ${i+1}`);
         await this.delay(3000);

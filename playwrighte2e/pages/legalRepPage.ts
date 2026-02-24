@@ -185,7 +185,7 @@ export class LegalRepPage extends BasePage {
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.successfulMessageHeader), 20000);
 
     await this.page.goto(
-      `${config.TestUrlForManageCaseAAT}/case-details/EMPLOYMENT/ET_EnglandWales/${submissionReference}`,
+      `${config.manageCaseBaseUrl}/case-details/EMPLOYMENT/ET_EnglandWales/${submissionReference}`,
     );
     await this.page.waitForTimeout(10000);
   }
@@ -289,7 +289,7 @@ export class LegalRepPage extends BasePage {
     await this.page.waitForSelector(this.loadingSpinner, { state: 'hidden', timeout: 10000 });
     await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await this.page.waitForSelector('text=Upload your file of documents');
-    await this.page.setInputFiles(this.uploadBundleDocument, 'test/data/welshTest.pdf');
+    await this.page.setInputFiles(this.uploadBundleDocument, 'playwrighte2e/resources/test_file/welshTest.pdf');
     await this.page.waitForTimeout(10000);
 
     await this.webActions.clickElementByCss(this.continueLegalRepButton);
@@ -435,7 +435,7 @@ export class LegalRepPage extends BasePage {
     await this.page.waitForSelector(this.eccTextField, { timeout: 10000 });
     await this.page.fill(this.eccTextField, 'ECC Respondent Test');
     //
-    await this.page.setInputFiles(this.et3EccUploadButton, 'test/data/welshTest.pdf');
+    await this.page.setInputFiles(this.et3EccUploadButton, 'playwrighte2e/resources/test_file/welshTest.pdf');
     await this.page.waitForTimeout(5000);
     await this.page.click(this.continueLegalRepButton);
     await this.page.waitForTimeout(5000);
@@ -495,7 +495,7 @@ export class LegalRepPage extends BasePage {
     await this.webActions.clickElementByCss(this.continueLegalRepButton);
 
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.uploadDocumentContactTribunal), 30000);
-    await this.page.setInputFiles(this.uploadDocumentContactTribunal, 'test/data/welshTest.pdf');
+    await this.page.setInputFiles(this.uploadDocumentContactTribunal, 'playwrighte2e/resources/test_file/welshTest.pdf');
     await this.page.waitForTimeout(10000);
     await this.webActions.fillField(this.textArea, 'Make an application text');
     /* (Got accessibility error)

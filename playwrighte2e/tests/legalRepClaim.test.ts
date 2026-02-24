@@ -10,9 +10,9 @@ test.beforeEach(async ({ page, createCaseStep}) => {
 
 test.describe('Legal Representative submits a case and perform various events', () => {
 
-    test('CR creates a claim, amend claimant/respondent names and persist NOC with original claimant/respondent names',
+    test('LR creates a claim, amend claimant/respondent names and persist NOC with original claimant/respondent names',
         {tag: '@demo'},
-        async ({ page, caseListPage, claimantDetailsPage, respondentDetailsPage, loginPage, nocPage, legalRepPage }) => {
+        async ({ page, caseListPage, claimantDetailsPage, respondentDetailsPage, loginPage, legalRepPage }) => {
 
         // Amend Claimant and Respondent names
         await caseListPage.selectNextEvent('Claimant Details');
@@ -22,8 +22,8 @@ test.describe('Legal Representative submits a case and perform various events', 
         await caseListPage.signoutButton();
 
         // Perform NOC using original Claimant and Respondent names (different org)
-        await page.goto(config.TestUrlForManageCaseAAT);
-        await loginPage.processLogin(config.TestEnvETRespondentEmailAddress, config.TestEnvETRespondentPassword, config.loginPaths.cases);
+        await page.goto(config.manageCaseBaseUrl);
+        await loginPage.processLogin(config.etLegalRepresentative2.email, config.etLegalRepresentative2.password, config.loginPaths.cases);
         await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', subRef, caseNumber, 'Mark', 'McDonald', false, false);
     });
 });

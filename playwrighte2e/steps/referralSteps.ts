@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
 import { BaseStep } from "./base";
 
-const referralData = require('../data/ui-data/referral-content.json');
+const referralData = require('../resources/payload/referral-content.json');
 
 export default class ReferralSteps extends BaseStep {
   constructor(page: Page) {

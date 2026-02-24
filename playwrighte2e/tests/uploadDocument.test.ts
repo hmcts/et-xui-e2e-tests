@@ -1,10 +1,19 @@
 import { test } from '../fixtures/common.fixture';
-import fileUploadData from '../data/ui-data/file-upload-content.json';
+import fileUploadData from '../resources/payload/file-upload-content.json';
+import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
+import config from '../config/config.ts';
+import { CaseTypeLocation } from '../config/case-data.ts';
+
+let caseNumber: string;
+let caseId: string;
 
 test.describe('Upload Document with multiple file extensions', () => {
-    test.beforeEach(async ({ page, createCaseStep }) => {
+    test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
+      ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
+      await manageCaseDashboardPage.visit();
+      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
 
-        await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales");
+      caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     });
 
     test('Multiple file extension test', {tag: '@demo'}, async ({ caseListPage, uploadDocumentPage }) => {

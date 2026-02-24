@@ -4,8 +4,8 @@ import { BasePage } from './basePage';
 import config from '../config/config';
 import { faker } from '@faker-js/faker';
 
-const aatUrl = config.TestUrlForManageCaseAAT;
-const idamUrl = config.TestIdamUrl;
+const aatUrl = config.manageCaseBaseUrl;
+const idamUrl = config.idamUrl;
 
 declare global {
   var newUserEmail: string;
@@ -28,7 +28,7 @@ export default class LoginPage extends BasePage {
         forename: firstName,
         surname: lastName,
         email: emailAddress,
-        password: config.TestEnvETPassword,
+        password: config.etCaseWorker.password,
         active: true,
         roles: [
           {
@@ -56,7 +56,7 @@ export default class LoginPage extends BasePage {
     global.newUserEmail = await this.registerNewAccount();
     console.log('.... checking email address:', global.newUserEmail);
     await this.elements.username.fill(global.newUserEmail);
-    await this.elements.password.fill(config.TestEnvETPassword);
+    await this.elements.password.fill(config.etCaseWorker.password);
     await this.elements.submit.click();
   }
 

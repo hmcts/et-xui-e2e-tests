@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 import { BasePage } from "./basePage";
-import acasCertData from '../data/ui-data/acas-content.json';
+import acasCertData from '../resources/payload/acas-content.json';
 
 export default class SearchAcasPage extends BasePage {
 

@@ -8,12 +8,10 @@
           }
         }
       ],
-      "typesOfClaim": [
-        "discrimination"
-      ],
+      "typesOfClaim": ["discrimination"],
       "positionType": "ET1 Online submission",
       "conciliationTrack": "Open Track",
-      "receiptDate": "2019-08-17",
+      "receiptDate": "2026-02-19",
       "feeGroupReference": "",
       "managingOffice": "Glasgow",
       "stateAPI": null,

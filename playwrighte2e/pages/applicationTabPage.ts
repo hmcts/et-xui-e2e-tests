@@ -122,7 +122,7 @@ export class ApplicationTabPage extends BasePage {
     /* File upload is not working within the respond event, needs testing with newer version of playwright when released
         await this.addNewBtn.click();
         await this.page.waitForSelector(this.fileUpload);
-        await this.page.setInputFiles(this.fileUpload,'test/data/test.txt');
+        await this.page.setInputFiles(this.fileUpload,'playwrighte2e/resources/test_file/test.txt');
         await this.delay(10000);
         */
     await this.clickContinue();
@@ -149,7 +149,7 @@ export class ApplicationTabPage extends BasePage {
 
     await this.addNewBtn.click();
     await this.page.waitForSelector('#tseResponseSupportingMaterial_0_uploadedDocument');
-    await this.page.setInputFiles('#tseResponseSupportingMaterial_0_uploadedDocument', 'test/data/test.txt');
+    await this.page.setInputFiles('#tseResponseSupportingMaterial_0_uploadedDocument', 'playwrighte2e/resources/test_file/test.txt');
     await this.delay(5000);
     await this.clickContinue();
 

@@ -2,51 +2,74 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const configuration = {
-    TestUrlCitizenUi:process.env.TEST_URL_CITIZEN_UI||'',
-    TestUrlRespondentUi:process.env.TEST_RESP_URL||'',
-    TestUrlForManageCaseAAT:process.env.TEST_MANAGE_CASE_URL||'',
-    TestUrlForManageOrg:process.env.MANAGE_ORG_URL||'',
-    TestIdamUrl:process.env.IDAM_URL||'',
-    IdamAcccountUrl:process.env.IDAM_ACCOUNT_URL||'',
-    TestShowBrowserWindow:process.env.SHOW_BROWSER_WINDOW||false,
-    TestsPathToRun:process.env.E2E_TEST_PATH||'./**/*.js',
-    TestReportFolder:process.env.E2E_OUTPUT_DIR||'./functional-output/reports',
-    TestEnvETClaimantEmailAddress:process.env.ET_CITIZEN_USER_NAME||'',
-    TestEnvETClaimantPassword:process.env.ET_CITIZEN_PASSWORD||'',
-    TestApiKey:process.env.API_KEY||'',
-    TestEnvETCaseWorkerUser:process.env.ET_CASEWORKER_USER_NAME||'',
-    TestEnvETPassword:process.env.ET_CASEWORKER_PASSWORD||'',
-    TestEnvETManageCaseUser:process.env.ET_LEGAL_OPS_USER_NAME||'',
-    TestEnvETManageCasePassword:process.env.ET_LEGAL_OPS_PASSWORD||'',
-    TestEnvETLegalRepUser:process.env.ET_LEGALREP_USER_NAME||'',
-    TestEnvETLegalRepPassword:process.env.ET_LEGALREP_PASSWORD||'',
-    TestEnvETLegalOpsUser:process.env.ET_CTSC_ADMIN_USER_NAME||'',
-    TestEnvETHearingJudgeUserScot:process.env.ET_HEARING_JUDGE_USER_NAME_SCOT||'',
-    TestEnvETHearingJudgeUserEng:process.env.ET_HEARING_JUDGE_USER_NAME_ENG||'',
-    TestEnvETAdminUserEng:process.env.ET_HEARING_ADMIN_USER_NAME_ENG||'',
-    TestEnvETAdminUserScot:process.env.ET_HEARING_ADMIN_USER_NAME_SCOT||'',
-    TestCcdGwSecret:process.env.MICROSERVICE_CCD_GW||'',
-    TestEnvApiUser:process.env.ET_CCD_API_USER_NAME||'',
-    TestEnvApiPassword:process.env.ET_CCD_API_PASSWORD||'',
-    TestEnv:process.env.RUNNING_ENV||'',
-    TestEnvETJudgeUserEng:process.env.ET_JUDGE_USER_NAME_ENG||'',
-    TestEnvETJudgeUserEngPassword:process.env.ET_JUDGE_USER_ENG_PASSWORD||'',
-    TestEnvET3RespondentEmailAddress:process.env.ET3_REPSONDENT_USER_NAME||'',
-    TestEnvET3RespondentPassword:process.env.ET3_REPSONDENT_PASSWORD||'',
-    TestEnvETRespondentEmailAddress:process.env.ET_REPSONDENT_USER_NAME||'',
-    TestEnvETRespondentPassword:process.env.ET_REPSONDENT_PASSWORD||'',
-    TestEnvETManageOrgSuperUserName:process.env.ET_MANAGE_ORG_USERNAME || '',
-    TestEnvETManageOrgSuperPassword:process.env.ET_MANAGE_ORG_PASSWORD || '',
-    TestEnvETJudgeUserWorkAllocation:process.env.ET_JUDGE_USER_NAME_WORKALLOCATION || '',
-    TestEnvETJudgeUserPasswordWorkAllocation:process.env.ET_JUDGE_USER_PASSWORD_WORKALLOCATION || '',
-    EtCosPreviewEtSyaApiUrl: process.env.ET_COS_PREVIEW_ET_SYA_API || '',
-    EtCosPreviewCcdUrl: process.env.ET_COS_PREVIEW_CCD || '',
+  env: process.env.RUNNING_ENV || 'aat',
 
-    loginPaths: {
-        cases: 'cases',
-        worklist: 'work/my-work/list',
-        organisation: 'organisation',
-    }
+  etSyaUiUrl: process.env.TEST_URL_CITIZEN_UI || '',
+  etSyrUiUrl: process.env.TEST_RESP_URL || '',
+  manageCaseBaseUrl: process.env.TEST_MANAGE_CASE_URL || '',
+  TestUrlForManageOrg: process.env.MANAGE_ORG_URL || '',
+  idamUrl: process.env.IDAM_URL || '',
+
+  TestCcdGwSecret: process.env.MICROSERVICE_CCD_GW || '',
+
+  etClaimant: {
+    email: process.env.ET_CITIZEN_USER_NAME || '',
+    password: process.env.ET_CITIZEN_PASSWORD || ''
+  },
+
+  etCaseWorker: {
+    email: process.env.ET_CASEWORKER_USER_NAME || '',
+    password: process.env.ET_CASEWORKER_PASSWORD || ''
+  },
+
+  etManageCaseUser: {
+    email: process.env.ET_LEGAL_OPS_USER_NAME || '',
+    password: process.env.ET_LEGAL_OPS_PASSWORD || ''
+  },
+
+  etLegalRepresentative: {
+    email: process.env.ET_LEGALREP_USER_NAME || '',
+    password: process.env.ET_LEGALREP_PASSWORD || ''
+  },
+
+  etApiUser: {
+    email: process.env.ET_CCD_API_USER_NAME || '',
+    password: process.env.ET_CCD_API_PASSWORD || ''
+  },
+
+  etEnglandJudge: {
+    email: process.env.ET_JUDGE_USER_NAME_ENG || '',
+    password: process.env.ET_JUDGE_USER_ENG_PASSWORD || ''
+  },
+
+  etRespondent: {
+    email: process.env.ET3_REPSONDENT_USER_NAME || '',
+    password: process.env.ET3_REPSONDENT_PASSWORD || ''
+  },
+
+  etLegalRepresentative2: {
+    email: process.env.ET_REPSONDENT_USER_NAME || '',
+    password: process.env.ET_REPSONDENT_PASSWORD || ''
+  },
+
+  etManageOrgSuperUser: {
+    email: process.env.ET_MANAGE_ORG_USERNAME || '',
+    password: process.env.ET_MANAGE_ORG_PASSWORD || ''
+  },
+
+  etWorkAllocationJudge: {
+    email: process.env.ET_JUDGE_USER_NAME_WORKALLOCATION || '',
+    password: process.env.ET_JUDGE_USER_PASSWORD_WORKALLOCATION || ''
+  },
+
+  EtCosPreviewEtSyaApiUrl: process.env.ET_COS_PREVIEW_ET_SYA_API || '',
+  EtCosPreviewCcdUrl: process.env.ET_COS_PREVIEW_CCD || '',
+
+  loginPaths: {
+    cases: 'cases',
+    worklist: 'work/my-work/list',
+    organisation: 'organisation',
+  },
 };
 
 type ConfigurationType = typeof configuration;

@@ -1,21 +1,35 @@
 import { test } from "../fixtures/common.fixture";
+import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
+import config from '../config/config.ts';
+import { CaseTypeLocation } from '../config/case-data.ts';
 
 let caseNumber: string;
-let subRef: string;
+let caseId: string;
 
 test.describe('Digital Case File', () => {
-    test.beforeEach(async ({page, createCaseStep}) => {
-        ({subRef, caseNumber} = await createCaseStep.setupCaseCreatedViaApi(page, "England", "ET_EnglandWales"));
-
+    test.beforeEach(async () => {
+      ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
     });
 
-    test('Create a claim, perform DCF event', {tag: '@demo'}, async ({page,caseListPage, uploadDocumentPage}) => {
-        //list hearing
-        await caseListPage.selectNextEvent('Upload Document');
-        await uploadDocumentPage.uploadCaseManagementDocument();
-        await caseListPage.navigateToTab('Documents');
-        await uploadDocumentPage.createDCF();
-        await caseListPage.navigateToTab('Documents');
-        await uploadDocumentPage.validateDCF();
+    test('Create a claim, perform DCF event', {tag: '@demo'}, async ({manageCaseDashboardPage, loginPage, caseListPage, uploadDocumentPage}) => {
+      await manageCaseDashboardPage.visit();
+      await loginPage.processLogin(
+        config.etCaseWorker.email,
+        config.etCaseWorker.password,
+        config.loginPaths.worklist,
+      );
+
+      caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(
+        caseId,
+        CaseTypeLocation.EnglandAndWales,
+      );
+
+      await caseListPage.selectNextEvent('Upload Document');
+      await uploadDocumentPage.uploadCaseManagementDocument();
+      await caseListPage.navigateToTab('Documents');
+      await uploadDocumentPage.createDCF();
+      await caseListPage.navigateToTab('Documents');
+      await uploadDocumentPage.validateDCF();
+      await manageCaseDashboardPage.signOut();
     });
 });

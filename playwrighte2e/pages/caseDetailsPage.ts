@@ -1,7 +1,7 @@
 import { BasePage } from "./basePage";
 import { expect, Locator } from '@playwright/test';
 import { CaseEvent } from '../config/case-data';
-import { Tab, TabContentItem } from './types/tab';
+import { Tab, TabContentItem } from '../types/tab';
 
 export default class CaseDetailsPage extends BasePage {
     async addVPCaseFlag() {
