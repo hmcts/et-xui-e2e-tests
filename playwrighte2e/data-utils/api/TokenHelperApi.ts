@@ -1,6 +1,6 @@
 import * as OTPAuth from 'totp-generator';
 import {axiosRequest} from './ApiHelper.ts';
-import {readCache, writeCache} from './TokenCachingHelper.ts';
+import {readCache, writeCache} from '../CachingHelper.ts';
 import querystring from 'querystring';
 import config from '../../config/config.ts';
 
