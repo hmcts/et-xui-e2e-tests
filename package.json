@@ -68,7 +68,7 @@
     "@types/proper-lockfile": "^4",
     "config": "^4.0.0",
     "husky": "9.1.7",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "webdriverio": "9.19.2"
   },
   "resolutions": {
