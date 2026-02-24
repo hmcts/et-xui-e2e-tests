@@ -1,5 +1,4 @@
 // Interface for Case Events
-
 export enum CaseTypeLocation {
   EnglandAndWales = 'ET_EnglandWales',
   Scotland = 'ET_Scotland',
