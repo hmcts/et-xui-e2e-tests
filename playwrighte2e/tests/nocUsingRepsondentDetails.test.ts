@@ -13,8 +13,7 @@ test.describe('perform NOC for respondent', () => {
 
   test.beforeEach(async ({ manageCaseDashboardPage }) => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
-    const response = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
-    caseNumber = response.case_data.ethosCaseReference;
+    ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
     await manageCaseDashboardPage.visit();
     firstName = CaseDetailsValues.claimantFirstName;
     lastName = CaseDetailsValues.claimantLastName;

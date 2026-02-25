@@ -11,8 +11,7 @@ test.describe('Citizen applications', () => {
   //RET-5818
   test.beforeEach(async () => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
-    const response = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
-    caseNumber = response.case_data.ethosCaseReference;
+    ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
   });
 
   test('Citizen make an application, legal rep respond to it and caseworker validate documents - England',

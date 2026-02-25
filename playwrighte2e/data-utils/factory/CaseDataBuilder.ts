@@ -40,7 +40,7 @@ export class CaseDataBuilder {
     return this;
   }
 
-  async create(): Promise<{ caseId: string; caseNumber: string }> {
+  async create(): Promise<any> {
     return await ccdApi.createCaseInCcd(
       this.email,
       this.password,

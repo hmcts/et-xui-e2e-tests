@@ -10,8 +10,7 @@ let caseId: string;
 
 test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
   caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
-  const response = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
-  caseNumber = response.case_data.ethosCaseReference;
+  ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
   await manageCaseDashboardPage.visit();
   await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
   caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);

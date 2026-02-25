@@ -1,8 +1,9 @@
 import { test } from '../fixtures/common.fixture';
 import config from '../config/config';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
+import { LegalRepCaseFactory } from '../data-utils/factory/exui/LegalRepCaseFactory.ts';
 
 let caseNumber: string;
 let caseId: string;
@@ -14,8 +15,7 @@ const lastName = 'Becker';
 test.describe('ET3/Respondent Applications', () => {
     test.beforeEach(async () => {
       caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
-      const response = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
-      caseNumber = response.case_data.ethosCaseReference;
+      ({caseId, caseNumber} =  await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
    });
 
     test('Respondent makes Type B Application, Claimant respond to an application successfully', async ({ et3LoginPage, respondentCaseOverviewPage, citizenHubLoginPage, citizenHubPage}) => {
@@ -53,27 +53,39 @@ test.describe('ET3/Respondent Applications', () => {
 
 test.describe('ET3/Respondent Applications', () => {
     //too long UI work flow, create a case via API as a legal rep
-    test.skip('Legal Representative created a case, Respondent makes Type A Application, LR can see application', async ({page, createCaseStep,loginPage,caseListPage, legalRepPage,et3LoginPage, respondentCaseOverviewPage}) => {
-        const respName ='Mark McDonald';
-        const firstName ='Jessamine';
-        const lastName = 'Malcom';
+    test('Legal Representative created a case, Respondent makes Type A Application, LR can see application', async ({
+      page,
+      manageCaseDashboardPage,
+      loginPage,
+      caseListPage,
+      legalRepPage,
+      et3LoginPage,
+      respondentCaseOverviewPage,
+    }) => {
+      const respName = 'Mark McDonald';
+      const firstName = CaseDetailsValues.claimantFirstName;
+      const lastName = CaseDetailsValues.claimantLastName;
 
-        ({ subRef: caseId, caseNumber}  = await createCaseStep.setUpLegalRepCase(page));
-        await caseListPage.signoutButton();
+      ({ caseId, caseNumber } = await LegalRepCaseFactory.createAndProgressToSubmitEnglandWalesCase());
+      console.log('Created ' + caseId + caseNumber);
 
-        // assign case to respondent and make application
-        await et3LoginPage.processRespondentLogin(config.etRespondent.email, config.etRespondent.password, caseNumber);
-        await et3LoginPage.replyToNewClaim(caseId, caseNumber, respName, firstName, lastName);
-        await respondentCaseOverviewPage.respondentMakeApplication('TypeA', true);
-        await respondentCaseOverviewPage.signOutButtonSyr();
+      // assign case to respondent and make application
+      await et3LoginPage.processRespondentLogin(config.etRespondent.email, config.etRespondent.password, caseNumber);
+      await et3LoginPage.replyToNewClaim(caseId, caseNumber, respName, firstName, lastName);
+      await respondentCaseOverviewPage.respondentMakeApplication('TypeA', true);
+      await respondentCaseOverviewPage.signOutButtonSyr();
 
-        // legal rep view application
-        await page.goto(config.manageCaseBaseUrl);
-        await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
-        caseNumber = await caseListPage.navigateToCaseDetails(caseId, 'EnglandWales');
+      // legal rep view application
+      await manageCaseDashboardPage.visit();
+      await loginPage.processLogin(
+        config.etLegalRepresentative.email,
+        config.etLegalRepresentative.password,
+        config.loginPaths.cases,
+      );
+      caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
-        // legal rep can see an application
-        await legalRepPage.legalRepViewApplication();
+      // legal rep can see an application
+      await legalRepPage.legalRepViewApplication();
     });
 
 });

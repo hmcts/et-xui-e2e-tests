@@ -21,8 +21,7 @@ test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
               citizenHubPage
           }) => {
         caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
-        const response = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
-        caseNumber = response.case_data.ethosCaseReference;
+        ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
 
         //Assign a claim to respondent
         await et3LoginPage.processRespondentLogin(config.etRespondent.email, config.etRespondent.password, caseNumber);
