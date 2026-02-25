@@ -86,7 +86,6 @@ test.describe('Various events in mange case application for Scotland case', () =
     await manageCaseDashboardPage.visit();
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.Scotland);
-    //({ subRef: caseId, caseNumber } = await createCaseStep.setupCaseCreatedViaApi(page, 'Scotland', 'ET_Scotland'));
   });
 
 
@@ -105,7 +104,7 @@ test.describe('Various events in mange case application for Scotland case', () =
         tabName: 'Telephone Notes',
         tabContent:[
           'Telephone notes',
-          { tabItem: 'Case Notes', value: 'TEst Test', clickable: true },
+          { tabItem: 'Case Notes', value: '', clickable: true },
           { tabItem: 'Note', value: 'This is test'}
         ]
 
