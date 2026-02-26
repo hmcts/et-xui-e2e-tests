@@ -1,5 +1,4 @@
 import { test } from '../fixtures/common.fixture';
-import CreateCaseThroughApi from '../pages/createCaseThroughApi';
 import assert from 'node:assert';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import config from '../config/config.ts';

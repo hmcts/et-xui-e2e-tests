@@ -1,14 +1,14 @@
 import { test } from '../fixtures/common.fixture';
 import config from '../config/config';
+import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 
 let caseNumber: any;
-let submissionRef:string;
+let caseId:string;
 
 test.describe('Respondent Store Application for unrepresented cases', () => {
   //TODO
-  test.beforeEach(async ({ page, createCaseStep }) => {
-  //  submissionRef = await createCaseStep.setupCaseWorkerCaseVetAndAcceptViaApi(page, "England", "ET_EnglandWales", true);
-    submissionRef = '1752767563027673';
+  test.beforeEach(async () => {
+    ({caseId, caseNumber} = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
   });
 
 
@@ -17,7 +17,7 @@ test.describe('Respondent Store Application for unrepresented cases', () => {
     async ({ page, loginPage, caseListPage, et3LoginPage, respondentCaseOverviewPage }) => {
       await page.goto(config.manageCaseBaseUrl);
       await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-      caseNumber = await caseListPage.navigateToCaseDetails(submissionRef.toString(), 'EnglandWales');
+      caseNumber = await caseListPage.navigateToCaseDetails(caseId.toString(), 'EnglandWales');
 
       //RET-5466
       await et3LoginPage.processRespondentLoginForExistingCase(
@@ -35,7 +35,7 @@ test.describe('Respondent Store Application for unrepresented cases', () => {
     async ({ page, loginPage, caseListPage, et3LoginPage, respondentCaseOverviewPage }) => {
       await page.goto(config.manageCaseBaseUrl);
       await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-      caseNumber = await caseListPage.navigateToCaseDetails(submissionRef, 'EnglandWales');
+      caseNumber = await caseListPage.navigateToCaseDetails(caseId, 'EnglandWales');
 
       //RET-5466
       await et3LoginPage.processRespondentLoginForExistingCase(
