@@ -59,8 +59,7 @@ test.describe('Various events in mange case application', () => {
 test.describe('Claimant retaining access to transferred case', () => {
   test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
-    const response = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
-    caseNumber = response.case_data.ethosCaseReference;
+    ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
     await manageCaseDashboardPage.visit();
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
@@ -86,7 +85,6 @@ test.describe('Various events in mange case application for Scotland case', () =
     await manageCaseDashboardPage.visit();
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.Scotland);
-    //({ subRef: caseId, caseNumber } = await createCaseStep.setupCaseCreatedViaApi(page, 'Scotland', 'ET_Scotland'));
   });
 
 
@@ -105,7 +103,7 @@ test.describe('Various events in mange case application for Scotland case', () =
         tabName: 'Telephone Notes',
         tabContent:[
           'Telephone notes',
-          { tabItem: 'Case Notes', value: 'TEst Test', clickable: true },
+          { tabItem: 'Case Notes', value: '', clickable: true },
           { tabItem: 'Note', value: 'This is test'}
         ]
 

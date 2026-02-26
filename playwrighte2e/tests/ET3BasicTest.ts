@@ -15,8 +15,8 @@ let userPassword:any;
 test.describe('ET3/Respondent Journey', () => {
   test.beforeEach(async () => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
-    const response = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
-    caseNumber = response.case_data.ethosCaseReference;
+    ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
+
     userEmail = config.etRespondent.email;
     userPassword = config.etRespondent.password;
   });

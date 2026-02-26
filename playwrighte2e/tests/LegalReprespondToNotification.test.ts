@@ -10,8 +10,7 @@ let caseNumber: string;
 test.describe('Legal Rep Respond to an application made by caseworker', () => {
   test.beforeEach(async () => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
-    const response = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
-    caseNumber = response.case_data.ethosCaseReference;
+    ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
   });
 
   //RET-5921

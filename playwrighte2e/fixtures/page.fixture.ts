@@ -63,75 +63,76 @@ import EmploymentAndRespDetailsPage from '../pages/claimantCitizenHub/employment
 import ClaimDetailsPage from '../pages/claimantCitizenHub/claimDetailsPage.ts';
 import SubmitClaimPage from '../pages/claimantCitizenHub/submitClaimPage.ts';
 import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
+import Et1CreateDraftClaim from '../pages/et1CreateDraftClaim.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
 
 export type PageFixtures = {
-
-    applicationTabPage: ApplicationTabPage;
-    manageCaseDashboardPage: ManageCaseDashboardPage;
-    caseListPage: CaseListPage;
-    createCaseFlagPage: CreateCaseFlagPage;
-    manageCaseFlagPage: ManageCaseFlagPage;
-    et1CaseServingPage: Et1CaseServingPage;
-    et1VettingPage: Et1VettingPages;
-    loginPage: LoginPage;
-    listHearingPage: ListHearingPage;
-    legalRepPage: LegalRepPage;
-    citizenHubLoginPage: CitizenHubLoginPage;
-    citizenHubPage: CitizenHubPage;
-    caseLinkPage: CaseLinkPage;
-    respondentRepPage: RespondentRepPage;
-    et3LoginPage: ET3LoginPage;
-    respondentCaseOverviewPage: RespondentCaseOverviewPage;
-    respondentTaskListPage: RespondentTaskListPage;
-    responseLandingPage: ResponseLandingPage;
-    respContactDetailsPages: RespContactDetailsPages;
-    respClaimantDetails: RespClaimantDetails;
-    respContestClaim: RespContestClaim;
-    respSubmitEt3: RespSubmitEt3;
-    bfActionPage: BfActionPage;
-    jurisdictionPage: JurisdictionPage;
-    caseTransferPage: CaseTransferPage;
-    caseWorkerNotificationPage: CaseWorkerNotificationPage;
-    legalRepNotificationPage: LegalRepNotificationPage;
-    claimantDetailsPage: ClaimantDetailsPage;
-    respondentDetailsPage: RespondentDetailsPage;
-    nocPage: NocPage;
-    manageOrgPage: ManageOrgPage;
-    icUploadDocPage: ICUploadDocPage;
-    restrictedReportingPage: RestrictedReportingPage;
-    uploadDocumentPage:UploadDocumentPage
-    referralPage: ReferralPage;
-    draftJudgementPage: DraftJudgementPage;
-    issueJudgementPage: IssueJudgementPage;
-    searchAcasPage: SearchAcasPage;
-    lettersPage: LettersPage;
-    depositOrderPage: DepositOrderPage;
-    rolesAndAccessPage:RolesAndAccessPage;
-    taskPage:TaskPage;
-    hearingDetailsPage:HearingDetailsPage;
-    adrDocument:AdrDocumentPage;
-    caseDetailsPage:CaseDetailsPage;
-    et3NotificationPage: Et3NotificationPage;
-    documentsTabPage: DocumentsTabPage;
-    uploadHearingBundlePage:UploadHearingBundlePage;
-    caseNotesPage:CaseNotesPage;
-    claimantRepresentativePage:ClaimantRepresentativePage;
-    closeCasePage:CloseCasePage;
-    reinstateCasePage:ReinstateCasePage;
-    uploadDocumentsForHearingPage: UploadDocumentsForHearingPage;
-    checkYourAnswersPage: CheckYourAnswersPage;
-    baseEventPage: BaseEventPage;
-    contactTheTribunalPage: ContactTheTribunalPage;
-    prepareAbdSubmitDocumentPage: PrepareAndSubmitDocumentPage;
-    citizenPreLoginPage: CUIPreLoginPage;
-    citizenPostLoginPage: CUIPostLoginPages;
-    personalDetailsPage: PersonalDetailsPage;
-    employmentAndRespondentDetailsPage: EmploymentAndRespDetailsPage;
-    claimDetailsPage: ClaimDetailsPage;
-    submitClaimPage: SubmitClaimPage;
-}
+  applicationTabPage: ApplicationTabPage;
+  manageCaseDashboardPage: ManageCaseDashboardPage;
+  caseListPage: CaseListPage;
+  createCaseFlagPage: CreateCaseFlagPage;
+  manageCaseFlagPage: ManageCaseFlagPage;
+  et1CaseServingPage: Et1CaseServingPage;
+  et1VettingPage: Et1VettingPages;
+  loginPage: LoginPage;
+  listHearingPage: ListHearingPage;
+  legalRepPage: LegalRepPage;
+  citizenHubLoginPage: CitizenHubLoginPage;
+  citizenHubPage: CitizenHubPage;
+  caseLinkPage: CaseLinkPage;
+  respondentRepPage: RespondentRepPage;
+  et3LoginPage: ET3LoginPage;
+  respondentCaseOverviewPage: RespondentCaseOverviewPage;
+  respondentTaskListPage: RespondentTaskListPage;
+  responseLandingPage: ResponseLandingPage;
+  respContactDetailsPages: RespContactDetailsPages;
+  respClaimantDetails: RespClaimantDetails;
+  respContestClaim: RespContestClaim;
+  respSubmitEt3: RespSubmitEt3;
+  bfActionPage: BfActionPage;
+  jurisdictionPage: JurisdictionPage;
+  caseTransferPage: CaseTransferPage;
+  caseWorkerNotificationPage: CaseWorkerNotificationPage;
+  legalRepNotificationPage: LegalRepNotificationPage;
+  claimantDetailsPage: ClaimantDetailsPage;
+  respondentDetailsPage: RespondentDetailsPage;
+  nocPage: NocPage;
+  manageOrgPage: ManageOrgPage;
+  icUploadDocPage: ICUploadDocPage;
+  restrictedReportingPage: RestrictedReportingPage;
+  uploadDocumentPage: UploadDocumentPage;
+  referralPage: ReferralPage;
+  draftJudgementPage: DraftJudgementPage;
+  issueJudgementPage: IssueJudgementPage;
+  searchAcasPage: SearchAcasPage;
+  lettersPage: LettersPage;
+  depositOrderPage: DepositOrderPage;
+  rolesAndAccessPage: RolesAndAccessPage;
+  taskPage: TaskPage;
+  hearingDetailsPage: HearingDetailsPage;
+  adrDocument: AdrDocumentPage;
+  caseDetailsPage: CaseDetailsPage;
+  et3NotificationPage: Et3NotificationPage;
+  documentsTabPage: DocumentsTabPage;
+  uploadHearingBundlePage: UploadHearingBundlePage;
+  caseNotesPage: CaseNotesPage;
+  claimantRepresentativePage: ClaimantRepresentativePage;
+  closeCasePage: CloseCasePage;
+  reinstateCasePage: ReinstateCasePage;
+  uploadDocumentsForHearingPage: UploadDocumentsForHearingPage;
+  checkYourAnswersPage: CheckYourAnswersPage;
+  baseEventPage: BaseEventPage;
+  contactTheTribunalPage: ContactTheTribunalPage;
+  prepareAbdSubmitDocumentPage: PrepareAndSubmitDocumentPage;
+  citizenPreLoginPage: CUIPreLoginPage;
+  citizenPostLoginPage: CUIPostLoginPages;
+  personalDetailsPage: PersonalDetailsPage;
+  employmentAndRespondentDetailsPage: EmploymentAndRespDetailsPage;
+  claimDetailsPage: ClaimDetailsPage;
+  submitClaimPage: SubmitClaimPage;
+  et1CreateDraftClaim: Et1CreateDraftClaim;
+};
 
 export const pageFixtures = base.extend<PageFixtures>({
 
@@ -363,5 +364,8 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   submitClaimPage:async({page}, use)=>{
     await use (new SubmitClaimPage (page));
+  },
+  et1CreateDraftClaim:async({page}, use)=>{
+    await use (new Et1CreateDraftClaim (page));
   }
 });

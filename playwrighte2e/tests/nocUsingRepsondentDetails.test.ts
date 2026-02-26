@@ -13,8 +13,7 @@ test.describe('perform NOC for respondent', () => {
 
   test.beforeEach(async ({ manageCaseDashboardPage }) => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
-    const response = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
-    caseNumber = response.case_data.ethosCaseReference;
+    ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
     await manageCaseDashboardPage.visit();
     firstName = CaseDetailsValues.claimantFirstName;
     lastName = CaseDetailsValues.claimantLastName;
@@ -30,7 +29,7 @@ test.describe('perform NOC for respondent', () => {
 
   //RET-5787
   test('Process NOC using claimant details, assign a new claimant representative and check original claimant representative cannot access a case',
-    async ({ manageCaseDashboardPage, caseListPage, loginPage, legalRepPage, citizenHubPage,axeUtils}) => {
+    async ({ manageCaseDashboardPage, caseListPage, loginPage, legalRepPage,axeUtils}) => {
       await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
       await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', caseId, caseNumber, firstName, lastName, false, false,axeUtils);
       await manageCaseDashboardPage.signOut();

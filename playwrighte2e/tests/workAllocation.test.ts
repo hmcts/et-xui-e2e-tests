@@ -17,11 +17,15 @@ test.describe('Work Allocation', () => {
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
-  test('CTSC user assign a task to itself and completes a task', async ({ page, caseListPage, createCaseStep }) => {
+  test('CTSC user assign a task to itself and completes a task', async ({
+    page,
+    caseListPage,
+    et1VettingPage,
+  }) => {
     //user completes a task
     await caseListPage.navigateToTab('Tasks');
     await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'Et1 Vetting', 'ET1 Vetting');
-    await createCaseStep.completeEt1VettingTask();
+    await et1VettingPage.processET1CaseVettingPages();
   });
 
   test('Caseworker sends Referral- Referral task generated, Judge assign and completes referral task', async ({

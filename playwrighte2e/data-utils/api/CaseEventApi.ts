@@ -72,8 +72,10 @@ export class CaseEventApi {
    * @param caseId - The ID of the case to process.
    * @returns {Promise<any>} The response from the last update step.
    */
-  static async caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId: string): Promise<any> {
-    return await this.updateCaseWorkerSteps(caseId, CaseTypeLocation.EnglandAndWales, [
+  static async caseWorkerDoesEt1VettingAndAcceptCaseEngland(
+    caseId: string,
+  ): Promise<{ caseId: string; caseNumber: string }> {
+    const response = await this.updateCaseWorkerSteps(caseId, CaseTypeLocation.EnglandAndWales, [
       { event: Events.et1Vetting.ccdCallback, payload: PayloadPath.events.et1vetting },
       {
         event: Events.acceptRejectCase.ccdCallback,
@@ -84,6 +86,8 @@ export class CaseEventApi {
         ],
       },
     ]);
+    const caseNumber = response.case_data.ethosCaseReference;
+    return { caseId, caseNumber };
   }
 
   /**
@@ -93,8 +97,10 @@ export class CaseEventApi {
    * @param caseId - The ID of the case to process.
    * @returns {Promise<any>} The response from the last update step.
    */
-  static async caseWorkerDoesEt1VettingAndAcceptCaseScotland(caseId: string): Promise<any> {
-    return await this.updateCaseWorkerSteps(caseId, CaseTypeLocation.Scotland, [
+  static async caseWorkerDoesEt1VettingAndAcceptCaseScotland(
+    caseId: string,
+  ): Promise<{ caseId: string; caseNumber: string }> {
+    const response = await this.updateCaseWorkerSteps(caseId, CaseTypeLocation.Scotland, [
       { event: Events.et1Vetting.ccdCallback, payload: PayloadPath.events.et1vetting },
       {
         event: Events.acceptRejectCase.ccdCallback,
@@ -105,5 +111,21 @@ export class CaseEventApi {
         ],
       },
     ]);
+    const caseNumber = response.case_data.ethosCaseReference;
+    return { caseId, caseNumber };
+  }
+
+  static async legalRepProgressToSubmission(
+    caseId: string,
+    caseTypeLocation: CaseTypeLocation,
+  ): Promise<{ caseId: string; caseNumber: string }> {
+    const response = await this.updateLegalRepSteps(caseId, caseTypeLocation, [
+      { event: Events.et1SectionOneClaimantDetails.ccdCallback, payload: PayloadPath.LegalRep.et1section1 },
+      { event: Events.et1SectionTwoRespondentDetails.ccdCallback, payload: PayloadPath.LegalRep.et1Section2 },
+      { event: Events.et1SectionThreeClaimDetails.ccdCallback, payload: PayloadPath.LegalRep.et1Section3 },
+      { event: Events.et1SubmitClaim.ccdCallback, payload: PayloadPath.LegalRep.et1SubmitClaim },
+    ]);
+    let caseNumber = response.case_data.ethosCaseReference;
+    return { caseId, caseNumber };
   }
 }

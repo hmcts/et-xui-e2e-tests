@@ -11,7 +11,7 @@ test.describe('Digital Case File', () => {
       ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
     });
 
-    test('Create a claim, perform DCF event', {tag: '@demo'}, async ({manageCaseDashboardPage, loginPage, caseListPage, uploadDocumentPage}) => {
+    test('Create a claim, perform DCF event', {tag: '@demo'}, async ({manageCaseDashboardPage, loginPage, caseListPage, uploadDocumentPage, caseDetailsPage}) => {
       await manageCaseDashboardPage.visit();
       await loginPage.processLogin(
         config.etCaseWorker.email,
@@ -29,7 +29,15 @@ test.describe('Digital Case File', () => {
       await caseListPage.navigateToTab('Documents');
       await uploadDocumentPage.createDCF();
       await caseListPage.navigateToTab('Documents');
-      await uploadDocumentPage.validateDCF();
+      await caseDetailsPage.assertTabData([
+        {
+          tabName: 'Documents',
+          tabContent:[
+            'Digital Case File',
+            { tabItem: 'Status', value:'DCF Updating:', exact: false },
+          ]
+        }
+      ])
       await manageCaseDashboardPage.signOut();
     });
 });

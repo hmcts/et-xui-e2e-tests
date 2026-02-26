@@ -82,7 +82,7 @@ export class CcdApi {
     caseTypeLocation: CaseTypeLocation,
     eventId: string,
     dataModifications: ReplacementAction[] = [],
-  ): Promise<{ caseId: string; caseNumber: string }> {
+  ): Promise<any> {
     if (!process.env.CI) {
       console.info('Creating CCD case with event %s for type %s...', eventId, caseTypeLocation);
     }
@@ -117,7 +117,7 @@ export class CcdApi {
       console.info('Created case with id %s and number %s', caseId, caseNumber);
     }
 
-    return { caseId, caseNumber };
+    return saveCaseResponse?.data;
   }
 
   /**

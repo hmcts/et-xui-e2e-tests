@@ -25,13 +25,6 @@ export default class UploadDocumentPage extends BasePage {
     await this.clickSubmitButton();
   }
 
-  async validateDCF() {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.createDcfLink));
-    await this.delay(10000);
-    await expect(this.page.locator('ccd-read-complex-field-table')).toContainText('-DCF.pdf');
-    await expect(this.page.locator('ccd-read-complex-field-table')).toContainText('DCF Generated:');
-  }
-
   async uploadFile(fileName: string, docNumber: number) {
     await this.page.waitForSelector('text=Case documentation', { timeout: 10000 });
     await this.addNewUploadDocButtonClick();
