@@ -21,28 +21,21 @@ test.describe('Make an application and view Recorded Decision', () => {
     });
 
     //RET-5787
-    test.skip('Legal representatives make and application - England', async ({
+    test('Legal representatives make and application - England', async ({
       manageCaseDashboardPage,
       citizenHubLoginPage,
       citizenHubPage,
       loginPage,
       legalRepPage,
-      applicationTabPage,
+      applicationTabPage, nocPage
     }) => {
       await loginPage.processLogin(
         config.etLegalRepresentative.email,
         config.etLegalRepresentative.password,
         config.loginPaths.cases,
       );
-      await legalRepPage.processNOCForClaimantOrRespondent(
-        'Eng/Wales - Singles',
-        caseId,
-        caseNumber,
-        firstName,
-        lastName,
-        false,
-        true,
-      );
+      await manageCaseDashboardPage.navigateToNoticeOfChange();
+      await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
       //legal rep make an application
@@ -70,7 +63,7 @@ test.describe('Make an application and view Recorded Decision', () => {
     });
 
     //RET-5787
-    test.skip(
+    test(
       'Legal representatives make and application, caseworker record a decision, LR and citizen view a decision - E/W',
       { tag: '@demo' },
       async ({
@@ -79,21 +72,24 @@ test.describe('Make an application and view Recorded Decision', () => {
         citizenHubPage,
         loginPage,
         legalRepPage,
-        applicationTabPage,
+        applicationTabPage, nocPage
       }) => {
         await loginPage.processLogin(
           config.etLegalRepresentative.email,
           config.etLegalRepresentative.password,
           config.loginPaths.cases,
         );
-        await legalRepPage.processNOCForClaimantOrRespondent(
-          'Eng/Wales - Singles',
-          caseId,
-          respondentName,
-          firstName,
-          lastName,
-          false,
-        );
+        await manageCaseDashboardPage.navigateToNoticeOfChange();
+        await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
+
+        // await legalRepPage.processNOCForClaimantOrRespondent(
+        //   'Eng/Wales - Singles',
+        //   caseId,
+        //   caseNumber,
+        //   firstName,
+        //   lastName,
+        //   false,
+        // );
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         //legal rep make an application
@@ -117,15 +113,22 @@ test.describe('Make an application and view Recorded Decision', () => {
         //citizen view notification about decision
         await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
         await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
-        //  await citizenHubPage.validateRecordDecisionBanner(); RET-5707 bug ticket raised for the failing step
+        //await citizenHubPage.validateRecordDecisionBanner(); RET-5707 bug ticket raised for the failing step
         await manageCaseDashboardPage.signOut();
       },
     );
 
-    test.skip('England - submit ET3 as a legal Representative', async ({ manageCaseDashboardPage,loginPage, legalRepPage, et1CaseServingPage,caseListPage, lettersPage, et3ProcessingSteps }) => {
+    test.skip('England - submit ET3 as a legal Representative', async ({ manageCaseDashboardPage,loginPage, legalRepPage, nocPage,caseListPage, lettersPage, et3ProcessingSteps }) => {
         //To long UI , flaky test: solution perform all ET3 event in separate test with same case
       await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
-      await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', caseId, respondentName, firstName, lastName, true);
+      await manageCaseDashboardPage.navigateToNoticeOfChange();
+      await nocPage.processNocRequest(
+        caseId,
+        CaseDetailsValues.respondentName,
+        caseNumber,
+      );
+
+      //await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', caseId, respondentName, firstName, lastName, true);
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
       //perform all ET3 events as a LR

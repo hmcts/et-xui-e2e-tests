@@ -14,33 +14,41 @@ test.describe('Citizen applications', () => {
     ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
   });
 
-  test('Citizen make an application, legal rep respond to it and caseworker validate documents - England',
-    async ({
-             page,
-             manageCaseDashboardPage,
-             citizenHubLoginPage,
-             citizenHubPage,
-             loginPage,
-             legalRepPage,
-             caseListPage,
-             applicationTabPage, documentsTabPage,
-             contactTheTribunalPage
-         }) => {
+  test('Citizen make an application, legal rep respond to it and caseworker validate documents - England', async ({
+    page,
+    manageCaseDashboardPage,
+    citizenHubLoginPage,
+    citizenHubPage,
+    loginPage,
+    nocPage,
+    caseListPage,
+    applicationTabPage,
+    documentsTabPage,
+    contactTheTribunalPage,
+  }) => {
     const firstName = CaseDetailsValues.claimantFirstName;
     const lastName = CaseDetailsValues.claimantLastName;
 
     // perform NOC
     await manageCaseDashboardPage.visit();
-    await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
-    await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', caseId, caseNumber, firstName, lastName, false, true);
-    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
+    await loginPage.processLogin(
+      config.etLegalRepresentative.email,
+      config.etLegalRepresentative.password,
+      config.loginPaths.cases,
+    );
+    await manageCaseDashboardPage.navigateToNoticeOfChange();
+    await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
     await manageCaseDashboardPage.signOut();
 
     // Citizen rep make an application
     await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
     await citizenHubPage.navigateToContactTheTribunalPage();
-    await contactTheTribunalPage.makeApplicationToTribunal('change personal details', 'Citizen made an application', 'Yes')
+    await contactTheTribunalPage.makeApplicationToTribunal(
+      'change personal details',
+      'Citizen made an application',
+      'Yes',
+    );
     await contactTheTribunalPage.clickSubmitButton();
     await contactTheTribunalPage.assertApplicationSentSuccessPageIsDisplayed();
     await contactTheTribunalPage.clickCloseAndReturn();
@@ -48,7 +56,11 @@ test.describe('Citizen applications', () => {
 
     // Legal Rep respond to an application
     await manageCaseDashboardPage.visit();
-    await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
+    await loginPage.processLogin(
+      config.etLegalRepresentative.email,
+      config.etLegalRepresentative.password,
+      config.loginPaths.cases,
+    );
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
     await applicationTabPage.legalRepRespondToAnApplication();

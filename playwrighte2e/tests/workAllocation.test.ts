@@ -29,49 +29,47 @@ test.describe('Work Allocation', () => {
   });
 
   test('Caseworker sends Referral- Referral task generated, Judge assign and completes referral task', async ({
-    page, manageCaseDashboardPage,
+    page,
+    manageCaseDashboardPage,
     caseListPage,
-    referralSteps,
+    referralPage,
     loginPage,
   }) => {
     //send referral
-    await referralSteps.processReferrals(
-      referralData.createNewReferral,
-      referralPage => referralPage.sendNewReferral(false),
-      caseListPage => caseListPage.verifyReferralDetails(),
-    );
+    await caseListPage.navigateToTab(referralData.tabName);
+    await caseListPage.verifyAndClickLinkInTab(referralData.createNewReferral);
+    await referralPage.sendNewReferral(false);
+
+    //verify referral details
+    await caseListPage.navigateToTab(referralData.tabName);
+    await caseListPage.verifyReferralDetails();
+
     //sign out as caseworker
-    await caseListPage.signoutButton();
+    await manageCaseDashboardPage.signOut();
 
     //log in as judge & assign and completes a task
     await loginPage.processLogin(
       config.etWorkAllocationJudge.email,
       config.etWorkAllocationJudge.password,
-      config.loginPaths.cases
+      config.loginPaths.cases,
     );
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     await caseListPage.navigateToTab('Tasks');
 
     await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'Review Referral #1 - ET1', 'Reply to the Referral');
-    await referralSteps.processReferralsForWa(referralPage => referralPage.replyToReferral());
+    await referralPage.replyToReferral();
   });
 
-  test('Roles and Access', async ({
-    page,
-    caseListPage,
-    rolesAndAccessPage,
-    referralSteps,
-    taskPage,
-  }) => {
+  test('Roles and Access', async ({ page, caseListPage, rolesAndAccessPage, referralPage, taskPage }) => {
     await caseListPage.navigateToTab('Tasks');
     await Helpers.waitForTask(page, 'Et1 Vetting');
     await caseListPage.navigateToTab('Roles and access');
     await rolesAndAccessPage.assignAccessToCtscUser();
 
     //new task - send a referral
-    await referralSteps.processSendReferralsForWa(referralData.createNewReferral, referralPage =>
-      referralPage.sendNewReferral(true),
-    );
+    await caseListPage.navigateToTab(referralData.tabName);
+    await caseListPage.verifyAndClickLinkInTab(referralData.createNewReferral);
+    await referralPage.sendNewReferral(true);
 
     await caseListPage.navigateToTab('Tasks');
     await Helpers.waitForTask(page, 'Review Referral #1 - ET1');

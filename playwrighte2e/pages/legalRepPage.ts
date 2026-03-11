@@ -104,92 +104,6 @@ export class LegalRepPage extends BasePage {
     '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Applications"]';
   expandImgIcon = 'div a img';
 
-  async loadExistingApplications(option: string) {
-    await this.page.reload();
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 30000);
-    await this.webActions.clickElementByCss(this.manageCasesLinkLegalRep);
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseTypeDropdown), 30000);
-
-    await this.page.reload();
-    await this.page.waitForTimeout(5000);
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.resetButton), 35000);
-
-    await this.page.waitForSelector(`text=${this.caseListText}`);
-    await this.page.waitForTimeout(5000);
-    try {
-      switch (option) {
-        case 'Eng/Wales - Singles':
-          await this.webActions.selectByLabelFromDropDown(this.caseTypeDropdown, 'Eng/Wales - Singles');
-          break;
-        case 'Scotland':
-        case 'Scotland - Singles':
-          await this.webActions.selectByLabelFromDropDown(this.caseTypeDropdown, 'Scotland - Singles (RET)');
-          break;
-        default:
-          throw new Error('... check your options or add new option');
-      }
-    } catch (error) {
-      console.error('invalid option', error);
-    }
-    await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-    await this.page.waitForTimeout(3000);
-    await this.webActions.clickElementByCss(this.applyButton);
-  }
-
-  async processNOCForClaimantOrRespondent(
-    option: string,
-    submissionReference: string,
-    caseReference: string,
-    ClaimantFirstName: string,
-    ClaimantLastName: string,
-    accessibilityEnabled?: boolean,
-    isRespondent?: boolean,
-    axeUtils?: AxeUtils,
-  ) {
-    //await this.loadExistingApplications(option);
-    //await this.page.reload();
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.nocLinkLegalRep), 25000);
-
-    if (accessibilityEnabled && axeUtils) await axeUtils.audit();
-    await this.webActions.clickElementByCss(this.nocLinkLegalRep);
-    await this.page.waitForTimeout(10000);
-
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseIdFilField), 10000);
-    if (accessibilityEnabled && axeUtils) await axeUtils.audit();
-    await this.webActions.fillField(this.caseIdFilField, submissionReference);
-    await this.webActions.clickElementByCss(this.continueLegalRepButton);
-
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.fieldSetLegalRep), 10000);
-    if (accessibilityEnabled && axeUtils) await axeUtils.audit();
-    if (isRespondent) {
-      //enter respondent details for NOC
-      await this.webActions.fillField(this.respondentDetailsLegalRep, respondentName);
-    } else {
-      //enter claimant details for NOC
-      await this.webActions.fillField(this.respondentDetailsLegalRep, ClaimantFirstName + ' ' + ClaimantLastName);
-    }
-    await this.webActions.fillField(this.caseReference, caseReference);
-    await this.page.waitForTimeout(5000);
-    await this.webActions.clickElementByCss(this.continueLegalRepButton);
-
-    await this.page.waitForTimeout(10000);
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.detailConfirmationCheckbox), 10000);
-    await this.webActions.checkElementById(this.detailConfirmationCheckbox);
-    await this.webActions.checkElementById(this.notifyPartyCheckbox);
-
-    await this.page.waitForTimeout(2000);
-    await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-
-    if (accessibilityEnabled && axeUtils) await axeUtils.audit();
-    await this.webActions.clickElementByCss(this.submitButtonLegalRep);
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.successfulMessageHeader), 20000);
-
-    await this.page.goto(
-      `${config.manageCaseBaseUrl}/case-details/EMPLOYMENT/ET_EnglandWales/${submissionReference}`,
-    );
-    await this.page.waitForTimeout(10000);
-  }
-
   async submitDocumentForHearingRespondent(
     agreement: string,
     whoseDocu: string,
@@ -311,13 +225,6 @@ export class LegalRepPage extends BasePage {
     await expect(this.page.getByText('welshTest.pdf')).toBeVisible();
   }
 
-  async verifyHearingDocumentReceipientValues(fieldLabel: string, fieldValue: string) {
-    await this.webActions.clickElementByCss(this.expandImgIcon);
-    await expect(
-      this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`),
-    ).toBeVisible();
-  }
-
   async completeDraftET3ResponseForm() {
     await this.et3RespondentDetails();
     await this.et3EmploymentDetails();
@@ -343,7 +250,7 @@ export class LegalRepPage extends BasePage {
     await this.page.fill(this.et3postCodeInput, 'KA11 5DG');
     await this.page.click(this.findAddressButton);
     await this.page.waitForSelector(this.addressListDropdown, { timeout: 2000 });
-    await this.page.selectOption(this.addressListDropdown, '1: Object');
+    await this.page.selectOption(this.addressListDropdown, '2: Object');
     await this.page.click(this.continueLegalRepButton);
     await this.page.waitForTimeout(5000);
     await this.page.waitForSelector('text=What is your contact phone number? (Optional)');
@@ -445,16 +352,6 @@ export class LegalRepPage extends BasePage {
     await this.page.click(this.continueLegalRepButton);
   }
 
-  async legalRepViewJudgmentOrderorNotification() {
-    await this.page.waitForSelector(this.viewJudgmentOrderOrNotificationLink, { timeout: 10000 });
-    await this.page.click(this.viewJudgmentOrderOrNotificationLink);
-    await this.page.waitForSelector('text=View a judgment, order or notification');
-    await this.page.selectOption(this.selectJudgmentOrderorNotificationDropdown, '1: 1');
-    await this.page.waitForTimeout(3000);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector('text=View Application');
-  }
-
   async submitET3ResponseForm() {
     await this.page.waitForSelector(this.selectCompletedDraftET3, { timeout: 10000 });
     await this.page.selectOption(this.selectCompletedDraftET3, '1: R: Mrs Test Auto');
@@ -466,11 +363,6 @@ export class LegalRepPage extends BasePage {
     await this.page.waitForTimeout(5000);
     await this.page.click(this.continueLegalRepButton);
     await this.page.waitForTimeout(5000);
-    await this.page.click(this.continueLegalRepButton);
-  }
-
-  async grantAccessToMultiples(caseNumber: string) {
-    await this.page.waitForSelector(`text=${caseNumber}`, { timeout: 10000 });
     await this.page.click(this.continueLegalRepButton);
   }
 

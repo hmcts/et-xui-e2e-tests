@@ -17,10 +17,10 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
   test('Perform NOC using claimant details, caseworker sends notification and (claimant)legal rep respond to notification', async ({
     manageCaseDashboardPage,
     loginPage,
-    legalRepPage,
     caseListPage,
     caseWorkerNotificationPage,
     legalRepNotificationPage,
+    nocPage,
   }) => {
     const firstName = CaseDetailsValues.claimantFirstName;
     const lastName = CaseDetailsValues.claimantLastName;
@@ -31,15 +31,8 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
       config.etLegalRepresentative.password,
       config.loginPaths.cases,
     );
-    await legalRepPage.processNOCForClaimantOrRespondent(
-      'Eng/Wales - Singles',
-      caseId,
-      caseNumber,
-      firstName,
-      lastName,
-      false,
-      false,
-    );
+    await manageCaseDashboardPage.navigateToNoticeOfChange();
+    await nocPage.processNocRequest(caseId, `${firstName} ${lastName}`, caseNumber);
     await manageCaseDashboardPage.signOut();
 
     //caseworker send notification
@@ -73,27 +66,19 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
   test('Perform NOC using respondent details, caseworker sends notification and (respondent)legal rep respond to notification', async ({
     manageCaseDashboardPage,
     loginPage,
-    legalRepPage,
     caseListPage,
     caseWorkerNotificationPage,
     legalRepNotificationPage,
+    nocPage,
   }) => {
-
     await manageCaseDashboardPage.visit();
     await loginPage.processLogin(
       config.etLegalRepresentative.email,
       config.etLegalRepresentative.password,
       config.loginPaths.cases,
     );
-    await legalRepPage.processNOCForClaimantOrRespondent(
-      'Eng/Wales - Singles',
-      caseId,
-      caseNumber,
-      '',
-      '',
-      false,
-      true,
-    );
+    await manageCaseDashboardPage.navigateToNoticeOfChange();
+    await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
     await manageCaseDashboardPage.signOut();
 
     //caseworker send notification

@@ -24,7 +24,6 @@ import CaseTransferPage from '../pages/caseTransferPage';
 import CaseWorkerNotificationPage from '../pages/notifications/CaseWorkerNotificationPage.ts';
 import ClaimantDetailsPage from '../pages/claimantDetailsPage';
 import RespondentDetailsPage from '../pages/respondentCitizenHub/respondentDetailsPage.ts';
-import NocPage from '../pages/nocPage';
 import { ManageOrgPage } from '../pages/manageOrgPage';
 import ICUploadDocPage from '../pages/icUploadDocPage';
 import { RestrictedReportingPage } from '../pages/restrictedReportingPage';
@@ -64,6 +63,8 @@ import ClaimDetailsPage from '../pages/claimantCitizenHub/claimDetailsPage.ts';
 import SubmitClaimPage from '../pages/claimantCitizenHub/submitClaimPage.ts';
 import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
 import Et1CreateDraftClaim from '../pages/et1CreateDraftClaim.ts';
+import { NocPage } from '../pages/legalRepresentative/NocPage.ts';
+import ET3ProcessPage from '../pages/et3ProcessPage.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
 
@@ -132,6 +133,7 @@ export type PageFixtures = {
   claimDetailsPage: ClaimDetailsPage;
   submitClaimPage: SubmitClaimPage;
   et1CreateDraftClaim: Et1CreateDraftClaim;
+  et3ProcessPage: ET3ProcessPage;
 };
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -367,5 +369,8 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   et1CreateDraftClaim:async({page}, use)=>{
     await use (new Et1CreateDraftClaim (page));
+  },
+  et3ProcessPage:async({page}, use)=>{
+    await use (new ET3ProcessPage (page));
   }
 });
