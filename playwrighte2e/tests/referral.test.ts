@@ -12,7 +12,7 @@ test.describe.serial('England - Referral test', () => {
     test(
       'New referral',
       { tag: '@demo' },
-      async ({ manageCaseDashboardPage, loginPage, caseListPage, referralSteps,initialConsiderationPage }) => {
+      async ({ manageCaseDashboardPage, loginPage, caseListPage, referralPage, initialConsiderationPage }) => {
         ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
         await manageCaseDashboardPage.visit();
         await loginPage.processLogin(
@@ -23,12 +23,14 @@ test.describe.serial('England - Referral test', () => {
 
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
-        //Send & verify new referral
-        await referralSteps.processReferrals(
-          referralData.createNewReferral,
-          referralPage => referralPage.sendNewReferral(false),
-          caseListPage => caseListPage.verifyReferralDetails(),
-        );
+        //Send new referral
+        await caseListPage.navigateToTab(referralData.tabName);
+        await caseListPage.verifyAndClickLinkInTab(referralData.createNewReferral);
+        await referralPage.sendNewReferral(false);
+
+        //verify referral details
+        await caseListPage.navigateToTab(referralData.tabName);
+        await caseListPage.verifyReferralDetails();
 
         await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
         await caseListPage.selectNextEvent('Initial Consideration');
@@ -42,7 +44,7 @@ test.describe.serial('England - Referral test', () => {
     test(
       'Reply to a referral',
       { tag: '@demo' },
-      async ({ manageCaseDashboardPage, caseListPage, loginPage, referralSteps }) => {
+      async ({ manageCaseDashboardPage, caseListPage, loginPage, referralPage }) => {
         await manageCaseDashboardPage.visit();
 
         //judge logs in
@@ -54,11 +56,13 @@ test.describe.serial('England - Referral test', () => {
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         //Reply & verify a referral
-        await referralSteps.processReferrals(
-          referralData.replyToReferral,
-          referralPage => referralPage.replyToReferral(),
-          caseListPage => caseListPage.verifyReplyReferralDetails(),
-        );
+        await caseListPage.navigateToTab(referralData.tabName);
+        await caseListPage.verifyAndClickLinkInTab(referralData.replyToReferral);
+        await referralPage.replyToReferral();
+
+        //verify referral details
+        await caseListPage.navigateToTab(referralData.tabName);
+        await caseListPage.verifyReplyReferralDetails();
 
         await caseListPage.verifyReplyDetailsOnTab('Admin');
         await caseListPage.verifyReplyDetailsOnTab('This is a test direction');
@@ -69,7 +73,7 @@ test.describe.serial('England - Referral test', () => {
     test(
       'Z - Close a referral',
       { tag: '@demo' },
-      async ({ manageCaseDashboardPage, loginPage, referralSteps }) => {
+      async ({ manageCaseDashboardPage, loginPage, caseListPage, referralPage }) => {
         await manageCaseDashboardPage.visit();
 
         //judge logs in
@@ -81,11 +85,13 @@ test.describe.serial('England - Referral test', () => {
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         // Close & verify a referral
-        await referralSteps.processReferrals(
-          referralData.closeReferral,
-          referralPage => referralPage.closeAReferral(),
-          caseListPage => caseListPage.verifyCloseReferralDetails(),
-        );
+        await caseListPage.navigateToTab(referralData.tabName);
+        await caseListPage.verifyAndClickLinkInTab(referralData.closeReferral);
+        await referralPage.closeAReferral();
+
+        //verify referral details
+        await caseListPage.navigateToTab(referralData.tabName);
+        await caseListPage.verifyCloseReferralDetails();
         await manageCaseDashboardPage.signOut();
       },
     );
