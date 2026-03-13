@@ -2,7 +2,7 @@ import { test } from '../fixtures/common.fixture';
 import config from '../config/config';
 import userDetailsData from '../resources/payload/user-details.json';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
 
 let caseNumber: string;
 let caseId: string;
@@ -20,6 +20,7 @@ test.describe('Legal Representative submits a case and perform various events', 
       loginPage,
       legalRepPage,
       et1CreateDraftClaim,
+      nocPage,
     }) => {
       await manageCaseDashboardPage.visit();
       await loginPage.processLogin(
@@ -37,7 +38,7 @@ test.describe('Legal Representative submits a case and perform various events', 
       console.log('Case Submission Reference ' + submissionReference);
       await caseListPage.signoutButton();
 
-      ({caseId, caseNumber}  = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
+      ({ caseId, caseNumber } = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
 
       await manageCaseDashboardPage.visit();
       await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
@@ -56,14 +57,11 @@ test.describe('Legal Representative submits a case and perform various events', 
         config.etLegalRepresentative2.password,
         config.loginPaths.cases,
       );
-      await legalRepPage.processNOCForClaimantOrRespondent(
-        'Eng/Wales - Singles',
+      await manageCaseDashboardPage.navigateToNoticeOfChange();
+      await nocPage.processNocRequest(
         caseId,
+        `${userDetailsData.respondentsFirstName} ${userDetailsData.respondentsLastName}`,
         caseNumber,
-        'Mark',
-        'McDonald',
-        false,
-        false,
       );
     },
   );

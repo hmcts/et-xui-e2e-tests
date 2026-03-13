@@ -62,7 +62,7 @@ export class CitizenClaimantFactory {
    */
   static async progressCaseFromCreateToEt3(caseTypeLocation: CaseTypeLocation): Promise<string> {
     const caseId = await this.createAndSubmitClaim(caseTypeLocation);
-    await cuiApi.vetAndAcceptCuiCase(config.etClaimant.email, config.etClaimant.password, caseId);
+    await cuiApi.vetAndAcceptCuiCase(config.etCaseWorker.email, config.etCaseWorker.password, caseId);
     const respondentCcdId = await cuiApi.assignCaseToRespondent(
       config.etRespondent.email,
       config.etRespondent.password,

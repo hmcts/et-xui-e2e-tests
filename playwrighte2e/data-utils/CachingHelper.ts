@@ -2,7 +2,7 @@ import lockfile from 'proper-lockfile';
 import fs from 'fs-extra';
 import path from 'path';
 
-const CACHE_PATH = path.resolve(__dirname, '../../token-cache.json');
+const CACHE_PATH = path.resolve(__dirname, '../../.tmp/token-cache.json');
 const TEST_USERS_PATH = path.resolve(__dirname, '../../.tmp/test-users.json');
 
 export type CachedToken = {
