@@ -95,7 +95,7 @@ test.describe('Scotland - Caseworker Bundles test', () => {
     test(
       'Bundles - Legal rep submit hearing preparation document - Scotland',
       { tag: '@demo' },
-      async ({ page, manageCaseDashboardPage, caseListPage, loginPage, legalRepPage, listHearingPage, nocPage }) => {
+      async ({ page, manageCaseDashboardPage, caseListPage, loginPage, legalRepPage, listHearingPage, nocPage, caseDetailsPage }) => {
         // await bundleSteps.submitHearingPreparationDocument(page, 'Scotland', subRef, respondentName, firstName, lastName);
 
         let region = 'Scotland';
@@ -115,7 +115,29 @@ test.describe('Scotland - Caseworker Bundles test', () => {
         await caseListPage.selectNextEvent('Upload documents for hearing');
         await legalRepPage.submitDocumentForHearingRespondent('Yes', 'Both Parties', 'Witness statement only');
         await caseListPage.navigateToTab('Hearing Documents');
-        await legalRepPage.verifyHearingDocumentTabLegalRep();
+        //await legalRepPage.verifyHearingDocumentTabLegalRep();
+        const date = DateUtilComponent.formatToDayMonthYear(DateUtilComponent.addWeekdays(new Date(), 21));
+        await caseDetailsPage.assertTabData([
+          {
+            tabName: 'Hearing Documents',
+            tabContent: [
+              `Respondent Hearing Documents`,
+              { tabItem: `Hearing these documents are for`, value: `Uploaded date | Document` },
+              {
+                tabItem: `1 Expenses/Wasted Costs Hearing - Glasgow - ${date}`,
+                value: `${DateUtilComponent.getUtcDateTimeFormatted()} | welshTest.pdf`,
+                clickable: true,
+                exact: false,
+              },
+              { tabItem: `Have you agreed these documents with the other party?`, value: `Yes` },
+              { tabItem: `Type`, value: `Hearing documents, including witness statements` },
+              {
+                tabItem: `Whose hearing documents are you uploading?`,
+                value: `Both parties' hearing documents combined`,
+              },
+            ],
+          },
+        ]);
       },
     );
 });

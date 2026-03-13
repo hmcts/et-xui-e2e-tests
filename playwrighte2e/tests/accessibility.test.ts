@@ -52,7 +52,7 @@ test.describe('Accessibility test', () => {
   test(
     'Scan exui pages- Legal Representative journey',
     { tag: '@accessibility' },
-    async ({ legalRepPage, loginPage, axeUtils, manageCaseDashboardPage, nocPage }) => {
+    async ({ caseListPage, applicationTabPage,  loginPage, axeUtils, manageCaseDashboardPage, nocPage }) => {
       //RET-5787
       await manageCaseDashboardPage.signOut();
       await manageCaseDashboardPage.visit();
@@ -66,7 +66,8 @@ test.describe('Accessibility test', () => {
       await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
       //legal rep make an application
-      await legalRepPage.legalRepMakeAnApplication(true, axeUtils);
+      await caseListPage.navigateToTab('Applications');
+      await applicationTabPage.enterDetailsForMakingApplication('Amend response',axeUtils);
     },
   );
 
