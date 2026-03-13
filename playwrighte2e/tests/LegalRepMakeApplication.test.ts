@@ -3,12 +3,11 @@ import { test } from '../fixtures/common.fixture';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
+import DateUtilComponent from '../data-utils/DateUtilComponent.ts';
 
 const respondentName = 'Mrs Test Auto';
 let caseId: string;
 let caseNumber: string;
-let firstName: string;
-let lastName: string;
 
 test.describe('Make an application and view Recorded Decision', () => {
 
@@ -16,8 +15,6 @@ test.describe('Make an application and view Recorded Decision', () => {
       caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
       ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
       await manageCaseDashboardPage.visit();
-      firstName = CaseDetailsValues.claimantFirstName;
-      lastName = CaseDetailsValues.claimantLastName;
     });
 
     //RET-5787
@@ -26,8 +23,7 @@ test.describe('Make an application and view Recorded Decision', () => {
       citizenHubLoginPage,
       citizenHubPage,
       loginPage,
-      legalRepPage,
-      applicationTabPage, nocPage
+      applicationTabPage, nocPage, caseListPage
     }) => {
       await loginPage.processLogin(
         config.etLegalRepresentative.email,
@@ -39,7 +35,8 @@ test.describe('Make an application and view Recorded Decision', () => {
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
       //legal rep make an application
-      await legalRepPage.legalRepMakeAnApplication();
+      await caseListPage.navigateToTab('Applications')
+      await  applicationTabPage.enterDetailsForMakingApplication('Amend response')
       await manageCaseDashboardPage.signOut();
 
       // Claimant Reply to Application from Legal Rep
@@ -71,8 +68,9 @@ test.describe('Make an application and view Recorded Decision', () => {
         citizenHubLoginPage,
         citizenHubPage,
         loginPage,
-        legalRepPage,
-        applicationTabPage, nocPage
+        applicationTabPage,
+        nocPage,
+        caseListPage,
       }) => {
         await loginPage.processLogin(
           config.etLegalRepresentative.email,
@@ -82,18 +80,11 @@ test.describe('Make an application and view Recorded Decision', () => {
         await manageCaseDashboardPage.navigateToNoticeOfChange();
         await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
 
-        // await legalRepPage.processNOCForClaimantOrRespondent(
-        //   'Eng/Wales - Singles',
-        //   caseId,
-        //   caseNumber,
-        //   firstName,
-        //   lastName,
-        //   false,
-        // );
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         //legal rep make an application
-        await legalRepPage.legalRepMakeAnApplication();
+        await caseListPage.navigateToTab('Applications');
+        await applicationTabPage.enterDetailsForMakingApplication('Amend response');
         await manageCaseDashboardPage.signOut();
 
         //caseworker records a decision
@@ -104,10 +95,27 @@ test.describe('Make an application and view Recorded Decision', () => {
           config.loginPaths.worklist,
         );
         await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-
         await applicationTabPage.recordADecision();
-        //Legal rep view decision in an application tab
+
+        await caseListPage.navigateToTab('Applications');
         await applicationTabPage.validateRecordDecisionDetails();
+        await manageCaseDashboardPage.signOut();
+
+        //Legal rep view decision in an application tab
+        await loginPage.processLogin(
+          config.etLegalRepresentative.email,
+          config.etLegalRepresentative.password,
+          config.loginPaths.cases,
+        );
+        await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
+        await caseListPage.navigateToTab('Applications');
+        await applicationTabPage.viewApplicationAndAssertDetails('Amend response', 'Open', [
+          `Type of application - Amend response`,
+          'Notification - Record Decision',
+          `Date - ${DateUtilComponent.formatToDayMonthYear(new Date())}`,
+          `Sent by - Tribunal`
+        ]);
+
         await manageCaseDashboardPage.signOut();
 
         //citizen view notification about decision
@@ -118,7 +126,7 @@ test.describe('Make an application and view Recorded Decision', () => {
       },
     );
 
-    test.skip('England - submit ET3 as a legal Representative', async ({ manageCaseDashboardPage,loginPage, legalRepPage, nocPage,caseListPage, lettersPage, et3ProcessingSteps }) => {
+    test.skip('England - submit ET3 as a legal Representative', async ({ manageCaseDashboardPage,loginPage, legalRepPage, nocPage,caseListPage, }) => {
         //To long UI , flaky test: solution perform all ET3 event in separate test with same case
       await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
       await manageCaseDashboardPage.navigateToNoticeOfChange();
