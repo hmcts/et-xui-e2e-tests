@@ -64,6 +64,8 @@ import ClaimDetailsPage from '../pages/claimantCitizenHub/claimDetailsPage.ts';
 import SubmitClaimPage from '../pages/claimantCitizenHub/submitClaimPage.ts';
 import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
 import Et1CreateDraftClaim from '../pages/et1CreateDraftClaim.ts';
+import initialConsiderationPage from '../pages/initialConsiderationPage.ts';
+import InitialConsiderationPage from '../pages/initialConsiderationPage.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
 
@@ -132,6 +134,7 @@ export type PageFixtures = {
   claimDetailsPage: ClaimDetailsPage;
   submitClaimPage: SubmitClaimPage;
   et1CreateDraftClaim: Et1CreateDraftClaim;
+  initialConsiderationPage: InitialConsiderationPage;
 };
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -367,5 +370,8 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   et1CreateDraftClaim:async({page}, use)=>{
     await use (new Et1CreateDraftClaim (page));
+  },
+  initialConsiderationPage:async({page}, use)=>{
+    await use (new InitialConsiderationPage (page));
   }
 });

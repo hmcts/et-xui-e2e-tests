@@ -95,7 +95,7 @@ test.describe('Various events in mange case application for Scotland case', () =
   });
 
   //RET-5931, 5961
-  test('Add Case Notes', async ({ caseListPage, caseNotesPage, caseDetailsPage }) => {
+  test('Add Case Notes and validate links on Initial Consideration', async ({ caseListPage, caseNotesPage, caseDetailsPage,initialConsiderationPage}) => {
     await caseListPage.selectNextEvent('Add Telephone Note');
     await caseNotesPage.addCaseNotes();
     await caseDetailsPage.assertTabData([
@@ -109,6 +109,9 @@ test.describe('Various events in mange case application for Scotland case', () =
 
       }
     ])
+    // RET-5796 Validate initial consideration links
+    await caseListPage.selectNextEvent('Initial Consideration');
+    await initialConsiderationPage.validateLinksNotVisible();
   });
 });
 

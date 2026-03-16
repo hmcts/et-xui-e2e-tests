@@ -29,6 +29,8 @@ export default class RespondentRepPage extends BasePage {
     respEccYes: '#respondentCollection_0_respondentEcc_Yes',
     respEccReplyYes: '#respondentCollection_0_respondentEccReply_Yes',
     //*[@id="mat-tab-label-0-5"]
+    respHearingPanel: '#respondentCollection_0_respondent_hearing_panel_preference-Judge',
+    respHearingPanelReason: '#respondentCollection_0_respondent_hearing_panel_preference_reason'
   };
 
   async addRespondentRepresentative(regOption: string, orgName: string) {
@@ -70,6 +72,8 @@ export default class RespondentRepPage extends BasePage {
     await this.webActions.clickElementByCss(this.elements.respondentTypeInd);
     await this.webActions.fillField(this.elements.respFirstName, 'Mark');
     await this.webActions.fillField(this.elements.respLastName, 'Gill');
+    await this.webActions.clickElementByCss(this.elements.respHearingPanel);
+    await this.webActions.fillField(this.elements.respHearingPanelReason, 'Test Panel reasons')
     await this.webActions.clickElementByCss(this.elements.respReceivedYes);
     await this.webActions.fillField(this.elements.respFullName, 'Mark Gill');
     await this.webActions.selectByLabelFromDropDown(this.elements.respStatusDropDown, 'Accepted');
@@ -92,6 +96,37 @@ export default class RespondentRepPage extends BasePage {
     await this.webActions.clickElementByCss(this.elements.respEccReplyYes);
     await this.clickSubmitButton();
   }
+
+  async enterRespTypeforIC() {
+    await this.webActions.clickElementByCss(this.elements.respondentTypeInd);
+    await this.webActions.fillField(this.elements.respFirstName, 'Test');
+    await this.webActions.fillField(this.elements.respLastName, 'Auto');
+    await this.webActions.clickElementByCss(this.elements.respHearingPanel);
+    await this.webActions.fillField(this.elements.respHearingPanelReason, 'Test Panel reasons')
+    await this.webActions.clickElementByCss(this.elements.respReceivedYes);
+    await this.webActions.fillField(this.elements.respFullName, 'Test Auto');
+    await this.webActions.selectByLabelFromDropDown(this.elements.respStatusDropDown, 'Accepted');
+    await this.webActions.clickElementByCss(this.elements.respClaimYes);
+
+    await this.webActions.fillField(this.elements.respReceivedDay, '01');
+    await this.webActions.fillField(this.elements.respReceivedMonth, '03');
+    await this.webActions.fillField(this.elements.respReceivedYear, '2025');
+
+    await this.webActions.fillField(this.elements.respPostCode, 'EX1 3DD');
+    await this.webActions.clickElementByCss(
+      '#respondentCollection_0_responseRespondentAddress_responseRespondentAddress_postcodeLookup button',
+    );
+    await this.delay(2000);
+    await this.webActions.selectByLabelFromDropDown(this.elements.respAddressDropDown, '68 East Wonford Hill, Exeter');
+    await this.delay(2000);
+
+    await this.webActions.clickElementByCss(this.elements.respEccYes);
+    await this.delay(2000);
+    await this.webActions.clickElementByCss(this.elements.respEccReplyYes);
+    await this.clickSubmitButton();
+  }
+
+
 
   async validateRespondentRepDetail() {
     await expect(this.page.locator('#case-viewer-field-read--repCollection')).toContainText(

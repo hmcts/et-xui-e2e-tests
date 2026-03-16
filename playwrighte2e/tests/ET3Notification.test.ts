@@ -34,12 +34,12 @@ test.describe('ET3 Notification', () => {
     await et3NotificationPage.verifyEt3NotificationErrorMessage();
   });
 
-  test('Respondent Accept response and sends ET3 Notification', async ({
+  test('Respondent Accept response and sends ET3 Notification',async ({
                                                                                         page,
                                                                                         loginPage,
                                                                                         caseListPage,
                                                                                         respondentDetailsPage,
-                                                                                        et3NotificationPage
+                                                                                        et3NotificationPage,initialConsiderationPage
                                                                                       }) => {
     await page.goto(config.manageCaseBaseUrl);
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
@@ -53,6 +53,13 @@ test.describe('ET3 Notification', () => {
     await caseListPage.selectNextEvent('ET3 notification');
     await et3NotificationPage.sendEt3Notification();
     await et3NotificationPage.processAcasPage();
+
+    // Validate Initial Consideration Links RET-5796
+    await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
+    await caseListPage.selectNextEvent('Initial Consideration');
+    await initialConsiderationPage.validateET1Links();
+
+
   });
 
   test('Respondent not Accepting or rejecting response and attempts to send ET3 Notification', async ({

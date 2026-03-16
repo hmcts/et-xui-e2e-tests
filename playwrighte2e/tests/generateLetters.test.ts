@@ -13,11 +13,10 @@ test.describe('Generate Letters', () => {
       ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
       await manageCaseDashboardPage.visit();
       await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     });
 
-    test('ET2 - Short track letter', {tag: '@demo'}, async({caseListPage, listHearingPage, lettersPage}) => {
+    test('ET2 - Short track letter', {tag: '@demo'}, async({caseListPage, listHearingPage, lettersPage,initialConsiderationPage}) => {
 
         await caseListPage.selectNextEvent(Events.listHearing.listItem);
         await listHearingPage.listCase('EnglandWales', 0,'Leeds ET');
@@ -30,6 +29,11 @@ test.describe('Generate Letters', () => {
 
         await caseListPage.navigateToTab("BF Actions");
         await caseListPage.verifyBFActionsTab('Description', 'Other action');
+
+        // RET-5793 Validate initial consideration hearing details
+        await caseListPage.selectNextEvent('Initial Consideration');
+        await initialConsiderationPage.validateHearingDetails();
+        await initialConsiderationPage.completeSubmissionWithHearing();
     });
 
 });

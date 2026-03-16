@@ -11,6 +11,10 @@ export default class ET3ProcessingSteps extends BaseStep {
         await this.respondentRepPage.enterRespType();
     }
 
+  async fillET3ValuesForIC() {
+    await this.respondentRepPage.enterRespTypeforIC();
+  }
+
     async processET3() {
         await this.et3ProcessPage.submitET3Response();
     }

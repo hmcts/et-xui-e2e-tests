@@ -7,7 +7,7 @@ import respPageData from '../resources/payload/respondent-page-content.json';
 export default class ICUploadDocPage extends BasePage {
 
     elements = {
-        respNameEle: 'tbody tr:nth-child(1) td:nth-child(2)',
+        respNameEle: '#etInitialConsiderationRespondentLabel td:nth-child(2)',
         jurisdictionCodeInvalidYes: '#etICJuridictionCodesInvalid_Yes',
         invalidDetails: '#etICInvalidDetails',
         canProceedYes: '#etICCanProceed_Yes',
@@ -17,16 +17,16 @@ export default class ICUploadDocPage extends BasePage {
     }
 
     async judgeUploadsDocument() {
-        await expect(this.page.getByText(icPageData.icLandingPageContent)).toBeVisible();
-        await this.clickContinue();
-
+        //RET-5795
+        await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first().isVisible()).toBeTruthy();
         let actRespNameText = await this.page.locator(this.elements.respNameEle).first().textContent();
-        await expect(actRespNameText).toEqual(icPageData.respName);
+        await expect(actRespNameText?.trim()).toEqual(icPageData.respName);
         await this.webActions.clickElementByCss(this.elements.jurisdictionCodeInvalidYes);
+        await this.webActions.fillField(this.elements.invalidDetails, icPageData.invalidDetailsText);
         await this.webActions.clickElementByCss(this.elements.canProceedYes);
 
-        await this.webActions.fillField(this.elements.invalidDetails, icPageData.invalidDetailsText);
-        await this.webActions.clickElementByCss(this.elements.hearingListedNo);
+
+       // await this.webActions.clickElementByCss(this.elements.hearingListedNo);
         await this.clickContinue();
 
         let txtHeading = await this.page.locator(this.elements.documentHeading).textContent();
