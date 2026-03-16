@@ -10,6 +10,7 @@ export default class ClaimantDetailsPage extends BasePage{
     claimantWorkPhone:'#claimantWorkAddress_claimant_work_phone_number',
     occupation:'#claimantOtherType_claimant_occupation',
     hearingPreference:'#claimantHearingPreference_contact_language-English',
+    hearingPreferenceVideo:'#claimantHearingPreference_hearing_preferences-Video',
     panelEle: '#claimantHearingPreference_claimant_hearing_panel_preference-Panel',
     panelPreferenceReason: '#claimantHearingPreference_claimant_hearing_panel_preference_why'
   }
@@ -29,6 +30,24 @@ export default class ClaimantDetailsPage extends BasePage{
 
     await this.clickContinue();
     await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingPreference));
+    await this.webActions.clickElementByCss(this.elements.hearingPreferenceVideo);
+    await this.webActions.checkElementById('#claimantHearingPreference_contact_language-English');
+
+    if(hearingPanelPreference) await this.fillPanelPreference();
+    await this.clickSubmitButton();
+  }
+
+  async processClaimantDetailsForIC(hearingPanelPreference?: boolean) {
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.firstName));
+    await this.clickContinue();
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.addressLine1));
+    await this.clickContinue();
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.claimantWorkPhone));
+    await this.clickContinue();
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.occupation));
+    await this.clickContinue();
+    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingPreference));
+    await this.webActions.clickElementByCss(this.elements.hearingPreferenceVideo);
     await this.webActions.checkElementById('#claimantHearingPreference_contact_language-English');
 
     if(hearingPanelPreference) await this.fillPanelPreference();

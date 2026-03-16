@@ -16,7 +16,7 @@ test.describe('ET3 Process test', () => {
     test(
       'England - processing an ET3 response',
       { tag: '@demo' },
-      async ({ manageCaseDashboardPage, loginPage, caseListPage, lettersPage, et3ProcessingSteps }) => {
+      async ({ manageCaseDashboardPage, loginPage, caseListPage, lettersPage, et3ProcessingSteps,initialConsiderationPage }) => {
         await manageCaseDashboardPage.visit();
         await loginPage.processLogin(
           config.etCaseWorker.email,
@@ -36,6 +36,12 @@ test.describe('ET3 Process test', () => {
 
         await caseListPage.navigateToTab('Respondents');
         await caseListPage.verifyET3DetailsOnRespondentTab();
+
+        // RET-5796 Validate initial consideration links
+        await caseListPage.selectNextEvent('Initial Consideration');
+        await initialConsiderationPage.validateET3ProcessingLink();
+
+
       },
     );
 });
