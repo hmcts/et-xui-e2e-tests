@@ -1,7 +1,7 @@
 import config from "../config/config";
 import { test } from '../fixtures/common.fixture';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
-import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
+import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 import DateUtilComponent from '../data-utils/DateUtilComponent.ts';
 
@@ -126,8 +126,15 @@ test.describe('Make an application and view Recorded Decision', () => {
       },
     );
 
-    test.skip('England - submit ET3 as a legal Representative', async ({ manageCaseDashboardPage,loginPage, legalRepPage, nocPage,caseListPage, }) => {
-        //To long UI , flaky test: solution perform all ET3 event in separate test with same case
+    test('England - submit ET3 as a legal Representative',
+      async ({
+               manageCaseDashboardPage,
+               loginPage,
+               nocPage,
+               caseListPage,
+               checkYourAnswersPage,
+               et3DetailsPage, et3RespondentDetailsPage,
+               et3EmploymentDetailsPage, et3ResponseDetailsPage}) => {
       await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
       await manageCaseDashboardPage.navigateToNoticeOfChange();
       await nocPage.processNocRequest(
@@ -136,16 +143,20 @@ test.describe('Make an application and view Recorded Decision', () => {
         caseNumber,
       );
 
-      //await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', caseId, respondentName, firstName, lastName, true);
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
       //perform all ET3 events as a LR
-      await caseListPage.selectNextEvent('ET3 - Respondent Details');
-      await legalRepPage.completeDraftET3ResponseForm();
+      await caseListPage.selectNextEvent(Events.et3RespondentDetails.listItem);
+      await et3RespondentDetailsPage.enterEt3RespondentDetails(checkYourAnswersPage);
 
-      await caseListPage.selectNextEvent('Submit ET3 Form');
-      await legalRepPage.submitET3ResponseForm();
+      await et3DetailsPage.navigateToEt3EmploymentDetailsPage();
+      await et3EmploymentDetailsPage.enterEt3EmploymentDetails(checkYourAnswersPage);
 
+      await et3DetailsPage.navigateToEt3ResponseDetailsPage();
+      await et3ResponseDetailsPage.enterEt3ResponseDetails(checkYourAnswersPage);
+
+      await caseListPage.selectNextEvent(Events.submitEt3Form.listItem);
+      await et3DetailsPage.submitEt3Form(checkYourAnswersPage);
     });
 });
 

@@ -50,11 +50,6 @@ export class WebAction {
     await this.page.getByRole(role, { name: options.name }).fill(text);
   }
 
-  // @ts-ignore
-  async fillFieldByRoleAndLabel(role, options: { name: string }, label: string, text: string) {
-    await this.page.getByRole(role, { name: options.name }).getByLabel(label).fill(text);
-  }
-
   async waitForElementToBeVisible(element: string) {
     await this.page.locator(element).waitFor({ state: 'visible' });
   }

@@ -115,7 +115,6 @@ test.describe('Scotland - Caseworker Bundles test', () => {
         await caseListPage.selectNextEvent('Upload documents for hearing');
         await legalRepPage.submitDocumentForHearingRespondent('Yes', 'Both Parties', 'Witness statement only');
         await caseListPage.navigateToTab('Hearing Documents');
-        //await legalRepPage.verifyHearingDocumentTabLegalRep();
         const date = DateUtilComponent.formatToDayMonthYear(DateUtilComponent.addWeekdays(new Date(), 21));
         await caseDetailsPage.assertTabData([
           {
