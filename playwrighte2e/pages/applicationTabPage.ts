@@ -18,8 +18,6 @@ export class ApplicationTabPage extends BasePage {
   private readonly closedApplicationRadio: Locator;
   private readonly viewApplicationDropdown: Locator;
 
-  notification_tab2 =
-    '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Notifications"]';
   applicationTab =
     '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Applications"]';
   respondToAnApplicationLink = '//a[.="Respond to an application"]';

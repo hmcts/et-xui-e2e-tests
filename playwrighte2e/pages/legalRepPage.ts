@@ -1,13 +1,8 @@
 import { BasePage } from './basePage';
-import config from '../config/config';
 import { expect } from '@playwright/test';
-import { AxeUtils } from '@hmcts/playwright-common';
-
-const respondentName = 'Mrs Test Auto';
 
 export class LegalRepPage extends BasePage {
   continueLegalRepButton = '//button[@class="button"]';
-  submitButtonLegalRep = '//button[@class="button"]';
   prepareDocContinueButton = '[type="submit"]';
   changeDocuUploaded = '[aria-label="Change Upload document"]';
   prepareDocPageTwoHeader = '.govuk-heading-l';
@@ -27,47 +22,7 @@ export class LegalRepPage extends BasePage {
   // @ts-ignore
   closeAndReturnButton = '[type="submit"]';
   loadingSpinner = '.spinner-container';
-  viewAnApplicationLink = '//a[.="View an application"]';
-  viewApplicationDropdown = '#tseViewApplicationSelect';
-  et3respondentFormDropdown = '#submitEt3Respondent';
-  contractClaimCorrectYesButton = '#et3ResponseIsClaimantNameCorrect_Yes';
-  respondentLegalname = '#et3ResponseRespondentLegalName';
-  et3postCodeInput = '#et3RespondentAddress_et3RespondentAddress_postcodeInput';
-  findAddressButton = '//button[@class="button button-30"]';
-  addressListDropdown = '#et3RespondentAddress_et3RespondentAddress_addressList';
-  et3ContactPreferenceEmail = '#et3ResponseContactPreference-Email';
-  hearingAttendanceRepresentative = '[field_id="et3ResponseHearingRepresentative"] [value="Phone hearings"]';
-  hearingAttendanceRespondent = '[field_id="et3ResponseHearingRespondent"] [value="Video hearings"]';
-  mentalHealthIssueNo = '#et3ResponseRespondentSupportNeeded-No';
-  cyaFirstChange = '[aria-label="Change Select which respondent this ET3 is for"]';
-  employmentDetailLink = '//a[.="ET3 - Employment Details"]';
-  whichRespondentDropdown = '#et3RepresentingRespondent_0_dynamicList';
-  respondentMultipleYes = '#et3ResponseMultipleSites_Yes';
-  claimantDateOfEmploymentCorrectYes = '#et3ResponseAreDatesCorrect-Yes';
-  employmentContinuingYes = '#et3ResponseContinuingEmployment-Yes';
-  jobTitleCorrectYes = '#et3ResponseIsJobTitleCorrect-Yes';
-  weeklyWorkingCorrectYes = '#et3ResponseClaimantWeeklyHours-Yes';
-  earningDetailsCorrectYes = '#et3ResponseEarningDetailsCorrect-Yes';
-  noticeCorrectYes = '#et3ResponseIsNoticeCorrect-Yes';
-  responsePensionDetailCorrectYes = '#et3ResponseIsPensionCorrect-Yes';
-  responseDetailLink = '//a[.="ET3 - Response Details"]';
-  respondentDetailDropDownList = '#et3RepresentingRespondent_0_dynamicList';
-  acasReconciliationOption = '#et3ResponseAcasAgree_Yes';
-  respondentContestClaim = '#et3ResponseRespondentContestClaim-No';
-  employmentContractClaimYes = '#et3ResponseEmployerClaim_Yes';
-  eccTextField = '#et3ResponseEmployerClaimDetails';
-  et3EccUploadButton = '#et3ResponseEmployerClaimDocument';
   closeReturnToCaseDetails = '//button[@class="button"]';
-  selectCompletedDraftET3 = '#submitEt3Respondent';
-  checkConfirmationCheckbox = '#confirmEt3Submit-Yes';
-  makeAnApplicationLink = '//a[.="Make an application"]';
-  uploadDocumentContactTribunal = '#resTseDocument1';
-  textArea = '#resTseTextBox1';
-  applicationTypeDropDown = '#resTseSelectApplication';
-  YesCorrespondenceRadioOption = '#resTseCopyToOtherPartyYesOrNo-Yes';
-  checkYourAnswerHeading = '//h2[@class="heading-h2 ng-star-inserted"]';
-  applicationTab =
-    '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Applications"]';
 
   async submitDocumentForHearingRespondent(
     agreement: string,
@@ -182,147 +137,6 @@ export class LegalRepPage extends BasePage {
     await this.webActions.clickElementByCss(this.legalRepSubmit);
     await this.webActions.clickElementByCss(this.closeReturnToCaseDetails);
     await this.page.waitForTimeout(10000);
-  }
-
-  async completeDraftET3ResponseForm() {
-    await this.et3RespondentDetails();
-    await this.et3EmploymentDetails();
-    await this.et3ResponseDetails();
-  }
-
-  async et3RespondentDetails() {
-    await this.page.waitForSelector(this.legalRepSubmit, { timeout: 10000 });
-    await this.page.waitForSelector('text=ET3 - Response to Employment tribunal claim (ET1)');
-    await this.page.click(this.legalRepSubmit);
-    await this.page.waitForSelector(this.et3respondentFormDropdown, { timeout: 10000 });
-    await this.page.selectOption(this.et3respondentFormDropdown, '1: R: Mrs Test Auto');
-    await this.page.waitForTimeout(2000);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.contractClaimCorrectYesButton, { timeout: 10000 });
-    await this.page.waitForSelector("text=Is this the correct claimant for the claim you're responding to?");
-    await this.page.check(this.contractClaimCorrectYesButton);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.respondentLegalname, { timeout: 10000 });
-    await this.page.fill(this.respondentLegalname, 'ET Test Org');
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.et3postCodeInput, { timeout: 10000 });
-    await this.page.fill(this.et3postCodeInput, 'KA11 5DG');
-    await this.page.click(this.findAddressButton);
-    await this.page.waitForSelector(this.addressListDropdown, { timeout: 2000 });
-    await this.page.selectOption(this.addressListDropdown, '2: Object');
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForTimeout(5000);
-    await this.page.waitForSelector('text=What is your contact phone number? (Optional)');
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForTimeout(5000);
-    await this.page.waitForSelector('text=What is your reference number? (Optional)');
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.et3ContactPreferenceEmail, { timeout: 10000 });
-    await this.page.waitForSelector('text=How would you prefer to be contacted?');
-    await this.page.check(this.et3ContactPreferenceEmail);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.hearingAttendanceRepresentative, { timeout: 10000 });
-    await this.page.waitForSelector('text=Hearing format');
-    await this.page.check(this.hearingAttendanceRepresentative);
-    await this.page.check(this.hearingAttendanceRespondent);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.mentalHealthIssueNo, { timeout: 10000 });
-    await this.page.check(this.mentalHealthIssueNo);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.cyaFirstChange, { timeout: 10000 });
-    await this.page.click(this.continueLegalRepButton);
-  }
-
-  async et3EmploymentDetails() {
-    // Employment Details
-    await this.page.waitForSelector(this.employmentDetailLink, { timeout: 30000 });
-    await this.page.click(this.employmentDetailLink);
-    await this.page.waitForSelector(this.continueLegalRepButton, { timeout: 10000 });
-    await this.page.waitForSelector('text=ET3 - Response to Employment tribunal claim (ET1)');
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.whichRespondentDropdown, { timeout: 10000 });
-    await this.page.selectOption(this.whichRespondentDropdown, '1: R: Mrs Test Auto');
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.respondentMultipleYes, { timeout: 10000 });
-    await this.page.waitForSelector("text=Respondent's workforce");
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.claimantDateOfEmploymentCorrectYes, { timeout: 20000 });
-    await this.page.check(this.claimantDateOfEmploymentCorrectYes);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.employmentContinuingYes, { timeout: 10000 });
-    await this.page.waitForSelector("text=Is the claimant's employment with the respondent continuing?");
-    await this.page.check(this.employmentContinuingYes);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.jobTitleCorrectYes, { timeout: 10000 });
-    await this.page.waitForSelector("text=Is the claimant's description of their job or job title correct?");
-    await this.page.check(this.jobTitleCorrectYes);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.weeklyWorkingCorrectYes, { timeout: 10000 });
-    await this.page.waitForSelector("text=Are the claimant's total weekly work hours correct?");
-    await this.page.check(this.weeklyWorkingCorrectYes);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.earningDetailsCorrectYes, { timeout: 10000 });
-    await this.page.waitForSelector('text=Are the earnings details given by the claimant correct?');
-    await this.page.check(this.earningDetailsCorrectYes);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.noticeCorrectYes, { timeout: 10000 });
-    await this.page.waitForSelector('text=Is the information given by the claimant correct about their notice?');
-    await this.page.check(this.noticeCorrectYes);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.responsePensionDetailCorrectYes, { timeout: 10000 });
-    await this.page.waitForSelector('text=Are the details about pension and other benefits correct?');
-    await this.page.check(this.responsePensionDetailCorrectYes);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForTimeout(5000);
-    await this.page.waitForSelector('text=Check your answers');
-    await this.page.click(this.continueLegalRepButton);
-  }
-
-  async et3ResponseDetails() {
-    // Response Details
-    await this.page.waitForSelector(this.responseDetailLink, { timeout: 10000 });
-    await this.page.click(this.responseDetailLink);
-    await this.page.waitForSelector(this.continueLegalRepButton, { timeout: 10000 });
-    await this.page.waitForSelector('text=How to fill in this form');
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.respondentDetailDropDownList, { timeout: 10000 });
-    await this.page.selectOption(this.respondentDetailDropDownList, '1: R: Mrs Test Auto');
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.acasReconciliationOption, { timeout: 10000 });
-    await this.page.check(this.acasReconciliationOption);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.respondentContestClaim, { timeout: 10000 });
-    await this.page.waitForSelector('text=Does the respondent contest the claim?');
-    await this.page.check(this.respondentContestClaim);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.employmentContractClaimYes, { timeout: 10000 });
-    await this.page.check(this.employmentContractClaimYes);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.eccTextField, { timeout: 10000 });
-    await this.page.fill(this.eccTextField, 'ECC Respondent Test');
-    //
-    await this.page.setInputFiles(this.et3EccUploadButton, 'playwrighte2e/resources/test_file/welshTest.pdf');
-    await this.page.waitForTimeout(5000);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForTimeout(5000);
-    await this.page.waitForSelector('text=Check your answers');
-    await this.page.click(this.submitButtonLegalRep);
-    await this.page.waitForTimeout(5000);
-    await this.page.click(this.continueLegalRepButton);
-  }
-
-  async submitET3ResponseForm() {
-    await this.page.waitForSelector(this.selectCompletedDraftET3, { timeout: 10000 });
-    await this.page.selectOption(this.selectCompletedDraftET3, '1: R: Mrs Test Auto');
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForSelector(this.checkConfirmationCheckbox, { timeout: 10000 });
-    await this.page.waitForSelector('text=Do you want to submit this ET3?');
-    await this.page.check(this.checkConfirmationCheckbox);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForTimeout(5000);
-    await this.page.click(this.continueLegalRepButton);
-    await this.page.waitForTimeout(5000);
-    await this.page.click(this.continueLegalRepButton);
   }
 
 }

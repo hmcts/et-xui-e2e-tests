@@ -32,12 +32,9 @@ test.describe('Digital Case File', () => {
       await caseDetailsPage.assertTabData([
         {
           tabName: 'Documents',
-          tabContent:[
-            'Digital Case File',
-            { tabItem: 'Status', value:'DCF Updating:', exact: false },
-          ]
+          tabContent: ['Digital Case File', { tabItem: 'Status', value: 'DCF Updating:', exact: false }],
         }
-      ])
+      ]);
       await manageCaseDashboardPage.signOut();
     });
 });

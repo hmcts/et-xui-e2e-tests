@@ -65,6 +65,10 @@ import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
 import Et1CreateDraftClaim from '../pages/et1CreateDraftClaim.ts';
 import { NocPage } from '../pages/legalRepresentative/NocPage.ts';
 import ET3ProcessPage from '../pages/et3ProcessPage.ts';
+import { Et3DetailsPage } from '../pages/legalRepresentative/Et3DetailsPage.ts';
+import Et3RespondentDetailsPage from '../pages/legalRepresentative/Et3RespondentDetailsPage.ts';
+import { Et3EmploymentDetailsPage } from '../pages/legalRepresentative/Et3EmploymentDetailsPage.ts';
+import { Et3ResponseDetailsPage } from '../pages/legalRepresentative/Et3ResponseDetailsPage.ts';
 import InitialConsiderationPage from '../pages/initialConsiderationPage.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
@@ -135,6 +139,10 @@ export type PageFixtures = {
   submitClaimPage: SubmitClaimPage;
   et1CreateDraftClaim: Et1CreateDraftClaim;
   et3ProcessPage: ET3ProcessPage;
+  et3DetailsPage: Et3DetailsPage;
+  et3RespondentDetailsPage: Et3RespondentDetailsPage;
+  et3EmploymentDetailsPage: Et3EmploymentDetailsPage;
+  et3ResponseDetailsPage: Et3ResponseDetailsPage;
   initialConsiderationPage: InitialConsiderationPage;
 };
 
@@ -377,5 +385,17 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   initialConsiderationPage:async({page}, use)=>{
     await use (new InitialConsiderationPage (page));
-  }
+  },
+  et3DetailsPage:async({page}, use)=>{
+    await use (new Et3DetailsPage (page));
+  },
+  et3RespondentDetailsPage:async({page}, use)=>{
+    await use (new Et3RespondentDetailsPage (page, commonActionsHelper));
+  },
+  et3EmploymentDetailsPage:async({page}, use)=>{
+    await use (new Et3EmploymentDetailsPage (page));
+  },
+  et3ResponseDetailsPage:async({page}, use)=>{
+    await use (new Et3ResponseDetailsPage (page, commonActionsHelper));
+  },
 });
