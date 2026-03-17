@@ -89,7 +89,7 @@ export class ListHearingPage extends BaseEventPage {
         await hearingListYearField.fill(year);
     }
 
-    async listCase(location: string, hearingNumber: number = 0, venue?: string, office?: string) {
+    async listCase(location: string, hearingNumber: number = 0, venue?: string, hearingType: string = 'Costs Hearing',office?: string) {
       let [year, month, day] = dateUtilComponent.addWeekdays(new Date(), 21).toISOString().split('T')[0].split('-');
       if (hearingNumber > 0) {
         await this.addNewHearingButtonClick();
@@ -98,12 +98,11 @@ export class ListHearingPage extends BaseEventPage {
 
       await this.checkHearingFormat(hearingNumber, 'Hybrid');
       await this.selectJudicialMediationRadio(hearingNumber, 'No');
+      await this.selectHearingType(hearingNumber, hearingType);
 
       if (location === 'Scotland') {
-        await this.selectHearingType(hearingNumber, 'Expenses/Wasted Costs Hearing');
         await this.selectManagingOfficeAndVenueScotland(hearingNumber, office);
       } else {
-        await this.selectHearingType(hearingNumber, 'Costs Hearing');
         await this.selectHearingVenue(hearingNumber, venue);
       }
 
@@ -127,43 +126,4 @@ export class ListHearingPage extends BaseEventPage {
         await this.clickSubmitButton();
       }
     }
-
-  async listCaseWithHearingType(location: string, hearingNumber: number = 0, hearingType: string, venue?: string, office?: string) {
-    let [year, month, day] = dateUtilComponent.addWeekdays(new Date(), 21).toISOString().split('T')[0].split('-');
-    if (hearingNumber > 0) {
-      await this.addNewHearingButtonClick();
-    }
-    await this.enterHearingNumber(hearingNumber);
-
-    await this.checkHearingFormat(hearingNumber, 'Hybrid');
-    await this.selectJudicialMediationRadio(hearingNumber, 'No');
-
-    if (location === 'Scotland') {
-      await this.selectHearingType(hearingNumber, 'Expenses/Wasted Costs Hearing');
-      await this.selectManagingOfficeAndVenueScotland(hearingNumber, office);
-    } else {
-      await this.selectHearingType(hearingNumber, hearingType);
-      await this.selectHearingVenue(hearingNumber, venue);
-    }
-
-    await this.enterEstimatedHearingLengthAndType(hearingNumber, '1', 'Hours');
-    await this.selectPanelType(hearingNumber, 'Sit Alone');
-    await this.selectEQPStageHearing(hearingNumber, 'Stage 1');
-    await this.clickAddNewDateButton(hearingNumber);
-    if (hearingNumber == 1) {
-      await this.setHearingDate(hearingNumber, '6', '1', '2025');
-    } else {
-      await this.setHearingDate(hearingNumber, day, month, year);
-    }
-    await this.enterHearingNotes(hearingNumber, 'The hearing should be help as soon as possible....');
-
-    await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-    await this.clickSubmitButton();
-    if (hearingNumber == 1) {
-      await expect(
-        this.page.getByRole('heading', { level: 3, name: 'One of the listed dates are in the past.' }),
-      ).toBeVisible();
-      await this.clickSubmitButton();
-    }
-  }
 }
