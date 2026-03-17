@@ -16,20 +16,30 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
   });
 
   //RET-5927
-  test('Caseworker uploads hearing bundle', async ({ manageCaseDashboardPage, caseListPage, uploadHearingBundlePage, et1CaseServingPage, listHearingPage, loginPage, legalRepPage}) => {
-    const firstName = CaseDetailsValues.claimantFirstName;
-    const lastName = CaseDetailsValues.claimantLastName;
-
+  test('Caseworker uploads hearing bundle', async ({
+    manageCaseDashboardPage,
+    caseListPage,
+    uploadHearingBundlePage,
+    nocPage,
+    listHearingPage,
+    loginPage,
+  }) => {
     //List 2 hearings for the case
     const hearingNumbers: number[] = [0, 1];
-    for(const number of hearingNumbers) {
+    for (const number of hearingNumbers) {
       await caseListPage.selectNextEvent(Events.listHearing.listItem);
-      await listHearingPage.listCase('EnglandWales', number, "Leeds ET");
+      await listHearingPage.listCase('EnglandWales', number, 'Leeds ET');
     }
     await manageCaseDashboardPage.signOut();
 
-    await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
-    await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', caseId, caseNumber.toString(), firstName, lastName, false, false);
+    await loginPage.processLogin(
+      config.etLegalRepresentative.email,
+      config.etLegalRepresentative.password,
+      config.loginPaths.cases,
+    );
+    await manageCaseDashboardPage.navigateToNoticeOfChange();
+    await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
+
     await manageCaseDashboardPage.signOut();
 
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
