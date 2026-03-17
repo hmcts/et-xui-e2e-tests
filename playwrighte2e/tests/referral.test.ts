@@ -13,6 +13,7 @@ test.describe.serial('England - Referral test', () => {
       'New referral',
       { tag: '@demo' },
       async ({ manageCaseDashboardPage, loginPage, caseListPage, referralPage, initialConsiderationPage }) => {
+
         ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
         await manageCaseDashboardPage.visit();
         await loginPage.processLogin(
@@ -92,6 +93,7 @@ test.describe.serial('England - Referral test', () => {
         //verify referral details
         await caseListPage.navigateToTab(referralData.tabName);
         await caseListPage.verifyCloseReferralDetails();
+
         await manageCaseDashboardPage.signOut();
       },
     );

@@ -17,6 +17,7 @@ test.describe('ET3 Process test', () => {
       'England - processing an ET3 response',
       { tag: '@demo' },
       async ({ manageCaseDashboardPage, loginPage, caseListPage, lettersPage,initialConsiderationPage, respondentRepPage, et3ProcessPage }) => {
+
         await manageCaseDashboardPage.visit();
         await loginPage.processLogin(
           config.etCaseWorker.email,
