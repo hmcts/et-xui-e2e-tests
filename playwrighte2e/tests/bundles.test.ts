@@ -93,7 +93,7 @@ test.describe('Scotland - Caseworker Bundles test', () => {
 
         let region = 'Scotland';
         await caseListPage.selectNextEvent('List Hearing');
-        await listHearingPage.listCase(region, 0, 'Glasgow', 'Scotland');
+        await listHearingPage.listCase(region, 0, 'Glasgow', 'Expenses/Wasted Costs Hearing','Scotland');
         await page.click('text=Sign out');
 
         await loginPage.processLogin(

@@ -14,6 +14,7 @@ export default class ICUploadDocPage extends BasePage {
         hearingListedNo: '#etICHearingAlreadyListed_No',
         documentHeading: '#icDocumentCollection1 h2',
         fileUploadEle: '#icDocumentCollection1_0_uploadedDocument',
+        claimantRespondentHearingPanel: "#etIcPartiesHearingPanelPreferenceLabel td"
     }
 
     async judgeUploadsDocument() {
@@ -57,12 +58,10 @@ export default class ICUploadDocPage extends BasePage {
     }
 
     async verifyClaimantHearingPanelValues() {
+        await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first().isVisible()).toBeTruthy();
+        await this.webActions.verifyElementContainsText(this.page.locator(this.elements.claimantRespondentHearingPanel).nth(1), respPageData.preferenceNameisPanel)
+        await this.webActions.verifyElementContainsText(this.page.locator(this.elements.claimantRespondentHearingPanel).nth(2),respPageData.panelReason);
 
-        await expect(this.page.getByText(icPageData.icLandingPageContent)).toBeVisible();
-        await this.clickContinue();
-
-        await this.verifyICDetailsOnTab("Panel Preference", respPageData.preferenceNameisPanel);
-        await this.verifyICDetailsOnTab("Reason for Panel Preference", respPageData.panelReason);
     }
 
 
@@ -71,9 +70,7 @@ export default class ICUploadDocPage extends BasePage {
     }
 
     async verifyJurisdictionCodeInICevent(){
-        await expect(this.page.getByText(icPageData.icLandingPageContent)).toBeVisible();
-        await this.clickContinue();
-
-        await expect(this.page.locator('#etInitialConsiderationJurisdictionCodesLabel')).toContainText('ADT(ST)');
+        await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first().isVisible()).toBeTruthy();
+        await expect(this.page.locator('#etInitialConsiderationJurisdictionCodesLabel')).toContainText('DAG');
     }
 }

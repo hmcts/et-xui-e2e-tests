@@ -50,7 +50,7 @@ test.describe('Initial Consideration Tests', () => {
       await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
       await caseListPage.selectNextEvent(Events.listHearing.listItem);
-      await listHearingPage.listCaseWithHearingType('EnglandWales', 0,'Preliminary Hearing (CM)','Leeds ET');
+      await listHearingPage.listCase('EnglandWales', 0,'Leeds ET','Preliminary Hearing (CM)');
       await caseListPage.selectNextEvent('Initial Consideration');
       await initialConsiderationPage.caseManagementHearingOptions()
       await caseListPage.navigateToTab('ICTab');
@@ -77,7 +77,7 @@ test.describe('Initial Consideration Tests', () => {
 
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
       await caseListPage.selectNextEvent(Events.listHearing.listItem);
-      await listHearingPage.listCaseWithHearingType('EnglandWales', 0,'Final Hearing','Leeds ET');
+      await listHearingPage.listCase('EnglandWales', 0,'Leeds ET','Final Hearing');
 
       await caseListPage.selectNextEvent('Initial Consideration');
       await initialConsiderationPage.finalHearingOptions()
