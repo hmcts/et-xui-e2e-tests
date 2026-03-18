@@ -23,7 +23,7 @@ test.describe('Initial Consideration Enhanced party details and ET1Vetting issue
     userPassword = config.etRespondent.password;
   });
 
-  test('Enhanced party details and ET1Vetting issues',   { tag: '@demo' }, async ({ et3LoginPage, responseLandingPage, respContactDetailsPages, respClaimantDetails, respContestClaim, respSubmitEt3,manageCaseDashboardPage,loginPage,initialConsiderationPage, caseListPage, claimantDetailsPage,et3ProcessingSteps,caseDetailsPage}) => {
+  test('Enhanced party details and ET1Vetting issues',   { tag: '@demo' }, async ({ et3LoginPage, responseLandingPage, respContactDetailsPages, respClaimantDetails, respContestClaim, respSubmitEt3,manageCaseDashboardPage,loginPage,initialConsiderationPage, caseListPage, claimantDetailsPage, et3ProcessPage ,caseDetailsPage}) => {
    //Assign a claim to respondent
     await et3LoginPage.processRespondentLogin(userEmail, userPassword,caseNumber);
     await et3LoginPage.replyToNewClaim(caseId, caseNumber, respName, firstName, lastName);
@@ -42,7 +42,7 @@ test.describe('Initial Consideration Enhanced party details and ET1Vetting issue
     await caseListPage.selectNextEvent('Claimant Details');
     await claimantDetailsPage.processClaimantDetailsForIC(true);
     await caseListPage.selectNextEvent('Respondent Details');
-    await et3ProcessingSteps.fillET3ValuesForIC();
+    await et3ProcessPage.submitET3Response();
     await caseListPage.selectNextEvent('Initial Consideration');
     await initialConsiderationPage.validateEnhancedAllPartyDetails()
     await initialConsiderationPage.validateET1VettingIssues();
