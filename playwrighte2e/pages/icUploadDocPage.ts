@@ -49,12 +49,9 @@ export default class ICUploadDocPage extends BasePage {
     }
 
     async verifyRespondentHearingPanelValues() {
-
-        await expect(this.page.getByText(icPageData.icLandingPageContent)).toBeVisible();
-        await this.clickContinue();
-
-        await this.verifyICDetailsOnTab("Preference", respPageData.preferenceNameisJudge);
-        await this.verifyICDetailsOnTab("Reason", respPageData.panelReason);
+      await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first().isVisible()).toBeTruthy();
+      await this.webActions.verifyElementContainsText(this.page.locator(this.elements.claimantRespondentHearingPanel).nth(4), respPageData.preferenceNameisJudge)
+      await this.webActions.verifyElementContainsText(this.page.locator(this.elements.claimantRespondentHearingPanel).nth(5),respPageData.panelReason);
     }
 
     async verifyClaimantHearingPanelValues() {
