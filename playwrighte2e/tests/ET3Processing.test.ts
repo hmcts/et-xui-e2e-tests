@@ -41,8 +41,6 @@ test.describe('ET3 Process test', () => {
         // RET-5796 Validate initial consideration links
         await caseListPage.selectNextEvent('Initial Consideration');
         await initialConsiderationPage.validateET3ProcessingLink();
-
-
       },
     );
 });

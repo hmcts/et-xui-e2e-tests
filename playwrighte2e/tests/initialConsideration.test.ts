@@ -8,8 +8,6 @@ test.describe('Initial Consideration Tests', () => {
 
   test.beforeEach(async () => {
    ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
-/*   caseId="1773332362965337"
-   caseNumber=" 6000128/2026"*/
   });
 
   test(
