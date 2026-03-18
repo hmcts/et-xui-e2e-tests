@@ -103,4 +103,8 @@ export const Events: Record<string, CaseEvent> = {
     listItem: 'Submit ET3 Form',
     ccdCallback: 'submitEt3',
   },
+  initialConsideration: {
+    listItem: 'Initial Consideration',
+    ccdCallback: 'initialConsideration',
+  },
 };

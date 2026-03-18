@@ -5,6 +5,7 @@ import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 import { LegalRepCaseFactory } from '../data-utils/factory/exui/LegalRepCaseFactory.ts';
 import DateUtilComponent from '../data-utils/DateUtilComponent.ts';
+import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 
 let caseNumber: string;
 let caseId: string;
@@ -68,6 +69,7 @@ test.describe('ET3/Respondent Applications', () => {
       const lastName = CaseDetailsValues.claimantLastName;
 
       ({ caseId, caseNumber } = await LegalRepCaseFactory.createAndProgressToSubmitEnglandWalesCase());
+      await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
       console.log('Created ' + caseId + caseNumber);
 
       // assign case to respondent and make application

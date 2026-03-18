@@ -58,9 +58,7 @@ export default class ICUploadDocPage extends BasePage {
         await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first().isVisible()).toBeTruthy();
         await this.webActions.verifyElementContainsText(this.page.locator(this.elements.claimantRespondentHearingPanel).nth(1), respPageData.preferenceNameisPanel)
         await this.webActions.verifyElementContainsText(this.page.locator(this.elements.claimantRespondentHearingPanel).nth(2),respPageData.panelReason);
-
     }
-
 
     async verifyICDetailsOnTab(fieldLabel: string, fieldValue: string) {
         await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`));

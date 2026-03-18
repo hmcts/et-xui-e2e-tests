@@ -1,7 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 import config from "../config/config";
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 
 let caseId: string;
 let caseNumber: string;

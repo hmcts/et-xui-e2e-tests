@@ -266,7 +266,6 @@ export class CuiApi {
     };
 
     const response = await axiosRequest(apiConfig);
-    console.log(response.data.id);
     return response.data.id;
   }
 
