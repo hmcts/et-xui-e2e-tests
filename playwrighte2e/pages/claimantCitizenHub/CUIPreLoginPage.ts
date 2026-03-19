@@ -14,7 +14,7 @@ export default class CUIPreLoginPage extends BasePage{
   constructor(page: Page) {
     super(page);
     this.syaLandingPageTitle = this.page.getByRole('heading', {name: 'Make a claim to an employment tribunal'});
-    this.startNowButton = this.page.locator(`xpath=//a[normalize-space()='Start now']`);
+    this.startNowButton = this.page.locator(`xpath=//a[normalize-space()='Start a new claim']`);
     this.beforeYouContinueHeading = this.page.getByRole('heading', {name: 'Before you continue'});
     this.representingMyselfRadio = this.page.locator('input[id=lip-or-representative]');
     this.claimForSomeoneElseRadio = this.page.locator('input[id=lip-or-representative-2]');
