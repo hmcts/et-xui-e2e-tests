@@ -89,7 +89,7 @@ export class ListHearingPage extends BaseEventPage {
         await hearingListYearField.fill(year);
     }
 
-    async listCase(location: string, hearingNumber: number = 0, venue?: string, hearingType: string = 'Costs Hearing',office?: string) {
+    async listCase(location: string, hearingNumber: number = 0, venue?: string, hearingType: string = 'Costs Hearing',panelType:string ="Sit Alone", office?: string) {
       let [year, month, day] = dateUtilComponent.addWeekdays(new Date(), 21).toISOString().split('T')[0].split('-');
       if (hearingNumber > 0) {
         await this.addNewHearingButtonClick();
@@ -107,7 +107,7 @@ export class ListHearingPage extends BaseEventPage {
       }
 
       await this.enterEstimatedHearingLengthAndType(hearingNumber, '1', 'Hours');
-      await this.selectPanelType(hearingNumber, 'Sit Alone');
+      await this.selectPanelType(hearingNumber, panelType);
       await this.selectEQPStageHearing(hearingNumber, 'Stage 1');
       await this.clickAddNewDateButton(hearingNumber);
       if (hearingNumber == 1) {
@@ -126,4 +126,12 @@ export class ListHearingPage extends BaseEventPage {
         await this.clickSubmitButton();
       }
     }
+
+    async updatePanelType(panelType: string) {
+      await this.selectPanelType(0, panelType);
+      await this.clickSubmitButton();
+  }
+
+
+
 }
