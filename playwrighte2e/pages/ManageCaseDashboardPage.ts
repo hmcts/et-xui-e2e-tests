@@ -6,11 +6,13 @@ import { CaseTypeLocation } from '../config/case-data.ts';
 export class ManageCaseDashboardPage extends BasePage {
   private readonly url: string;
   private readonly signOutButton: Locator;
+  private readonly nocLink: Locator;
 
   public constructor(page: Page) {
     super(page);
     this.url = config.manageCaseBaseUrl;
     this.signOutButton = page.getByText('Sign Out');
+    this.nocLink = page.getByRole('link', { name: 'Notice of change' });
   }
 
   async navigateToCaseDetails(
@@ -33,6 +35,13 @@ export class ManageCaseDashboardPage extends BasePage {
       await expect(this.page.getByText(String(caseId))).not.toBeVisible();
       return "";
     }
+  }
+
+  async navigateToNoticeOfChange() {
+    await this.page.waitForLoadState('load');
+    await this.nocLink.click();
+    await this.page.waitForLoadState('load');
+   await expect(this.page.getByRole('heading', { name: 'Notice of change' })).toBeVisible();
   }
 
   async visit() {

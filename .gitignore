@@ -40,4 +40,5 @@ yarn-error.log
 /blob-report/
 /playwright/.cache/
 .env
-playwrighte2e/token-cache.json
+.tmp
+/token-cache.json

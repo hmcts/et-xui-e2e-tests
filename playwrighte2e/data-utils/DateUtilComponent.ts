@@ -144,4 +144,19 @@ export default class DateUtilComponent {
     }).format(date);
   }
 
+  static formatDateWithLeadingZeros(date:Date){
+
+    let day = date.getDate();
+    let day1:string=""
+    if (day<10){
+      day1="0".concat(String(day))
+    } else {
+      day1= String(day)
+    }
+    let month = date.toLocaleString('default', {month: 'short'});
+    let year = date.getFullYear();
+
+    return `${day1} ${month} ${year}`;
+  }
+
 }

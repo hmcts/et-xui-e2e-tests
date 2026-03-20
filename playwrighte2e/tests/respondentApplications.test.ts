@@ -4,6 +4,8 @@ import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCi
 import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 import { LegalRepCaseFactory } from '../data-utils/factory/exui/LegalRepCaseFactory.ts';
+import DateUtilComponent from '../data-utils/DateUtilComponent.ts';
+import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 
 let caseNumber: string;
 let caseId: string;
@@ -58,15 +60,16 @@ test.describe('ET3/Respondent Applications', () => {
       manageCaseDashboardPage,
       loginPage,
       caseListPage,
-      legalRepPage,
       et3LoginPage,
       respondentCaseOverviewPage,
+      applicationTabPage,
     }) => {
       const respName = 'Mark McDonald';
       const firstName = CaseDetailsValues.claimantFirstName;
       const lastName = CaseDetailsValues.claimantLastName;
 
       ({ caseId, caseNumber } = await LegalRepCaseFactory.createAndProgressToSubmitEnglandWalesCase());
+      await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
       console.log('Created ' + caseId + caseNumber);
 
       // assign case to respondent and make application
@@ -85,7 +88,12 @@ test.describe('ET3/Respondent Applications', () => {
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
       // legal rep can see an application
-      await legalRepPage.legalRepViewApplication();
+      await caseListPage.navigateToTab('Applications');
+      await applicationTabPage.viewApplicationAndAssertDetails('Amend response', 'Open', [
+        `Type of application - Amend response`,
+        `Applicant - Respondent Representative`,
+        `Application date - ${DateUtilComponent.formatToDayMonthYear(new Date())}`,
+      ]);
     });
 
 });

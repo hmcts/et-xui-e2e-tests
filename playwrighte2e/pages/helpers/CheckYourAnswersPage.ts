@@ -1,7 +1,6 @@
 import {expect, Locator, Page} from '@playwright/test';
 import { Table } from '../../types/table';
 
-
 export class CheckYourAnswersPage {
   private readonly page: Page;
   private readonly checkYourAnswersTitle: Locator;

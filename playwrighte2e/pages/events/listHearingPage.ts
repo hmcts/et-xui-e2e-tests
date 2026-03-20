@@ -89,7 +89,7 @@ export class ListHearingPage extends BaseEventPage {
         await hearingListYearField.fill(year);
     }
 
-    async listCase(location: string, hearingNumber: number = 0, venue?: string, office?: string) {
+    async listCase(location: string, hearingNumber: number = 0, venue?: string, hearingType: string = 'Costs Hearing',office?: string) {
       let [year, month, day] = dateUtilComponent.addWeekdays(new Date(), 21).toISOString().split('T')[0].split('-');
       if (hearingNumber > 0) {
         await this.addNewHearingButtonClick();
@@ -98,12 +98,11 @@ export class ListHearingPage extends BaseEventPage {
 
       await this.checkHearingFormat(hearingNumber, 'Hybrid');
       await this.selectJudicialMediationRadio(hearingNumber, 'No');
+      await this.selectHearingType(hearingNumber, hearingType);
 
       if (location === 'Scotland') {
-        await this.selectHearingType(hearingNumber, 'Expenses/Wasted Costs Hearing');
         await this.selectManagingOfficeAndVenueScotland(hearingNumber, office);
       } else {
-        await this.selectHearingType(hearingNumber, 'Costs Hearing');
         await this.selectHearingVenue(hearingNumber, venue);
       }
 

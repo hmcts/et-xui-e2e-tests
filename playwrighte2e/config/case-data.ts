@@ -8,6 +8,7 @@ export const CaseDetailsValues = {
   claimantFirstName: 'Grayson',
   claimantLastName: 'Becker',
   respondentName: 'Mrs Test Auto',
+  respondentLegalName: 'ET Respondent Legal Name',
 }
 
 export const PayloadPath = {
@@ -85,5 +86,25 @@ export const Events: Record<string, CaseEvent> = {
   claimantRepresentative: {
     listItem: 'Claimant Representative',
     ccdCallback: 'addAmendClaimantRepresentative',
+  },
+  et3RespondentDetails: {
+    listItem: 'ET3 - Respondent Details',
+    ccdCallback: 'et3Response',
+  },
+  et3EmploymentDetails: {
+    listItem: 'ET3 - Employment Details',
+    ccdCallback: 'et3ResponseEmploymentDetails',
+  },
+  et3ResponseDetails: {
+    listItem: 'ET3 - Response Details',
+    ccdCallback: 'et3ResponseDetails',
+  },
+  submitEt3Form: {
+    listItem: 'Submit ET3 Form',
+    ccdCallback: 'submitEt3',
+  },
+  initialConsideration: {
+    listItem: 'Initial Consideration',
+    ccdCallback: 'initialConsideration',
   },
 };
