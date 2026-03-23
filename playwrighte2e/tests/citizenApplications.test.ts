@@ -23,11 +23,9 @@ test.describe('Citizen applications', () => {
     nocPage,
     caseListPage,
     applicationTabPage,
-    documentsTabPage,
+    caseDetailsPage,
     contactTheTribunalPage,
   }) => {
-    const firstName = CaseDetailsValues.claimantFirstName;
-    const lastName = CaseDetailsValues.claimantLastName;
 
     // perform NOC
     await manageCaseDashboardPage.visit();
@@ -62,8 +60,8 @@ test.describe('Citizen applications', () => {
       config.loginPaths.cases,
     );
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-
-    await applicationTabPage.legalRepRespondToAnApplication();
+    await caseListPage.navigateToTab('Applications');
+    await applicationTabPage.legalRepRespondToAnApplication('Change my personal details');
     await manageCaseDashboardPage.signOut();
 
     // Caseworker validates Document tab
@@ -72,7 +70,15 @@ test.describe('Citizen applications', () => {
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
     await caseListPage.navigateToTab('Documents');
-    await documentsTabPage.validateApplicationDocuments();
+    await caseDetailsPage.assertTabData([
+      {
+        tabName: 'Documents',
+        tabContent: [
+         'Application 1 - Change my personal details - Respondent Response.pdf',
+          'Application 1 - Change my personal details - Respondent Response Attachment.pdf'
+        ]
+      }
+    ])
     await manageCaseDashboardPage.signOut();
   });
 });
