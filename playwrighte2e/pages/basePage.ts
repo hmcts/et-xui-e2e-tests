@@ -28,7 +28,25 @@ export abstract class BasePage {
   }
 
   async clickContinue() {
-    await this.webActions.clickElementByRole('button', { name: 'Continue' });
+    const maxRetries = 3;
+    let attempt = 0;
+    while (attempt < maxRetries) {
+      await this.webActions.clickElementByRole('button', { name: 'Continue' });
+      await this.page.waitForLoadState('load');
+      const error = this.page.getByRole('heading', { name: ' The event could not be created ', level: 3 });
+      // Check if error is visible
+      if (await error.isVisible().catch(() => false)) {
+        attempt++;
+        console.log(`Error detected after clicking Continue. Retrying... (Attempt ${attempt})`);
+        await this.page.waitForTimeout(1000); // wait 1s before retry
+      } else {
+        // No error, break out of loop
+        break;
+      }
+    }
+    if (attempt === maxRetries) {
+      console.warn('Continue button retried maximum times, but error still present.');
+    }
   }
 
   async saveAsDraft() {

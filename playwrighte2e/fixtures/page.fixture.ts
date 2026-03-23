@@ -40,7 +40,6 @@ import HearingDetailsPage from "../pages/hearingDetailsPage";
 import AdrDocumentPage from "../pages/adrDocumentPage";
 import CaseDetailsPage from "../pages/caseDetailsPage";
 import Et3NotificationPage from '../pages/et3NotificationPage';
-import DocumentsTabPage from '../pages/documentsTabPage';
 import UploadHearingBundlePage from '../pages/uploadHearingBundlePage';
 import CaseNotesPage from '../pages/caseNotesPage';
 import CloseCasePage from '../pages/closeCasePage';
@@ -120,7 +119,6 @@ export type PageFixtures = {
   adrDocument: AdrDocumentPage;
   caseDetailsPage: CaseDetailsPage;
   et3NotificationPage: Et3NotificationPage;
-  documentsTabPage: DocumentsTabPage;
   uploadHearingBundlePage: UploadHearingBundlePage;
   caseNotesPage: CaseNotesPage;
   claimantRepresentativePage: ClaimantRepresentativePage;
@@ -316,9 +314,6 @@ export const pageFixtures = base.extend<PageFixtures>({
     },
     et3NotificationPage:async ({page}, use)=>{
       await use(new Et3NotificationPage(page));
-    },
-    documentsTabPage:async ({page}, use)=>{
-      await use(new DocumentsTabPage(page));
     },
     uploadHearingBundlePage:async({page}, use)=>{
         await use(new UploadHearingBundlePage(page, commonActionsHelper));
