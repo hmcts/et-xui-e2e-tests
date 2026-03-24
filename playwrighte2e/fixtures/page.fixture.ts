@@ -69,6 +69,7 @@ import Et3RespondentDetailsPage from '../pages/legalRepresentative/Et3Respondent
 import { Et3EmploymentDetailsPage } from '../pages/legalRepresentative/Et3EmploymentDetailsPage.ts';
 import { Et3ResponseDetailsPage } from '../pages/legalRepresentative/Et3ResponseDetailsPage.ts';
 import InitialConsiderationPage from '../pages/initialConsiderationPage.ts';
+import AllocateHearingPage from '../pages/allocateHearingPage.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
 
@@ -142,6 +143,7 @@ export type PageFixtures = {
   et3EmploymentDetailsPage: Et3EmploymentDetailsPage;
   et3ResponseDetailsPage: Et3ResponseDetailsPage;
   initialConsiderationPage: InitialConsiderationPage;
+  allocateHearingPAge:AllocateHearingPage;
 };
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -392,5 +394,8 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   et3ResponseDetailsPage:async({page}, use)=>{
     await use (new Et3ResponseDetailsPage (page, commonActionsHelper));
+  },
+  allocateHearingPAge:async({page}, use)=>{
+    await use (new AllocateHearingPage(page));
   },
 });
