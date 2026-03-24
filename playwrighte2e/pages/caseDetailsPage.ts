@@ -2,6 +2,7 @@ import { BasePage } from "./basePage";
 import { expect, Locator } from '@playwright/test';
 import { CaseEvent } from '../config/case-data';
 import { Tab, TabContentItem } from '../types/tab';
+import { FileTree } from '../types/case_file_view_tree.ts';
 
 export default class CaseDetailsPage extends BasePage {
     async addVPCaseFlag() {
@@ -160,5 +161,72 @@ export default class CaseDetailsPage extends BasePage {
       }
     }
     throw new Error(`No visible element found for content: ${content} at position: ${position}`);
+  }
+
+  async validateFileTree(
+    tree: FileTree,
+    parentPath: string[] = [],
+    parentLocator: Locator | null = null,
+    errors: string[] = []
+  ) {
+    const heading = this.page.getByRole('heading', { name: 'Case file', level: 2 });
+    if (!(await heading.isVisible())) {
+      let paginationBeforeButton = this.page.locator('button.mat-tab-header-pagination-before[aria-hidden="true"]:not([disabled])');
+      while (await paginationBeforeButton.count() > 0) {
+        await paginationBeforeButton.click();
+        paginationBeforeButton = this.page.locator('button.mat-tab-header-pagination-before[aria-hidden="true"]:not([disabled])');
+      }
+      const caseFileViewButton = this.page.getByRole('tab', { name: 'Case File View', exact: false });
+      await caseFileViewButton.click();
+      await expect(heading).toBeVisible();
+    }
+    for (const node of tree) {
+      const currentPath = [...parentPath, node.label];
+      if (node.type === 'folder') {
+        try {
+          const folderLocator = (parentLocator ?? this.page).locator('.node__name--folder').getByText(node.label, { exact: true });
+          await folderLocator.click();
+          const folderNode = folderLocator.locator('xpath=ancestor::cdk-nested-tree-node[1]');
+          await expect(folderNode).toHaveAttribute('aria-expanded', 'true');
+          if (node.children && node.children.length > 0) {
+            await this.validateFileTree(node.children, currentPath, folderNode, errors);
+          }
+        } catch (e) {
+          errors.push(`Folder not found or not clickable: ${currentPath.join(' / ')}\n${e}`);
+        }
+      } else if (node.type === 'file') {
+        try {
+          const fileLocator = (parentLocator ?? this.page).locator('.node-name-document').getByText(node.label, { exact: true });
+          await expect(fileLocator).toBeVisible();
+          await fileLocator.click();
+          if (node.contentSnippets) {
+            for (const snippet of node.contentSnippets) {
+              try {
+                const pdfContainer = this.page.locator('.pdfViewer');
+                const pdfTextLocator = pdfContainer.locator('span[role="presentation"]', { hasText: snippet });
+                const containerHandle = await pdfContainer.elementHandle();
+                const snippetHandle = await pdfTextLocator.elementHandle();
+                if (containerHandle && snippetHandle) {
+                  await this.page.evaluate(
+                    ([container, element]) => {
+                      (element as HTMLElement).scrollIntoView({ block: 'center' });
+                    },
+                    [containerHandle, snippetHandle]
+                  );
+                }
+                await expect(pdfTextLocator).toBeVisible();
+              } catch (e) {
+                errors.push(`Snippet not found in file "${node.label}" in folder "${parentPath.join(' / ')}": ${snippet}\n${e}`);
+              }
+            }
+          }
+        } catch (e) {
+          errors.push(`File not found or not visible: ${currentPath.join(' / ')}\n${e}`);
+        }
+      }
+    }
+    if (parentPath.length === 0 && errors.length > 0) {
+      throw new Error('File tree validation errors:\n' + errors.join('\n\n'));
+    }
   }
 }

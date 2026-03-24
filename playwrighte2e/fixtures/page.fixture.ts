@@ -40,7 +40,6 @@ import HearingDetailsPage from "../pages/hearingDetailsPage";
 import AdrDocumentPage from "../pages/adrDocumentPage";
 import CaseDetailsPage from "../pages/caseDetailsPage";
 import Et3NotificationPage from '../pages/et3NotificationPage';
-import DocumentsTabPage from '../pages/documentsTabPage';
 import UploadHearingBundlePage from '../pages/uploadHearingBundlePage';
 import CaseNotesPage from '../pages/caseNotesPage';
 import CloseCasePage from '../pages/closeCasePage';
@@ -70,6 +69,7 @@ import Et3RespondentDetailsPage from '../pages/legalRepresentative/Et3Respondent
 import { Et3EmploymentDetailsPage } from '../pages/legalRepresentative/Et3EmploymentDetailsPage.ts';
 import { Et3ResponseDetailsPage } from '../pages/legalRepresentative/Et3ResponseDetailsPage.ts';
 import InitialConsiderationPage from '../pages/initialConsiderationPage.ts';
+import AllocateHearingPage from '../pages/allocateHearingPage.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
 
@@ -120,7 +120,6 @@ export type PageFixtures = {
   adrDocument: AdrDocumentPage;
   caseDetailsPage: CaseDetailsPage;
   et3NotificationPage: Et3NotificationPage;
-  documentsTabPage: DocumentsTabPage;
   uploadHearingBundlePage: UploadHearingBundlePage;
   caseNotesPage: CaseNotesPage;
   claimantRepresentativePage: ClaimantRepresentativePage;
@@ -144,6 +143,7 @@ export type PageFixtures = {
   et3EmploymentDetailsPage: Et3EmploymentDetailsPage;
   et3ResponseDetailsPage: Et3ResponseDetailsPage;
   initialConsiderationPage: InitialConsiderationPage;
+  allocateHearingPAge:AllocateHearingPage;
 };
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -317,9 +317,6 @@ export const pageFixtures = base.extend<PageFixtures>({
     et3NotificationPage:async ({page}, use)=>{
       await use(new Et3NotificationPage(page));
     },
-    documentsTabPage:async ({page}, use)=>{
-      await use(new DocumentsTabPage(page));
-    },
     uploadHearingBundlePage:async({page}, use)=>{
         await use(new UploadHearingBundlePage(page, commonActionsHelper));
     },
@@ -397,5 +394,8 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   et3ResponseDetailsPage:async({page}, use)=>{
     await use (new Et3ResponseDetailsPage (page, commonActionsHelper));
+  },
+  allocateHearingPAge:async({page}, use)=>{
+    await use (new AllocateHearingPage(page));
   },
 });

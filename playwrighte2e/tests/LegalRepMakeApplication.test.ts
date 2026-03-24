@@ -49,8 +49,8 @@ test.describe('Make an application and view Recorded Decision', () => {
       await manageCaseDashboardPage.visit();
       await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-
-      await applicationTabPage.respondToAnApplication();
+      await caseListPage.navigateToTab('Applications')
+      await applicationTabPage.caseWorkerRespondToAnApplication('Amend response');
       await manageCaseDashboardPage.signOut();
 
       //claimant see response of respond
@@ -70,7 +70,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         loginPage,
         applicationTabPage,
         nocPage,
-        caseListPage,
+        caseListPage, checkYourAnswersPage, caseDetailsPage
       }) => {
         await loginPage.processLogin(
           config.etLegalRepresentative.email,
@@ -95,10 +95,20 @@ test.describe('Make an application and view Recorded Decision', () => {
           config.loginPaths.worklist,
         );
         await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-        await applicationTabPage.recordADecision();
+        await caseListPage.navigateToTab('Applications');
+        await applicationTabPage.enterDetailsForRecordADecision(checkYourAnswersPage, 'Amend response');
 
         await caseListPage.navigateToTab('Applications');
-        await applicationTabPage.validateRecordDecisionDetails();
+        await caseDetailsPage.assertTabData([
+          {
+            tabName: 'Applications',
+            tabContent: [
+              { tabItem: 'Amend response', value: 'Respondent Representative', exact: false, clickable: true },
+              {tabItem: 'Decision date', value: DateUtilComponent.formatToDayMonthYear(new Date())},
+              { tabItem: 'Decision', value: 'Granted'}
+            ]
+          }
+        ]);
         await manageCaseDashboardPage.signOut();
 
         //Legal rep view decision in an application tab
@@ -111,7 +121,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         await caseListPage.navigateToTab('Applications');
         await applicationTabPage.viewApplicationAndAssertDetails('Amend response', 'Open', [
           `Type of application - Amend response`,
-          'Notification - Record Decision',
+          'Notification - Amend response',
           `Date - ${DateUtilComponent.formatToDayMonthYear(new Date())}`,
           `Sent by - Tribunal`
         ]);

@@ -2,6 +2,7 @@ import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './basePage';
 import { CommonActionsHelper } from './helpers/CommonActionsHelper.ts';
 import { AxeUtils } from '@hmcts/playwright-common';
+import { CheckYourAnswersPage } from './helpers/CheckYourAnswersPage.ts';
 
 export class ApplicationTabPage extends BasePage {
 
@@ -10,64 +11,72 @@ export class ApplicationTabPage extends BasePage {
   private readonly applicationTypeDropdown: Locator;
   private readonly fileUpload: Locator;
   private readonly informationInputTextArea: Locator;
-  private readonly copyThisCorrepondenceTitle: Locator;
+  private readonly copyThisCorrespondenceTitle: Locator;
   private readonly copyThisCorrespondenceToOtherPartyYes: Locator;
   private readonly copyThisCorrespondenceToOtherPartyNo: Locator;
   private readonly copyThisCorrespondenceNoTextArea: Locator;
   private readonly openApplicationRadio: Locator;
   private readonly closedApplicationRadio: Locator;
   private readonly viewApplicationDropdown: Locator;
-
-  applicationTab =
-    '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Applications"]';
-  respondToAnApplicationLink = '//a[.="Respond to an application"]';
-  notification_link = 'text=Send a notification';
-  respondToNotificationLink = 'text=Respond to an order or request from the tribunal';
-  caseFlagsTab =
-    '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Case File View"]';
-  caseFileViewTab =
-    '//div[@class="mat-tab-labels"]/div[@class="mat-ripple mat-tab-label mat-focus-indicator ng-star-inserted"]/div[.="Case File View"]';
-  caseFileViewElement = '#case-file-view';
-  searchDocumentFromCaseFileView = '#document-search';
-  respondToApplication = '#tseAdminSelectApplication';
-  responseTitle = '#tseAdmReplyEnterResponseTitle';
-  recordDecision = '//a[.="Record a decision"]';
-  grantedRadioButton = '#tseAdminDecision-Granted';
-  recordDecisionTitle = '#tseAdminEnterNotificationTitle';
-  fullName = '#tseAdminDecisionMadeByFullName';
-  judgmentRadioButton = '#tseAdminTypeOfDecision-Judgment';
+  private readonly notificationTitleText: Locator;
+  private readonly decisionRadioGroup: Locator;
+  private readonly typeOfDecisionRadioGroup: Locator;
+  private readonly decisionMadeByRadioGroup: Locator;
+  private readonly fullNameOfDeciderText: Locator;
+  private readonly partieToNotify: Locator;
+  private readonly responseTitleTextArea: Locator;
 
   constructor(page: Page, commonActionHelper: CommonActionsHelper) {
     super(page);
     this.commonActionHelper = commonActionHelper;
     this.selectAnApplicationTitle = this.page.getByRole('heading', { name: 'Select an application' });
-    this.applicationTypeDropdown = this.page.locator(`#resTseSelectApplication`);
+    this.applicationTypeDropdown = this.page.locator(`#resTseSelectApplication, #tseAdminSelectApplication, #tseRespondSelectApplication`);
 
     this.fileUpload = this.page.locator(`#resTseDocument1`);
     this.informationInputTextArea = this.page.locator(`#resTseTextBox1`);
-    this.copyThisCorrepondenceTitle = this.page.getByRole('heading', {
+    this.copyThisCorrespondenceTitle = this.page.getByRole('heading', {
       name: 'Copy this correspondence to the other party',
     });
-    this.copyThisCorrespondenceToOtherPartyYes = this.page.locator(`#resTseCopyToOtherPartyYesOrNo-Yes`);
-    this.copyThisCorrespondenceToOtherPartyNo = this.page.locator(`#resTseCopyToOtherPartyYesOrNo-No`);
-    this.copyThisCorrespondenceNoTextArea = this.page.locator(`#resTseCopyToOtherPartyTextArea`);
+    this.copyThisCorrespondenceToOtherPartyYes = this.page.locator(`#resTseCopyToOtherPartyYesOrNo-Yes, #tseResponseCopyToOtherParty-Yes`);
+    this.copyThisCorrespondenceToOtherPartyNo = this.page.locator(`#resTseCopyToOtherPartyYesOrNo-No, #tseResponseCopyToOtherParty-No`);
+    this.copyThisCorrespondenceNoTextArea = this.page.locator(`#resTseCopyToOtherPartyTextArea, #tseResponseCopyNoGiveDetails`);
     this.openApplicationRadio = this.page.locator(`#tseViewApplicationOpenOrClosed-Open`);
     this.closedApplicationRadio = this.page.locator(`#tseViewApplicationOpenOrClosed-Closed`);
     this.viewApplicationDropdown = this.page.locator(`#tseViewApplicationSelect`);
+    this.notificationTitleText = this.page.locator(`#tseAdminEnterNotificationTitle`);
+    this.decisionRadioGroup = this.page.locator(`#tseAdminDecision`);
+    this.typeOfDecisionRadioGroup = this.page.locator(`#tseAdminTypeOfDecision`)
+    this.decisionMadeByRadioGroup = this.page.locator(`#tseAdminDecisionMadeBy`);
+    this.fullNameOfDeciderText = this.page.locator(`#tseAdminDecisionMadeByFullName`);
+    this.partieToNotify = this.page.locator(`#tseAdminSelectPartyNotify`);
+    this.responseTitleTextArea = this.page.locator(`#tseAdmReplyEnterResponseTitle`);
   }
 
   async selectEitherViewOrMakeOrRespondOrRecordADecisionLink(linkName: string) {
     await this.page.waitForLoadState('load');
     const linkLocator = this.page.locator(`//a[normalize-space()="${linkName}"]`);
-    await this.webActions.verifyElementToBeVisible(linkLocator);
+    await expect(linkLocator).toBeVisible();
     await linkLocator.click();
     await this.page.waitForLoadState('load');
   }
 
-  async selectApplicationType(applicationType: string) {
+  async selectApplicationTypeForMakingApplication(applicationType: string) {
     await this.page.waitForLoadState('load');
     await expect(this.selectAnApplicationTitle).toBeVisible();
     await this.applicationTypeDropdown.selectOption(applicationType);
+  }
+
+  async selectApplicationTypeToRespondToApplication(applicationType: string) {
+    await this.page.waitForLoadState('load');
+    await expect(this.selectAnApplicationTitle).toBeVisible();
+    await this.applicationTypeDropdown.selectOption(`1 ${applicationType}`);
+  }
+
+
+  async selectApplicationType(applicationType: string) {
+    await this.page.waitForLoadState('load');
+    await expect(this.selectAnApplicationTitle).toBeVisible();
+    await this.applicationTypeDropdown.selectOption(`1 - ${applicationType}`);
   }
 
   async fillApplicationDetails(details: string) {
@@ -83,7 +92,7 @@ export class ApplicationTabPage extends BasePage {
 
   async selectCopyThisCorrespondence(option: string) {
     await this.page.waitForLoadState('load');
-    await expect(this.copyThisCorrepondenceTitle).toBeVisible();
+    await expect(this.copyThisCorrespondenceTitle).toBeVisible();
     switch (option.toLowerCase()) {
       case 'yes':
         await expect(this.copyThisCorrespondenceToOtherPartyYes).toBeVisible();
@@ -123,7 +132,7 @@ export class ApplicationTabPage extends BasePage {
 
   async enterDetailsForMakingApplication(applicationType: string, axeUtils?: AxeUtils) {
     await this.selectEitherViewOrMakeOrRespondOrRecordADecisionLink('Make an application');
-    await this.selectApplicationType(applicationType);
+    await this.selectApplicationTypeForMakingApplication(applicationType);
     if(axeUtils) await axeUtils.audit();
     await this.clickContinue();
 
@@ -171,9 +180,9 @@ export class ApplicationTabPage extends BasePage {
     await this.viewApplicationDropdown.selectOption(`1 ${applicationName}`);
   }
 
-  async assertViewApplicationPageDetails(details: string[]) {
+  async assertApplicationPageDetails(details: string[]) {
     await this.page.waitForLoadState('load');
-    const viewApplicationData = this.page.locator(`#tseApplicationSummaryAndResponsesMarkupLabel`);
+    const viewApplicationData = this.page.locator(`#tseApplicationSummaryAndResponsesMarkupLabel, #tseAdminTableLabel`);
     for(const detail of details) {
       const key = detail.split('-')[0].trim();
       const value = detail.split('-')[1].trim();
@@ -193,116 +202,131 @@ export class ApplicationTabPage extends BasePage {
     await this.clickContinue();
     await this.selectApplicationToView(applicationType);
     await this.clickContinue();
-    await this.assertViewApplicationPageDetails(details);
+    await this.assertApplicationPageDetails(details);
   }
 
-  async selectCaseFileView() {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseFileViewTab), 20000);
-    await this.webActions.clickElementByCss(this.caseFileViewTab);
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseFileViewElement), 25000);
-
-    await this.page.locator('h2.govuk-heading-l').waitFor();
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.searchDocumentFromCaseFileView));
+  async enterNotificationTitle(title: string) {
+    await expect(this.notificationTitleText).toBeVisible();
+    await this.notificationTitleText.fill(title);
   }
 
-  async recordADecision() {
-    await this.page.waitForSelector(this.applicationTab, { timeout: 20000 });
-    await this.page.click(this.applicationTab);
-    await this.page.waitForSelector(this.recordDecision);
-    await this.page.click(this.recordDecision);
-    await expect(this.page.locator('ccd-case-edit-page')).toContainText('Record a decision');
-    await this.page.selectOption(this.respondToApplication, '1 - Amend response');
+  async selectDecisionType(decisionType: string) {
+    await expect(this.decisionRadioGroup).toBeVisible();
+    await this.decisionRadioGroup.getByRole('radio', { name: decisionType, exact: true }).check();
+  }
+
+  async selectTypeOfDecisionType(decisionType: string) {
+    await expect(this.typeOfDecisionRadioGroup).toBeVisible();
+    await this.typeOfDecisionRadioGroup.getByLabel(decisionType).check();
+
+  }
+
+  async uploadSupportingMaterial(filePaths: string[] = ['playwrighte2e/resources/test_file/welshTest.pdf']) {
+    for (let i=0; i<filePaths.length; i++) {
+      await this.addNewButtonClick();
+      await this.page.waitForLoadState('load');
+      const uploadLocator = this.page.locator(`#tseAdminResponseRequiredNoDoc_${i}_uploadedDocument, #tseResponseSupportingMaterial_${i}_uploadedDocument, #tseAdmReplyAddDocument_${i}_uploadedDocument`)
+      await this.commonActionHelper.uploadWithRateLimitRetry(
+        this.page,
+        uploadLocator,
+        filePaths[i],
+      );
+      await this.page.waitForLoadState('load');
+      await this.page.locator(`#tseAdminResponseRequiredNoDoc_${i}_shortDescription, #tseResponseSupportingMaterial_${i}_shortDescription, #tseAdmReplyAddDocument_${i}_shortDescription`).fill(`Supporting material ${i+1}`);
+    }
+  }
+
+  async selectDecisionMadeBy(decisionMadeBy: string, name: string) {
+    await this.page.waitForLoadState('load');
+    await this.decisionMadeByRadioGroup.getByLabel(decisionMadeBy).check();
+    await expect(this.fullNameOfDeciderText).toBeVisible();
+    await this.fullNameOfDeciderText.fill(name);
+  }
+
+  async selectPartiesToNotify(parties: string) {
+    await this.page.waitForLoadState('load');
+    await this.partieToNotify.getByLabel(parties).check();
+  }
+
+  async enterDetailsForRecordADecision(
+    cyaPage: CheckYourAnswersPage,
+    applicationType:string,
+    decision:string='Granted',
+    typeOfDecision: string = 'Judgment',
+  ) {
+
+    await this.page.waitForLoadState('load');
+    await this.selectEitherViewOrMakeOrRespondOrRecordADecisionLink('Record a decision');
+    await this.selectApplicationType(applicationType);
     await this.clickContinue();
 
-    await this.page.waitForSelector(this.recordDecisionTitle, { timeout: 40000 });
-    await this.page.fill(this.recordDecisionTitle, 'Record Decision');
-    await this.page.check(this.grantedRadioButton);
-    await this.page.check(this.judgmentRadioButton);
-
-    /* File upload is not working within the respond event, needs testing with newer version of playwright when released
-        await this.addNewBtn.click();
-        const [fileChooser] = await Promise.all([
-            this.page.waitForEvent('filechooser'),
-            this.page.click(this.recordDecisionFileUpload)
-        ]);
-        await fileChooser.setFiles(path.join(__dirname, '../data/test-file/test-doc.pdf'));
-        */
-
-    await this.page.getByRole('radio', { name: 'Legal officer' }).check();
-    await this.page.fill(this.fullName, 'caseworker');
-    await this.page.getByRole('radio', { name: 'Both parties' }).check();
+    await this.enterNotificationTitle(applicationType);
+    await this.selectDecisionType(decision);
+    await this.selectTypeOfDecisionType(typeOfDecision);
+    await this.uploadSupportingMaterial();
+    await this.selectDecisionMadeBy('Legal officer', 'LEGAL OFFICER')
+    await this.selectPartiesToNotify('Both parties');
     await this.clickContinue();
-    await this.delay(3000);
 
-    // await this.submit.isVisible();
+    await cyaPage.assertCheckYourAnswersPage(
+      {
+        tableName: 'Check your answers',
+        rows: [
+          { cellItem: 'Enter notification title', value: applicationType},
+          { cellItem: 'Decision', value: decision},
+          { cellItem: 'Type of decision', value: typeOfDecision},
+          { cellItem: 'Document', value: 'welshTest.pdf' },
+          { cellItem: 'Decision was made by', value: 'Legal officer'},
+          { cellItem: 'Full name', value: 'LEGAL OFFICER'},
+          { cellItem: 'Select the party or parties to notify', value: 'Both parties'},
+        ]
+      });
+
     await this.clickSubmitButton();
     await this.clickCloseAndReturn();
   }
 
-  async validateRecordDecisionDetails() {
-    await this.page.getByRole('link', { name: 'accordion-img' }).click();
-    await expect(this.page.locator('ccd-read-complex-field-collection-table')).toContainText('Record Decision');
-    await expect(this.page.locator('ccd-read-complex-field-collection-table')).toContainText('Granted');
-  }
-
-  async respondToAnApplication() {
-    await this.page.waitForSelector(this.applicationTab, { timeout: 20000 });
-    await this.page.click(this.applicationTab);
-    await this.page.waitForSelector(this.respondToAnApplicationLink);
-    await this.page.click(this.respondToAnApplicationLink);
-    await expect(this.page.locator('ccd-case-edit-page')).toContainText('Respond to an application');
-    await this.page.selectOption(this.respondToApplication, '1 - Amend response');
+  async caseWorkerRespondToAnApplication(applicationType:string) {
+    await this.page.waitForLoadState('load');
+    await this.selectEitherViewOrMakeOrRespondOrRecordADecisionLink('Respond to an application');
+    await this.selectApplicationType(applicationType);
     await this.clickContinue();
 
-    await this.page.waitForSelector(this.responseTitle, { timeout: 30000 });
-    await this.page.fill(this.responseTitle, 'Response of Response');
+    await expect(this.responseTitleTextArea).toBeVisible();
+    await this.responseTitleTextArea.fill('Response of Response');
+    await this.uploadSupportingMaterial();
 
     await this.page.getByRole('radio', { name: 'Neither' }).check();
     await this.page.getByRole('radio', { name: 'Both parties' }).check();
-
-    /* File upload is not working within the respond event, needs testing with newer version of playwright when released
-        await this.addNewBtn.click();
-        await this.page.waitForSelector(this.fileUpload);
-        await this.page.setInputFiles(this.fileUpload,'playwrighte2e/resources/test_file/test.txt');
-        await this.delay(10000);
-        */
     await this.clickContinue();
 
-    await this.delay(3000);
+    await this.page.waitForLoadState('load');
     await this.clickSubmitButton();
     await this.clickCloseAndReturn();
   }
 
-  async legalRepRespondToAnApplication() {
-    await this.page.waitForSelector(this.applicationTab, { timeout: 20000 });
-    await this.page.click(this.applicationTab);
-    await this.page.waitForSelector(this.respondToAnApplicationLink);
-    await this.page.click(this.respondToAnApplicationLink);
-    await expect(this.page.locator('ccd-case-edit-page')).toContainText('Respond to an application');
-    await this.page.selectOption('#tseRespondSelectApplication', '1: 1');
+  async legalRepRespondToAnApplication(applicationType: string) {
+    await this.page.waitForLoadState('load');
+    await this.selectEitherViewOrMakeOrRespondOrRecordADecisionLink('Respond to an application');
+    await this.selectApplicationTypeToRespondToApplication(applicationType);
     await this.clickContinue();
 
-    await this.page.waitForSelector('#tseResponseText', { timeout: 30000 });
-    await this.page.fill('#tseResponseText', 'Response of an application');
-    await this.webActions.checkElementById('#tseResponseHasSupportingMaterial_Yes');
-    //RET-3852
-    //await this.clickContinue();
+    const responseToApplication = this.page.locator(`#tseResponseText`);
+    await expect(responseToApplication).toBeVisible();
+    await responseToApplication.fill('Response of an application');
+    await this.page.getByRole('radio', { name: 'Yes' }).check();
 
-    await this.addNewBtn.click();
-    await this.page.waitForSelector('#tseResponseSupportingMaterial_0_uploadedDocument');
-    await this.page.setInputFiles(
-      '#tseResponseSupportingMaterial_0_uploadedDocument',
-      'playwrighte2e/resources/test_file/test.txt',
-    );
-    await this.delay(5000);
+    const supportingMaterialGroup = this.page.locator(`#tseResponseHasSupportingMaterial`);
+    await expect(supportingMaterialGroup).toBeVisible();
+    await supportingMaterialGroup.getByText('Yes').check();
+    await this.uploadSupportingMaterial();
     await this.clickContinue();
 
-    await this.webActions.checkElementById('#tseResponseCopyToOtherParty-Yes');
+    await this.page.waitForLoadState('load');
+    await this.selectCopyThisCorrespondence('Yes');
     await this.clickContinue();
-    await this.delay(2000);
 
     await this.clickSubmitButton();
-
     await expect(this.page.locator('h3')).toContainText('What happens next');
     await this.clickCloseAndReturn();
   }

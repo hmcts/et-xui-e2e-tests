@@ -4,7 +4,7 @@ import LoginPage from '../loginPage.ts';
 
 export default class CitizenHubLoginPage extends LoginPage {
   private readonly syaLandingPageTitle: Locator;
-  private readonly startNowButton: Locator;
+  private readonly startNewClaimButton: Locator;
   private readonly returnToAnExistingClaimLink: Locator;
   private readonly returnToExistingClaimPageTitle: Locator;
   private readonly saveAndReturnNumberCheckbox: Locator;
@@ -14,8 +14,8 @@ export default class CitizenHubLoginPage extends LoginPage {
   constructor(page: Page) {
     super(page);
     this.syaLandingPageTitle = this.page.getByRole('heading', {name: 'Make a claim to an employment tribunal'})
-    this.startNowButton = this.page.locator(`xpath=//a[normalize-space()='Start now']`);
-    this.returnToAnExistingClaimLink = this.page.locator(`xpath=//a[normalize-space()='Return to an existing claim']`);
+    this.startNewClaimButton = this.page.locator(`xpath=//a[normalize-space()='Start a new claim']`);
+    this.returnToAnExistingClaimLink = this.page.locator(`xpath=//a[normalize-space()='Return to a draft or existing claim']`);
     this.returnToExistingClaimPageTitle = this.page.getByRole('heading', {name: 'Return to an existing claim'});
     this.saveAndReturnNumberCheckbox = this.page.locator(`#return_number_or_account`);
     this.employmentTribAccountCheckbox = this.page.locator(`#return_number_or_account-2`);
@@ -24,7 +24,7 @@ export default class CitizenHubLoginPage extends LoginPage {
   async assertSyaLandingPage() {
     await this.page.waitForLoadState('load');
     await expect(this.syaLandingPageTitle).toBeVisible();
-    await expect(this.startNowButton).toBeVisible();
+    await expect(this.startNewClaimButton).toBeVisible();
     await expect(this.returnToAnExistingClaimLink).toBeVisible();
   }
 
