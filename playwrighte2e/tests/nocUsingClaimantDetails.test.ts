@@ -27,9 +27,9 @@ test.describe('perform NOC for Claimant', () => {
     caseDetailsPage,
   }) => {
     //Caseworker assign a claimant representative
-    await caseListPage.selectNextEvent(Events.claimantRepresentative.listItem);
+    await caseDetailsPage.selectNextEvent(Events.claimantRepresentative);
     await claimantRepresentativePage.addClaimantRepresentative();
-    await caseListPage.navigateToTab('Claimant Representative');
+    await caseDetailsPage.navigateToTab('Claimant Representative');
     await caseDetailsPage.assertTabData([
       {
         tabName: 'Claimant Representative',

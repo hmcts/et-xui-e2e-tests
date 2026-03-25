@@ -1,7 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 import config from '../config/config';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 
 let caseNumber: string;
 let subRef: string;
@@ -12,13 +12,13 @@ test.describe('ET3/Respondent Journey validates respondent/claimant details', ()
   });
 
   //RET-5516
-  test('Citizen user validates respondent contact details', async ({page, loginPage,caseListPage, respondentDetailsPage, citizenHubLoginPage, citizenHubPage }) => {
+  test('Citizen user validates respondent contact details', async ({page, loginPage,caseListPage, respondentDetailsPage, citizenHubLoginPage, citizenHubPage, manageCaseDashboardPage, caseDetailsPage }) => {
     //caseworker completes respondent details
     await page.goto(config.manageCaseBaseUrl);
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(subRef.toString(), CaseTypeLocation.EnglandAndWales);
 
-    await caseListPage.selectNextEvent('Respondent Details');
+    await caseDetailsPage.selectNextEvent(Events.respondentDetails);
     await respondentDetailsPage.processRespondentDetailsET3(true);
     await caseListPage.signoutButton();
 
@@ -31,10 +31,10 @@ test.describe('ET3/Respondent Journey validates respondent/claimant details', ()
   });
 
   //RET-5767
-  test('Respondent validates claimant contact details', {tag: '@demo'}, async ({ page, loginPage, caseListPage, respondentCaseOverviewPage , et3LoginPage}) => {
+  test('Respondent validates claimant contact details', {tag: '@demo'}, async ({ page, loginPage, caseListPage, respondentCaseOverviewPage , et3LoginPage, manageCaseDashboardPage}) => {
     await page.goto(config.manageCaseBaseUrl);
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(subRef.toString(), CaseTypeLocation.EnglandAndWales);
     await caseListPage.signoutButton();
 
     //Assign a claim to respondent

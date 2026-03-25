@@ -3,8 +3,8 @@ import dateUtilComponent from '../data-utils/DateUtilComponent';
 import { CaseTypeLocation, Events } from '../config/case-data';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import config from '../config/config.ts';
+import letterPageData from '../resources/payload/letter-content.json';
 
-const letterPageData = require('../resources/payload/letter-content.json');
 let caseNumber: string;
 let caseId: string;
 test.describe('Generate Letters', () => {
@@ -16,22 +16,22 @@ test.describe('Generate Letters', () => {
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     });
 
-    test('ET2 - Short track letter', {tag: '@demo'}, async({caseListPage, listHearingPage, lettersPage,initialConsiderationPage}) => {
+    test('ET2 - Short track letter', {tag: '@demo'}, async({caseListPage, listHearingPage, lettersPage,initialConsiderationPage, caseDetailsPage}) => {
 
-        await caseListPage.selectNextEvent(Events.listHearing.listItem);
+        await caseDetailsPage.selectNextEvent(Events.listHearing);
         await listHearingPage.listCase('EnglandWales', 0,'Leeds ET');
 
-        await caseListPage.selectNextEvent(letterPageData.letterEvent);
+        await caseDetailsPage.selectNextEvent(Events.letters);
         await lettersPage.generateShortTrackLetter();
 
         await caseListPage.verifyCaseDetailsOnTab(letterPageData.claimLabel, dateUtilComponent.formatTodaysDate(new Date()));
         await caseListPage.verifyCaseDetailsOnTab(letterPageData.et3DueDateLabel, dateUtilComponent.addDaysAndMonths(28));
 
-        await caseListPage.navigateToTab("BF Actions");
+        await caseDetailsPage.navigateToTab("BF Actions");
         await caseListPage.verifyBFActionsTab('Description', 'Other action');
 
         // RET-5793 Validate initial consideration hearing details
-        await caseListPage.selectNextEvent('Initial Consideration');
+        await caseDetailsPage.selectNextEvent(Events.initialConsideration);
         await initialConsiderationPage.validateHearingDetails();
         await initialConsiderationPage.completeSubmissionWithHearing();
     });

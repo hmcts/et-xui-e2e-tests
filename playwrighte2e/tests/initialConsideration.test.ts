@@ -13,7 +13,7 @@ test.describe('Initial Consideration Tests', () => {
   test(
     'Initial Consideration - Preliminary Hearing options ',
     { tag: '@demo' },
-    async ({ manageCaseDashboardPage, caseListPage, loginPage, caseDetailsPage, initialConsiderationPage}) => {
+    async ({ manageCaseDashboardPage, loginPage, caseDetailsPage, initialConsiderationPage}) => {
       await manageCaseDashboardPage.visit();
       //judge log in
       await loginPage.processLogin(
@@ -23,9 +23,9 @@ test.describe('Initial Consideration Tests', () => {
       );
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
-      await caseListPage.selectNextEvent('Initial Consideration');
+      await caseDetailsPage.selectNextEvent(Events.initialConsideration);
       await initialConsiderationPage.preliminaryHearingDetails()
-      await caseListPage.navigateToTab('ICTab');
+      await caseDetailsPage.navigateToTab('Initial Consideration');
       await caseDetailsPage.assertTabData([
         {
           tabName: 'Initial Consideration',
@@ -43,15 +43,15 @@ test.describe('Initial Consideration Tests', () => {
   test(
     'Initial Consideration - Case Management Hearing Options ',
     { tag: '@demo' },
-    async ({ manageCaseDashboardPage, caseListPage, loginPage, caseDetailsPage, initialConsiderationPage,listHearingPage}) => {
+    async ({ manageCaseDashboardPage, loginPage, caseDetailsPage, initialConsiderationPage,listHearingPage}) => {
       await manageCaseDashboardPage.visit();
       await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-      await caseListPage.selectNextEvent(Events.listHearing.listItem);
+      await caseDetailsPage.selectNextEvent(Events.listHearing);
       await listHearingPage.listCase('EnglandWales', 0,'Leeds ET','Preliminary Hearing (CM)');
-      await caseListPage.selectNextEvent('Initial Consideration');
+      await caseDetailsPage.selectNextEvent(Events.initialConsideration);
       await initialConsiderationPage.caseManagementHearingOptions()
-      await caseListPage.navigateToTab('ICTab');
+      await caseDetailsPage.navigateToTab('Initial Consideration');
       await caseDetailsPage.assertTabData([
         {
           tabName: 'Initial Consideration',
@@ -68,18 +68,18 @@ test.describe('Initial Consideration Tests', () => {
   test(
     'Initial Consideration - Final Hearing Options ',
     { tag: '@demo' },
-    async ({ manageCaseDashboardPage, caseListPage, loginPage, caseDetailsPage, initialConsiderationPage,listHearingPage}) => {
+    async ({ manageCaseDashboardPage, loginPage, caseDetailsPage, initialConsiderationPage,listHearingPage}) => {
       await manageCaseDashboardPage.visit();
 
       await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
 
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-      await caseListPage.selectNextEvent(Events.listHearing.listItem);
+      await caseDetailsPage.selectNextEvent(Events.listHearing);
       await listHearingPage.listCase('EnglandWales', 0,'Leeds ET','Final Hearing');
 
-      await caseListPage.selectNextEvent('Initial Consideration');
+      await caseDetailsPage.selectNextEvent(Events.initialConsideration);
       await initialConsiderationPage.finalHearingOptions()
-      await caseListPage.navigateToTab('ICTab');
+      await caseDetailsPage.navigateToTab('Initial Consideration');
       await caseDetailsPage.assertTabData([
         {
           tabName: 'Initial Consideration',
@@ -92,12 +92,4 @@ test.describe('Initial Consideration Tests', () => {
       ]);
     },
   );
-
-
-
-
-
 });
-
-
-

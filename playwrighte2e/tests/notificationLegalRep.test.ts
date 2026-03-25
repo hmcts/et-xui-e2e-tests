@@ -11,7 +11,7 @@ test.describe('Legal Representative Notifications', () => {
   test(
     'Legal Representative creates a claim and tribunal sends notification, Legal Rep view notification',
     { tag: '@demo' },
-    async ({ manageCaseDashboardPage, caseWorkerNotificationPage, caseListPage, loginPage }) => {
+    async ({ manageCaseDashboardPage, caseWorkerNotificationPage, loginPage }) => {
       ({ caseId, caseNumber } = await LegalRepCaseFactory.createAndProgressToSubmitEnglandWalesCase());
       await manageCaseDashboardPage.visit();
       await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
@@ -29,7 +29,7 @@ test.describe('Legal Representative Notifications', () => {
         config.etLegalRepresentative.password,
         config.loginPaths.cases,
       );
-      await caseListPage.navigateToCaseDetails(caseId, 'EnglandWales');
+      await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
       await caseWorkerNotificationPage.viewNotification();
     },
   );

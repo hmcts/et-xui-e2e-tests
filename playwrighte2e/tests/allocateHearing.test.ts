@@ -13,7 +13,7 @@ test.describe('Allocate Hearing and Hearing List', () => {
 
   test('Print Hearing List for Newcastle office and validate members', { tag: '@demo' },async ({
                                                                  manageCaseDashboardPage,
-                                                                 loginPage, caseListPage,
+                                                                 loginPage,
                                                                  listHearingPage,
                                                                  caseDetailsPage,allocateHearingPAge
                                                                }) => {
@@ -23,15 +23,15 @@ test.describe('Allocate Hearing and Hearing List', () => {
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
     //List 1 hearing for the case
-    await caseListPage.selectNextEvent(Events.listHearing.listItem);
+    await caseDetailsPage.selectNextEvent(Events.listHearing);
     await listHearingPage.listCase('EnglandWales', 0, 'Newcastle CFCTC', "Costs Hearing", "Full Panel");
     await caseDetailsPage.checkHasBeenCreated(Events.listHearing);
-    await caseListPage.selectNextEvent('Allocate Hearing');
+    await caseDetailsPage.selectNextEvent(Events.allocateHearing);
     await allocateHearingPAge.allocateHearing();
-    await caseListPage.selectNextEvent(Events.listHearing.listItem);
+    await caseDetailsPage.selectNextEvent(Events.listHearing);
     await listHearingPage.updatePanelType("Sit Alone");
     // RET-5464
-    await caseListPage.selectNextEvent('Print Hearing lists');
+    await caseDetailsPage.selectNextEvent(Events.printHearingLists);
     await allocateHearingPAge.validateHearingList();
   });
 });

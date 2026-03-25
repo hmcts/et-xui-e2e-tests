@@ -21,7 +21,6 @@ test.describe('Citizen applications', () => {
     citizenHubPage,
     loginPage,
     nocPage,
-    caseListPage,
     applicationTabPage,
     caseDetailsPage,
     contactTheTribunalPage,
@@ -60,7 +59,7 @@ test.describe('Citizen applications', () => {
       config.loginPaths.cases,
     );
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-    await caseListPage.navigateToTab('Applications');
+    await caseDetailsPage.navigateToTab('Applications');
     await applicationTabPage.legalRepRespondToAnApplication('Change my personal details');
     await manageCaseDashboardPage.signOut();
 
@@ -69,7 +68,7 @@ test.describe('Citizen applications', () => {
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
-    await caseListPage.navigateToTab('Documents');
+    await caseDetailsPage.navigateToTab('Documents');
     await caseDetailsPage.assertTabData([
       {
         tabName: 'Documents',

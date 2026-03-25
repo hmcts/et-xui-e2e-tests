@@ -2,7 +2,7 @@ import { test } from '../fixtures/common.fixture';
 import config from "../config/config";
 import referralData from '../resources/payload/referral-content.json';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 
 let caseId: string;
 let caseNumber: string;
@@ -12,7 +12,7 @@ test.describe.serial('England - Referral test', () => {
     test(
       'New referral',
       { tag: '@demo' },
-      async ({ manageCaseDashboardPage, loginPage, caseListPage, referralPage, initialConsiderationPage }) => {
+      async ({ manageCaseDashboardPage, loginPage, caseListPage, referralPage, initialConsiderationPage, caseDetailsPage }) => {
 
         ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
         await manageCaseDashboardPage.visit();
@@ -25,16 +25,16 @@ test.describe.serial('England - Referral test', () => {
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         //Send new referral
-        await caseListPage.navigateToTab(referralData.tabName);
+        await caseDetailsPage.navigateToTab(referralData.tabName);
         await caseListPage.verifyAndClickLinkInTab(referralData.createNewReferral);
         await referralPage.sendNewReferral(false);
 
         //verify referral details
-        await caseListPage.navigateToTab(referralData.tabName);
+        await caseDetailsPage.navigateToTab(referralData.tabName);
         await caseListPage.verifyReferralDetails();
 
         await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-        await caseListPage.selectNextEvent('Initial Consideration');
+        await caseDetailsPage.selectNextEvent(Events.initialConsideration);
         await initialConsiderationPage.validateReferralLink();
 
         //sign out as caseworker
@@ -45,7 +45,7 @@ test.describe.serial('England - Referral test', () => {
     test(
       'Reply to a referral',
       { tag: '@demo' },
-      async ({ manageCaseDashboardPage, caseListPage, loginPage, referralPage }) => {
+      async ({ manageCaseDashboardPage, caseListPage, loginPage, referralPage, caseDetailsPage }) => {
         await manageCaseDashboardPage.visit();
 
         //judge logs in
@@ -57,12 +57,12 @@ test.describe.serial('England - Referral test', () => {
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         //Reply & verify a referral
-        await caseListPage.navigateToTab(referralData.tabName);
+        await caseDetailsPage.navigateToTab(referralData.tabName);
         await caseListPage.verifyAndClickLinkInTab(referralData.replyToReferral);
         await referralPage.replyToReferral();
 
         //verify referral details
-        await caseListPage.navigateToTab(referralData.tabName);
+        await caseDetailsPage.navigateToTab(referralData.tabName);
         await caseListPage.verifyReplyReferralDetails();
 
         await caseListPage.verifyReplyDetailsOnTab('Admin');
@@ -74,7 +74,7 @@ test.describe.serial('England - Referral test', () => {
     test(
       'Z - Close a referral',
       { tag: '@demo' },
-      async ({ manageCaseDashboardPage, loginPage, caseListPage, referralPage }) => {
+      async ({ manageCaseDashboardPage, loginPage, caseListPage, referralPage, caseDetailsPage }) => {
         await manageCaseDashboardPage.visit();
 
         //judge logs in
@@ -86,16 +86,15 @@ test.describe.serial('England - Referral test', () => {
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         // Close & verify a referral
-        await caseListPage.navigateToTab(referralData.tabName);
+        await caseDetailsPage.navigateToTab(referralData.tabName);
         await caseListPage.verifyAndClickLinkInTab(referralData.closeReferral);
         await referralPage.closeAReferral();
 
         //verify referral details
-        await caseListPage.navigateToTab(referralData.tabName);
+        await caseDetailsPage.navigateToTab(referralData.tabName);
         await caseListPage.verifyCloseReferralDetails();
 
         await manageCaseDashboardPage.signOut();
       },
     );
-
 });

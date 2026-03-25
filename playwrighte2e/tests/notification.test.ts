@@ -2,7 +2,7 @@ import { test } from '../fixtures/common.fixture';
 import CaseWorkerNotificationPage from '../pages/notifications/CaseWorkerNotificationPage.ts';
 import config from '../config/config';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 
 let caseNumber: any;
@@ -64,12 +64,12 @@ test.describe('Notification', () => {
     manageCaseDashboardPage,
     citizenHubLoginPage,
     citizenHubPage,
-    caseListPage,
+                                                                              caseDetailsPage,
     listHearingPage,
     caseWorkerNotificationPage,
   }) => {
     //list hearing
-    await caseListPage.selectNextEvent('List Hearing');
+    await caseDetailsPage.selectNextEvent(Events.listHearing);
     await listHearingPage.listCase('EnglandWales', 0, 'Amersham');
 
     //Caseworker send notification
@@ -88,12 +88,12 @@ test.describe('Notification', () => {
 
   test('Tribunal/caseworker perform ET1 serving event with 7.7 type document',
     async ({
-             manageCaseDashboardPage,
-    caseListPage,
+    manageCaseDashboardPage,
+    caseDetailsPage,
     et1CaseServingPage,
   }) => {
     //Caseworker perform ET1 serving notification
-    await caseListPage.selectNextEvent('ET1 serving');
+    await caseDetailsPage.selectNextEvent(Events.et1Serving);
     await et1CaseServingPage.et1ServingEvent();
     await et1CaseServingPage.validateEt1ErrorMessage();
     await manageCaseDashboardPage.signOut();
@@ -104,11 +104,11 @@ test.describe('Notification', () => {
     async ({
              manageCaseDashboardPage,
     citizenHubPage, citizenHubLoginPage,
-    caseListPage,
+    caseDetailsPage,
     et1CaseServingPage,
   }) => {
     //Caseworker perform ET1 serving notification
-    await caseListPage.selectNextEvent('ET1 serving');
+    await caseDetailsPage.selectNextEvent(Events.et1Serving);
     await et1CaseServingPage.et1ServingEventNoticeOfClaim();
     await manageCaseDashboardPage.signOut();
 

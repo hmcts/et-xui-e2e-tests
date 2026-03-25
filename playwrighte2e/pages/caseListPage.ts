@@ -79,21 +79,6 @@ export default class CaseListPage extends BasePage {
     await managingOfficeDropdown.selectOption(office);
   }
 
-  async navigateToCaseDetails(subRef: string, option: string): Promise<string> {
-    await this.page.waitForLoadState('load');
-    const type = option === 'EnglandWales' ? 'ET_EnglandWales' : option === 'Scotland' ? 'Scotland' : option;
-    const url = `${config.manageCaseBaseUrl}/case-details/EMPLOYMENT/${type}/${subRef}#Case%20Details`;
-    await this.page.goto(url);
-    await this.page.waitForLoadState('load');
-    await expect(this.page.getByText(subRef)).toBeVisible();
-
-    const caseNumberText = await this.page.locator('h1', { hasText: 'Case Number:' }).textContent();
-    const match = caseNumberText?.match(/Case Number:(\d+\/\d+)/);
-    const caseNumber = match ? match[1] : '';
-    console.log('Navigated to case number: ' + caseNumber);
-    return caseNumber;
-  }
-
   // needed for share case feature
   async searchCaseApplicationWithSubmissionReference(option: string, submissionReference: string) {
     await this.page.reload();
@@ -134,30 +119,6 @@ export default class CaseListPage extends BasePage {
     await this.page.getByRole('link', { name: 'Go back to the case list.' }).click();
   }
 
-  async selectNextEvent(option: string) {
-    await Promise.all([
-      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.submitEventButton)),
-      await this.page.getByLabel('Next step').selectOption(option),
-      await this.delay(3000),
-      await this.webActions.clickElementByCss(this.elements.submitEventButton),
-    ]);
-  }
-
-  async verifyCaseDetailsPage(et1VettingFlag: boolean) {
-    if (et1VettingFlag) {
-      //TO DO fix this tab Ids are not consistent
-      // await expect(this.page.locator('#mat-tab-label-0-0')).toContainText('Case Details');
-      // await expect(this.page.locator('#mat-tab-label-0-1')).toContainText('Claimant');
-      // await expect(this.page.locator('#mat-tab-label-0-2')).toContainText('Respondent');
-      // await expect(this.page.locator('#mat-tab-label-0-4')).toContainText('Jurisdictions');
-      // await expect(this.page.locator('#mat-tab-label-0-5')).toContainText('Referrals');
-      // await expect(this.page.locator('#mat-tab-label-0-6')).toContainText('History');
-      // await expect(this.page.locator('#mat-tab-label-0-7')).toContainText('Documents');
-    } else {
-      //await expect(this.page.locator('#mat-tab-label-1-2')).toContainText('ET1 Vetting');
-    }
-  }
-
   async claimantRepCreateCase(jurisdiction: string, caseType: string, postcode: string) {
     await this.webActions.clickElementByText(this.elements.createCaseLink);
     await this.webActions.selectByLabelFromDropDown(this.elements.jurisdictionDropdownLR, jurisdiction);
@@ -169,114 +130,6 @@ export default class CaseListPage extends BasePage {
     await this.enterPostCode(postcode);
     await this.clickSubmitButton();
     await this.delay(2000);
-  }
-
-  async clickTab(tabName: string) {
-    await this.webActions.clickElementByText(tabName);
-  }
-
-  async navigateToTab(tabName: string): Promise<void> {
-    await this.page.waitForLoadState('load');
-    switch (tabName) {
-      case 'ICTab': {
-        await this.webActions.clickElementByRole('tab', { name: 'Initial Consideration', exact: true });
-        break;
-      }
-      case 'Respondent': {
-        await this.webActions.clickElementByRole('tab', { name: 'Respondent', exact: true });
-        break;
-      }
-      // When there is an ECC, the tab name for Respondent is appended with an s as the names can't be the same
-      case 'Claimant': {
-        await this.webActions.clickElementByRole('tab', { name: 'Claimant', exact: true });
-        break;
-      }
-      case 'Documents': {
-        await this.webActions.clickElementByRole('tab', { name: 'Documents', exact: true });
-        break;
-      }
-      case 'ADR/Privileged': {
-        await this.webActions.clickElementByRole('tab', { name: 'ADR/Privileged', exact: true });
-        break;
-      }
-      case 'Referrals': {
-        await this.delay(2000);
-        await this.webActions.clickElementByCss(this.elements.referralTab);
-        break;
-      }
-      case 'Judgments': {
-        await this.webActions.clickElementByRole('tab', { name: 'Judgments', exact: true });
-        break;
-      }
-      case 'BF Actions': {
-        await this.webActions.clickElementByRole('tab', { name: 'BF Actions', exact: true });
-        break;
-      }
-      case 'Case list': {
-        await this.webActions.clickElementByCss(this.elements.caseListTab);
-        break;
-      }
-      case 'All work': {
-        await this.webActions.clickElementByCss(this.elements.allWorkTab);
-        break;
-      }
-      case 'My work': {
-        await this.webActions.clickElementByCss(this.elements.myWorkTab);
-        break;
-      }
-      case 'Deposit Order': {
-        const ele = this.page.locator(this.elements.depositOrderTab).nth(1);
-        await this.webActions.verifyElementToBeVisible(ele);
-        await ele.click();
-        break;
-      }
-      case 'Judgment': {
-        const ele = this.page.locator(this.elements.judgmentTab).nth(1);
-        await this.webActions.verifyElementToBeVisible(ele);
-        await ele.click();
-        break;
-      }
-      default: {
-        await this.page.waitForLoadState('load', {timeout: 5000});
-        const xpath = `//div[@role='tab']/div[normalize-space()='${tabName}']`;
-        let tabHeader = this.page.locator(xpath);
-
-        const tryPaginateAncClickTab = async(direction: string) => {
-          let paginateDirectionButton = this.page.locator(`button.mat-tab-header-pagination-${direction}[aria-hidden="true"]:not([disabled])`);
-          while (await paginateDirectionButton.count() > 0) {
-            await paginateDirectionButton.click();
-            try {
-              await this.page.waitForLoadState('load');
-              tabHeader = this.page.locator(xpath);
-              await tabHeader.click({ trial: true, timeout:2000 });
-              await tabHeader.click();
-              console.log(`Clicked on tab after paginating ${direction}: ` + tabName);
-              return true;
-            } catch {
-            }
-            paginateDirectionButton = this.page.locator(`button.mat-tab-header-pagination-${direction}[aria-hidden="true"]:not([disabled])`);
-          }
-          return false;
-        };
-
-        try {
-          await this.page.waitForLoadState('load');
-          tabHeader = this.page.locator(xpath);
-          await tabHeader.click({ trial: true, timeout:2000 }); // trial: true checks if clickable
-          await tabHeader.click();
-          console.log('Clicked on tab: ' + tabName);
-          return;
-        } catch {
-          // Try paginating before
-          if (await tryPaginateAncClickTab('before'))  return;
-          // Try paginating After
-          if (await tryPaginateAncClickTab('after'))  return;
-         // if nothing worked then throw error
-          throw new Error('Not able to navigate to Tab ' + tabName);
-        }
-      }
-    }
-
   }
 
   async searchHearingReports(option: string, state: string, officeLocation: string) {

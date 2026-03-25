@@ -2,7 +2,7 @@ import { test } from '../fixtures/common.fixture';
 import config from '../config/config';
 import userDetailsData from '../resources/payload/user-details.json';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
-import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
+import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data.ts';
 
 let caseNumber: string;
 let caseId: string;
@@ -12,13 +12,12 @@ test.describe('Legal Representative submits a case and perform various events', 
     'LR creates a claim, amend claimant/respondent names and persist NOC with original claimant/respondent names',
     { tag: '@demo' },
     async ({
-      page,
+      caseDetailsPage,
       manageCaseDashboardPage,
       caseListPage,
       claimantDetailsPage,
       respondentDetailsPage,
       loginPage,
-      legalRepPage,
       et1CreateDraftClaim,
       nocPage,
     }) => {
@@ -44,9 +43,9 @@ test.describe('Legal Representative submits a case and perform various events', 
       await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
       await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
       // Amend Claimant and Respondent names
-      await caseListPage.selectNextEvent('Claimant Details');
+      await caseDetailsPage.selectNextEvent(Events.claimantDetails);
       await claimantDetailsPage.processClaimantDetails();
-      await caseListPage.selectNextEvent('Respondent Details');
+      await caseDetailsPage.selectNextEvent(Events.respondentDetails);
       await respondentDetailsPage.processRespondentDetails();
       await manageCaseDashboardPage.signOut();
 

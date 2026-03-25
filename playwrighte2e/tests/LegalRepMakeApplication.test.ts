@@ -23,7 +23,7 @@ test.describe('Make an application and view Recorded Decision', () => {
       citizenHubLoginPage,
       citizenHubPage,
       loginPage,
-      applicationTabPage, nocPage, caseListPage
+      applicationTabPage, nocPage, caseDetailsPage
     }) => {
       await loginPage.processLogin(
         config.etLegalRepresentative.email,
@@ -35,7 +35,7 @@ test.describe('Make an application and view Recorded Decision', () => {
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
       //legal rep make an application
-      await caseListPage.navigateToTab('Applications')
+      await caseDetailsPage.navigateToTab('Applications')
       await  applicationTabPage.enterDetailsForMakingApplication('Amend response')
       await manageCaseDashboardPage.signOut();
 
@@ -49,7 +49,7 @@ test.describe('Make an application and view Recorded Decision', () => {
       await manageCaseDashboardPage.visit();
       await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-      await caseListPage.navigateToTab('Applications')
+      await caseDetailsPage.navigateToTab('Applications')
       await applicationTabPage.caseWorkerRespondToAnApplication('Amend response');
       await manageCaseDashboardPage.signOut();
 
@@ -83,7 +83,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         //legal rep make an application
-        await caseListPage.navigateToTab('Applications');
+        await caseDetailsPage.navigateToTab('Applications');
         await applicationTabPage.enterDetailsForMakingApplication('Amend response');
         await manageCaseDashboardPage.signOut();
 
@@ -95,10 +95,10 @@ test.describe('Make an application and view Recorded Decision', () => {
           config.loginPaths.worklist,
         );
         await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-        await caseListPage.navigateToTab('Applications');
+        await caseDetailsPage.navigateToTab('Applications');
         await applicationTabPage.enterDetailsForRecordADecision(checkYourAnswersPage, 'Amend response');
 
-        await caseListPage.navigateToTab('Applications');
+        await caseDetailsPage.navigateToTab('Applications');
         await caseDetailsPage.assertTabData([
           {
             tabName: 'Applications',
@@ -118,7 +118,7 @@ test.describe('Make an application and view Recorded Decision', () => {
           config.loginPaths.cases,
         );
         await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-        await caseListPage.navigateToTab('Applications');
+        await caseDetailsPage.navigateToTab('Applications');
         await applicationTabPage.viewApplicationAndAssertDetails('Amend response', 'Open', [
           `Type of application - Amend response`,
           'Notification - Amend response',
@@ -140,8 +140,7 @@ test.describe('Make an application and view Recorded Decision', () => {
       async ({
                manageCaseDashboardPage,
                loginPage,
-               nocPage,
-               caseListPage,
+               nocPage,caseDetailsPage,
                checkYourAnswersPage,
                et3DetailsPage, et3RespondentDetailsPage,
                et3EmploymentDetailsPage, et3ResponseDetailsPage}) => {
@@ -156,7 +155,7 @@ test.describe('Make an application and view Recorded Decision', () => {
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
       //perform all ET3 events as a LR
-      await caseListPage.selectNextEvent(Events.et3RespondentDetails.listItem);
+      await caseDetailsPage.selectNextEvent(Events.et3RespondentDetails);
       await et3RespondentDetailsPage.enterEt3RespondentDetails(checkYourAnswersPage);
 
       await et3DetailsPage.navigateToEt3EmploymentDetailsPage();
@@ -165,7 +164,7 @@ test.describe('Make an application and view Recorded Decision', () => {
       await et3DetailsPage.navigateToEt3ResponseDetailsPage();
       await et3ResponseDetailsPage.enterEt3ResponseDetails(checkYourAnswersPage);
 
-      await caseListPage.selectNextEvent(Events.submitEt3Form.listItem);
+      await caseDetailsPage.selectNextEvent(Events.submitEt3Form);
       await et3DetailsPage.submitEt3Form(checkYourAnswersPage);
     });
 });

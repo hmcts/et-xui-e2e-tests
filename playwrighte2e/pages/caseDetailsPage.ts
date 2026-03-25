@@ -1,11 +1,21 @@
 import { BasePage } from "./basePage";
-import { expect, Locator } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 import { CaseEvent } from '../config/case-data';
 import { Tab, TabContentItem } from '../types/tab';
 import { FileTree } from '../types/case_file_view_tree.ts';
 
 export default class CaseDetailsPage extends BasePage {
-    async addVPCaseFlag() {
+
+  private readonly goButton: Locator;
+  private readonly selectNextStepDropDown: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.goButton = page.locator(`//button[text()='Go']`);
+    this.selectNextStepDropDown = page.getByLabel('Next step');
+  }
+
+  async addVPCaseFlag() {
         await this.webActions.waitForElementToBeVisible('text=Managing Office');
         await this.webActions.selectByOptionFromDropDown('#allocatedOffice', '1: Glasgow');
         await this.clickContinue();
@@ -49,7 +59,7 @@ export default class CaseDetailsPage extends BasePage {
     // Wait for the tab header to be visible and enabled before clicking
     await tabHeader.waitFor({ state: 'visible' });
     await expect(tabHeader).toBeEnabled();
-    await tabHeader.click();
+    await this.navigateToTab(tabName);
   }
 
   /**
@@ -227,6 +237,70 @@ export default class CaseDetailsPage extends BasePage {
     }
     if (parentPath.length === 0 && errors.length > 0) {
       throw new Error('File tree validation errors:\n' + errors.join('\n\n'));
+    }
+  }
+
+  async navigateToTab(tabName: string): Promise<void> {
+    await this.page.waitForLoadState('load', {timeout: 5000});
+    const xpath = `//div[@role='tab']/div[normalize-space()='${tabName}']`;
+    let tabHeader = this.page.locator(xpath);
+
+    const tryPaginateAncClickTab = async(direction: string) => {
+      let paginateDirectionButton = this.page.locator(`button.mat-tab-header-pagination-${direction}[aria-hidden="true"]:not([disabled])`);
+      while (await paginateDirectionButton.count() > 0) {
+        await paginateDirectionButton.click();
+        try {
+          await this.page.waitForLoadState('load');
+          tabHeader = this.page.locator(xpath);
+          await tabHeader.click({ trial: true, timeout:2000 });
+          await tabHeader.click();
+          console.log(`Clicked on tab after paginating ${direction}: ` + tabName);
+          return true;
+        } catch {
+        }
+        paginateDirectionButton = this.page.locator(`button.mat-tab-header-pagination-${direction}[aria-hidden="true"]:not([disabled])`);
+      }
+      return false;
+    };
+
+    try {
+      await this.page.waitForLoadState('load');
+      tabHeader = this.page.locator(xpath);
+      await tabHeader.click({ trial: true, timeout:2000 }); // trial: true checks if clickable
+      await tabHeader.click();
+      console.log('Clicked on tab: ' + tabName);
+      return;
+    } catch {
+      // Try paginating before
+      if (await tryPaginateAncClickTab('before'))  return;
+      // Try paginating After
+      if (await tryPaginateAncClickTab('after'))  return;
+      // if nothing worked then throw error
+      throw new Error('Not able to navigate to Tab ' + tabName);
+    }
+  }
+
+  async selectNextEvent(event: CaseEvent) {
+    const maxRetries = 5;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      await this.page.waitForLoadState();
+      await this.goButton.isVisible();
+      await expect(this.selectNextStepDropDown).toBeVisible();
+      await this.selectNextStepDropDown.selectOption(event.listItem);
+      if (attempt === 3) { // if go button click fails multiple times, reload the page
+        await this.page.reload();
+        await this.page.waitForLoadState();
+        await this.goButton.isVisible();
+        await this.selectNextStepDropDown.selectOption(event.listItem);
+      }
+      await this.goButton.click({ clickCount: 2, force: true });
+      try {
+        console.log(this.page.url());
+        await this.page.waitForURL(`**/${event.ccdCallback}/**`, { timeout: 10000 });
+        return;
+      } catch (e) {
+        if (attempt === maxRetries) throw e;
+      }
     }
   }
 }

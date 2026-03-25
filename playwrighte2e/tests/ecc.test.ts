@@ -2,22 +2,22 @@ import { test } from '../fixtures/common.fixture';
 import { expect } from '@playwright/test';
 import config from '../config/config';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 
 let subRef: any;
 let caseNumber: any;
 
 test.describe('ECC', () => {
   test.describe.configure({ mode: 'default' });
-  test.beforeEach(async ({ page, loginPage, caseListPage }) => {
+  test.beforeEach(async ({ page, loginPage, manageCaseDashboardPage }) => {
     subRef = await CitizenClaimantFactory.progressCaseFromCreateToEt3(CaseTypeLocation.EnglandAndWales);
     await page.goto(config.manageCaseBaseUrl);
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(subRef.toString(), CaseTypeLocation.EnglandAndWales);
   });
 
-  test('Validate ECC flag is set on case', { tag: '@ecc' }, async ({ caseListPage, jurisdictionPage }) => {
-    await caseListPage.selectNextEvent('Jurisdiction');
+  test('Validate ECC flag is set on case', { tag: '@ecc' }, async ({ caseDetailsPage, jurisdictionPage }) => {
+    await caseDetailsPage.selectNextEvent(Events.jurisdiction);
     await jurisdictionPage.page.getByRole('button', { name: 'Add new' }).nth(1).click();
     await jurisdictionPage.webActions.verifyElementToBeVisible(
       jurisdictionPage.page.locator(jurisdictionPage.elements.jurisdictionDropdown),
@@ -49,8 +49,8 @@ test.describe('ECC', () => {
     await expect(jurisdictionPage.page.getByText('ECC', { exact: true })).toBeVisible();
   });
 
-  test('Validate ECC error message', { tag: '@ecc' }, async ({ caseListPage, jurisdictionPage }) => {
-    await caseListPage.selectNextEvent('Jurisdiction');
+  test('Validate ECC error message', { tag: '@ecc' }, async ({ caseDetailsPage, jurisdictionPage }) => {
+    await caseDetailsPage.selectNextEvent(Events.jurisdiction);
     await jurisdictionPage.page.getByRole('button', { name: 'Add new' }).nth(1).click();
     await jurisdictionPage.webActions.verifyElementToBeVisible(
       jurisdictionPage.page.locator(jurisdictionPage.elements.jurisdictionDropdown),
@@ -75,11 +75,11 @@ test.describe('ECC', () => {
   test(
     'ECC Notification - should create BF Action and show notification banner to claimant',
     { tag: '@ecc' },
-    async ({ caseWorkerNotificationPage, caseListPage, citizenHubLoginPage, citizenHubPage }) => {
+    async ({ caseWorkerNotificationPage, caseListPage, citizenHubLoginPage, citizenHubPage, caseDetailsPage }) => {
       await caseWorkerNotificationPage.navigateToSendANotifications();
       await caseWorkerNotificationPage.sendNotification('ECC');
       await expect(caseListPage.page.getByRole('tab', { name: 'BF Actions' })).toBeVisible();
-      await caseListPage.navigateToTab('BF Actions');
+      await caseDetailsPage.navigateToTab('BF Actions');
       await caseListPage.verifyBFActionsTab('Action', 'ECC served');
       await caseListPage.signoutButton();
       await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
@@ -92,14 +92,14 @@ test.describe('ECC', () => {
   test(
     'Should show ECC in table once set on respondent',
     { tag: '@ecc' },
-    async ({ caseListPage, respondentDetailsPage }) => {
-      await caseListPage.selectNextEvent('Respondent Details');
+    async ({ caseListPage, respondentDetailsPage, caseDetailsPage }) => {
+      await caseDetailsPage.selectNextEvent(Events.respondentDetails);
       await respondentDetailsPage.processRespondentDetailsET3(true);
-      await caseListPage.selectNextEvent('Respondent Details');
+      await caseDetailsPage.selectNextEvent(Events.respondentDetails);
       await respondentDetailsPage.page.getByRole('group', { name: 'Is there an ECC?' }).getByLabel('Yes').check();
       await respondentDetailsPage.clickSubmitButton();
       await expect(caseListPage.page.getByRole('tab', { name: 'Respondents' })).toBeVisible();
-      await caseListPage.navigateToTab('Respondents');
+      await caseDetailsPage.navigateToTab('Respondents');
       await expect(caseListPage.page.getByText('Is there an ECC?', { exact: true })).toBeVisible();
     },
   );

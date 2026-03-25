@@ -63,6 +63,10 @@ export const Events: Record<string, CaseEvent> = {
     listItem: 'ET1 case vetting',
     ccdCallback: 'et1Vetting',
   },
+  et1Serving: {
+    listItem: 'ET1 serving',
+    ccdCallback: 'uploadDocumentForServing',
+  },
   acceptRejectCase: {
     listItem: 'Accept/Reject Case',
     ccdCallback: 'preAcceptanceCase',
@@ -99,6 +103,10 @@ export const Events: Record<string, CaseEvent> = {
     listItem: 'ET3 - Response Details',
     ccdCallback: 'et3ResponseDetails',
   },
+  et3Notification: {
+    listItem: 'ET3 notification',
+    ccdCallback: 'et3Notification',
+  },
   submitEt3Form: {
     listItem: 'Submit ET3 Form',
     ccdCallback: 'submitEt3',
@@ -107,4 +115,105 @@ export const Events: Record<string, CaseEvent> = {
     listItem: 'Initial Consideration',
     ccdCallback: 'initialConsideration',
   },
+  uploadDocument: {
+    listItem: 'Upload Document',
+    ccdCallback: 'uploadDocument'
+  },
+  respondentDetails: {
+    listItem: 'Respondent Details',
+    ccdCallback: 'amendRespondentDetails',
+  },
+  claimantDetails: {
+    listItem: 'Claimant Details',
+    ccdCallback: 'amendClaimantDetails',
+  },
+  generateReport: {
+    listItem: 'Generate Report',
+    ccdCallback: 'generateReport',
+  },
+  hearingDetails: {
+    listItem: 'Hearing Details',
+    ccdCallback: 'updateHearing',
+  },
+  et3Processing: {
+    listItem: 'ET3 Processing',
+    ccdCallback: 'et3Vetting',
+  },
+  letters: {
+    listItem: 'Letters',
+    ccdCallback: 'generateCorrespondence',
+  },
+  searchAcasCertificate: {
+    listItem: 'Search ACAS Certificate',
+    ccdCallback: 'retrieveAcasCertificate',
+  },
+  respondentRepresentative: {
+    listItem: 'Respondent Representative',
+    ccdCallback: 'amendRespondentRepresentative',
+  },
+  allocateHearing: {
+    listItem: 'Allocate Hearing',
+    ccdCallback: 'allocateHearing',
+  },
+  printHearingLists: {
+    listItem: 'Print Hearing lists',
+    ccdCallback: 'printHearing',
+  },
+  createFlag: {
+    listItem: 'Create a case flag',
+    ccdCallback: 'createFlag',
+  },
+  manageFlag: {
+    listItem: 'Manage case flags',
+    ccdCallback: 'manageFlags',
+  },
+  linkCases: {
+    listItem: 'Link cases',
+    ccdCallback: 'createCaseLink',
+  },
+  restrictedReporting: {
+    listItem: 'Restricted Reporting',
+    ccdCallback: 'restrictedCases',
+  },
+  depositOrder: {
+    listItem: 'Deposit Order',
+    ccdCallback: 'recordDeposit',
+  },
+  jurisdiction: {
+    listItem: 'Jurisdiction',
+    ccdCallback: 'addAmendJurisdiction',
+  },
+  closeCase: {
+    listItem: 'Close Case',
+    ccdCallback: 'disposeCase',
+  },
+  reinstateCase: {
+    listItem: 'Reinstate Case',
+    ccdCallback: 'reinstateCase',
+  },
+  broughtForwardAction: {
+    listItem: 'B/F Action',
+    ccdCallback: 'broughtForward',
+  },
+  adrPrivilegedDocuments: {
+    listItem: 'ADR/Privileged Documents',
+    ccdCallback: 'adrDocuments',
+  },
+  caseDetails: {
+    listItem: 'Case Details',
+    ccdCallback: 'amendCaseDetails',
+  },
+  caseTransferScotland: {
+    listItem: 'Case Transfer (Scotland)',
+    ccdCallback: '',
+  },
+  addTelephoneNote: {
+    listItem: 'Add Telephone Note',
+    ccdCallback: 'addCaseNote',
+  },
+  uploadHearingDocuments: {
+    listItem: 'Upload Hearing Documents',
+    ccdCallback: 'uploadHearingDocuments',
+  }
+
 };
