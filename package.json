@@ -64,7 +64,7 @@
     "ws": "^8.17.1",
     "glob": "11.1.0",
     "js-yaml": "4.1.1",
-    "brace-expansion": "^4.0.1",
+    "brace-expansion": "^5.0.0",
     "formdata-node": "6.0.3"
   },
   "packageManager": "yarn@4.9.4"
