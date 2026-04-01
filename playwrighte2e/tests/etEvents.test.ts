@@ -1,7 +1,7 @@
 import { test } from "../fixtures/common.fixture";
 import config from "../config/config";
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 
@@ -16,41 +16,41 @@ test.describe('Various events in mange case application', () => {
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
-  test('Create a claim and perform B/F action event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ caseListPage, bfActionPage }) => {
+  test('Create a claim and perform B/F action event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ caseDetailsPage, bfActionPage }) => {
     //BF action
-    await caseListPage.selectNextEvent('B/F Action');
+    await caseDetailsPage.selectNextEvent(Events.broughtForwardAction);
     await bfActionPage.addBfAction();
   });
 
-  test('Create a claim and perform jurisdiction event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ caseListPage, jurisdictionPage }) => {
+  test('Create a claim and perform jurisdiction event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ jurisdictionPage, caseDetailsPage }) => {
     //Jurisdiction event
-    await caseListPage.selectNextEvent('Jurisdiction');
+    await caseDetailsPage.selectNextEvent(Events.jurisdiction);
     await jurisdictionPage.addJurisdictionCode();
-    await caseListPage.clickTab('Jurisdictions');
+    await caseDetailsPage.navigateToTab('Jurisdictions');
     await jurisdictionPage.verifyJurisdictionCodeOnTab();
   });
 
   //RET-5809
-  test('Validate longer than 3 letters jurisdiction code in IC event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ caseListPage, jurisdictionPage, icUploadDocPage }) => {
+  test('Validate longer than 3 letters jurisdiction code in IC event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ caseDetailsPage, jurisdictionPage, icUploadDocPage }) => {
     //Jurisdiction event
-    await caseListPage.selectNextEvent('Jurisdiction');
+    await caseDetailsPage.selectNextEvent(Events.jurisdiction);
     await jurisdictionPage.addADTJurisdictionCode();
-    await caseListPage.selectNextEvent('Initial Consideration');
+    await caseDetailsPage.selectNextEvent(Events.initialConsideration);
     await icUploadDocPage.verifyJurisdictionCodeInICevent();
   });
 
   //EXUI-3451
-  test.skip('Create a England/Wales claim and transfer to Scotland', {tag: '@demo'}, async ({ caseListPage, caseTransferPage }) => {
-    await caseListPage.selectNextEvent('Case Transfer (Scotland)');
+  test.skip('Create a England/Wales claim and transfer to Scotland', {tag: '@demo'}, async ({ caseDetailsPage, caseTransferPage }) => {
+    await caseDetailsPage.selectNextEvent(Events.caseTransferScotland);
     await caseTransferPage.progressCaseTransfer();
     await caseTransferPage.checkYourAnswer(caseNumber);
   });
 
   //RET-5790
-  test('perform ADR document event', {tag: '@demo'}, async ({ caseListPage, adrDocument }) => {
-    await caseListPage.selectNextEvent('ADR/Privileged Documents');
+  test('perform ADR document event', {tag: '@demo'}, async ({ adrDocument, caseDetailsPage }) => {
+    await caseDetailsPage.selectNextEvent(Events.adrPrivilegedDocuments);
     await adrDocument.adrUploadDocument();
-    await caseListPage.navigateToTab('ADR/Privileged');
+    await caseDetailsPage.navigateToTab('ADR/Privileged');
     await adrDocument.verifyAdrDocumentDetails();
   });
 
@@ -66,8 +66,8 @@ test.describe('Claimant retaining access to transferred case', () => {
   });
 
   //EXUI-3451
-  test('Create a England/Wales claim and transfer to Scotland, Claimant retains case', async ({ manageCaseDashboardPage, caseListPage, caseTransferPage, citizenHubLoginPage, citizenHubPage }) => {
-    await caseListPage.selectNextEvent('Case Transfer (Scotland)');
+  test('Create a England/Wales claim and transfer to Scotland, Claimant retains case', async ({ manageCaseDashboardPage, caseDetailsPage, caseTransferPage, citizenHubLoginPage, citizenHubPage }) => {
+    await caseDetailsPage.selectNextEvent(Events.caseTransferScotland);
     await caseTransferPage.progressCaseTransfer();
     let newSubRef= await caseTransferPage.checkYourAnswer(caseNumber);
     await manageCaseDashboardPage.signOut();
@@ -89,14 +89,14 @@ test.describe('Various events in mange case application for Scotland case', () =
 
 
 //RET-5806
-  test('Add speak to VP case flag for Scotland case', {tag: '@demo'}, async ({ caseListPage, caseDetailsPage }) => {
-    await caseListPage.selectNextEvent('Case Details');
+  test('Add speak to VP case flag for Scotland case', {tag: '@demo'}, async ({ caseDetailsPage }) => {
+    await caseDetailsPage.selectNextEvent(Events.caseDetails);
     await caseDetailsPage.addVPCaseFlag();
   });
 
   //RET-5931, 5961
-  test('Add Case Notes and validate links on Initial Consideration', async ({ caseListPage, caseNotesPage, caseDetailsPage,initialConsiderationPage}) => {
-    await caseListPage.selectNextEvent('Add Telephone Note');
+  test('Add Case Notes and validate links on Initial Consideration', async ({ caseNotesPage, caseDetailsPage,initialConsiderationPage}) => {
+    await caseDetailsPage.selectNextEvent(Events.addTelephoneNote);
     await caseNotesPage.addCaseNotes();
     await caseDetailsPage.assertTabData([
       {
@@ -110,7 +110,7 @@ test.describe('Various events in mange case application for Scotland case', () =
       }
     ])
     // RET-5796 Validate initial consideration links
-    await caseListPage.selectNextEvent('Initial Consideration');
+    await caseDetailsPage.selectNextEvent(Events.initialConsideration);
     await initialConsiderationPage.validateLinksNotVisible();
   });
 });

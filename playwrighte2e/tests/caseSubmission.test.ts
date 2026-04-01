@@ -2,6 +2,7 @@ import { test } from '../fixtures/common.fixture';
 import config from '../config/config';
 import userDetailsData from '../resources/payload/user-details.json';
 import { createCaseViaCitizenUI, vetAndAcceptCitizenCase } from '../pages/helpers/CuiCaseCreationHelper.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 
 test.describe('Case creation in Citizen UI', () => {
 
@@ -15,7 +16,6 @@ test.describe('Case creation in Citizen UI', () => {
       respondentRepPage,
       citizenHubLoginPage,
       citizenHubPage,
-      caseListPage,
       contactTheTribunalPage,
       loginPage,
       et1VettingPage,
@@ -25,7 +25,7 @@ test.describe('Case creation in Citizen UI', () => {
       personalDetailsPage,
       employmentAndRespondentDetailsPage,
       claimDetailsPage,
-      submitClaimPage,
+      submitClaimPage, caseDetailsPage, manageCaseDashboardPage
     }) => {
       const submissionReference = await createCaseViaCitizenUI(
         page,
@@ -47,12 +47,10 @@ test.describe('Case creation in Citizen UI', () => {
       );
 
       const caseNumber = await vetAndAcceptCitizenCase(
-        page,
         loginPage,
-        caseListPage,
         et1VettingPage,
-        et1CaseServingPage,
-        'EnglandWales',
+        et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
+        CaseTypeLocation.EnglandAndWales,
         submissionReference,
         {
           user: config.etCaseWorker.email,
@@ -61,7 +59,7 @@ test.describe('Case creation in Citizen UI', () => {
         },
       );
 
-      await caseListPage.selectNextEvent('Respondent Representative');
+      await caseDetailsPage.selectNextEvent(Events.respondentRepresentative);
       await respondentRepPage.addRespondentRepresentative('registered', 'ET Organisation');
       await respondentRepPage.signoutButton();
 
@@ -80,7 +78,6 @@ test.describe('Case creation in Citizen UI', () => {
     async ({
       page,
       loginPage,
-      caseListPage,
       et1VettingPage,
       et1CaseServingPage,
       citizenPreLoginPage,
@@ -88,7 +85,7 @@ test.describe('Case creation in Citizen UI', () => {
       personalDetailsPage,
       employmentAndRespondentDetailsPage,
       claimDetailsPage,
-      submitClaimPage,
+      submitClaimPage, manageCaseDashboardPage, caseDetailsPage,
   }) => {
     const submissionReference = await createCaseViaCitizenUI(
       page,
@@ -110,12 +107,10 @@ test.describe('Case creation in Citizen UI', () => {
     );
 
       await vetAndAcceptCitizenCase(
-        page,
         loginPage,
-        caseListPage,
         et1VettingPage,
-        et1CaseServingPage,
-        'EnglandWales',
+        et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
+        CaseTypeLocation.EnglandAndWales,
         submissionReference,
         {
           user: config.etManageCaseUser.email,
@@ -129,7 +124,6 @@ test.describe('Case creation in Citizen UI', () => {
     async ({
       page,
       loginPage,
-      caseListPage,
       et1VettingPage,
       et1CaseServingPage,
       citizenPreLoginPage,
@@ -137,7 +131,7 @@ test.describe('Case creation in Citizen UI', () => {
       personalDetailsPage,
       employmentAndRespondentDetailsPage,
       claimDetailsPage,
-      submitClaimPage,
+      submitClaimPage, manageCaseDashboardPage, caseDetailsPage,
   }) => {
     const submissionReference = await createCaseViaCitizenUI(
       page,
@@ -159,12 +153,10 @@ test.describe('Case creation in Citizen UI', () => {
     );
 
       await vetAndAcceptCitizenCase(
-        page,
         loginPage,
-        caseListPage,
         et1VettingPage,
-        et1CaseServingPage,
-        'EnglandWales',
+        et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
+        CaseTypeLocation.EnglandAndWales,
         submissionReference,
         {
           user: config.etManageCaseUser.email,
@@ -177,7 +169,6 @@ test.describe('Case creation in Citizen UI', () => {
   test('Create a claim for DID NOT work for organisation, submit and process within manage cases', async ({
     page,
     loginPage,
-    caseListPage,
     et1VettingPage,
     et1CaseServingPage,
     citizenPreLoginPage,
@@ -185,7 +176,7 @@ test.describe('Case creation in Citizen UI', () => {
     personalDetailsPage,
     employmentAndRespondentDetailsPage,
     claimDetailsPage,
-    submitClaimPage,
+    submitClaimPage, manageCaseDashboardPage, caseDetailsPage,
   }) => {
     const submissionReference = await createCaseViaCitizenUI(
       page,
@@ -206,12 +197,10 @@ test.describe('Case creation in Citizen UI', () => {
     );
 
     await vetAndAcceptCitizenCase(
-      page,
       loginPage,
-      caseListPage,
       et1VettingPage,
-      et1CaseServingPage,
-      'EnglandWales',
+      et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
+      CaseTypeLocation.EnglandAndWales,
       submissionReference,
       {
         user: config.etManageCaseUser.email,
@@ -224,7 +213,6 @@ test.describe('Case creation in Citizen UI', () => {
   test('Submit a case from Scotland - Case Progressing Claimant Submit application - record a decision as ECM', async ({
     page,
     loginPage,
-    caseListPage,
     et1VettingPage,
     et1CaseServingPage,
     citizenPreLoginPage,
@@ -232,7 +220,7 @@ test.describe('Case creation in Citizen UI', () => {
     personalDetailsPage,
     employmentAndRespondentDetailsPage,
     claimDetailsPage,
-    submitClaimPage,
+    submitClaimPage, manageCaseDashboardPage, caseDetailsPage,
   }) => {
     const submissionReference = await createCaseViaCitizenUI(
       page,
@@ -254,12 +242,10 @@ test.describe('Case creation in Citizen UI', () => {
     );
 
     await vetAndAcceptCitizenCase(
-      page,
       loginPage,
-      caseListPage,
       et1VettingPage,
-      et1CaseServingPage,
-      'Scotland',
+      et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
+      CaseTypeLocation.Scotland,
       submissionReference,
       {
         user: config.etManageCaseUser.email,
@@ -279,7 +265,7 @@ test.describe('Case creation in Citizen UI', () => {
     claimDetailsPage,
     submitClaimPage,
   }) => {
-    const submissionReference = await createCaseViaCitizenUI(
+     await createCaseViaCitizenUI(
       page,
       loginPage,
       citizenPreLoginPage,

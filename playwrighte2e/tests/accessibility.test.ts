@@ -16,35 +16,35 @@ test.describe('Accessibility test', () => {
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
-  test('Scan exui pages- Caseworker journey', { tag: '@accessibility' }, async ({ axeUtils, caseListPage }) => {
+  test('Scan exui pages- Caseworker journey', { tag: '@accessibility' }, async ({ axeUtils, caseDetailsPage }) => {
     await axeUtils.audit();
 
     //Scan case tabs
-    await caseListPage.navigateToTab('Claimant');
+    await caseDetailsPage.navigateToTab('Claimant');
     await axeUtils.audit();
 
-    await caseListPage.navigateToTab('ET1 Vetting');
+    await caseDetailsPage.navigateToTab('ET1 Vetting');
     await axeUtils.audit();
 
-    await caseListPage.navigateToTab('Respondent');
+    await caseDetailsPage.navigateToTab('Respondent');
     await axeUtils.audit();
 
-    await caseListPage.navigateToTab('Jurisdictions');
+    await caseDetailsPage.navigateToTab('Jurisdictions');
     await axeUtils.audit();
 
-    await caseListPage.navigateToTab('Referrals');
+    await caseDetailsPage.navigateToTab('Referrals');
     await axeUtils.audit();
 
-    await caseListPage.navigateToTab('Initial Consideration');
+    await caseDetailsPage.navigateToTab('Initial Consideration');
     await axeUtils.audit();
 
-    // await this.caseListPage.navigateToTab('Judgments');
-    // await axeUtils.audit();
-
-    await caseListPage.navigateToTab('History');
+    await caseDetailsPage.navigateToTab('Judgments');
     await axeUtils.audit();
 
-    // await this.caseListPage.selectNextEvent('ET3 Processing');
+    await caseDetailsPage.navigateToTab('History');
+    await axeUtils.audit();
+
+    // await this.caseDetailsPage.selectNextEvent('ET3 Processing');
     // await this.caseListPage.delay(2000);
     // await this.scanEt3ProcessingEvent(page); // et3 processing (Got accessibility error)
   });
@@ -52,7 +52,7 @@ test.describe('Accessibility test', () => {
   test(
     'Scan exui pages- Legal Representative journey',
     { tag: '@accessibility' },
-    async ({ caseListPage, applicationTabPage,  loginPage, axeUtils, manageCaseDashboardPage, nocPage }) => {
+    async ({ caseDetailsPage, applicationTabPage,  loginPage, axeUtils, manageCaseDashboardPage, nocPage }) => {
       //RET-5787
       await manageCaseDashboardPage.signOut();
       await manageCaseDashboardPage.visit();
@@ -66,7 +66,7 @@ test.describe('Accessibility test', () => {
       await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
       //legal rep make an application
-      await caseListPage.navigateToTab('Applications');
+      await caseDetailsPage.navigateToTab('Applications');
       await applicationTabPage.enterDetailsForMakingApplication('Amend response',axeUtils);
     },
   );
@@ -74,25 +74,24 @@ test.describe('Accessibility test', () => {
   test(
     'Scan exui pages- Work allocation journey',
     { tag: '@accessibility' },
-    async ({ manageCaseDashboardPage, axeUtils, caseListPage, loginPage }) => {
+    async ({ manageCaseDashboardPage, axeUtils, caseListPage, loginPage, caseDetailsPage }) => {
       await manageCaseDashboardPage.signOut();
       await manageCaseDashboardPage.visit();
       await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
       await caseListPage.delay(2000);
       await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-      // await page.goto(`${config.TestUrlForManageCaseAAT}/cases/case-details/${subRef}`);
-      await caseListPage.navigateToTab('Case list');
+      await caseDetailsPage.navigateToTab('Case list');
       await caseListPage.delay(2000);
       await axeUtils.audit();
 
       /* (Got accessibility error)
-      await this.caseListPage.navigateToTab('All work');
+      await caseDetailsPage.navigateToTab('All work');
       await this.caseListPage.delay(2000);
       await axeTest(page);
       await this.caseListPage.delay(3000);
       */
 
-      await caseListPage.navigateToTab('My work');
+      await caseDetailsPage.navigateToTab('My work');
       await caseListPage.delay(2000);
       await axeUtils.audit();
     },

@@ -22,12 +22,12 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
     uploadHearingBundlePage,
     nocPage,
     listHearingPage,
-    loginPage,
+    loginPage, caseDetailsPage
   }) => {
     //List 2 hearings for the case
     const hearingNumbers: number[] = [0, 1];
     for (const number of hearingNumbers) {
-      await caseListPage.selectNextEvent(Events.listHearing.listItem);
+      await caseDetailsPage.selectNextEvent(Events.listHearing);
       await listHearingPage.listCase('EnglandWales', number, 'Leeds ET');
     }
     await manageCaseDashboardPage.signOut();
@@ -44,9 +44,9 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
 
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
     await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-    await caseListPage.selectNextEvent('Upload Hearing Documents');
+    await caseDetailsPage.selectNextEvent(Events.uploadHearingDocuments);
     await uploadHearingBundlePage.uploadHearingBundleDocuments();
-    await caseListPage.navigateToTab('Hearing Documents');
+    await caseDetailsPage.navigateToTab('Hearing Documents');
     await uploadHearingBundlePage.validateHearingDocument();
     await manageCaseDashboardPage.signOut();
   });

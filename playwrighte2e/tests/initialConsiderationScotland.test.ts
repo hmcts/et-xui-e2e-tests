@@ -1,7 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import config from '../config/config.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import fileUploadData from '../resources/payload/file-upload-content.json';
 
 let caseNumber: string;
@@ -19,17 +19,16 @@ test.describe('Scotland Case Initial Consideration', () => {
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.Scotland);
   });
 
-  test('Tribunal Case file link on IC - Scotland case', {tag: '@demo'}, async ({ caseListPage, createCaseFlagPage, manageCaseFlagPage,uploadDocumentPage,initialConsiderationPage }) => {
+  test('Tribunal Case file link on IC - Scotland case', {tag: '@demo'}, async ({ caseDetailsPage,uploadDocumentPage,initialConsiderationPage }) => {
 
     const fileName = fileUploadData.rtfFile
-    await caseListPage.selectNextEvent('Upload Document');
+    await caseDetailsPage.selectNextEvent(Events.uploadDocument);
     await uploadDocumentPage.uploadFile(fileName, 1);
-    await caseListPage.navigateToTab('Documents');
+    await caseDetailsPage.navigateToTab('Documents');
     await uploadDocumentPage.verifyUploadDocuments(fileName);
     await uploadDocumentPage.createDCF();
     await initialConsiderationPage.waitForTribunalCaseFileLink();
-    await caseListPage.selectNextEvent('Initial Consideration');
+    await caseDetailsPage.selectNextEvent(Events.initialConsideration);
     await initialConsiderationPage.validateTribunalCaseFileLink();
-
   });
 });

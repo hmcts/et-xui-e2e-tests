@@ -30,7 +30,7 @@ test.describe('England - Caseworker Bundles test', () => {
 
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
       let region = 'EnglandWales';
-      await caseListPage.selectNextEvent('List Hearing');
+      await caseDetailsPage.selectNextEvent(Events.listHearing);
       await listHearingPage.listCase(region, 0, 'Leeds ET');
       await manageCaseDashboardPage.signOut();
 
@@ -39,12 +39,11 @@ test.describe('England - Caseworker Bundles test', () => {
         config.etLegalRepresentative.password,
         config.loginPaths.cases,
       );
-      //const searchReference = region === 'England' ? 'Eng/Wales - Singles' : `${region} - Singles`;
       await manageCaseDashboardPage.navigateToNoticeOfChange();
       await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
       await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
-      await caseListPage.selectNextEvent('Upload documents for hearing');
+      await caseDetailsPage.selectNextEvent(Events.uploadDocumentsForHearing);
       const date = DateUtilComponent.formatToDayMonthYear(DateUtilComponent.addWeekdays(new Date(), 21));
       // //Verify only future hearings are shown in the options
       await uploadDocumentsForHearingPage.submitDocumentForHearing(
@@ -99,7 +98,7 @@ test.describe('Scotland - Caseworker Bundles test', () => {
         // await bundleSteps.submitHearingPreparationDocument(page, 'Scotland', subRef, respondentName, firstName, lastName);
 
         let region = 'Scotland';
-        await caseListPage.selectNextEvent('List Hearing');
+        await caseDetailsPage.selectNextEvent(Events.listHearing);
         await listHearingPage.listCase(region, 0, 'Glasgow', 'Expenses/Wasted Costs Hearing',"Sit Alone",'Scotland');
         await page.click('text=Sign out');
 
@@ -112,9 +111,9 @@ test.describe('Scotland - Caseworker Bundles test', () => {
         await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
         await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.Scotland);
 
-        await caseListPage.selectNextEvent('Upload documents for hearing');
+        await caseDetailsPage.selectNextEvent(Events.uploadDocumentsForHearing);
         await legalRepPage.submitDocumentForHearingRespondent('Yes', 'Both Parties', 'Witness statement only');
-        await caseListPage.navigateToTab('Hearing Documents');
+        await caseDetailsPage.navigateToTab('Hearing Documents');
         const date = DateUtilComponent.formatToDayMonthYear(DateUtilComponent.addWeekdays(new Date(), 21));
         await caseDetailsPage.assertTabData([
           {
@@ -156,13 +155,13 @@ test.describe('England - Claimant Bundles test', () => {
       { tag: '@demo' },
       async ({
         manageCaseDashboardPage,
-        caseListPage,
+        caseDetailsPage,
         listHearingPage,
         citizenHubLoginPage,
         citizenHubPage,
         prepareAbdSubmitDocumentPage,
       }) => {
-        await caseListPage.selectNextEvent('List Hearing');
+        await caseDetailsPage.selectNextEvent(Events.listHearing);
         await listHearingPage.listCase('EnglandWales', 0, 'Amersham');
         await manageCaseDashboardPage.signOut();
 

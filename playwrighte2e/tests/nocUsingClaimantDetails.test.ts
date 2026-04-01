@@ -20,16 +20,15 @@ test.describe('perform NOC for Claimant', () => {
   //RET-5954
   test('Caseworker assigns a claimant representative via manage case', async ({
     manageCaseDashboardPage,
-    caseListPage,
     claimantRepresentativePage,
     citizenHubLoginPage,
     citizenHubPage,
     caseDetailsPage,
   }) => {
     //Caseworker assign a claimant representative
-    await caseListPage.selectNextEvent(Events.claimantRepresentative.listItem);
+    await caseDetailsPage.selectNextEvent(Events.claimantRepresentative);
     await claimantRepresentativePage.addClaimantRepresentative();
-    await caseListPage.navigateToTab('Claimant Representative');
+    await caseDetailsPage.navigateToTab('Claimant Representative');
     await caseDetailsPage.assertTabData([
       {
         tabName: 'Claimant Representative',
