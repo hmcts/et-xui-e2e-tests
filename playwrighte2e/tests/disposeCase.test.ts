@@ -41,7 +41,7 @@ test.describe('Close Case & Reinstate Case', () => {
       assert(systemTtl === formattedDate);
       // Reinstate case and validate  TTL is 100 years
       //RET-6047
-      await caseDetailsPage.selectNextEvent(Events.reinstateCase);
+      await caseDetailsPage.selectNextEvent(Events.reinstateClosedCase);
       await reinstateCasePage.reinstateCase();
       const caseData1 = await CitizenClaimantFactory.getCaseDataForCaseWorker(caseId);
       const systemTtl1 = caseData1.case_data.TTL.SystemTTL;

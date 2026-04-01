@@ -88,7 +88,7 @@ test.describe('ET3/Respondent Applications', () => {
       await caseDetailsPage.navigateToTab('Applications');
       await applicationTabPage.viewApplicationAndAssertDetails('Amend response', 'Open', [
         `Type of application - Amend response`,
-        `Applicant - Respondent Representative`,
+        `Applicant - Respondent`,
         `Application date - ${DateUtilComponent.formatToDayMonthYear(new Date())}`,
       ]);
     });

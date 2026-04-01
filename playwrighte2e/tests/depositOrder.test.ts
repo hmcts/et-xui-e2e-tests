@@ -31,7 +31,7 @@ test.describe('Deposit order test', () => {
         );
 
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-        await caseDetailsPage.selectNextEvent(Events.depositorder);
+        await caseDetailsPage.selectNextEvent(Events.depositOrder);
         await depositOrderPage.submitADepositOrder();
 
         await caseDetailsPage.navigateToTab('Deposit Order');

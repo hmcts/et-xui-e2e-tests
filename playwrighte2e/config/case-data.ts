@@ -129,7 +129,7 @@ export const Events: Record<string, CaseEvent> = {
   },
   generateReport: {
     listItem: 'Generate Report',
-    ccdCallback: 'generateReport',
+    ccdCallback: 'generateListing',
   },
   hearingDetails: {
     listItem: 'Hearing Details',
@@ -187,9 +187,9 @@ export const Events: Record<string, CaseEvent> = {
     listItem: 'Close Case',
     ccdCallback: 'disposeCase',
   },
-  reinstateCase: {
+  reinstateClosedCase: {
     listItem: 'Reinstate Case',
-    ccdCallback: 'reinstateCase',
+    ccdCallback: 'reinstateClosedCase',
   },
   broughtForwardAction: {
     listItem: 'B/F Action',

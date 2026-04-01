@@ -20,7 +20,6 @@ test.describe('perform NOC for Claimant', () => {
   //RET-5954
   test('Caseworker assigns a claimant representative via manage case', async ({
     manageCaseDashboardPage,
-    caseListPage,
     claimantRepresentativePage,
     citizenHubLoginPage,
     citizenHubPage,

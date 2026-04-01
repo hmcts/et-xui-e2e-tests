@@ -35,5 +35,4 @@ test.describe('Generate Letters', () => {
         await initialConsiderationPage.validateHearingDetails();
         await initialConsiderationPage.completeSubmissionWithHearing();
     });
-
 });

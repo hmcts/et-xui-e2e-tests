@@ -2,6 +2,7 @@ import { getUserAuthToken } from './TokenHelperApi.ts';
 import config from '../../config/config.ts';
 import axios from 'axios';
 import { axiosRequest } from './ApiHelper.ts';
+import { CaseDetailsValues } from '../../config/case-data.ts';
 
 const env = config.env;
 const idamTestingSupportUrl = `https://idam-testing-support-api.${env}.platform.hmcts.net`;
@@ -12,7 +13,7 @@ export class IdamApi {
     userEmail: string,
     userPassword: string,
     forename: string = 'ET',
-    surname: string = 'Respodent',
+    surname: string = 'Respondent',
   ) {
 
     let idamUserCreationUrl = idamTestingSupportUrl + '/test/idam/users';
@@ -56,7 +57,7 @@ export class IdamApi {
     const userEmail = `ettestclaimant${Date.now()}@gmail.com`;
     const userPassword = 'Nagoya0102';
     const authToken = await getUserAuthToken(config.etApiUser.email, config.etApiUser.password);
-    await this.createCitizenPostRequest(authToken, userEmail, userPassword, 'ET', 'Claimant');
+    await this.createCitizenPostRequest(authToken, userEmail, userPassword, CaseDetailsValues.claimantFirstName, CaseDetailsValues.claimantLastName);
     return { userEmail, userPassword };
   }
 }

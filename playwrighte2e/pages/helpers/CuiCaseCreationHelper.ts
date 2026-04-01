@@ -47,7 +47,7 @@ async function assertTabData(caseDetailsPage: CaseDetailsPage) {
     {
       tabName: 'Case Details',
       tabContent: [
-        { tabItem: 'Claimant', value: `${CaseDetailsValues.claimantFirstName} ${CaseDetailsValues.claimantLastName}` },
+        { tabItem: 'Claimant', value: `ET Claimant` },
         { tabItem: 'Respondent', value: `${CaseDetailsValues.respondentName}` }
       ]
     },

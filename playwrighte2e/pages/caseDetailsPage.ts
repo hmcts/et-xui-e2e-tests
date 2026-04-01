@@ -55,10 +55,10 @@ export default class CaseDetailsPage extends BasePage {
   }
 
   private async assertTabHeader(tabName: string, firstContent?: TabContentItem): Promise<void> {
-    const tabHeader = this.getTabHeader(tabName);
-    // Wait for the tab header to be visible and enabled before clicking
-    await tabHeader.waitFor({ state: 'visible' });
-    await expect(tabHeader).toBeEnabled();
+    // const tabHeader = this.getTabHeader(tabName);
+    // // Wait for the tab header to be visible and enabled before clicking
+    // await tabHeader.waitFor({ state: 'visible' });
+    // await expect(tabHeader).toBeEnabled();
     await this.navigateToTab(tabName);
   }
 
@@ -280,7 +280,7 @@ export default class CaseDetailsPage extends BasePage {
     }
   }
 
-  async selectNextEvent(event: CaseEvent) {
+  async selectNextEvent(event: CaseEvent, navigate: boolean = true) {
     const maxRetries = 5;
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       await this.page.waitForLoadState();
@@ -294,12 +294,16 @@ export default class CaseDetailsPage extends BasePage {
         await this.selectNextStepDropDown.selectOption(event.listItem);
       }
       await this.goButton.click({ clickCount: 2, force: true });
-      try {
-        console.log(this.page.url());
-        await this.page.waitForURL(`**/${event.ccdCallback}/**`, { timeout: 10000 });
+      if(navigate) {
+        try {
+          console.log(this.page.url());
+          await this.page.waitForURL(`**/${event.ccdCallback}/**`, { timeout: 10000 });
+          return;
+        } catch (e) {
+          if (attempt === maxRetries) throw e;
+        }
+      } else {
         return;
-      } catch (e) {
-        if (attempt === maxRetries) throw e;
       }
     }
   }

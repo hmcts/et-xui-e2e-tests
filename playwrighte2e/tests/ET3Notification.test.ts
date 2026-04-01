@@ -74,7 +74,7 @@ test.describe('ET3 Notification', () => {
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(subRef.toString(), CaseTypeLocation.EnglandAndWales);
 
     //attempt to send ET3 notification
-    await caseDetailsPage.selectNextEvent(Events.et3Notification);
+    await caseDetailsPage.selectNextEvent(Events.et3Notification, false);
     await expect(page.getByLabel('Errors').getByRole('listitem')).toContainText('At least one respondent must have a selected response status.');
   });
 });
