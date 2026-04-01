@@ -60,7 +60,7 @@ async function assertTabData(caseDetailsPage: CaseDetailsPage) {
     {
       tabName: 'Respondent',
       tabContent: [
-        { tabItem: CaseDetailsValues.claimantLastName, value: 'Yes', clickable: true },
+        { tabItem: CaseDetailsValues.respondentName, value: 'Yes', clickable: true },
       ]
     },
     {
