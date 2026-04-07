@@ -17,7 +17,6 @@ test.describe('England - Caseworker Bundles test', () => {
 
     test('Bundles - Legal rep submit hearing preparation document - England & Wales', async ({
       manageCaseDashboardPage,
-      caseListPage,
       listHearingPage,
       loginPage,
       uploadDocumentsForHearingPage,

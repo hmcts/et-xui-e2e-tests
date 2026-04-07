@@ -7,12 +7,17 @@ export class ManageCaseDashboardPage extends BasePage {
   private readonly url: string;
   private readonly signOutButton: Locator;
   private readonly nocLink: Locator;
+  private readonly caseListLink: Locator;
+  private readonly myWorkLink: Locator;
 
   public constructor(page: Page) {
     super(page);
     this.url = config.manageCaseBaseUrl;
     this.signOutButton = page.getByText('Sign Out');
     this.nocLink = page.getByRole('link', { name: 'Notice of change' });
+    this.caseListLink = page.getByText('Case list');
+    this.myWorkLink = page.getByRole('link', { name: 'My work' });
+
   }
 
   async navigateToCaseDetails(
@@ -42,6 +47,20 @@ export class ManageCaseDashboardPage extends BasePage {
     await this.nocLink.click();
     await this.page.waitForLoadState('load');
    await expect(this.page.getByRole('heading', { name: 'Notice of change' })).toBeVisible();
+  }
+
+  async navigateToCaseListPage() {
+    await this.page.waitForLoadState('load');
+    await this.caseListLink.click();
+    await this.page.waitForLoadState('load');
+    await expect(this.page.getByRole('heading', { name: 'Case list' })).toBeVisible();
+  }
+
+  async navigateToMyWork() {
+    await this.page.waitForLoadState('load');
+    await this.myWorkLink.click();
+    await this.page.waitForLoadState('load');
+    await expect(this.page.getByRole('heading', { name: 'My work' })).toBeVisible();
   }
 
   async visit() {

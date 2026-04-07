@@ -35,7 +35,7 @@ export default class RespondentRepPage extends BasePage {
   };
 
   async addRespondentRepresentative(regOption: string, orgName: string) {
-    await this.page.locator('#repCollection_0_0').isVisible();
+    await expect(this.page.getByRole('heading', { name: 'Respondent Representative(s)', level: 2})).toBeVisible();
     await this.webActions.selectByLabelFromDropDown(this.elements.selectRespondent, CaseDetailsValues.respondentName);
     await this.webActions.fillField(this.elements.respondentName, CaseDetailsValues.respondentName);
     await this.webActions.fillField(this.elements.respondentRepresentativePhoneNumber, '01234657895');

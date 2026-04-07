@@ -52,7 +52,7 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
     await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
     //respond to an application
-    await caseDetailsPage.navigateToTab('Judgment');
+    await caseDetailsPage.navigateToTab('Judgments, orders & notifications');
     await legalRepNotificationPage.respondToTribunal({
       notificationName: notificationTitle,
       responseText: 'Responding to notification from tribunal - claimant legal rep',
@@ -97,7 +97,7 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
     await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
     //respond to an application
-    await caseDetailsPage.navigateToTab('Judgment');
+    await caseDetailsPage.navigateToTab('Judgments, orders & notifications');
     await legalRepNotificationPage.respondToTribunal({
       notificationName: notificationTitle,
       responseText: 'Responding to notification from tribunal - Respondent legal rep',
