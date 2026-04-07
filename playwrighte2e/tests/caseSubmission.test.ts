@@ -97,7 +97,7 @@ test.describe('Case creation in Citizen UI', () => {
       claimDetailsPage,
       submitClaimPage,
       'EnglandWales',
-      loginPage => loginPage.processLoginWithNewAccount(),
+      loginPage => loginPage.processLoginCitizenUi(config.etClaimant.email, config.etClaimant.password),
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney(
           userDetailsData.workPostcode,
@@ -143,7 +143,7 @@ test.describe('Case creation in Citizen UI', () => {
       claimDetailsPage,
       submitClaimPage,
       'EnglandWales',
-      loginPage => loginPage.processLoginWithNewAccount(),
+      loginPage => loginPage.processLoginCitizenUi(config.etClaimant.email, config.etClaimant.password),
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(
           userDetailsData.workPostcode,
@@ -188,7 +188,7 @@ test.describe('Case creation in Citizen UI', () => {
       claimDetailsPage,
       submitClaimPage,
       'EnglandWales',
-      loginPage => loginPage.processLoginWithNewAccount(),
+      loginPage => loginPage.processLoginCitizenUi(config.etClaimant.email, config.etClaimant.password),
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.processDidNotWorkForOrganisationMakingClaimAgainst(
           userDetailsData.workPostcode,
@@ -232,7 +232,7 @@ test.describe('Case creation in Citizen UI', () => {
       claimDetailsPage,
       submitClaimPage,
       'Scotland',
-      loginPage => loginPage.processLoginWithNewAccount(),
+      loginPage => loginPage.processLoginCitizenUi(config.etClaimant.email, config.etClaimant.password),
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(
           userDetailsData.scotWorkPostcode,
@@ -275,7 +275,7 @@ test.describe('Case creation in Citizen UI', () => {
       claimDetailsPage,
       submitClaimPage,
       'EnglandWales',
-      loginPage => loginPage.processLoginWithNewAccount(),
+      loginPage => loginPage.processLoginCitizenUi(config.etClaimant.email, config.etClaimant.password),
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.multipleAcasCertificate(
           userDetailsData.workPostcode,

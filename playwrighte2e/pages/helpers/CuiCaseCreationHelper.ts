@@ -15,6 +15,7 @@ import Et1CaseServingPage from '../et1CaseServingPage.ts';
 import { ManageCaseDashboardPage } from '../ManageCaseDashboardPage.ts';
 import { CaseDetailsValues, CaseTypeLocation, Events } from '../../config/case-data.ts';
 import CaseDetailsPage from '../caseDetailsPage.ts';
+import DateUtilComponent from '../../data-utils/DateUtilComponent.ts';
 
 export async function createCaseViaCitizenUI(
   page: Page,
@@ -42,13 +43,13 @@ export async function createCaseViaCitizenUI(
   return submissionReference;
 }
 
-async function assertTabData(caseDetailsPage: CaseDetailsPage) {
-  await caseDetailsPage.assertTabData([
+async function assertTabData(caseDetailsPage: CaseDetailsPage, etiVetting: boolean = false) {
+  const tabData = [
     {
       tabName: 'Case Details',
       tabContent: [
-        { tabItem: 'Claimant', value: `ET Claimant` },
-        { tabItem: 'Respondent', value: `${CaseDetailsValues.respondentName}` }
+        { tabItem: 'Claimant', value: `${CaseDetailsValues.claimantFirstName} ${CaseDetailsValues.claimantLastName}`, position: 1 },
+        { tabItem: 'Respondent', value: `${CaseDetailsValues.respondentName}`, position: 1 }
       ]
     },
     {
@@ -60,12 +61,16 @@ async function assertTabData(caseDetailsPage: CaseDetailsPage) {
     {
       tabName: 'Respondent',
       tabContent: [
-        { tabItem: CaseDetailsValues.respondentName, value: 'Yes', clickable: true },
+        { tabItem: CaseDetailsValues.respondentName, value: 'No', clickable: true },
       ]
     },
     {
       tabName: 'Jurisdictions',
       tabContent: [
+        { tabItem: 'Jurisdiction Code', value: 'DDA' },
+        'Suffered a detriment, discrimination, including indirect discrimination, and discrimination based on association or perception, harassment and/or dismissal on grounds of disability or failure of employer to make reasonable adjustments',
+        { tabItem: 'Jurisdiction Code', value: 'PID' },
+        'Suffered a detriment and/or dismissal due to exercising rights under the Public Interest Disclosure Act',
         { tabItem: 'Jurisdiction Code', value: 'DAG' },
         'Discrimination, including harassment or discrimination based on association or perception on grounds of age'
       ]
@@ -82,7 +87,6 @@ async function assertTabData(caseDetailsPage: CaseDetailsPage) {
     {
       tabName: 'History',
       tabContent: [
-        'Create Case'
       ]
     },
     {
@@ -90,19 +94,23 @@ async function assertTabData(caseDetailsPage: CaseDetailsPage) {
       tabContent: [
         'Case documentation',
       ]
-    },
-    {
+    }
+  ];
+
+  if (etiVetting) {
+    tabData.push({
       tabName: 'ET1 Vetting',
       tabContent: [
         {
           tabItem: 'ET1 Vetting Document',
           value: `ET1 Vetting - ${CaseDetailsValues.claimantFirstName} ${CaseDetailsValues.claimantLastName}.pdf`
         },
-        { tabItem: 'Vetting completed by', value: 'Employment Service' }
+        { tabItem: 'Date completed:', value: DateUtilComponent.formatToDayMonthYearShort(DateUtilComponent.getCurrentDate()) }
       ]
-    }
+    })
+  }
 
-  ])
+  await caseDetailsPage.assertTabData(tabData);
 }
 
 export async function vetAndAcceptCitizenCase(
@@ -122,7 +130,7 @@ export async function vetAndAcceptCitizenCase(
 
   await caseDetailsPage.selectNextEvent(Events.et1Vetting);
   await et1VettingPage.processET1CaseVettingPages();
-  await assertTabData(caseDetailsPage);
+  await assertTabData(caseDetailsPage, true);
   await caseDetailsPage.selectNextEvent(Events.acceptRejectCase);
   await et1CaseServingPage.processET1CaseServingPages();
 

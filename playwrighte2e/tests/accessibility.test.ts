@@ -80,7 +80,7 @@ test.describe('Accessibility test', () => {
       await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
       await caseListPage.delay(2000);
       await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-      await caseDetailsPage.navigateToTab('Case list');
+      await manageCaseDashboardPage.navigateToCaseListPage();
       await caseListPage.delay(2000);
       await axeUtils.audit();
 
@@ -91,7 +91,7 @@ test.describe('Accessibility test', () => {
       await this.caseListPage.delay(3000);
       */
 
-      await caseDetailsPage.navigateToTab('My work');
+      await manageCaseDashboardPage.navigateToMyWork();
       await caseListPage.delay(2000);
       await axeUtils.audit();
     },
