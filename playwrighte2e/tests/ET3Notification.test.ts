@@ -1,7 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 import config from '../config/config';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import { expect } from '@playwright/test';
 
 let caseNumber: string;
@@ -16,47 +16,48 @@ test.describe('ET3 Notification', () => {
   test('Respondent Reject response and attempt to send ET3 Notification', async ({
                                                                                        page,
                                                                                        loginPage,
-                                                                                       caseListPage,
+                                                                                       caseDetailsPage,
                                                                                        respondentDetailsPage,
-                                                                                       et3NotificationPage
+                                                                                       et3NotificationPage, manageCaseDashboardPage
                                                                                      }) => {
     await page.goto(config.manageCaseBaseUrl);
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(subRef.toString(), CaseTypeLocation.EnglandAndWales);
 
     //reject ET3 Response
-    await caseListPage.selectNextEvent('Respondent Details');
+    await caseDetailsPage.selectNextEvent(Events.respondentDetails);
     await respondentDetailsPage.processRespondentDetailsET3(false);
 
     //attempt to send ET3 notification
-    await caseListPage.selectNextEvent('ET3 notification');
+    await caseDetailsPage.selectNextEvent(Events.et3Notification);
     await et3NotificationPage.sendEt3Notification();
     await et3NotificationPage.verifyEt3NotificationErrorMessage();
   });
 
   test('Respondent Accept response and sends ET3 Notification',async ({
-                                                                                        page,
-                                                                                        loginPage,
-                                                                                        caseListPage,
-                                                                                        respondentDetailsPage,
-                                                                                        et3NotificationPage,initialConsiderationPage
-                                                                                      }) => {
+                                                                        page,
+                                                                        loginPage,
+                                                                        caseDetailsPage,
+                                                                        respondentDetailsPage,
+                                                                        et3NotificationPage,initialConsiderationPage,
+                                                                        manageCaseDashboardPage
+                                                                     }) => {
     await page.goto(config.manageCaseBaseUrl);
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(subRef.toString(), CaseTypeLocation.EnglandAndWales);
 
     //reject ET3 Response
-    await caseListPage.selectNextEvent('Respondent Details');
+    await caseDetailsPage.selectNextEvent(Events.respondentDetails);
     await respondentDetailsPage.processRespondentDetailsET3(true);
 
 
-    await caseListPage.selectNextEvent('ET3 notification');
+    await caseDetailsPage.selectNextEvent(Events.et3Notification);
     await et3NotificationPage.sendEt3Notification();
     await et3NotificationPage.processAcasPage();
 
     // Validate Initial Consideration Links RET-5796
-    await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
-    await caseListPage.selectNextEvent('Initial Consideration');
+    await manageCaseDashboardPage.navigateToCaseDetails(subRef.toString(), CaseTypeLocation.EnglandAndWales);
+    await caseDetailsPage.selectNextEvent(Events.initialConsideration);
     await initialConsiderationPage.validateET1Links();
 
 
@@ -65,16 +66,15 @@ test.describe('ET3 Notification', () => {
   test('Respondent not Accepting or rejecting response and attempts to send ET3 Notification', async ({
                                                                          page,
                                                                          loginPage,
-                                                                         caseListPage,
-                                                                         respondentDetailsPage,
-                                                                         et3NotificationPage
+                                                                         caseDetailsPage,
+                                                                         manageCaseDashboardPage
                                                                        }) => {
     await page.goto(config.manageCaseBaseUrl);
     await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-    caseNumber = await caseListPage.navigateToCaseDetails(subRef.toString(), 'EnglandWales');
+    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(subRef.toString(), CaseTypeLocation.EnglandAndWales);
 
     //attempt to send ET3 notification
-    await caseListPage.selectNextEvent('ET3 notification');
+    await caseDetailsPage.selectNextEvent(Events.et3Notification, false);
     await expect(page.getByLabel('Errors').getByRole('listitem')).toContainText('At least one respondent must have a selected response status.');
   });
 });

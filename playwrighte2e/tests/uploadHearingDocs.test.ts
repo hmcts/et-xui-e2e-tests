@@ -21,8 +21,6 @@ test.describe('Upload hearing docs test', () => {
       'for respondent - verify only future hearings are shown in options',
       { tag: '@demo' },
       async ({
-        page,
-        caseListPage,
         listHearingPage,
         loginPage,
         caseDetailsPage,
@@ -34,7 +32,7 @@ test.describe('Upload hearing docs test', () => {
         //List 2 hearings for the case
         const hearingNumbers: number[] = [0, 1];
         for (const number of hearingNumbers) {
-          await caseListPage.selectNextEvent('List Hearing');
+          await caseDetailsPage.selectNextEvent(Events.listHearing);
           await listHearingPage.listCase('EnglandWales', number, 'Leeds ET');
           await caseDetailsPage.checkHasBeenCreated(Events.listHearing);
         }
@@ -52,7 +50,7 @@ test.describe('Upload hearing docs test', () => {
         await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
         await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
-        await caseListPage.selectNextEvent(Events.uploadDocumentsForHearing.listItem);
+        await caseDetailsPage.selectNextEvent(Events.uploadDocumentsForHearing);
 
         // //Verify only future hearings are shown in the options
         await uploadDocumentsForHearingPage.submitDocumentForHearing(

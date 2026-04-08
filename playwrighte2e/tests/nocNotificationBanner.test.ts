@@ -95,7 +95,7 @@ test.describe('NOC Notification Banner', () => {
     await caseListPage.checkAndShareCaseFromList(caseId);
     //caseId = '1768406266566446';
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-    await caseListPage.selectNextEvent(Events.refreshSharedUsers.listItem);
+    await caseDetailsPage.selectNextEvent(Events.refreshSharedUsers);
     await baseEventPage.clickSubmitButton();
 
     //validate share case details
@@ -131,7 +131,7 @@ test.describe('NOC Notification Banner', () => {
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId);
     await caseListPage.checkAndShareCaseFromList(caseId);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-    await caseListPage.selectNextEvent(Events.refreshSharedUsers.listItem);
+    await caseDetailsPage.selectNextEvent(Events.refreshSharedUsers);
     await baseEventPage.clickSubmitButton();
     //validate share case details
     await caseDetailsPage.assertTabData([

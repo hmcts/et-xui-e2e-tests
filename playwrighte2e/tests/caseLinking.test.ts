@@ -1,7 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import config from '../config/config.ts';
-import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
+import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data.ts';
 
 let caseId: string, caseId2: string;
 let caseNumber1: string, caseNumber2: string;
@@ -15,7 +15,7 @@ let caseNumber1: string, caseNumber2: string;
           ({ caseId: caseId2, caseNumber: caseNumber2 } = await CaseworkerCaseFactory.createScotlandAndAcceptCase());
         });
 
-        test('Link-2-Cases - Multiple Reasons - Scotland', {tag: '@demo'}, async ({ manageCaseDashboardPage,loginPage, caseListPage, caseLinkPage, caseDetailsPage }) => {
+        test('Link-2-Cases - Multiple Reasons - Scotland', {tag: '@demo'}, async ({ manageCaseDashboardPage,loginPage, caseLinkPage, caseDetailsPage }) => {
           await manageCaseDashboardPage.visit();
           await loginPage.processLogin(
             config.etCaseWorker.email,
@@ -25,11 +25,11 @@ let caseNumber1: string, caseNumber2: string;
 
           caseNumber2 = await manageCaseDashboardPage.navigateToCaseDetails(caseId2, CaseTypeLocation.Scotland);
             // link cases
-            await caseListPage.selectNextEvent('Link cases');
+            await caseDetailsPage.selectNextEvent(Events.linkCases);
             await caseLinkPage.checksCaseLinkStartingPage();
             await caseLinkPage.enterCaseLinkReferenceWithoutHearing(caseId);
             const caseIdText = String(caseId).replace(/(\d{4})(?=\d)/g, '$1-');
-            await caseListPage.navigateToTab('Linked cases');
+            await caseDetailsPage.navigateToTab('Linked cases');
             await caseDetailsPage.assertTabData([
               {
                 tabName: 'Linked cases',
@@ -54,7 +54,7 @@ let caseNumber1: string, caseNumber2: string;
         test(
           'Link-2-Cases - Multiple Reasons - England',
           { tag: '@demo' },
-          async ({ manageCaseDashboardPage, loginPage, caseListPage, caseLinkPage, caseDetailsPage }) => {
+          async ({ manageCaseDashboardPage, loginPage, caseLinkPage, caseDetailsPage }) => {
             await manageCaseDashboardPage.visit();
             await loginPage.processLogin(
               config.etCaseWorker.email,
@@ -67,7 +67,7 @@ let caseNumber1: string, caseNumber2: string;
               CaseTypeLocation.EnglandAndWales,
             );
             // link cases
-            await caseListPage.selectNextEvent('Link cases');
+            await caseDetailsPage.selectNextEvent(Events.linkCases);
             await caseLinkPage.checksCaseLinkStartingPage();
             await caseLinkPage.enterCaseLinkReferenceWithoutHearing(caseId);
           },

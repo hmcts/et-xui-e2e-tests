@@ -1,5 +1,6 @@
 import { BasePage } from "../basePage.ts";
 import { expect } from '@playwright/test';
+import { CaseDetailsValues } from '../../config/case-data.ts';
 
 export default class RespondentRepPage extends BasePage {
 
@@ -34,9 +35,9 @@ export default class RespondentRepPage extends BasePage {
   };
 
   async addRespondentRepresentative(regOption: string, orgName: string) {
-    await this.page.locator('#repCollection_0_0').isVisible();
-    await this.webActions.selectByLabelFromDropDown(this.elements.selectRespondent, 'Henry Marsh');
-    await this.webActions.fillField(this.elements.respondentName, 'Henry Marsh');
+    await expect(this.page.getByRole('heading', { name: 'Respondent Representative(s)', level: 2})).toBeVisible();
+    await this.webActions.selectByLabelFromDropDown(this.elements.selectRespondent, CaseDetailsValues.respondentName);
+    await this.webActions.fillField(this.elements.respondentName, CaseDetailsValues.respondentName);
     await this.webActions.fillField(this.elements.respondentRepresentativePhoneNumber, '01234657895');
     await this.webActions.fillField(this.elements.respondentRepresentativeEmailAddress, 'et.tester@hmcts.net');
     await this.webActions.selectByOptionFromDropDown(

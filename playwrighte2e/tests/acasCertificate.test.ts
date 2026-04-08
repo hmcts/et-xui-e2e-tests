@@ -9,6 +9,7 @@ import PersonalDetailsPage from '../pages/claimantCitizenHub/personalDetailsPage
 import EmploymentAndRespDetailsPage from '../pages/claimantCitizenHub/employmentAndRespDetailsPage.ts';
 import ClaimDetailsPage from '../pages/claimantCitizenHub/claimDetailsPage.ts';
 import SubmitClaimPage from '../pages/claimantCitizenHub/submitClaimPage.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 
 test.describe('Add & Search ACAS certificate tests', () => {
     let submissionReference: string;
@@ -17,7 +18,6 @@ test.describe('Add & Search ACAS certificate tests', () => {
       async ({
         page,
         loginPage,
-        caseListPage,
         et1VettingPage,
         et1CaseServingPage,
         citizenPreLoginPage,
@@ -25,7 +25,7 @@ test.describe('Add & Search ACAS certificate tests', () => {
         personalDetailsPage,
         employmentAndRespondentDetailsPage,
         claimDetailsPage,
-        submitClaimPage,
+        submitClaimPage, manageCaseDashboardPage, caseDetailsPage
       }) => {
 
         submissionReference = await createCaseViaCitizenUI(
@@ -48,32 +48,32 @@ test.describe('Add & Search ACAS certificate tests', () => {
         );
 
         await vetAndAcceptCitizenCase(
-          page,
           loginPage,
-          caseListPage,
           et1VettingPage,
           et1CaseServingPage,
-          'EnglandWales',
+          manageCaseDashboardPage,
+          caseDetailsPage,
+          CaseTypeLocation.EnglandAndWales,
           submissionReference,
           {
             user: config.etCaseWorker.email,
             password: config.etCaseWorker.password,
             path: config.loginPaths.worklist,
-          },
+          }
         );
       },
     );
 
-    test('England case - ACAS certificate', {tag: '@demo'}, async ({ caseListPage, searchAcasPage}) => {
+    test('England case - ACAS certificate', {tag: '@demo'}, async ({ caseListPage, searchAcasPage, caseDetailsPage}) => {
         // Verify ACAS certificate
-        caseListPage.navigateToTab('Documents');
-        caseListPage.verifyAcasCertificateDetailsOnTab(acasCertData.docName, acasCertData.docType);
+        await caseDetailsPage.navigateToTab('Documents');
+        await caseListPage.verifyAcasCertificateDetailsOnTab(acasCertData.docName, acasCertData.docType);
 
         // const str = acasCertData.docName;
         let acasCertNum = acasCertData.docName.match(/[A-Za-z0-9]+\/[0-9]+\/[0-9]+/);
 
         // Successfully search for ACAS Certificate
-        caseListPage.selectNextEvent(acasCertData.eventName);
+        await caseDetailsPage.selectNextEvent(Events.searchAcasCertificate);
         await searchAcasPage.findAcasCertificateSuccessfully(acasCertNum ? acasCertNum[0].toString() : "No match");
     });
 })

@@ -17,10 +17,9 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
   test('Perform NOC using claimant details, caseworker sends notification and (claimant)legal rep respond to notification', async ({
     manageCaseDashboardPage,
     loginPage,
-    caseListPage,
     caseWorkerNotificationPage,
     legalRepNotificationPage,
-    nocPage,
+    nocPage, caseDetailsPage
   }) => {
     const firstName = CaseDetailsValues.claimantFirstName;
     const lastName = CaseDetailsValues.claimantLastName;
@@ -53,7 +52,7 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
     await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
     //respond to an application
-    await caseListPage.clickTab('Judgment');
+    await caseDetailsPage.navigateToTab('Judgments, orders & notifications');
     await legalRepNotificationPage.respondToTribunal({
       notificationName: notificationTitle,
       responseText: 'Responding to notification from tribunal - claimant legal rep',
@@ -69,7 +68,7 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
     caseListPage,
     caseWorkerNotificationPage,
     legalRepNotificationPage,
-    nocPage,
+    nocPage, caseDetailsPage
   }) => {
     await manageCaseDashboardPage.visit();
     await loginPage.processLogin(
@@ -98,7 +97,7 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
     await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
     //respond to an application
-    await caseListPage.clickTab('Judgment');
+    await caseDetailsPage.navigateToTab('Judgments, orders & notifications');
     await legalRepNotificationPage.respondToTribunal({
       notificationName: notificationTitle,
       responseText: 'Responding to notification from tribunal - Respondent legal rep',
