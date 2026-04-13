@@ -166,7 +166,7 @@ test.describe('NOC Notification Banner', () => {
     await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPage.changeMyLegalRep();
+    await citizenHubPage.clickChangeMyLegalRep();
     await citizenHubPage.verifyLegalRepUnassignedNotificationBanner();
   });
 });

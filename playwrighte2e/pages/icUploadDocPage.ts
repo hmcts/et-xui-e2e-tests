@@ -1,43 +1,47 @@
-import { expect } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import { BasePage } from "./basePage";
 import path from "path";
 import icPageData from '../resources/payload/ic-page-content.json';
 import respPageData from '../resources/payload/respondent-page-content.json';
 
 export default class ICUploadDocPage extends BasePage {
+    private readonly respNameEle: Locator;
+    private readonly jurisdictionCodeInvalidYes: Locator;
+    private readonly invalidDetails: Locator;
+    private readonly canProceedYes: Locator;
+    private readonly documentHeading: Locator;
+    private readonly fileUploadEle: Locator;
+    private readonly claimantRespondentHearingPanel: Locator;
 
-    elements = {
-        respNameEle: '#etInitialConsiderationRespondentLabel td:nth-child(2)',
-        jurisdictionCodeInvalidYes: '#etICJuridictionCodesInvalid_Yes',
-        invalidDetails: '#etICInvalidDetails',
-        canProceedYes: '#etICCanProceed_Yes',
-        hearingListedNo: '#etICHearingAlreadyListed_No',
-        documentHeading: '#icDocumentCollection1 h2',
-        fileUploadEle: '#icDocumentCollection1_0_uploadedDocument',
-        claimantRespondentHearingPanel: "#etIcPartiesHearingPanelPreferenceLabel td"
+    constructor(page: Page) {
+        super(page);
+        this.respNameEle = page.locator('#etInitialConsiderationRespondentLabel td:nth-child(2)');
+        this.jurisdictionCodeInvalidYes = page.locator('#etICJuridictionCodesInvalid_Yes');
+        this.invalidDetails = page.locator('#etICInvalidDetails');
+        this.canProceedYes = page.locator('#etICCanProceed_Yes');
+        this.documentHeading = page.locator('#icDocumentCollection1 h2');
+        this.fileUploadEle = page.locator('#icDocumentCollection1_0_uploadedDocument');
+        this.claimantRespondentHearingPanel = page.locator('#etIcPartiesHearingPanelPreferenceLabel td');
     }
 
     async judgeUploadsDocument() {
         //RET-5795
-        await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first().isVisible()).toBeTruthy();
-        let actRespNameText = await this.page.locator(this.elements.respNameEle).first().textContent();
-        await expect(actRespNameText?.trim()).toEqual(icPageData.respName);
-        await this.webActions.clickElementByCss(this.elements.jurisdictionCodeInvalidYes);
-        await this.webActions.fillField(this.elements.invalidDetails, icPageData.invalidDetailsText);
-        await this.webActions.clickElementByCss(this.elements.canProceedYes);
-
-
-       // await this.webActions.clickElementByCss(this.elements.hearingListedNo);
+        await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first()).toBeVisible();
+        let actRespNameText = await this.respNameEle.first().textContent();
+        expect(actRespNameText?.trim()).toEqual(icPageData.respName);
+        await this.jurisdictionCodeInvalidYes.click();
+        await this.invalidDetails.fill(icPageData.invalidDetailsText);
+        await this.canProceedYes.click();
         await this.clickContinue();
 
-        let txtHeading = await this.page.locator(this.elements.documentHeading).textContent();
-        await expect(txtHeading?.trim()).toEqual(icPageData.docHeadingText);
-        await this.webActions.checkElementByLabel(icPageData.hearingOptionText);
+        let txtHeading = await this.documentHeading.textContent();
+        expect(txtHeading?.trim()).toEqual(icPageData.docHeadingText);
+        await this.page.getByLabel(icPageData.hearingOptionText).check();
 
         // Click and upload a document
         await this.addNewBtn.click();
         const fileChooserPromise = this.page.waitForEvent('filechooser');
-        await this.page.locator(this.elements.fileUploadEle).click();
+        await this.fileUploadEle.click();
         const fileChooser = await fileChooserPromise;
         await fileChooser.setFiles(path.join(__dirname, '../resources/test_file/test-doc.pdf'));
         await this.delay(2000);
@@ -49,23 +53,23 @@ export default class ICUploadDocPage extends BasePage {
     }
 
     async verifyRespondentHearingPanelValues() {
-      await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first().isVisible()).toBeTruthy();
-      await this.webActions.verifyElementContainsText(this.page.locator(this.elements.claimantRespondentHearingPanel).nth(4), respPageData.preferenceNameisJudge)
-      await this.webActions.verifyElementContainsText(this.page.locator(this.elements.claimantRespondentHearingPanel).nth(5),respPageData.panelReason);
+      await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first()).toBeVisible();
+      await expect(this.claimantRespondentHearingPanel.nth(4)).toContainText(respPageData.preferenceNameisJudge);
+      await expect(this.claimantRespondentHearingPanel.nth(5)).toContainText(respPageData.panelReason);
     }
 
     async verifyClaimantHearingPanelValues() {
-        await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first().isVisible()).toBeTruthy();
-        await this.webActions.verifyElementContainsText(this.page.locator(this.elements.claimantRespondentHearingPanel).nth(1), respPageData.preferenceNameisPanel)
-        await this.webActions.verifyElementContainsText(this.page.locator(this.elements.claimantRespondentHearingPanel).nth(2),respPageData.panelReason);
+        await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first()).toBeVisible();
+        await expect(this.claimantRespondentHearingPanel.nth(1)).toContainText(respPageData.preferenceNameisPanel);
+        await expect(this.claimantRespondentHearingPanel.nth(2)).toContainText(respPageData.panelReason);
     }
 
     async verifyICDetailsOnTab(fieldLabel: string, fieldValue: string) {
-        await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`));
+        await expect(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
     }
 
     async verifyJurisdictionCodeInICevent(){
-        await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first().isVisible()).toBeTruthy();
+        await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first()).toBeVisible();
         await expect(this.page.locator('#etInitialConsiderationJurisdictionCodesLabel')).toContainText('DAG');
     }
 }

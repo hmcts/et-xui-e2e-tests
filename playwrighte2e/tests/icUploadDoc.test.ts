@@ -36,7 +36,7 @@ test.describe('IC Upload documents', () => {
           tabContent: [
             { tabItem: 'Initial Consideration Document', value: 'Initial Consideration.pdf' },
             { tabItem: 'Document', value: 'test-doc.pdf' },
-            { tabItem: 'Initial consideration completed by:', value: 'ET Judge1' },
+            { tabItem: 'Initial consideration completed by:', value: 'ET Judge1'},
           ],
         },
       ]);

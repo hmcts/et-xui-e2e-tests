@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { WebAction } from '../common/web.action';
+import { WebAction } from '../common/web.action.ts';
 
 export abstract class BasePage {
   readonly page: Page;
@@ -13,14 +13,13 @@ export abstract class BasePage {
 
   constructor(page: Page) {
     this.page = page;
-
+    this.webActions = new WebAction(page);
     this.saveAsDraftButton = page.getByRole('button', { name: 'Save as draft' });
     this.closeAndReturnButton = this.page.getByRole('button', { name: 'Close and Return to case' });
     this.applyFilterButton = this.page.getByRole('button', { name: 'Apply filter' });
     this.addNewBtn = page.getByRole('button', { name: 'Add new' });
     this.newHearingBtn = '#hearingCollection > div > button.button.write-collection-add-item__bottom.ng-star-inserted';
     this.newUploadDocBtn = page.locator('//*[@id="documentCollection"]/div/button[2]');
-    this.webActions = new WebAction(this.page);
   }
 
   async wait(time: number) {
@@ -31,7 +30,7 @@ export abstract class BasePage {
     const maxRetries = 3;
     let attempt = 0;
     while (attempt < maxRetries) {
-      await this.webActions.clickElementByRole('button', { name: 'Continue' });
+      await this.page.getByRole('button', { name: 'Continue' }).click();
       await this.page.waitForLoadState('load');
       const error = this.page.getByRole('heading', { name: ' The event could not be created ', level: 3 });
       // Check if error is visible
@@ -58,7 +57,7 @@ export abstract class BasePage {
   }
 
   async clickSubmitButton() {
-    await this.webActions.clickElementByRole('button', { name: 'Submit' });
+    await this.page.getByRole('button', { name: 'Submit' }).click();
     await this.page.waitForLoadState('load', { timeout: 5000 });
   }
 
@@ -67,11 +66,11 @@ export abstract class BasePage {
   }
 
   async clickNextButton() {
-    await this.webActions.clickElementByRole('button', { name: 'Next' });
+    await this.page.getByRole('button', { name: 'Next' }).click();
   }
 
   async clickShareCaseButton() {
-    await this.webActions.clickElementByRole('button', { name: ' Share Case ' });
+    await this.page.getByRole('button', { name: ' Share Case ' }).click();
   }
 
   async clickElement(elementLocator: string): Promise<void> {
@@ -79,28 +78,28 @@ export abstract class BasePage {
   }
 
   async enterPostCode(postcode: string) {
-    await this.webActions.fillFieldByRole('textbox', { name: 'Enter a UK postcode' }, postcode);
+    await this.page.getByRole('textbox', { name: 'Enter a UK postcode' }).fill(postcode);
     await this.delay(3000);
-    await this.webActions.clickElementByRole('button', { name: 'Find address' });
+    await this.page.getByRole('button', { name: 'Find address' }).click();
     await this.delay(3000);
     await this.page.getByLabel('Select an address').selectOption('2: Object');
     await this.delay(3000);
   }
 
   async signoutButton() {
-    await this.webActions.clickElementByText('Sign out');
+    await this.page.getByText('Sign out').click();
   }
 
   async signOutButtonSyr() {
-    await this.webActions.clickElementByRole('link', { name: 'Sign out' });
+    await this.page.getByRole('link', { name: 'Sign out' }).click();
   }
 
   async clickStartNow() {
-    await this.webActions.clickElementByRole('button', { name: 'Start now' });
+    await this.page.getByRole('button', { name: 'Start now' }).click();
   }
 
   async saveAndContinueButton() {
-    await this.webActions.clickElementByRole('button', { name: 'Save and continue' });
+    await this.page.getByRole('button', { name: 'Save and continue' }).click();
   }
 
   async addNewButtonClick() {
@@ -108,7 +107,7 @@ export abstract class BasePage {
   }
 
   async addNewHearingButtonClick() {
-    await this.webActions.clickElementByCss(this.newHearingBtn);
+    await this.page.locator(this.newHearingBtn).click();
   }
 
   async addNewUploadDocButtonClick() {
@@ -116,7 +115,6 @@ export abstract class BasePage {
   }
 
   async addRespondentButton() {
-    await this.webActions.clickElementByRole('button', { name: 'Add another respondent' });
+    await this.page.getByRole('button', { name: 'Add another respondent' }).click();
   }
-
 }
