@@ -1,32 +1,41 @@
 import { BasePage } from "./basePage";
-import { expect } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import { AxeUtils } from '@hmcts/playwright-common';
 const today = new Date();
 
 export default class Et1CaseServingPage extends BasePage {
+  private readonly dateAcceptedDay: Locator;
+  private readonly dateAcceptedMonth: Locator;
+  private readonly dateAcceptedYear: Locator;
+  private readonly yesRadio: Locator;
+  private readonly servingDocType: Locator;
+  private readonly servingDocUpload: Locator;
+  private readonly servingDocShortDesc: Locator;
 
-  elements = {
-
-    //ET1 Vetting Pages...
-    date_accepted_day: '#dateAccepted-day',
-    date_accepted_month: '#dateAccepted-month',
-    date_accepted_year: '#dateAccepted-year',
+  constructor(page: Page) {
+    super(page);
+    this.dateAcceptedDay = page.locator('#dateAccepted-day');
+    this.dateAcceptedMonth = page.locator('#dateAccepted-month');
+    this.dateAcceptedYear = page.locator('#dateAccepted-year');
+    this.yesRadio = page.getByLabel('Yes');
+    this.servingDocType = page.locator('#servingDocumentCollection_0_typeOfDocument');
+    this.servingDocUpload = page.locator('#servingDocumentCollection_0_uploadedDocument');
+    this.servingDocShortDesc = page.locator('#servingDocumentCollection_0_shortDescription');
   }
 
   async processET1CaseServingPages(accessibilityEnabled?: boolean, axeUtils?: AxeUtils) {
-    if(accessibilityEnabled) {
+    if (accessibilityEnabled) {
       // @ts-ignore
       await axeUtils.audit();
     }
-    await this.webActions.checkElementByLabel('Yes');
-    await this.webActions.fillField(this.elements.date_accepted_day, String(today.getDate()));
-    await this.webActions.fillField(this.elements.date_accepted_month, String(today.getMonth() +1));
-    await this.webActions.fillField(this.elements.date_accepted_year, String(today.getFullYear()));
-    await this.page.locator(this.elements.date_accepted_month).click();
+    await this.yesRadio.check();
+    await this.dateAcceptedDay.fill(String(today.getDate()));
+    await this.dateAcceptedMonth.fill(String(today.getMonth() + 1));
+    await this.dateAcceptedYear.fill(String(today.getFullYear()));
+    await this.dateAcceptedMonth.click();
     await this.clickSubmitButton();
     await this.delay(5000);
   }
-
 
   async getClaimantFirstName() {
     const firstName = await this.page.locator('#case-viewer-field-read--claimantIndType tr:nth-of-type(2) span:nth-of-type(1) span:nth-of-type(1)').innerText();
@@ -39,35 +48,34 @@ export default class Et1CaseServingPage extends BasePage {
     };
   }
 
-  async et1ServingEvent(){
+  async et1ServingEvent() {
     await this.addNewButtonClick();
-    await this.webActions.selectByOptionFromDropDown('#servingDocumentCollection_0_typeOfDocument', '7.7 In person preliminary hearing - notice of case management discussion');
-    await this.page.locator('#servingDocumentCollection_0_uploadedDocument').setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
+    await this.servingDocType.selectOption({ label: '7.7 In person preliminary hearing - notice of case management discussion' });
+    await this.servingDocUpload.setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
     await this.page.waitForTimeout(3000);
-    await this.webActions.fillField('#servingDocumentCollection_0_shortDescription', 'ET1 serving');
+    await this.servingDocShortDesc.fill('ET1 serving');
     await this.clickContinue();
   }
 
-  async et1ServingEventNoticeOfClaim(){
+  async et1ServingEventNoticeOfClaim() {
     await this.addNewButtonClick();
-    await this.webActions.selectByOptionFromDropDown('#servingDocumentCollection_0_typeOfDocument', '2.7 ET2 short track claim');
-    await this.page.locator('#servingDocumentCollection_0_uploadedDocument').setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
+    await this.servingDocType.selectOption({ label: '2.7 ET2 short track claim' });
+    await this.servingDocUpload.setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
     await this.page.waitForTimeout(3000);
-    await this.webActions.fillField('#servingDocumentCollection_0_shortDescription', 'ET1 serving');
+    await this.servingDocShortDesc.fill('ET1 serving');
     await this.clickContinue();
 
-    await this.webActions.waitForElementToBeVisible('text=Print and send paper documents');
+    await expect(this.page.getByText('Print and send paper documents')).toBeVisible();
     await this.clickContinue();
 
-    await this.webActions.waitForElementToBeVisible('text=Email documents to Acas');
+    await expect(this.page.getByText('Email documents to Acas')).toBeVisible();
     await this.clickSubmitButton();
 
-    await this.webActions.waitForElementToBeVisible('text=Documents sent');
+    await expect(this.page.getByText('Documents sent')).toBeVisible();
     await this.clickCloseAndReturn();
   }
 
-  async validateEt1ErrorMessage(){
+  async validateEt1ErrorMessage() {
     await expect(this.page.getByLabel('Cannot continue because the').getByRole('listitem')).toContainText('You have only uploaded a notice of hearing. Please also upload the relevant service letter.');
   }
 }
-

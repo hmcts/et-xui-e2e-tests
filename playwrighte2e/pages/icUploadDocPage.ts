@@ -64,10 +64,6 @@ export default class ICUploadDocPage extends BasePage {
         await expect(this.claimantRespondentHearingPanel.nth(2)).toContainText(respPageData.panelReason);
     }
 
-    async verifyICDetailsOnTab(fieldLabel: string, fieldValue: string) {
-        await expect(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
-    }
-
     async verifyJurisdictionCodeInICevent(){
         await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first()).toBeVisible();
         await expect(this.page.locator('#etInitialConsiderationJurisdictionCodesLabel')).toContainText('DAG');

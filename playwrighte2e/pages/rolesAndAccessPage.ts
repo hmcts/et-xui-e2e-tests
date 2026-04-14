@@ -1,19 +1,38 @@
 import { BasePage } from "./basePage";
-import { expect } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 
 export default class RolesAndAccessPage extends BasePage {
+  private readonly allocateCtscRoleLink: Locator;
+  private readonly allocatedCtscCaseworker: Locator;
+  private readonly allocateToMe: Locator;
+  private readonly daysRadio: Locator;
+  private readonly indefiniteRadio: Locator;
+  private readonly continueButton: Locator;
+  private readonly confirmAllocationButton: Locator;
+  private readonly tbody: Locator;
 
-  async assignAccessToCtscUser() {
-    await this.page.getByRole('link', { name: 'Allocate a CTSC role' }).click();
-    await this.webActions.clickElementByText('Allocated CTSC Caseworker');
-    await this.clickContinue();
-    await this.webActions.clickElementByText('Allocate to me');
-    await this.clickContinue();
-    await this.page.getByRole('radio', { name: 'days' }).check();
-    await this.page.getByRole('radio', { name: 'Indefinite' }).check();
-    await this.page.getByRole('button', { name: 'Continue' }).click();
-    await this.page.getByRole('button', { name: 'Confirm allocation' }).click();
-    await expect(this.page.locator('tbody')).toContainText('Allocated CTSC Caseworker');
+  constructor(page: Page) {
+    super(page);
+    this.allocateCtscRoleLink = page.getByRole('link', { name: 'Allocate a CTSC role' });
+    this.allocatedCtscCaseworker = page.getByText('Allocated CTSC Caseworker');
+    this.allocateToMe = page.getByText('Allocate to me');
+    this.daysRadio = page.getByRole('radio', { name: 'days' });
+    this.indefiniteRadio = page.getByRole('radio', { name: 'Indefinite' });
+    this.continueButton = page.getByRole('button', { name: 'Continue' });
+    this.confirmAllocationButton = page.getByRole('button', { name: 'Confirm allocation' });
+    this.tbody = page.locator('tbody');
   }
 
+  async assignAccessToCtscUser() {
+    await this.allocateCtscRoleLink.click();
+    await this.allocatedCtscCaseworker.click();
+    await this.clickContinue();
+    await this.allocateToMe.click();
+    await this.clickContinue();
+    await this.daysRadio.check();
+    await this.indefiniteRadio.check();
+    await this.continueButton.click();
+    await this.confirmAllocationButton.click();
+    await expect(this.tbody).toContainText('Allocated CTSC Caseworker');
+  }
 }

@@ -1,43 +1,44 @@
 import { BasePage } from './basePage';
-import { expect } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 export default class UploadDocumentPage extends BasePage {
-  readonly addNewButtonBottom = '//button[@class="button write-collection-add-item__bottom ng-star-inserted"]';
-  readonly createDcfLink = '//a[contains(.,"Create, Upload or Remove DCF")]';
-  readonly createDcfRadio = '#uploadOrRemoveDcf-Create';
+  private readonly addNewButtonBottom: Locator;
+  private readonly createDcfLink: Locator;
+  private readonly createDcfRadio: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.addNewButtonBottom = page.locator('//button[@class="button write-collection-add-item__bottom ng-star-inserted"]');
+    this.createDcfLink = page.locator('//a[contains(.,"Create, Upload or Remove DCF")]');
+    this.createDcfRadio = page.locator('#uploadOrRemoveDcf-Create');
+  }
 
   async uploadCaseManagementDocument() {
-    await this.webActions.clickElementByCss(this.addNewButtonBottom);
-    await this.webActions.selectByOptionFromDropDown('#documentCollection_1_topLevelDocuments', '4: Case Management');
-    await this.webActions.selectByOptionFromDropDown('#documentCollection_1_caseManagementDocuments', 'Deposit Order');
-    await this.webActions.clickElementByCss('#documentCollection_1_uploadedDocument');
-
+    await this.addNewButtonBottom.click();
+    await this.page.locator('#documentCollection_1_topLevelDocuments').selectOption({ label: '4: Case Management' });
+    await this.page.locator('#documentCollection_1_caseManagementDocuments').selectOption({ label: 'Deposit Order' });
+    await this.page.locator('#documentCollection_1_uploadedDocument').click();
     await this.page.locator('#documentCollection_1_uploadedDocument').setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
     await this.page.waitForTimeout(3000);
     await this.clickSubmitButton();
   }
 
   async createDCF() {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.createDcfLink));
-    await this.webActions.clickElementByCss(this.createDcfLink);
-    await this.webActions.waitForElementToBeVisible(this.createDcfRadio);
-    await this.webActions.checkElementById(this.createDcfRadio);
+    await expect(this.createDcfLink).toBeVisible();
+    await this.createDcfLink.click();
+    await expect(this.createDcfRadio).toBeVisible();
+    await this.createDcfRadio.check();
     await this.clickSubmitButton();
   }
 
   async uploadFile(fileName: string, docNumber: number) {
     await this.page.waitForSelector('text=Case documentation', { timeout: 10000 });
     await this.addNewUploadDocButtonClick();
-
-    await this.page.selectOption(`#documentCollection_${docNumber}_topLevelDocuments`, 'Misc');
+    await this.page.locator(`#documentCollection_${docNumber}_topLevelDocuments`).selectOption({ label: 'Misc' });
     await expect(this.page.locator(`#documentCollection_${docNumber}_miscDocuments`)).toBeVisible();
-    await this.page.selectOption(`#documentCollection_${docNumber}_miscDocuments`, 'Tribunal case file');
+    await this.page.locator(`#documentCollection_${docNumber}_miscDocuments`).selectOption({ label: 'Tribunal case file' });
     await this.page.waitForSelector(`#documentCollection_${docNumber}_uploadedDocument`);
-    await this.page.setInputFiles(
-      `#documentCollection_${docNumber}_uploadedDocument`,
-      `playwrighte2e/resources/test_file/${fileName}`,
-    );
-
+    await this.page.locator(`#documentCollection_${docNumber}_uploadedDocument`).setInputFiles(`playwrighte2e/resources/test_file/${fileName}`);
     await this.page.waitForTimeout(10000);
     await this.clickSubmitButton();
     await this.delay(4000);

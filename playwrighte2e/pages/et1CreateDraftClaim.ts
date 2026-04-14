@@ -1,41 +1,73 @@
 import { BasePage } from "./basePage";
-import { expect } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 
 
 export default class Et1CreateDraftClaim extends BasePage {
-  elements = {
-    et1Postcode: this.page.locator("//input[@id='et1ReppedTriageAddress_et1ReppedTriageAddress_postcodeInput']"),
-    et1Section1Link: this.page.locator('//a[contains(.,"ET1 Section 1 - Claimant details")]'),
-    claimantFirstName: this.page.locator('#claimantFirstName'),
-    claimantLastname: this.page.locator('#claimantLastName'),
-    date: this.page.locator('#claimantDateOfBirth-day'),
-    month: this.page.locator('#claimantDateOfBirth-month'),
-    year: this.page.locator('#claimantDateOfBirth-year'),
-    et1Section2Link: this.page.locator('//a[contains(.,"ET1 Section 2 - Employment & respondent details")]'),
-    et1Section3Link: this.page.locator('//a[contains(.,"ET1 Section 3 - Details of the claim")]'),
-    submitClaimLink: this.page.locator('//a[contains(.,"Submit claim")]'),
-    caseDetailsTab: this.page.locator('#mat-tab-label-0-0'),
-    representativeAttendHearing: this.page.locator('#representativeAttendHearing-Phone'),
-    hearingContactLanguage: this.page.locator('#hearingContactLanguage-English'),
-    claimantAttendHearing: this.page.locator('#claimantAttendHearing-Phone'),
-    claimantHearingContactLanguage: this.page.locator('#claimantHearingContactLanguage-English'),
-    claimantSupportQuestion: this.page.locator('#claimantSupportQuestion-Yes'),
-    representativeContactPreference: this.page.locator('#representativeContactPreference-Email'),
-    contactLanguageQuestion: this.page.locator('#contactLanguageQuestion-English'),
-    representativePhoneNumber: this.page.locator('#representativePhoneNumber'),
-    representativeReferenceNumber: this.page.locator('#representativeReferenceNumber'),
-    didClaimantWorkForOrg: this.page.locator('#didClaimantWorkForOrg-Yes'),
-    claimantStillWorking: this.page.locator('  #claimantStillWorking-Working'),
-    claimantJobTitle: this.page.locator('#claimantJobTitle'),
-    claimantStartDate: this.page.locator('#claimantStartDate-day'),
-    claimantStartDateMonth: this.page.locator('#claimantStartDate-month'),
-    claimantStartDateYear: this.page.locator('#claimantStartDate-year'),
-    claimantStillWorkingNoticePeriodMonths: this.page.locator('#claimantStillWorkingNoticePeriod-Months'),
-    claimantStillWorkingNoticePeriodMonthsText: this.page.locator('#claimantStillWorkingNoticePeriodMonths'),
-    claimantAverageWeeklyWorkHours: this.page.locator('#claimantAverageWeeklyWorkHours'),
-  };
+  private readonly et1Postcode: Locator;
+  private readonly et1Section1Link: Locator;
+  private readonly claimantFirstName: Locator;
+  private readonly claimantLastname: Locator;
+  private readonly date: Locator;
+  private readonly month: Locator;
+  private readonly year: Locator;
+  private readonly et1Section2Link: Locator;
+  private readonly et1Section3Link: Locator;
+  private readonly submitClaimLink: Locator;
+  private readonly caseDetailsTab: Locator;
+  private readonly representativeAttendHearing: Locator;
+  private readonly hearingContactLanguage: Locator;
+  private readonly claimantAttendHearing: Locator;
+  private readonly claimantHearingContactLanguage: Locator;
+  private readonly claimantSupportQuestion: Locator;
+  private readonly representativeContactPreference: Locator;
+  private readonly contactLanguageQuestion: Locator;
+  private readonly representativePhoneNumber: Locator;
+  private readonly representativeReferenceNumber: Locator;
+  private readonly didClaimantWorkForOrg: Locator;
+  private readonly claimantStillWorking: Locator;
+  private readonly claimantJobTitle: Locator;
+  private readonly claimantStartDate: Locator;
+  private readonly claimantStartDateMonth: Locator;
+  private readonly claimantStartDateYear: Locator;
+  private readonly claimantStillWorkingNoticePeriodMonths: Locator;
+  private readonly claimantStillWorkingNoticePeriodMonthsText: Locator;
+  private readonly claimantAverageWeeklyWorkHours: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.et1Postcode = page.locator("//input[@id='et1ReppedTriageAddress_et1ReppedTriageAddress_postcodeInput']");
+    this.et1Section1Link = page.locator('//a[contains(.,"ET1 Section 1 - Claimant details")]');
+    this.claimantFirstName = page.locator('#claimantFirstName');
+    this.claimantLastname = page.locator('#claimantLastName');
+    this.date = page.locator('#claimantDateOfBirth-day');
+    this.month = page.locator('#claimantDateOfBirth-month');
+    this.year = page.locator('#claimantDateOfBirth-year');
+    this.et1Section2Link = page.locator('//a[contains(.,"ET1 Section 2 - Employment & respondent details")]');
+    this.et1Section3Link = page.locator('//a[contains(.,"ET1 Section 3 - Details of the claim")]');
+    this.submitClaimLink = page.locator('//a[contains(.,"Submit claim")]');
+    this.caseDetailsTab = page.locator('#mat-tab-label-0-0');
+    this.representativeAttendHearing = page.locator('#representativeAttendHearing-Phone');
+    this.hearingContactLanguage = page.locator('#hearingContactLanguage-English');
+    this.claimantAttendHearing = page.locator('#claimantAttendHearing-Phone');
+    this.claimantHearingContactLanguage = page.locator('#claimantHearingContactLanguage-English');
+    this.claimantSupportQuestion = page.locator('#claimantSupportQuestion-Yes');
+    this.representativeContactPreference = page.locator('#representativeContactPreference-Email');
+    this.contactLanguageQuestion = page.locator('#contactLanguageQuestion-English');
+    this.representativePhoneNumber = page.locator('#representativePhoneNumber');
+    this.representativeReferenceNumber = page.locator('#representativeReferenceNumber');
+    this.didClaimantWorkForOrg = page.locator('#didClaimantWorkForOrg-Yes');
+    this.claimantStillWorking = page.locator('#claimantStillWorking-Working');
+    this.claimantJobTitle = page.locator('#claimantJobTitle');
+    this.claimantStartDate = page.locator('#claimantStartDate-day');
+    this.claimantStartDateMonth = page.locator('#claimantStartDate-month');
+    this.claimantStartDateYear = page.locator('#claimantStartDate-year');
+    this.claimantStillWorkingNoticePeriodMonths = page.locator('#claimantStillWorkingNoticePeriod-Months');
+    this.claimantStillWorkingNoticePeriodMonthsText = page.locator('#claimantStillWorkingNoticePeriodMonths');
+    this.claimantAverageWeeklyWorkHours = page.locator('#claimantAverageWeeklyWorkHours');
+  }
+
   async claimantWorkLocation() {
-    await this.elements.et1Postcode.click();
+    await this.et1Postcode.click();
   }
 
   async et1Section1(claimantsFirstName: string, claimantLastname: string) {
@@ -50,17 +82,17 @@ export default class Et1CreateDraftClaim extends BasePage {
     );
     await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
     await this.delay(2000);
-    await this.elements.et1Section1Link.click({ clickCount: 4, force: true });
+    await this.et1Section1Link.click({ clickCount: 4, force: true });
     await this.delay(2000);
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Make a claim to an employment tribunal');
     await this.clickContinue();
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Claimant details');
-    await this.elements.claimantFirstName.fill(claimantsFirstName);
-    await this.elements.claimantLastname.fill(claimantLastname);
-    await this.elements.date.fill('1');
-    await this.elements.month.fill('11');
-    await this.elements.year.fill('2000');
+    await this.claimantFirstName.fill(claimantsFirstName);
+    await this.claimantLastname.fill(claimantLastname);
+    await this.date.fill('1');
+    await this.month.fill('11');
+    await this.year.fill('2000');
     await this.clickContinue();
 
     await expect(this.page.locator('#claimantSex')).toContainText("Select the claimant's sex (Optional)");
@@ -76,25 +108,25 @@ export default class Et1CreateDraftClaim extends BasePage {
     await this.clickContinue();
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Hearing format');
-    await this.elements.representativeAttendHearing.check();
-    await this.elements.hearingContactLanguage.check();
-    await this.elements.claimantAttendHearing.check();
-    await this.elements.claimantHearingContactLanguage.check();
+    await this.representativeAttendHearing.check();
+    await this.hearingContactLanguage.check();
+    await this.claimantAttendHearing.check();
+    await this.claimantHearingContactLanguage.check();
     await this.clickContinue();
 
-    await this.elements.claimantSupportQuestion.check();
+    await this.claimantSupportQuestion.check();
     await this.page.locator('#claimantSupportQuestionReason').fill('disability access');
     await this.clickContinue();
 
     //await expect(this.page.locator('ccd-case-edit-page')).toContainText('Your information (as the representative)');
-    await this.elements.representativeContactPreference.isVisible();
-    await this.elements.representativeContactPreference.check();
-    await this.elements.contactLanguageQuestion.check();
+    await this.representativeContactPreference.isVisible();
+    await this.representativeContactPreference.check();
+    await this.contactLanguageQuestion.check();
 
     //TODO-RET-5421- optional contact address
     //await this.enterPostCode('LS121AA');
-    await this.elements.representativePhoneNumber.fill('01234567890');
-    await this.elements.representativeReferenceNumber.fill('reference no: 1');
+    await this.representativePhoneNumber.fill('01234567890');
+    await this.representativeReferenceNumber.fill('reference no: 1');
     await this.clickContinue();
 
     // ET1 section 1- CYA page
@@ -120,7 +152,7 @@ export default class Et1CreateDraftClaim extends BasePage {
   async et1Section2(respondentFirstName: string, respondentLastName: string) {
     await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
 
-    await this.elements.et1Section2Link.click();
+    await this.et1Section2Link.click();
 
     //await expect(this.page.getByRole('term')).toContainText('employment status');
     await expect(this.page.locator('ccd-case-edit-page')).toContainText(
@@ -131,30 +163,30 @@ export default class Et1CreateDraftClaim extends BasePage {
     await expect(this.page.locator('ccd-case-edit-page')).toContainText(
       'Did the claimant work for the respondent the claim is being made against? (Optional)',
     );
-    await this.elements.didClaimantWorkForOrg.check();
+    await this.didClaimantWorkForOrg.check();
     await this.clickContinue();
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText(
       'Is the claimant still working for the respondent the claim is being made against? (Optional)',
     );
-    await this.elements.claimantStillWorking.check();
+    await this.claimantStillWorking.check();
     await this.clickContinue();
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Claimant employment details');
-    await this.elements.claimantJobTitle.fill('Developer');
-    await this.elements.claimantStartDate.fill('1');
-    await this.elements.claimantStartDateMonth.fill('2');
-    await this.elements.claimantStartDateYear.fill('2022');
+    await this.claimantJobTitle.fill('Developer');
+    await this.claimantStartDate.fill('1');
+    await this.claimantStartDateMonth.fill('2');
+    await this.claimantStartDateYear.fill('2022');
     await this.clickContinue();
 
     await expect(this.page.locator('#claimantStillWorkingNoticePeriod')).toContainText(
       'Is there a notice period? (Optional)',
     );
-    await this.elements.claimantStillWorkingNoticePeriodMonths.check();
-    await this.elements.claimantStillWorkingNoticePeriodMonthsText.fill('1');
+    await this.claimantStillWorkingNoticePeriodMonths.check();
+    await this.claimantStillWorkingNoticePeriodMonthsText.fill('1');
     await this.clickContinue();
 
-    await this.elements.claimantAverageWeeklyWorkHours.fill('40');
+    await this.claimantAverageWeeklyWorkHours.fill('40');
     await this.clickContinue();
 
     await this.page.locator('#claimantPayBeforeTax').fill('44000');
@@ -197,7 +229,7 @@ export default class Et1CreateDraftClaim extends BasePage {
 
   async et1Section3() {
     await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
-    await this.elements.et1Section3Link.click();
+    await this.et1Section3Link.click();
     await this.page.waitForLoadState('load');
     await this.clickContinue();
 
@@ -228,7 +260,7 @@ export default class Et1CreateDraftClaim extends BasePage {
 
   async et1SubmitClaim() {
     await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
-    await this.elements.submitClaimLink.click();
+    await this.submitClaimLink.click();
     await this.delay(2000);
 
     await this.page.locator('#submitEt1Confirmation-Yes').check();
@@ -237,7 +269,7 @@ export default class Et1CreateDraftClaim extends BasePage {
     await expect(this.page.locator('#confirmation-header')).toContainText('You have submitted the ET1 claim');
     await this.clickCloseAndReturn();
 
-    await this.elements.caseDetailsTab.isVisible();
+    await this.caseDetailsTab.isVisible();
     const submissionRef = await this.page.locator('//*[@id="case-viewer-field-read--feeGroupReference"]').innerText();
     return submissionRef;
   }

@@ -19,6 +19,10 @@ export default class CaseListPage extends BasePage {
   private readonly refferTableEle: Locator;
   private readonly textAreaField: Locator;
   private readonly expandImgIcon: Locator;
+  private readonly stateDropdown: Locator;
+  private readonly managingOfficeDropdown: Locator;
+  private readonly caseNumberField: Locator;
+  private readonly submissionReferenceField: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -34,6 +38,10 @@ export default class CaseListPage extends BasePage {
     this.refferTableEle = page.locator('ccd-read-text-field');
     this.textAreaField = page.locator('ccd-read-text-area-field');
     this.expandImgIcon = page.locator('div a img');
+    this.stateDropdown = page.getByLabel('State');
+    this.managingOfficeDropdown = page.getByLabel('Managing Office');
+    this.caseNumberField = page.getByLabel('Case Number');
+    this.submissionReferenceField = page.getByLabel('Submission Reference');
   }
 
   async selectJurisdiction(jurisdiction: string) {
@@ -49,9 +57,8 @@ export default class CaseListPage extends BasePage {
   }
 
   async selectState(state: string) {
-    const stateDropdown = this.page.getByLabel('State');
-    await expect(stateDropdown).toBeVisible();
-    await stateDropdown.selectOption(state);
+    await expect(this.stateDropdown).toBeVisible();
+    await this.stateDropdown.selectOption(state);
   }
 
   async selectTribunalOffice(office: string) {
@@ -61,21 +68,18 @@ export default class CaseListPage extends BasePage {
   }
 
   async enterCaseNumber(caseNumber: string) {
-    const caseNumberField = this.page.getByLabel('Case Number');
-    await expect(caseNumberField).toBeVisible();
-    await caseNumberField.fill(caseNumber);
+    await expect(this.caseNumberField).toBeVisible();
+    await this.caseNumberField.fill(caseNumber);
   }
 
   async enterSubmissionReference(submissionReference: string) {
-    const submissionReferenceField = this.page.getByLabel('Submission Reference');
-    await expect(submissionReferenceField).toBeVisible();
-    await submissionReferenceField.fill(submissionReference);
+    await expect(this.submissionReferenceField).toBeVisible();
+    await this.submissionReferenceField.fill(submissionReference);
   }
 
   async selectManagingOffice(office: string) {
-    const managingOfficeDropdown = this.page.getByLabel('Managing Office');
-    await expect(managingOfficeDropdown).toBeVisible();
-    await managingOfficeDropdown.selectOption(office);
+    await expect(this.managingOfficeDropdown).toBeVisible();
+    await this.managingOfficeDropdown.selectOption(office);
   }
 
   // needed for share case feature
