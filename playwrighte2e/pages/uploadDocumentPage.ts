@@ -15,7 +15,7 @@ export default class UploadDocumentPage extends BasePage {
 
   async uploadCaseManagementDocument() {
     await this.addNewButtonBottom.click();
-    await this.page.locator('#documentCollection_1_topLevelDocuments').selectOption({ label: '4: Case Management' });
+    await this.page.locator('#documentCollection_1_topLevelDocuments').selectOption({ label: 'Case Management' });
     await this.page.locator('#documentCollection_1_caseManagementDocuments').selectOption({ label: 'Deposit Order' });
     await this.page.locator('#documentCollection_1_uploadedDocument').click();
     await this.page.locator('#documentCollection_1_uploadedDocument').setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');

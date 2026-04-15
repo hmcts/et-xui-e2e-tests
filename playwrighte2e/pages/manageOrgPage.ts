@@ -26,7 +26,7 @@ export class ManageOrgPage extends BasePage {
     this.assigneeNameRadio = page.locator('[for="caa-filter-assignee-name"]');
     this.caseReferenceSearchBox = page.locator('#caa-filter-case-reference-number');
     this.caseRefTextBox = page.locator('#case-reference-number');
-    this.applyFilterButton = page.getByRole('button', { name: 'Apply filters' });
+    this.applyFilterButton = page.getByRole('button', { name: 'Apply filter' });
   }
 
   async allAssignedCases() {

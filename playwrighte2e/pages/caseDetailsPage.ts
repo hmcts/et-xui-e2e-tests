@@ -308,4 +308,10 @@ export default class CaseDetailsPage extends BasePage {
       }
     }
   }
+
+  async verifyAndClickLinkInTab(referralText: string) {
+    const elements = await this.page.locator('markdown p a').allTextContents();
+    expect(elements).toContain(referralText);
+    await this.page.getByText(referralText).click();
+  }
 }

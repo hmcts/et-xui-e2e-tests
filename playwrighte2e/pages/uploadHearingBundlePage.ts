@@ -29,7 +29,7 @@ export default class UploadHearingBundlePage extends BasePage {
 
   async uploadHearingBundleDocuments() {
     await this.futureHearing.check();
-    await this.hearingCombo.selectOption({ label: '1: 1' });
+    await this.hearingCombo.selectOption({ value: '1: 1' });
     await this.addNewButtonClick();
     await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.uploadDocInput, `playwrighte2e/resources/test_file/welshTest.pdf`);
     await this.whatHearingDocument.getByRole('radio', { name: 'Hearing Bundle' }).check();

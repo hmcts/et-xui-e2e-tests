@@ -3,8 +3,6 @@ import { expect, Locator, Page } from '@playwright/test';
 import config from '../config/config';
 import dateUtilComponent from '../data-utils/DateUtilComponent';
 
-import referralData from '../resources/payload/referral-content.json';
-
 export default class CaseListPage extends BasePage {
   private readonly caseListLink: Locator;
   private readonly caseTypeDropdown: Locator;
@@ -16,8 +14,6 @@ export default class CaseListPage extends BasePage {
   private readonly eventLR: Locator;
   private readonly venueDropdown: Locator;
   private readonly causeListText: Locator;
-  private readonly refferTableEle: Locator;
-  private readonly textAreaField: Locator;
   private readonly expandImgIcon: Locator;
   private readonly stateDropdown: Locator;
   private readonly managingOfficeDropdown: Locator;
@@ -35,8 +31,6 @@ export default class CaseListPage extends BasePage {
     this.eventLR = page.locator('#cc-event');
     this.venueDropdown = page.locator('#listingVenue');
     this.causeListText = page.locator('//div[@class="alert-message"]');
-    this.refferTableEle = page.locator('ccd-read-text-field');
-    this.textAreaField = page.locator('ccd-read-text-area-field');
     this.expandImgIcon = page.locator('div a img');
     this.stateDropdown = page.getByLabel('State');
     this.managingOfficeDropdown = page.getByLabel('Managing Office');
@@ -103,7 +97,7 @@ export default class CaseListPage extends BasePage {
       default:
         throw new Error('... check you options or add new option');
     }
-    await this.submissionReferenceLocator.fill(submissionReference);
+    await this.submissionReferenceLocator.fill(submissionReference.toString());
     await this.applyButton.click();
   }
 
@@ -128,7 +122,7 @@ export default class CaseListPage extends BasePage {
 
     await this.casetypeDropdownLR.selectOption({label: caseType});
     await this.eventLR.selectOption({ label: 'Create draft claim'});
-    await this.clickSubmitButton();
+    await this.page.getByRole('button', { name: 'Start' }).click();
 
     await this.enterPostCode(postcode);
     await this.clickSubmitButton();
@@ -176,46 +170,6 @@ export default class CaseListPage extends BasePage {
   async validateHearingReport(caseNumber: string) {
     await expect(this.causeListText).toContainText('has been updated with event: Generate Report');
     await expect(this.page.locator('ccd-read-complex-field-collection-table')).toContainText('Newcastle CFCTC');
-  }
-
-  async verifyAndClickLinkInTab(referralText: string) {
-    const elements = await this.page.locator('markdown p a').allTextContents();
-    expect(elements).toContain(referralText);
-    await this.page.getByText(referralText).click();
-  }
-
-  async verifyReferralDetails() {
-    let actStatus = await this.refferTableEle.nth(7).textContent();
-    let actSubj = await this.refferTableEle.nth(1).textContent();
-    let actReferredTo = await this.refferTableEle.nth(3).textContent();
-    let actReferredDetails = await this.textAreaField.textContent();
-
-    expect(actStatus).toEqual(referralData.awaitingStatus);
-    expect(actSubj).toEqual(referralData.subject);
-    expect(actReferredTo).toEqual(referralData.expReferredTo);
-    expect(actReferredDetails).toEqual(referralData.details);
-  }
-
-  async verifyReplyReferralDetails() {
-    let actStatus = await this.refferTableEle.nth(7).textContent();
-    let actSubj = await this.refferTableEle.nth(1).textContent();
-    let actReferredTo = await this.refferTableEle.nth(3).textContent();
-    let actReferredDetails = await this.textAreaField.first().textContent();
-
-    expect(actStatus).toEqual(referralData.issuedStatus);
-    expect(actSubj).toEqual(referralData.subject);
-    expect(actReferredTo).toEqual(referralData.expReferredTo);
-    expect(actReferredDetails).toEqual(referralData.details);
-
-    await this.expandImgIcon.nth(1).click();
-  }
-
-  async verifyCloseReferralDetails() {
-    let actStatus = await this.refferTableEle.nth(7).textContent();
-    let actCloseReason = await this.page.locator('ccd-read-text-area-field').nth(1).textContent();
-
-    expect(actStatus).toEqual(referralData.closedStatus);
-    expect(actCloseReason).toEqual(referralData.closeRefNotes);
   }
 
   async verifyAcasCertificateDetailsOnTab(documentValue: string, docTypeValue: string) {

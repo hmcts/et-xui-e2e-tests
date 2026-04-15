@@ -1,5 +1,4 @@
 import { Locator, Page } from '@playwright/test';
-import { WebAction } from '../common/web.action.ts';
 
 export abstract class BasePage {
   readonly page: Page;
@@ -9,11 +8,9 @@ export abstract class BasePage {
   readonly addNewBtn: Locator;
   readonly newHearingBtn: string;
   readonly newUploadDocBtn: Locator;
-  readonly webActions: WebAction;
 
   constructor(page: Page) {
     this.page = page;
-    this.webActions = new WebAction(page);
     this.saveAsDraftButton = page.getByRole('button', { name: 'Save as draft' });
     this.closeAndReturnButton = this.page.getByRole('button', { name: 'Close and Return to case' });
     this.applyFilterButton = this.page.getByRole('button', { name: 'Apply filter' });

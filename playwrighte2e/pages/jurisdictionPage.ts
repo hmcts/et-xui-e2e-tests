@@ -11,33 +11,22 @@ export default class JurisdictionPage extends BasePage {
     this.judgmentOutcome = page.locator('#jurCodesCollection_1_judgmentOutcome');
   }
 
-  async addJurisdictionCodeDDA() {
+  async addJurisdiction(jurisdictionCode:string, judgmentOutcome:string, position: number = 1): Promise<void> {
     await this.page.getByRole('button', { name: 'Add new' }).nth(1).click();
-    await this.jurisdictionDropdown.waitFor();
-    await this.jurisdictionDropdown.selectOption({ label: '10: DDA' });
-    await this.judgmentOutcome.selectOption({ label: 'Not allocated' });
+    const judgementDropdownList = this.page.locator(`#jurCodesCollection_${position}_juridictionCodesList`);
+    const judgementOutcomeDropdown = this.page.locator(`#jurCodesCollection_${position}_judgmentOutcome`);
+
+    await expect(judgementDropdownList).toBeVisible();
+    await judgementDropdownList.selectOption({label: jurisdictionCode});
+
+    await expect(judgementOutcomeDropdown).toBeVisible();
+    await judgementOutcomeDropdown.selectOption({label: judgmentOutcome});
   }
 
-  async addJurisdictionCode() {
-    await this.addJurisdictionCodeDDA();
+  async addJurisdictionCodeAndSubmit(jurisdictionCode:string, judgmentOutcome:string, position: number = 1) {
+    await this.addJurisdiction(jurisdictionCode, judgmentOutcome, position);
     await this.clickSubmitButton();
     await expect(this.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText('Case Details');
-  }
-
-  async addADTJurisdictionCode() {
-    // add longer than 3 letter jurisdiction code
-    await this.page.getByRole('button', { name: 'Add new' }).nth(1).click();
-    await this.jurisdictionDropdown.waitFor();
-    await this.jurisdictionDropdown.selectOption({ label: '3: ADT(ST)' });
-    await this.judgmentOutcome.selectOption({ label: 'Not allocated' });
-
-    await this.clickSubmitButton();
-    await expect(this.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText('Case Details');
-  }
-
-  async verifyJurisdictionCodeOnTab() {
-    await this.page.locator('ccd-read-collection-field').waitFor();
-    await expect(this.page.locator('ccd-read-collection-field')).toContainText('DDA');
   }
 
   async closeJurisdictionCode() {

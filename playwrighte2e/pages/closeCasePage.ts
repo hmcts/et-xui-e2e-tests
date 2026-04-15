@@ -12,7 +12,7 @@ export default class CloseCasePage extends BasePage {
   }
 
   async closeCase() {
-    await this.clerkResponsibleDropdown.selectOption({ label: '1: A Clerk' });
+    await this.clerkResponsibleDropdown.selectOption( '1: A Clerk' );
     await this.clickContinue();
     await expect(this.page.getByText('Check your answers')).toBeVisible();
     await this.clickSubmitButton();

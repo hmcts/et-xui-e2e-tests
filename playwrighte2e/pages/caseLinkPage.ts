@@ -23,7 +23,7 @@ export class CaseLinkPage extends BasePage {
     this.nextButton = page.locator('#next-button');
     this.caseLinkProposeButton = page.locator('#propose');
     this.beforeYouStartCaseLinking = page.locator('.govuk-heading-xl');
-    this.caseReferenceField = page.locator('[name="width-20"]');
+    this.caseReferenceField = page.locator('#width-20');
     this.bailOption = page.locator('#CLRC010');
     this.samePartyOption = page.locator('#CLRC003');
     this.sharedEvidenceOption = page.locator('#CLRC008');

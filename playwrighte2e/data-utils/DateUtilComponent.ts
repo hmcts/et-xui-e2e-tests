@@ -84,7 +84,7 @@ export default class DateUtilComponent {
   };
 
   /**
-   * Returns the current date and time formatted as "d MMM yyyy, HH:mm" (e.g. "6 August 2025, 11:02").
+   * Returns the current date and time formatted as "d MMM yyyy, HH:mm" (e.g. "6 August 2025 09:02").
    *
    * @returns Formatted current date and time string.
    */
@@ -94,7 +94,7 @@ export default class DateUtilComponent {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
-      hour: 'numeric',
+      hour: '2-digit',
       minute: '2-digit',
       hour12: false,
       timeZone: 'UTC'

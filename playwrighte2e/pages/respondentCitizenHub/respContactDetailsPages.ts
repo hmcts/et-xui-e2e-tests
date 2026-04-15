@@ -91,7 +91,7 @@ export default class RespContactDetailsPages extends BasePage {
     await this.page.getByText('Yes, I can take part in video').click();
     await this.saveAndContinueButton();
     await this.page.getByLabel('Yes').check();
-    await this.page.getByLabel('Tell us what support you need').check();
+    await expect(this.page.getByLabel('Tell us what support you need')).toBeVisible();
     await this.page.getByLabel('Tell us what support you need').fill('disable access');
     await this.saveAndContinueButton();
   }

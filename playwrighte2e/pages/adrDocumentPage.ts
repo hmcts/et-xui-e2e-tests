@@ -23,8 +23,4 @@ export default class AdrDocumentPage extends BasePage {
         await this.page.waitForTimeout(2000);
     }
 
-    async verifyAdrDocumentDetails() {
-        await this.collectionField.waitFor();
-        await expect(this.collectionField).toContainText('description');
-    }
 }

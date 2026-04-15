@@ -3,8 +3,6 @@ import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCi
 import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 import config from '../config/config.ts';
-import { initial } from 'lodash';
-import CaseDetailsPage from '../pages/caseDetailsPage.ts';
 
 let caseNumber: string;
 let caseId: string;

@@ -35,7 +35,7 @@ test.describe('Judgement tests', () => {
 
         //Create a draft judgment
         await caseDetailsPage.navigateToTab('Judgments');
-        await caseListPage.verifyAndClickLinkInTab('Draft and sign judgment/order');
+        await caseDetailsPage.verifyAndClickLinkInTab('Draft and sign judgment/order');
         await draftJudgementPage.submitDraftJudgement();
 
         await caseDetailsPage.navigateToTab('Judgments');
