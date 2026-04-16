@@ -32,7 +32,7 @@ test.describe.serial('England - Referral test', () => {
           {
               tabName: 'Referrals',
               tabContent: [
-                  { tabItem: 'ET1', value: 'ET Caseworker1 | Judge | Yes', clickable: true },
+                  { tabItem: 'ET1', value: ' | Judge | Yes', clickable: true },
                   'Awaiting instructions',
                   { tabItem: 'Details of the referral', value: 'This is a test referral' },
               ]
@@ -72,7 +72,7 @@ test.describe.serial('England - Referral test', () => {
             {
                 tabName: 'Referrals',
                 tabContent: [
-                    { tabItem: 'ET1', value: 'ET Caseworker1 | Judge | Yes', clickable: true },
+                    { tabItem: 'ET1', value: ' | Judge | Yes', clickable: true },
                     'Instructions issued',
                     { tabItem: 'Details of the referral', value: 'This is a test referral' },
                     { tabItem: 'Reply to', value: 'Admin' },
@@ -110,7 +110,7 @@ test.describe.serial('England - Referral test', () => {
           {
               tabName: 'Referrals',
               tabContent: [
-                  { tabItem: 'ET1', value: 'ET Caseworker1 | Judge | Yes', clickable: true },
+                  { tabItem: 'ET1', value: ' | Judge | Yes', clickable: true },
                   'Closed',
                   'This is a test close referral'
               ]

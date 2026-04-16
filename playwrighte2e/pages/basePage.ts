@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 export abstract class BasePage {
   readonly page: Page;
@@ -8,6 +8,10 @@ export abstract class BasePage {
   readonly addNewBtn: Locator;
   readonly newHearingBtn: string;
   readonly newUploadDocBtn: Locator;
+  readonly continueButton: Locator;
+  readonly submitButton: Locator;
+  private readonly spinner: Locator;
+  private readonly errorHeading: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -17,45 +21,109 @@ export abstract class BasePage {
     this.addNewBtn = page.getByRole('button', { name: 'Add new' });
     this.newHearingBtn = '#hearingCollection > div > button.button.write-collection-add-item__bottom.ng-star-inserted';
     this.newUploadDocBtn = page.locator('//*[@id="documentCollection"]/div/button[2]');
+    this.continueButton = page.getByRole('button', { name: 'Continue' });
+    this.submitButton = page.getByRole('button', { name: 'Submit' });
+    this.spinner = this.page.locator('xuilib-loading-spinner');
+    this.errorHeading = this.page.locator(`#edit-case-event_error-summary-heading`);
   }
 
   async wait(time: number) {
     await this.page.waitForTimeout(time);
   }
 
-  async clickContinue() {
+  async clickContinue(url?: string, pageNum?: number) {
+    await this.page.waitForLoadState('load');
     const maxRetries = 3;
     let attempt = 0;
     while (attempt < maxRetries) {
-      await this.page.getByRole('button', { name: 'Continue' }).click();
-      await this.page.waitForLoadState('load');
-      const error = this.page.getByRole('heading', { name: ' The event could not be created ', level: 3 });
-      // Check if error is visible
-      if (await error.isVisible().catch(() => false)) {
-        attempt++;
-        console.log(`Error detected after clicking Continue. Retrying... (Attempt ${attempt})`);
-        await this.page.waitForTimeout(1000); // wait 1s before retry
-      } else {
-        // No error, break out of loop
-        break;
+      await this.continueButton.scrollIntoViewIfNeeded();
+      await expect(this.continueButton).toBeVisible();
+      await expect(this.continueButton).toBeEnabled();
+      await this.continueButton.click({force: true});
+      await this.page.waitForLoadState('load', {timeout: 5000});
+      await this.waitForSpinner();
+      // If url or url+pageNum is provided, check if current URL contains the expected string
+      if (url) {
+        const expected = `${url}${pageNum ? pageNum : ''}`;
+        try{
+          attempt++;
+          await this.page.waitForURL(new RegExp(expected), {timeout: 2000});
+          return;
+        } catch (err) {
+          console.log(`URL - ${expected} check failed after clicking Continue. Retrying... (Attempt ${attempt})`);
+          continue;
+        }
       }
+      // Check if error is visible
+      const h3Visible = await this.errorHeading.isVisible().catch(() => false);
+      if (h3Visible) {
+        // Check if Continue button is still visible
+       const errStr = await this.errorHeading.textContent();
+        attempt++;
+        console.log(`Error '${errStr}' detected after clicking Continue. Retrying... (Attempt ${attempt})`);
+        await this.page.waitForTimeout(2000); // wait 2s before retry
+        continue;
+      }
+      // No error and URL is as expected, break out of loop
+      return;
     }
     if (attempt === maxRetries) {
-      console.warn('Continue button retried maximum times, but error still present.');
+      console.warn('Continue button retried maximum times, but error or URL mismatch still present.');
+      throw new Error('Continue button retried maximum times, but error or URL mismatch still present.');
     }
+  }
+
+  async waitForSpinner() {
+    await expect
+      .poll(
+        async () => {
+          return await this.spinner.count();
+        })
+      .toBe(0);
   }
 
   async saveAsDraft() {
     await this.saveAsDraftButton.click();
+    await this.waitForSpinner();
+    await this.page.waitForLoadState('load');
   }
 
   async clickCloseAndReturn() {
     await this.closeAndReturnButton.click();
+    await this.waitForSpinner();
+    await this.page.waitForLoadState('load');
   }
 
   async clickSubmitButton() {
-    await this.page.getByRole('button', { name: 'Submit' }).click();
-    await this.page.waitForLoadState('load', { timeout: 5000 });
+    await this.page.waitForLoadState('load');
+    const maxRetries = 3;
+    let attempt = 0;
+    while (attempt < maxRetries) {
+      await this.submitButton.scrollIntoViewIfNeeded();
+      await expect(this.submitButton).toBeVisible();
+      await expect(this.submitButton).toBeEnabled();
+      await this.submitButton.click({force: true});
+      await this.page.waitForLoadState('load', { timeout: 4000 });
+      await this.waitForSpinner();
+
+      // Check if error is visible
+      const h3Visible = await this.errorHeading.isVisible().catch(() => false);
+
+      if (h3Visible) {
+        // Check if Submit button is still visible
+        const errStr = await this.errorHeading.textContent();
+        attempt++;
+        console.log(`Error '${errStr}' detected after clicking Submit. Retrying... (Attempt ${attempt})`);
+        await this.page.waitForTimeout(2000); // wait 2s before retry
+        continue;
+      }
+      // No error, break out of loop
+      break;
+    }
+    if (attempt === maxRetries) {
+      console.warn('Submit button retried maximum times, but error still present.');
+      throw new Error('Submit button retried maximum times, but error still present.');
+    }
   }
 
   async delay(ms: number) {
@@ -70,17 +138,14 @@ export abstract class BasePage {
     await this.page.getByRole('button', { name: ' Share Case ' }).click();
   }
 
-  async clickElement(elementLocator: string): Promise<void> {
-    await this.page.click(elementLocator);
-  }
-
   async enterPostCode(postcode: string) {
     await this.page.getByRole('textbox', { name: 'Enter a UK postcode' }).fill(postcode);
-    await this.delay(3000);
+    await this.page.waitForLoadState('load');
     await this.page.getByRole('button', { name: 'Find address' }).click();
-    await this.delay(3000);
+    await this.page.waitForLoadState('load');
+    await this.waitForSpinner();
     await this.page.getByLabel('Select an address').selectOption('2: Object');
-    await this.delay(3000);
+    await this.page.waitForLoadState('load');
   }
 
   async signoutButton() {
@@ -93,6 +158,8 @@ export abstract class BasePage {
 
   async clickStartNow() {
     await this.page.getByRole('button', { name: 'Start now' }).click();
+    await this.page.waitForLoadState('load');
+    await this.waitForSpinner();
   }
 
   async saveAndContinueButton() {

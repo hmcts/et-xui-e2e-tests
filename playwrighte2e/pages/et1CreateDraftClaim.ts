@@ -1,5 +1,6 @@
 import { BasePage } from "./basePage";
 import { expect, Locator, Page } from "@playwright/test";
+import { Events } from '../config/case-data.ts';
 
 
 export default class Et1CreateDraftClaim extends BasePage {
@@ -80,12 +81,14 @@ export default class Et1CreateDraftClaim extends BasePage {
     await expect(this.page.getByLabel('case viewer table').getByRole('table')).toContainText(
       'ET1 Section 3 - Details of the claim',
     );
+    const url = Events.et1SectionOneClaimantDetails.ccdCallback;
     await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
     await this.delay(2000);
-    await this.et1Section1Link.click({ clickCount: 4, force: true });
+    await this.et1Section1Link.click({ clickCount: 2, force: true });
+    await this.waitForSpinner();
     await this.delay(2000);
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Make a claim to an employment tribunal');
-    await this.clickContinue();
+    await this.clickContinue(url, 2);
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Claimant details');
     await this.claimantFirstName.fill(claimantsFirstName);
@@ -93,30 +96,30 @@ export default class Et1CreateDraftClaim extends BasePage {
     await this.date.fill('1');
     await this.month.fill('11');
     await this.year.fill('2000');
-    await this.clickContinue();
+    await this.clickContinue(url, 3);
 
     await expect(this.page.locator('#claimantSex')).toContainText("Select the claimant's sex (Optional)");
 
     await this.page.getByLabel('Female').check();
     await this.page.getByLabel('What is the claimant’s').click();
     await this.page.getByLabel('What is the claimant’s').fill('miss');
-    await this.clickContinue();
+    await this.clickContinue(url, 4);
     //can check fields are optional
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Claimant contact address');
     await this.enterPostCode('LS121AA');
-    await this.clickContinue();
+    await this.clickContinue(url, 5);
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Hearing format');
     await this.representativeAttendHearing.check();
     await this.hearingContactLanguage.check();
     await this.claimantAttendHearing.check();
     await this.claimantHearingContactLanguage.check();
-    await this.clickContinue();
+    await this.clickContinue(url, 6);
 
     await this.claimantSupportQuestion.check();
     await this.page.locator('#claimantSupportQuestionReason').fill('disability access');
-    await this.clickContinue();
+    await this.clickContinue(url, 7);
 
     //await expect(this.page.locator('ccd-case-edit-page')).toContainText('Your information (as the representative)');
     await this.representativeContactPreference.isVisible();
@@ -127,8 +130,9 @@ export default class Et1CreateDraftClaim extends BasePage {
     //await this.enterPostCode('LS121AA');
     await this.representativePhoneNumber.fill('01234567890');
     await this.representativeReferenceNumber.fill('reference no: 1');
-    await this.clickContinue();
+    await this.clickContinue(url + '/submit');
 
+    //TODO Use CheckYourAnswersPage function
     // ET1 section 1- CYA page
     await this.page.locator('form').isVisible();
     await expect(this.page.locator('form')).toContainText("Claimant's First Name");
@@ -150,6 +154,7 @@ export default class Et1CreateDraftClaim extends BasePage {
   }
 
   async et1Section2(respondentFirstName: string, respondentLastName: string) {
+    const url = Events.et1SectionTwoRespondentDetails.ccdCallback;
     await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
 
     await this.et1Section2Link.click();
@@ -158,65 +163,65 @@ export default class Et1CreateDraftClaim extends BasePage {
     await expect(this.page.locator('ccd-case-edit-page')).toContainText(
       'Section 2 - Employment and respondent details',
     );
-    await this.clickContinue();
+    await this.clickContinue(url, 2);
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText(
       'Did the claimant work for the respondent the claim is being made against? (Optional)',
     );
     await this.didClaimantWorkForOrg.check();
-    await this.clickContinue();
+    await this.clickContinue(url, 3);
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText(
       'Is the claimant still working for the respondent the claim is being made against? (Optional)',
     );
     await this.claimantStillWorking.check();
-    await this.clickContinue();
+    await this.clickContinue(url, 4);
 
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('Claimant employment details');
     await this.claimantJobTitle.fill('Developer');
     await this.claimantStartDate.fill('1');
     await this.claimantStartDateMonth.fill('2');
     await this.claimantStartDateYear.fill('2022');
-    await this.clickContinue();
+    await this.clickContinue(url, 5);
 
     await expect(this.page.locator('#claimantStillWorkingNoticePeriod')).toContainText(
       'Is there a notice period? (Optional)',
     );
     await this.claimantStillWorkingNoticePeriodMonths.check();
     await this.claimantStillWorkingNoticePeriodMonthsText.fill('1');
-    await this.clickContinue();
+    await this.clickContinue(url, 8);
 
     await this.claimantAverageWeeklyWorkHours.fill('40');
-    await this.clickContinue();
+    await this.clickContinue(url, 9);
 
     await this.page.locator('#claimantPayBeforeTax').fill('44000');
     await this.page.locator('#claimantPayType-Weekly').check();
-    await this.clickContinue();
+    await this.clickContinue(url, 10);
 
     await this.page.locator('#claimantPensionContribution-Yes').check();
     await this.page.locator('#claimantWeeklyPension').fill('20');
     await this.page.locator('#claimantEmployeeBenefits-Yes').check();
     await this.page.locator('#claimantBenefits').fill('child benefit');
-    await this.clickContinue();
+    await this.clickContinue(url, 13);
 
     await this.page.locator('#respondentType-Individual').check();
     await this.page.locator('#respondentFirstName').fill(respondentFirstName);
     await this.page.locator('#respondentLastName').fill(respondentLastName);
-    await this.clickContinue();
+    await this.clickContinue(url, 14);
 
     await this.enterPostCode('LS121AA');
-    await this.clickContinue();
+    await this.clickContinue(url, 15);
 
     await this.page.locator('#didClaimantWorkAtSameAddress_Yes').check();
-    await this.clickContinue();
+    await this.clickContinue(url, 17);
 
     await this.page.locator('#respondentAcasYesNo-Yes').check();
     await this.page.locator('#respondentAcasNumber').fill('R872259/22/64');
-    await this.clickContinue();
+    await this.clickContinue(url, 19);
 
     await this.page.locator('#addAdditionalRespondent_No').check();
-    await this.clickContinue();
-
+    await this.clickContinue(url+'/submit');
+    //TODO use CheckYourAnswerPage function
     await expect(this.page.locator('form')).toContainText('Check your answers');
     await expect(this.page.locator('form')).toContainText('Did the claimant work for the respondent?');
     await expect(this.page.locator('form')).toContainText('Did the claimant work at this address?');
@@ -228,24 +233,25 @@ export default class Et1CreateDraftClaim extends BasePage {
   }
 
   async et1Section3() {
+    const url = Events.et1SectionThreeClaimDetails.ccdCallback;
     await expect(this.page.getByText('ET1 Claim', { exact: true })).toBeVisible();
     await this.et1Section3Link.click();
     await this.page.waitForLoadState('load');
-    await this.clickContinue();
+    await this.clickContinue(url, 2);
 
     await this.page.locator('#et1SectionThreeClaimDetails').fill('No supplemetary Details');
-    await this.clickContinue();
+    await this.clickContinue(url, 3);
 
     await this.page.locator('#et1SectionThreeTypeOfClaim-discrimination').check();
     await this.page.locator('#discriminationTypesOfClaim-Age').check();
-    await this.clickContinue();
+    await this.clickContinue(url, 4);
 
     await this.page.locator('#claimSuccessful-compensation').check();
     await this.page.locator('#compensationDetails').fill('Compensation £40,000');
-    await this.clickContinue();
+    await this.clickContinue(url, 5);
 
     await this.page.locator('#linkedCasesYesNo-No').check();
-    await this.clickContinue();
+    await this.clickContinue(url+'/submit');
 
     await expect(this.page.locator('form')).toContainText('Check your answers');
     await expect(this.page.locator('form')).toContainText('What type of claim is this?');

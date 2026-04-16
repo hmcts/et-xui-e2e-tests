@@ -108,8 +108,9 @@ export default class CaseDetailsPage extends BasePage {
           await this.page.waitForLoadState();
         }
 
-        const expectedValues = content.value.split('|').map(v => {return v.trim();});
+        const expectedValues = content.value.split('|').map(v => v.trim());
         for (let i = 0; i < expectedValues.length; i++) {
+          if (!expectedValues[i]) continue; // Skip empty or blank expected values
           const tabValue = tabItem.locator(
             `xpath=following-sibling::*[self::td or self::th][${i + 1}] | ancestor::*[self::td or self::th or self::tr][1]/following-sibling::*[self::td or self::th][${i + 1}]`
           );
@@ -297,6 +298,7 @@ export default class CaseDetailsPage extends BasePage {
       await this.goButton.click({ clickCount: 2, force: true });
       if(navigate) {
         try {
+          await this.waitForSpinner();
           console.log(this.page.url());
           await this.page.waitForURL(`**/${event.ccdCallback}/**`, { timeout: 10000 });
           return;

@@ -78,8 +78,9 @@ export class NocPage extends BasePage{
 
   async assertNocSuccessPage() {
     await this.page.waitForLoadState('load');
-    await expect(this.page.getByRole('heading', { name: 'Notice of change successful' })).toBeVisible();
-    await expect(this.page.getByRole('heading', { name: "You're now representing a client on case" })).toBeVisible();
+    await this.waitForSpinner();
+    await expect(this.page.getByRole('heading', { name: /Notice of change successful/, exact: false })).toBeVisible();
+    await expect(this.page.getByRole('heading', { name: /You're now representing a client on case/, exact: false })).toBeVisible();
   }
 
   async processNocRequest(caseId: string, fullName: string, tribCaseNumber: string, accessibilityEnabled?: boolean, axeUtils?: AxeUtils) {

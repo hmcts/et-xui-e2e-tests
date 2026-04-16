@@ -3,6 +3,7 @@ import { BasePage } from "./basePage";
 import path from "path";
 import icPageData from '../resources/payload/ic-page-content.json';
 import respPageData from '../resources/payload/respondent-page-content.json';
+import { Events } from '../config/case-data.ts';
 
 export default class ICUploadDocPage extends BasePage {
     private readonly respNameEle: Locator;
@@ -25,6 +26,7 @@ export default class ICUploadDocPage extends BasePage {
     }
 
     async judgeUploadsDocument() {
+        const expUrl = Events.initialConsideration.ccdCallback;
         //RET-5795
         await expect(this.page.locator('p').filter({hasText:icPageData.icLandingPageContent}).first()).toBeVisible();
         let actRespNameText = await this.respNameEle.first().textContent();
@@ -32,7 +34,7 @@ export default class ICUploadDocPage extends BasePage {
         await this.jurisdictionCodeInvalidYes.click();
         await this.invalidDetails.fill(icPageData.invalidDetailsText);
         await this.canProceedYes.click();
-        await this.clickContinue();
+        await this.clickContinue(expUrl, 2);
 
         let txtHeading = await this.documentHeading.textContent();
         expect(txtHeading?.trim()).toEqual(icPageData.docHeadingText);

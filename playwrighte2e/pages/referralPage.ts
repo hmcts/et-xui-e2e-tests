@@ -1,7 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './basePage';
-import config from '../config/config';
-import referralData from '../resources/payload/referral-content.json';
 
 export default class ReferralPage extends BasePage {
   private readonly judgeReferralOption: Locator;
@@ -46,7 +44,7 @@ export default class ReferralPage extends BasePage {
     }
     await this.isUrgentYes.check();
     await this.referralSubjOption.selectOption({ label: 'ET1' });
-    await this.referralDetails.fill(referralData.details);
+    await this.referralDetails.fill("This is a test referral");
 
     await this.addNewButtonClick();
     await this.docUploadEle.waitFor();
@@ -55,7 +53,7 @@ export default class ReferralPage extends BasePage {
     await this.clickContinue();
     await this.clickSubmitButton();
 
-    await expect(this.markdownPara).toContainText(referralData.createRefConfirmationMsg);
+    await expect(this.markdownPara).toContainText("Your referral has been sent");
     await this.clickCloseAndReturn();
   }
 
@@ -67,7 +65,7 @@ export default class ReferralPage extends BasePage {
     await expect(this.page.locator("//tr/td[contains(text(), 'Judge')]")).toBeVisible();
     await this.adminDirectionOption.click();
     await this.isUrgentReplyYes.check();
-    await this.directionSubjEle.fill(referralData.directionDetails);
+    await this.directionSubjEle.fill("This is a test direction");
 
     await this.addNewButtonClick();
     await this.replyDocUploadEle.waitFor();
@@ -76,7 +74,7 @@ export default class ReferralPage extends BasePage {
     await this.clickContinue();
     await this.clickSubmitButton();
 
-    await expect(this.markdownPara).toContainText(referralData.replyRefConfirmationMsg);
+    await expect(this.markdownPara).toContainText("We have recorded your reply");
     await this.clickCloseAndReturn();
   }
 
@@ -89,11 +87,11 @@ export default class ReferralPage extends BasePage {
     await expect(expText).toEqual('Referral 1');
     await expect(this.page.getByText('Referral Replies', { exact: true })).toBeVisible();
     await this.confirmCloseReferralYes.check();
-    await this.closeReferralGeneralNotes.fill(referralData.closeRefNotes);
+    await this.closeReferralGeneralNotes.fill("This is a test close referral");
     await this.clickContinue();
     await this.clickSubmitButton();
 
-    await expect(this.markdownPara).toContainText(referralData.closeRefConfirmationMsg);
+    await expect(this.markdownPara).toContainText("We have closed this referral");
     await this.clickCloseAndReturn();
   }
 }
