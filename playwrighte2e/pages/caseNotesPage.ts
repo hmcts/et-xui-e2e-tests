@@ -1,13 +1,19 @@
 import { BasePage } from "./basePage";
-import { expect } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 
 export default class CaseNotesPage extends BasePage {
+  private readonly titleField: Locator;
+  private readonly noteField: Locator;
 
-  elements = {
+  constructor(page: Page) {
+    super(page);
+    this.titleField = page.locator('#addCaseNote_title');
+    this.noteField = page.locator('#addCaseNote_note');
   }
+
   async addCaseNotes() {
-    await this.webActions.fillField('#addCaseNote_title', 'Case Notes');
-    await this.webActions.fillField('#addCaseNote_note', 'This is test');
+    await this.titleField.fill('Case Notes');
+    await this.noteField.fill('This is test');
     await this.clickSubmitButton();
   }
 }

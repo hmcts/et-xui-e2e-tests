@@ -258,7 +258,7 @@ export class ApplicationTabPage extends BasePage {
     await this.page.waitForLoadState('load');
     await this.selectEitherViewOrMakeOrRespondOrRecordADecisionLink('Record a decision');
     await this.selectApplicationType(applicationType);
-    await this.clickContinue();
+    await this.clickContinue('tseAdmin', 2);
 
     await this.enterNotificationTitle(applicationType);
     await this.selectDecisionType(decision);
@@ -266,7 +266,8 @@ export class ApplicationTabPage extends BasePage {
     await this.uploadSupportingMaterial();
     await this.selectDecisionMadeBy('Legal officer', 'LEGAL OFFICER')
     await this.selectPartiesToNotify('Both parties');
-    await this.clickContinue();
+    await this.page.waitForLoadState('load');
+    await this.clickContinue('tseAdmin/submit');
 
     await cyaPage.assertCheckYourAnswersPage(
       {
@@ -290,7 +291,7 @@ export class ApplicationTabPage extends BasePage {
     await this.page.waitForLoadState('load');
     await this.selectEitherViewOrMakeOrRespondOrRecordADecisionLink('Respond to an application');
     await this.selectApplicationType(applicationType);
-    await this.clickContinue();
+    await this.clickContinue('tseAdmReply', 2);
 
     await expect(this.responseTitleTextArea).toBeVisible();
     await this.responseTitleTextArea.fill('Response of Response');
@@ -298,7 +299,8 @@ export class ApplicationTabPage extends BasePage {
 
     await this.page.getByRole('radio', { name: 'Neither' }).check();
     await this.page.getByRole('radio', { name: 'Both parties' }).check();
-    await this.clickContinue();
+    await this.page.waitForLoadState('load');
+    await this.clickContinue('tseAdmReply/submit'); // IT is very flaky or UI takes more time to load
 
     await this.page.waitForLoadState('load');
     await this.clickSubmitButton();

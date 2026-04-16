@@ -1,46 +1,63 @@
 import { BasePage } from "./basePage";
+import { Locator, Page, expect } from '@playwright/test';
 import depositOrderData from '../resources/payload/deposit-order-content.json';
 
 export default class DepositOrderPage extends BasePage {
+    private readonly depositAmnt: Locator;
+    private readonly depositOrderAgainst: Locator;
+    private readonly depositOrderRequestedBy: Locator;
+    private readonly depositCover: Locator;
+    private readonly depositOrderSentDay: Locator;
+    private readonly depositOrderSentMonth: Locator;
+    private readonly depositOrderSentYear: Locator;
+    private readonly depositDueDay: Locator;
+    private readonly depositDueMonth: Locator;
+    private readonly depositDueYear: Locator;
+    private readonly depositTimeExtNo: Locator;
+    private readonly depositReceivedNo: Locator;
+    private readonly depositRefundNo: Locator;
+    private readonly depositNotes: Locator;
+    private readonly depositAmountLabel: Locator;
 
-    elements = {
-        depositAmnt: '#depositType_0_Deposit_amount',
-        depositOrderAgainst: '#depositType_0_dynamicDepositOrderAgainst',
-        depositOrderRequestedBy: '#depositType_0_dynamicDepositRequestedBy',
-        depositCover: '#depositType_0_deposit_covers',
-        depositOrderSentDay: '#deposit_order_sent-day',
-        depositOrderSentMonth: '#deposit_order_sent-month',
-        depositOrderSentYear: '#deposit_order_sent-year',
-        depositDueDay: '#deposit_due-day',
-        depositDueMonth: '#deposit_due-month',
-        depositDueYear: '#deposit_due-year',
-        depositTimeExtNo: '#depositType_0_deposit_time_ext_No',
-        depositReceivedNo: '#depositType_0_depositReceived_No',
-        depositRefundNo: '#depositType_0_deposit_refund_No',
-        depositNotes: '#depositType_0_depositNotes'
+    constructor(page: Page) {
+        super(page);
+        this.depositAmnt = page.locator('#depositType_0_Deposit_amount');
+        this.depositOrderAgainst = page.locator('#depositType_0_dynamicDepositOrderAgainst');
+        this.depositOrderRequestedBy = page.locator('#depositType_0_dynamicDepositRequestedBy');
+        this.depositCover = page.locator('#depositType_0_deposit_covers');
+        this.depositOrderSentDay = page.locator('#deposit_order_sent-day');
+        this.depositOrderSentMonth = page.locator('#deposit_order_sent-month');
+        this.depositOrderSentYear = page.locator('#deposit_order_sent-year');
+        this.depositDueDay = page.locator('#deposit_due-day');
+        this.depositDueMonth = page.locator('#deposit_due-month');
+        this.depositDueYear = page.locator('#deposit_due-year');
+        this.depositTimeExtNo = page.locator('#depositType_0_deposit_time_ext_No');
+        this.depositReceivedNo = page.locator('#depositType_0_depositReceived_No');
+        this.depositRefundNo = page.locator('#depositType_0_deposit_refund_No');
+        this.depositNotes = page.locator('#depositType_0_depositNotes');
+        this.depositAmountLabel = page.locator('[for="depositType_0_Deposit_amount"] span');
     }
 
     async submitADepositOrder() {
-        await this.webActions.verifyElementContainsText(this.page.locator('[for="depositType_0_Deposit_amount"] span'), 'Deposit amount (£)');
-        await this.webActions.fillField(this.elements.depositAmnt, depositOrderData.depositAmount);
-        await this.webActions.selectByLabelFromDropDown(this.elements.depositOrderAgainst, depositOrderData.respondentName);
-        await this.webActions.selectByLabelFromDropDown(this.elements.depositOrderRequestedBy, depositOrderData.claimantName);
-        await this.webActions.selectByLabelFromDropDown(this.elements.depositCover, depositOrderData.coverTypeAll);
+        await expect(this.depositAmountLabel).toContainText('Deposit amount (£)');
+        await this.depositAmnt.fill(depositOrderData.depositAmount);
+        await this.depositOrderAgainst.selectOption({ label: depositOrderData.respondentName });
+        await this.depositOrderRequestedBy.selectOption({ label: depositOrderData.claimantName });
+        await this.depositCover.selectOption({ label: depositOrderData.coverTypeAll });
 
-        await this.webActions.fillField(this.elements.depositOrderSentDay, '3');
-        await this.webActions.fillField(this.elements.depositOrderSentMonth, '3');
-        await this.webActions.fillField(this.elements.depositOrderSentYear, '2025');
+        await this.depositOrderSentDay.fill('3');
+        await this.depositOrderSentMonth.fill('3');
+        await this.depositOrderSentYear.fill('2025');
 
-        await this.webActions.fillField(this.elements.depositDueDay, '2');
-        await this.webActions.fillField(this.elements.depositDueMonth, '3');
-        await this.webActions.fillField(this.elements.depositDueYear, '2025');
+        await this.depositDueDay.fill('2');
+        await this.depositDueMonth.fill('3');
+        await this.depositDueYear.fill('2025');
 
-        await this.webActions.clickElementByCss(this.elements.depositTimeExtNo);
-        await this.webActions.clickElementByCss(this.elements.depositReceivedNo);
-        await this.webActions.clickElementByCss(this.elements.depositRefundNo);
+        await this.depositTimeExtNo.click();
+        await this.depositReceivedNo.click();
+        await this.depositRefundNo.click();
 
-        await this.webActions.fillField(this.elements.depositNotes, depositOrderData.depositNote);
+        await this.depositNotes.fill(depositOrderData.depositNote);
         await this.clickSubmitButton();
     }
-
 }

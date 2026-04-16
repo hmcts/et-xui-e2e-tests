@@ -1,18 +1,14 @@
 import { BasePage } from '../basePage.ts';
-import { Page } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 
 export default class RespContactDetailsPages extends BasePage {
+  private readonly contactDetailsLink: Locator;
+
   constructor(page: Page) {
     super(page);
+    this.contactDetailsLink = this.page.locator('[href="/respondent-name"]');
   }
 
-  public static create(page: Page): RespContactDetailsPages {
-    return new RespContactDetailsPages(page);
-  }
-
-  elements = {
-    contactDetailsLink: '[href="/respondent-name"]',
-  };
   async et3Section1() {
     await this.contactDetails();
     await this.hearingFormatEmployerDetails();
@@ -39,8 +35,8 @@ export default class RespContactDetailsPages extends BasePage {
   }
 
   async clickContactDetailsLink() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Your response form (ET3)');
-    await this.webActions.clickElementByCss(this.elements.contactDetailsLink);
+    await expect(this.page.locator('h1')).toContainText('Your response form (ET3)');
+    await this.contactDetailsLink.click();
   }
 
   async respondentName() {
@@ -49,13 +45,13 @@ export default class RespContactDetailsPages extends BasePage {
   }
 
   async typeOfOrganization() {
-    await this.webActions.checkElementByLabel('Individual');
+    await this.page.getByLabel('Individual').check();
     await this.page.getByLabel('Preferred title (optional)').fill('test');
     await this.saveAndContinueButton();
   }
 
   async respondentAddress() {
-    await this.webActions.checkElementByLabel('Yes');
+    await this.page.getByLabel('Yes').check();
     await this.saveAndContinueButton();
   }
 
@@ -64,97 +60,64 @@ export default class RespContactDetailsPages extends BasePage {
   }
 
   async dxAddress() {
-    await this.webActions.fillField('#et3ResponseDXAddress', 'DX12345');
+    await this.page.locator('#et3ResponseDXAddress').fill('DX12345');
     await this.saveAndContinueButton();
   }
 
   async contactPhoneNumber() {
-    await this.webActions.fillField('#responseRespondentPhone1', '07803456789');
+    await this.page.locator('#responseRespondentPhone1').fill('07803456789');
     await this.saveAndContinueButton();
   }
 
   async contactPreference() {
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('#main-form'),
-      'How would you prefer to be contacted? (optional)',
-    );
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('#main-form'),
-      'Which language should the tribunal use to contact you? (optional)',
-    );
-    await this.webActions.checkElementByLabel('Email');
-    await this.webActions.checkElementByLabel('English');
-
+    await expect(this.page.locator('#main-form')).toContainText('How would you prefer to be contacted? (optional)');
+    await expect(this.page.locator('#main-form')).toContainText('Which language should the tribunal use to contact you? (optional)');
+    await this.page.getByLabel('Email').check();
+    await this.page.getByLabel('English').check();
     await this.saveAndContinueButton();
   }
 
   async cyaPage() {
-    await this.webActions.verifyElementContainsText(this.page.locator('dl'), 'Respondent name');
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('dl'),
-      'What type of organisation is the respondent?',
-    );
-    await this.webActions.verifyElementContainsText(this.page.locator('dl'), 'DX address (optional)');
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('dl'),
-      'What language would you like to be contacted in? (optional)',
-    );
-    await this.webActions.checkElementByLabel('Yes, I’ve completed this');
+    await expect(this.page.locator('dl')).toContainText('Respondent name');
+    await expect(this.page.locator('dl')).toContainText('What type of organisation is the respondent?');
+    await expect(this.page.locator('dl')).toContainText('DX address (optional)');
+    await expect(this.page.locator('dl')).toContainText('What language would you like to be contacted in? (optional)');
+    await this.page.getByLabel('Yes, I’ve completed this').check();
     await this.saveAndContinueButton();
   }
 
   async hearingFormat() {
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('legend'),
-      'Would you be able to take part in hearings by video and phone? (optional)',
-    );
-
+    await expect(this.page.locator('legend')).toContainText('Would you be able to take part in hearings by video and phone? (optional)');
     await this.page.getByText('Yes, I can take part in video').click();
     await this.saveAndContinueButton();
-    await this.webActions.clickElementByLabel('Yes');
-    await this.webActions.clickElementByLabel('Tell us what support you need');
+    await this.page.getByLabel('Yes').check();
+    await expect(this.page.getByLabel('Tell us what support you need')).toBeVisible();
     await this.page.getByLabel('Tell us what support you need').fill('disable access');
     await this.saveAndContinueButton();
   }
 
   async respondentEmployee() {
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('#main-form'),
-      'How many people does the respondent employ in Great Britain? (optional)',
-    );
+    await expect(this.page.locator('#main-form')).toContainText('How many people does the respondent employ in Great Britain? (optional)');
     await this.page.getByLabel('How many people does the').fill('10');
     await this.saveAndContinueButton();
   }
 
   async respondentSite() {
-    await this.webActions.checkElementByLabel('No');
+    await this.page.getByLabel('No').check();
     await this.saveAndContinueButton();
   }
 
   async numberOfEmployeeAtsite() {
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('#main-form'),
-      'How many people are employed at the site where the claimant worked? (optional)',
-    );
-
+    await expect(this.page.locator('#main-form')).toContainText('How many people are employed at the site where the claimant worked? (optional)');
     await this.page.getByLabel('How many people are employed').fill('10');
     await this.saveAndContinueButton();
   }
 
   async hearingFormatCya() {
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('dl'),
-      'Would you be able to take part in hearings by video and phone? (optional)',
-    );
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('dl'),
-      'Tell us what support you need to request',
-    );
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('dl'),
-      'How many employed at the site the claimant worked at? (optional)',
-    );
-    await this.webActions.clickElementByText('Yes, I’ve completed this');
+    await expect(this.page.locator('dl')).toContainText('Would you be able to take part in hearings by video and phone? (optional)');
+    await expect(this.page.locator('dl')).toContainText('Tell us what support you need to request');
+    await expect(this.page.locator('dl')).toContainText('How many employed at the site the claimant worked at? (optional)');
+    await this.page.getByText('Yes, I’ve completed this').click();
     await this.saveAndContinueButton();
   }
 }

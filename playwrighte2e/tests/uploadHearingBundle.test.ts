@@ -18,7 +18,6 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
   //RET-5927
   test('Caseworker uploads hearing bundle', async ({
     manageCaseDashboardPage,
-    caseListPage,
     uploadHearingBundlePage,
     nocPage,
     listHearingPage,

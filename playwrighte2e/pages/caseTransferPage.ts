@@ -1,15 +1,18 @@
 import { BasePage } from "./basePage";
-import { expect } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 
 
 export default class CaseTransferPage extends BasePage {
-  elements = {
-    caseTransferReason: '#reasonForCT',
-  };
+  private readonly caseTransferReason: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.caseTransferReason = page.locator('#reasonForCT');
+  }
 
   async progressCaseTransfer() {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseTransferReason));
-    await this.webActions.fillField(this.elements.caseTransferReason, 'Transfer case to Scotland RET');
+    await expect(this.caseTransferReason).toBeVisible();
+    await this.caseTransferReason.fill('Transfer case to Scotland RET');
     await this.clickContinue();
   }
 
@@ -18,12 +21,12 @@ export default class CaseTransferPage extends BasePage {
       'Select the office you want to transfer the case to',
     );
     await expect(this.page.locator('ccd-case-edit-submit')).toContainText('Reason for Case Transfer');
-    await this.webActions.clickElementByRole('button', { name: 'Transfer Case' });
+    await this.page.getByRole('button', { name: 'Transfer Case' }).click();
 
     await expect(this.page.locator('#case-viewer-field-read--positionType')).toContainText(
       'Case transferred - other country',
     );
-    await this.webActions.verifyElementContainsText(this.page.locator('h4'), 'Case Status: Transferred');
+    await expect(this.page.locator('h4')).toContainText('Case Status: Transferred');
     await this.delay(10000);
     await this.page.reload();
     try {

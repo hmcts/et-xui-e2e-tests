@@ -1,28 +1,26 @@
 import { BasePage } from '../basePage.ts';
-import { expect, Page } from '@playwright/test';
+import { expect, Page, Locator } from '@playwright/test';
 
-export default class RespSubmitEt3 extends BasePage{
+export default class RespSubmitEt3 extends BasePage {
+  private readonly cya: Locator;
+  private readonly submitHeader: Locator;
+  private readonly closeAndReturnToCaseOverviewButton: Locator;
+
   constructor(page: Page) {
     super(page);
+    this.cya = page.locator('[href="/check-your-answers-et3"]');
+    this.submitHeader = page.locator('h1');
+    this.closeAndReturnToCaseOverviewButton = page.getByRole('button', { name: 'Close and return to case overview' });
   }
-
-  public static create(page: Page): RespSubmitEt3 {
-    return new RespSubmitEt3(page);
-  }
-
-  elements={
-    cya:this.page.locator('[href="/check-your-answers-et3"]'),
-  };
 
   async checkYourAnswers() {
     await this.submitEt3();
-
   }
 
   async submitEt3() {
-    await this.elements.cya.click();
+    await this.cya.click();
     await this.clickSubmitButton();
-    await expect(this.page.locator('h1')).toContainText('Your response has been submitted');
-    await this.page.getByRole('button', { name: 'Close and return to case overview' }).click();
+    await expect(this.submitHeader).toContainText('Your response has been submitted');
+    await this.closeAndReturnToCaseOverviewButton.click();
   }
 }

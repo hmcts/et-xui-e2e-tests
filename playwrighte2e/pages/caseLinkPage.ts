@@ -1,100 +1,109 @@
 import { BasePage } from './basePage';
+import { Locator, Page, expect } from '@playwright/test';
 
 export class CaseLinkPage extends BasePage {
+  private readonly nextButton: Locator;
+  private readonly caseLinkProposeButton: Locator;
+  private readonly beforeYouStartCaseLinking: Locator;
+  private readonly caseReferenceField: Locator;
+  private readonly bailOption: Locator;
+  private readonly samePartyOption: Locator;
+  private readonly sharedEvidenceOption: Locator;
+  private readonly guardianOption: Locator;
+  private readonly linkedForHearingOption: Locator;
+  private readonly progressedAsPartofLeadCase: Locator;
+  private readonly removeLinkedCase: Locator;
+  private readonly submitButtonLink: Locator;
+  private readonly checkedLinkedCases: Locator;
+  private readonly cyaBody: Locator;
+  private readonly unlinkCasesSuccessMessageAlert: Locator;
 
-    // @ts-ignore
-  readonly nextButton = '#next-button';
-    readonly caseLinkProposeButton = '#propose';
-    readonly beforeYouStartCaseLinking = '.govuk-heading-xl';
-    readonly caseReferenceField = '[name="width-20"]';
-    readonly bailOption = '#CLRC010';
-    readonly samePartyOption = '#CLRC003';
-    readonly sharedEvidenceOption = '#CLRC008';
-    readonly guardianOption = '#CLRC006';
-    readonly linkedForHearingOption = '#CLRC017';
-    readonly progressedAsPartofLeadCase = '#CLRC016';
-    readonly removeLinkedCase = '//a[.="Remove"]';
-    readonly submitButtonLink = '//button[@class="button"]';
-    readonly checkedLinkedCases = '[name="linkedCases"]';
-    readonly cyaBody = '#fieldset-case-data';
-    readonly unlinkCasesSuccessMessageAlert = '//div[@class="alert-message"]';
+  constructor(page: Page) {
+    super(page);
+    this.nextButton = page.locator('#next-button');
+    this.caseLinkProposeButton = page.locator('#propose');
+    this.beforeYouStartCaseLinking = page.locator('.govuk-heading-xl');
+    this.caseReferenceField = page.locator('#width-20');
+    this.bailOption = page.locator('#CLRC010');
+    this.samePartyOption = page.locator('#CLRC003');
+    this.sharedEvidenceOption = page.locator('#CLRC008');
+    this.guardianOption = page.locator('#CLRC006');
+    this.linkedForHearingOption = page.locator('#CLRC017');
+    this.progressedAsPartofLeadCase = page.locator('#CLRC016');
+    this.removeLinkedCase = page.locator('//a[.="Remove"]');
+    this.submitButtonLink = page.locator('//button[@class="button"]');
+    this.checkedLinkedCases = page.locator('[name="linkedCases"]');
+    this.cyaBody = page.locator('#fieldset-case-data');
+    this.unlinkCasesSuccessMessageAlert = page.locator('//div[@class="alert-message"]');
+  }
 
+  async checksCaseLinkStartingPage() {
+    await expect(this.beforeYouStartCaseLinking).toContainText('Before you start', { timeout: 10000 });
+    await expect(this.page.getByText('Before you start')).toBeVisible();
+    await expect(this.page.getByText('If a group of linked cases has a lead case, you must start from the lead case.')).toBeVisible();
+    await expect(this.page.getByText('If the cases to be linked has no lead, you can start the linking journey from any of those cases.')).toBeVisible();
+    await this.delay(3000);
+    await this.clickSubmitButton();
+  }
 
-    async checksCaseLinkStartingPage() {
+  async enterCaseLinkReferenceWithHearing(submissionReference: string) {
+    await this.caseLinkProposeButton.waitFor({ timeout: 10000 });
+    await expect(this.page.getByText('Enter case reference')).toBeVisible();
+    await expect(this.page.getByText('Why should these cases be linked?')).toBeVisible();
+    await this.caseReferenceField.fill(submissionReference);
+    await this.bailOption.check();
+    await this.samePartyOption.check();
+    await this.sharedEvidenceOption.check();
+    await this.guardianOption.check();
+    await this.linkedForHearingOption.check();
+    await this.progressedAsPartofLeadCase.check();
+    await this.delay(3000);
+    await this.caseLinkProposeButton.click();
+    await this.submitButtonLink.click();
+    await this.submitButtonLink.waitFor();
+    await expect(this.page.getByText('Check your answers')).toBeVisible();
+    await this.submitButtonLink.click();
+  }
 
-        await Promise.all([
-            await this.webActions.verifyElementContainsText(this.page.locator(this.beforeYouStartCaseLinking), 'Before you start', 10000),
-            await this.webActions.waitForElementToBeVisible('text=Before you start'),
-            await this.webActions.waitForElementToBeVisible('text=If a group of linked cases has a lead case, you must start from the lead case.'),
-            await this.webActions.waitForElementToBeVisible('text=If the cases to be linked has no lead, you can start the linking journey from any of those cases.'),
-            await this.delay(3000),
-            // await this.page.click(this.nextButton)
-            await this.clickSubmitButton()
-        ]);
-    }
+  async enterCaseLinkReferenceWithoutHearing(submissionReference: string) {
+    await this.caseLinkProposeButton.waitFor({ timeout: 20000 });
+    await expect(this.page.getByText('Enter case reference')).toBeVisible();
+    await expect(this.page.getByText('Why should these cases be linked?')).toBeVisible();
+    await this.caseReferenceField.fill(submissionReference);
+    await this.bailOption.check();
+    await this.samePartyOption.check();
+    await this.sharedEvidenceOption.check();
+    await this.guardianOption.check();
+    await this.progressedAsPartofLeadCase.check();
+    await this.caseLinkProposeButton.click();
+    await this.removeLinkedCase.waitFor({ timeout: 10000 });
+    await this.caseReferenceField.fill(submissionReference);
+    await this.bailOption.check();
+    await this.samePartyOption.check();
+    await this.sharedEvidenceOption.check();
+    await this.guardianOption.check();
+    await this.linkedForHearingOption.check();
+    await this.progressedAsPartofLeadCase.check();
+    await this.caseLinkProposeButton.click();
+    await this.page.waitForTimeout(2000);
+    await this.submitButtonLink.click();
+    await this.submitButtonLink.waitFor();
+    await expect(this.page.getByText('Check your answers')).toBeVisible();
+    await this.submitButtonLink.click();
+  }
 
-    async enterCaseLinkReferenceWithHearing(submissionReference: string) {
-
-        await Promise.all([
-            await this.page.waitForSelector(this.caseLinkProposeButton, { timeout: 10000 }),
-            await this.page.waitForSelector('text=Enter case reference'),
-            await this.page.waitForSelector('text=Why should these cases be linked?'),
-            await this.page.fill(this.caseReferenceField, submissionReference),
-            await this.page.check(this.bailOption),
-            await this.page.check(this.samePartyOption),
-            await this.page.check(this.sharedEvidenceOption),
-            await this.page.check(this.guardianOption),
-            await this.page.check(this.linkedForHearingOption),
-            await this.page.check(this.progressedAsPartofLeadCase),
-            await this.delay(3000),
-            await this.page.click(this.caseLinkProposeButton),
-            await this.page.click(this.submitButtonLink),
-            await this.page.waitForSelector(this.submitButtonLink),
-            await this.page.waitForSelector('text=Check your answers'),
-            await this.page.click(this.submitButtonLink)
-        ]);
-    }
-
-    async enterCaseLinkReferenceWithoutHearing(submissionReference: string) {
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.caseLinkProposeButton), 20000);
-        await this.webActions.waitForElementToBeVisible('text=Enter case reference');
-        await this.webActions.waitForElementToBeVisible('text=Why should these cases be linked?');
-        await this.webActions.fillField(this.caseReferenceField, submissionReference);
-        await this.webActions.checkElementById(this.bailOption);
-        await this.webActions.checkElementById(this.samePartyOption);
-        await this.webActions.checkElementById(this.sharedEvidenceOption);
-        await this.webActions.checkElementById(this.guardianOption);
-        await this.webActions.checkElementById(this.progressedAsPartofLeadCase);
-        await this.webActions.clickElementByCss(this.caseLinkProposeButton);
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.removeLinkedCase), 10000);
-        await this.webActions.fillField(this.caseReferenceField, submissionReference);
-        await this.webActions.checkElementById(this.bailOption);
-        await this.webActions.checkElementById(this.samePartyOption);
-        await this.webActions.checkElementById(this.sharedEvidenceOption);
-        await this.webActions.checkElementById(this.guardianOption);
-        await this.webActions.checkElementById(this.linkedForHearingOption);
-        await this.webActions.checkElementById(this.progressedAsPartofLeadCase);
-        await this.webActions.clickElementByCss(this.caseLinkProposeButton);
-
-        await this.page.waitForTimeout(2000);
-        await this.page.click(this.submitButtonLink),
-        await this.webActions.waitForElementToBeVisible(this.submitButtonLink);
-        await this.webActions.waitForElementToBeVisible('text=Check your answers');
-        await this.webActions.clickElementByCss(this.submitButtonLink);
-    }
-
-    async unlinkedCase() {
-        await this.page.waitForSelector(this.nextButton);
-        await this.page.click(this.nextButton);
-        await this.page.waitForSelector(this.checkedLinkedCases);
-        await this.page.check(this.checkedLinkedCases);
-        await this.page.click(this.nextButton);
-        await this.page.waitForSelector(this.cyaBody, { timeout: 15000 });
-        await this.page.waitForSelector('text=Check your answers');
-        await this.page.waitForSelector('text=Cases to unlink');
-        await this.page.click(this.submitButtonLink);
-        await this.page.waitForTimeout(2000);
-        await this.page.click(this.submitButtonLink);
-        await this.page.waitForSelector(this.unlinkCasesSuccessMessageAlert, { timeout: 15000 });
-    }
+  async unlinkedCase() {
+    await this.nextButton.waitFor();
+    await this.nextButton.click();
+    await this.checkedLinkedCases.waitFor();
+    await this.checkedLinkedCases.check();
+    await this.nextButton.click();
+    await this.cyaBody.waitFor({ timeout: 15000 });
+    await expect(this.page.getByText('Check your answers')).toBeVisible();
+    await expect(this.page.getByText('Cases to unlink')).toBeVisible();
+    await this.submitButtonLink.click();
+    await this.page.waitForTimeout(2000);
+    await this.submitButtonLink.click();
+    await this.unlinkCasesSuccessMessageAlert.waitFor({ timeout: 15000 });
+  }
 }

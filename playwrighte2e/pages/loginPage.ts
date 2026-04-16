@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 import axios from 'axios';
 import { BasePage } from './basePage';
 import config from '../config/config';
@@ -12,11 +12,16 @@ declare global {
 }
 
 export default class LoginPage extends BasePage {
-  elements = {
-    username: this.page.locator('#username'),
-    password: this.page.locator('#password'),
-    submit: this.page.locator('[type="submit"]'),
-  };
+  private readonly username: Locator;
+  private readonly password: Locator;
+  private readonly submit: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.username = page.locator('#username');
+    this.password = page.locator('#password');
+    this.submit = page.locator('[type="submit"]');
+  }
 
   async registerNewAccount() {
     try {
@@ -55,21 +60,21 @@ export default class LoginPage extends BasePage {
   async processLoginWithNewAccount() {
     global.newUserEmail = await this.registerNewAccount();
     console.log('.... checking email address:', global.newUserEmail);
-    await this.elements.username.fill(global.newUserEmail);
-    await this.elements.password.fill(config.etCaseWorker.password);
-    await this.elements.submit.click();
+    await this.username.fill(global.newUserEmail);
+    await this.password.fill(config.etCaseWorker.password);
+    await this.submit.click();
   }
 
   async processLogin(username: string, password: string, requiredPath: string = config.loginPaths.worklist, baseUrl : string = aatUrl) {
-    await this.elements.username.fill(username);
-    await this.elements.password.fill(password);
-    await this.elements.submit.click();
+    await this.username.fill(username);
+    await this.password.fill(password);
+    await this.submit.click();
     await this.page.waitForURL(`${baseUrl}${requiredPath}`, { timeout: 20000 });
   }
 
   async processLoginCitizenUi(username: string, password: string) {
-    await this.elements.username.fill(username);
-    await this.elements.password.fill(password);
-    await this.elements.submit.click();
+    await this.username.fill(username);
+    await this.password.fill(password);
+    await this.submit.click();
   }
 }

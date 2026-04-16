@@ -1,40 +1,42 @@
 import { BasePage } from './basePage';
 import dateUtilComponent from '../data-utils/DateUtilComponent';
 import { CommonActionsHelper } from './helpers/CommonActionsHelper.ts';
-import { Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 export default class UploadHearingBundlePage extends BasePage {
   private readonly commonActionsHelper: CommonActionsHelper;
-  futureHearing = '#uploadHearingDocumentsSelectPastOrFutureHearing-Future';
-  hearingCombo = '#uploadHearingDocumentsSelectFutureHearing';
-  claimantRadio = '#uploadHearingDocumentsWhoseDocuments-Claimant';
+  private readonly futureHearing: Locator;
+  private readonly hearingCombo: Locator;
+  private readonly claimantRadio: Locator;
+  private readonly uploadDocInput: Locator;
+  private readonly whatHearingDocument: Locator;
+  private readonly dateSubmittedDay: Locator;
+  private readonly dateSubmittedMonth: Locator;
+  private readonly dateSubmittedYear: Locator;
 
   constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
     super(page);
     this.commonActionsHelper = commonActionsHelper;
+    this.futureHearing = page.locator('#uploadHearingDocumentsSelectPastOrFutureHearing-Future');
+    this.hearingCombo = page.locator('#uploadHearingDocumentsSelectFutureHearing');
+    this.claimantRadio = page.locator('#uploadHearingDocumentsWhoseDocuments-Claimant');
+    this.uploadDocInput = page.locator('#uploadHearingDocumentType_0_document');
+    this.whatHearingDocument = page.locator('#uploadHearingDocumentType_0_type');
+    this.dateSubmittedDay = page.locator('#uploadHearingDocumentsDateSubmitted-day');
+    this.dateSubmittedMonth = page.locator('#uploadHearingDocumentsDateSubmitted-month');
+    this.dateSubmittedYear = page.locator('#uploadHearingDocumentsDateSubmitted-year');
   }
 
   async uploadHearingBundleDocuments() {
-    await this.webActions.checkElementById(this.futureHearing);
-    await this.webActions.selectByOptionFromDropDown(this.hearingCombo, '1: 1');
+    await this.futureHearing.check();
+    await this.hearingCombo.selectOption({ value: '1: 1' });
     await this.addNewButtonClick();
-    await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.page.locator('#uploadHearingDocumentType_0_document'), `playwrighte2e/resources/test_file/welshTest.pdf`);
-    const whatHearingDocument = this.page.locator(`#uploadHearingDocumentType_0_type`);
-    await whatHearingDocument.getByRole('radio', { name: 'Hearing Bundle' }).check();
-
-    await this.webActions.checkElementById(this.claimantRadio);
-    await this.webActions.fillField(
-      '#uploadHearingDocumentsDateSubmitted-day',
-      dateUtilComponent.getCurrentDateParts().dd,
-    );
-    await this.webActions.fillField(
-      '#uploadHearingDocumentsDateSubmitted-month',
-      dateUtilComponent.getCurrentDateParts().mm,
-    );
-    await this.webActions.fillField(
-      '#uploadHearingDocumentsDateSubmitted-year',
-      dateUtilComponent.getCurrentDateParts().yyyy,
-    );
+    await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.uploadDocInput, `playwrighte2e/resources/test_file/welshTest.pdf`);
+    await this.whatHearingDocument.getByRole('radio', { name: 'Hearing Bundle' }).check();
+    await this.claimantRadio.check();
+    await this.dateSubmittedDay.fill(dateUtilComponent.getCurrentDateParts().dd);
+    await this.dateSubmittedMonth.fill(dateUtilComponent.getCurrentDateParts().mm);
+    await this.dateSubmittedYear.fill(dateUtilComponent.getCurrentDateParts().yyyy);
     await this.page.waitForLoadState('load');
     await this.clickSubmitButton();
     await this.page.waitForLoadState('load');

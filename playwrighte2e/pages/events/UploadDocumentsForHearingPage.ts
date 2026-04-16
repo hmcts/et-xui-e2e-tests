@@ -6,11 +6,10 @@ import { BaseEventPage } from './BaseEventPage.ts';
 
 export class UploadDocumentsForHearingPage extends BaseEventPage {
   private readonly commonActionsHelper: CommonActionsHelper;
-
   private readonly prepDocYesOption: Locator;
   private readonly prepDocAgreeWithResOption: Locator;
   private readonly prepDocAgreeWithResTextField : Locator;
-  private readonly prepDocNoAgreementOption: Locator
+  private readonly prepDocNoAgreementOption: Locator;
   private readonly prepDocNoAgreementTextField: Locator;
   private readonly hearingsList: Locator;
   private readonly respondentDocOnlyOption: Locator;
@@ -32,33 +31,33 @@ export class UploadDocumentsForHearingPage extends BaseEventPage {
     this.hearingsList = page.locator('#bundlesRespondentSelectHearing');
     this.respondentDocOnlyOption = page.locator("#bundlesRespondentWhoseDocuments-Respondent\\'s\\ documents\\ only");
     this.bothPartiesDocOption = page.locator("#bundlesRespondentWhoseDocuments-Both\\ parties\\'\\ hearing\\ documents\\ combined");
-    this.witnessStatementOption = this.page.locator(`#bundlesRespondentWhatDocuments-Witness\\ statements\\ only`);
-    this.supplementaryHearingDocOption = this.page.locator("#bundlesRespondentTypeOfDocument-Supplementary\\ hearing\\ document");
-    this.hearingDocWithWitnessStatementOption = this.page.locator(`bundlesRespondentWhatDocuments-Hearing documents,\\ including\\ witness\\ statements`);
+    this.witnessStatementOption = page.locator(`#bundlesRespondentWhatDocuments-Witness\\ statements\\ only`);
+    this.supplementaryHearingDocOption = page.locator("#bundlesRespondentTypeOfDocument-Supplementary\\ hearing\\ document");
+    this.hearingDocWithWitnessStatementOption = page.locator(`#bundlesRespondentWhatDocuments-Hearing documents,\\ including\\ witness\\ statements`);
     this.uploadDocumentInput = page.locator(`#bundlesRespondentUploadFile`);
-    this.closeAndReturnToCaseDetailsButton = this.page.getByRole('button', { name: 'Close and Return to case details' });
+    this.closeAndReturnToCaseDetailsButton = page.getByRole('button', { name: 'Close and Return to case details' });
   }
 
   async assertPageHeading() {
     const heading = this.page.getByRole('heading', { name: 'Prepare and submit documents for a hearing' });
-    await this.webActions.verifyElementToBeVisible(heading);
+    await expect(heading).toBeVisible();
   }
 
   async selectAgreementOption(option: string, details?: string) {
     switch (option) {
       case 'Yes':
-        await expect( this.prepDocYesOption).toBeVisible();
+        await expect(this.prepDocYesOption).toBeVisible();
         await this.prepDocYesOption.click();
         return 'Yes';
       case 'Agreed With restriction':
-        await expect( this.prepDocAgreeWithResOption).toBeVisible();
+        await expect(this.prepDocAgreeWithResOption).toBeVisible();
         await this.prepDocAgreeWithResOption.click();
-        await this.prepDocAgreeWithResTextField.fill(details? details : 'Agreed with restrictions details');
+        await this.prepDocAgreeWithResTextField.fill(details ? details : 'Agreed with restrictions details');
         return 'We have agreed that this set of documents will be uploaded but we disagree about whether some of the documents should be referred to at the hearing.';
       case 'No':
-        await expect( this.prepDocNoAgreementOption).toBeVisible();
+        await expect(this.prepDocNoAgreementOption).toBeVisible();
         await this.prepDocNoAgreementOption.click();
-        await this.prepDocNoAgreementTextField.fill(details? details : 'NOT agreed details');
+        await this.prepDocNoAgreementTextField.fill(details ? details : 'NOT agreed details');
         return 'No, we have not agreed and I want to provide my own documents';
       default:
         throw new Error(`Invalid option: ${option}`);
@@ -74,11 +73,11 @@ export class UploadDocumentsForHearingPage extends BaseEventPage {
       if(i===0) continue; //skip first option 'Select'
       optionTextList.push(await options.nth(i).textContent());
     }
-      for (const expectedOption of hearingList) {
-        if (!optionTextList.includes(expectedOption)) {
-          throw new Error(`Hearing option "${expectedOption}" not found in the list.`);
-        }
+    for (const expectedOption of hearingList) {
+      if (!optionTextList.includes(expectedOption)) {
+        throw new Error(`Hearing option "${expectedOption}" not found in the list.`);
       }
+    }
   }
 
   async selectHearing(hearingOption?: string) {
@@ -126,8 +125,10 @@ export class UploadDocumentsForHearingPage extends BaseEventPage {
     await this.commonActionsHelper.uploadWithRateLimitRetry(
       this.page,
       this.uploadDocumentInput,
-      await this.commonActionsHelper.createAliasPDFPayload
-        ('playwrighte2e/resources/test_file/welshTest.pdf', 'welshTest.pdf')
+      await this.commonActionsHelper.createAliasPDFPayload(
+        'playwrighte2e/resources/test_file/welshTest.pdf',
+        'welshTest.pdf'
+      )
     );
   }
 
@@ -148,32 +149,20 @@ export class UploadDocumentsForHearingPage extends BaseEventPage {
     whoseDocuments: string,
     documentType: string,
     hearingList?: string[],
-
   }, checkYourAnswersPage: CheckYourAnswersPage) {
-    // assert UploadDocuments for hearing first page
     await this.assertPageHeading();
     await this.clickContinue();
-
-    //select agreement option
     const agreementOption = await this.selectAgreementOption(param.agreementOption, param.agreementDetails);
     await this.clickContinue();
-
-    // if hearing list is provided, validate them
     if(param.hearingList) {
       await this.assertHearingList(param.hearingList);
     }
-    // select the hearing for which document is needed
     await this.selectHearing(param.hearingOption);
-    // select whose documents are for
     const whoseDoc = await this.whoseDocumentsOption(param.whoseDocuments);
-    // select document types
     const docType = await this.selectDocumentType(param.documentType);
     await this.clickContinue();
-
-    // upload document
     await this.uploadDocuments();
     await this.clickContinue();
-
     const rows = [
       { cellItem: `Have you agreed with the other party that this PDF set of documents will be used by both parties at the hearing and that no other documents will be referred to?`,
         value: agreementOption
@@ -183,7 +172,6 @@ export class UploadDocumentsForHearingPage extends BaseEventPage {
       { cellItem: `What are these documents?`, value: docType },
       { cellItem: `Upload document`, value: `welshTest.pdf`},
     ]
-
     if (param.agreementOption === 'No') {
       rows.push({
         cellItem: `Tell us why you’ve not been able to agree with the other party`,
@@ -195,18 +183,12 @@ export class UploadDocumentsForHearingPage extends BaseEventPage {
         value: param.agreementDetails ? param.agreementDetails : 'Agreed with restrictions details'
       });
     }
-    // verify check you answers page
     await checkYourAnswersPage.assertCheckYourAnswersPage({
       tableName: "Check your answers",
       rows: rows
     });
-    // submit
     await this.clickSubmitButton();
-
-    // confirm document sent and return to case details
     await this.confirmDocumentsSentToTribunal();
     await this.closeAndReturnToCaseDetails();
   }
-
-
 }
