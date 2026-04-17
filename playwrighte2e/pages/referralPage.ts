@@ -1,7 +1,9 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './basePage';
+import { CommonActionsHelper } from './helpers/CommonActionsHelper.ts';
 
 export default class ReferralPage extends BasePage {
+  private readonly commonActionsHelper: CommonActionsHelper;
   private readonly judgeReferralOption: Locator;
   private readonly adminReferralOption: Locator;
   private readonly isUrgentYes: Locator;
@@ -17,8 +19,9 @@ export default class ReferralPage extends BasePage {
   private readonly closeReferralGeneralNotes: Locator;
   private readonly markdownPara: Locator;
 
-  constructor(page: Page) {
+  constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
     super(page);
+    this.commonActionsHelper = commonActionsHelper;
     this.judgeReferralOption = page.locator('#referCaseTo-Judge');
     this.adminReferralOption = page.locator('#referCaseTo-Admin');
     this.isUrgentYes = page.locator('#isUrgent_Yes');
@@ -48,7 +51,8 @@ export default class ReferralPage extends BasePage {
 
     await this.addNewButtonClick();
     await this.docUploadEle.waitFor();
-    await this.docUploadEle.setInputFiles('playwrighte2e/resources/test_file/test.txt');
+    //await this.docUploadEle.setInputFiles('playwrighte2e/resources/test_file/test.txt');
+    await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.docUploadEle, `playwrighte2e/resources/test_file/test.txt`);
 
     await this.clickContinue();
     await this.clickSubmitButton();

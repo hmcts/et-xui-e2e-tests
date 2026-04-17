@@ -31,7 +31,7 @@ test.describe('ECC', () => {
   test('Validate ECC error message', { tag: '@ecc' }, async ({ caseDetailsPage, jurisdictionPage }) => {
     await caseDetailsPage.selectNextEvent(Events.jurisdiction);
     await jurisdictionPage.addJurisdiction('ECC', 'Not allocated', 1);
-    await jurisdictionPage.clickSubmitButton();
+    await jurisdictionPage.clickSubmitButton(false);
     await expect(
       jurisdictionPage.page.getByText(
         "ECC jurisdiction code can only be added if there's a corresponding BOC jurisdiction code",

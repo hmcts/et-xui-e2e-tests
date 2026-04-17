@@ -37,7 +37,7 @@ export default class UploadHearingBundlePage extends BasePage {
     await this.dateSubmittedDay.fill(dateUtilComponent.getCurrentDateParts().dd);
     await this.dateSubmittedMonth.fill(dateUtilComponent.getCurrentDateParts().mm);
     await this.dateSubmittedYear.fill(dateUtilComponent.getCurrentDateParts().yyyy);
-    await this.page.waitForLoadState('load');
+    await this.page.waitForLoadState('load', {timeout: 1000});
     await this.clickSubmitButton();
     await this.page.waitForLoadState('load');
   }
