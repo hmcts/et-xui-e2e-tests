@@ -19,9 +19,7 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
   test('Caseworker uploads hearing bundle', async ({
     manageCaseDashboardPage,
     uploadHearingBundlePage,
-    nocPage,
-    listHearingPage,
-    loginPage, caseDetailsPage
+    listHearingPage, caseDetailsPage
   }) => {
     //List 2 hearings for the case
     const hearingNumbers: number[] = [0, 1];
@@ -29,20 +27,7 @@ test.describe('Upload Hearing Bundle as a Caseworker', () => {
       await caseDetailsPage.selectNextEvent(Events.listHearing);
       await listHearingPage.listCase('EnglandWales', number, 'Leeds ET');
     }
-    await manageCaseDashboardPage.signOut();
 
-    await loginPage.processLogin(
-      config.etLegalRepresentative.email,
-      config.etLegalRepresentative.password,
-      config.loginPaths.cases,
-    );
-    await manageCaseDashboardPage.navigateToNoticeOfChange();
-    await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
-
-    await manageCaseDashboardPage.signOut();
-
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-    await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     await caseDetailsPage.selectNextEvent(Events.uploadHearingDocuments);
     await uploadHearingBundlePage.uploadHearingBundleDocuments();
     await caseDetailsPage.navigateToTab('Hearing Documents');

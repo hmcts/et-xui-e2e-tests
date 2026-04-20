@@ -94,23 +94,35 @@ export abstract class BasePage {
     await this.page.waitForLoadState('load');
   }
 
-  async clickSubmitButton() {
+  /**
+   * Clicks the Submit button and waits for the submission to complete.
+   *
+   * - If `submitted` is true (default):
+   *   - Retries up to 3 times if an error heading is detected after clicking Submit.
+   *   - Waits for the spinner and page load after each attempt.
+   *   - Throws an error if submission fails after 3 attempts.
+   * - If `submitted` is false:
+   *   - Clicks Submit, waits for spinner and page load, and returns immediately (no error checks).
+   *
+   * @param submitted - If true, ensures the page is submitted and no error is present. If false, just clicks and returns.
+   */
+  async clickSubmitButton(submitted: boolean = true) {
+    console.log('clicking submitted', submitted);
     await this.page.waitForLoadState('load');
-    const maxRetries = 3;
+    await this.submitButton.scrollIntoViewIfNeeded();
+    await this.page.evaluate(el => el.scrollIntoView({ block: 'center' }), await this.submitButton.elementHandle());
+    await expect(this.submitButton).toBeVisible();
+    await expect(this.submitButton).toBeEnabled();
+    const maxRetries = submitted ? 3 : 1;
     let attempt = 0;
     while (attempt < maxRetries) {
-      await this.submitButton.scrollIntoViewIfNeeded();
-      await expect(this.submitButton).toBeVisible();
-      await expect(this.submitButton).toBeEnabled();
-      await this.submitButton.click({force: true});
+      await this.submitButton.click({clickCount:2, force: true });
       await this.page.waitForLoadState('load', { timeout: 4000 });
       await this.waitForSpinner();
-
+      if (!submitted) return;
       // Check if error is visible
       const h3Visible = await this.errorHeading.isVisible().catch(() => false);
-
       if (h3Visible) {
-        // Check if Submit button is still visible
         const errStr = await this.errorHeading.textContent();
         attempt++;
         console.log(`Error '${errStr}' detected after clicking Submit. Retrying... (Attempt ${attempt})`);
@@ -120,7 +132,7 @@ export abstract class BasePage {
       // No error, break out of loop
       break;
     }
-    if (attempt === maxRetries) {
+    if (submitted && attempt === maxRetries) {
       console.warn('Submit button retried maximum times, but error still present.');
       throw new Error('Submit button retried maximum times, but error still present.');
     }
