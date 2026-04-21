@@ -17,7 +17,6 @@ export class ManageCaseDashboardPage extends BasePage {
     this.nocLink = page.getByRole('link', { name: 'Notice of change' });
     this.caseListLink = page.getByText('Case list');
     this.myWorkLink = page.getByRole('link', { name: 'My work' });
-
   }
 
   async navigateToCaseDetails(

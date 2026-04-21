@@ -5,9 +5,6 @@ import dateUtilComponent from '../../data-utils/DateUtilComponent.ts';
 import { CaseDetailsValues } from '../../config/case-data.ts';
 
 const today = new Date();
-const listDay = today.getDate();
-const listMonth = today.getMonth() + 1;
-const listYear = today.getFullYear() + 1;
 let inNoticePeriod: boolean = true;
 
 export default class EmploymentAndRespDetailsPage extends CitizenHubPage {

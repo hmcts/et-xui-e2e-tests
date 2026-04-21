@@ -14,7 +14,7 @@ test.describe('NOC Notification Banner', () => {
 
   test.beforeEach(async ({ manageCaseDashboardPage }) => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
-    ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
+    ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId.toString()));
     await manageCaseDashboardPage.visit();
     firstName = CaseDetailsValues.claimantFirstName;
     lastName = CaseDetailsValues.claimantLastName;
@@ -93,7 +93,6 @@ test.describe('NOC Notification Banner', () => {
     await nocPage.processNocRequest(caseId, respName, caseNumber);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId);
     await caseListPage.checkAndShareCaseFromList(caseId);
-    //caseId = '1768406266566446';
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     await caseDetailsPage.selectNextEvent(Events.refreshSharedUsers);
     await baseEventPage.clickSubmitButton();
@@ -166,7 +165,7 @@ test.describe('NOC Notification Banner', () => {
     await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPage.changeMyLegalRep();
+    await citizenHubPage.clickChangeMyLegalRep();
     await citizenHubPage.verifyLegalRepUnassignedNotificationBanner();
   });
 });

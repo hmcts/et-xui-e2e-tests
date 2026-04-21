@@ -25,22 +25,29 @@ test.describe('Various events in mange case application', () => {
   test('Create a claim and perform jurisdiction event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ jurisdictionPage, caseDetailsPage }) => {
     //Jurisdiction event
     await caseDetailsPage.selectNextEvent(Events.jurisdiction);
-    await jurisdictionPage.addJurisdictionCode();
-    await caseDetailsPage.navigateToTab('Jurisdictions');
-    await jurisdictionPage.verifyJurisdictionCodeOnTab();
+    await jurisdictionPage.addJurisdictionCodeAndSubmit('DDA', 'Not allocated', 1);
+    await caseDetailsPage.assertTabData([
+      {
+        tabName: 'Jurisdictions',
+        tabContent:[
+          'Jurisdictions',
+          'DDA'
+        ]
+      }
+    ]);
   });
 
   //RET-5809
   test('Validate longer than 3 letters jurisdiction code in IC event', {tag: ['@ccd-callback-tests', '@demo']}, async ({ caseDetailsPage, jurisdictionPage, icUploadDocPage }) => {
     //Jurisdiction event
     await caseDetailsPage.selectNextEvent(Events.jurisdiction);
-    await jurisdictionPage.addADTJurisdictionCode();
+    await jurisdictionPage.addJurisdictionCodeAndSubmit('ADT(ST)', 'Not allocated', 1);
     await caseDetailsPage.selectNextEvent(Events.initialConsideration);
     await icUploadDocPage.verifyJurisdictionCodeInICevent();
   });
 
   //EXUI-3451
-  test.skip('Create a England/Wales claim and transfer to Scotland', {tag: '@demo'}, async ({ caseDetailsPage, caseTransferPage }) => {
+  test('Create a England/Wales claim and transfer to Scotland', {tag: '@demo'}, async ({ caseDetailsPage, caseTransferPage }) => {
     await caseDetailsPage.selectNextEvent(Events.caseTransferScotland);
     await caseTransferPage.progressCaseTransfer();
     await caseTransferPage.checkYourAnswer(caseNumber);
@@ -50,10 +57,17 @@ test.describe('Various events in mange case application', () => {
   test('perform ADR document event', {tag: '@demo'}, async ({ adrDocument, caseDetailsPage }) => {
     await caseDetailsPage.selectNextEvent(Events.adrPrivilegedDocuments);
     await adrDocument.adrUploadDocument();
-    await caseDetailsPage.navigateToTab('ADR/Privileged');
-    await adrDocument.verifyAdrDocumentDetails();
+    await caseDetailsPage.assertTabData([
+      {
+        tabName: 'ADR/Privileged',
+        tabContent:[
+          'Documents',
+          { tabItem : 'Document Link', value: 'welshTest.pdf' },
+          { tabItem : 'Short Description', value: 'description' },
+        ]
+      }
+    ]);
   });
-
 });
 
 test.describe('Claimant retaining access to transferred case', () => {
@@ -114,5 +128,3 @@ test.describe('Various events in mange case application for Scotland case', () =
     await initialConsiderationPage.validateLinksNotVisible();
   });
 });
-
-

@@ -18,31 +18,10 @@ test.describe('ECC', () => {
 
   test('Validate ECC flag is set on case', { tag: '@ecc' }, async ({ caseDetailsPage, jurisdictionPage }) => {
     await caseDetailsPage.selectNextEvent(Events.jurisdiction);
-    await jurisdictionPage.page.getByRole('button', { name: 'Add new' }).nth(1).click();
-    await jurisdictionPage.webActions.verifyElementToBeVisible(
-      jurisdictionPage.page.locator(jurisdictionPage.elements.jurisdictionDropdown),
-    );
-    await jurisdictionPage.webActions.selectByOptionFromDropDown(
-      jurisdictionPage.elements.jurisdictionDropdown,
-      '6: BOC',
-    );
-    await jurisdictionPage.webActions.selectByLabelFromDropDown(
-      '#jurCodesCollection_1_judgmentOutcome',
-      'Not allocated',
-    );
-    await jurisdictionPage.page.getByRole('button', { name: 'Add new' }).nth(1).click();
-    await jurisdictionPage.webActions.verifyElementToBeVisible(
-      jurisdictionPage.page.locator('#jurCodesCollection_2_juridictionCodesList'),
-    );
-    await jurisdictionPage.webActions.selectByOptionFromDropDown(
-      '#jurCodesCollection_2_juridictionCodesList',
-      '15: ECC',
-    );
-    await jurisdictionPage.webActions.selectByLabelFromDropDown(
-      '#jurCodesCollection_2_judgmentOutcome',
-      'Not allocated',
-    );
+    await jurisdictionPage.addJurisdiction('BOC', 'Not allocated', 1);
+    await jurisdictionPage.addJurisdiction('ECC', 'Not allocated', 2);
     await jurisdictionPage.clickSubmitButton();
+
     await expect(jurisdictionPage.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText(
       'Case Details',
     );
@@ -51,19 +30,8 @@ test.describe('ECC', () => {
 
   test('Validate ECC error message', { tag: '@ecc' }, async ({ caseDetailsPage, jurisdictionPage }) => {
     await caseDetailsPage.selectNextEvent(Events.jurisdiction);
-    await jurisdictionPage.page.getByRole('button', { name: 'Add new' }).nth(1).click();
-    await jurisdictionPage.webActions.verifyElementToBeVisible(
-      jurisdictionPage.page.locator(jurisdictionPage.elements.jurisdictionDropdown),
-    );
-    await jurisdictionPage.webActions.selectByOptionFromDropDown(
-      jurisdictionPage.elements.jurisdictionDropdown,
-      '15: ECC',
-    );
-    await jurisdictionPage.webActions.selectByLabelFromDropDown(
-      '#jurCodesCollection_1_judgmentOutcome',
-      'Not allocated',
-    );
-    await jurisdictionPage.clickSubmitButton();
+    await jurisdictionPage.addJurisdiction('ECC', 'Not allocated', 1);
+    await jurisdictionPage.clickSubmitButton(false);
     await expect(
       jurisdictionPage.page.getByText(
         "ECC jurisdiction code can only be added if there's a corresponding BOC jurisdiction code",

@@ -86,7 +86,7 @@ export class CaseEventApi {
         ],
       },
     ]);
-    const caseNumber = response.case_data.ethosCaseReference;
+    const caseNumber = response.case_data.ethosCaseReference.toString();
     return { caseId, caseNumber };
   }
 
@@ -111,7 +111,7 @@ export class CaseEventApi {
         ],
       },
     ]);
-    const caseNumber = response.case_data.ethosCaseReference;
+    const caseNumber = response.case_data.ethosCaseReference.toString();
     return { caseId, caseNumber };
   }
 
@@ -125,7 +125,7 @@ export class CaseEventApi {
       { event: Events.et1SectionThreeClaimDetails.ccdCallback, payload: PayloadPath.LegalRep.et1Section3 },
       { event: Events.et1SubmitClaim.ccdCallback, payload: PayloadPath.LegalRep.et1SubmitClaim },
     ]);
-    let caseNumber = response.case_data.ethosCaseReference;
+    let caseNumber = response.case_data.ethosCaseReference.toString();
     return { caseId, caseNumber };
   }
 }

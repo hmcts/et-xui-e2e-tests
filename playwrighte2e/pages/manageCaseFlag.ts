@@ -1,12 +1,21 @@
 import { BasePage } from "./basePage";
+import { Locator, Page } from '@playwright/test';
 
 export default class ManageCaseFlag extends BasePage {
+  private readonly urgentCaseCheckbox: Locator;
+  private readonly makeInactiveButton: Locator;
 
-    async manageCaseFlag() {
-        await this.webActions.checkElementByLabel('Case level - Urgent case (');
-        await this.clickContinue();
-        await this.webActions.clickElementByRole('button', { name: 'Make inactive' });
-        await this.clickContinue();
-        await this.clickSubmitButton();
-    }
+  constructor(page: Page) {
+    super(page);
+    this.urgentCaseCheckbox = page.getByLabel('Case level - Urgent case (');
+    this.makeInactiveButton = page.getByRole('button', { name: 'Make inactive' });
+  }
+
+  async manageCaseFlag() {
+    await this.urgentCaseCheckbox.check();
+    await this.clickContinue();
+    await this.makeInactiveButton.click();
+    await this.clickContinue();
+    await this.clickSubmitButton();
+  }
 }

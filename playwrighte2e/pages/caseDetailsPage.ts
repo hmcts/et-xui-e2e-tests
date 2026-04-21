@@ -16,15 +16,16 @@ export default class CaseDetailsPage extends BasePage {
   }
 
   async addVPCaseFlag() {
-        await this.webActions.waitForElementToBeVisible('text=Managing Office');
-        await this.webActions.selectByOptionFromDropDown('#allocatedOffice', '1: Glasgow');
+        await this.page.locator('text=Managing Office').waitFor({ state: 'visible' });
+        await this.page.locator('#allocatedOffice').selectOption('1: Glasgow');
         await this.clickContinue();
-        await this.webActions.waitForElementToBeVisible('text=Single or Multiple');
+        await this.page.locator('text=Single or Multiple').waitFor({ state: 'visible' });
         await this.clickContinue();
-        await this.webActions.waitForElementToBeVisible('text=Speak to VP (Optional)');
-        await this.webActions.checkElementById('#additionalCaseInfo_interventionRequired_Yes');
+        await this.page.locator('text=Speak to VP (Optional)').waitFor({ state: 'visible' });
+        await this.page.locator('#additionalCaseInfo_interventionRequired_Yes').scrollIntoViewIfNeeded();
+        await this.page.locator('#additionalCaseInfo_interventionRequired_Yes').click();
         await this.clickContinue();
-        await this.webActions.waitForElementToBeVisible('text=Check your answers');
+        await this.page.locator('text=Check your answers').waitFor({ state: 'visible' });
         await this.clickSubmitButton();
 
         await expect(this.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText('Case Details');
@@ -107,8 +108,9 @@ export default class CaseDetailsPage extends BasePage {
           await this.page.waitForLoadState();
         }
 
-        const expectedValues = content.value.split('|').map(v => {return v.trim();});
+        const expectedValues = content.value.split('|').map(v => v.trim());
         for (let i = 0; i < expectedValues.length; i++) {
+          if (!expectedValues[i]) continue; // Skip empty or blank expected values
           const tabValue = tabItem.locator(
             `xpath=following-sibling::*[self::td or self::th][${i + 1}] | ancestor::*[self::td or self::th or self::tr][1]/following-sibling::*[self::td or self::th][${i + 1}]`
           );
@@ -296,6 +298,7 @@ export default class CaseDetailsPage extends BasePage {
       await this.goButton.click({ clickCount: 2, force: true });
       if(navigate) {
         try {
+          await this.waitForSpinner();
           console.log(this.page.url());
           await this.page.waitForURL(`**/${event.ccdCallback}/**`, { timeout: 10000 });
           return;
@@ -306,5 +309,11 @@ export default class CaseDetailsPage extends BasePage {
         return;
       }
     }
+  }
+
+  async verifyAndClickLinkInTab(referralText: string) {
+    const elements = await this.page.locator('markdown p a').allTextContents();
+    expect(elements).toContain(referralText);
+    await this.page.getByText(referralText).click();
   }
 }

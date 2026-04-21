@@ -1,45 +1,47 @@
 import { BasePage } from "./basePage";
 import config from "../config/config";
-import { expect, Page } from '@playwright/test';
+import { expect, Page, Locator } from '@playwright/test';
 
 export default class Et3LoginPage extends BasePage {
+  private readonly returnToExistingResponse: Locator;
+  private readonly submit: Locator;
+  private readonly startNow: Locator;
+  private readonly respondToNewClaim: Locator;
+  private readonly caseNumber: Locator;
+  private readonly submissionRefNumber: Locator;
+  private readonly respName: Locator;
+  private readonly claimantFirstName: Locator;
+  private readonly claimantLastName: Locator;
+  private readonly appointLegalRepLink: Locator;
+
   constructor(page: Page) {
     super(page);
+    this.returnToExistingResponse = page.locator('[href="/return-to-existing-response?lng=en"]');
+    this.submit = page.locator('[type="submit"]');
+    this.startNow = page.locator('[href="/case-number-check"]');
+    this.respondToNewClaim = page.locator('[href="/case-number-check?lng=en&redirect=selfAssignment"]');
+    this.caseNumber = page.locator('#ethosCaseReference');
+    this.submissionRefNumber = page.locator('#caseReferenceId');
+    this.respName = page.locator('#respondentName');
+    this.claimantFirstName = page.locator('#claimantFirstName');
+    this.claimantLastName = page.locator('#claimantLastName');
+    this.appointLegalRepLink = page.locator('[href="/appoint-legal-representative"]');
   }
 
-  public static create(page: Page): Et3LoginPage {
-    return new Et3LoginPage(page);
-  }
-
-  elements = {
-    returnToExistingResponse: '[href="/return-to-existing-response?lng=en"]',
-    submit: this.page.locator('[type="submit"]'),
-    startNow: this.page.locator('[href="/case-number-check"]'),
-    respondToNewClaim: '[href="/case-number-check?lng=en&redirect=selfAssignment"]',
-    caseNumber: '#ethosCaseReference',
-    submissionRefNumber: '#caseReferenceId',
-    respName: '#respondentName',
-    claimantFirstName: '#claimantFirstName',
-    claimantLastName: '#claimantLastName',
-    caseRefNumber: this.page.locator('#ethosCaseReference'),
-    appointLegalRepLink: '[href="/appoint-legal-representative"]',
-  };
   async processRespondentLogin(username: string, password: string, caseNumber: string) {
     await this.page.goto(config.etSyrUiUrl);
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Introduction');
-    await this.webActions.clickElementByCss('[href="/return-to-existing-response?lng=en"]');
-    await this.wait(1000);
-    //  await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Case Number');
-    //  await this.webActions.fillField(this.elements.caseNumber, caseNumber.toString());
-    await this.webActions.clickElementByCss('#return_number_or_account-2');
+    await expect(this.page.locator('h1')).toHaveText(/Introduction/);
+    await this.returnToExistingResponse.click();
+    await this.page.waitForTimeout(1000);
+    await this.page.locator('#return_number_or_account-2').click();
     await this.clickContinue();
     await this.loginRespondentUi(username, password);
   }
 
   async loginRespondentUi(username: string, password: string) {
-    await this.webActions.fillField('#username', username);
-    await this.webActions.fillField('#password', password);
-    await this.elements.submit.click();
+    await this.page.locator('#username').fill(username);
+    await this.page.locator('#password').fill(password);
+    await this.submit.click();
   }
 
   async replyToNewClaim(
@@ -49,63 +51,53 @@ export default class Et3LoginPage extends BasePage {
     firstName: string,
     lastName: string,
   ) {
-    // await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Before you continue');
-    //await this.clickContinue();
-    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'ET3 Responses');
-    await this.webActions.clickElementByCss(this.elements.respondToNewClaim);
+    await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
+    await this.respondToNewClaim.click();
     await this.caseNumberPage(caseNumber);
     await this.caseDetailsPage(submissionRef, respName, firstName, lastName);
     await this.checkAndSubmitPage(caseNumber);
   }
 
   async caseNumberPage(caseNumber: string) {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Case Number');
-    await this.webActions.fillField(this.elements.caseNumber, caseNumber.toString());
-
+    await expect(this.page.locator('h1')).toContainText('Case Number');
+    await this.caseNumber.fill(caseNumber.toString());
     await this.clickContinue();
   }
 
   async caseDetailsPage(submissionRef: string, respName: string, firstName: string, lastName: string) {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Case Details');
-    await this.webActions.fillField(this.elements.submissionRefNumber, submissionRef.toString());
-
-    //resp name is hard coded here as case is created from api which is using json
-    //check case sensitivity
-    await this.webActions.fillField(this.elements.respName, respName);
-    await this.webActions.fillField(this.elements.claimantFirstName, firstName);
-    await this.webActions.fillField(this.elements.claimantLastName, lastName);
-    await this.delay(5000);
+    await expect(this.page.locator('h1')).toContainText('Case Details');
+    await this.submissionRefNumber.fill(submissionRef.toString());
+    await this.respName.fill(respName);
+    await this.claimantFirstName.fill(firstName);
+    await this.claimantLastName.fill(lastName);
+    await this.page.waitForTimeout(5000);
     await this.clickContinue();
   }
 
   async checkAndSubmitPage(caseNumber: string) {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Check and submit');
-    await this.webActions.checkElementById('#confirmation');
+    await expect(this.page.locator('h1')).toContainText('Check and submit');
+    await this.page.locator('#confirmation').check();
     await this.clickSubmitButton();
-
-    //validate claim is displayed in awaiting response
     await this.page.reload();
-    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'ET3 Responses');
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.respondToNewClaim));
-    await this.webActions.clickElementByLabel('view ' + caseNumber + ':');
+    await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
+    await expect(this.respondToNewClaim).toBeVisible();
+    await this.page.getByLabel('view ' + caseNumber + ':').click();
   }
 
   async processRespondentLoginForExistingCase(username: string, password: string, caseNumber: string) {
     await this.page.goto(config.etSyrUiUrl);
-    await this.webActions.clickElementByCss(this.elements.returnToExistingResponse);
-    await this.webActions.checkElementById('#return_number_or_account-2');
+    await this.returnToExistingResponse.click();
+    await this.page.locator('#return_number_or_account-2').check();
     await this.clickContinue();
     await this.loginRespondentUi(username, password);
-
-    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'ET3 Responses');
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.respondToNewClaim));
-    await this.webActions.clickElementByLabel('view ' + caseNumber.toString() + ':');
+    await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
+    await expect(this.respondToNewClaim).toBeVisible();
+    await this.page.getByLabel('view ' + caseNumber.toString() + ':').click();
   }
 
   async validateClaimantDetailsInRespondentApp(firstname: string, lastname: string) {
-    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
-
-    await this.webActions.clickElementByText('View claimant contact details');
+    await expect(this.page.locator('#main-content')).toContainText('Case overview');
+    await this.page.getByText('View claimant contact details').click();
     await expect(this.page.locator('dl')).toContainText(firstname + ' ' + lastname);
     await expect(this.page.locator('dl')).toContainText('Address');
     await expect(this.page.locator('dl')).toContainText('Email');
@@ -116,13 +108,12 @@ export default class Et3LoginPage extends BasePage {
   }
 
   async stopLegalRepRepresentation() {
-    await this.webActions.clickElementByText('Change my legal representative');
+    await this.page.getByText('Change my legal representative').click();
     await expect(this.page.locator('legend')).toContainText('Do you want to change your legal representative?');
-    //Yes, I confirm I wish to remove my legal representative and continue my case representing myself.
     await this.page.locator('#legalRep-2').click();
     await this.clickSubmitButton();
-    await this.webActions.verifyElementContainsText(this.page.locator('#main-content'), 'Case overview');
-    await this.page.getByLabel('Important').filter({ hasText: 'You are no longer legally represented.' }).isVisible();
-    await this.page.locator(this.elements.appointLegalRepLink).isVisible();
+    await expect(this.page.locator('#main-content')).toContainText('Case overview');
+    await expect(this.page.getByLabel('Important').filter({ hasText: 'You are no longer legally represented.' })).toBeVisible();
+    await expect(this.appointLegalRepLink).toBeVisible();
   }
 }

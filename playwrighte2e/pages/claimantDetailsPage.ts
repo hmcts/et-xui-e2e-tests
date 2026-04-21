@@ -1,74 +1,78 @@
 import { BasePage } from "./basePage";
+import { Locator, Page, expect } from '@playwright/test';
 import respPageData from '../resources/payload/respondent-page-content.json';
 
-export default class ClaimantDetailsPage extends BasePage{
+export default class ClaimantDetailsPage extends BasePage {
+  private readonly firstName: Locator;
+  private readonly lastName: Locator;
+  private readonly addressLine1: Locator;
+  private readonly claimantWorkPhone: Locator;
+  private readonly occupation: Locator;
+  private readonly hearingPreference: Locator;
+  private readonly hearingPreferenceVideo: Locator;
+  private readonly panelEle: Locator;
+  private readonly panelPreferenceReason: Locator;
 
-  elements = {
-    firstName:'#claimantIndType_claimant_first_names',
-    LastName:'#claimantIndType_claimant_last_name',
-    addressLine1:'#claimantType_claimant_addressUK__detailAddressLine1',
-    claimantWorkPhone:'#claimantWorkAddress_claimant_work_phone_number',
-    occupation:'#claimantOtherType_claimant_occupation',
-    hearingPreference:'#claimantHearingPreference_contact_language-English',
-    hearingPreferenceVideo:'#claimantHearingPreference_hearing_preferences-Video',
-    panelEle: '#claimantHearingPreference_claimant_hearing_panel_preference-Panel',
-    panelPreferenceReason: '#claimantHearingPreference_claimant_hearing_panel_preference_why'
+  constructor(page: Page) {
+    super(page);
+    this.firstName = page.locator('#claimantIndType_claimant_first_names');
+    this.lastName = page.locator('#claimantIndType_claimant_last_name');
+    this.addressLine1 = page.locator('#claimantType_claimant_addressUK__detailAddressLine1');
+    this.claimantWorkPhone = page.locator('#claimantWorkAddress_claimant_work_phone_number');
+    this.occupation = page.locator('#claimantOtherType_claimant_occupation');
+    this.hearingPreference = page.locator('#claimantHearingPreference_contact_language-English');
+    this.hearingPreferenceVideo = page.locator('#claimantHearingPreference_hearing_preferences-Video');
+    this.panelEle = page.locator('#claimantHearingPreference_claimant_hearing_panel_preference-Panel');
+    this.panelPreferenceReason = page.locator('#claimantHearingPreference_claimant_hearing_panel_preference_why');
   }
 
   async processClaimantDetails(hearingPanelPreference?: boolean) {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.firstName));
-    await this.webActions.fillField(this.elements.firstName, 'Laila');
-    await this.webActions.fillField(this.elements.LastName, 'McDonald');
-
+    await expect(this.firstName).toBeVisible();
+    await this.firstName.fill('Laila');
+    await this.lastName.fill('McDonald');
     await this.clickContinue();
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.addressLine1));
+    await expect(this.addressLine1).toBeVisible();
     await this.clickContinue();
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.claimantWorkPhone));
-
+    await expect(this.claimantWorkPhone).toBeVisible();
     await this.clickContinue();
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.occupation));
-
+    await expect(this.occupation).toBeVisible();
     await this.clickContinue();
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingPreference));
-    await this.webActions.clickElementByCss(this.elements.hearingPreferenceVideo);
-    await this.webActions.checkElementById('#claimantHearingPreference_contact_language-English');
-
-    if(hearingPanelPreference) await this.fillPanelPreference();
+    await expect(this.hearingPreference).toBeVisible();
+    await this.hearingPreferenceVideo.click();
+    await this.hearingPreference.check();
+    if (hearingPanelPreference) await this.fillPanelPreference();
     await this.clickSubmitButton();
   }
 
   async processClaimantDetailsForIC(hearingPanelPreference?: boolean) {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.firstName));
+    await expect(this.firstName).toBeVisible();
     await this.clickContinue();
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.addressLine1));
+    await expect(this.addressLine1).toBeVisible();
     await this.clickContinue();
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.claimantWorkPhone));
+    await expect(this.claimantWorkPhone).toBeVisible();
     await this.clickContinue();
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.occupation));
+    await expect(this.occupation).toBeVisible();
     await this.clickContinue();
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingPreference));
-    await this.webActions.clickElementByCss(this.elements.hearingPreferenceVideo);
-    await this.webActions.checkElementById('#claimantHearingPreference_contact_language-English');
-
-    if(hearingPanelPreference) await this.fillPanelPreference();
+    await expect(this.hearingPreference).toBeVisible();
+    await this.hearingPreferenceVideo.click();
+    await this.hearingPreference.check();
+    if (hearingPanelPreference) await this.fillPanelPreference();
     await this.clickSubmitButton();
   }
 
   async verifyClaimantDetails() {
-
     await this.verifyClaimantDetailsOnTab("Panel preference reason", respPageData.panelReason);
     await this.verifyClaimantDetailsOnTab("Hearing panel preference", respPageData.preferenceNameisPanel);
   }
 
   async verifyClaimantDetailsOnTab(fieldLabel: string, fieldValue: string) {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`));
+    await expect(this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)).toBeVisible();
   }
 
   async fillPanelPreference() {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.panelEle));
-    await this.webActions.checkElementById(this.elements.panelEle);
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.panelPreferenceReason));
-    await this.webActions.fillField(this.elements.panelPreferenceReason, respPageData.panelReason);
+    await expect(this.panelEle).toBeVisible();
+    await this.panelEle.check();
+    await expect(this.panelPreferenceReason).toBeVisible();
+    await this.panelPreferenceReason.fill(respPageData.panelReason);
   }
-
 }

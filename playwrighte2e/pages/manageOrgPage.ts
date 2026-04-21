@@ -1,18 +1,33 @@
-import { expect } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './basePage';
 
 export class ManageOrgPage extends BasePage {
-  ElementManageOrg = 'hmcts-header__link my_hmcts_application_name';
-  ClickAssignedCases = '//a[.="Assigned cases"]';
-  ClickUnassignedCases = '//a[.="Unassigned cases"]';
-  ClickShowCasesFilter = '.govuk-button--secondary';
-  ClickShowUnassignedCasesFilter = '//button[normalize-space()=\'Show unassigned cases filter\']';
-  AllAssigneesRadio = '[for="caa-filter-all-assignees"]';
-  AssignedCasesElement = '.govuk-heading-xl';
-  AssigneeNameSearchBox = '#assignee-person';
-  AssigneeNameRadio = '[for="caa-filter-assignee-name"]';
-  CaseReferenceSearchBox = '#caa-filter-case-reference-number';
-  CaseRefTextBox = '#case-reference-number';
+  readonly clickAssignedCases: Locator;
+  readonly clickUnassignedCases: Locator;
+  readonly clickShowCasesFilter: Locator;
+  readonly clickShowUnassignedCasesFilter: Locator;
+  readonly allAssigneesRadio: Locator;
+  readonly assignedCasesElement: Locator;
+  readonly assigneeNameSearchBox: Locator;
+  readonly assigneeNameRadio: Locator;
+  readonly caseReferenceSearchBox: Locator;
+  readonly caseRefTextBox: Locator;
+  readonly applyFilterButton: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.clickAssignedCases = page.locator('//a[.="Assigned cases"]');
+    this.clickUnassignedCases = page.locator('//a[.="Unassigned cases"]');
+    this.clickShowCasesFilter = page.locator('.govuk-button--secondary');
+    this.clickShowUnassignedCasesFilter = page.locator("//button[normalize-space()='Show unassigned cases filter']");
+    this.allAssigneesRadio = page.locator('[for="caa-filter-all-assignees"]');
+    this.assignedCasesElement = page.locator('.govuk-heading-xl');
+    this.assigneeNameSearchBox = page.locator('#assignee-person');
+    this.assigneeNameRadio = page.locator('[for="caa-filter-assignee-name"]');
+    this.caseReferenceSearchBox = page.locator('#caa-filter-case-reference-number');
+    this.caseRefTextBox = page.locator('#case-reference-number');
+    this.applyFilterButton = page.getByRole('button', { name: 'Apply filter' });
+  }
 
   async allAssignedCases() {
     await this.delay(10);
@@ -20,25 +35,23 @@ export class ManageOrgPage extends BasePage {
     await this.page.waitForSelector('text=Users');
     await this.page.waitForSelector('text=Unassigned Cases');
     await this.page.waitForSelector('text=Assigned Cases');
-    await this.webActions.clickElementByCss(this.ClickAssignedCases);
+    await this.clickAssignedCases.click();
     await this.page.waitForSelector('text=Assigned Cases');
-    await this.webActions.clickElementByCss(this.ClickShowCasesFilter);
+    await this.clickShowCasesFilter.click();
     await this.page.waitForSelector('text=Filter assigned cases');
     await this.page.waitForSelector('text=All assignees');
-    await this.webActions.clickElementByCss(this.AllAssigneesRadio);
+    await this.allAssigneesRadio.click();
     await this.applyFilterButton.click();
   }
 
   async filterByAssigneeName(assigneeName: string) {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.AssignedCasesElement), 20000);
+    await expect(this.assignedCasesElement).toBeVisible({ timeout: 20000 });
     await this.page.waitForSelector('text=Assignee name');
-    await this.webActions.clickElementByCss(this.AssigneeNameRadio);
+    await this.assigneeNameRadio.click();
     await this.page.waitForSelector('text=Type the name and select an available match option');
-    await this.webActions.clickElementByCss(this.AssigneeNameSearchBox);
-    await this.webActions.fillField(this.AssigneeNameSearchBox, assigneeName);
+    await this.assigneeNameSearchBox.click();
+    await this.assigneeNameSearchBox.fill(assigneeName);
     await this.applyFilterButton.click();
-    // flaky validation
-    //(config.TestEnv == 'demo') ? await this.verifyResultsCount(5): await this.verifyResultsCount(2);
     const firstResult = this.page.locator(`xpath=//table/tbody/tr[1]/td[2]`);
     await firstResult.waitFor({state: 'visible', timeout: 10000});
     return await firstResult.textContent();
@@ -51,23 +64,22 @@ export class ManageOrgPage extends BasePage {
   }
 
   async filterByReferenceNumber(caseReferenceNumber: string) {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.AssignedCasesElement), 20000);
+    await expect(this.assignedCasesElement).toBeVisible({ timeout: 20000 });
     await this.page.waitForSelector('text=Case reference number');
-    await this.webActions.clickElementByCss(this.CaseReferenceSearchBox);
-    await this.webActions.fillField(this.CaseRefTextBox, caseReferenceNumber);
+    await this.caseReferenceSearchBox.click();
+    await this.caseRefTextBox.fill(caseReferenceNumber);
     await this.applyFilterButton.click();
     await this.delay(3000);
-    //(config.TestEnv == 'aat') ? await this.verifyResultsCount(1): console.log('No results found');
   }
 
   async unassignedCases() {
-    await this.webActions.clickElementByCss(this.ClickUnassignedCases);
+    await this.clickUnassignedCases.click();
     await this.page.waitForSelector('text=Unassigned Cases');
     await this.page.waitForSelector('text=Show unassigned cases filter');
-    await this.webActions.clickElementByCss(this.ClickShowUnassignedCasesFilter);
+    await this.clickShowUnassignedCasesFilter.click();
     await this.page.waitForSelector('text=Search for an unassigned case');
-    await this.webActions.clickElementByCss('#case-reference-number');
-    await this.webActions.fillField('#case-reference-number', '');
+    await this.caseRefTextBox.click();
+    await this.caseRefTextBox.fill('');
     await this.applyFilterButton.click();
   }
 

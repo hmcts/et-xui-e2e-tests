@@ -1,7 +1,6 @@
 import { test } from '../fixtures/common.fixture';
 import { Helpers } from '../pages/helpers/Helper.ts';
 import config from '../config/config';
-import referralData from '../resources/payload/referral-content.json';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
@@ -31,18 +30,25 @@ test.describe('Work Allocation', () => {
   test('Caseworker sends Referral- Referral task generated, Judge assign and completes referral task', async ({
     page,
     manageCaseDashboardPage,
-    caseListPage,
     referralPage,
     loginPage, caseDetailsPage
   }) => {
     //send referral
-    await caseDetailsPage.navigateToTab(referralData.tabName);
-    await caseListPage.verifyAndClickLinkInTab(referralData.createNewReferral);
+    await caseDetailsPage.navigateToTab('Referrals');
+    await caseDetailsPage.verifyAndClickLinkInTab('Send a new referral');
     await referralPage.sendNewReferral(false);
 
     //verify referral details
-    await caseDetailsPage.navigateToTab(referralData.tabName);
-    await caseListPage.verifyReferralDetails();
+    await caseDetailsPage.assertTabData([
+      {
+        tabName: 'Referrals',
+        tabContent: [
+          { tabItem: 'ET1', value: 'ET Caseworker1 | Judge | Yes', clickable: true },
+          'Awaiting instructions',
+          { tabItem: 'Details of the referral', value: 'This is a test referral' },
+        ]
+      }
+    ]);
 
     //sign out as caseworker
     await manageCaseDashboardPage.signOut();
@@ -67,8 +73,8 @@ test.describe('Work Allocation', () => {
     await rolesAndAccessPage.assignAccessToCtscUser();
 
     //new task - send a referral
-    await caseDetailsPage.navigateToTab(referralData.tabName);
-    await caseListPage.verifyAndClickLinkInTab(referralData.createNewReferral);
+    await caseDetailsPage.navigateToTab('Referrals');
+    await caseDetailsPage.verifyAndClickLinkInTab('Send a new referral');
     await referralPage.sendNewReferral(true);
 
     await caseDetailsPage.navigateToTab('Tasks');
