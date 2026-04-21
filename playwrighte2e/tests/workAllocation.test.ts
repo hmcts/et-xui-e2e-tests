@@ -1,8 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 import { Helpers } from '../pages/helpers/Helper.ts';
 import config from '../config/config';
-import referralData from '../resources/payload/referral-content.json';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 
@@ -19,61 +18,66 @@ test.describe('Work Allocation', () => {
 
   test('CTSC user assign a task to itself and completes a task', async ({
     page,
-    caseListPage,
+    caseDetailsPage,
     et1VettingPage,
   }) => {
     //user completes a task
-    await caseListPage.navigateToTab('Tasks');
+    await caseDetailsPage.navigateToTab('Tasks');
     await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'Et1 Vetting', 'ET1 Vetting');
     await et1VettingPage.processET1CaseVettingPages();
   });
 
   test('Caseworker sends Referral- Referral task generated, Judge assign and completes referral task', async ({
-    page, manageCaseDashboardPage,
-    caseListPage,
-    referralSteps,
-    loginPage,
+    page,
+    manageCaseDashboardPage,
+    referralPage,
+    loginPage, caseDetailsPage
   }) => {
     //send referral
-    await referralSteps.processReferrals(
-      referralData.createNewReferral,
-      referralPage => referralPage.sendNewReferral(false),
-      caseListPage => caseListPage.verifyReferralDetails(),
-    );
+    await caseDetailsPage.navigateToTab('Referrals');
+    await caseDetailsPage.verifyAndClickLinkInTab('Send a new referral');
+    await referralPage.sendNewReferral(false);
+
+    //verify referral details
+    await caseDetailsPage.assertTabData([
+      {
+        tabName: 'Referrals',
+        tabContent: [
+          { tabItem: 'ET1', value: 'ET Caseworker1 | Judge | Yes', clickable: true },
+          'Awaiting instructions',
+          { tabItem: 'Details of the referral', value: 'This is a test referral' },
+        ]
+      }
+    ]);
+
     //sign out as caseworker
-    await caseListPage.signoutButton();
+    await manageCaseDashboardPage.signOut();
 
     //log in as judge & assign and completes a task
     await loginPage.processLogin(
       config.etWorkAllocationJudge.email,
       config.etWorkAllocationJudge.password,
-      config.loginPaths.cases
+      config.loginPaths.cases,
     );
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-    await caseListPage.navigateToTab('Tasks');
+    await caseDetailsPage.navigateToTab('Tasks');
 
     await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'Review Referral #1 - ET1', 'Reply to the Referral');
-    await referralSteps.processReferralsForWa(referralPage => referralPage.replyToReferral());
+    await referralPage.replyToReferral();
   });
 
-  test('Roles and Access', async ({
-    page,
-    caseListPage,
-    rolesAndAccessPage,
-    referralSteps,
-    taskPage,
-  }) => {
-    await caseListPage.navigateToTab('Tasks');
+  test('Roles and Access', async ({ page, caseListPage, rolesAndAccessPage, referralPage, taskPage, caseDetailsPage }) => {
+    await caseDetailsPage.navigateToTab('Tasks');
     await Helpers.waitForTask(page, 'Et1 Vetting');
-    await caseListPage.navigateToTab('Roles and access');
+    await caseDetailsPage.navigateToTab('Roles and access');
     await rolesAndAccessPage.assignAccessToCtscUser();
 
     //new task - send a referral
-    await referralSteps.processSendReferralsForWa(referralData.createNewReferral, referralPage =>
-      referralPage.sendNewReferral(true),
-    );
+    await caseDetailsPage.navigateToTab('Referrals');
+    await caseDetailsPage.verifyAndClickLinkInTab('Send a new referral');
+    await referralPage.sendNewReferral(true);
 
-    await caseListPage.navigateToTab('Tasks');
+    await caseDetailsPage.navigateToTab('Tasks');
     await Helpers.waitForTask(page, 'Review Referral #1 - ET1');
     await taskPage.validateTaskAssignToUser();
   });
@@ -94,17 +98,17 @@ test.describe('Work Allocation- Judge completes tasks', () => {
     listHearingPage,
     hearingDetailsPage,
     loginPage,
-    draftJudgementPage,
+    draftJudgementPage, caseDetailsPage
   }) => {
     //list past hearing
-    await caseListPage.selectNextEvent('List Hearing');
+    await caseDetailsPage.selectNextEvent(Events.listHearing);
     await listHearingPage.listCase('EnglandWales', 0, 'Leeds ET');
 
     //update hearing
-    await caseListPage.selectNextEvent('Hearing Details');
+    await caseDetailsPage.selectNextEvent(Events.hearingDetails);
     await hearingDetailsPage.updateHearing();
     //wait for draft and sign document task
-    await caseListPage.navigateToTab('Tasks');
+    await caseDetailsPage.navigateToTab('Tasks');
     await Helpers.waitForTask(page, 'Draft And Sign Judgment');
     await caseListPage.signoutButton();
 
@@ -115,7 +119,7 @@ test.describe('Work Allocation- Judge completes tasks', () => {
       config.loginPaths.cases,
     );
     await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-    await caseListPage.navigateToTab('Tasks');
+    await caseDetailsPage.navigateToTab('Tasks');
 
     await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'Draft And Sign Judgment', 'Draft and Sign Judgment');
     await draftJudgementPage.submitDraftJudgement();

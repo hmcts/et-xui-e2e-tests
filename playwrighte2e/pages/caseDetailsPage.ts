@@ -1,19 +1,31 @@
 import { BasePage } from "./basePage";
-import { expect, Locator } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 import { CaseEvent } from '../config/case-data';
 import { Tab, TabContentItem } from '../types/tab';
+import { FileTree } from '../types/case_file_view_tree.ts';
 
 export default class CaseDetailsPage extends BasePage {
-    async addVPCaseFlag() {
-        await this.webActions.waitForElementToBeVisible('text=Managing Office');
-        await this.webActions.selectByOptionFromDropDown('#allocatedOffice', '1: Glasgow');
+
+  private readonly goButton: Locator;
+  private readonly selectNextStepDropDown: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.goButton = page.locator(`//button[text()='Go']`);
+    this.selectNextStepDropDown = page.getByLabel('Next step');
+  }
+
+  async addVPCaseFlag() {
+        await this.page.locator('text=Managing Office').waitFor({ state: 'visible' });
+        await this.page.locator('#allocatedOffice').selectOption('1: Glasgow');
         await this.clickContinue();
-        await this.webActions.waitForElementToBeVisible('text=Single or Multiple');
+        await this.page.locator('text=Single or Multiple').waitFor({ state: 'visible' });
         await this.clickContinue();
-        await this.webActions.waitForElementToBeVisible('text=Speak to VP (Optional)');
-        await this.webActions.checkElementById('#additionalCaseInfo_interventionRequired_Yes');
+        await this.page.locator('text=Speak to VP (Optional)').waitFor({ state: 'visible' });
+        await this.page.locator('#additionalCaseInfo_interventionRequired_Yes').scrollIntoViewIfNeeded();
+        await this.page.locator('#additionalCaseInfo_interventionRequired_Yes').click();
         await this.clickContinue();
-        await this.webActions.waitForElementToBeVisible('text=Check your answers');
+        await this.page.locator('text=Check your answers').waitFor({ state: 'visible' });
         await this.clickSubmitButton();
 
         await expect(this.page.getByRole('tab', { name: 'Case Details' }).locator('div')).toContainText('Case Details');
@@ -44,11 +56,11 @@ export default class CaseDetailsPage extends BasePage {
   }
 
   private async assertTabHeader(tabName: string, firstContent?: TabContentItem): Promise<void> {
-    const tabHeader = this.getTabHeader(tabName);
-    // Wait for the tab header to be visible and enabled before clicking
-    await tabHeader.waitFor({ state: 'visible' });
-    await expect(tabHeader).toBeEnabled();
-    await tabHeader.click();
+    // const tabHeader = this.getTabHeader(tabName);
+    // // Wait for the tab header to be visible and enabled before clicking
+    // await tabHeader.waitFor({ state: 'visible' });
+    // await expect(tabHeader).toBeEnabled();
+    await this.navigateToTab(tabName);
   }
 
   /**
@@ -96,8 +108,9 @@ export default class CaseDetailsPage extends BasePage {
           await this.page.waitForLoadState();
         }
 
-        const expectedValues = content.value.split('|').map(v => {return v.trim();});
+        const expectedValues = content.value.split('|').map(v => v.trim());
         for (let i = 0; i < expectedValues.length; i++) {
+          if (!expectedValues[i]) continue; // Skip empty or blank expected values
           const tabValue = tabItem.locator(
             `xpath=following-sibling::*[self::td or self::th][${i + 1}] | ancestor::*[self::td or self::th or self::tr][1]/following-sibling::*[self::td or self::th][${i + 1}]`
           );
@@ -160,5 +173,147 @@ export default class CaseDetailsPage extends BasePage {
       }
     }
     throw new Error(`No visible element found for content: ${content} at position: ${position}`);
+  }
+
+  async validateFileTree(
+    tree: FileTree,
+    parentPath: string[] = [],
+    parentLocator: Locator | null = null,
+    errors: string[] = []
+  ) {
+    const heading = this.page.getByRole('heading', { name: 'Case file', level: 2 });
+    if (!(await heading.isVisible())) {
+      let paginationBeforeButton = this.page.locator('button.mat-tab-header-pagination-before[aria-hidden="true"]:not([disabled])');
+      while (await paginationBeforeButton.count() > 0) {
+        await paginationBeforeButton.click();
+        paginationBeforeButton = this.page.locator('button.mat-tab-header-pagination-before[aria-hidden="true"]:not([disabled])');
+      }
+      const caseFileViewButton = this.page.getByRole('tab', { name: 'Case File View', exact: false });
+      await caseFileViewButton.click();
+      await expect(heading).toBeVisible();
+    }
+    for (const node of tree) {
+      const currentPath = [...parentPath, node.label];
+      if (node.type === 'folder') {
+        try {
+          const folderLocator = (parentLocator ?? this.page).locator('.node__name--folder').getByText(node.label, { exact: true });
+          await folderLocator.click();
+          const folderNode = folderLocator.locator('xpath=ancestor::cdk-nested-tree-node[1]');
+          await expect(folderNode).toHaveAttribute('aria-expanded', 'true');
+          if (node.children && node.children.length > 0) {
+            await this.validateFileTree(node.children, currentPath, folderNode, errors);
+          }
+        } catch (e) {
+          errors.push(`Folder not found or not clickable: ${currentPath.join(' / ')}\n${e}`);
+        }
+      } else if (node.type === 'file') {
+        try {
+          const fileLocator = (parentLocator ?? this.page).locator('.node-name-document').getByText(node.label, { exact: true });
+          await expect(fileLocator).toBeVisible();
+          await fileLocator.click();
+          if (node.contentSnippets) {
+            for (const snippet of node.contentSnippets) {
+              try {
+                const pdfContainer = this.page.locator('.pdfViewer');
+                const pdfTextLocator = pdfContainer.locator('span[role="presentation"]', { hasText: snippet });
+                const containerHandle = await pdfContainer.elementHandle();
+                const snippetHandle = await pdfTextLocator.elementHandle();
+                if (containerHandle && snippetHandle) {
+                  await this.page.evaluate(
+                    ([container, element]) => {
+                      (element as HTMLElement).scrollIntoView({ block: 'center' });
+                    },
+                    [containerHandle, snippetHandle]
+                  );
+                }
+                await expect(pdfTextLocator).toBeVisible();
+              } catch (e) {
+                errors.push(`Snippet not found in file "${node.label}" in folder "${parentPath.join(' / ')}": ${snippet}\n${e}`);
+              }
+            }
+          }
+        } catch (e) {
+          errors.push(`File not found or not visible: ${currentPath.join(' / ')}\n${e}`);
+        }
+      }
+    }
+    if (parentPath.length === 0 && errors.length > 0) {
+      throw new Error('File tree validation errors:\n' + errors.join('\n\n'));
+    }
+  }
+
+  async navigateToTab(tabName: string): Promise<void> {
+    await this.page.waitForLoadState('load', {timeout: 5000});
+    const xpath = `//div[@role='tab']/div[normalize-space()='${tabName}']`;
+    let tabHeader = this.page.locator(xpath);
+
+    const tryPaginateAncClickTab = async(direction: string) => {
+      let paginateDirectionButton = this.page.locator(`button.mat-tab-header-pagination-${direction}[aria-hidden="true"]:not([disabled])`);
+      while (await paginateDirectionButton.count() > 0) {
+        await paginateDirectionButton.click();
+        try {
+          await this.page.waitForLoadState('load');
+          tabHeader = this.page.locator(xpath);
+          await tabHeader.click({ trial: true, timeout:2000 });
+          await tabHeader.click();
+          console.log(`Clicked on tab after paginating ${direction}: ` + tabName);
+          return true;
+        } catch {
+        }
+        paginateDirectionButton = this.page.locator(`button.mat-tab-header-pagination-${direction}[aria-hidden="true"]:not([disabled])`);
+      }
+      return false;
+    };
+
+    try {
+      await this.page.waitForLoadState('load');
+      tabHeader = this.page.locator(xpath);
+      await tabHeader.click({ trial: true, timeout:2000 }); // trial: true checks if clickable
+      await tabHeader.click();
+      console.log('Clicked on tab: ' + tabName);
+      return;
+    } catch {
+      // Try paginating before
+      if (await tryPaginateAncClickTab('before'))  return;
+      // Try paginating After
+      if (await tryPaginateAncClickTab('after'))  return;
+      // if nothing worked then throw error
+      throw new Error('Not able to navigate to Tab ' + tabName);
+    }
+  }
+
+  async selectNextEvent(event: CaseEvent, navigate: boolean = true) {
+    const maxRetries = 5;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      await this.page.waitForLoadState();
+      await this.goButton.isVisible();
+      await expect(this.selectNextStepDropDown).toBeVisible();
+      await this.selectNextStepDropDown.selectOption(event.listItem);
+      if (attempt === 3) { // if go button click fails multiple times, reload the page
+        await this.page.reload();
+        await this.page.waitForLoadState();
+        await this.goButton.isVisible();
+        await this.selectNextStepDropDown.selectOption(event.listItem);
+      }
+      await this.goButton.click({ clickCount: 2, force: true });
+      if(navigate) {
+        try {
+          await this.waitForSpinner();
+          console.log(this.page.url());
+          await this.page.waitForURL(`**/${event.ccdCallback}/**`, { timeout: 10000 });
+          return;
+        } catch (e) {
+          if (attempt === maxRetries) throw e;
+        }
+      } else {
+        return;
+      }
+    }
+  }
+
+  async verifyAndClickLinkInTab(referralText: string) {
+    const elements = await this.page.locator('markdown p a').allTextContents();
+    expect(elements).toContain(referralText);
+    await this.page.getByText(referralText).click();
   }
 }

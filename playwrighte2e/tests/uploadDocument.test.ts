@@ -2,7 +2,7 @@ import { test } from '../fixtures/common.fixture';
 import fileUploadData from '../resources/payload/file-upload-content.json';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import config from '../config/config.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 
 let caseNumber: string;
 let caseId: string;
@@ -16,15 +16,15 @@ test.describe('Upload Document with multiple file extensions', () => {
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     });
 
-    test('Multiple file extension test', {tag: '@demo'}, async ({ caseListPage, uploadDocumentPage }) => {
+    test('Multiple file extension test', {tag: '@demo'}, async ({ caseListPage, uploadDocumentPage, caseDetailsPage }) => {
 
         const fileNames: string[] = [fileUploadData.textFile, fileUploadData.imageFile, fileUploadData.audioFile, fileUploadData.rtfFile];
         let i =1;
 
         for(const fileName of fileNames) {
-            await caseListPage.selectNextEvent('Upload Document');
+            await caseDetailsPage.selectNextEvent(Events.uploadDocument);
             await uploadDocumentPage.uploadFile(fileName, i);
-            await caseListPage.navigateToTab('Documents');
+            await caseDetailsPage.navigateToTab('Documents');
             await uploadDocumentPage.verifyUploadDocuments(fileName);
             i++;
         }

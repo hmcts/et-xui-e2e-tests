@@ -2,11 +2,9 @@ import { expect, Locator, Page } from '@playwright/test';
 import CitizenHubPage from './CitizenHubPage.ts';
 import DateUtilComponent from '../../data-utils/DateUtilComponent.ts';
 import dateUtilComponent from '../../data-utils/DateUtilComponent.ts';
+import { CaseDetailsValues } from '../../config/case-data.ts';
 
 const today = new Date();
-const listDay = today.getDate();
-const listMonth = today.getMonth() + 1;
-const listYear = today.getFullYear() + 1;
 let inNoticePeriod: boolean = true;
 
 export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
@@ -402,7 +400,7 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
     await this.page.waitForLoadState('load');
     await expect(this.respondentNameHeading).toBeVisible();
 
-    await this.respondentNameInput.fill('Henry Marsh');
+    await this.respondentNameInput.fill(CaseDetailsValues.respondentName);
     await this.saveAndContinueButton();
   }
 

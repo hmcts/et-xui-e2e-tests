@@ -1,8 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 import config from "../config/config";
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
-
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 
 let caseNumber: string;
 let caseId: string;
@@ -14,7 +13,7 @@ test.describe('Claimant details test', () => {
       ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
     });
 
-    test('England - Claimant details', {tag: ['@ccd-callback-tests', '@demo']}, async ({manageCaseDashboardPage, loginPage, caseListPage, claimantDetailsPage, icUploadDocPage }) => {
+    test('England - Claimant details', {tag: ['@ccd-callback-tests', '@demo']}, async ({manageCaseDashboardPage, loginPage, caseListPage, claimantDetailsPage, icUploadDocPage, caseDetailsPage }) => {
       await manageCaseDashboardPage.visit();
       await loginPage.processLogin(
         config.etCaseWorker.email,
@@ -26,10 +25,10 @@ test.describe('Claimant details test', () => {
         caseId,
         CaseTypeLocation.EnglandAndWales,
       );
-      await caseListPage.selectNextEvent('Claimant Details');
+      await caseDetailsPage.selectNextEvent(Events.claimantDetails);
       // Check case file view
       await claimantDetailsPage.processClaimantDetails(true);
-      await caseListPage.navigateToTab('Claimant');
+      await caseDetailsPage.navigateToTab('Claimant');
       await claimantDetailsPage.verifyClaimantDetails();
 
       //sign out as caseworker
@@ -38,7 +37,7 @@ test.describe('Claimant details test', () => {
       //judge log in
       await loginPage.processLogin(config.etEnglandJudge.email, config.etEnglandJudge.password, config.loginPaths.cases);
       await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-      await caseListPage.selectNextEvent('Initial Consideration');
+      await caseDetailsPage.selectNextEvent(Events.initialConsideration);
       await icUploadDocPage.verifyClaimantHearingPanelValues();
     });
 });

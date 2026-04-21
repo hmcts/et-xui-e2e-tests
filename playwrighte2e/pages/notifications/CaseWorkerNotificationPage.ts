@@ -16,10 +16,15 @@ export default class CaseWorkerNotificationPage extends BasePage {
   private readonly eccNotificationRadio: Locator;
   private readonly partiesToNotifyRadio: Locator;
   private readonly additionalInformationTextBox: Locator;
-
-  notificationDropDown = '#claimantSelectNotification';
-  notification_link = 'text=Send a notification';
-  respondToNotificationLink = 'text=Respond to an order or request from the tribunal';
+  private readonly notificationDropDown: Locator;
+  private readonly notificationLink: Locator;
+  private readonly respondToNotificationLink: Locator;
+  private readonly notificationsTab: Locator;
+  private readonly continueButton: Locator;
+  private readonly judgmentsOrdersTab: Locator;
+  private readonly viewJudgmentOrderLink: Locator;
+  private readonly tbody: Locator;
+  private readonly thead: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -37,11 +42,20 @@ export default class CaseWorkerNotificationPage extends BasePage {
     this.eccNotificationRadio = page.locator(`#sendNotificationEccQuestion`);
     this.partiesToNotifyRadio = page.locator(`#sendNotificationNotify`);
     this.additionalInformationTextBox = page.locator(`#sendNotificationAdditionalInfo`);
+    this.notificationDropDown = page.locator('#claimantSelectNotification');
+    this.notificationLink = page.getByText('Send a notification');
+    this.respondToNotificationLink = page.getByText('Respond to an order or request from the tribunal');
+    this.notificationsTab = page.getByText('Notifications');
+    this.continueButton = page.getByRole('button', { name: 'Continue' });
+    this.judgmentsOrdersTab = page.getByText('Judgments, orders &');
+    this.viewJudgmentOrderLink = page.getByRole('link', { name: 'View a judgment, order or' });
+    this.tbody = page.locator('tbody');
+    this.thead = page.locator('thead');
   }
 
   async navigateToSendANotifications() {
-    await this.webActions.clickElementByText('Notifications');
-    await this.webActions.clickElementByCss(this.notification_link);
+    await this.notificationsTab.click();
+    await this.notificationLink.click();
   }
 
   async assertSendANotificationPage() {
@@ -64,15 +78,13 @@ export default class CaseWorkerNotificationPage extends BasePage {
     }
   }
 
-  // Hearing related methods
-
   async selectHearingDetails(hearingIndex: number) {
     await expect(this.selectedHearingDropdown).toBeVisible();
     await this.selectedHearingDropdown.selectOption({index: hearingIndex});
   }
 
   async selectCaseManagementOrRequest(option: string) {
-    await this.webActions.waitForElementToBeVisible('text=Is this a case management order or request?');
+    await expect(this.page.getByText('Is this a case management order or request?')).toBeVisible();
     await expect(this.isResponseToTribunalRadio).toBeVisible();
     await this.isCMOOrRequestRadio.getByRole('radio', {name: option.toString()}).check();
   }
@@ -88,7 +100,7 @@ export default class CaseWorkerNotificationPage extends BasePage {
   }
 
   async selectWhoMadeTheCMO(option: string) {
-    await this.webActions.waitForElementToBeVisible('text=Who made the case management order?');
+    await expect(this.page.getByText('Who made the case management order?')).toBeVisible();
     await expect(this.whoMadeCMORadio).toBeVisible();
     await this.whoMadeCMORadio.getByRole('radio', {name: option.toString()}).check();
   }
@@ -155,21 +167,20 @@ export default class CaseWorkerNotificationPage extends BasePage {
         throw new Error('... Notification Type not provided ...');
     }
     await this.partiesToNotify(partiesToNotify);
-    await this.webActions.clickElementByRole('button', { name: 'Continue' });
+    await this.continueButton.click();
     await this.clickSubmitButton();
-    await this.webActions.clickElementByRole('button', { name: 'Close and Return to case' });
+    await this.closeAndReturnButton.click();
     return notificationTitle;
   }
 
   async viewNotification() {
-    await this.webActions.clickElementByText('Judgments, orders &');
-    await this.webActions.clickElementByRole('link', { name: 'View a judgment, order or' });
-
+    await this.judgmentsOrdersTab.click();
+    await this.viewJudgmentOrderLink.click();
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('View a judgment, order or notification');
-    await this.page.locator(this.notificationDropDown).selectOption('1: 1');
-    await this.page.getByRole('button', { name: 'Continue' }).click();
-    await this.webActions.verifyElementContainsText(this.page.locator('tbody'), 'Test Notification');
-    await this.webActions.verifyElementContainsText(this.page.locator('thead'), 'View Notification');
-    await this.webActions.verifyElementContainsText(this.page.locator('tbody'), 'Both parties');
+    await this.notificationDropDown.selectOption('1: 1');
+    await this.continueButton.click();
+    await expect(this.tbody).toContainText('Test Notification');
+    await expect(this.thead).toContainText('View Notification');
+    await expect(this.tbody).toContainText('Both parties');
   }
 }

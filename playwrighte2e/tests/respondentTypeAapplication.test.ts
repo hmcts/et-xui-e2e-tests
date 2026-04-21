@@ -2,14 +2,11 @@ import { test } from '../fixtures/common.fixture';
 import config from '../config/config';
 import {Helpers} from "../pages/helpers/Helper.ts";
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 
 let caseNumber: string;
 let caseId: string;
-const respName ='Mrs Test Auto';
-const firstName ='Grayson';
-const lastName = 'Becker';
 
 test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
 
@@ -25,7 +22,7 @@ test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
 
         //Assign a claim to respondent
         await et3LoginPage.processRespondentLogin(config.etRespondent.email, config.etRespondent.password, caseNumber);
-        await et3LoginPage.replyToNewClaim(caseId, caseNumber, respName, firstName, lastName);
+        await et3LoginPage.replyToNewClaim(caseId, caseNumber, CaseDetailsValues.respondentName, CaseDetailsValues.claimantFirstName, CaseDetailsValues.claimantLastName);
 
         //make type A application
         await respondentCaseOverviewPage.respondentMakeApplication('TypeA', true);
@@ -47,13 +44,13 @@ test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
         page,
              manageCaseDashboardPage,
              loginPage,
-             caseListPage
+             caseListPage, caseDetailsPage
       }) => {
         await manageCaseDashboardPage.visit();
         await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-        caseNumber = await caseListPage.navigateToCaseDetails(caseId, 'EnglandWales');
+        caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
-        await caseListPage.clickTab('Tasks');
+        await caseDetailsPage.navigateToTab('Tasks');
         await Helpers.waitForTask(page, 'Review Application - Amend response');
         await Helpers.waitForTask(page, 'Review Application Response - Amend response');
         await caseListPage.signoutButton();

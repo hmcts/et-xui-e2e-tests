@@ -24,7 +24,6 @@ import CaseTransferPage from '../pages/caseTransferPage';
 import CaseWorkerNotificationPage from '../pages/notifications/CaseWorkerNotificationPage.ts';
 import ClaimantDetailsPage from '../pages/claimantDetailsPage';
 import RespondentDetailsPage from '../pages/respondentCitizenHub/respondentDetailsPage.ts';
-import NocPage from '../pages/nocPage';
 import { ManageOrgPage } from '../pages/manageOrgPage';
 import ICUploadDocPage from '../pages/icUploadDocPage';
 import { RestrictedReportingPage } from '../pages/restrictedReportingPage';
@@ -41,7 +40,6 @@ import HearingDetailsPage from "../pages/hearingDetailsPage";
 import AdrDocumentPage from "../pages/adrDocumentPage";
 import CaseDetailsPage from "../pages/caseDetailsPage";
 import Et3NotificationPage from '../pages/et3NotificationPage';
-import DocumentsTabPage from '../pages/documentsTabPage';
 import UploadHearingBundlePage from '../pages/uploadHearingBundlePage';
 import CaseNotesPage from '../pages/caseNotesPage';
 import CloseCasePage from '../pages/closeCasePage';
@@ -64,6 +62,14 @@ import ClaimDetailsPage from '../pages/claimantCitizenHub/claimDetailsPage.ts';
 import SubmitClaimPage from '../pages/claimantCitizenHub/submitClaimPage.ts';
 import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
 import Et1CreateDraftClaim from '../pages/et1CreateDraftClaim.ts';
+import { NocPage } from '../pages/legalRepresentative/NocPage.ts';
+import ET3ProcessPage from '../pages/et3ProcessPage.ts';
+import { Et3DetailsPage } from '../pages/legalRepresentative/Et3DetailsPage.ts';
+import Et3RespondentDetailsPage from '../pages/legalRepresentative/Et3RespondentDetailsPage.ts';
+import { Et3EmploymentDetailsPage } from '../pages/legalRepresentative/Et3EmploymentDetailsPage.ts';
+import { Et3ResponseDetailsPage } from '../pages/legalRepresentative/Et3ResponseDetailsPage.ts';
+import InitialConsiderationPage from '../pages/initialConsiderationPage.ts';
+import AllocateHearingPage from '../pages/allocateHearingPage.ts';
 
 const commonActionsHelper = new CommonActionsHelper();
 
@@ -114,7 +120,6 @@ export type PageFixtures = {
   adrDocument: AdrDocumentPage;
   caseDetailsPage: CaseDetailsPage;
   et3NotificationPage: Et3NotificationPage;
-  documentsTabPage: DocumentsTabPage;
   uploadHearingBundlePage: UploadHearingBundlePage;
   caseNotesPage: CaseNotesPage;
   claimantRepresentativePage: ClaimantRepresentativePage;
@@ -132,12 +137,19 @@ export type PageFixtures = {
   claimDetailsPage: ClaimDetailsPage;
   submitClaimPage: SubmitClaimPage;
   et1CreateDraftClaim: Et1CreateDraftClaim;
+  et3ProcessPage: ET3ProcessPage;
+  et3DetailsPage: Et3DetailsPage;
+  et3RespondentDetailsPage: Et3RespondentDetailsPage;
+  et3EmploymentDetailsPage: Et3EmploymentDetailsPage;
+  et3ResponseDetailsPage: Et3ResponseDetailsPage;
+  initialConsiderationPage: InitialConsiderationPage;
+  allocateHearingPAge:AllocateHearingPage;
 };
 
 export const pageFixtures = base.extend<PageFixtures>({
 
     applicationTabPage: async ({ page }, use) => {
-        await use(new ApplicationTabPage(page));
+        await use(new ApplicationTabPage(page, commonActionsHelper));
     },
 
     manageCaseDashboardPage: async ({page}, use) => {
@@ -261,7 +273,7 @@ export const pageFixtures = base.extend<PageFixtures>({
     },
 
     referralPage:async ({page}, use)=>{
-        await use(new ReferralPage(page));
+        await use(new ReferralPage(page, commonActionsHelper));
     },
 
     draftJudgementPage:async ({page}, use)=>{
@@ -304,9 +316,6 @@ export const pageFixtures = base.extend<PageFixtures>({
     },
     et3NotificationPage:async ({page}, use)=>{
       await use(new Et3NotificationPage(page));
-    },
-    documentsTabPage:async ({page}, use)=>{
-      await use(new DocumentsTabPage(page));
     },
     uploadHearingBundlePage:async({page}, use)=>{
         await use(new UploadHearingBundlePage(page, commonActionsHelper));
@@ -367,5 +376,26 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   et1CreateDraftClaim:async({page}, use)=>{
     await use (new Et1CreateDraftClaim (page));
-  }
+  },
+  et3ProcessPage:async({page}, use)=>{
+    await use (new ET3ProcessPage (page));
+  },
+  initialConsiderationPage:async({page}, use)=>{
+    await use (new InitialConsiderationPage (page));
+  },
+  et3DetailsPage:async({page}, use)=>{
+    await use (new Et3DetailsPage (page));
+  },
+  et3RespondentDetailsPage:async({page}, use)=>{
+    await use (new Et3RespondentDetailsPage (page, commonActionsHelper));
+  },
+  et3EmploymentDetailsPage:async({page}, use)=>{
+    await use (new Et3EmploymentDetailsPage (page));
+  },
+  et3ResponseDetailsPage:async({page}, use)=>{
+    await use (new Et3ResponseDetailsPage (page, commonActionsHelper));
+  },
+  allocateHearingPAge:async({page}, use)=>{
+    await use (new AllocateHearingPage(page));
+  },
 });

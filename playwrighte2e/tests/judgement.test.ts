@@ -1,6 +1,6 @@
 import { test  } from '../fixtures/common.fixture';
 import config from '../config/config.ts';
-import { Events } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 
 test.describe('Judgement tests', () => {
@@ -31,14 +31,14 @@ test.describe('Judgement tests', () => {
           config.etEnglandJudge.password,
           config.loginPaths.cases,
         );
-        await caseListPage.navigateToCaseDetails(caseId, 'EnglandWales');
+        await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         //Create a draft judgment
-        await caseListPage.navigateToTab('Judgments');
-        await caseListPage.verifyAndClickLinkInTab('Draft and sign judgment/order');
+        await caseDetailsPage.navigateToTab('Judgments');
+        await caseDetailsPage.verifyAndClickLinkInTab('Draft and sign judgment/order');
         await draftJudgementPage.submitDraftJudgement();
 
-        await caseListPage.navigateToTab('Judgments');
+        await caseDetailsPage.navigateToTab('Judgments');
         await caseDetailsPage.assertTabData([
           {
             tabName: 'Judgments',
@@ -57,12 +57,12 @@ test.describe('Judgement tests', () => {
           config.etCaseWorker.password,
           config.loginPaths.worklist,
         );
-        await caseListPage.navigateToCaseDetails(caseId, 'EnglandWales');
+        await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
-        await caseListPage.selectNextEvent(Events.judgment.listItem);
+        await caseDetailsPage.selectNextEvent(Events.judgment);
         await issueJudgementPage.issueJudgement();
 
-        await caseListPage.navigateToTab('Judgments');
+        await caseDetailsPage.navigateToTab('Judgments');
         await caseDetailsPage.assertTabData([
           {
             tabName: 'Judgments',

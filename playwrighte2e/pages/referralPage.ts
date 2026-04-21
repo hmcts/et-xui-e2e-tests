@@ -1,85 +1,101 @@
-import { expect } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './basePage';
-import config from '../config/config';
-import referralData from '../resources/payload/referral-content.json';
+import { CommonActionsHelper } from './helpers/CommonActionsHelper.ts';
 
 export default class ReferralPage extends BasePage {
-  elements = {
-    judgeReferralOption: '#referCaseTo-Judge',
-    adminReferralOption: '#referCaseTo-Admin',
-    isUrgentYes: '#isUrgent_Yes',
-    referralSubjOption: '#referralSubject',
-    referralDetails: '#referralDetails',
-    docUploadEle: '#referralDocument_0_uploadedDocument',
-    referralSelectEle: '#selectReferral',
-    adminDirectionOption: '#directionTo-Admin',
-    isUrgentReplyYes: '#isUrgentReply_Yes',
-    directionSubjEle: '#directionDetails',
-    replyDocUploadEle: '#replyDocument_0_uploadedDocument',
-    confirmCloseReferralYes: '#confirmCloseReferral-Yes',
-    closeReferralGeneralNotes: '#closeReferralGeneralNotes',
-  };
+  private readonly commonActionsHelper: CommonActionsHelper;
+  private readonly judgeReferralOption: Locator;
+  private readonly adminReferralOption: Locator;
+  private readonly isUrgentYes: Locator;
+  private readonly referralSubjOption: Locator;
+  private readonly referralDetails: Locator;
+  private readonly docUploadEle: Locator;
+  private readonly referralSelectEle: Locator;
+  private readonly adminDirectionOption: Locator;
+  private readonly isUrgentReplyYes: Locator;
+  private readonly directionSubjEle: Locator;
+  private readonly replyDocUploadEle: Locator;
+  private readonly confirmCloseReferralYes: Locator;
+  private readonly closeReferralGeneralNotes: Locator;
+  private readonly markdownPara: Locator;
+
+  constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
+    super(page);
+    this.commonActionsHelper = commonActionsHelper;
+    this.judgeReferralOption = page.locator('#referCaseTo-Judge');
+    this.adminReferralOption = page.locator('#referCaseTo-Admin');
+    this.isUrgentYes = page.locator('#isUrgent_Yes');
+    this.referralSubjOption = page.locator('#referralSubject');
+    this.referralDetails = page.locator('#referralDetails');
+    this.docUploadEle = page.locator('#referralDocument_0_uploadedDocument');
+    this.referralSelectEle = page.locator('#selectReferral');
+    this.adminDirectionOption = page.locator('#directionTo-Admin');
+    this.isUrgentReplyYes = page.locator('#isUrgentReply_Yes');
+    this.directionSubjEle = page.locator('#directionDetails');
+    this.replyDocUploadEle = page.locator('#replyDocument_0_uploadedDocument');
+    this.confirmCloseReferralYes = page.locator('#confirmCloseReferral-Yes');
+    this.closeReferralGeneralNotes = page.locator('#closeReferralGeneralNotes');
+    this.markdownPara = page.locator('markdown p');
+  }
 
   async sendNewReferral(adminOption: boolean) {
     await expect(this.page.getByText('Refer to admin, legal officer or judge')).toBeVisible();
     if (adminOption) {
-      await this.webActions.clickElementByCss(this.elements.adminReferralOption);
+      await this.adminReferralOption.click();
     } else {
-      await this.webActions.clickElementByCss(this.elements.judgeReferralOption);
+      await this.judgeReferralOption.click();
     }
-    await this.webActions.clickElementByCss(this.elements.isUrgentYes);
-    await this.webActions.selectByLabelFromDropDown(this.elements.referralSubjOption, 'ET1');
-    await this.webActions.fillField(this.elements.referralDetails, referralData.details);
+    await this.isUrgentYes.check();
+    await this.referralSubjOption.selectOption({ label: 'ET1' });
+    await this.referralDetails.fill("This is a test referral");
 
     await this.addNewButtonClick();
-    await this.page.waitForSelector(this.elements.docUploadEle);
-    await this.page.setInputFiles(this.elements.docUploadEle, 'playwrighte2e/resources/test_file/test.txt');
+    await this.docUploadEle.waitFor();
+    //await this.docUploadEle.setInputFiles('playwrighte2e/resources/test_file/test.txt');
+    await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.docUploadEle, `playwrighte2e/resources/test_file/test.txt`);
 
     await this.clickContinue();
     await this.clickSubmitButton();
 
-    await expect(this.page.locator('markdown p')).toContainText(referralData.createRefConfirmationMsg);
+    await expect(this.markdownPara).toContainText("Your referral has been sent");
     await this.clickCloseAndReturn();
   }
 
   async replyToReferral() {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.referralSelectEle));
-    await this.webActions.selectByOptionFromDropDown(this.elements.referralSelectEle, '1 - ET1');
+    await this.referralSelectEle.waitFor();
+    await this.referralSelectEle.selectOption({ label: '1 - ET1' });
     await this.clickContinue();
 
     await expect(this.page.locator("//tr/td[contains(text(), 'Judge')]")).toBeVisible();
-    // config.TestEnv == 'demo'
-    //   ? await expect(this.page.locator("//tr/td[contains(text(), 'etFour Caseworker')]")).toBeVisible()
-    //   : await expect(this.page.locator("//tr/td[contains(text(), 'ET  Caseworker1')]")).toBeVisible();
-    await this.webActions.clickElementByCss(this.elements.adminDirectionOption);
-    await this.webActions.clickElementByCss(this.elements.isUrgentReplyYes);
-    await this.webActions.fillField(this.elements.directionSubjEle, referralData.directionDetails);
+    await this.adminDirectionOption.click();
+    await this.isUrgentReplyYes.check();
+    await this.directionSubjEle.fill("This is a test direction");
 
     await this.addNewButtonClick();
-    await this.page.waitForSelector(this.elements.replyDocUploadEle);
-    await this.page.setInputFiles(this.elements.replyDocUploadEle, 'playwrighte2e/resources/test_file/test.txt');
+    await this.replyDocUploadEle.waitFor();
+    await this.replyDocUploadEle.setInputFiles('playwrighte2e/resources/test_file/test.txt');
 
     await this.clickContinue();
     await this.clickSubmitButton();
 
-    await expect(this.page.locator('markdown p')).toContainText(referralData.replyRefConfirmationMsg);
+    await expect(this.markdownPara).toContainText("We have recorded your reply");
     await this.clickCloseAndReturn();
   }
 
   async closeAReferral() {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.referralSelectEle));
-    await this.webActions.selectByOptionFromDropDown(this.elements.referralSelectEle, '1 - ET1');
+    await this.referralSelectEle.waitFor();
+    await this.referralSelectEle.selectOption({ label: '1 - ET1' });
     await this.clickContinue();
 
     let expText = await this.page.locator("//tr/th[contains(text(), 'Referral')]").textContent();
     await expect(expText).toEqual('Referral 1');
     await expect(this.page.getByText('Referral Replies', { exact: true })).toBeVisible();
-    await this.webActions.clickElementByCss(this.elements.confirmCloseReferralYes);
-    await this.webActions.fillField(this.elements.closeReferralGeneralNotes, referralData.closeRefNotes);
+    await this.confirmCloseReferralYes.check();
+    await this.closeReferralGeneralNotes.fill("This is a test close referral");
     await this.clickContinue();
     await this.clickSubmitButton();
 
-    await expect(this.page.locator('markdown p')).toContainText(referralData.closeRefConfirmationMsg);
+    await expect(this.markdownPara).toContainText("We have closed this referral");
     await this.clickCloseAndReturn();
   }
 }

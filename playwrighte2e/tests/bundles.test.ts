@@ -15,61 +15,68 @@ test.describe('England - Caseworker Bundles test', () => {
       ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
     });
 
-    test('Bundles - Legal rep submit hearing preparation document - England & Wales',
-      async ({ manageCaseDashboardPage, caseListPage, listHearingPage, loginPage, legalRepPage,uploadDocumentsForHearingPage,checkYourAnswersPage, caseDetailsPage }) => {
-        await manageCaseDashboardPage.visit();
-        await loginPage.processLogin(
-          config.etCaseWorker.email,
-          config.etCaseWorker.password,
-          config.loginPaths.worklist,
-        );
+    test('Bundles - Legal rep submit hearing preparation document - England & Wales', async ({
+      manageCaseDashboardPage,
+      listHearingPage,
+      loginPage,
+      uploadDocumentsForHearingPage,
+      checkYourAnswersPage,
+      caseDetailsPage,
+      nocPage,
+    }) => {
+      await manageCaseDashboardPage.visit();
+      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
 
-        caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-        let region = 'EnglandWales';
-        await caseListPage.selectNextEvent('List Hearing');
-        await listHearingPage.listCase(region, 0,"Leeds ET");
-        await manageCaseDashboardPage.signOut();
+      caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
+      let region = 'EnglandWales';
+      await caseDetailsPage.selectNextEvent(Events.listHearing);
+      await listHearingPage.listCase(region, 0, 'Leeds ET');
+      await manageCaseDashboardPage.signOut();
 
-        await loginPage.processLogin(config.etLegalRepresentative.email, config.etLegalRepresentative.password, config.loginPaths.cases);
-        const searchReference = region === "England" ? 'Eng/Wales - Singles' : `${region} - Singles`;
+      await loginPage.processLogin(
+        config.etLegalRepresentative.email,
+        config.etLegalRepresentative.password,
+        config.loginPaths.cases,
+      );
+      await manageCaseDashboardPage.navigateToNoticeOfChange();
+      await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
+      await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
-        await legalRepPage.processNOCForClaimantOrRespondent(
-          searchReference,
-          caseId,
-          caseNumber,
-          CaseDetailsValues.claimantFirstName,
-          CaseDetailsValues.claimantLastName,
-          false,
-          true,
-        );
-        await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-
-        await caseListPage.selectNextEvent('Upload documents for hearing');
-        const date = DateUtilComponent.formatToDayMonthYear(DateUtilComponent.addWeekdays(new Date(), 21));
-        // //Verify only future hearings are shown in the options
-        await uploadDocumentsForHearingPage.submitDocumentForHearing(
-          {
-            agreementOption: 'Yes',
-            hearingOption: `1 Costs Hearing - Leeds ET - ${date}`,
-            hearingList: [`1 Costs Hearing - Leeds ET - ${date}`],
-            whoseDocuments: 'Both Parties',
-            documentType: 'Witness statement only',
-          }, checkYourAnswersPage
-        )
-        await caseDetailsPage.checkHasBeenCreated(Events.uploadDocumentsForHearing);
-        await caseDetailsPage.assertTabData([
-          {
-            tabName: 'Hearing Documents',
-            tabContent: [
-              `Respondent Hearing Documents`,
-              { tabItem: `Hearing`, value: `Uploaded date | Document` },
-              { tabItem: `1 Costs Hearing - Leeds ET - ${date}`, value: `${DateUtilComponent.getUtcDateTimeFormatted()} | welshTest.pdf`, clickable: true, exact: false },
-              { tabItem:`Have you agreed these documents with the other party?`, value: `Yes` },
-              { tabItem: `Type`, value: `Witness statements only`},
-              { tabItem: `Whose hearing documents are you uploading?`, value: `Both parties' hearing documents combined` }
-            ]
-          }
-        ]);
+      await caseDetailsPage.selectNextEvent(Events.uploadDocumentsForHearing);
+      const date = DateUtilComponent.formatToDayMonthYear(DateUtilComponent.addWeekdays(new Date(), 21));
+      // //Verify only future hearings are shown in the options
+      await uploadDocumentsForHearingPage.submitDocumentForHearing(
+        {
+          agreementOption: 'Yes',
+          hearingOption: `1 Costs Hearing - Leeds ET - ${date}`,
+          hearingList: [`1 Costs Hearing - Leeds ET - ${date}`],
+          whoseDocuments: 'Both Parties',
+          documentType: 'Witness statement only',
+        },
+        checkYourAnswersPage,
+      );
+      await caseDetailsPage.checkHasBeenCreated(Events.uploadDocumentsForHearing);
+      await caseDetailsPage.assertTabData([
+        {
+          tabName: 'Hearing Documents',
+          tabContent: [
+            `Respondent Hearing Documents`,
+            { tabItem: `Hearing`, value: `Uploaded date | Document` },
+            {
+              tabItem: `1 Costs Hearing - Leeds ET - ${date}`,
+              value: `${DateUtilComponent.getUtcDateTimeFormatted()} | welshTest.pdf`,
+              clickable: true,
+              exact: false,
+            },
+            { tabItem: `Have you agreed these documents with the other party?`, value: `Yes` },
+            { tabItem: `Type`, value: `Witness statements only` },
+            {
+              tabItem: `Whose hearing documents are you uploading?`,
+              value: `Both parties' hearing documents combined`,
+            },
+          ],
+        },
+      ]);
     });
 });
 
@@ -86,14 +93,12 @@ test.describe('Scotland - Caseworker Bundles test', () => {
     test(
       'Bundles - Legal rep submit hearing preparation document - Scotland',
       { tag: '@demo' },
-      async ({ page, manageCaseDashboardPage, caseListPage, loginPage, legalRepPage, listHearingPage }) => {
-        const firstName = CaseDetailsValues.claimantFirstName;
-        const lastName = CaseDetailsValues.claimantLastName;
+      async ({ page, manageCaseDashboardPage, loginPage, legalRepPage, listHearingPage, nocPage, caseDetailsPage }) => {
         // await bundleSteps.submitHearingPreparationDocument(page, 'Scotland', subRef, respondentName, firstName, lastName);
 
         let region = 'Scotland';
-        await caseListPage.selectNextEvent('List Hearing');
-        await listHearingPage.listCase(region, 0, 'Glasgow', 'Scotland');
+        await caseDetailsPage.selectNextEvent(Events.listHearing);
+        await listHearingPage.listCase(region, 0, 'Glasgow', 'Expenses/Wasted Costs Hearing',"Sit Alone",'Scotland');
         await page.click('text=Sign out');
 
         await loginPage.processLogin(
@@ -101,23 +106,35 @@ test.describe('Scotland - Caseworker Bundles test', () => {
           config.etLegalRepresentative.password,
           config.loginPaths.cases,
         );
-        const searchReference = region === 'England' ? 'Eng/Wales - Singles' : `${region} - Singles`;
+        await manageCaseDashboardPage.navigateToNoticeOfChange();
+        await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
+        await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.Scotland);
 
-        await legalRepPage.processNOCForClaimantOrRespondent(
-          searchReference,
-          caseId,
-          caseNumber,
-          firstName,
-          lastName,
-          false,
-          true,
-        );
-        manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.Scotland);
-
-        await caseListPage.selectNextEvent('Upload documents for hearing');
+        await caseDetailsPage.selectNextEvent(Events.uploadDocumentsForHearing);
         await legalRepPage.submitDocumentForHearingRespondent('Yes', 'Both Parties', 'Witness statement only');
-        await caseListPage.navigateToTab('Hearing Documents');
-        await legalRepPage.verifyHearingDocumentTabLegalRep();
+        await caseDetailsPage.navigateToTab('Hearing Documents');
+        const date = DateUtilComponent.formatToDayMonthYear(DateUtilComponent.addWeekdays(new Date(), 21));
+        await caseDetailsPage.assertTabData([
+          {
+            tabName: 'Hearing Documents',
+            tabContent: [
+              `Respondent Hearing Documents`,
+              { tabItem: `Hearing these documents are for`, value: `Uploaded date | Document` },
+              {
+                tabItem: `1 Expenses/Wasted Costs Hearing - Glasgow - ${date}`,
+                value: `${DateUtilComponent.getUtcDateTimeFormatted()} | welshTest.pdf`,
+                clickable: true,
+                exact: false,
+              },
+              { tabItem: `Have you agreed these documents with the other party?`, value: `Yes` },
+              { tabItem: `Type`, value: `Hearing documents, including witness statements` },
+              {
+                tabItem: `Whose hearing documents are you uploading?`,
+                value: `Both parties' hearing documents combined`,
+              },
+            ],
+          },
+        ]);
       },
     );
 });
@@ -137,13 +154,13 @@ test.describe('England - Claimant Bundles test', () => {
       { tag: '@demo' },
       async ({
         manageCaseDashboardPage,
-        caseListPage,
+        caseDetailsPage,
         listHearingPage,
         citizenHubLoginPage,
         citizenHubPage,
         prepareAbdSubmitDocumentPage,
       }) => {
-        await caseListPage.selectNextEvent('List Hearing');
+        await caseDetailsPage.selectNextEvent(Events.listHearing);
         await listHearingPage.listCase('EnglandWales', 0, 'Amersham');
         await manageCaseDashboardPage.signOut();
 
@@ -154,7 +171,4 @@ test.describe('England - Claimant Bundles test', () => {
         await prepareAbdSubmitDocumentPage.submitDocumentsForHearing();
       },
     );
-
 });
-
-

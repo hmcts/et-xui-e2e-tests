@@ -1,9 +1,8 @@
 import { test } from '../fixtures/common.fixture';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import config from '../config/config.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 
-const letterPageData = require('../resources/payload/letter-content.json');
 let caseId: string;
 let caseNumber: string;
 
@@ -16,7 +15,8 @@ test.describe('ET3 Process test', () => {
     test(
       'England - processing an ET3 response',
       { tag: '@demo' },
-      async ({ manageCaseDashboardPage, loginPage, caseListPage, lettersPage, et3ProcessingSteps }) => {
+      async ({ manageCaseDashboardPage, loginPage, caseListPage, lettersPage,initialConsiderationPage, respondentRepPage, et3ProcessPage, caseDetailsPage }) => {
+
         await manageCaseDashboardPage.visit();
         await loginPage.processLogin(
           config.etCaseWorker.email,
@@ -25,17 +25,21 @@ test.describe('ET3 Process test', () => {
         );
 
         await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-        await caseListPage.selectNextEvent(letterPageData.letterEvent);
+        await caseDetailsPage.selectNextEvent(Events.letters);
         await lettersPage.generateNoHearingDateLetter();
 
-        await caseListPage.selectNextEvent('Respondent Details');
-        await et3ProcessingSteps.fillET3Values();
+        await caseDetailsPage.selectNextEvent(Events.respondentDetails);
+        await respondentRepPage.enterRespType();
 
-        await caseListPage.selectNextEvent('ET3 Processing');
-        await et3ProcessingSteps.processET3();
+        await caseDetailsPage.selectNextEvent(Events.et3Processing);
+        await et3ProcessPage.submitET3Response();
 
-        await caseListPage.navigateToTab('Respondents');
+        await caseDetailsPage.navigateToTab('Respondents');
         await caseListPage.verifyET3DetailsOnRespondentTab();
+
+        // RET-5796 Validate initial consideration links
+        await caseDetailsPage.selectNextEvent(Events.initialConsideration);
+        await initialConsiderationPage.validateET3ProcessingLink();
       },
     );
 });

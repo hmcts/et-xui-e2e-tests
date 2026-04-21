@@ -24,13 +24,13 @@ test.describe('E/W Hearing Reports', () => {
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
       //List 1 hearing for the case
-      await caseListPage.selectNextEvent(Events.listHearing.listItem);
+      await caseDetailsPage.selectNextEvent(Events.listHearing);
       await listHearingPage.listCase('EnglandWales', 0, 'Newcastle CFCTC');
       await caseDetailsPage.checkHasBeenCreated(Events.listHearing);
 
       await caseListPage.searchHearingReports('Eng/Wales - Hearings/Reports', 'Hearing Documents', 'Newcastle');
       await caseListPage.selectHearingReport();
-      await caseListPage.selectNextEvent('Generate Report');
+      await caseDetailsPage.selectNextEvent(Events.generateReport);
       await caseListPage.generateReport();
       await caseListPage.validateHearingReport(caseNumber);
     });

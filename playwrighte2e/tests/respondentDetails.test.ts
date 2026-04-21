@@ -1,7 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 import config from "../config/config";
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 
 let caseId: string;
 let caseNumber: string;
@@ -19,11 +19,11 @@ test.describe('Respondent details test', () => {
     test(
       'England - Respondent details',
       { tag: '@demo' },
-      async ({ manageCaseDashboardPage, loginPage, caseListPage, respondentDetailsPage, icUploadDocPage }) => {
-        await caseListPage.selectNextEvent('Respondent Details');
+      async ({ manageCaseDashboardPage, loginPage, caseListPage, respondentDetailsPage, icUploadDocPage, caseDetailsPage }) => {
+        await caseDetailsPage.selectNextEvent(Events.respondentDetails);
         // Check case file view
         await respondentDetailsPage.processPanelPreference();
-        await caseListPage.navigateToTab('Respondent');
+        await caseDetailsPage.navigateToTab('Respondent');
         await respondentDetailsPage.verifyRespondentDetails();
 
         //sign out as caseworker
@@ -36,7 +36,7 @@ test.describe('Respondent details test', () => {
           config.loginPaths.cases,
         );
         await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-        await caseListPage.selectNextEvent('Initial Consideration');
+        await caseDetailsPage.selectNextEvent(Events.initialConsideration);
         await icUploadDocPage.verifyRespondentHearingPanelValues();
       },
     );

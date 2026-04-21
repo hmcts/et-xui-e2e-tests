@@ -1,41 +1,42 @@
-import { BasePage } from "./basePage";
-import { expect, Locator } from '@playwright/test';
-import config from "../config/config";
-import dateUtilComponent from "../data-utils/DateUtilComponent";
-
-const referralData = require('../resources/payload/referral-content.json');
+import { BasePage } from './basePage';
+import { expect, Locator, Page } from '@playwright/test';
+import config from '../config/config';
+import dateUtilComponent from '../data-utils/DateUtilComponent';
 
 export default class CaseListPage extends BasePage {
-  elements = {
-    caseListText: 'Case list',
-    caseListLink: '[href="/cases"]',
-    caseTypeDropdown: '#wb-case-type',
-    submissionReferenceLocator: '#feeGroupReference',
-    applyButton: '//button[@class="button workbasket-filters-apply"]',
-    nextEventDropdown: this.page.locator('#next-step'),
-    submitEventButton: '//button[@class="button"]',
-    createCaseLink: 'Create case',
-    jurisdictionDropdownLR: '#cc-jurisdiction',
-    casetypeDropdownLR: '#cc-case-type',
-    eventLR: '#cc-event',
-    state: '#wb-case-state',
-    managingOffice: '#managingOffice',
-    venueDropdown: '#listingVenue',
-    causeListText: this.page.locator('//div[@class="alert-message"]'),
-    refferTableEle: this.page.locator('ccd-read-text-field'),
-    textAreaField: this.page.locator('ccd-read-text-area-field'),
-    expandImgIcon: 'div a img',
-    referralTab: '//div[contains(text(), "Referrals")]',
-    depositOrderTab: '//div[contains(text(), "Deposit Order")]',
-    tasksTab: '//div[contains(text(), "Tasks")]',
-    caseListTab: '//a[contains(text(), "Case list")]',
-    allWorkTab: '//a[contains(text(), "All work")]',
-    myWorkTab: '//a[contains(text(), "My work")]',
-    documentsTab: '//div[contains(text(), "Documents")]',
-    hearingTab: '//div[contains(text(), "Hearing Documents")]',
-    judgmentTab: '//div[contains(text(), "Judgement")]',
-    claimantRepresentative: '//div[contains(text(), "Claimant Representative")]',
-  };
+  private readonly caseListLink: Locator;
+  private readonly caseTypeDropdown: Locator;
+  private readonly submissionReferenceLocator: Locator;
+  private readonly applyButton: Locator;
+  private readonly createCaseLink: string = 'Create case';
+  private readonly jurisdictionDropdownLR: Locator;
+  private readonly casetypeDropdownLR: Locator;
+  private readonly eventLR: Locator;
+  private readonly venueDropdown: Locator;
+  private readonly causeListText: Locator;
+  private readonly expandImgIcon: Locator;
+  private readonly stateDropdown: Locator;
+  private readonly managingOfficeDropdown: Locator;
+  private readonly caseNumberField: Locator;
+  private readonly submissionReferenceField: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.caseListLink = page.locator('[href="/cases"]');
+    this.caseTypeDropdown = page.locator('#wb-case-type');
+    this.submissionReferenceLocator = page.locator('#feeGroupReference');
+    this.applyButton = page.locator('//button[@class="button workbasket-filters-apply"]');
+    this.jurisdictionDropdownLR = page.locator('#cc-jurisdiction');
+    this.casetypeDropdownLR = page.locator('#cc-case-type');
+    this.eventLR = page.locator('#cc-event');
+    this.venueDropdown = page.locator('#listingVenue');
+    this.causeListText = page.locator('//div[@class="alert-message"]');
+    this.expandImgIcon = page.locator('div a img');
+    this.stateDropdown = page.getByLabel('State');
+    this.managingOfficeDropdown = page.getByLabel('Managing Office');
+    this.caseNumberField = page.getByLabel('Case Number');
+    this.submissionReferenceField = page.getByLabel('Submission Reference');
+  }
 
   async selectJurisdiction(jurisdiction: string) {
     const jurisdictionDropdown = this.page.getByLabel('Jurisdiction');
@@ -50,9 +51,8 @@ export default class CaseListPage extends BasePage {
   }
 
   async selectState(state: string) {
-    const stateDropdown = this.page.getByLabel('State');
-    await expect(stateDropdown).toBeVisible();
-    await stateDropdown.selectOption(state);
+    await expect(this.stateDropdown).toBeVisible();
+    await this.stateDropdown.selectOption(state);
   }
 
   async selectTribunalOffice(office: string) {
@@ -62,317 +62,114 @@ export default class CaseListPage extends BasePage {
   }
 
   async enterCaseNumber(caseNumber: string) {
-    const caseNumberField = this.page.getByLabel('Case Number');
-    await expect(caseNumberField).toBeVisible();
-    await caseNumberField.fill(caseNumber);
+    await expect(this.caseNumberField).toBeVisible();
+    await this.caseNumberField.fill(caseNumber);
   }
 
   async enterSubmissionReference(submissionReference: string) {
-    const submissionReferenceField = this.page.getByLabel('Submission Reference');
-    await expect(submissionReferenceField).toBeVisible();
-    await submissionReferenceField.fill(submissionReference);
+    await expect(this.submissionReferenceField).toBeVisible();
+    await this.submissionReferenceField.fill(submissionReference);
   }
 
   async selectManagingOffice(office: string) {
-    const managingOfficeDropdown = this.page.getByLabel('Managing Office');
-    await expect(managingOfficeDropdown).toBeVisible();
-    await managingOfficeDropdown.selectOption(office);
-  }
-
-  async navigateToCaseDetails(subRef: string, option: string): Promise<string> {
-    await this.page.waitForLoadState('load');
-    const type = option === 'EnglandWales' ? 'ET_EnglandWales' : option === 'Scotland' ? 'Scotland' : option;
-    const url = `${config.manageCaseBaseUrl}/case-details/EMPLOYMENT/${type}/${subRef}#Case%20Details`;
-    await this.page.goto(url);
-    await this.page.waitForLoadState('load');
-    await expect(this.page.getByText(subRef)).toBeVisible();
-
-    const caseNumberText = await this.page.locator('h1', { hasText: 'Case Number:' }).textContent();
-    const match = caseNumberText?.match(/Case Number:(\d+\/\d+)/);
-    const caseNumber = match ? match[1] : '';
-    console.log('Navigated to case number: ' + caseNumber);
-    return caseNumber;
+    await expect(this.managingOfficeDropdown).toBeVisible();
+    await this.managingOfficeDropdown.selectOption(office);
   }
 
   // needed for share case feature
   async searchCaseApplicationWithSubmissionReference(option: string, submissionReference: string) {
     await this.page.reload();
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseListLink));
+    await expect(this.caseListLink).toBeVisible();
+    await this.caseListLink.click();
 
-    await this.webActions.clickElementByCss(this.elements.caseListLink);
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseTypeDropdown));
-
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.applyButton));
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Case list');
+    await this.page.waitForLoadState('load');
+    await expect(this.page.locator('h1')).toContainText('Case list');
+    await expect(this.caseTypeDropdown).toBeVisible();
+    await expect(this.applyButton).toBeVisible();
 
     switch (option) {
       case 'Eng/Wales - Singles':
-        await this.webActions.selectByLabelFromDropDown(this.elements.caseTypeDropdown, 'Eng/Wales - Singles');
+        await this.caseTypeDropdown.selectOption({label:'Eng/Wales - Singles'});
         break;
       case 'Scotland - Singles':
-        await this.webActions.selectByLabelFromDropDown(this.elements.caseTypeDropdown, 'Scotland - Singles (RET)');
+        await this.caseTypeDropdown.selectOption({label: 'Scotland - Singles (RET)'});
         break;
       default:
         throw new Error('... check you options or add new option');
     }
-
-    await this.webActions.fillField(this.elements.submissionReferenceLocator, submissionReference);
-    await this.webActions.clickElementByCss(this.elements.applyButton);
-   // await this.webActions.verifyElementContainsText(this.page.locator('#search-result'), submissionReference);
+    await this.submissionReferenceLocator.fill(submissionReference.toString());
+    await this.applyButton.click();
   }
 
   async checkAndShareCaseFromList(subRef: string) {
     await this.page.locator('#select-' + subRef).check();
     await this.clickShareCaseButton();
     await this.page.waitForLoadState('load', {timeout: 3000});
+
     await this.page.getByRole('combobox', { name: 'Search by name or email' }).pressSequentially(config.etManageOrgSuperUser.email, { delay: 100 });
     await this.page.locator(`//mat-option[@role='option']/span[contains(.,'${config.etManageOrgSuperUser.email}')]`).click();
     await this.page.getByRole('button', { name: 'Add user' }).click();
     await this.clickContinue();
+
     await this.page.getByRole('button', { name: 'Confirm' }).click();
     await expect(this.page.getByLabel('Your cases have been updated')).toContainText('Your cases have been updated');
     await this.page.getByRole('link', { name: 'Go back to the case list.' }).click();
   }
 
-  async selectNextEvent(option: string) {
-    await Promise.all([
-      await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.submitEventButton)),
-      await this.page.getByLabel('Next step').selectOption(option),
-      await this.delay(3000),
-      await this.webActions.clickElementByCss(this.elements.submitEventButton),
-    ]);
-  }
-
-  async verifyCaseDetailsPage(et1VettingFlag: boolean) {
-    if (et1VettingFlag) {
-      //TO DO fix this tab Ids are not consistent
-      // await expect(this.page.locator('#mat-tab-label-0-0')).toContainText('Case Details');
-      // await expect(this.page.locator('#mat-tab-label-0-1')).toContainText('Claimant');
-      // await expect(this.page.locator('#mat-tab-label-0-2')).toContainText('Respondent');
-      // await expect(this.page.locator('#mat-tab-label-0-4')).toContainText('Jurisdictions');
-      // await expect(this.page.locator('#mat-tab-label-0-5')).toContainText('Referrals');
-      // await expect(this.page.locator('#mat-tab-label-0-6')).toContainText('History');
-      // await expect(this.page.locator('#mat-tab-label-0-7')).toContainText('Documents');
-    } else {
-      //await expect(this.page.locator('#mat-tab-label-1-2')).toContainText('ET1 Vetting');
-    }
-  }
-
   async claimantRepCreateCase(jurisdiction: string, caseType: string, postcode: string) {
-    await this.webActions.clickElementByText(this.elements.createCaseLink);
-    await this.webActions.selectByLabelFromDropDown(this.elements.jurisdictionDropdownLR, jurisdiction);
+    await this.page.getByText(this.createCaseLink).click();
+    await this.jurisdictionDropdownLR.selectOption({label:jurisdiction});
 
-    await this.webActions.selectByLabelFromDropDown(this.elements.casetypeDropdownLR, caseType);
-    await this.webActions.selectByLabelFromDropDown(this.elements.eventLR, 'Create draft claim');
-    await this.webActions.clickElementByCss(this.elements.submitEventButton);
+    await this.casetypeDropdownLR.selectOption({label: caseType});
+    await this.eventLR.selectOption({ label: 'Create draft claim'});
+    await this.page.getByRole('button', { name: 'Start' }).click();
 
     await this.enterPostCode(postcode);
     await this.clickSubmitButton();
-    await this.delay(2000);
-  }
-
-  async clickTab(tabName: string) {
-    await this.webActions.clickElementByText(tabName);
-  }
-
-  async navigateToTab(tabName: string): Promise<void> {
-    await this.page.waitForLoadState('load');
-    switch (tabName) {
-      case 'ICTab': {
-        await this.webActions.clickElementByRole('tab', { name: 'Initial Consideration', exact: true });
-        break;
-      }
-      case 'Respondent': {
-        await this.webActions.clickElementByRole('tab', { name: 'Respondent', exact: true });
-        break;
-      }
-      // When there is an ECC, the tab name for Respondent is appended with an s as the names can't be the same
-      case 'Claimant': {
-        await this.webActions.clickElementByRole('tab', { name: 'Claimant', exact: true });
-        break;
-      }
-      case 'Documents': {
-        await this.webActions.clickElementByRole('tab', { name: 'Documents', exact: true });
-        break;
-      }
-      case 'ADR/Privileged': {
-        await this.webActions.clickElementByRole('tab', { name: 'ADR/Privileged', exact: true });
-        break;
-      }
-      case 'Referrals': {
-        await this.delay(2000);
-        await this.webActions.clickElementByCss(this.elements.referralTab);
-        break;
-      }
-      case 'Judgments': {
-        await this.webActions.clickElementByRole('tab', { name: 'Judgments', exact: true });
-        break;
-      }
-      case 'BF Actions': {
-        await this.webActions.clickElementByRole('tab', { name: 'BF Actions', exact: true });
-        break;
-      }
-      case 'Case list': {
-        await this.webActions.clickElementByCss(this.elements.caseListTab);
-        break;
-      }
-      case 'All work': {
-        await this.webActions.clickElementByCss(this.elements.allWorkTab);
-        break;
-      }
-      case 'My work': {
-        await this.webActions.clickElementByCss(this.elements.myWorkTab);
-        break;
-      }
-      case 'Deposit Order': {
-        const ele = this.page.locator(this.elements.depositOrderTab).nth(1);
-        await this.webActions.verifyElementToBeVisible(ele);
-        await ele.click();
-        break;
-      }
-      case 'Judgment': {
-        const ele = this.page.locator(this.elements.judgmentTab).nth(1);
-        await this.webActions.verifyElementToBeVisible(ele);
-        await ele.click();
-        break;
-      }
-      default: {
-        await this.page.waitForLoadState('load', {timeout: 5000});
-        const xpath = `//div[@role='tab']/div[normalize-space()='${tabName}']`;
-        let tabHeader = this.page.locator(xpath);
-
-        const tryPaginateAncClickTab = async(direction: string) => {
-          let paginateDirectionButton = this.page.locator(`button.mat-tab-header-pagination-${direction}[aria-hidden="true"]:not([disabled])`);
-          while (await paginateDirectionButton.count() > 0) {
-            await paginateDirectionButton.click();
-            try {
-              await this.page.waitForLoadState('load');
-              tabHeader = this.page.locator(xpath);
-              await tabHeader.click({ trial: true, timeout:2000 });
-              await tabHeader.click();
-              console.log(`Clicked on tab after paginating ${direction}: ` + tabName);
-              return true;
-            } catch {
-            }
-            paginateDirectionButton = this.page.locator(`button.mat-tab-header-pagination-${direction}[aria-hidden="true"]:not([disabled])`);
-          }
-          return false;
-        };
-
-        try {
-          await this.page.waitForLoadState('load');
-          tabHeader = this.page.locator(xpath);
-          await tabHeader.click({ trial: true, timeout:2000 }); // trial: true checks if clickable
-          await tabHeader.click();
-          console.log('Clicked on tab: ' + tabName);
-          return;
-        } catch {
-          // Try paginating before
-          if (await tryPaginateAncClickTab('before'))  return;
-          // Try paginating After
-          if (await tryPaginateAncClickTab('after'))  return;
-         // if nothing worked then throw error
-          throw new Error('Not able to navigate to Tab ' + tabName);
-        }
-      }
-    }
-
+    await this.page.waitForLoadState('load', {timeout: 3000});
   }
 
   async searchHearingReports(option: string, state: string, officeLocation: string) {
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseListLink));
-    await this.webActions.clickElementByCss(this.elements.caseListLink);
+    await expect(this.caseListLink).toBeVisible();
+    await this.caseListLink.click();
+    await this.page.waitForLoadState('load');
 
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.caseTypeDropdown));
-    await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.applyButton));
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Case list');
+    await expect(this.caseTypeDropdown).toBeVisible();
+    await expect(this.applyButton).toBeVisible();
+    await expect(this.page.locator('h1')).toContainText('Case list');
 
     try {
       switch (option) {
         case 'Eng/Wales - Hearings/Reports':
-          await this.webActions.selectByLabelFromDropDown(
-            this.elements.caseTypeDropdown,
-            'Eng/Wales - Hearings/Reports',
-          );
+          await this.caseTypeDropdown.selectOption({label: 'Eng/Wales - Hearings/Reports'});
           break;
         default:
-          throw new Error('... check you options or add new option');
+          throw new Error('invalid option  '+ option);
       }
     } catch (error) {
       console.error('invalid option', error);
+      throw error;
     }
-    await this.webActions.selectByLabelFromDropDown(this.elements.state, state);
-    await this.webActions.selectByLabelFromDropDown(this.elements.managingOffice, officeLocation);
-    await this.webActions.clickElementByCss(this.elements.applyButton);
+    //await this.webActions.selectByLabelFromDropDown(this.elements.state, state);
+    await this.selectState(state);
+    //await this.webActions.selectByLabelFromDropDown(this.elements.managingOffice, officeLocation);
+    await this.selectManagingOffice(officeLocation);
+    await this.applyButton.click();
   }
 
   async selectHearingReport() {
     await expect(this.page.getByText('ETCL - Cause List')).toBeVisible({ timeout: 10000 });
-    await this.webActions.clickElementByText('ETCL - Cause List');
+    await this.page.getByText('ETCL - Cause List').click();
   }
 
   async generateReport() {
-    await this.webActions.selectByLabelFromDropDown(this.elements.venueDropdown, 'Newcastle CFCTC');
+    await this.venueDropdown.selectOption('Newcastle CFCTC');
     await this.clickSubmitButton();
   }
 
   async validateHearingReport(caseNumber: string) {
-    await this.webActions.verifyElementContainsText(
-      this.elements.causeListText,
-      'has been updated with event: Generate Report',
-    );
-    await this.webActions.verifyElementContainsText(
-      this.page.locator('ccd-read-complex-field-collection-table'),
-      'Newcastle CFCTC',
-    );
-  }
-
-  async verifyAndClickLinkInTab(referralText: string) {
-    const elements = await this.page.locator('markdown p a').allTextContents();
-    expect(elements).toContain(referralText);
-    await this.webActions.clickElementByText(referralText);
-  }
-
-  async verifyReferralDetails() {
-    let actStatus = await this.elements.refferTableEle.nth(7).textContent();
-    let actSubj = await this.elements.refferTableEle.nth(1).textContent();
-    let actReferredTo = await this.elements.refferTableEle.nth(3).textContent();
-    let actReferredDetails = await this.elements.textAreaField.textContent();
-
-    expect(actStatus).toEqual(referralData.awaitingStatus);
-    expect(actSubj).toEqual(referralData.subject);
-    expect(actReferredTo).toEqual(referralData.expReferredTo);
-    expect(actReferredDetails).toEqual(referralData.details);
-  }
-
-  async verifyReplyReferralDetails() {
-    let actStatus = await this.elements.refferTableEle.nth(7).textContent();
-    let actSubj = await this.elements.refferTableEle.nth(1).textContent();
-    let actReferredTo = await this.elements.refferTableEle.nth(3).textContent();
-    let actReferredDetails = await this.elements.textAreaField.first().textContent();
-
-    expect(actStatus).toEqual(referralData.issuedStatus);
-    expect(actSubj).toEqual(referralData.subject);
-    expect(actReferredTo).toEqual(referralData.expReferredTo);
-    expect(actReferredDetails).toEqual(referralData.details);
-
-    await this.page.locator(this.elements.expandImgIcon).nth(1).click();
-  }
-
-  async verifyReplyDetailsOnTab(fieldValue: string) {
-    await expect(this.page.locator(`//span[normalize-space()="${fieldValue}"]`).first()).toBeVisible();
-  }
-
-  async verifyCloseReferralDetails() {
-    let actStatus = await this.elements.refferTableEle.nth(7).textContent();
-    let actCloseReason = await this.page.locator('ccd-read-text-area-field').nth(1).textContent();
-
-    expect(actStatus).toEqual(referralData.closedStatus);
-    expect(actCloseReason).toEqual(referralData.closeRefNotes);
-  }
-
-  async verifyJudgementDetailsOnTab(fieldValue: string) {
-    await expect(this.page.locator(`//span[normalize-space()="${fieldValue}"]`).first()).toBeVisible();
+    await expect(this.causeListText).toContainText('has been updated with event: Generate Report');
+    await expect(this.page.locator('ccd-read-complex-field-collection-table')).toContainText('Newcastle CFCTC');
   }
 
   async verifyAcasCertificateDetailsOnTab(documentValue: string, docTypeValue: string) {
@@ -383,27 +180,27 @@ export default class CaseListPage extends BasePage {
   }
 
   async verifyCaseDetailsOnTab(fieldLabel: string, fieldValue: string) {
-    await this.webActions.verifyElementToBeVisible(
-      this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`),
-    );
+    await expect(
+      this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)
+    ).toBeVisible();
   }
 
   async verifyBFActionsTab(fieldLabel: string, fieldValue: string) {
     await expect(this.page.getByText(dateUtilComponent.addDaysAndMonths(29))).toBeVisible();
-    await this.webActions.clickElementByCss(this.elements.expandImgIcon);
-    await this.webActions.verifyElementToBeVisible(
-      this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`),
-    );
+    await this.expandImgIcon.click();
+    await expect(
+      this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../..//td[normalize-space()="${fieldValue}"]`)
+    ).toBeVisible();
   }
 
   async verifyDepositOrderDetailsOnTab(fieldLabel: string, fieldValue: string) {
-    await this.webActions.verifyElementToBeVisible(
-      this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../../td[normalize-space()="${fieldValue}"]`),
-    );
+    await expect(
+      this.page.locator(`//*[normalize-space()="${fieldLabel}"]/../../td[normalize-space()="${fieldValue}"]`)
+    ).toBeVisible();
   }
 
   async verifyET3DetailsOnRespondentTab() {
-    await this.webActions.clickElementByCss(this.elements.expandImgIcon);
+    await this.expandImgIcon.click();
     const testDataMap = new Map<string, string>([
       ['Is there an ET3 response?', 'Yes'],
       ['Select the respondent you are processing', 'Mrs Test Auto'],
@@ -419,9 +216,9 @@ export default class CaseListPage extends BasePage {
 
     // @ts-ignore
     for (let [key, value] of testDataMap) {
-      await this.webActions.verifyElementToBeVisible(
+      await expect(
         this.page.locator(`//*[normalize-space()="${key}"]/../../td[normalize-space()="${value}"]`),
-      );
+      ).toBeVisible();
     }
   }
 

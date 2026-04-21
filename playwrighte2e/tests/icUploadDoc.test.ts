@@ -1,7 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 import config from '../config/config';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 
 test.describe('IC Upload documents', () => {
   let caseId: string, caseNumber: string;
@@ -13,7 +13,7 @@ test.describe('IC Upload documents', () => {
   test(
     'Judge uploads Internal consideration document',
     { tag: '@demo' },
-    async ({ manageCaseDashboardPage, caseListPage, loginPage, icUploadDocPage, caseDetailsPage }) => {
+    async ({ manageCaseDashboardPage, loginPage, icUploadDocPage, caseDetailsPage }) => {
       await manageCaseDashboardPage.visit();
       //judge log in
       await loginPage.processLogin(
@@ -23,11 +23,11 @@ test.describe('IC Upload documents', () => {
       );
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
-      await caseListPage.selectNextEvent('Initial Consideration');
+      await caseDetailsPage.selectNextEvent(Events.initialConsideration);
 
       //judge uploads document
       await icUploadDocPage.judgeUploadsDocument();
-      await caseListPage.navigateToTab('ICTab');
+      await caseDetailsPage.navigateToTab('Initial Consideration');
 
       //verify the uploaded document details
       await caseDetailsPage.assertTabData([

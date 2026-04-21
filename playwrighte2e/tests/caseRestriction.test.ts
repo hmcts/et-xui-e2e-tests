@@ -1,7 +1,7 @@
 import { test } from '../fixtures/common.fixture';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import config from '../config/config.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
+import { CaseTypeLocation, Events } from '../config/case-data.ts';
 
 let caseNumber: string;
 let caseId: string;
@@ -15,7 +15,7 @@ test.describe('Restrict a case by applying rule 43 flag', () => {
     test(
       'Create and remove case Flag for E/W-Single case',
       { tag: '@demo' },
-      async ({ manageCaseDashboardPage, loginPage, caseListPage, restrictedReportingPage }) => {
+      async ({ manageCaseDashboardPage, loginPage, caseDetailsPage, restrictedReportingPage }) => {
         await manageCaseDashboardPage.visit();
         await loginPage.processLogin(
           config.etCaseWorker.email,
@@ -25,7 +25,7 @@ test.describe('Restrict a case by applying rule 43 flag', () => {
 
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
         //Create case flag
-        await caseListPage.selectNextEvent('Restricted Reporting');
+        await caseDetailsPage.selectNextEvent(Events.restrictedReporting);
         await restrictedReportingPage.selectRule49BOption();
         await restrictedReportingPage.verifyRule49BFlag();
       },

@@ -4,6 +4,7 @@ import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCi
 import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 import { LegalRepCaseFactory } from '../data-utils/factory/exui/LegalRepCaseFactory.ts';
+import DateUtilComponent from '../data-utils/DateUtilComponent.ts';
 
 let caseNumber: string;
 let caseId: string;
@@ -54,19 +55,18 @@ test.describe('ET3/Respondent Applications', () => {
 test.describe('ET3/Respondent Applications', () => {
     //too long UI work flow, create a case via API as a legal rep
     test('Legal Representative created a case, Respondent makes Type A Application, LR can see application', async ({
-      page,
       manageCaseDashboardPage,
       loginPage,
-      caseListPage,
-      legalRepPage,
       et3LoginPage,
       respondentCaseOverviewPage,
+      applicationTabPage, caseDetailsPage
     }) => {
       const respName = 'Mark McDonald';
       const firstName = CaseDetailsValues.claimantFirstName;
       const lastName = CaseDetailsValues.claimantLastName;
 
       ({ caseId, caseNumber } = await LegalRepCaseFactory.createAndProgressToSubmitEnglandWalesCase());
+      await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
       console.log('Created ' + caseId + caseNumber);
 
       // assign case to respondent and make application
@@ -85,7 +85,12 @@ test.describe('ET3/Respondent Applications', () => {
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
       // legal rep can see an application
-      await legalRepPage.legalRepViewApplication();
+      await caseDetailsPage.navigateToTab('Applications');
+      await applicationTabPage.viewApplicationAndAssertDetails('Amend response', 'Open', [
+        `Type of application - Amend response`,
+        `Applicant - Respondent`,
+        `Application date - ${DateUtilComponent.formatToDayMonthYear(new Date())}`,
+      ]);
     });
 
 });
