@@ -44,8 +44,8 @@ export class CaseworkerCaseFactory {
    */
   static async createEnglandAndAcceptCase() {
     const response= await this.createEnglandWalesCase();
-    const caseId = response.id;
-    const caseNumber = response.case_data.ethosCaseReference;
+    const caseId = response.id.toString();
+    const caseNumber = response.case_data.ethosCaseReference.toString();
     await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId);
     return { caseId, caseNumber };
   }
@@ -56,8 +56,8 @@ export class CaseworkerCaseFactory {
    */
   static async createScotlandAndAcceptCase() {
     const response = await this.createScotlandCase();
-    const caseId = response.id;
-    const caseNumber = response.case_data.ethosCaseReference;
+    const caseId = response.id.toString();
+    const caseNumber = response.case_data.ethosCaseReference.toString();
     await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseScotland(caseId);
     return { caseId, caseNumber };
   }

@@ -7,14 +7,6 @@ export default class ResponseTaskListPage extends BasePage {
         super(page);
     }
 
-    public static create(page: Page): ResponseTaskListPage {
-        return new ResponseTaskListPage(page);
-    }
-
-    elements={
-
-    };
-
     async validateTaskListPage(){
         await expect(this.page.locator('h1')).toContainText('Your response form (ET3)');
         await expect(this.page.locator('ol')).toContainText('1. Tell us about the respondent');

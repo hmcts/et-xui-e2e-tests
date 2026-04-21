@@ -5,7 +5,6 @@ import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 import DateUtilComponent from '../data-utils/DateUtilComponent.ts';
 
-const respondentName = 'Mrs Test Auto';
 let caseId: string;
 let caseNumber: string;
 
@@ -36,7 +35,7 @@ test.describe('Make an application and view Recorded Decision', () => {
 
       //legal rep make an application
       await caseDetailsPage.navigateToTab('Applications')
-      await  applicationTabPage.enterDetailsForMakingApplication('Amend response')
+      await applicationTabPage.enterDetailsForMakingApplication('Amend response')
       await manageCaseDashboardPage.signOut();
 
       // Claimant Reply to Application from Legal Rep
@@ -69,8 +68,7 @@ test.describe('Make an application and view Recorded Decision', () => {
         citizenHubPage,
         loginPage,
         applicationTabPage,
-        nocPage,
-        caseListPage, checkYourAnswersPage, caseDetailsPage
+        nocPage, checkYourAnswersPage, caseDetailsPage
       }) => {
         await loginPage.processLogin(
           config.etLegalRepresentative.email,

@@ -1,44 +1,47 @@
-import { expect } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import { BasePage } from "./basePage";
-
-const letterPageData = require('../resources/payload/letter-content.json');
+import letterPageData from '../resources/payload/letter-content.json';
 
 export default class LettersPage extends BasePage {
+  private readonly part1DocsEle: Locator;
+  private readonly part2DocsEle: Locator;
+  private readonly hearingNumberEle: Locator;
+  private readonly markdownPara: Locator;
 
-    elements = {
-        part1DocsEle: "#correspondenceType_topLevel_Documents",
-        part2DocsEle: "#correspondenceType_part_2_Documents",
-        hearingNumberEle: "#correspondenceType_dynamicHearingNumber"
-    }
+  constructor(page: Page) {
+    super(page);
+    this.part1DocsEle = page.locator('#correspondenceType_topLevel_Documents');
+    this.part2DocsEle = page.locator('#correspondenceType_part_2_Documents');
+    this.hearingNumberEle = page.locator('#correspondenceType_dynamicHearingNumber');
+    this.markdownPara = page.locator('markdown p');
+  }
 
-    async generateShortTrackLetter() {
+  async generateShortTrackLetter() {
+    await expect(this.page.getByText(letterPageData.headerText)).toBeVisible();
+    await this.part1DocsEle.selectOption({ label: letterPageData.part1DocOption });
+    await expect(this.part2DocsEle).toBeVisible();
+    await this.part2DocsEle.selectOption({ label: letterPageData.part2DocOption });
+    await expect(this.hearingNumberEle).toBeVisible();
 
-        expect(this.page.getByText(letterPageData.headerText)).toBeVisible();
-        await this.webActions.selectByLabelFromDropDown(this.elements.part1DocsEle, letterPageData.part1DocOption);
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.part2DocsEle));
-        await this.webActions.selectByLabelFromDropDown(this.elements.part2DocsEle, letterPageData.part2DocOption);
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.hearingNumberEle));
+    const selectBox = this.hearingNumberEle;
+    const option = await selectBox.locator("option").filter({ hasText: letterPageData.hearingOption }).getAttribute('value');
+    if(option) await selectBox.selectOption(option);
 
-        const selectBox = this.page.locator(this.elements.hearingNumberEle);
-        const option = await selectBox.locator("option").filter({ hasText: letterPageData.hearingOption }).textContent();
-        if(option) await selectBox.selectOption(option);
+    await this.clickSubmitButton();
+    await expect(this.closeAndReturnButton).toBeVisible();
+    //await expect(this.markdownPara).toContainText(letterPageData.confirmationTxt);
+    await this.clickCloseAndReturn();
+  }
 
-      await this.clickSubmitButton();
-      await this.webActions.verifyElementToBeVisible(this.closeAndReturnButton);
-      //await this.webActions.verifyElementContainsText(this.page.locator('markdown p'), letterPageData.confirmationTxt);
-      await this.clickCloseAndReturn();
-    }
+  async generateNoHearingDateLetter() {
+    await expect(this.page.getByText(letterPageData.headerText)).toBeVisible();
+    await this.part1DocsEle.selectOption({ label: letterPageData.part1DocOption });
+    await expect(this.part2DocsEle).toBeVisible();
+    await this.part2DocsEle.selectOption({ label: letterPageData.part2DocOptionNoHearing });
 
-    async generateNoHearingDateLetter() {
-
-        expect(this.page.getByText(letterPageData.headerText)).toBeVisible();
-        await this.webActions.selectByLabelFromDropDown(this.elements.part1DocsEle, letterPageData.part1DocOption);
-        await this.webActions.verifyElementToBeVisible(this.page.locator(this.elements.part2DocsEle));
-        await this.webActions.selectByLabelFromDropDown(this.elements.part2DocsEle, letterPageData.part2DocOptionNoHearing);
-
-        await this.clickSubmitButton();
-        await this.page.waitForSelector('markdown p', { timeout: 30000 });
-        await this.webActions.verifyElementContainsText(this.page.locator('markdown p'), letterPageData.confirmationTxt);
-        await this.clickCloseAndReturn();
-    }
+    await this.clickSubmitButton();
+    await this.markdownPara.waitFor({ timeout: 30000 });
+    await expect(this.markdownPara).toContainText(letterPageData.confirmationTxt);
+    await this.clickCloseAndReturn();
+  }
 }

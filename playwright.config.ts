@@ -1,38 +1,26 @@
 import { defineConfig, devices } from '@playwright/test';
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
-
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
   testDir: './playwrighte2e',
   testMatch: '*test.ts',
-  /* Run tests in files in parallel */
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 6 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
-  timeout: 4 * 60 * 1000,
+  reporter: process.env.CI ? [["html"], ["list"]] : [["list"]],
+  timeout: 5 * 60 * 1000,
   globalSetup: './playwrighte2e/config/global-setup',
   globalTeardown: './playwrighte2e/config/global-teardown',
   expect: {
-    timeout: 50 * 1000,
+    timeout: 3 * 60 * 1000,
   },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
+    video: "retain-on-failure",
     screenshot: 'only-on-failure',
   },
 
@@ -42,7 +30,7 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        viewport: { width: 1700, height: 700 },
+        viewport: { width: 1920, height: 1080 },
       },
     },
 

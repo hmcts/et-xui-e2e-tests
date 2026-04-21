@@ -93,7 +93,7 @@ test.describe('Scotland - Caseworker Bundles test', () => {
     test(
       'Bundles - Legal rep submit hearing preparation document - Scotland',
       { tag: '@demo' },
-      async ({ page, manageCaseDashboardPage, caseListPage, loginPage, legalRepPage, listHearingPage, nocPage, caseDetailsPage }) => {
+      async ({ page, manageCaseDashboardPage, loginPage, legalRepPage, listHearingPage, nocPage, caseDetailsPage }) => {
         // await bundleSteps.submitHearingPreparationDocument(page, 'Scotland', subRef, respondentName, firstName, lastName);
 
         let region = 'Scotland';

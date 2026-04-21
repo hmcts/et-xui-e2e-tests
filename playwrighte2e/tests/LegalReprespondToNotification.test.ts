@@ -62,6 +62,7 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
   });
 
   //RET-5924
+  // TODO Create Defect as test is failing
   test('Perform NOC using respondent details, caseworker sends notification and (respondent)legal rep respond to notification', async ({
     manageCaseDashboardPage,
     loginPage,

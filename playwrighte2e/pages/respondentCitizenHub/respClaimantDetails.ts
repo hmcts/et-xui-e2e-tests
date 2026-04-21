@@ -1,18 +1,13 @@
 import { BasePage } from '../basePage.ts';
-import { Page } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
-class RespClaimantDetails extends BasePage {
+export default class RespClaimantDetails extends BasePage {
+  private readonly clickAcasEarlyConciliationLink: Locator;
+
   constructor(page: Page) {
     super(page);
+    this.clickAcasEarlyConciliationLink = page.locator('[href="/acas-early-conciliation-certificate"]');
   }
-
-  public static create(page: Page): RespClaimantDetails {
-    return new RespClaimantDetails(page);
-  }
-
-  elements = {
-    clickAcasEarlyConciliationLink: '[href="/acas-early-conciliation-certificate"]',
-  };
 
   async et3Section2() {
     await this.earlyConciliationDetails();
@@ -20,15 +15,14 @@ class RespClaimantDetails extends BasePage {
   }
 
   async earlyConciliationDetails() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Your response form (ET3)');
-    await this.webActions.clickElementByCss(this.elements.clickAcasEarlyConciliationLink);
+    await expect(this.page.locator('h1')).toContainText('Your response form (ET3)');
+    await this.clickAcasEarlyConciliationLink.click();
     await this.acasEarlyConciliation();
   }
 
   async acasEarlyConciliation() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Acas early conciliation certificate');
+    await expect(this.page.locator('h1')).toContainText('Acas early conciliation certificate');
     await this.page.getByLabel('No').check();
-
     await this.page.getByLabel('Why do you disagree with the').fill('Test ACAS');
     await this.saveAndContinueButton();
   }
@@ -55,7 +49,7 @@ class RespClaimantDetails extends BasePage {
   }
 
   async claimantEmploymentContinuing() {
-    await this.webActions.checkElementByLabel('Yes');
+    await this.page.getByLabel('Yes').check();
     await this.saveAndContinueButton();
   }
 
@@ -95,5 +89,3 @@ class RespClaimantDetails extends BasePage {
     await this.saveAndContinueButton();
   }
 }
-
-export default RespClaimantDetails;

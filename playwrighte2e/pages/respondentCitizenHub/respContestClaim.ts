@@ -1,19 +1,15 @@
 import { BasePage } from '../basePage.ts';
-import { Page } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export default class RespContestClaim extends BasePage {
+  private readonly contestClaimReason: Locator;
+  private readonly clickContestClaimLink: Locator;
+
   constructor(page: Page) {
     super(page);
+    this.contestClaimReason = page.locator("#et3ResponseContestClaimDetails");
+    this.clickContestClaimLink = page.locator('[href="/respondent-contest-claim"]');
   }
-
-  public static create(page: Page): RespContestClaim {
-    return new RespContestClaim(page);
-  }
-
-  elements = {
-    contestClaimReason: "//*[@id=\'et3ResponseContestClaimDetails\']",
-    clickContestClaimLink: '[href="/respondent-contest-claim"]',
-  };
 
   async et3Section3() {
     await this.contestTheClaim();
@@ -22,27 +18,24 @@ export default class RespContestClaim extends BasePage {
   }
 
   async contestTheClaim() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Your response form (ET3)');
-    await this.webActions.clickElementByCss(this.elements.clickContestClaimLink);
-    await this.webActions.checkElementByLabel('Yes');
-
+    await expect(this.page.locator('h1')).toContainText('Your response form (ET3)');
+    await this.clickContestClaimLink.click();
+    await this.page.getByLabel('Yes').check();
     await this.saveAndContinueButton();
-    await this.webActions.fillField(this.elements.contestClaimReason, 'Test Contest Claim');
-
+    await this.contestClaimReason.fill('Test Contest Claim');
     await this.saveAndContinueButton();
-    await this.webActions.checkElementByLabel('Yes, I’ve completed this');
+    await this.page.getByLabel('Yes, I’ve completed this').check();
     await this.saveAndContinueButton();
   }
 
   async employerContractClaim() {
-    await this.webActions.verifyElementContainsText(this.page.locator('h1'), 'Employer’s Contract Claim');
-    await this.webActions.checkElementByLabel('Yes');
-
+    await expect(this.page.locator('h1')).toContainText('Employer’s Contract Claim');
+    await this.page.getByLabel('Yes').check();
     await this.saveAndContinueButton();
-    await this.webActions.fillField('#et3ResponseEmployerClaimDetails', 'Test ECC Text Box');
+    await this.page.locator('#et3ResponseEmployerClaimDetails').fill('Test ECC Text Box');
     await this.page.setInputFiles('#claimSummaryFile', `playwrighte2e/resources/test_file/test.txt`);
     await this.saveAndContinueButton();
-    await this.webActions.clickElementByText('Yes, I’ve completed this');
+    await this.page.getByText('Yes, I’ve completed this').click();
     await this.saveAndContinueButton();
   }
 }
