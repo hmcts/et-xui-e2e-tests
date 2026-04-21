@@ -53,10 +53,11 @@ export default class RespondentDetailsPage extends BasePage {
     await expect(this.respondentName).toBeVisible();
     await this.page.locator('#respondentCollection_0_responseReceived_Yes').check();
     await this.enterResponseReceivedDate();
-    await this.page.locator('#respondentCollection_0_respondentType-Individual').check();
-    await expect(this.page.locator('#respondentCollection_0_respondentFirstName')).toBeVisible();
-    await this.page.locator('#respondentCollection_0_respondentFirstName').fill('Test');
-    await this.page.locator('#respondentCollection_0_respondentLastName').fill('Respondent');
+    //RET-4726
+    // await this.page.locator('#respondentCollection_0_respondentType-Individual').check();
+    // await expect(this.page.locator('#respondentCollection_0_respondentFirstName')).toBeVisible();
+    // await this.page.locator('#respondentCollection_0_respondentFirstName').fill('Test');
+    // await this.page.locator('#respondentCollection_0_respondentLastName').fill('Respondent');
     await this.enterAddressForRespondentFromET3();
     if(et3accepted){
       await this.page.locator('#respondentCollection_0_response_status').selectOption('1: Accepted');
