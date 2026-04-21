@@ -53,8 +53,7 @@ export default class RespondentRepPage extends BasePage {
           await this.webActions.fillField(this.elements.searchForRegisteredOrg, orgName);
           await this.webActions.clickElementByCss(this.elements.selectOrgFromSearchResult);
           await this.clickSubmitButton();
-          // await this.submit.isVisible();
-          await this.clickSubmitButton();
+          await this.clickIgnoreAndContinueButton();
           break;
         case 'notRegisteredSingle':
         case 'partResgisteredMultiple':

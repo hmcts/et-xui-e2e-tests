@@ -44,6 +44,11 @@ export abstract class BasePage {
     await this.page.waitForLoadState('load', { timeout: 5000 });
   }
 
+  async clickIgnoreAndContinueButton() {
+    await this.webActions.clickElementByRole('button', { name: 'Ignore Warning and Continue' });
+    await this.page.waitForLoadState('load', { timeout: 5000 });
+  }
+
   async delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -100,5 +105,4 @@ export abstract class BasePage {
   async addRespondentButton() {
     await this.webActions.clickElementByRole('button', { name: 'Add another respondent' });
   }
-
 }
