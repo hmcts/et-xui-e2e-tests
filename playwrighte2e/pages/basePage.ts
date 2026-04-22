@@ -139,7 +139,7 @@ export abstract class BasePage {
   }
 
   async clickIgnoreAndContinueButton() {
-    await this.webActions.clickElementByRole('button', { name: 'Ignore Warning and Continue' });
+    await this.page.getByRole('button', { name: 'Ignore Warning and Continue' }).click();
     await this.page.waitForLoadState('load', { timeout: 5000 });
   }
 
