@@ -62,7 +62,7 @@ test.describe('Work Allocation', () => {
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     await caseDetailsPage.navigateToTab('Tasks');
 
-    await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'Review Referral #1 - ET1', 'Reply to the Referral');
+    await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'EJ - Review Referral #1 - ET1', 'Reply to the Referral');
     await referralPage.replyToReferral();
   });
 
@@ -121,7 +121,7 @@ test.describe('Work Allocation- Judge completes tasks', () => {
     await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     await caseDetailsPage.navigateToTab('Tasks');
 
-    await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'Draft And Sign Judgment', 'Draft and Sign Judgment');
+    await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'Draft And Sign Judgment/Order', 'Draft and Sign Judgment');
     await draftJudgementPage.submitDraftJudgement();
   });
 });
