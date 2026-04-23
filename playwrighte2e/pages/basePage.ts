@@ -110,7 +110,7 @@ export abstract class BasePage {
     console.log('clicking submitted', submitted);
     await this.page.waitForLoadState('load');
     await this.submitButton.scrollIntoViewIfNeeded();
-    await this.page.evaluate(el => el.scrollIntoView({ block: 'center' }), await this.submitButton.elementHandle());
+    await this.page.evaluate(el => el?.scrollIntoView({ block: 'center' }), await this.submitButton.elementHandle());
     await expect(this.submitButton).toBeVisible();
     await expect(this.submitButton).toBeEnabled();
     const maxRetries = submitted ? 3 : 1;

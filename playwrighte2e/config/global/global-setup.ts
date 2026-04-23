@@ -1,7 +1,6 @@
-import { FullConfig } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
-import { IdamApi } from '../data-utils/api/IdamApi';
+import { IdamApi } from '../../data-utils/api/IdamApi.ts';
 
 /**
  * Playwright global setup script to create dynamic test users and store their credentials.
@@ -24,7 +23,7 @@ async function globalSetup() {
       password: etRespondent.userPassword,
     },
   };
-  const tmpDir = path.resolve(__dirname, '../../.tmp');
+  const tmpDir = path.resolve(__dirname, '../../../.tmp');
   if (!fs.existsSync(tmpDir)) {
     fs.mkdirSync(tmpDir);
   }

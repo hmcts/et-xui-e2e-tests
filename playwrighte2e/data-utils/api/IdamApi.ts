@@ -1,6 +1,5 @@
 import { getUserAuthToken } from './TokenHelperApi.ts';
 import config from '../../config/config.ts';
-import axios from 'axios';
 import { axiosRequest } from './ApiHelper.ts';
 import { CaseDetailsValues } from '../../config/case-data.ts';
 

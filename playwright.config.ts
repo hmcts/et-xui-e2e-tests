@@ -10,9 +10,9 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 6 : undefined,
   reporter: process.env.CI ? [["html"], ["list"]] : [["list"]],
-  timeout: 5 * 60 * 1000,
-  globalSetup: './playwrighte2e/config/global-setup',
-  globalTeardown: './playwrighte2e/config/global-teardown',
+  timeout: 4 * 60 * 1000,
+  globalSetup: './playwrighte2e/config/global/global-setup',
+  globalTeardown: './playwrighte2e/config/global/global-teardown',
   expect: {
     timeout: 3 * 60 * 1000,
   },
@@ -27,21 +27,28 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'setup',
+      testMatch: /user\.setups\.ts/,
+    },
+    {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 },
       },
+      dependencies: ["setup"]
     },
 
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
+      dependencies: ["setup"]
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+      dependencies: ["setup"]
     },
   ],
 });

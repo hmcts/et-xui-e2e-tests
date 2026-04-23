@@ -2,7 +2,7 @@ import * as OTPAuth from 'totp-generator';
 import {axiosRequest} from './ApiHelper.ts';
 import {readCache, writeCache} from '../CachingHelper.ts';
 import querystring from 'querystring';
-import config from '../../config/config.ts';
+import { staticConfig } from '../../config/config.static.ts';
 
 const env = process.env.RUNNING_ENV && process.env.RUNNING_ENV.startsWith('pr-') ? 'aat' : (process.env.RUNNING_ENV || 'aat');
 const idamBaseUrl = `https://idam-api.${env}.platform.hmcts.net`;
@@ -103,7 +103,7 @@ export async function getServiceToken(): Promise<string> {
     return cached.token;
   }
 
-  const serviceSecret = config.TestCcdGwSecret;
+  const serviceSecret = staticConfig.TestCcdGwSecret;
   const s2sBaseUrl = `http://rpe-service-auth-provider-${env}.service.core-compute-${env}.internal`;
   const s2sAuthPath = '/testing-support/lease';
 
