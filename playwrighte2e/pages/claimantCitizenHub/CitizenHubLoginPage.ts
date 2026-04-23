@@ -5,33 +5,35 @@ import LoginPage from '../loginPage.ts';
 export default class CitizenHubLoginPage extends LoginPage {
   private readonly syaLandingPageTitle: Locator;
   private readonly startNewClaimButton: Locator;
-  private readonly returnToAnExistingClaimLink: Locator;
+  private readonly returnToDraftOrSubmittedClaimLink: Locator;
   private readonly returnToExistingClaimPageTitle: Locator;
-  private readonly saveAndReturnNumberCheckbox: Locator;
-  private readonly employmentTribAccountCheckbox: Locator;
+  private readonly returnTodraftClaimCheckbox: Locator;
+  private readonly returntoSubmittedClaimCheckbox: Locator;
+  private readonly employmentTribunalAccountCheckbox: Locator;
 
 
   constructor(page: Page) {
     super(page);
     this.syaLandingPageTitle = this.page.getByRole('heading', {name: 'Make a claim to an employment tribunal'})
     this.startNewClaimButton = this.page.locator(`xpath=//a[normalize-space()='Start a new claim']`);
-    this.returnToAnExistingClaimLink = this.page.locator(`xpath=//a[normalize-space()='Return to a draft or existing claim']`);
-    this.returnToExistingClaimPageTitle = this.page.getByRole('heading', {name: 'Return to an existing claim'});
-    this.saveAndReturnNumberCheckbox = this.page.locator(`#return_number_or_account`);
-    this.employmentTribAccountCheckbox = this.page.locator(`#return_number_or_account-2`);
+    this.returnToDraftOrSubmittedClaimLink = this.page.locator(`xpath=//a[normalize-space()='Return to a draft or submitted claim']`);
+    this.returnToExistingClaimPageTitle = this.page.getByRole('heading', {name: 'Return to a draft or submitted claim'});
+    this.returnTodraftClaimCheckbox = this.page.locator(`#return_to_existing`);
+    this.returntoSubmittedClaimCheckbox = this.page.locator(`#return_to_existing-2`);
+    this.employmentTribunalAccountCheckbox = this.page.locator(`#submitted_claim_option`);
   }
 
   async assertSyaLandingPage() {
     await this.page.waitForLoadState('load');
     await expect(this.syaLandingPageTitle).toBeVisible();
     await expect(this.startNewClaimButton).toBeVisible();
-    await expect(this.returnToAnExistingClaimLink).toBeVisible();
+    await expect(this.returnToDraftOrSubmittedClaimLink).toBeVisible();
   }
 
-  async assertReturnToAnExistingClaimPage() {
+  async assertReturnToDraftOrSubmittedClaimPage() {
     await expect(this.returnToExistingClaimPageTitle).toBeVisible();
-    await expect(this.saveAndReturnNumberCheckbox).toBeVisible();
-    await expect(this.employmentTribAccountCheckbox).toBeVisible();
+    await expect(this.returnTodraftClaimCheckbox).toBeVisible();
+    await expect(this.returntoSubmittedClaimCheckbox).toBeVisible();
   }
 
   async processCitizenHubLogin(username: string, password: string){
@@ -40,11 +42,12 @@ export default class CitizenHubLoginPage extends LoginPage {
     await this.page.waitForLoadState('load');
 
     await this.assertSyaLandingPage();
-    await this.returnToAnExistingClaimLink.click();
+    await this.returnToDraftOrSubmittedClaimLink.click();
     await this.page.waitForLoadState('load');
 
-    await this.assertReturnToAnExistingClaimPage();
-    await this.employmentTribAccountCheckbox.check();
+    await this.assertReturnToDraftOrSubmittedClaimPage();
+    await this.returntoSubmittedClaimCheckbox.check();
+    await this.employmentTribunalAccountCheckbox.check();
 
     await this.clickContinue();
 
