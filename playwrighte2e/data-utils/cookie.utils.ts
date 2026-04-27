@@ -3,7 +3,7 @@ import { Cookie } from "playwright-core";
 
 export class CookieUtils {
 
-  private resolveHostname(url: string): string {
+  private static resolveHostname(url: string): string {
     try {
       return new URL(url).hostname;
     } catch {
@@ -19,7 +19,7 @@ export class CookieUtils {
     }
   }
 
-  public async addSessionFreshnessCookie(sessionPath: string, url: string): Promise<void> {
+  public static async addSessionFreshnessCookie(sessionPath: string, url: string): Promise<void> {
     const domain = this.resolveHostname(url);
     const state = JSON.parse(fs.readFileSync(sessionPath, "utf-8"));
     const expires = Math.floor(Date.now() / 1000) + (60 * 60);
@@ -36,9 +36,8 @@ export class CookieUtils {
     fs.writeFileSync(sessionPath, JSON.stringify(state, null, 2));
   }
 
-  public isSessionValid(path: string, cookieName: string): boolean {
+  public static isSessionValid(path: string, cookieName: string): boolean {
     if (!fs.existsSync(path)) {
-      console.error(`Cookie ${path} does not exist`);
       return false;
     }
 
@@ -50,13 +49,11 @@ export class CookieUtils {
       );
 
       if (!targetCookie || typeof targetCookie.expires !== "number") {
-        console.error(`expires is not a number`);
         return false;
       }
 
       const expiryMs = targetCookie.expires * 1_000;
       if (!Number.isFinite(expiryMs)) {
-        console.error(`expires is not finite`);
         return false;
       }
 

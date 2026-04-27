@@ -1,14 +1,16 @@
 import { test } from '../fixtures/common.fixture';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
-import config from '../config/config.ts';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
+import { users } from '../config/config.dynamic.ts';
 
 let caseNumber: string;
 let caseId: string;
 
 test.describe('Restrict a case by applying rule 43 flag', () => {
+    test.use({
+        storageState: users.etCaseWorker.sessionFile
+    });
     test.beforeEach(async () => {
-
       ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
     });
 
@@ -18,9 +20,7 @@ test.describe('Restrict a case by applying rule 43 flag', () => {
       async ({ manageCaseDashboardPage, loginPage, caseDetailsPage, restrictedReportingPage }) => {
         await manageCaseDashboardPage.visit();
         await loginPage.processLogin(
-          config.etCaseWorker.email,
-          config.etCaseWorker.password,
-          config.loginPaths.worklist,
+          users.etCaseWorker
         );
 
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);

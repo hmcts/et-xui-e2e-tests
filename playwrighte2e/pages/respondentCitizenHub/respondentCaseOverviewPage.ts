@@ -148,4 +148,10 @@ export default class RespondentCaseOverviewPage extends BasePage {
     await this.claimantContactDetails.click();
     await expect(this.page.locator('dl')).toContainText('Email');
   }
+
+  async validateNotificationBanner(notificationName: string) {
+    await this.page.waitForLoadState('load');
+    await expect(this.page.getByRole('heading', {name: 'The tribunal has sent you a notification', level: 3})).toBeVisible();
+    await expect(this.page.getByRole('link', { name: 'View the notification - ' + notificationName })).toBeVisible();
+  }
 }

@@ -8,6 +8,12 @@ const dynamicRespondent = getDynamicUser('etRespondent');
 
 const sessionDir = '.sessions/';
 
+export type UserCredentials = {
+  email: string;
+  password: string;
+  sessionFile: string;
+};
+
 export const users = {
   etClaimant: {
     email: dynamicClaimant.email || process.env.ET_CITIZEN_USER_NAME || '',

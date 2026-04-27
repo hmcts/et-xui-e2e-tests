@@ -1,10 +1,10 @@
 import { BasePage } from "./basePage";
-import config from "../config/config";
 import { expect, Page, Locator } from '@playwright/test';
+import LoginPage from './loginPage.ts';
+import { config, UserCredentials, users } from '../config/config.dynamic.ts';
 
-export default class Et3LoginPage extends BasePage {
+export default class Et3LoginPage extends LoginPage {
   private readonly returnToExistingResponse: Locator;
-  private readonly submit: Locator;
   private readonly startNow: Locator;
   private readonly respondToNewClaim: Locator;
   private readonly caseNumber: Locator;
@@ -17,7 +17,6 @@ export default class Et3LoginPage extends BasePage {
   constructor(page: Page) {
     super(page);
     this.returnToExistingResponse = page.locator('[href="/return-to-existing-response?lng=en"]');
-    this.submit = page.locator('[type="submit"]');
     this.startNow = page.locator('[href="/case-number-check"]');
     this.respondToNewClaim = page.locator('[href="/case-number-check?lng=en&redirect=selfAssignment"]');
     this.caseNumber = page.locator('#ethosCaseReference');
@@ -28,20 +27,15 @@ export default class Et3LoginPage extends BasePage {
     this.appointLegalRepLink = page.locator('[href="/appoint-legal-representative"]');
   }
 
-  async processRespondentLogin(username: string, password: string, caseNumber: string) {
+  async processRespondentLogin(user: UserCredentials) {
     await this.page.goto(config.etSyrUiUrl);
     await expect(this.page.locator('h1')).toHaveText(/Introduction/);
     await this.returnToExistingResponse.click();
     await this.page.waitForTimeout(1000);
     await this.page.locator('#return_number_or_account-2').click();
     await this.clickContinue();
-    await this.loginRespondentUi(username, password);
-  }
-
-  async loginRespondentUi(username: string, password: string) {
-    await this.page.locator('#username').fill(username);
-    await this.page.locator('#password').fill(password);
-    await this.submit.click();
+    await this.processLogin(user, config.etSyrUiUrl);
+    await this.page.waitForLoadState('load');
   }
 
   async replyToNewClaim(
@@ -51,20 +45,22 @@ export default class Et3LoginPage extends BasePage {
     firstName: string,
     lastName: string,
   ) {
+    await this.page.goto(config.etSyrUiUrl + '/case-list');
     await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
     await this.respondToNewClaim.click();
-    await this.caseNumberPage(caseNumber);
-    await this.caseDetailsPage(submissionRef, respName, firstName, lastName);
+    await this.enterCaseNumberDetail(caseNumber);
+    await this.enterCaseDetails(submissionRef, respName, firstName, lastName);
     await this.checkAndSubmitPage(caseNumber);
+    await this.navigateToCase(caseNumber, submissionRef);
   }
 
-  async caseNumberPage(caseNumber: string) {
+  async enterCaseNumberDetail(caseNumber: string) {
     await expect(this.page.locator('h1')).toContainText('Case Number');
     await this.caseNumber.fill(caseNumber.toString());
     await this.clickContinue();
   }
 
-  async caseDetailsPage(submissionRef: string, respName: string, firstName: string, lastName: string) {
+  async enterCaseDetails(submissionRef: string, respName: string, firstName: string, lastName: string) {
     await expect(this.page.locator('h1')).toContainText('Case Details');
     await this.submissionRefNumber.fill(submissionRef.toString());
     await this.respName.fill(respName);
@@ -78,18 +74,22 @@ export default class Et3LoginPage extends BasePage {
     await expect(this.page.locator('h1')).toContainText('Check and submit');
     await this.page.locator('#confirmation').check();
     await this.clickSubmitButton();
-    await this.page.reload();
-    await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
-    await expect(this.respondToNewClaim).toBeVisible();
-    await this.page.getByLabel('view ' + caseNumber + ':').click();
   }
 
-  async processRespondentLoginForExistingCase(username: string, password: string, caseNumber: string) {
+  async navigateToCase(caseNumber: string, caseId: string) {
+    await this.page.goto(config.etSyrUiUrl + '/case-list');
+    await this.page.waitForLoadState('load');
+    await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
+    await expect(this.respondToNewClaim).toBeVisible();
+    await this.page.getByLabel('view ' + caseNumber + ': '+caseId.toString()).click();
+  }
+
+  async processRespondentLoginForExistingCase(user: UserCredentials, caseNumber: string) {
     await this.page.goto(config.etSyrUiUrl);
     await this.returnToExistingResponse.click();
     await this.page.locator('#return_number_or_account-2').check();
     await this.clickContinue();
-    await this.loginRespondentUi(username, password);
+    await this.processLogin(user, config.etSyrUiUrl);
     await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
     await expect(this.respondToNewClaim).toBeVisible();
     await this.page.getByLabel('view ' + caseNumber.toString() + ':').click();

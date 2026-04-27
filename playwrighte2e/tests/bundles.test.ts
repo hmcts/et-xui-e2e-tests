@@ -1,14 +1,14 @@
 import { test } from '../fixtures/common.fixture';
-import config from "../config/config";
 import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data';
 import DateUtilComponent from '../data-utils/DateUtilComponent';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
+import { users } from '../config/config.dynamic.ts';
 
 let caseId: string;
 let caseNumber: string;
-
+//TODO: use browser context once List hearing api is done
 test.describe('England - Caseworker Bundles test', () => {
 
     test.beforeEach(async () => {
@@ -25,7 +25,7 @@ test.describe('England - Caseworker Bundles test', () => {
       nocPage,
     }) => {
       await manageCaseDashboardPage.visit();
-      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+      await loginPage.processLogin(users.etCaseWorker);
 
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
       let region = 'EnglandWales';
@@ -34,9 +34,7 @@ test.describe('England - Caseworker Bundles test', () => {
       await manageCaseDashboardPage.signOut();
 
       await loginPage.processLogin(
-        config.etLegalRepresentative.email,
-        config.etLegalRepresentative.password,
-        config.loginPaths.cases,
+        users.etLegalRepresentative
       );
       await manageCaseDashboardPage.navigateToNoticeOfChange();
       await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
@@ -85,7 +83,7 @@ test.describe('Scotland - Caseworker Bundles test', () => {
     test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
       ({ caseId, caseNumber } = await CaseworkerCaseFactory.createScotlandAndAcceptCase());
       await manageCaseDashboardPage.visit();
-      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+      await loginPage.processLogin(users.etCaseWorker);
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.Scotland);
     });
 
@@ -102,9 +100,7 @@ test.describe('Scotland - Caseworker Bundles test', () => {
         await page.click('text=Sign out');
 
         await loginPage.processLogin(
-          config.etLegalRepresentative.email,
-          config.etLegalRepresentative.password,
-          config.loginPaths.cases,
+          users.etLegalRepresentative
         );
         await manageCaseDashboardPage.navigateToNoticeOfChange();
         await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
@@ -145,7 +141,7 @@ test.describe('England - Claimant Bundles test', () => {
       caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
       ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
       await manageCaseDashboardPage.visit();
-      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+      await loginPage.processLogin(users.etCaseWorker);
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     });
 
@@ -164,7 +160,7 @@ test.describe('England - Claimant Bundles test', () => {
         await listHearingPage.listCase('EnglandWales', 0, 'Amersham');
         await manageCaseDashboardPage.signOut();
 
-        await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
+        await citizenHubLoginPage.processCitizenHubLogin(users.etClaimant);
         await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
         await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
         await citizenHubPage.navigateToContactTheTribunalPage();

@@ -26,6 +26,7 @@ export const PayloadPath = {
   events: {
     et1vetting: './playwrighte2e/resources/payload/events/et1Vetting.json',
     acceptCase: './playwrighte2e/resources/payload/events/acceptCase.json',
+    listHearingAmersham: './playwrighte2e/resources/payload/events/listHearingEnglandAmersham.json',
   },
 };
 

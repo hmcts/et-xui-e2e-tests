@@ -107,7 +107,6 @@ export abstract class BasePage {
    * @param submitted - If true, ensures the page is submitted and no error is present. If false, just clicks and returns.
    */
   async clickSubmitButton(submitted: boolean = true) {
-    console.log('clicking submitted', submitted);
     await this.page.waitForLoadState('load');
     await this.submitButton.scrollIntoViewIfNeeded();
     await this.page.evaluate(el => el?.scrollIntoView({ block: 'center' }), await this.submitButton.elementHandle());

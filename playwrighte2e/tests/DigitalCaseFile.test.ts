@@ -15,7 +15,11 @@ test.describe('Digital Case File', () => {
     ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
   });
 
-  test('Create a claim, perform DCF event', {tag: '@demo'}, async ({manageCaseDashboardPage, uploadDocumentPage, caseDetailsPage}) => {
+  test('Create a claim, perform DCF event', {tag: '@demo'}, async ({manageCaseDashboardPage, uploadDocumentPage, caseDetailsPage, loginPage}) => {
+    await manageCaseDashboardPage.visit();
+    await loginPage.processLogin(
+      users.etCaseWorker
+    );
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(
       caseId,
       CaseTypeLocation.EnglandAndWales,

@@ -1,45 +1,52 @@
 import { test } from '../../fixtures/common.fixture.ts';
-import { config, users } from '../config.dynamic.ts';
+import { users } from '../config.dynamic.ts';
+import { CookieUtils } from '../../data-utils/cookie.utils.ts';
 
 test.describe("set up user context", () => {
   const cookieName = 'session-freshness-check';
-  test(
-    'Set up case manager user context',
-    async({loginPage, manageCaseDashboardPage, cookieUtils})  => {
-      const user = users.etCaseWorker;
-      if(cookieUtils.isSessionValid(user.sessionFile, cookieName)) {
-        console.log(`Valid session already exists for ${user.email}, skipping login.`);
-        return;
+  const xuiUsers = [
+    { role: 'Case Worker', user: users.etCaseWorker },
+    { role: 'Legal Rep1', user: users.etLegalRepresentative },
+    { role: 'Legal Rep2', user: users.etLegalRepresentative2 },
+    { role: 'Judge', user: users.etEnglandJudge },
+    { role: 'Legal Ops User', user: users.etManageCaseUser },
+    { role: 'Judge Work Allocation', user: users.etWorkAllocationJudge}
+  ];
+  for (const { role, user } of xuiUsers) {
+    test(
+      `Set up ${role} user context`,
+      async ({ loginPage, manageCaseDashboardPage }) => {
+        if (CookieUtils.isSessionValid(user.sessionFile, cookieName)) {
+          console.log(`Valid session already exists for ${role} (${user.email}), skipping login.`);
+          return;
+        }
+        console.log(`Logging new session for ${role} (${user.email})`);
+        await manageCaseDashboardPage.visit();
+        await loginPage.processLogin(user);
       }
-      console.log('logging new session');
-      await manageCaseDashboardPage.visit();
-      await loginPage.processLogin(user.email, user.password);
-      await loginPage.saveSession(user.sessionFile);
-      await cookieUtils.addSessionFreshnessCookie(user.sessionFile, config.manageCaseBaseUrl);
-    });
+    );
+  }
 
-  test.skip(
+  test(
     'Set up Citizen Claimant user context',
-    async({loginPage, citizenHubLoginPage, cookieUtils})  => {
+    async({citizenHubLoginPage,})  => {
       const user = users.etClaimant;
-      if(cookieUtils.isSessionValid(user.sessionFile, cookieName)) {
+      if(CookieUtils.isSessionValid(user.sessionFile, cookieName)) {
         console.log(`Valid session already exists for ${user.email}, skipping login.`);
         return;}
-      await citizenHubLoginPage.processCitizenHubLogin(user.email, user.password);
-      await loginPage.saveSession(user.sessionFile);
-      await cookieUtils.addSessionFreshnessCookie(user.sessionFile, config.etSyaUiUrl);
+      await citizenHubLoginPage.processCitizenHubLogin(user);
     });
 
-  test.skip(
+  test(
     'Set up Citizen Respondent user context',
-    async({loginPage, citizenHubLoginPage, cookieUtils})  => {
+    async({et3LoginPage})  => {
       const user = users.etRespondent;
-      if(cookieUtils.isSessionValid(user.sessionFile, cookieName)) {
+      if(CookieUtils.isSessionValid(user.sessionFile, cookieName)) {
         console.log(`Valid session already exists for ${user.email}, skipping login.`);
         return;
       }
-      await citizenHubLoginPage.processCitizenHubLogin(user.email, user.password);
-      await loginPage.saveSession(user.sessionFile);
-      await cookieUtils.addSessionFreshnessCookie(user.sessionFile, config.etSyrUiUrl);
+      await et3LoginPage.processRespondentLogin(user);
     });
+
+
 });
