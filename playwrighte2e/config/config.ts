@@ -54,8 +54,8 @@ const configuration = {
   },
 
   etRespondent2: {
-    email: dynamicRespondent2.email || '',
-    password: dynamicRespondent2.password || '',
+    email: dynamicRespondent2.email || process.env.ET_RESP2_USER_NAME || '',
+    password: dynamicRespondent2.password || process.env.ET_RESP2_PASSWORD || '',
   },
 
   etLegalRepresentative2: {
