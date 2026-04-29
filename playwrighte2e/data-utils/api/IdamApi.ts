@@ -3,6 +3,7 @@ import config from '../../config/config.ts';
 import axios from 'axios';
 import { axiosRequest } from './ApiHelper.ts';
 import { CaseDetailsValues } from '../../config/case-data.ts';
+import { v4 as uuidv4 } from "uuid";
 
 const env = config.env;
 const idamTestingSupportUrl = `https://idam-testing-support-api.${env}.platform.hmcts.net`;
@@ -46,7 +47,8 @@ export class IdamApi {
   }
 
   async createDynamicRespondentUser() {
-    const userEmail = `ettestresp${Date.now()}@gmail.com`;
+    const uniqueId = uuidv4();
+    const userEmail = `ettestresp${uniqueId}@gmail.com`;
     const userPassword = 'Nagoya0102';
     const authToken = await getUserAuthToken(config.etApiUser.email, config.etApiUser.password);
     await this.createCitizenPostRequest(authToken, userEmail, userPassword);
@@ -54,7 +56,8 @@ export class IdamApi {
   }
 
   async createDynamicClaimantUser() {
-    const userEmail = `ettestclaimant${Date.now()}@gmail.com`;
+    const uniqueId = uuidv4();
+    const userEmail = `ettestclaimant${uniqueId}@gmail.com`;
     const userPassword = 'Nagoya0102';
     const authToken = await getUserAuthToken(config.etApiUser.email, config.etApiUser.password);
     await this.createCitizenPostRequest(authToken, userEmail, userPassword, CaseDetailsValues.claimantFirstName, CaseDetailsValues.claimantLastName);

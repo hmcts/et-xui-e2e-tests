@@ -1033,6 +1033,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/uuid@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "@types/uuid@npm:11.0.0"
+  dependencies:
+    uuid: "npm:*"
+  checksum: 10/9f94bd34e5d220c53cc58ea9f48a0061d3bc343e29bc33a17edc705f5e21fedda21553318151f2bc227c2b2b03727bbb536da2b82a61f84d2e1ca38abc5e5c3f
+  languageName: node
+  linkType: hard
+
 "@types/yauzl@npm:^2.9.1":
   version: 2.10.3
   resolution: "@types/yauzl@npm:2.10.3"
@@ -2276,6 +2285,7 @@ __metadata:
     "@types/lodash": "npm:^4"
     "@types/node": "npm:^22.0.0"
     "@types/proper-lockfile": "npm:^4"
+    "@types/uuid": "npm:^11.0.0"
     axe-html-reporter: "npm:^2.2.11"
     axios: "npm:1.13.5"
     chance: "npm:^1.1.11"
@@ -2289,6 +2299,7 @@ __metadata:
     totp-generator: "npm:2.0.0"
     typescript-logging: "npm:^2.2.0"
     typescript-logging-log4ts-style: "npm:^2.2.0"
+    uuid: "npm:^14.0.0"
   languageName: unknown
   linkType: soft
 
@@ -4474,6 +4485,15 @@ __metadata:
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
   checksum: 10/474acf1146cb2701fe3b074892217553dfcf9a031280919ba1b8d651a068c9b15d863b7303cb15bd00a862b498e6cf4ad7b4a08fb134edd5a6f7641681cb54a2
+  languageName: node
+  linkType: hard
+
+"uuid@npm:*, uuid@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "uuid@npm:14.0.0"
+  bin:
+    uuid: dist-node/bin/uuid
+  checksum: 10/8ee9b98f9650e25555515f7a28d3c3ae9364e72f7bb19b9e08b681bc135338beba5509b2830f6ae1cfaba4d45401da0d16d4d109b977097bc3d6ba0c5583341b
   languageName: node
   linkType: hard
 
