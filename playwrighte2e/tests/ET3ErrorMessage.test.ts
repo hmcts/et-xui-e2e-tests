@@ -17,6 +17,7 @@ let userPassword:any;
 let userEmail2: any
 let userPassword2: any
 
+
 test.describe('what', () => {
 test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
       ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
@@ -26,22 +27,18 @@ test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
 
       userEmail = config.etRespondent.email;
       userPassword = config.etRespondent.password;
-
-      userEmail2 = config.etRespondent.email; //these need changing to a different respondent (not currently in .env file)
-      userPassword2 = config.etRespondent.password; //these need changing to a different respondent (not currently in .env file)
+      userEmail2 = config.etRespondent2.email; 
+      userPassword2 = config.etRespondent2.password; 
     });
 
   
     test('Respondent Assign a claim (ET3)', async ({ et3LoginPage, responseLandingPage}) => {
-    //Assign a claim to different respondent
-    //login as respondent first
-    await et3LoginPage.processRespondentLogin(userEmail, userPassword,caseNumber);
+    await et3LoginPage.processRespondentLogin(userEmail, userPassword,caseNumber); 
     await et3LoginPage.replyToNewClaim(caseId, caseNumber, respName, firstName, lastName);
-    await et3LoginPage.signOutButtonSyr
+    await et3LoginPage.signOutButtonSyr();
     await et3LoginPage.processRespondentLogin(userEmail2, userPassword2,caseNumber); 
-    await et3LoginPage.replyToNewClaim(caseId, caseNumber, respName, firstName, lastName); //this doesn't work because the function expects you to click submit and go to the next page
-    // Validate error message
-    await et3LoginPage.assertErrorMessageIsVisible('Unable to assign role. Please try again later'); //this needs updating to the new error message
+    await et3LoginPage.replyToClaimAsNewRespondent(caseId, caseNumber, respName, firstName, lastName);
+    await et3LoginPage.assertErrorMessageIsVisible('Case has already assigned to a respondent'); 
     
   });
 });
