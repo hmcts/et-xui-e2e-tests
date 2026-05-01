@@ -13,6 +13,7 @@ export default class Et3LoginPage extends BasePage {
   private readonly claimantFirstName: Locator;
   private readonly claimantLastName: Locator;
   private readonly appointLegalRepLink: Locator;
+  private readonly errorMessage = (text: string): Locator => this.page.getByText(text).first();
 
   constructor(page: Page) {
     super(page);
@@ -115,5 +116,25 @@ export default class Et3LoginPage extends BasePage {
     await expect(this.page.locator('#main-content')).toContainText('Case overview');
     await expect(this.page.getByLabel('Important').filter({ hasText: 'You are no longer legally represented.' })).toBeVisible();
     await expect(this.appointLegalRepLink).toBeVisible();
+  }
+
+  async replyToClaimAsNewRespondent(
+    submissionRef: string,
+    caseNumber: string,
+    respName: string,
+    firstName: string,
+    lastName: string,
+  ) {
+    await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
+    await this.respondToNewClaim.click();
+    await this.caseNumberPage(caseNumber);
+    await this.caseDetailsPage(submissionRef, respName, firstName, lastName);
+    await expect(this.page.locator('h1')).toContainText('Check and submit');
+    await this.page.locator('#confirmation').check();
+    await this.clickSubmitButton();
+  }
+  
+  async assertErrorMessageIsVisible(message: string) {
+    await expect(this.errorMessage(message)).toBeVisible();
   }
 }
