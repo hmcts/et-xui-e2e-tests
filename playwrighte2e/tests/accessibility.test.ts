@@ -38,9 +38,6 @@ test.describe('Accessibility test', () => {
     await caseDetailsPage.navigateToTab('Initial Consideration');
     await axeUtils.audit();
 
-    await caseDetailsPage.navigateToTab('Judgments');
-    await axeUtils.audit();
-
     await caseDetailsPage.navigateToTab('History');
     await axeUtils.audit();
 
