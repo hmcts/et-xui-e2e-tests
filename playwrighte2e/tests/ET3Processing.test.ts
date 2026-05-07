@@ -1,12 +1,16 @@
 import { test } from '../fixtures/common.fixture';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
-import config from '../config/config.ts';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
+import { users } from '../config/config.dynamic.ts';
 
 let caseId: string;
 let caseNumber: string;
 
 test.describe('ET3 Process test', () => {
+
+    test.use({
+        storageState: users.etCaseWorker.sessionFile,
+    })
 
     test.beforeEach(async () => {
       ({caseId, caseNumber} = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
@@ -19,9 +23,7 @@ test.describe('ET3 Process test', () => {
 
         await manageCaseDashboardPage.visit();
         await loginPage.processLogin(
-          config.etCaseWorker.email,
-          config.etCaseWorker.password,
-          config.loginPaths.worklist,
+          users.etCaseWorker
         );
 
         await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);

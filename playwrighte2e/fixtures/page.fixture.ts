@@ -149,7 +149,7 @@ export type PageFixtures = {
 export const pageFixtures = base.extend<PageFixtures>({
 
     applicationTabPage: async ({ page }, use) => {
-        await use(new ApplicationTabPage(page, commonActionsHelper));
+        await use(new ApplicationTabPage(page));
     },
 
     manageCaseDashboardPage: async ({page}, use) => {
@@ -249,7 +249,7 @@ export const pageFixtures = base.extend<PageFixtures>({
     },
 
     respondentDetailsPage:async ({page}, use) => {
-        await use(new RespondentDetailsPage(page, commonActionsHelper));
+        await use(new RespondentDetailsPage(page));
     },
 
     nocPage:async ({page}, use) => {

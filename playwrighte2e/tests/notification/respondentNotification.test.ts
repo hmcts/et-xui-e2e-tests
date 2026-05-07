@@ -21,7 +21,7 @@ test.describe('Respondent Notification scenarios tests', () =>{
   });
 
   test('Respondent Notification - Verify respondent receives notification and can view case details',
-    async ({             et3LoginPage,
+    async ({ et3LoginPage,
              responseLandingPage, respContactDetailsPages, respClaimantDetails, respContestClaim,
              respSubmitEt3, browserUtils, respondentCaseOverviewPage
   }) => {

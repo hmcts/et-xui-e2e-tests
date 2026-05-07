@@ -6,7 +6,6 @@ import { CheckYourAnswersPage } from './helpers/CheckYourAnswersPage.ts';
 
 export class ApplicationTabPage extends BasePage {
 
-  private readonly commonActionHelper: CommonActionsHelper;
   private readonly selectAnApplicationTitle: Locator;
   private readonly applicationTypeDropdown: Locator;
   private readonly fileUpload: Locator;
@@ -26,9 +25,8 @@ export class ApplicationTabPage extends BasePage {
   private readonly partieToNotify: Locator;
   private readonly responseTitleTextArea: Locator;
 
-  constructor(page: Page, commonActionHelper: CommonActionsHelper) {
+  constructor(page: Page) {
     super(page);
-    this.commonActionHelper = commonActionHelper;
     this.selectAnApplicationTitle = this.page.getByRole('heading', { name: 'Select an application' });
     this.applicationTypeDropdown = this.page.locator(`#resTseSelectApplication, #tseAdminSelectApplication, #tseRespondSelectApplication`);
 
@@ -83,7 +81,7 @@ export class ApplicationTabPage extends BasePage {
     await expect(this.informationInputTextArea).toBeVisible();
     await this.informationInputTextArea.fill(details);
 
-    await this.commonActionHelper.uploadWithRateLimitRetry(
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
       this.page,
       this.fileUpload,
       'playwrighte2e/resources/test_file/welshTest.pdf',
@@ -226,7 +224,7 @@ export class ApplicationTabPage extends BasePage {
       await this.addNewButtonClick();
       await this.page.waitForLoadState('load');
       const uploadLocator = this.page.locator(`#tseAdminResponseRequiredNoDoc_${i}_uploadedDocument, #tseResponseSupportingMaterial_${i}_uploadedDocument, #tseAdmReplyAddDocument_${i}_uploadedDocument`)
-      await this.commonActionHelper.uploadWithRateLimitRetry(
+      await this.commonActionsHelper.uploadWithRateLimitRetry(
         this.page,
         uploadLocator,
         filePaths[i],

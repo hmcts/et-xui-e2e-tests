@@ -1,7 +1,9 @@
 import { expect, Locator, Page } from '@playwright/test';
+import { CommonActionsHelper } from './helpers/CommonActionsHelper.ts';
 
 export abstract class BasePage {
   readonly page: Page;
+  readonly commonActionsHelper: CommonActionsHelper;
   readonly saveAsDraftButton: Locator;
   readonly closeAndReturnButton: Locator;
   readonly applyFilterButton: Locator;
@@ -15,6 +17,7 @@ export abstract class BasePage {
 
   constructor(page: Page) {
     this.page = page;
+    this.commonActionsHelper = new CommonActionsHelper();
     this.saveAsDraftButton = page.getByRole('button', { name: 'Save as draft' });
     this.closeAndReturnButton = this.page.getByRole('button', { name: 'Close and Return to case' });
     this.applyFilterButton = this.page.getByRole('button', { name: 'Apply filter' });
@@ -31,7 +34,7 @@ export abstract class BasePage {
     await this.page.waitForTimeout(time);
   }
 
-  async clickContinue(url?: string, pageNum?: number) {
+  async clickContinue(url: string = '', pageNum?: number, canContinue?: boolean) {
     await this.page.waitForLoadState('load');
     const maxRetries = 3;
     let attempt = 0;
@@ -42,8 +45,9 @@ export abstract class BasePage {
       await this.continueButton.click({force: true});
       await this.page.waitForLoadState('load', {timeout: 5000});
       await this.waitForSpinner();
+      if (!canContinue) return;
       // If url or url+pageNum is provided, check if current URL contains the expected string
-      if (url) {
+      if (url || url?.length > 0) {
         const expected = `${url}${pageNum ? pageNum : ''}`;
         try{
           attempt++;
@@ -67,7 +71,7 @@ export abstract class BasePage {
       // No error and URL is as expected, break out of loop
       return;
     }
-    if (attempt === maxRetries) {
+    if (canContinue && attempt === maxRetries) {
       console.warn('Continue button retried maximum times, but error or URL mismatch still present.');
       throw new Error('Continue button retried maximum times, but error or URL mismatch still present.');
     }
