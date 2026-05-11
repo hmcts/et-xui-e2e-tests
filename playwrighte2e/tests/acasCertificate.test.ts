@@ -33,7 +33,7 @@ test.describe('Add & Search ACAS certificate tests', () => {
         employmentAndRespondentDetailsPage,
         claimDetailsPage,
         submitClaimPage,
-        'EnglandWales',
+        'EnglandWales','Claiming for myself',
         async () => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl);},
         employmentAndRespondentDetailsPage =>
           employmentAndRespondentDetailsPage.processStillWorkingJourney(

@@ -71,27 +71,28 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
 
   constructor(page: Page) {
     super(page);
-    this.employmentStatusLink = this.page.locator('a[href="/past-employer?lng=en"]');
+    this.employmentStatusLink = this.page.locator(
+      'a[href="/past-employer?lng=en"], a[href="/did-claimant-work-for-employer?lng=en"]');
     this.workedForOrganisationGroup = this.page.locator(
       'fieldset:has(legend:has(h1:text("Did you work for the organisation or person you’re making your claim against? (Optional)")))'
     );
     this.stillWorkingFOrOrgGroup = this.page.locator(
-      'fieldset:has(legend:has(h1:text("Are you still working for the organisation or person you\'re making your claim against?")))'
+      'fieldset:has(legend:has(h1:text("Are you still working for the organisation or person you\'re making your claim against?"))), fieldset:has(legend:has(h1:text("Is the claimant still working for the organisation or person you\'re making a claim against?")))'
     );
-    this.stillWorkingOption = this.page.locator(`#still-working`);
-    this.workingNoticePeriodOption = this.page.locator(`#still-working-2`);
-    this.noLongerWorkingOption = this.page.locator(`#still-working-3`);
+    this.stillWorkingOption = this.page.locator(`#still-working, #is-claimant-still-working`);
+    this.workingNoticePeriodOption = this.page.locator(`#still-working-2, #is-claimant-still-working-2`);
+    this.noLongerWorkingOption = this.page.locator(`#still-working-3, #is-claimant-still-working-3`);
     this.employmentDetailsHeading = this.page.getByRole('heading', { name: 'Employment details' });
     this.jobTitleInput = this.page.locator(`#jobTitle`);
     this.employmentStartDateHeading = this.page.getByRole('heading', { name: 'Employment start date' });
     this.employmentStartDateInputGroup = this.page.locator(`#startDate`);
     this.writtenContractNoticePeriodGroup = this.page.locator(
-      `fieldset:has(legend:text("Do you have a written contract with a notice period? (optional)"))`
+      `fieldset:has(legend:text("Do you have a written contract with a notice period? (optional)")), fieldset:has(legend:text("Does the claimant have a written contract with a notice period? (optional)"))`
     );
     this.noticePeriodTypeGroup = this.page.locator(
-      `fieldset:has(legend:has(h1:text("Is your notice period in weeks or months? (optional)")))`
+      `fieldset:has(legend:has(h1:text("Is your notice period in weeks or months? (optional)"))), fieldset:has(legend:has(h1:text("Is your notice period in weeks or months? (optional)"))`
     );
-    this.noticePeriodWeeksOption = this.page.locator(`#notice-type`);
+    this.noticePeriodWeeksOption = this.page.locator(`#notice-type, #claimant-notice-type`);
     this.noticePeriodInput = this.page.locator(`#notice-length`);
     this.averageWeeklyHoursHeading = this.page.getByRole('heading', {
       name: 'What are your average weekly hours? (optional)',

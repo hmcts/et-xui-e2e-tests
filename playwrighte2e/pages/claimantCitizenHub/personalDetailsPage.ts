@@ -24,6 +24,11 @@ export default class PersonalDetailsPage extends CitizenHubPage {
   private readonly extraSupportHeading: Locator;
   private readonly reasonableAdjustmentQuestion: Locator;
   private readonly reasonableAdjustmentNo: Locator;
+  private readonly contactDetailsLink: Locator;
+  private readonly representativeType: Locator;
+  private readonly representativeOrgName:Locator;
+  private readonly representativeName: Locator;
+
 
   constructor(page: Page) {
     super(page);
@@ -31,12 +36,13 @@ export default class PersonalDetailsPage extends CitizenHubPage {
     this.dobHeading = this.page.locator(`fieldset:has(legend:text("What is your date of birth?"))`);
     this.dobGroup = this.page.locator('#dobDate');
     this.sexAndPreferredTitleHeading = this.page.getByRole('heading', { name: 'Sex and preferred title' });
-    this.homeAddressHeading = this.page.getByRole('heading', { name: 'What is your contact or home address?' });
+    this.homeAddressHeading = this.page.getByRole('heading', { name: '/What is your contact or home address?|Representative\'s contact address|What is the representative\'s contact address?/' });
     this.postCodeInput = this.page.locator(`#addressEnterPostcode`);
     this.selectAnAddressHeading = this.page.getByRole('heading', { name: 'Select an address' });
     this.selectAddressDropdown = this.page.locator('#addressAddressTypes');
-    this.telephoneNumberHeading = this.page.getByRole('heading', { name: 'What is your telephone number? (optional)' });
-    this.telephoneNumberInput = this.page.locator('#telephone-number');
+    this.telephoneNumberHeading = this.page.getByRole('heading', { name: /What is your telephone number\? \(optional\)|What is the representative's phone number\? \(optional\)/
+    });
+    this.telephoneNumberInput = this.page.locator('#telephone-number, #representativePhoneNumber');
     this.communicationPreferenceHeading = this.page.getByRole('heading', { name: 'Communication preference (Optional)' });
     this.formatOfContactRadioGroup = page.locator('fieldset:has(legend:text("What format would you like to be contacted in?"))');
     this.languageRadioGroup = page.locator('fieldset:has(legend:text("What language do you want us to use when we contact you?"))');
@@ -48,6 +54,10 @@ export default class PersonalDetailsPage extends CitizenHubPage {
     this.extraSupportHeading = this.page.getByRole('heading', { name: 'Extra support during your case (Optional)' });
     this.reasonableAdjustmentQuestion = this.page.locator('fieldset:has(legend:text("Do you have a physical, mental or learning disability or long term health condition that means you need support during your case?"))');
     this.reasonableAdjustmentNo = this.page.locator('#reasonableAdjustments-2');
+    this.contactDetailsLink = this.page.locator(`a[href="/representative-details?lng=en"]`);
+    this.representativeType = this.page.locator('#representativeType');
+    this.representativeOrgName = this.page.locator('#representativeOrgName');
+    this.representativeName = this.page.locator('#representativeName');
   }
 
   //click personal details link and enter details
@@ -209,4 +219,44 @@ export default class PersonalDetailsPage extends CitizenHubPage {
     await this.selectReasonableAdjustment();
     await this.confirmHaveYouCompletedThisSection();
   }
+
+  async processRepresentativeDetails(postcode: string, location: string, addressOption: string) {
+    await this.page.waitForLoadState('load');
+    await this.clickContactDetailsLink();
+    await this.enterRepresentativeDetails();
+    await this.organizationName();
+    await this.enterRepresentativeName();
+    await this.enterPostcode(postcode, addressOption);
+    await this.enterTelephoneNumber();
+    await this.selectHowToBeContacted(location);
+    await this.selectHearingPreference();
+    await this.selectReasonableAdjustment();
+    await this.confirmHaveYouCompletedThisSection();
+  }
+
+  async  clickContactDetailsLink() {
+    await this.contactDetailsLink.click();
+  }
+
+  async enterRepresentativeDetails() {
+    await expect(this.representativeType).toBeVisible();
+    await this.representativeType.selectOption('Law centre');
+  }
+
+  async organizationName() {
+    await expect(this.representativeOrgName).toBeVisible();
+    await this.representativeOrgName.fill('Test Organization');
+  }
+
+  async enterRepresentativeName(){
+    await expect(this.representativeName).toBeVisible();
+    await this.representativeName.fill('Test Representative');
+    await this.saveAndContinueButton();
+  }
+
+  async processClaimantDetails() {
+    //To do
+  }
+
+
 }

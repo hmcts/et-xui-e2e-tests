@@ -35,7 +35,7 @@ test.describe('Case creation in Citizen UI', () => {
         employmentAndRespondentDetailsPage,
         claimDetailsPage,
         submitClaimPage,
-        'EnglandWales',
+        'EnglandWales', 'Claiming for myself',
         async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
         employmentAndRespondentDetailsPage =>
           employmentAndRespondentDetailsPage.processStillWorkingJourney(
@@ -89,7 +89,7 @@ test.describe('Case creation in Citizen UI', () => {
       employmentAndRespondentDetailsPage,
       claimDetailsPage,
       submitClaimPage,
-      'EnglandWales',
+      'EnglandWales','Claiming for myself',
       async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney(
@@ -130,7 +130,7 @@ test.describe('Case creation in Citizen UI', () => {
       employmentAndRespondentDetailsPage,
       claimDetailsPage,
       submitClaimPage,
-      'EnglandWales',
+      'EnglandWales','Claiming for myself',
       async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(
@@ -170,7 +170,7 @@ test.describe('Case creation in Citizen UI', () => {
       employmentAndRespondentDetailsPage,
       claimDetailsPage,
       submitClaimPage,
-      'EnglandWales',
+      'EnglandWales','Claiming for myself',
       async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.processDidNotWorkForOrganisationMakingClaimAgainst(
@@ -209,7 +209,7 @@ test.describe('Case creation in Citizen UI', () => {
       employmentAndRespondentDetailsPage,
       claimDetailsPage,
       submitClaimPage,
-      'Scotland',
+      'Scotland','Claiming for myself',
       async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(
@@ -247,7 +247,7 @@ test.describe('Case creation in Citizen UI', () => {
       employmentAndRespondentDetailsPage,
       claimDetailsPage,
       submitClaimPage,
-      'EnglandWales',
+      'EnglandWales','Claiming for myself',
       async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.multipleAcasCertificate(

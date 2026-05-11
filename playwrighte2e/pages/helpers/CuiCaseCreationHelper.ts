@@ -25,6 +25,7 @@ export async function createCaseViaCitizenUI(
   claimDetailsPage: ClaimDetailsPage,
   submitClaimPage: SubmitClaimPage,
   region: string,
+  typeOfClaim:string,
   loginMethod: () => Promise<void>,
   employmentJourneyMethod?: (page: any) => Promise<void>,
 ) {
@@ -33,9 +34,22 @@ export async function createCaseViaCitizenUI(
   await loginMethod();
   await citizenPostLoginPage.processPostLoginPagesForTheDraftApplication();
   const location = region === 'EnglandWales' ? 'England' : region;
-  await personalDetailsPage.processPersonalDetails(userDetailsData.postcode, location, userDetailsData.addressOption);
-  if (employmentJourneyMethod) await employmentJourneyMethod(employmentAndRespondentDetailsPage);
-  await claimDetailsPage.processClaimDetails();
+
+  if (typeOfClaim == 'Claiming for myself') {
+    await personalDetailsPage.processPersonalDetails(userDetailsData.postcode, location, userDetailsData.addressOption);
+    if (employmentJourneyMethod) await employmentJourneyMethod(employmentAndRespondentDetailsPage);
+    await claimDetailsPage.processClaimDetails();
+  } else if (typeOfClaim == 'Claiming for someone else') {
+    //TODO-non-HMCTS journey here RET-6261
+    await personalDetailsPage.processRepresentativeDetails(userDetailsData.postcode, location, userDetailsData.addressOption);
+    await personalDetailsPage.processClaimantDetails();
+    if (employmentJourneyMethod) await employmentJourneyMethod(employmentAndRespondentDetailsPage);
+  }else if (typeOfClaim == 'Legal representative representing a claimant') {
+    // TODO: Update tests and logic here after introducing feature
+  } else {
+    throw new Error(`Option not found for who is making the claim question`);
+  }
+
   const submissionReference = await submitClaimPage.submitClaim();
   await submitClaimPage.signoutButton();
   return submissionReference;
