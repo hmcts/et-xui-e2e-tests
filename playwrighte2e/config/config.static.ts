@@ -1,4 +1,5 @@
 // Static config: only static users and session file names, no dynamic user loading
+import 'dotenv/config';
 export const staticUsers = {
   etCaseWorker: {
     email: process.env.ET_CASEWORKER_USER_NAME || '',
@@ -8,7 +9,8 @@ export const staticUsers = {
     email: process.env.ET_LEGAL_OPS_USER_NAME || '',
     password: process.env.ET_LEGAL_OPS_PASSWORD || '',
   },
-  etLegalRepresentative: { email: process.env.ET_LEGALREP_USER_NAME || '',
+  etLegalRepresentative: {
+    email: process.env.ET_LEGALREP_USER_NAME || '',
     password: process.env.ET_LEGALREP_PASSWORD || '',
   },
   etApiUser: {
@@ -22,15 +24,15 @@ export const staticUsers = {
   etLegalRepresentative2: {
     email: process.env.ET_REPSONDENT_USER_NAME || '',
     password: process.env.ET_REPSONDENT_PASSWORD || '',
-    },
+  },
   etManageOrgSuperUser: {
     email: process.env.ET_MANAGE_ORG_USERNAME || '',
     password: process.env.ET_MANAGE_ORG_PASSWORD || '',
-     },
+  },
   etWorkAllocationJudge: {
     email: process.env.ET_JUDGE_USER_NAME_WORKALLOCATION || '',
     password: process.env.ET_JUDGE_USER_PASSWORD_WORKALLOCATION || '',
-    },
+  },
 };
 
 export const staticConfig = {

@@ -37,16 +37,21 @@ test.describe("set up user context", () => {
       await citizenHubLoginPage.processCitizenHubLogin(user);
     });
 
-  test(
-    'Set up Citizen Respondent user context',
-    async({et3LoginPage})  => {
-      const user = users.etRespondent;
-      if(CookieUtils.isSessionValid(user.sessionFile, cookieName)) {
-        console.log(`Valid session already exists for ${user.email}, skipping login.`);
-        return;
-      }
-      await et3LoginPage.processRespondentLogin(user);
-    });
+  const respondentUsers = [
+    { role: 'Respondent 1', user: users.etRespondent },
+    { role: 'Respondent 2', user: users.etRespondent2 },
+  ]
 
+  for ( const { role, user } of respondentUsers) {
+    test(
+      `Set up Citizen ${role} user context`,
+      async({et3LoginPage})  => {
+        if(CookieUtils.isSessionValid(user.sessionFile, cookieName)) {
+          console.log(`Valid session already exists for ${role} ${user.email}, skipping login.`);
+          return;
+        }
+        await et3LoginPage.processRespondentLogin(user);
+      });
+  }
 
 });
