@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@axe-core/playwright": "4.10.2",
-    "@faker-js/faker": "10.0.0",
+    "@faker-js/faker": "10.4.0",
     "axe-html-reporter": "^2.2.11",
     "axios": "1.13.5",
     "chance": "^1.1.11",
@@ -44,7 +44,7 @@
     "uuid": "^14.0.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "10.0.0",
+    "@faker-js/faker": "10.4.0",
     "@hmcts/playwright-common": "^1.0.36",
     "@playwright/test": "^1.50.1",
     "@types/fs-extra": "^11",
