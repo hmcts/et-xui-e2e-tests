@@ -35,7 +35,7 @@
     "dotenv": "^17.2.3",
     "eslint": "9.35.0",
     "fs-extra": "^11.3.3",
-    "lint-staged": "16.1.6",
+    "lint-staged": "16.4.0",
     "lodash": "^4.17.23",
     "proper-lockfile": "^4.1.2",
     "totp-generator": "2.0.0",
