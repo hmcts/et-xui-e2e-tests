@@ -37,17 +37,6 @@ export default class Et1CaseServingPage extends BasePage {
     await this.delay(5000);
   }
 
-  async getClaimantFirstName() {
-    const firstName = await this.page.locator('#case-viewer-field-read--claimantIndType tr:nth-of-type(2) span:nth-of-type(1) span:nth-of-type(1)').innerText();
-    const lastName = await this.page.locator('#case-viewer-field-read--claimantIndType tr:nth-of-type(3) span:nth-of-type(1) span:nth-of-type(1)').innerText();
-    console.log(firstName);
-    console.log(lastName);
-    return {
-      firstName,
-      lastName,
-    };
-  }
-
   async et1ServingEvent(canContinue: boolean = false) {
     await this.addNewButtonClick();
     await this.servingDocType.selectOption({ label: '7.7 In person preliminary hearing - notice of case management discussion' });

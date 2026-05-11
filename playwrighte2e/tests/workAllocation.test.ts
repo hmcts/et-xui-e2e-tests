@@ -1,18 +1,26 @@
 import { test } from '../fixtures/common.fixture';
 import { Helpers } from '../pages/helpers/Helper.ts';
-import config from '../config/config';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
+import { users } from '../config/config.dynamic.ts';
+import LoginPage from '../pages/loginPage.ts';
+import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
+import CaseDetailsPage from '../pages/caseDetailsPage.ts';
+import ReferralPage from '../pages/referralPage.ts';
+import DraftJudgementPage from '../pages/events/draftJudgementPage.ts';
 
 let caseNumber: string;
 let caseId: string;
 
 test.describe('Work Allocation', () => {
+  test.use({
+    storageState: users.etCaseWorker.sessionFile,
+  })
   test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
     await manageCaseDashboardPage.visit();
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    await loginPage.processLogin(users.etCaseWorker);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
@@ -28,10 +36,7 @@ test.describe('Work Allocation', () => {
   });
 
   test('Caseworker sends Referral- Referral task generated, Judge assign and completes referral task', async ({
-    page,
-    manageCaseDashboardPage,
-    referralPage,
-    loginPage, caseDetailsPage
+    referralPage, caseDetailsPage, browserUtils
   }) => {
     //send referral
     await caseDetailsPage.navigateToTab('Referrals');
@@ -50,23 +55,23 @@ test.describe('Work Allocation', () => {
       }
     ]);
 
-    //sign out as caseworker
-    await manageCaseDashboardPage.signOut();
-
     //log in as judge & assign and completes a task
+    const judgeBrowserPage = await browserUtils.openNewBrowserContext(users.etWorkAllocationJudge.sessionFile);
+    const loginPage= new LoginPage(judgeBrowserPage);
+    const manageCaseDashboardPage = new ManageCaseDashboardPage(judgeBrowserPage);
+    const caseDetailsPageJudge = new CaseDetailsPage(judgeBrowserPage);
+    const referralPageJudge = new ReferralPage(judgeBrowserPage);
     await loginPage.processLogin(
-      config.etWorkAllocationJudge.email,
-      config.etWorkAllocationJudge.password,
-      config.loginPaths.cases,
+      users.etWorkAllocationJudge
     );
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-    await caseDetailsPage.navigateToTab('Tasks');
+    await caseDetailsPageJudge.navigateToTab('Tasks');
 
-    await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'EJ - Review Referral #1 - ET1', 'Reply to the Referral');
-    await referralPage.replyToReferral();
+    await Helpers.assignTaskToMeAndTriggerNextSteps(judgeBrowserPage, 'EJ - Review Referral #1 - ET1', 'Reply to the Referral');
+    await referralPageJudge.replyToReferral();
   });
 
-  test('Roles and Access', async ({ page, caseListPage, rolesAndAccessPage, referralPage, taskPage, caseDetailsPage }) => {
+  test('Roles and Access', async ({ page, rolesAndAccessPage, referralPage, taskPage, caseDetailsPage }) => {
     await caseDetailsPage.navigateToTab('Tasks');
     await Helpers.waitForTask(page, 'Et1 Vetting');
     await caseDetailsPage.navigateToTab('Roles and access');
@@ -84,21 +89,21 @@ test.describe('Work Allocation', () => {
 });
 
 test.describe('Work Allocation- Judge completes tasks', () => {
+  test.use({
+    storageState: users.etCaseWorker.sessionFile
+  })
   test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
     ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
     await manageCaseDashboardPage.visit();
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-
+    await loginPage.processLogin(users.etCaseWorker);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
   test('Judge completes Draft and sign document task', async ({
-    page, manageCaseDashboardPage,
-    caseListPage,
+    page,
     listHearingPage,
     hearingDetailsPage,
-    loginPage,
-    draftJudgementPage, caseDetailsPage
+    caseDetailsPage, browserUtils
   }) => {
     //list past hearing
     await caseDetailsPage.selectNextEvent(Events.listHearing);
@@ -110,18 +115,21 @@ test.describe('Work Allocation- Judge completes tasks', () => {
     //wait for draft and sign document task
     await caseDetailsPage.navigateToTab('Tasks');
     await Helpers.waitForTask(page, 'Draft And Sign Judgment');
-    await caseListPage.signoutButton();
 
     //login as judge and assign a task
+    const judgeBrowserPage = await browserUtils.openNewBrowserContext(users.etWorkAllocationJudge.sessionFile);
+    const loginPage= new LoginPage(judgeBrowserPage);
+    const manageCaseDashboardPage = new ManageCaseDashboardPage(judgeBrowserPage);
+    const caseDetailsPageJudge = new CaseDetailsPage(judgeBrowserPage);
+    const draftJudgementPage = new DraftJudgementPage(judgeBrowserPage);
+
     await loginPage.processLogin(
-      config.etWorkAllocationJudge.email,
-      config.etWorkAllocationJudge.password,
-      config.loginPaths.cases,
+      users.etWorkAllocationJudge
     );
     await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-    await caseDetailsPage.navigateToTab('Tasks');
+    await caseDetailsPageJudge.navigateToTab('Tasks');
 
-    await Helpers.assignTaskToMeAndTriggerNextSteps(page, 'Draft And Sign Judgment/Order', 'Draft and Sign Judgment');
+    await Helpers.assignTaskToMeAndTriggerNextSteps(judgeBrowserPage, 'Draft And Sign Judgment/Order', 'Draft and Sign Judgment');
     await draftJudgementPage.submitDraftJudgement();
   });
 });

@@ -35,6 +35,8 @@ export default class LoginPage extends BasePage {
     await this.page.waitForURL(new RegExp(baseUrl), { timeout: 10000 });
     await this.saveSession(user.sessionFile);
     await CookieUtils.addSessionFreshnessCookie(user.sessionFile, baseUrl);
+    await this.page.waitForTimeout(2000);
+    await this.page.waitForLoadState('load');
   }
 
   async saveSession(sessionFile: string): Promise<void> {

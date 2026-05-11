@@ -273,11 +273,11 @@ export const pageFixtures = base.extend<PageFixtures>({
     },
 
     referralPage:async ({page}, use)=>{
-        await use(new ReferralPage(page, commonActionsHelper));
+        await use(new ReferralPage(page));
     },
 
     draftJudgementPage:async ({page}, use)=>{
-        await use(new DraftJudgementPage(page, commonActionsHelper));
+        await use(new DraftJudgementPage(page));
     },
 
     issueJudgementPage:async ({page}, use)=>{

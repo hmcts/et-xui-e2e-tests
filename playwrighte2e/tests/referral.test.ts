@@ -1,13 +1,16 @@
 import { test } from '../fixtures/common.fixture';
-import config from "../config/config";
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
+import { users } from '../config/config.dynamic.ts';
 
 let caseId: string;
 let caseNumber: string;
 
-test.describe.serial('England - Referral test', () => {
+test.describe.serial('England - Referral test - case worker sends referral', () => {
 
+    test.use({
+        storageState: users.etCaseWorker.sessionFile,
+    })
     test(
       'New referral',
       { tag: '@demo' },
@@ -16,9 +19,7 @@ test.describe.serial('England - Referral test', () => {
         ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
         await manageCaseDashboardPage.visit();
         await loginPage.processLogin(
-          config.etCaseWorker.email,
-          config.etCaseWorker.password,
-          config.loginPaths.worklist,
+          users.etCaseWorker
         );
 
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
@@ -42,12 +43,15 @@ test.describe.serial('England - Referral test', () => {
         await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
         await caseDetailsPage.selectNextEvent(Events.initialConsideration);
         await initialConsiderationPage.validateReferralLink();
-
-        //sign out as caseworker
-        await manageCaseDashboardPage.signOut();
       },
     );
+});
 
+
+test.describe.serial('England - Referral test - Judge Replies and closes referral', () => {
+    test.use({
+        storageState: users.etEnglandJudge.sessionFile,
+    })
     test(
       'Reply to a referral',
       { tag: '@demo' },
@@ -56,9 +60,7 @@ test.describe.serial('England - Referral test', () => {
 
         //judge logs in
         await loginPage.processLogin(
-          config.etEnglandJudge.email,
-          config.etEnglandJudge.password,
-          config.loginPaths.cases,
+          users.etEnglandJudge
         );
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
@@ -82,7 +84,6 @@ test.describe.serial('England - Referral test', () => {
                 ]
             }
         ]);
-        await manageCaseDashboardPage.signOut();
       },
     );
 
@@ -93,11 +94,9 @@ test.describe.serial('England - Referral test', () => {
         await manageCaseDashboardPage.visit();
 
         //judge logs in
-        await loginPage.processLogin(
-          config.etEnglandJudge.email,
-          config.etEnglandJudge.password,
-          config.loginPaths.cases,
-        );
+          await loginPage.processLogin(
+            users.etEnglandJudge
+          );
         caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
         // Close & verify a referral
@@ -117,7 +116,6 @@ test.describe.serial('England - Referral test', () => {
           }
           ]);
 
-        await manageCaseDashboardPage.signOut();
       },
     );
 });

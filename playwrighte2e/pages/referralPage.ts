@@ -3,7 +3,6 @@ import { BasePage } from './basePage';
 import { CommonActionsHelper } from './helpers/CommonActionsHelper.ts';
 
 export default class ReferralPage extends BasePage {
-  private readonly commonActionsHelper: CommonActionsHelper;
   private readonly judgeReferralOption: Locator;
   private readonly adminReferralOption: Locator;
   private readonly isUrgentYes: Locator;
@@ -19,9 +18,8 @@ export default class ReferralPage extends BasePage {
   private readonly closeReferralGeneralNotes: Locator;
   private readonly markdownPara: Locator;
 
-  constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
+  constructor(page: Page) {
     super(page);
-    this.commonActionsHelper = commonActionsHelper;
     this.judgeReferralOption = page.locator('#referCaseTo-Judge');
     this.adminReferralOption = page.locator('#referCaseTo-Admin');
     this.isUrgentYes = page.locator('#isUrgent_Yes');

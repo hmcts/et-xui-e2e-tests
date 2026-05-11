@@ -1,8 +1,8 @@
 import { test } from '../fixtures/common.fixture';
-import config from '../config/config';
 import userDetailsData from '../resources/payload/user-details.json';
 import { createCaseViaCitizenUI, vetAndAcceptCitizenCase } from '../pages/helpers/CuiCaseCreationHelper.ts';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
+import { config, users } from '../config/config.dynamic.ts';
 
 test.describe('Case creation in Citizen UI', () => {
 
@@ -29,7 +29,6 @@ test.describe('Case creation in Citizen UI', () => {
     }) => {
       const submissionReference = await createCaseViaCitizenUI(
         page,
-        loginPage,
         citizenPreLoginPage,
         citizenPostLoginPage,
         personalDetailsPage,
@@ -37,7 +36,7 @@ test.describe('Case creation in Citizen UI', () => {
         claimDetailsPage,
         submitClaimPage,
         'EnglandWales',
-        loginPage => loginPage.processLoginCitizenUi(config.etClaimant.email, config.etClaimant.password),
+        async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
         employmentAndRespondentDetailsPage =>
           employmentAndRespondentDetailsPage.processStillWorkingJourney(
             userDetailsData.workPostcode,
@@ -52,18 +51,13 @@ test.describe('Case creation in Citizen UI', () => {
         et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
         CaseTypeLocation.EnglandAndWales,
         submissionReference,
-        {
-          user: config.etCaseWorker.email,
-          password: config.etCaseWorker.password,
-          path: config.loginPaths.worklist,
-        },
+        users.etCaseWorker
       );
 
       await caseDetailsPage.selectNextEvent(Events.respondentRepresentative);
       await respondentRepPage.addRespondentRepresentative('registered', 'ET Organisation');
-      await respondentRepPage.signoutButton();
 
-      await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
+      await citizenHubLoginPage.processCitizenHubLogin(users.etClaimant);
       await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(submissionReference);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.navigateToContactTheTribunalPage();
@@ -89,7 +83,6 @@ test.describe('Case creation in Citizen UI', () => {
   }) => {
     const submissionReference = await createCaseViaCitizenUI(
       page,
-      loginPage,
       citizenPreLoginPage,
       citizenPostLoginPage,
       personalDetailsPage,
@@ -97,7 +90,7 @@ test.describe('Case creation in Citizen UI', () => {
       claimDetailsPage,
       submitClaimPage,
       'EnglandWales',
-      loginPage => loginPage.processLoginCitizenUi(config.etClaimant.email, config.etClaimant.password),
+      async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.processWorkingNoticePeriodJourney(
           userDetailsData.workPostcode,
@@ -112,11 +105,7 @@ test.describe('Case creation in Citizen UI', () => {
         et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
         CaseTypeLocation.EnglandAndWales,
         submissionReference,
-        {
-          user: config.etManageCaseUser.email,
-          password: config.etManageCaseUser.password,
-          path: config.loginPaths.worklist,
-        },
+        users.etManageCaseUser
       );
   });
 
@@ -135,7 +124,6 @@ test.describe('Case creation in Citizen UI', () => {
   }) => {
     const submissionReference = await createCaseViaCitizenUI(
       page,
-      loginPage,
       citizenPreLoginPage,
       citizenPostLoginPage,
       personalDetailsPage,
@@ -143,7 +131,7 @@ test.describe('Case creation in Citizen UI', () => {
       claimDetailsPage,
       submitClaimPage,
       'EnglandWales',
-      loginPage => loginPage.processLoginCitizenUi(config.etClaimant.email, config.etClaimant.password),
+      async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(
           userDetailsData.workPostcode,
@@ -158,11 +146,7 @@ test.describe('Case creation in Citizen UI', () => {
         et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
         CaseTypeLocation.EnglandAndWales,
         submissionReference,
-        {
-          user: config.etManageCaseUser.email,
-          password: config.etManageCaseUser.password,
-          path: config.loginPaths.worklist,
-        },
+        users.etManageCaseUser
       );
   });
 
@@ -180,7 +164,6 @@ test.describe('Case creation in Citizen UI', () => {
   }) => {
     const submissionReference = await createCaseViaCitizenUI(
       page,
-      loginPage,
       citizenPreLoginPage,
       citizenPostLoginPage,
       personalDetailsPage,
@@ -188,7 +171,7 @@ test.describe('Case creation in Citizen UI', () => {
       claimDetailsPage,
       submitClaimPage,
       'EnglandWales',
-      loginPage => loginPage.processLoginCitizenUi(config.etClaimant.email, config.etClaimant.password),
+      async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.processDidNotWorkForOrganisationMakingClaimAgainst(
           userDetailsData.workPostcode,
@@ -202,11 +185,7 @@ test.describe('Case creation in Citizen UI', () => {
       et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
       CaseTypeLocation.EnglandAndWales,
       submissionReference,
-      {
-        user: config.etManageCaseUser.email,
-        password: config.etManageCaseUser.password,
-        path: config.loginPaths.worklist,
-      },
+      users.etManageCaseUser
     );
   });
 
@@ -224,7 +203,6 @@ test.describe('Case creation in Citizen UI', () => {
   }) => {
     const submissionReference = await createCaseViaCitizenUI(
       page,
-      loginPage,
       citizenPreLoginPage,
       citizenPostLoginPage,
       personalDetailsPage,
@@ -232,7 +210,7 @@ test.describe('Case creation in Citizen UI', () => {
       claimDetailsPage,
       submitClaimPage,
       'Scotland',
-      loginPage => loginPage.processLoginCitizenUi(config.etClaimant.email, config.etClaimant.password),
+      async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.processNoLongerWorkingForOrgJourney(
           userDetailsData.scotWorkPostcode,
@@ -247,11 +225,7 @@ test.describe('Case creation in Citizen UI', () => {
       et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
       CaseTypeLocation.Scotland,
       submissionReference,
-      {
-        user: config.etManageCaseUser.email,
-        password: config.etManageCaseUser.password,
-        path: config.loginPaths.worklist,
-      },
+      users.etManageCaseUser
     );
   });
 
@@ -267,7 +241,6 @@ test.describe('Case creation in Citizen UI', () => {
   }) => {
      await createCaseViaCitizenUI(
       page,
-      loginPage,
       citizenPreLoginPage,
       citizenPostLoginPage,
       personalDetailsPage,
@@ -275,7 +248,7 @@ test.describe('Case creation in Citizen UI', () => {
       claimDetailsPage,
       submitClaimPage,
       'EnglandWales',
-      loginPage => loginPage.processLoginCitizenUi(config.etClaimant.email, config.etClaimant.password),
+      async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
       employmentAndRespondentDetailsPage =>
         employmentAndRespondentDetailsPage.multipleAcasCertificate(
           userDetailsData.workPostcode,

@@ -14,6 +14,9 @@ let lastName: string;
 let respName: string;
 
 test.describe('NOC Notification Banner', () => {
+  test.use({
+    storageState: users.etLegalRepresentative.sessionFile,
+  })
 
   test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
@@ -44,6 +47,7 @@ test.describe('NOC Notification Banner', () => {
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
     await citizenHubPage.verifyLegalRepNotificationBanner();
     await citizenHubPage.contactTheTribunalLink();
+    await claimantBrowserPage.close();
   });
 
   //RET-5791
@@ -63,6 +67,7 @@ test.describe('NOC Notification Banner', () => {
 
     // RET-6007 -change my legal representative- stop representation
     await et3LoginPage.stopLegalRepRepresentation();
+    await respondentBrowserPage.close();
   });
 
   //RET-5416
@@ -84,6 +89,7 @@ test.describe('NOC Notification Banner', () => {
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
     await citizenHubPage.clickChangeMyLegalRep();
     await citizenHubPage.verifyLegalRepUnassignedNotificationBanner();
+      await claimantBrowserPage.close();
   });
 });
 

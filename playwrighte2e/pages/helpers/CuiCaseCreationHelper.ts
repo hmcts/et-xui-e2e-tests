@@ -9,17 +9,16 @@ import SubmitClaimPage from '../claimantCitizenHub/submitClaimPage.ts';
 
 import userDetailsData from '../../resources/payload/user-details.json';
 import LoginPage from '../loginPage.ts';
-import CaseListPage from '../caseListPage.ts';
 import Et1VettingPages from '../et1VettingPages.ts';
 import Et1CaseServingPage from '../et1CaseServingPage.ts';
 import { ManageCaseDashboardPage } from '../ManageCaseDashboardPage.ts';
 import { CaseDetailsValues, CaseTypeLocation, Events } from '../../config/case-data.ts';
 import CaseDetailsPage from '../caseDetailsPage.ts';
 import DateUtilComponent from '../../data-utils/DateUtilComponent.ts';
+import { UserCredentials } from '../../config/config.dynamic.ts';
 
 export async function createCaseViaCitizenUI(
   page: Page,
-  loginPage: LoginPage,
   citizenPreLoginPage: CUIPreLoginPage,
   citizenPostLoginPage: CUIPostLoginPages,
   personalDetailsPage: PersonalDetailsPage,
@@ -27,12 +26,12 @@ export async function createCaseViaCitizenUI(
   claimDetailsPage: ClaimDetailsPage,
   submitClaimPage: SubmitClaimPage,
   region: string,
-  loginMethod: (page: any) => Promise<void>,
+  loginMethod: () => Promise<void>,
   employmentJourneyMethod?: (page: any) => Promise<void>,
 ) {
   await page.goto(config.etSyaUiUrl);
   await citizenPreLoginPage.processPreLoginPagesForTheDraftApplication(region);
-  await loginMethod(loginPage);
+  await loginMethod();
   await citizenPostLoginPage.processPostLoginPagesForTheDraftApplication();
   const location = region === 'EnglandWales' ? 'England' : region;
   await personalDetailsPage.processPersonalDetails(userDetailsData.postcode, location, userDetailsData.addressOption);
@@ -121,10 +120,10 @@ export async function vetAndAcceptCitizenCase(
   caseDetailsPage: CaseDetailsPage,
   caseTypeLocation: CaseTypeLocation,
   submissionReference: string,
-  loginCredentials: { user: string; password: string, path: string },
+  loginCredentials: UserCredentials,
 ) {
   await manageCaseDashboardPage.visit();
-  await loginPage.processLogin(loginCredentials.user, loginCredentials.password, loginCredentials.path);
+  await loginPage.processLogin(loginCredentials);
   let caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(submissionReference,caseTypeLocation)
   await assertTabData(caseDetailsPage);
 
