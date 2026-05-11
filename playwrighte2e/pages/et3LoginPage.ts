@@ -1,4 +1,3 @@
-import { BasePage } from "./basePage";
 import { expect, Page, Locator } from '@playwright/test';
 import LoginPage from './loginPage.ts';
 import { config, UserCredentials, users } from '../config/config.dynamic.ts';
@@ -127,13 +126,13 @@ export default class Et3LoginPage extends LoginPage {
   ) {
     await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
     await this.respondToNewClaim.click();
-    await this.caseNumberPage(caseNumber);
-    await this.caseDetailsPage(submissionRef, respName, firstName, lastName);
+    await this.enterCaseNumberDetail(caseNumber);
+    await this.enterCaseDetails(submissionRef, respName, firstName, lastName);
     await expect(this.page.locator('h1')).toContainText('Check and submit');
     await this.page.locator('#confirmation').check();
     await this.clickSubmitButton();
   }
-  
+
   async assertErrorMessageIsVisible(message: string) {
     await expect(this.errorMessage(message)).toBeVisible();
   }

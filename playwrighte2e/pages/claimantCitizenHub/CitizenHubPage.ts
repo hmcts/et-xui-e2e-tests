@@ -1,6 +1,6 @@
 import { BasePage } from "../basePage.ts";
-import config from "../../config/config.ts";
 import { expect, Locator, Page } from '@playwright/test';
+import { config } from '../../config/config.dynamic.ts';
 
 export default class CitizenHubPage extends BasePage {
   private readonly caseOverviewPageTitle: Locator;

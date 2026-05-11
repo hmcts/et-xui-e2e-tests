@@ -2,6 +2,7 @@ import { test } from '../fixtures/common.fixture';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { users } from '../config/config.dynamic.ts';
 import { CaseDetailsValues } from '../config/case-data.ts';
+import Et3LoginPage from '../pages/et3LoginPage.ts';
 
 let caseNumber: string;
 let caseId: string;
@@ -37,13 +38,15 @@ test.describe('ET3/Respondent Journey', () => {
     await et3LoginPage.validateClaimantDetailsInRespondentApp(CaseDetailsValues.claimantFirstName, CaseDetailsValues.claimantLastName);
   });
 
-  test('Validating the error message after the respondent tries to reassign the same case', async ({ et3LoginPage, responseLandingPage}) => {
-      await et3LoginPage.processRespondentLogin(userEmail, userPassword,caseNumber);
-      await et3LoginPage.replyToNewClaim(caseId, caseNumber, respName, firstName, lastName);
-      await et3LoginPage.signOutButtonSyr();
-      await et3LoginPage.processRespondentLogin(userEmail2, userPassword2,caseNumber);
-      await et3LoginPage.replyToClaimAsNewRespondent(caseId, caseNumber, respName, firstName, lastName);
-      await et3LoginPage.assertErrorMessageIsVisible('Case has already assigned to a respondent');
+  test('Validating the error message after the respondent tries to reassign the same case', async ({ et3LoginPage, browserUtils}) => {
+      await et3LoginPage.processRespondentLogin(users.etRespondent2);
+      await et3LoginPage.replyToNewClaim(caseId, caseNumber, CaseDetailsValues.respondentName, CaseDetailsValues.claimantFirstName, CaseDetailsValues.claimantLastName);
 
+      const respondent2BrowserPage = await browserUtils.openNewBrowserContext(users.etRespondent2.sessionFile);
+      const et3LoginPageForRespondent2 = new Et3LoginPage(respondent2BrowserPage);
+
+      await et3LoginPageForRespondent2.processRespondentLogin(users.etRespondent2);
+      await et3LoginPageForRespondent2.replyToClaimAsNewRespondent(caseId, caseNumber, CaseDetailsValues.respondentName, CaseDetailsValues.claimantFirstName, CaseDetailsValues.claimantLastName);
+      await et3LoginPageForRespondent2.assertErrorMessageIsVisible('Case has already assigned to a respondent');
     });
 });

@@ -1,12 +1,10 @@
-import { expect, Locator, Page } from '@playwright/test';
-import axios from 'axios';
+import { Locator, Page } from '@playwright/test';
 import { BasePage } from './basePage';
-import config from '../config/config';
-import { faker } from '@faker-js/faker';
 import { UserCredentials } from '../config/config.dynamic.ts';
 import { CookieUtils } from '../data-utils/cookie.utils.ts';
+import { staticConfig } from '../config/config.static.ts';
 
-const aatUrl = config.manageCaseBaseUrl;
+const aatUrl = staticConfig.manageCaseBaseUrl;
 
 export default class LoginPage extends BasePage {
   private readonly username: Locator;

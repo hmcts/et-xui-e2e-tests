@@ -1,19 +1,16 @@
 import { BasePage } from '../basePage.ts';
 import { expect, Locator, Page } from '@playwright/test';
-import { CommonActionsHelper } from '../helpers/CommonActionsHelper.ts';
 
 export default class LegalRepNotificationPage extends BasePage {
 
-  private readonly commonActionsHelper: CommonActionsHelper;
   private readonly notificationList: Locator;
   private readonly responseToTribunalText: Locator;
   private readonly anySupportingMaterialRadio: Locator;
   private readonly yesNotifyOtherPartyRadio: Locator;
   private readonly noNotifyOtherPartyRadio: Locator;
 
-  constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
+  constructor(page: Page) {
     super(page);
-    this.commonActionsHelper = commonActionsHelper;
     // Added Respondent and Claimant locators in the same element as they are same and only differ in id which can be handled by locator
     this.notificationList = page.locator('#pseRespondentSelectOrderOrRequest, #claimantSelectNotification');
     this.responseToTribunalText = page.locator(`#claimantNotificationResponseText, #pseRespondentOrdReqResponseText`);
@@ -104,8 +101,4 @@ export default class LegalRepNotificationPage extends BasePage {
     await this.clickCloseAndReturn();
 
   }
-
-
-
-
 }

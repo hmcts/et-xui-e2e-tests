@@ -1,5 +1,4 @@
 import { Page } from '@playwright/test';
-import config from '../../config/config.ts';
 import CUIPreLoginPage from '../claimantCitizenHub/CUIPreLoginPage.ts';
 import CUIPostLoginPages from '../claimantCitizenHub/CUIPostLoginPages.ts';
 import PersonalDetailsPage from '../claimantCitizenHub/personalDetailsPage.ts';
@@ -15,7 +14,7 @@ import { ManageCaseDashboardPage } from '../ManageCaseDashboardPage.ts';
 import { CaseDetailsValues, CaseTypeLocation, Events } from '../../config/case-data.ts';
 import CaseDetailsPage from '../caseDetailsPage.ts';
 import DateUtilComponent from '../../data-utils/DateUtilComponent.ts';
-import { UserCredentials } from '../../config/config.dynamic.ts';
+import { config, UserCredentials } from '../../config/config.dynamic.ts';
 
 export async function createCaseViaCitizenUI(
   page: Page,

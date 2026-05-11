@@ -5,6 +5,7 @@ import { getDynamicUser } from '../data-utils/CachingHelper.ts';
 // Helper to read dynamic test users from JSON if env vars are not set
 const dynamicClaimant = getDynamicUser('etClaimant');
 const dynamicRespondent = getDynamicUser('etRespondent');
+const dynamicRespondent2 = getDynamicUser('etRespondent2');
 
 const sessionDir = '.sessions/';
 
@@ -24,6 +25,11 @@ export const users = {
     email: dynamicRespondent.email || process.env.ET3_REPSONDENT_USER_NAME || '',
     password: dynamicRespondent.password || process.env.ET3_REPSONDENT_PASSWORD || '',
     sessionFile: sessionDir + 'etRespondent.json',
+  },
+  etRespondent2: {
+    email: dynamicRespondent2.email || process.env.ET_RESP2_USER_NAME || '',
+    password: dynamicRespondent2.password || process.env.ET_RESP2_PASSWORD || '',
+    sessionFile: sessionDir + 'etRespondent2.json',
   },
   etCaseWorker: {
     sessionFile: sessionDir + 'etCaseWorker.json',

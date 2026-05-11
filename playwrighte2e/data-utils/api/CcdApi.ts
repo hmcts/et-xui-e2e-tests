@@ -5,11 +5,11 @@ import { ReplacementAction } from '../../types/replacement-action';
 import {axiosRequest} from './ApiHelper.ts';
 import {getServiceToken, getUserId, getUserAuthToken} from './TokenHelperApi.ts';
 import {AxiosResponse} from 'axios';
-import config from '../../config/config.ts';
 import { CaseTypeLocation } from '../../config/case-data.ts';
+import { staticConfig } from '../../config/config.static.ts';
 
-const env = config.env;
-const ccdApiUrl = config.EtCosPreviewCcdUrl || `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
+const env = staticConfig.env;
+const ccdApiUrl = staticConfig.EtCosPreviewCcdUrl || `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
 
 /**
  * CCD API utility class for interacting with the CCD Data Store API.
