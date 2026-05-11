@@ -4,13 +4,11 @@ import { CommonActionsHelper } from '../helpers/CommonActionsHelper.ts';
 
 export default class DraftJudgementPage extends BasePage {
 
-    private readonly commonActionsHelper: CommonActionsHelper;
     private readonly isThisAJudgement: Locator;
     private readonly directionsText: Locator;
 
-    constructor(page: Page, commonActionHelper: CommonActionsHelper) {
+    constructor(page: Page) {
       super(page);
-      this.commonActionsHelper = commonActionHelper;
       this.isThisAJudgement = this.page.locator('#draftAndSignJudgement_isJudgement');
       this.directionsText = this.page.locator(`#draftAndSignJudgement_furtherDirections`);
     }

@@ -1,6 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
-import config from '../../config/config.ts';
 import LoginPage from '../loginPage.ts';
+import { config, UserCredentials } from '../../config/config.dynamic.ts';
 
 export default class CitizenHubLoginPage extends LoginPage {
   private readonly syaLandingPageTitle: Locator;
@@ -36,7 +36,7 @@ export default class CitizenHubLoginPage extends LoginPage {
     await expect(this.returntoSubmittedClaimCheckbox).toBeVisible();
   }
 
-  async processCitizenHubLogin(username: string, password: string){
+  async processCitizenHubLogin(user: UserCredentials){
     const claimantUri = config.etSyaUiUrl;
     await this.page.goto(claimantUri);
     await this.page.waitForLoadState('load');
@@ -48,11 +48,16 @@ export default class CitizenHubLoginPage extends LoginPage {
     await this.assertReturnToDraftOrSubmittedClaimPage();
     await this.returntoSubmittedClaimCheckbox.check();
     await this.employmentTribunalAccountCheckbox.check();
-
     await this.clickContinue();
-
-    await this.processLoginCitizenUi(username, password);
-    await this.page.waitForURL(`${claimantUri}claimant-applications**`, {timeout: 10000});
+    if (await this.signOutLink.isVisible({ timeout: 2000 }).catch(() => false)) return;
+    await this.processLogin(user, config.etSyaUiUrl);
+    //TODO remove url check to landing page, as UI will be logged as soon as user is created.
+    const url = this.page.url();
+    if (url.includes('claimant-applications')) {
+      await this.page.waitForURL(`${claimantUri}claimant-applications**`, {timeout: 5000});
+    } else {
+      await this.assertSyaLandingPage();
+    }
   }
 
 }

@@ -1,10 +1,14 @@
 import { test } from '../fixtures/common.fixture';
-import config from '../config/config';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
+import { users } from '../config/config.dynamic.ts';
 
 test.describe('IC Upload documents', () => {
   let caseId: string, caseNumber: string;
+
+  test.use({
+    storageState: users.etEnglandJudge.sessionFile,
+  })
 
   test.beforeEach(async () => {
     ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
@@ -17,9 +21,7 @@ test.describe('IC Upload documents', () => {
       await manageCaseDashboardPage.visit();
       //judge log in
       await loginPage.processLogin(
-        config.etEnglandJudge.email,
-        config.etEnglandJudge.password,
-        config.loginPaths.cases,
+        users.etEnglandJudge
       );
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 

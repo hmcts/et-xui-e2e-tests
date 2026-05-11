@@ -1,7 +1,7 @@
 import { ReplacementAction } from '../../types/replacement-action';
-import config from '../../config/config';
 import { ccdApi } from '../../fixtures/common.fixture.ts';
 import { CaseTypeLocation } from '../../config/case-data.ts';
+import { users } from '../../config/config.dynamic.ts';
 
 export class CaseDataBuilder {
   private email: string;
@@ -14,19 +14,19 @@ export class CaseDataBuilder {
   constructor(caseType: CaseTypeLocation, eventType: string) {
     this.caseType = caseType;
     this.eventType = eventType;
-    this.email = config.etCaseWorker.email;
-    this.password = config.etCaseWorker.password;
+    this.email = users.etCaseWorker.email;
+    this.password = users.etCaseWorker.password;
   }
 
   withCaseWorkerUser(): CaseDataBuilder {
-    this.email = config.etCaseWorker.email;
-    this.password = config.etCaseWorker.password;
+    this.email = users.etCaseWorker.email;
+    this.password = users.etCaseWorker.password;
     return this;
   }
 
   withLegalRepUser(): CaseDataBuilder {
-    this.email = config.etLegalRepresentative.email;
-    this.password = config.etLegalRepresentative.password;
+    this.email = users.etLegalRepresentative.email;
+    this.password = users.etLegalRepresentative.password;
     return this;
   }
 

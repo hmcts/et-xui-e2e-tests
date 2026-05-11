@@ -1,23 +1,37 @@
-import config from '../config/config';
 import { test } from '../fixtures/common.fixture';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
+import { users } from '../config/config.dynamic.ts';
+import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
+import LoginPage from '../pages/loginPage.ts';
+import CaseWorkerNotificationPage from '../pages/notifications/CaseWorkerNotificationPage.ts';
 
 let caseId: string;
 let caseNumber: string;
 
 test.describe('Legal Rep Respond to an application made by caseworker', () => {
-  test.beforeEach(async () => {
+  test.use({
+    storageState: users.etLegalRepresentative.sessionFile,
+  })
+  let manageCaseDashboardPageCW: ManageCaseDashboardPage;
+  let loginPageCW: LoginPage;
+  let caseWorkerNotificationPageCW: CaseWorkerNotificationPage;
+
+  test.beforeEach(async ({browserUtils}) => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
     ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
+
+    const caseWorkerBrowserPage = await browserUtils.openNewBrowserContext(users.etCaseWorker.sessionFile);
+    loginPageCW = new LoginPage(caseWorkerBrowserPage);
+    manageCaseDashboardPageCW = new ManageCaseDashboardPage(caseWorkerBrowserPage);
+    caseWorkerNotificationPageCW = new CaseWorkerNotificationPage(caseWorkerBrowserPage);
   });
 
   //RET-5921
   test('Perform NOC using claimant details, caseworker sends notification and (claimant)legal rep respond to notification', async ({
     manageCaseDashboardPage,
     loginPage,
-    caseWorkerNotificationPage,
     legalRepNotificationPage,
     nocPage, caseDetailsPage
   }) => {
@@ -26,28 +40,22 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
 
     await manageCaseDashboardPage.visit();
     await loginPage.processLogin(
-      config.etLegalRepresentative.email,
-      config.etLegalRepresentative.password,
-      config.loginPaths.cases,
+      users.etLegalRepresentative
     );
     await manageCaseDashboardPage.navigateToNoticeOfChange();
     await nocPage.processNocRequest(caseId, `${firstName} ${lastName}`, caseNumber);
-    await manageCaseDashboardPage.signOut();
+
 
     //caseworker send notification
-    await manageCaseDashboardPage.visit();
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-    await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-
-    await caseWorkerNotificationPage.navigateToSendANotifications();
-    const notificationTitle = await caseWorkerNotificationPage.sendNotification('ET1 claim', 'Yes', 'Both parties');
-    await manageCaseDashboardPage.signOut();
+    await manageCaseDashboardPageCW.visit();
+    await loginPageCW.processLogin(users.etCaseWorker);
+    await manageCaseDashboardPageCW.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
+    await caseWorkerNotificationPageCW.navigateToSendANotifications();
+    const notificationTitle = await caseWorkerNotificationPageCW.sendNotification('ET1 claim', 'Yes', 'Both parties');
 
     //respond as a (claimant) Legal rep
     await loginPage.processLogin(
-      config.etLegalRepresentative.email,
-      config.etLegalRepresentative.password,
-      config.loginPaths.cases,
+      users.etLegalRepresentative
     );
     await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
@@ -66,34 +74,28 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
   test.skip('Perform NOC using respondent details, caseworker sends notification and (respondent)legal rep respond to notification', async ({
     manageCaseDashboardPage,
     loginPage,
-    caseListPage,
     caseWorkerNotificationPage,
     legalRepNotificationPage,
     nocPage, caseDetailsPage
   }) => {
     await manageCaseDashboardPage.visit();
     await loginPage.processLogin(
-      config.etLegalRepresentative.email,
-      config.etLegalRepresentative.password,
-      config.loginPaths.cases,
+      users.etLegalRepresentative
     );
     await manageCaseDashboardPage.navigateToNoticeOfChange();
     await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
-    await manageCaseDashboardPage.signOut();
 
     //caseworker send notification
-    await manageCaseDashboardPage.visit();
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-    await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-    await caseWorkerNotificationPage.navigateToSendANotifications();
-    const notificationTitle = await caseWorkerNotificationPage.sendNotification('ET1 claim', 'Yes', 'Both parties');
-    await caseListPage.signoutButton();
+    await manageCaseDashboardPageCW.visit();
+    await loginPageCW.processLogin(users.etCaseWorker);
+    await manageCaseDashboardPageCW.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
+    await caseWorkerNotificationPageCW.navigateToSendANotifications();
+    const notificationTitle = await caseWorkerNotificationPageCW.sendNotification('ET1 claim', 'Yes', 'Both parties');
 
     //respond as a (respondent) Legal rep
+    await manageCaseDashboardPage.visit();
     await loginPage.processLogin(
-      config.etLegalRepresentative.email,
-      config.etLegalRepresentative.password,
-      config.loginPaths.cases,
+      users.etLegalRepresentative
     );
     await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 

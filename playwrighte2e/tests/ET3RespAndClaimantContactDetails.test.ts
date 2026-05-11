@@ -1,29 +1,39 @@
 import { test } from '../fixtures/common.fixture';
-import config from '../config/config';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
+import { users } from '../config/config.dynamic.ts';
+import CitizenHubLoginPage from '../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
+import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
+import Et3LoginPage from '../pages/et3LoginPage.ts';
+import RespondentCaseOverviewPage from '../pages/respondentCitizenHub/respondentCaseOverviewPage.ts';
 
 let caseNumber: string;
 let subRef: string;
 
 test.describe('ET3/Respondent Journey validates respondent/claimant details', () => {
+  test.use({
+    storageState: users.etCaseWorker.sessionFile,
+  })
   test.beforeEach(async ({}) => {
     subRef = await CitizenClaimantFactory.progressCaseFromCreateToEt3(CaseTypeLocation.EnglandAndWales);
   });
 
   //RET-5516
-  test('Citizen user validates respondent contact details', async ({page, loginPage,caseListPage, respondentDetailsPage, citizenHubLoginPage, citizenHubPage, manageCaseDashboardPage, caseDetailsPage }) => {
+  test('Citizen user validates respondent contact details', async ({loginPage,browserUtils, respondentDetailsPage, manageCaseDashboardPage, caseDetailsPage }) => {
     //caseworker completes respondent details
-    await page.goto(config.manageCaseBaseUrl);
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    await manageCaseDashboardPage.visit();
+    await loginPage.processLogin(users.etCaseWorker);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(subRef.toString(), CaseTypeLocation.EnglandAndWales);
 
     await caseDetailsPage.selectNextEvent(Events.respondentDetails);
     await respondentDetailsPage.processRespondentDetailsET3(true);
-    await caseListPage.signoutButton();
 
     //citizen validates respondent contact details
-    await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
+    const claimantPage = await browserUtils.openNewBrowserContext(users.etClaimant.sessionFile);
+    const citizenHubLoginPage = new CitizenHubLoginPage(claimantPage);
+    await citizenHubLoginPage.processCitizenHubLogin(users.etClaimant);
+
+    const citizenHubPage = new CitizenHubPage(claimantPage);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
     await citizenHubPage.clickRespondentContactDetailsLink();
@@ -31,14 +41,18 @@ test.describe('ET3/Respondent Journey validates respondent/claimant details', ()
   });
 
   //RET-5767
-  test('Respondent validates claimant contact details', {tag: '@demo'}, async ({ page, loginPage, caseListPage, respondentCaseOverviewPage , et3LoginPage, manageCaseDashboardPage}) => {
-    await page.goto(config.manageCaseBaseUrl);
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+  test('Respondent validates claimant contact details', {tag: '@demo'},
+    async ({ browserUtils, loginPage, caseListPage, manageCaseDashboardPage}) => {
+    await manageCaseDashboardPage.visit();
+    await loginPage.processLogin(users.etCaseWorker);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(subRef.toString(), CaseTypeLocation.EnglandAndWales);
     await caseListPage.signoutButton();
 
     //Assign a claim to respondent
-    await et3LoginPage.processRespondentLoginForExistingCase(config.etRespondent.email, config.etRespondent.password, caseNumber);
+    const respondentBrowserPage = await browserUtils.openNewBrowserContext(users.etRespondent.sessionFile);
+    const et3LoginPage = new Et3LoginPage(respondentBrowserPage);
+    await et3LoginPage.processRespondentLoginForExistingCase(users.etRespondent, caseNumber);
+    const respondentCaseOverviewPage = new RespondentCaseOverviewPage(respondentBrowserPage);
     await respondentCaseOverviewPage.validateRespondentClaimantContactDetailsPage();
   });
 });

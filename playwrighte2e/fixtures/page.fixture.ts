@@ -45,7 +45,6 @@ import CaseNotesPage from '../pages/caseNotesPage';
 import CloseCasePage from '../pages/closeCasePage';
 import ReinstateCasePage from '../pages/reinstateCasePage';
 import ClaimantRepresentativePage from '../pages/events/claimantRepresentativePage.ts';
-import { CommonActionsHelper } from '../pages/helpers/CommonActionsHelper';
 import { UploadDocumentsForHearingPage } from '../pages/events/UploadDocumentsForHearingPage';
 import { CheckYourAnswersPage } from '../pages/helpers/CheckYourAnswersPage';
 import { BaseEventPage } from '../pages/events/BaseEventPage.ts';
@@ -70,8 +69,6 @@ import { Et3EmploymentDetailsPage } from '../pages/legalRepresentative/Et3Employ
 import { Et3ResponseDetailsPage } from '../pages/legalRepresentative/Et3ResponseDetailsPage.ts';
 import InitialConsiderationPage from '../pages/initialConsiderationPage.ts';
 import AllocateHearingPage from '../pages/allocateHearingPage.ts';
-
-const commonActionsHelper = new CommonActionsHelper();
 
 export type PageFixtures = {
   applicationTabPage: ApplicationTabPage;
@@ -149,7 +146,7 @@ export type PageFixtures = {
 export const pageFixtures = base.extend<PageFixtures>({
 
     applicationTabPage: async ({ page }, use) => {
-        await use(new ApplicationTabPage(page, commonActionsHelper));
+        await use(new ApplicationTabPage(page));
     },
 
     manageCaseDashboardPage: async ({page}, use) => {
@@ -249,7 +246,7 @@ export const pageFixtures = base.extend<PageFixtures>({
     },
 
     respondentDetailsPage:async ({page}, use) => {
-        await use(new RespondentDetailsPage(page, commonActionsHelper));
+        await use(new RespondentDetailsPage(page));
     },
 
     nocPage:async ({page}, use) => {
@@ -273,11 +270,11 @@ export const pageFixtures = base.extend<PageFixtures>({
     },
 
     referralPage:async ({page}, use)=>{
-        await use(new ReferralPage(page, commonActionsHelper));
+        await use(new ReferralPage(page));
     },
 
     draftJudgementPage:async ({page}, use)=>{
-        await use(new DraftJudgementPage(page, commonActionsHelper));
+        await use(new DraftJudgementPage(page));
     },
 
     issueJudgementPage:async ({page}, use)=>{
@@ -318,13 +315,13 @@ export const pageFixtures = base.extend<PageFixtures>({
       await use(new Et3NotificationPage(page));
     },
     uploadHearingBundlePage:async({page}, use)=>{
-        await use(new UploadHearingBundlePage(page, commonActionsHelper));
+        await use(new UploadHearingBundlePage(page));
     },
     caseNotesPage:async({page}, use)=>{
       await use(new CaseNotesPage(page));
     },
     claimantRepresentativePage:async ({page}, use) => {
-        await use(new ClaimantRepresentativePage(page, commonActionsHelper));
+        await use(new ClaimantRepresentativePage(page));
     },
     closeCasePage:async({page}, use)=>{
       await use(new CloseCasePage(page));
@@ -333,7 +330,7 @@ export const pageFixtures = base.extend<PageFixtures>({
       await use(new ReinstateCasePage(page));
     },
     uploadDocumentsForHearingPage:async({page}, use)=>{
-      await use(new UploadDocumentsForHearingPage(page, commonActionsHelper));
+      await use(new UploadDocumentsForHearingPage(page));
     },
     checkYourAnswersPage:async({page}, use) => {
       await use(new CheckYourAnswersPage(page));
@@ -342,7 +339,7 @@ export const pageFixtures = base.extend<PageFixtures>({
       await use(new BaseEventPage(page));
     },
     legalRepNotificationPage:async ({page}, use) => {
-        await use(new LegalRepNotificationPage(page, commonActionsHelper));
+        await use(new LegalRepNotificationPage(page));
     },
    citizenHubLoginPage:async({page}, use) => {
       await use (new CitizenHubLoginPage (page));
@@ -387,13 +384,13 @@ export const pageFixtures = base.extend<PageFixtures>({
     await use (new Et3DetailsPage (page));
   },
   et3RespondentDetailsPage:async({page}, use)=>{
-    await use (new Et3RespondentDetailsPage (page, commonActionsHelper));
+    await use (new Et3RespondentDetailsPage (page));
   },
   et3EmploymentDetailsPage:async({page}, use)=>{
     await use (new Et3EmploymentDetailsPage (page));
   },
   et3ResponseDetailsPage:async({page}, use)=>{
-    await use (new Et3ResponseDetailsPage (page, commonActionsHelper));
+    await use (new Et3ResponseDetailsPage (page));
   },
   allocateHearingPAge:async({page}, use)=>{
     await use (new AllocateHearingPage(page));

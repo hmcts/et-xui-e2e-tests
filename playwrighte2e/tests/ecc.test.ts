@@ -1,18 +1,25 @@
 import { test } from '../fixtures/common.fixture';
 import { expect } from '@playwright/test';
-import config from '../config/config';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
+import { config, users } from '../config/config.dynamic.ts';
+import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
+import CitizenHubLoginPage from '../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
 
 let subRef: any;
 let caseNumber: any;
 
 test.describe('ECC', () => {
+
+  test.use({
+  storageState: users.etCaseWorker.sessionFile,
+  });
+
   test.describe.configure({ mode: 'default' });
-  test.beforeEach(async ({ page, loginPage, manageCaseDashboardPage }) => {
+  test.beforeEach(async ({ loginPage, manageCaseDashboardPage }) => {
     subRef = await CitizenClaimantFactory.progressCaseFromCreateToEt3(CaseTypeLocation.EnglandAndWales);
-    await page.goto(config.manageCaseBaseUrl);
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    await manageCaseDashboardPage.visit();
+    await loginPage.processLogin(users.etCaseWorker, config.manageCaseBaseUrl);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(subRef.toString(), CaseTypeLocation.EnglandAndWales);
   });
 
@@ -43,14 +50,18 @@ test.describe('ECC', () => {
   test(
     'ECC Notification - should create BF Action and show notification banner to claimant',
     { tag: '@ecc' },
-    async ({ caseWorkerNotificationPage, caseListPage, citizenHubLoginPage, citizenHubPage, caseDetailsPage }) => {
+    async ({ caseWorkerNotificationPage, caseListPage, caseDetailsPage, browserUtils }) => {
       await caseWorkerNotificationPage.navigateToSendANotifications();
       await caseWorkerNotificationPage.sendNotification('ECC');
       await expect(caseListPage.page.getByRole('tab', { name: 'BF Actions' })).toBeVisible();
       await caseDetailsPage.navigateToTab('BF Actions');
       await caseListPage.verifyBFActionsTab('Action', 'ECC served');
-      await caseListPage.signoutButton();
-      await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
+
+      // switch page context to Claimant user context
+      const claimantBrowserPage = await browserUtils.openNewBrowserContext(users.etClaimant.sessionFile);
+      const citizenHubLoginPage = new CitizenHubLoginPage(claimantBrowserPage);
+      await citizenHubLoginPage.processCitizenHubLogin(users.etClaimant);
+      const citizenHubPage = new CitizenHubPage(claimantBrowserPage);
       await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(subRef);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.verifyNotificationBanner('ECC');

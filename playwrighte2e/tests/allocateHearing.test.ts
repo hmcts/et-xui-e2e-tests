@@ -1,25 +1,29 @@
 import { test } from '../fixtures/common.fixture';
 import { CaseTypeLocation, Events } from '../config/case-data';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
-import config from '../config/config.ts';
+import { users } from '../config/config.dynamic.ts';
 
 let caseId: string;
 let caseNumber: string;
 
 test.describe('Allocate Hearing and Hearing List', () => {
+  test.use({
+    storageState: users.etCaseWorker.sessionFile
+  });
+
   test.beforeEach(async () => {
     ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
   });
 
-  test('Print Hearing List for Newcastle office and validate members', { tag: '@demo' },async ({
-                                                                 manageCaseDashboardPage,
-                                                                 loginPage,
-                                                                 listHearingPage,
-                                                                 caseDetailsPage,allocateHearingPAge
-                                                               }) => {
+  test('Print Hearing List for Newcastle office and validate members',
+    { tag: '@demo' },async ({
+       manageCaseDashboardPage,
+       loginPage,
+       listHearingPage,
+       caseDetailsPage,allocateHearingPAge
+     }) => {
     await manageCaseDashboardPage.visit();
-    //judge log in
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    await loginPage.processLogin(users.etCaseWorker);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
     //List 1 hearing for the case

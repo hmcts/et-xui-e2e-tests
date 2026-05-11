@@ -1,8 +1,11 @@
 import { test } from '../fixtures/common.fixture';
-import config from "../config/config";
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
+import { users } from '../config/config.dynamic.ts';
+import LoginPage from '../pages/loginPage.ts';
+import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
+import { NocPage } from '../pages/legalRepresentative/NocPage.ts';
 
 let caseId: string;
 let caseNumber: string;
@@ -10,6 +13,9 @@ let firstName: string;
 let lastName: string;
 
 test.describe('perform NOC for respondent', () => {
+  test.use({
+    storageState: users.etLegalRepresentative.sessionFile,
+  })
 
   test.beforeEach(async ({ manageCaseDashboardPage }) => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
@@ -20,50 +26,36 @@ test.describe('perform NOC for respondent', () => {
   });
 
   //RET-5787
-  test('Process NOC using respondent details', async ({ loginPage, manageCaseDashboardPage, nocPage }) => {
-    await loginPage.processLogin(
-      config.etLegalRepresentative.email,
-      config.etLegalRepresentative.password,
-      config.loginPaths.cases,
-    );
-    await manageCaseDashboardPage.navigateToNoticeOfChange();
-    await nocPage.processNocRequest(caseId, `${firstName} ${lastName}`, caseNumber);
-  });
-
-  //RET-5787
   test('Process NOC using claimant details, assign a new claimant representative and check original claimant representative cannot access a case', async ({
     manageCaseDashboardPage,
     caseListPage,
     loginPage,
-    nocPage,
+    nocPage, browserUtils
   }) => {
     await loginPage.processLogin(
-      config.etLegalRepresentative.email,
-      config.etLegalRepresentative.password,
-      config.loginPaths.cases,
+      users.etLegalRepresentative
     );
     await manageCaseDashboardPage.navigateToNoticeOfChange();
     await nocPage.processNocRequest(caseId, `${firstName} ${lastName}`, caseNumber);
-    await manageCaseDashboardPage.signOut();
 
     //Assign a case to another legal representative
-    await loginPage.processLogin(
-      config.etLegalRepresentative2.email,
-      config.etLegalRepresentative2.password,
-      config.loginPaths.cases,
+    const legalRep2BroswerPage = await browserUtils.openNewBrowserContext(users.etLegalRepresentative2.sessionFile);
+    const loginPageForRep2 = new LoginPage(legalRep2BroswerPage);
+    const manageDashboardForRep2 = new ManageCaseDashboardPage(legalRep2BroswerPage);
+    const nocPageRep2 = new NocPage(legalRep2BroswerPage);
+
+    await manageDashboardForRep2.visit();
+    await loginPageForRep2.processLogin(
+      users.etLegalRepresentative2
     );
-    await manageCaseDashboardPage.navigateToNoticeOfChange();
-    await nocPage.processNocRequest(caseId, `${firstName} ${lastName}`, caseNumber);
-    await manageCaseDashboardPage.signOut();
+    await manageDashboardForRep2.navigateToNoticeOfChange();
+    await nocPageRep2.processNocRequest(caseId, `${firstName} ${lastName}`, caseNumber);
 
     //validate case no longer accessible by original legal representative
     await loginPage.processLogin(
-      config.etLegalRepresentative.email,
-      config.etLegalRepresentative.password,
-      config.loginPaths.cases,
+      users.etLegalRepresentative
     );
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId);
     await caseListPage.verifyNoCasesFoundMessage();
-    await manageCaseDashboardPage.signOut();
   });
 });

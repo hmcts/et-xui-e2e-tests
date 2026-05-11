@@ -1,10 +1,8 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BaseEventPage } from './BaseEventPage.ts';
-import { CommonActionsHelper } from '../helpers/CommonActionsHelper.ts';
 
 export default class ClaimantRepresentativePage extends BaseEventPage {
 
-  private readonly commonActionsHelper: CommonActionsHelper;
   private readonly isClaimantRepresented: Locator;
   private readonly nameOfRepresentative: Locator;
   private readonly repOccupation: Locator;
@@ -12,9 +10,8 @@ export default class ClaimantRepresentativePage extends BaseEventPage {
   private readonly ukAddressList: Locator;
   private readonly searchOrganisationField: Locator;
 
-  constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
+  constructor(page: Page) {
     super(page);
-    this.commonActionsHelper = commonActionsHelper;
     this.isClaimantRepresented = this.page.locator('#claimantRepresentedQuestion');
     this.nameOfRepresentative = this.page.locator('#representativeClaimantType_name_of_representative');
     this.repOccupation = this.page.locator('#representativeClaimantType_representative_occupation');
@@ -52,7 +49,6 @@ export default class ClaimantRepresentativePage extends BaseEventPage {
     await expect(this.searchOrganisationField).toBeVisible();
     await this.commonActionsHelper.selectOrganisation(this.page,  orgName);
   }
-
 
   async addClaimantRepresentative() {
     await this.assertClaimantRepresentativePageIsDisplayed();

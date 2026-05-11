@@ -1,6 +1,6 @@
-import { ccdApi, cuiApi } from '../../../fixtures/common.fixture.ts';
-import config from '../../../config/config.ts';
+import { cuiApi } from '../../../fixtures/common.fixture.ts';
 import { CaseTypeLocation } from '../../../config/case-data.ts';
+import { users } from '../../../config/config.dynamic.ts';
 
 /**
  * Factory class for creating and progressing Citizen Claimant cases via CUI APIs.
@@ -23,21 +23,21 @@ export class CitizenClaimantFactory {
    */
   static async createAndSubmitClaim(caseTypeLocation: CaseTypeLocation): Promise<string> {
     // Create a draft case
-    const case_id = await cuiApi.initiateCuiCase(config.etClaimant.email, config.etClaimant.password, caseTypeLocation);
+    const case_id = await cuiApi.initiateCuiCase(users.etClaimant.email, users.etClaimant.password, caseTypeLocation);
     console.log('case Id is:' + case_id);
 
     // Update and submit the draft case
     const updateResponse = await cuiApi.updateDraftCuiCase(
-      config.etClaimant.email,
-      config.etClaimant.password,
+      users.etClaimant.email,
+      users.etClaimant.password,
       case_id,
       CaseTypeLocation.EnglandAndWales,
     );
     console.log('CUI case updated successfully:' + updateResponse.id);
 
     const submitResponse = await cuiApi.submitDraftCuiCase(
-      config.etClaimant.email,
-      config.etClaimant.password,
+      users.etClaimant.email,
+      users.etClaimant.password,
       case_id,
       CaseTypeLocation.EnglandAndWales,
     );
@@ -62,15 +62,15 @@ export class CitizenClaimantFactory {
    */
   static async progressCaseFromCreateToEt3(caseTypeLocation: CaseTypeLocation): Promise<string> {
     const caseId = await this.createAndSubmitClaim(caseTypeLocation);
-    await cuiApi.vetAndAcceptCuiCase(config.etApiUser.email, config.etApiUser.password, caseId);
+    await cuiApi.vetAndAcceptCuiCase(users.etApiUser.email, users.etApiUser.password, caseId);
     const respondentCcdId = await cuiApi.assignCaseToRespondent(
-      config.etRespondent.email,
-      config.etRespondent.password,
+      users.etRespondent.email,
+      users.etRespondent.password,
       caseId,
     );
     await cuiApi.submitET3(
-      config.etRespondent.email,
-      config.etRespondent.password,
+      users.etRespondent.email,
+      users.etRespondent.password,
       respondentCcdId,
       caseId,
       caseTypeLocation,
@@ -80,6 +80,6 @@ export class CitizenClaimantFactory {
   }
 
   static async getCaseDataForCaseWorker(case_id: string) {
-    return await cuiApi.getCaseData(config.etApiUser.email, config.etApiUser.password, case_id);
+    return await cuiApi.getCaseData(users.etApiUser.email, users.etApiUser.password, case_id);
   }
 }

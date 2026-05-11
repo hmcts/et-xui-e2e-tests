@@ -4,16 +4,16 @@
  */
 
 import { axiosRequest } from './ApiHelper';
-import config from '../../config/config.ts';
 import engCase from '../../resources/payload/citizen/et-england-case-data.json';
 import scotCase from '../../resources/payload/citizen/et-scotland-case-data.json';
 import et3 from '../../resources/payload/citizen/et3.json';
 import { CaseTypeLocation } from '../../config/case-data.ts';
 import { getUserAuthToken, getUserId } from './TokenHelperApi.ts';
 import { set, unset } from 'lodash';
+import { staticConfig } from '../../config/config.static.ts';
 
-const env = config.env;
-const syaApiBaseUrl = config.EtCosPreviewEtSyaApiUrl || `http://et-sya-api-${env}.service.core-compute-${env}.internal`;
+const env = staticConfig.env;
+const syaApiBaseUrl = staticConfig.EtCosPreviewEtSyaApiUrl || `http://et-sya-api-${env}.service.core-compute-${env}.internal`;
 const payloadMap: Record<CaseTypeLocation, any> = {
   [CaseTypeLocation.EnglandAndWales]: engCase.data,
   [CaseTypeLocation.Scotland]: scotCase.data,

@@ -1,18 +1,23 @@
 import { test } from "../fixtures/common.fixture";
-import config from "../config/config";
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
+import { users } from '../config/config.dynamic.ts';
+import CitizenHubLoginPage from '../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
+import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
 
 let caseNumber: string;
 let caseId: string;
 
 test.describe('Various events in mange case application', () => {
+  test.use({
+    storageState: users.etCaseWorker.sessionFile,
+  })
   test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
     ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
     await manageCaseDashboardPage.visit();
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    await loginPage.processLogin(users.etCaseWorker);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
@@ -71,36 +76,42 @@ test.describe('Various events in mange case application', () => {
 });
 
 test.describe('Claimant retaining access to transferred case', () => {
+  test.use({
+    storageState: users.etCaseWorker.sessionFile,
+  })
   test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
     ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
     await manageCaseDashboardPage.visit();
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    await loginPage.processLogin(users.etCaseWorker);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
   //EXUI-3451
-  test('Create a England/Wales claim and transfer to Scotland, Claimant retains case', async ({ manageCaseDashboardPage, caseDetailsPage, caseTransferPage, citizenHubLoginPage, citizenHubPage }) => {
+  test('Create a England/Wales claim and transfer to Scotland, Claimant retains case', async ({ browserUtils, caseDetailsPage, caseTransferPage }) => {
     await caseDetailsPage.selectNextEvent(Events.caseTransferScotland);
     await caseTransferPage.progressCaseTransfer();
     let newSubRef= await caseTransferPage.checkYourAnswer(caseNumber);
-    await manageCaseDashboardPage.signOut();
 
     //login as claimant and access transferred case
-    await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
+    const claimantBrowserPage = await browserUtils.openNewBrowserContext(users.etClaimant.sessionFile);
+    const citizenHubLoginPage = new CitizenHubLoginPage(claimantBrowserPage)
+    await citizenHubLoginPage.processCitizenHubLogin(users.etClaimant);
+    const citizenHubPage = new CitizenHubPage(claimantBrowserPage);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(newSubRef);
   });
-
 });
 
 test.describe('Various events in mange case application for Scotland case', () => {
+  test.use({
+    storageState: users.etCaseWorker.sessionFile,
+  })
   test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
     ({ caseId, caseNumber } = await CaseworkerCaseFactory.createScotlandAndAcceptCase());
     await manageCaseDashboardPage.visit();
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    await loginPage.processLogin(users.etCaseWorker);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.Scotland);
   });
-
 
 //RET-5806
   test('Add speak to VP case flag for Scotland case', {tag: '@demo'}, async ({ caseDetailsPage }) => {

@@ -1,7 +1,7 @@
 import { BasePage } from './basePage.ts';
-import config from '../config/config.ts';
 import { expect, Locator, Page } from '@playwright/test';
 import { CaseTypeLocation } from '../config/case-data.ts';
+import { config } from '../config/config.dynamic.ts';
 
 export class ManageCaseDashboardPage extends BasePage {
   private readonly url: string;
@@ -13,7 +13,7 @@ export class ManageCaseDashboardPage extends BasePage {
   public constructor(page: Page) {
     super(page);
     this.url = config.manageCaseBaseUrl;
-    this.signOutButton = page.getByText('Sign Out');
+    this.signOutButton = page.getByText('Sign out');
     this.nocLink = page.getByRole('link', { name: 'Notice of change' });
     this.caseListLink = page.getByText('Case list');
     this.myWorkLink = page.getByRole('link', { name: 'My work' });

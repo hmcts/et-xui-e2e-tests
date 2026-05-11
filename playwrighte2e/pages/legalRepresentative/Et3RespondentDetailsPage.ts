@@ -6,7 +6,6 @@ import { CheckYourAnswersPage } from '../helpers/CheckYourAnswersPage.ts';
 import { Et3DetailsPage } from './Et3DetailsPage.ts';
 
 export default class Et3RespondentDetailsPage extends Et3DetailsPage {
-  private readonly commonActionsHelper: CommonActionsHelper;
 
   private readonly respondentDetailsPageTitle: Locator;
   private readonly isThisCorrectRespondentTitle: Locator;
@@ -22,9 +21,8 @@ export default class Et3RespondentDetailsPage extends Et3DetailsPage {
   private readonly mentalHealthTitle: Locator;
   private readonly mentalHealthRadioGroup: Locator;
 
-  constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
+  constructor(page: Page) {
     super(page);
-    this.commonActionsHelper = commonActionsHelper;
     this.respondentDetailsPageTitle = this.page.getByRole('heading', {
       name: 'ET3 - Response to Employment tribunal claim (ET1)',
     });

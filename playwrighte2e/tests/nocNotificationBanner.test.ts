@@ -1,8 +1,11 @@
 import { test } from '../fixtures/common.fixture';
-import config from "../config/config";
 import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data.ts';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
+import { users } from '../config/config.dynamic.ts';
+import CitizenHubLoginPage from '../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
+import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
+import Et3LoginPage from '../pages/et3LoginPage.ts';
 
 let caseId: string;
 let caseNumber: string;
@@ -11,61 +14,52 @@ let lastName: string;
 let respName: string;
 
 test.describe('NOC Notification Banner', () => {
+  test.use({
+    storageState: users.etLegalRepresentative.sessionFile,
+  })
 
-  test.beforeEach(async ({ manageCaseDashboardPage }) => {
+  test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
     ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId.toString()));
     await manageCaseDashboardPage.visit();
     firstName = CaseDetailsValues.claimantFirstName;
     lastName = CaseDetailsValues.claimantLastName;
     respName = CaseDetailsValues.respondentName;
-
+    await loginPage.processLogin(
+      users.etLegalRepresentative
+    );
+    await manageCaseDashboardPage.navigateToNoticeOfChange();
   });
 
   //RET-5419
   test('Perform NOC and validate the notification banner in CUI', async ({
-    manageCaseDashboardPage,
-    loginPage,
-    nocPage,
-    citizenHubLoginPage,
-    citizenHubPage,
+    nocPage, browserUtils
   }) => {
-    await loginPage.processLogin(
-      config.etLegalRepresentative.email,
-      config.etLegalRepresentative.password,
-      config.loginPaths.cases,
-    );
-    //await legalRepPage.processNOCForClaimantOrRespondent('Eng/Wales - Singles', caseId, caseNumber.toString(), firstName, lastName, false, false);
-    await manageCaseDashboardPage.navigateToNoticeOfChange();
     await nocPage.processNocRequest(caseId, `${firstName} ${lastName}`, caseNumber);
-    await manageCaseDashboardPage.signOut();
 
     //citizen validates notification banner
-    await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
+    const claimantBrowserPage = await browserUtils.openNewBrowserContext(users.etClaimant.sessionFile);
+    const citizenHubLoginPage = new CitizenHubLoginPage(claimantBrowserPage);
+    const citizenHubPage = new CitizenHubPage(claimantBrowserPage);
+
+    await citizenHubLoginPage.processCitizenHubLogin(users.etClaimant);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
     await citizenHubPage.verifyLegalRepNotificationBanner();
     await citizenHubPage.contactTheTribunalLink();
+    await claimantBrowserPage.close();
   });
 
   //RET-5791
   test('Perform NOC and validate the notification banner in  Respondent UI', async ({
-    manageCaseDashboardPage,
-    loginPage,
-    nocPage,
-    et3LoginPage,
+    nocPage, browserUtils
   }) => {
-    await loginPage.processLogin(
-      config.etLegalRepresentative.email,
-      config.etLegalRepresentative.password,
-      config.loginPaths.cases,
-    );
-    await manageCaseDashboardPage.navigateToNoticeOfChange();
     await nocPage.processNocRequest(caseId, respName, caseNumber);
-    await manageCaseDashboardPage.signOut();
 
     //Assign a claim to respondent
-    await et3LoginPage.processRespondentLogin(config.etRespondent.email, config.etRespondent.password, caseNumber);
+    const respondentBrowserPage = await browserUtils.openNewBrowserContext(users.etRespondent.sessionFile);
+    const et3LoginPage = new Et3LoginPage(respondentBrowserPage);
+    await et3LoginPage.processRespondentLogin(users.etRespondent);
     await et3LoginPage.replyToNewClaim(caseId, caseNumber, respName, firstName, lastName);
 
     //citizen validates notification banner in respondent UI
@@ -73,23 +67,58 @@ test.describe('NOC Notification Banner', () => {
 
     // RET-6007 -change my legal representative- stop representation
     await et3LoginPage.stopLegalRepRepresentation();
+    await respondentBrowserPage.close();
+  });
+
+  //RET-5416
+  test('Perform NOC and Remove claimant legal representative as a citizen, claimant reinstated case',
+    async ({
+           nocPage, browserUtils
+           }) => {
+
+    await nocPage.processNocRequest(caseId, `${firstName} ${lastName}`, caseNumber);
+
+    //remove claimant legal rep
+
+    const claimantBrowserPage = await browserUtils.openNewBrowserContext(users.etClaimant.sessionFile);
+    const citizenHubLoginPage = new CitizenHubLoginPage(claimantBrowserPage);
+    const citizenHubPage = new CitizenHubPage(claimantBrowserPage);
+
+    await citizenHubLoginPage.processCitizenHubLogin(users.etClaimant);
+    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
+    await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPage.clickChangeMyLegalRep();
+    await citizenHubPage.verifyLegalRepUnassignedNotificationBanner();
+      await claimantBrowserPage.close();
+  });
+});
+
+test.describe('Share Case scenarios', () => {
+  test.use({
+    storageState: users.etLegalRepresentative.sessionFile,
+  })
+
+  test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
+    caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
+    ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId.toString()));
+    await manageCaseDashboardPage.visit();
+    firstName = CaseDetailsValues.claimantFirstName;
+    lastName = CaseDetailsValues.claimantLastName;
+    respName = CaseDetailsValues.respondentName;
+    await loginPage.processLogin(
+      users.etLegalRepresentative
+    );
+    await manageCaseDashboardPage.navigateToNoticeOfChange();
   });
 
   //RET-5425
   test('Share case (respondent representative)', async ({
-    loginPage,
     manageCaseDashboardPage,
     caseListPage,
     caseDetailsPage,
     baseEventPage,
     nocPage,
   }) => {
-    await loginPage.processLogin(
-      config.etLegalRepresentative.email,
-      config.etLegalRepresentative.password,
-      config.loginPaths.cases,
-    );
-    await manageCaseDashboardPage.navigateToNoticeOfChange();
     await nocPage.processNocRequest(caseId, respName, caseNumber);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId);
     await caseListPage.checkAndShareCaseFromList(caseId);
@@ -105,7 +134,7 @@ test.describe('NOC Notification Banner', () => {
           { tabItem: 'Respondent who is being represented', value: respName },
           { tabItem: 'First name', value: 'Test' },
           { tabItem: 'Last name', value: 'Factory' },
-          { tabItem: 'Email address', value: config.etManageOrgSuperUser.email, position: 1 }, // position starts from 0
+          { tabItem: 'Email address', value: users.etManageOrgSuperUser.email, position: 1 }, // position starts from 0
         ],
       },
     ]);
@@ -113,19 +142,12 @@ test.describe('NOC Notification Banner', () => {
 
   //RET-5425
   test('Share case (claimant representative)', async ({
-    loginPage,
     manageCaseDashboardPage,
     caseListPage,
     caseDetailsPage,
     baseEventPage,
     nocPage,
   }) => {
-    await loginPage.processLogin(
-      config.etLegalRepresentative.email,
-      config.etLegalRepresentative.password,
-      config.loginPaths.cases,
-    );
-    await manageCaseDashboardPage.navigateToNoticeOfChange();
     await nocPage.processNocRequest(caseId, `${firstName} ${lastName}`, caseNumber);
     await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId);
     await caseListPage.checkAndShareCaseFromList(caseId);
@@ -138,34 +160,9 @@ test.describe('NOC Notification Banner', () => {
         tabName: 'Claimant Representative',
         tabContent: [
           'Claimant Representative Details',
-          { tabItem: 'Email address', value: config.etManageOrgSuperUser.email, position: 1 }, // position starts from 0
+          { tabItem: 'Email address', value: users.etManageOrgSuperUser.email, position: 2 }, // position starts from 0
         ],
       },
     ]);
-  });
-
-  //RET-5416
-  test('Perform NOC and Remove claimant legal representative as a citizen, claimant reinstated case', async ({
-    manageCaseDashboardPage,
-    loginPage,
-    nocPage,
-    citizenHubLoginPage,
-    citizenHubPage,
-  }) => {
-    await loginPage.processLogin(
-      config.etLegalRepresentative.email,
-      config.etLegalRepresentative.password,
-      config.loginPaths.cases,
-    );
-    await manageCaseDashboardPage.navigateToNoticeOfChange();
-    await nocPage.processNocRequest(caseId, `${firstName} ${lastName}`, caseNumber);
-    await manageCaseDashboardPage.signOut();
-
-    //remove claimant legal rep
-    await citizenHubLoginPage.processCitizenHubLogin(config.etClaimant.email, config.etClaimant.password);
-    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
-    await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
-    await citizenHubPage.clickChangeMyLegalRep();
-    await citizenHubPage.verifyLegalRepUnassignedNotificationBanner();
   });
 });

@@ -5,7 +5,6 @@ import { expect, Locator, Page } from '@playwright/test';
 import { CommonActionsHelper } from '../helpers/CommonActionsHelper.ts';
 
 export default class RespondentDetailsPage extends BasePage {
-  private readonly commonActionsHelper: CommonActionsHelper;
   private readonly respondentReceivedDateField: Locator;
   private readonly respondentName: Locator;
   private readonly judgePanelEle: Locator;
@@ -14,9 +13,8 @@ export default class RespondentDetailsPage extends BasePage {
   private readonly orgNameEle: Locator;
   private readonly expandImgIcon: Locator;
 
-  constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
+  constructor(page: Page) {
     super(page);
-    this.commonActionsHelper = commonActionsHelper;
     this.respondentReceivedDateField = this.page.locator('#responseReceivedDate');
     this.respondentName = this.page.locator('#respondentCollection_0_respondent_name');
     this.judgePanelEle = this.page.locator('#respondentCollection_0_respondent_hearing_panel_preference-Judge');

@@ -7,7 +7,6 @@ export default class RolesAndAccessPage extends BasePage {
   private readonly allocateToMe: Locator;
   private readonly daysRadio: Locator;
   private readonly indefiniteRadio: Locator;
-  private readonly continueButton: Locator;
   private readonly confirmAllocationButton: Locator;
   private readonly tbody: Locator;
 
@@ -18,7 +17,6 @@ export default class RolesAndAccessPage extends BasePage {
     this.allocateToMe = page.getByText('Allocate to me');
     this.daysRadio = page.getByRole('radio', { name: 'days' });
     this.indefiniteRadio = page.getByRole('radio', { name: 'Indefinite' });
-    this.continueButton = page.getByRole('button', { name: 'Continue' });
     this.confirmAllocationButton = page.getByRole('button', { name: 'Confirm allocation' });
     this.tbody = page.locator('tbody');
   }
@@ -31,7 +29,7 @@ export default class RolesAndAccessPage extends BasePage {
     await this.clickContinue();
     await this.daysRadio.check();
     await this.indefiniteRadio.check();
-    await this.continueButton.click();
+    await this.clickContinue();
     await this.confirmAllocationButton.click();
     await expect(this.tbody).toContainText('Allocated CTSC Caseworker');
   }

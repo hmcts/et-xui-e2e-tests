@@ -1,50 +1,52 @@
 import { test } from '../../fixtures/common.fixture.ts';
-import config from '../../config/config.ts';
 import { CaseworkerCaseFactory } from '../../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { CaseDetailsValues, CaseTypeLocation } from '../../config/case-data.ts';
+import { users } from '../../config/config.dynamic.ts';
+import { ManageCaseDashboardPage } from '../../pages/ManageCaseDashboardPage.ts';
+import LoginPage from '../../pages/loginPage.ts';
+import CaseWorkerNotificationPage from '../../pages/notifications/CaseWorkerNotificationPage.ts';
 
 let caseId: string;
 let caseNumber: string;
-let userEmail:any;
-let userPassword:any;
 const respName = CaseDetailsValues.respondentName;
 const firstName = CaseDetailsValues.claimantFirstName;
 const lastName = CaseDetailsValues.claimantLastName;
 
 test.describe('Respondent Notification scenarios tests', () =>{
+  test.use({
+    storageState: users.etRespondent.sessionFile,
+  });
   test.beforeEach(async () => {
     ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
-    userEmail = config.etRespondent.email;
-    userPassword = config.etRespondent.password;
   });
 
   test('Respondent Notification - Verify respondent receives notification and can view case details',
-    async ({ manageCaseDashboardPage,loginPage,
-             et3LoginPage,
-             caseWorkerNotificationPage,
-             caseListPage,
+    async ({ et3LoginPage,
              responseLandingPage, respContactDetailsPages, respClaimantDetails, respContestClaim,
-             respSubmitEt3
+             respSubmitEt3, browserUtils, respondentCaseOverviewPage
   }) => {
-    await et3LoginPage.processRespondentLogin(userEmail, userPassword, caseNumber);
+    await et3LoginPage.processRespondentLogin(users.etRespondent);
     await et3LoginPage.replyToNewClaim(caseId, caseNumber, respName, firstName, lastName);
     await responseLandingPage.startEt3();
     await respContactDetailsPages.et3Section1();
     await respClaimantDetails.et3Section2();
     await respContestClaim.et3Section3();
     await respSubmitEt3.checkYourAnswers();
-    await manageCaseDashboardPage.signOut();
 
+    const caseWorkerBrowserPage = await browserUtils.openNewBrowserContext(users.etCaseWorker.sessionFile);
+    const manageCaseDashboardPage = new ManageCaseDashboardPage(caseWorkerBrowserPage);
     await manageCaseDashboardPage.visit();
-    // changed from legalRep to caseWorker as legal rep cannot send notification
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    const loginPage = new LoginPage(caseWorkerBrowserPage);
+    await loginPage.processLogin(users.etCaseWorker);
     await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
+    const caseWorkerNotificationPage = new CaseWorkerNotificationPage(caseWorkerBrowserPage);
     await caseWorkerNotificationPage.navigateToSendANotifications();
-    await caseWorkerNotificationPage.sendNotification('ET1 claim', 'No');
-    await caseListPage.signoutButton();
+    const notificationTitle = await caseWorkerNotificationPage.sendNotification('ET1 claim', 'No');
+    await caseWorkerBrowserPage.close();
 
     //Respondent verify notification
-    await et3LoginPage.processRespondentLogin(userEmail, userPassword, caseNumber);
-    await et3LoginPage.replyToNewClaim(caseId, caseNumber, 'Mrs Test Auto', firstName, lastName);
+    await et3LoginPage.processRespondentLogin(users.etRespondent);
+    await et3LoginPage.navigateToCase(caseNumber, caseId);
+    await respondentCaseOverviewPage.validateNotificationBanner(notificationTitle);
   });
 });

@@ -1,11 +1,10 @@
 import { getUserAuthToken } from './TokenHelperApi.ts';
-import config from '../../config/config.ts';
-import axios from 'axios';
 import { axiosRequest } from './ApiHelper.ts';
 import { CaseDetailsValues } from '../../config/case-data.ts';
 import { v4 as uuidv4 } from "uuid";
+import { staticConfig, staticUsers } from '../../config/config.static.ts';
 
-const env = config.env;
+const env = staticConfig.env;
 const idamTestingSupportUrl = `https://idam-testing-support-api.${env}.platform.hmcts.net`;
 export class IdamApi {
 
@@ -50,7 +49,7 @@ export class IdamApi {
     const uniqueId = uuidv4();
     const userEmail = `ettestresp${uniqueId}@gmail.com`;
     const userPassword = 'Nagoya0102';
-    const authToken = await getUserAuthToken(config.etApiUser.email, config.etApiUser.password);
+    const authToken = await getUserAuthToken(staticUsers.etApiUser.email, staticUsers.etApiUser.password);
     await this.createCitizenPostRequest(authToken, userEmail, userPassword);
     return { userEmail, userPassword };
   }
@@ -59,7 +58,7 @@ export class IdamApi {
     const uniqueId = uuidv4();
     const userEmail = `ettestclaimant${uniqueId}@gmail.com`;
     const userPassword = 'Nagoya0102';
-    const authToken = await getUserAuthToken(config.etApiUser.email, config.etApiUser.password);
+    const authToken = await getUserAuthToken(staticUsers.etApiUser.email, staticUsers.etApiUser.password);
     await this.createCitizenPostRequest(authToken, userEmail, userPassword, CaseDetailsValues.claimantFirstName, CaseDetailsValues.claimantLastName);
     return { userEmail, userPassword };
   }

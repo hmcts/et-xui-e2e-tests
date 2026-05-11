@@ -2,17 +2,22 @@ import { test } from '../fixtures/common.fixture';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
-import config from '../config/config.ts';
+import { users } from '../config/config.dynamic.ts';
 
 let caseId: string;
 let caseNumber: string;
 
-test.describe('Accessibility test', () => {
+test.describe('Accessibility test for case workers', () => {
+  test.use({
+    storageState: users.etCaseWorker.sessionFile
+  })
   test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
     caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
     ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
     await manageCaseDashboardPage.visit();
-    await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+    await loginPage.processLogin(
+      users.etCaseWorker
+    );
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
@@ -47,36 +52,9 @@ test.describe('Accessibility test', () => {
   });
 
   test(
-    'Scan exui pages- Legal Representative journey',
-    { tag: '@accessibility' },
-    async ({ caseDetailsPage, applicationTabPage,  loginPage, axeUtils, manageCaseDashboardPage, nocPage }) => {
-      //RET-5787
-      await manageCaseDashboardPage.signOut();
-      await manageCaseDashboardPage.visit();
-      await loginPage.processLogin(
-        config.etLegalRepresentative.email,
-        config.etLegalRepresentative.password,
-        config.loginPaths.cases,
-      );
-      await manageCaseDashboardPage.navigateToNoticeOfChange();
-      await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber, true, axeUtils);
-      await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-
-      //legal rep make an application
-      await caseDetailsPage.navigateToTab('Applications');
-      await applicationTabPage.enterDetailsForMakingApplication('Amend response',axeUtils);
-    },
-  );
-
-  test(
     'Scan exui pages- Work allocation journey',
     { tag: '@accessibility' },
-    async ({ manageCaseDashboardPage, axeUtils, caseListPage, loginPage, caseDetailsPage }) => {
-      await manageCaseDashboardPage.signOut();
-      await manageCaseDashboardPage.visit();
-      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-      await caseListPage.delay(2000);
-      await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
+    async ({ manageCaseDashboardPage, axeUtils, caseListPage, }) => {
       await manageCaseDashboardPage.navigateToCaseListPage();
       await caseListPage.delay(2000);
       await axeUtils.audit();
@@ -91,6 +69,35 @@ test.describe('Accessibility test', () => {
       await manageCaseDashboardPage.navigateToMyWork();
       await caseListPage.delay(2000);
       await axeUtils.audit();
+    },
+  );
+});
+
+test.describe('Accessibility test', () => {
+  test.use({
+    storageState: users.etLegalRepresentative.sessionFile
+  })
+  test.beforeEach(async ({loginPage, manageCaseDashboardPage}) => {
+    caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
+    ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
+    await manageCaseDashboardPage.visit();
+    await loginPage.processLogin(
+      users.etLegalRepresentative
+    );
+  });
+
+  test(
+    'Scan exui pages- Legal Representative journey',
+    { tag: '@accessibility' },
+    async ({ caseDetailsPage, applicationTabPage, axeUtils, manageCaseDashboardPage, nocPage }) => {
+      //RET-5787
+      await manageCaseDashboardPage.navigateToNoticeOfChange();
+      await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber, true, axeUtils);
+      await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
+
+      //legal rep make an application
+      await caseDetailsPage.navigateToTab('Applications');
+      await applicationTabPage.enterDetailsForMakingApplication('Amend response',axeUtils);
     },
   );
 });
