@@ -1,7 +1,11 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
+import { getDynamicUser } from '../data-utils/CachingHelper.ts';
 
 // Helper to read dynamic test users from JSON if env vars are not set
+const dynamicClaimant = getDynamicUser('etClaimant');
+const dynamicRespondent = getDynamicUser('etRespondent');
+const dynamicRespondent2 = getDynamicUser('etRespondent2');
 
 const configuration = {
   env: process.env.RUNNING_ENV || 'aat',
@@ -15,8 +19,8 @@ const configuration = {
   TestCcdGwSecret: process.env.MICROSERVICE_CCD_GW || '',
 
   etClaimant: {
-    email: process.env.ET_CITIZEN_USER_NAME || '',
-    password: process.env.ET_CITIZEN_PASSWORD || '',
+    email: dynamicClaimant.email || process.env.ET_CITIZEN_USER_NAME || '',
+    password: dynamicClaimant.password || process.env.ET_CITIZEN_PASSWORD || '',
   },
 
   etCaseWorker: {
@@ -45,8 +49,13 @@ const configuration = {
   },
 
   etRespondent: {
-    email: process.env.ET3_REPSONDENT_USER_NAME || '',
-    password: process.env.ET3_REPSONDENT_PASSWORD || '',
+    email: dynamicRespondent.email || process.env.ET3_REPSONDENT_USER_NAME || '',
+    password: dynamicRespondent.password || process.env.ET3_REPSONDENT_PASSWORD || '',
+  },
+
+  etRespondent2: {
+    email: dynamicRespondent2.email || process.env.ET_RESP2_USER_NAME || '',
+    password: dynamicRespondent2.password || process.env.ET_RESP2_PASSWORD || '',
   },
 
   etLegalRepresentative2: {

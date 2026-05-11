@@ -36,4 +36,14 @@ test.describe('ET3/Respondent Journey', () => {
     await et3LoginPage.replyToNewClaim(caseId, caseNumber, CaseDetailsValues.respondentName, CaseDetailsValues.claimantFirstName, CaseDetailsValues.claimantLastName);
     await et3LoginPage.validateClaimantDetailsInRespondentApp(CaseDetailsValues.claimantFirstName, CaseDetailsValues.claimantLastName);
   });
+
+  test('Validating the error message after the respondent tries to reassign the same case', async ({ et3LoginPage, responseLandingPage}) => {
+      await et3LoginPage.processRespondentLogin(userEmail, userPassword,caseNumber);
+      await et3LoginPage.replyToNewClaim(caseId, caseNumber, respName, firstName, lastName);
+      await et3LoginPage.signOutButtonSyr();
+      await et3LoginPage.processRespondentLogin(userEmail2, userPassword2,caseNumber);
+      await et3LoginPage.replyToClaimAsNewRespondent(caseId, caseNumber, respName, firstName, lastName);
+      await et3LoginPage.assertErrorMessageIsVisible('Case has already assigned to a respondent');
+
+    });
 });
