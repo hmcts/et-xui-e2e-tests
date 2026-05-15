@@ -57,7 +57,7 @@ test.describe.serial('Upload hearing docs test', () =>  {
 
         await caseDetailsPage.selectNextEvent(Events.uploadDocumentsForHearing);
 
-        // //Verify only future hearings are shown in the options
+        //Verify only future hearings are shown in the options
         await uploadDocumentsForHearingPage.submitDocumentForHearing(
           {
             agreementOption: 'Yes',
