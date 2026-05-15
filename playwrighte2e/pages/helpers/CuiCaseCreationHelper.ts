@@ -15,6 +15,7 @@ import { CaseDetailsValues, CaseTypeLocation, Events } from '../../config/case-d
 import CaseDetailsPage from '../caseDetailsPage.ts';
 import DateUtilComponent from '../../data-utils/DateUtilComponent.ts';
 import { config, UserCredentials } from '../../config/config.dynamic.ts';
+import SingleOrMultipleClaimPage from '../claimantCitizenHub/singleOrMultipleClaimPage.ts';
 
 export async function createCaseViaCitizenUI(
   page: Page,
@@ -24,8 +25,10 @@ export async function createCaseViaCitizenUI(
   employmentAndRespondentDetailsPage: EmploymentAndRespDetailsPage,
   claimDetailsPage: ClaimDetailsPage,
   submitClaimPage: SubmitClaimPage,
+  singleOrMultipleClaimPage:SingleOrMultipleClaimPage,
   region: string,
   typeOfClaim:string,
+  groupClaim:boolean,
   loginMethod: () => Promise<void>,
   employmentJourneyMethod?: (page: any) => Promise<void>,
 ) {
@@ -38,6 +41,9 @@ export async function createCaseViaCitizenUI(
   if (typeOfClaim == 'Claiming for myself') {
     await personalDetailsPage.processPersonalDetails(userDetailsData.postcode, location, userDetailsData.addressOption);
     if (employmentJourneyMethod) await employmentJourneyMethod(employmentAndRespondentDetailsPage);
+    if(groupClaim){
+      await singleOrMultipleClaimPage.processClaimingWithOthers();
+    }
     await claimDetailsPage.processClaimDetails();
   } else if (typeOfClaim == 'Claiming for someone else') {
     //TODO-non-HMCTS journey here RET-6261

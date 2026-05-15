@@ -25,7 +25,7 @@ test.describe('non-HMCTS claimant legal representative Case creation in Citizen 
              personalDetailsPage,
              employmentAndRespondentDetailsPage,
              claimDetailsPage,
-             submitClaimPage, caseDetailsPage, manageCaseDashboardPage
+             submitClaimPage, singleOrMultipleClaimPage, manageCaseDashboardPage
            }) => {
 
 
@@ -39,7 +39,8 @@ test.describe('non-HMCTS claimant legal representative Case creation in Citizen 
         employmentAndRespondentDetailsPage,
         claimDetailsPage,
         submitClaimPage,
-        'EnglandWales', 'Claiming for someone else',
+        singleOrMultipleClaimPage,
+        'EnglandWales', 'Claiming for someone else', false,
         async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
         employmentAndRespondentDetailsPage =>
           employmentAndRespondentDetailsPage.processStillWorkingJourney(

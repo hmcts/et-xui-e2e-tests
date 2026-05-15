@@ -69,6 +69,7 @@ import { Et3EmploymentDetailsPage } from '../pages/legalRepresentative/Et3Employ
 import { Et3ResponseDetailsPage } from '../pages/legalRepresentative/Et3ResponseDetailsPage.ts';
 import InitialConsiderationPage from '../pages/initialConsiderationPage.ts';
 import AllocateHearingPage from '../pages/allocateHearingPage.ts';
+import SingleOrMultipleClaimPage from '../pages/claimantCitizenHub/singleOrMultipleClaimPage.ts';
 
 export type PageFixtures = {
   applicationTabPage: ApplicationTabPage;
@@ -141,6 +142,7 @@ export type PageFixtures = {
   et3ResponseDetailsPage: Et3ResponseDetailsPage;
   initialConsiderationPage: InitialConsiderationPage;
   allocateHearingPAge:AllocateHearingPage;
+  singleOrMultipleClaimPage: SingleOrMultipleClaimPage;
 };
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -394,5 +396,8 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   allocateHearingPAge:async({page}, use)=>{
     await use (new AllocateHearingPage(page));
+  },
+  singleOrMultipleClaimPage:async({page}, use)=>{
+    await use (new SingleOrMultipleClaimPage(page));
   },
 });

@@ -25,7 +25,7 @@ test.describe('Group Claim Case creation in Citizen UI', () => {
              personalDetailsPage,
              employmentAndRespondentDetailsPage,
              claimDetailsPage,
-             submitClaimPage, caseDetailsPage, manageCaseDashboardPage
+             submitClaimPage, singleOrMultipleClaimPage, manageCaseDashboardPage
            }) => {
       const submissionReference = await createCaseViaCitizenUI(
         page,
@@ -35,8 +35,9 @@ test.describe('Group Claim Case creation in Citizen UI', () => {
         employmentAndRespondentDetailsPage,
         claimDetailsPage,
         submitClaimPage,
+        singleOrMultipleClaimPage,
         'EnglandWales',
-        'Claiming for myself',
+        'Claiming for myself', true,
         async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl)}
       );
 
