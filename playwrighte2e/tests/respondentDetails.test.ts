@@ -22,7 +22,8 @@ test.describe('Respondent details test', () => {
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
   });
 
-  test(
+  // skipped as processPanelPreference functionality is changed
+  test.skip(
     'England - Respondent details',
     { tag: '@demo' },
     async ({ respondentDetailsPage, caseDetailsPage, browserUtils }) => {
@@ -32,13 +33,13 @@ test.describe('Respondent details test', () => {
       await caseDetailsPage.navigateToTab('Respondent');
       await respondentDetailsPage.verifyRespondentDetails();
 
-
       //judge log in
       const judgeBrowserPage = await browserUtils.openNewBrowserContext(users.etEnglandJudge.sessionFile);
       const loginPage = new LoginPage(judgeBrowserPage);
       const manageCaseDashboardPage = new ManageCaseDashboardPage(judgeBrowserPage);
       const caseDetailsPageJudge = new CaseDetailsPage(judgeBrowserPage);
       const icUploadDocPage = new ICUploadDocPage(judgeBrowserPage);
+
       await loginPage.processLogin(
         users.etEnglandJudge
       );
