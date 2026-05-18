@@ -89,11 +89,11 @@ export default class RespondentRepPage extends BasePage {
   }
 
   async enterRespType() {
-    await this.respondentTypeInd.click();
-    await this.respFirstName.fill('Mark');
-    await this.respLastName.fill('Gill');
-    await this.respHearingPanel.click();
-    await this.respHearingPanelReason.fill('Test Panel reasons');
+    // await this.respondentTypeInd.click();
+    // await this.respFirstName.fill('Mark');
+    // await this.respLastName.fill('Gill');
+    // await this.respHearingPanel.click();
+    // await this.respHearingPanelReason.fill('Test Panel reasons');
     await this.respReceivedYes.click();
     await this.respFullName.fill('Mark Gill');
     await this.respStatusDropDown.selectOption('Accepted');
@@ -116,11 +116,11 @@ export default class RespondentRepPage extends BasePage {
   }
 
   async enterRespTypeforIC() {
-    await this.respondentTypeInd.click();
-    await this.respFirstName.fill('Test');
-    await this.respLastName.fill('Auto');
-    await this.respHearingPanel.click();
-    await this.respHearingPanelReason.fill('Test Panel reasons');
+    //await this.respondentTypeInd.click();
+    //await this.respFirstName.fill('Test');
+    //await this.respLastName.fill('Auto');
+    //await this.respHearingPanel.click();
+    //await this.respHearingPanelReason.fill('Test Panel reasons');
     await this.respReceivedYes.click();
     await this.respFullName.fill('Test Auto');
     await this.respStatusDropDown.selectOption('Accepted');

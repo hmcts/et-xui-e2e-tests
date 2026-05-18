@@ -2,21 +2,33 @@ import { test } from '../fixtures/common.fixture';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import { users } from '../config/config.dynamic.ts';
+import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
+import LoginPage from '../pages/loginPage.ts';
+import CaseDetailsPage from '../pages/caseDetailsPage.ts';
+import ReferralPage from '../pages/referralPage.ts';
+import InitialConsiderationPage from '../pages/initialConsiderationPage.ts';
 
 let caseId: string;
 let caseNumber: string;
 
-test.describe.serial('England - Referral test - case worker sends referral', () => {
+test.describe.serial('England - Referral test - case worker sends referral, Judge Replies and closes referral', () => {
 
     test.use({
-        storageState: users.etCaseWorker.sessionFile,
+        storageState: users.etEnglandJudge.sessionFile,
     })
     test(
       'New referral',
       { tag: '@demo' },
-      async ({ manageCaseDashboardPage, loginPage, referralPage, initialConsiderationPage, caseDetailsPage }) => {
+      async ({ browserUtils }) => {
 
         ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
+        const caseWorkerBrowserPage = await browserUtils.openNewBrowserContext(users.etCaseWorker.sessionFile);
+        const manageCaseDashboardPage = new ManageCaseDashboardPage(caseWorkerBrowserPage);
+        const loginPage = new LoginPage(caseWorkerBrowserPage);
+        const caseDetailsPage = new CaseDetailsPage(caseWorkerBrowserPage);
+        const referralPage = new ReferralPage(caseWorkerBrowserPage);
+        const initialConsiderationPage = new InitialConsiderationPage(caseWorkerBrowserPage);
+
         await manageCaseDashboardPage.visit();
         await loginPage.processLogin(
           users.etCaseWorker
@@ -43,15 +55,10 @@ test.describe.serial('England - Referral test - case worker sends referral', () 
         await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
         await caseDetailsPage.selectNextEvent(Events.initialConsideration);
         await initialConsiderationPage.validateReferralLink();
+        await caseWorkerBrowserPage.close();
       },
     );
-});
 
-
-test.describe.serial('England - Referral test - Judge Replies and closes referral', () => {
-    test.use({
-        storageState: users.etEnglandJudge.sessionFile,
-    })
     test(
       'Reply to a referral',
       { tag: '@demo' },
@@ -115,7 +122,6 @@ test.describe.serial('England - Referral test - Judge Replies and closes referra
               ]
           }
           ]);
-
       },
     );
 });

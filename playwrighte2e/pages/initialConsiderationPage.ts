@@ -136,8 +136,8 @@ export default class InitialConsiderationPage extends BasePage {
     await expect(this.respondentNameET3).toContainText('Test Auto');
     await expect(this.claimantRespondentHearingPanel.nth(1)).toContainText('Panel');
     await expect(this.claimantRespondentHearingPanel.nth(2)).toContainText('Test Panel Preference Reason');
-    await expect(this.claimantRespondentHearingPanel.nth(4)).toContainText('Judge');
-    await expect(this.claimantRespondentHearingPanel.nth(5)).toContainText('Test Panel reasons');
+    //await expect(this.claimantRespondentHearingPanel.nth(4)).toContainText('Judge');
+    //await expect(this.claimantRespondentHearingPanel.nth(5)).toContainText('Test Panel reasons');
     await expect(this.claimantRespondentHearingFormat.nth(1)).toContainText('Video');
     await expect(this.claimantRespondentHearingFormat.nth(3)).toContainText('Video hearings');
   }

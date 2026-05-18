@@ -44,7 +44,7 @@ export abstract class BasePage {
       await expect(this.continueButton).toBeEnabled();
       await this.continueButton.click({force: true});
       await this.page.waitForLoadState('load', {timeout: 5000});
-      await this.waitForSpinner();
+      await this.waitForSpinner(180000); // 3 mins dynamic wait time for spinner to disappear as some CCD callbacks can take time
       if (!canContinue) return;
       // If url or url+pageNum is provided, check if current URL contains the expected string
       if (url || url?.length > 0) {
@@ -77,12 +77,12 @@ export abstract class BasePage {
     }
   }
 
-  async waitForSpinner() {
+  async waitForSpinner(timeout?: number) {
     await expect
       .poll(
-        async () => {
-          return await this.spinner.count();
-        })
+        async () => await this.spinner.count(),
+        timeout !== undefined ? { timeout } : undefined
+        )
       .toBe(0);
   }
 
@@ -116,12 +116,14 @@ export abstract class BasePage {
     await this.page.evaluate(el => el?.scrollIntoView({ block: 'center' }), await this.submitButton.elementHandle());
     await expect(this.submitButton).toBeVisible();
     await expect(this.submitButton).toBeEnabled();
+
     const maxRetries = submitted ? 3 : 1;
     let attempt = 0;
+
     while (attempt < maxRetries) {
       await this.submitButton.click({clickCount:2, force: true });
       await this.page.waitForLoadState('load', { timeout: 4000 });
-      await this.waitForSpinner();
+      await this.waitForSpinner(180000);
       if (!submitted) return;
       // Check if error is visible
       const h3Visible = await this.errorHeading.isVisible().catch(() => false);
@@ -132,8 +134,17 @@ export abstract class BasePage {
         await this.page.waitForTimeout(2000); // wait 2s before retry
         continue;
       }
+      // 2) New check: landed on not-found page
+      const currentUrl = this.page.url();
+      if (currentUrl.endsWith('/not-found')) {
+        attempt++;
+        console.log(`Landed on '${currentUrl}'. Navigating back and retrying Submit... (Attempt ${attempt})`);
+        await this.page.goBack({ waitUntil: 'load' });
+        await this.waitForSpinner();
+        continue;
+      }
       // No error, break out of loop
-      break;
+      return;
     }
     if (submitted && attempt === maxRetries) {
       console.warn('Submit button retried maximum times, but error still present.');
