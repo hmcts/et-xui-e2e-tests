@@ -42,8 +42,34 @@ export class Et3DetailsPage extends BasePage {
   }
 
   async clickET3SaveAsDraftButton() {
+    await this.page.waitForLoadState('load');
+    await this.saveAsDraftEt3Button.scrollIntoViewIfNeeded();
+
     await expect(this.saveAsDraftEt3Button).toBeVisible();
-    await this.saveAsDraftEt3Button.click();
+    const errorHeading = this.page.locator(`#edit-case-event_error-summary-heading`);
+
+    const maxRetries = 3;
+    let attempt = 0;
+    while (attempt < maxRetries) {
+      await this.saveAsDraftEt3Button.click({clickCount:2, force: true });
+      await this.page.waitForLoadState('load', { timeout: 4000 });
+      await this.waitForSpinner();
+      // Check if error is visible
+      const h3Visible = await errorHeading.isVisible().catch(() => false);
+      if (h3Visible) {
+        const errStr = await errorHeading.textContent();
+        attempt++;
+        console.log(`Error '${errStr}' detected after clicking Save As draft. Retrying... (Attempt ${attempt})`);
+        await this.page.waitForTimeout(2000); // wait 2s before retry
+        continue;
+      }
+      // No error, break out of loop
+      break;
+    }
+    if (attempt === maxRetries) {
+      console.warn('Save As draft button retried maximum times, but error still present.');
+      throw new Error('Save As draft button retried maximum times, but error still present.');
+    }
   }
 
   async submitEt3Form(cyaPage: CheckYourAnswersPage) {

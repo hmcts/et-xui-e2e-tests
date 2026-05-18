@@ -1,14 +1,17 @@
 import { test } from '../fixtures/common.fixture';
 import assert from 'node:assert';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
-import config from '../config/config.ts';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
+import { users } from '../config/config.dynamic.ts';
 
 let caseNumber: any;
 let caseId: any;
 
 test.describe('Close Case & Reinstate Case', () => {
+  test.use({
+    storageState: users.etCaseWorker.sessionFile,
+  });
   test.beforeEach(async () => {
     ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
   });
@@ -23,7 +26,7 @@ test.describe('Close Case & Reinstate Case', () => {
   }) => {
 
       await manageCaseDashboardPage.visit();
-      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+      await loginPage.processLogin(users.etCaseWorker);
 
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
@@ -48,6 +51,5 @@ test.describe('Close Case & Reinstate Case', () => {
       const next100Year = new Date(new Date().setFullYear(new Date().getFullYear() + 100));
       const formattedDate1 = next100Year.toISOString().split('T')[0];
       assert(systemTtl1 === formattedDate1);
-      await manageCaseDashboardPage.signOut();
   });
 });

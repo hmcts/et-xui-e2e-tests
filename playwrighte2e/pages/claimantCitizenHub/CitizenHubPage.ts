@@ -1,6 +1,6 @@
 import { BasePage } from "../basePage.ts";
-import config from "../../config/config.ts";
 import { expect, Locator, Page } from '@playwright/test';
+import { config } from '../../config/config.dynamic.ts';
 
 export default class CitizenHubPage extends BasePage {
   private readonly caseOverviewPageTitle: Locator;
@@ -39,7 +39,6 @@ export default class CitizenHubPage extends BasePage {
   private readonly submitHearingDocument: Locator;
   private readonly startPreparingHearingDoc: Locator;
   private readonly hearingDocAgreeDoc: Locator;
-  private readonly continueButton: Locator;
   private readonly firstListedCase: Locator;
   private readonly myDocumentOption: Locator;
   private readonly witnessStatementOnly: Locator;
@@ -117,7 +116,6 @@ export default class CitizenHubPage extends BasePage {
     this.submitHearingDocument = page.locator('[href="/prepare-documents?lng=en"]');
     this.startPreparingHearingDoc = page.locator('//a[contains(.,"Start now")]');
     this.hearingDocAgreeDoc = page.locator('#bundlesRespondentAgreedDocWith');
-    this.continueButton = page.locator('#main-form-submit');
     this.firstListedCase = page.locator('#about-hearing-documents1');
     this.myDocumentOption = page.locator('[value="My hearing documents only"]');
     this.witnessStatementOnly = page.locator('[value="Witness statements only"]');

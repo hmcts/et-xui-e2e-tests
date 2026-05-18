@@ -1,8 +1,8 @@
 import { ReplacementAction } from '../../types/replacement-action.ts';
 import { ccdApi } from '../../fixtures/common.fixture.ts';
-import config from '../../config/config.ts';
 import { CaseTypeLocation, Events, PayloadPath } from '../../config/case-data.ts';
 import DateUtilComponent from '../DateUtilComponent.ts';
+import { users } from '../../config/config.dynamic.ts';
 
 export class CaseEventApi {
   /**
@@ -23,8 +23,8 @@ export class CaseEventApi {
     let response;
     for (const step of steps) {
       response = await ccdApi.updateCaseInCcd(
-        config.etCaseWorker.email,
-        config.etCaseWorker.password,
+        users.etCaseWorker.email,
+        users.etCaseWorker.password,
         caseId,
         caseTypeLocation,
         step.event,
@@ -53,8 +53,8 @@ export class CaseEventApi {
     let response;
     for (const step of steps) {
       response = await ccdApi.updateCaseInCcd(
-        config.etLegalRepresentative.email,
-        config.etLegalRepresentative.password,
+        users.etLegalRepresentative.email,
+        users.etLegalRepresentative.password,
         caseId,
         caseTypeLocation,
         step.event,

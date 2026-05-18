@@ -99,3 +99,24 @@ export function getDynamicUser(key: string) {
   }
   return {};
 }
+
+/**
+ * Deletes all files in the .sessions directory (used for Playwright storageState/session files).
+ * Call this in global teardown to ensure a clean state.
+ */
+export async function deleteAllSessionFiles(): Promise<void> {
+  const sessionsDir = path.resolve(__dirname, '../../.sessions');
+  try {
+    if (await fs.pathExists(sessionsDir)) {
+      const files = await fs.readdir(sessionsDir);
+      for (const file of files) {
+        const filePath = path.join(sessionsDir, file);
+        await fs.remove(filePath);
+      }
+      // Remove the .sessions directory itself
+      await fs.rmdir(sessionsDir);
+    }
+  } catch (err) {
+    console.error('Error deleting session files:', err);
+  }
+}

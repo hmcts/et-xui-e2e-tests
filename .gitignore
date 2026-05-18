@@ -42,3 +42,4 @@ yarn-error.log
 .env
 .tmp
 /token-cache.json
+/.sessions/

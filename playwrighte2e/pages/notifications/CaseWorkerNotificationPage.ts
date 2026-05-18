@@ -20,7 +20,6 @@ export default class CaseWorkerNotificationPage extends BasePage {
   private readonly notificationLink: Locator;
   private readonly respondToNotificationLink: Locator;
   private readonly notificationsTab: Locator;
-  private readonly continueButton: Locator;
   private readonly judgmentsOrdersTab: Locator;
   private readonly viewJudgmentOrderLink: Locator;
   private readonly tbody: Locator;
@@ -46,7 +45,6 @@ export default class CaseWorkerNotificationPage extends BasePage {
     this.notificationLink = page.getByText('Send a notification');
     this.respondToNotificationLink = page.getByText('Respond to an order or request from the tribunal');
     this.notificationsTab = page.getByText('Notifications');
-    this.continueButton = page.getByRole('button', { name: 'Continue' });
     this.judgmentsOrdersTab = page.getByText('Judgments, orders &');
     this.viewJudgmentOrderLink = page.getByRole('link', { name: 'View a judgment, order or' });
     this.tbody = page.locator('tbody');
@@ -167,7 +165,7 @@ export default class CaseWorkerNotificationPage extends BasePage {
         throw new Error('... Notification Type not provided ...');
     }
     await this.partiesToNotify(partiesToNotify);
-    await this.continueButton.click();
+    await this.clickContinue();
     await this.clickSubmitButton();
     await this.closeAndReturnButton.click();
     return notificationTitle;
@@ -178,7 +176,7 @@ export default class CaseWorkerNotificationPage extends BasePage {
     await this.viewJudgmentOrderLink.click();
     await expect(this.page.locator('ccd-case-edit-page')).toContainText('View a judgment, order or notification');
     await this.notificationDropDown.selectOption('1: 1');
-    await this.continueButton.click();
+    await this.clickContinue();
     await expect(this.tbody).toContainText('Test Notification');
     await expect(this.thead).toContainText('View Notification');
     await expect(this.tbody).toContainText('Both parties');

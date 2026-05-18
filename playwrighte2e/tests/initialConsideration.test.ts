@@ -1,10 +1,14 @@
 import { test } from '../fixtures/common.fixture';
-import config from '../config/config';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
+import { users } from '../config/config.dynamic.ts';
 
 test.describe('Initial Consideration Tests', () => {
   let caseId: string, caseNumber: string;
+
+  test.use({
+    storageState: users.etEnglandJudge.sessionFile,
+  })
 
   test.beforeEach(async () => {
    ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
@@ -17,9 +21,7 @@ test.describe('Initial Consideration Tests', () => {
       await manageCaseDashboardPage.visit();
       //judge log in
       await loginPage.processLogin(
-        config.etEnglandJudge.email,
-        config.etEnglandJudge.password,
-        config.loginPaths.cases,
+        users.etEnglandJudge
       );
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
@@ -33,7 +35,6 @@ test.describe('Initial Consideration Tests', () => {
             { tabItem: 'Type of preliminary hearing', value: 'Video' },
             { tabItem: 'Purpose of preliminary hearing', value: 'Preliminary issue' },
             { tabItem: 'Length of hearing', value: '1' },
-
           ],
         },
       ]);
@@ -45,7 +46,7 @@ test.describe('Initial Consideration Tests', () => {
     { tag: '@demo' },
     async ({ manageCaseDashboardPage, loginPage, caseDetailsPage, initialConsiderationPage,listHearingPage}) => {
       await manageCaseDashboardPage.visit();
-      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+      await loginPage.processLogin(users.etCaseWorker);
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
       await caseDetailsPage.selectNextEvent(Events.listHearing);
       await listHearingPage.listCase('EnglandWales', 0,'Leeds ET','Preliminary Hearing (CM)');
@@ -71,7 +72,7 @@ test.describe('Initial Consideration Tests', () => {
     async ({ manageCaseDashboardPage, loginPage, caseDetailsPage, initialConsiderationPage,listHearingPage}) => {
       await manageCaseDashboardPage.visit();
 
-      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
+      await loginPage.processLogin(users.etCaseWorker);
 
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
       await caseDetailsPage.selectNextEvent(Events.listHearing);
@@ -86,7 +87,6 @@ test.describe('Initial Consideration Tests', () => {
           tabContent: [
             { tabItem: 'Is this hearing judge alone or with members?', value: 'With members' },
             { tabItem: 'Hearing With Members reasons', value: 'Already decided' },
-
           ],
         },
       ]);

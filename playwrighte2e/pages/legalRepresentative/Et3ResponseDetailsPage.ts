@@ -4,7 +4,6 @@ import { CommonActionsHelper } from '../helpers/CommonActionsHelper.ts';
 import { CheckYourAnswersPage } from '../helpers/CheckYourAnswersPage.ts';
 
 export class Et3ResponseDetailsPage extends Et3DetailsPage {
-  private readonly commonActionsHelper: CommonActionsHelper;
   private readonly et3ResponseDetailsPageTitle: Locator;
   private readonly acasReconciliationTitle: Locator;
   private readonly acasReconciliationRadioGroup: Locator;
@@ -17,9 +16,8 @@ export class Et3ResponseDetailsPage extends Et3DetailsPage {
   private readonly eccBackgroundTextInput: Locator;
   private readonly eccFileUploadInput: Locator;
 
-  constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
+  constructor(page: Page) {
     super(page);
-    this.commonActionsHelper = commonActionsHelper;
     this.et3ResponseDetailsPageTitle = this.page.getByText('ET3 - Response Details');
     this.acasReconciliationTitle = this.page.getByRole('heading', {
       name: 'Do you agree with the details given by the claimant about early conciliation with Acas?',

@@ -1,7 +1,7 @@
 import { BasePage } from './basePage';
 import { expect, Locator, Page } from '@playwright/test';
-import config from '../config/config';
 import dateUtilComponent from '../data-utils/DateUtilComponent';
+import { users } from '../config/config.dynamic.ts';
 
 export default class CaseListPage extends BasePage {
   private readonly caseListLink: Locator;
@@ -106,8 +106,8 @@ export default class CaseListPage extends BasePage {
     await this.clickShareCaseButton();
     await this.page.waitForLoadState('load', {timeout: 3000});
 
-    await this.page.getByRole('combobox', { name: 'Search by name or email' }).pressSequentially(config.etManageOrgSuperUser.email, { delay: 100 });
-    await this.page.locator(`//mat-option[@role='option']/span[contains(.,'${config.etManageOrgSuperUser.email}')]`).click();
+    await this.page.getByRole('combobox', { name: 'Search by name or email' }).pressSequentially(users.etManageOrgSuperUser.email, { delay: 100 });
+    await this.page.locator(`//mat-option[@role='option']/span[contains(.,'${users.etManageOrgSuperUser.email}')]`).click();
     await this.page.getByRole('button', { name: 'Add user' }).click();
     await this.clickContinue();
 

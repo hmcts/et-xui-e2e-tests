@@ -1,10 +1,8 @@
 import { BasePage } from './basePage';
 import dateUtilComponent from '../data-utils/DateUtilComponent';
-import { CommonActionsHelper } from './helpers/CommonActionsHelper.ts';
-import { expect, Locator, Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 
 export default class UploadHearingBundlePage extends BasePage {
-  private readonly commonActionsHelper: CommonActionsHelper;
   private readonly futureHearing: Locator;
   private readonly hearingCombo: Locator;
   private readonly claimantRadio: Locator;
@@ -14,9 +12,8 @@ export default class UploadHearingBundlePage extends BasePage {
   private readonly dateSubmittedMonth: Locator;
   private readonly dateSubmittedYear: Locator;
 
-  constructor(page: Page, commonActionsHelper: CommonActionsHelper) {
+  constructor(page: Page, ) {
     super(page);
-    this.commonActionsHelper = commonActionsHelper;
     this.futureHearing = page.locator('#uploadHearingDocumentsSelectPastOrFutureHearing-Future');
     this.hearingCombo = page.locator('#uploadHearingDocumentsSelectFutureHearing');
     this.claimantRadio = page.locator('#uploadHearingDocumentsWhoseDocuments-Claimant');

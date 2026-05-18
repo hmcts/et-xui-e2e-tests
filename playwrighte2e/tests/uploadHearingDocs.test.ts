@@ -1,27 +1,41 @@
 import { test } from '../fixtures/common.fixture';
-import config from "../config/config";
 import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data';
 import DateUtilComponent from '../data-utils/DateUtilComponent';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
+import { users } from '../config/config.dynamic.ts';
 
 let caseId: string;
 let caseNumber: string;
 
-test.describe('Upload hearing docs test', () => {
-    test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
+test.describe.serial('Upload hearing docs test', () =>  {
+  test.use({
+    storageState: users.etCaseWorker.sessionFile
+  })
+
+    test('Data setup - Caseworker lists hearing',async ({ manageCaseDashboardPage, loginPage, listHearingPage, caseDetailsPage }) => {
       ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
       await manageCaseDashboardPage.visit();
-      await loginPage.processLogin(config.etCaseWorker.email, config.etCaseWorker.password, config.loginPaths.worklist);
-
+      await loginPage.processLogin(users.etCaseWorker);
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
+      //List 2 hearings for the case
+      const hearingNumbers: number[] = [0, 1];
+      for (const number of hearingNumbers) {
+        await caseDetailsPage.selectNextEvent(Events.listHearing);
+        await listHearingPage.listCase('EnglandWales', number, 'Leeds ET');
+        await caseDetailsPage.checkHasBeenCreated(Events.listHearing);
+      }
     });
+});
 
+  test.describe.serial('Upload hearing docs test', () =>  {
+    test.use({
+      storageState: users.etLegalRepresentative.sessionFile
+    })
   //RET-5787
     test(
       'for respondent - verify only future hearings are shown in options',
       { tag: '@demo' },
       async ({
-        listHearingPage,
         loginPage,
         caseDetailsPage,
         uploadDocumentsForHearingPage,
@@ -29,22 +43,13 @@ test.describe('Upload hearing docs test', () => {
         nocPage,
         manageCaseDashboardPage,
       }) => {
-        //List 2 hearings for the case
-        const hearingNumbers: number[] = [0, 1];
-        for (const number of hearingNumbers) {
-          await caseDetailsPage.selectNextEvent(Events.listHearing);
-          await listHearingPage.listCase('EnglandWales', number, 'Leeds ET');
-          await caseDetailsPage.checkHasBeenCreated(Events.listHearing);
-        }
+
 
         const date = DateUtilComponent.formatToDayMonthYear(DateUtilComponent.addWeekdays(new Date(), 21));
-        await manageCaseDashboardPage.signOut();
 
         await manageCaseDashboardPage.visit();
         await loginPage.processLogin(
-          config.etLegalRepresentative.email,
-          config.etLegalRepresentative.password,
-          config.loginPaths.cases,
+          users.etLegalRepresentative
         );
         await manageCaseDashboardPage.navigateToNoticeOfChange();
         await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
@@ -52,7 +57,7 @@ test.describe('Upload hearing docs test', () => {
 
         await caseDetailsPage.selectNextEvent(Events.uploadDocumentsForHearing);
 
-        // //Verify only future hearings are shown in the options
+        //Verify only future hearings are shown in the options
         await uploadDocumentsForHearingPage.submitDocumentForHearing(
           {
             agreementOption: 'Yes',
