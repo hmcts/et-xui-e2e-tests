@@ -20,7 +20,8 @@ export class Helpers {
             .waitFor();
         await taskLocator
             .locator(Selectors.a, { hasText: nextStepsActionName })
-            .click();
+            .click({clickCount: 2, force: true});
+        await page.waitForTimeout(2000);
     }
 
     public static async waitForTask(page: Page, taskName: string) {

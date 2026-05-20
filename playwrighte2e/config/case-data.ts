@@ -212,6 +212,10 @@ export const Events: Record<string, CaseEvent> = {
     listItem: 'Add Telephone Note',
     ccdCallback: 'addCaseNote',
   },
+  manageTelephoneNote: {
+    listItem: 'Manage Telephone Note',
+    ccdCallback: 'manageTelephoneNote',
+  },
   uploadHearingDocuments: {
     listItem: 'Upload Hearing Documents',
     ccdCallback: 'uploadHearingDocuments',

@@ -73,6 +73,39 @@ test.describe('Various events in mange case application', () => {
       }
     ]);
   });
+
+
+  //RET-6511
+  test('Add and manage telephone notes', async ({ caseNotesPage, caseDetailsPage, manageTelephoneNotePage}) => {
+    await caseDetailsPage.selectNextEvent(Events.addTelephoneNote);
+    await caseNotesPage.addCaseNotes();
+    await caseDetailsPage.assertTabData([
+      {
+        tabName: 'Telephone Notes',
+        tabContent:[
+          'Telephone notes',
+          { tabItem: 'Case Notes', value: '', clickable: true },
+          { tabItem: 'Note', value: 'This is test'}
+        ]
+
+      }
+    ]);
+
+    //edit telephone note
+    await caseDetailsPage.selectNextEvent(Events.manageTelephoneNote);
+    await manageTelephoneNotePage.editTelephoneNotes();
+    await caseDetailsPage.assertTabData([
+      {
+        tabName: 'Telephone Notes',
+        tabContent:[
+          'Telephone notes',
+          { tabItem: 'Case Notes', value: '', clickable: true },
+          { tabItem: 'Note', value: 'This is amended test'}
+        ]
+
+      }
+    ])
+  });
 });
 
 test.describe('Claimant retaining access to transferred case', () => {
@@ -138,4 +171,5 @@ test.describe('Various events in mange case application for Scotland case', () =
     await caseDetailsPage.selectNextEvent(Events.initialConsideration);
     await initialConsiderationPage.validateLinksNotVisible();
   });
+
 });
