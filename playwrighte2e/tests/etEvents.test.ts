@@ -15,7 +15,8 @@ test.describe('Various events in mange case application', () => {
     storageState: users.etCaseWorker.sessionFile,
   })
   test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
-    ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
+   // ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
+    const caseId= '1779277496096299';
     await manageCaseDashboardPage.visit();
     await loginPage.processLogin(users.etCaseWorker);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
@@ -76,7 +77,7 @@ test.describe('Various events in mange case application', () => {
 
 
   //RET-6511
-  test('Add and manage telephone notes', async ({ caseNotesPage, caseDetailsPage,initialConsiderationPage, manageTelephoneNotePage}) => {
+  test('Add and manage telephone notes', async ({ caseNotesPage, caseDetailsPage, manageTelephoneNotePage}) => {
     await caseDetailsPage.selectNextEvent(Events.addTelephoneNote);
     await caseNotesPage.addCaseNotes();
     await caseDetailsPage.assertTabData([
@@ -89,10 +90,10 @@ test.describe('Various events in mange case application', () => {
         ]
 
       }
-    ])
+    ]);
 
     //edit telephone note
-    await caseDetailsPage.selectNextEvent(Events.manageTelephoneNotes);
+    await caseDetailsPage.selectNextEvent(Events.manageTelephoneNote);
     await manageTelephoneNotePage.editTelephoneNotes();
     await caseDetailsPage.assertTabData([
       {

@@ -14,13 +14,17 @@ export default class ManageTelephoneNotePage extends BasePage {
     this.deleteButton = page.locator('#editOrDeleteCaseNote-Delete');
     this.titleField = page.locator('#addCaseNote_title');
     this.noteField = page.locator('#addCaseNote_note');
-      this.caseNoteList = page.locator('#caseNotesList');
+      this.caseNoteList = page.locator('#caseNoteList');
   }
 
   async editTelephoneNotes() {
     await this.editButton.check();
     await this.caseNoteList.selectOption({ index: 1 });
+    await this.clickContinue();
+    await this.noteField.isVisible();
     await this.noteField.fill('This is amended test');
+    await this.clickContinue();
+    await this.page.locator('text=Check your answers').waitFor({ state: 'visible' });
     await this.clickSubmitButton();
   }
 }
