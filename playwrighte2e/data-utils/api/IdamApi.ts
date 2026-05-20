@@ -4,7 +4,7 @@ import { CaseDetailsValues } from '../../config/case-data.ts';
 import { v4 as uuidv4 } from "uuid";
 import { staticConfig, staticUsers } from '../../config/config.static.ts';
 
-const env = staticConfig.env;
+const env = process.env.RUNNING_ENV && process.env.RUNNING_ENV.startsWith('pr-') ? 'aat' : (process.env.RUNNING_ENV || 'aat');
 const idamTestingSupportUrl = `https://idam-testing-support-api.${env}.platform.hmcts.net`;
 export class IdamApi {
 

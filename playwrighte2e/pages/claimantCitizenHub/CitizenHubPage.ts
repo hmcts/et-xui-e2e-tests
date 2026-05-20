@@ -240,7 +240,11 @@ export default class CitizenHubPage extends BasePage {
     await this.clickContinue();
 
     await this.supportingMaterialFile.waitFor();
-    await this.supportingMaterialFile.setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
+      this.page,
+      this.supportingMaterialFile,
+      `playwrighte2e/resources/test_file/welshTest.pdf`
+    )
 
     await this.uploadFielButton.waitFor();
     await this.uploadFielButton.click();

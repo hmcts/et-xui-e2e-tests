@@ -8,8 +8,7 @@ import {AxiosResponse} from 'axios';
 import { CaseTypeLocation } from '../../config/case-data.ts';
 import { staticConfig } from '../../config/config.static.ts';
 
-const env = staticConfig.env;
-const ccdApiUrl = staticConfig.EtCosPreviewCcdUrl || `http://ccd-data-store-api-${env}.service.core-compute-${env}.internal`;
+const ccdApiUrl = staticConfig.ccdDataStoreApi;
 
 /**
  * CCD API utility class for interacting with the CCD Data Store API.
@@ -90,8 +89,8 @@ export class CcdApi {
     const userId = await getUserId(authToken, userName);
     const serviceToken = await getServiceToken();
 
-    const ccdStartCasePath = `/caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${caseTypeLocation.toString()}/event-triggers/${eventId}/token`;
-    const ccdSaveCasePath = `/caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${caseTypeLocation.toString()}/cases?ignore-warning=false`;
+    const ccdStartCasePath = `caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${caseTypeLocation.toString()}/event-triggers/${eventId}/token`;
+    const ccdSaveCasePath = `caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${caseTypeLocation.toString()}/cases?ignore-warning=false`;
 
     const eventToken = await this.getStartEventToken(ccdStartCasePath, authToken, serviceToken);
 
@@ -149,8 +148,8 @@ export class CcdApi {
     const userId = await getUserId(authToken, userName);
     const serviceToken = await getServiceToken();
 
-    const ccdStartEventPath = `/caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${caseTypeLocation.toString()}/cases/${caseId}/event-triggers/${eventId}/token`;
-    const ccdSaveEventPath = `/caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${caseTypeLocation.toString()}/cases/${caseId}/events`;
+    const ccdStartEventPath = `caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${caseTypeLocation.toString()}/cases/${caseId}/event-triggers/${eventId}/token`;
+    const ccdSaveEventPath = `caseworkers/${userId}/jurisdictions/EMPLOYMENT/case-types/${caseTypeLocation.toString()}/cases/${caseId}/events`;
 
     const eventToken = await this.getStartEventToken(ccdStartEventPath, authToken, serviceToken);
 

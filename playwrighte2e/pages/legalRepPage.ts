@@ -1,9 +1,8 @@
 import { BasePage } from './basePage';
 import { expect, Locator, Page } from '@playwright/test';
+import { Events } from '../config/case-data.ts';
 
 export class LegalRepPage extends BasePage {
-  readonly continueLegalRepButton: Locator;
-  readonly prepareDocContinueButton: Locator;
   readonly changeDocuUploaded: Locator;
   readonly prepareDocPageTwoHeader: Locator;
   readonly prepDecYesOption: Locator;
@@ -18,15 +17,11 @@ export class LegalRepPage extends BasePage {
   readonly supplementaryHearingDocument: Locator;
   readonly witnessStatementOnly: Locator;
   readonly uploadBundleDocument: Locator;
-  readonly legalRepSubmit: Locator;
-  readonly closeAndReturnButton: Locator;
   readonly loadingSpinner: Locator;
   readonly closeReturnToCaseDetails: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.continueLegalRepButton = page.locator('//button[@class="button"]');
-    this.prepareDocContinueButton = page.locator('[type="submit"]');
     this.changeDocuUploaded = page.locator('[aria-label="Change Upload document"]');
     this.prepareDocPageTwoHeader = page.locator('.govuk-heading-l');
     this.prepDecYesOption = page.locator('#bundlesRespondentAgreedDocWith-Yes');
@@ -41,8 +36,6 @@ export class LegalRepPage extends BasePage {
     this.supplementaryHearingDocument = page.locator('#bundlesRespondentWhatDocuments div:nth-of-type(2) > .form-control');
     this.witnessStatementOnly = page.locator('#bundlesRespondentWhatDocuments div:nth-of-type(3) > .form-control');
     this.uploadBundleDocument = page.locator('#bundlesRespondentUploadFile');
-    this.legalRepSubmit = page.locator('[type="submit"]');
-    this.closeAndReturnButton = page.locator('[type="submit"]');
     this.loadingSpinner = page.locator('.spinner-container');
     this.closeReturnToCaseDetails = page.locator('//button[@class="button"]');
   }
@@ -53,27 +46,26 @@ export class LegalRepPage extends BasePage {
     docuType: string,
     checkActiveHearing?: boolean,
   ) {
+    const expUrl = Events.uploadDocumentsForHearing.ccdCallback;
     await expect(this.page.locator('text=Prepare and submit documents for a hearing')).toBeVisible({ timeout: 10000 });
-    await this.continueLegalRepButton.click();
+    await this.clickContinue(expUrl, 2);
     await expect(this.prepareDocPageTwoHeader).toBeVisible({ timeout: 15000 });
-    await this.loadingSpinner.waitFor({ state: 'hidden', timeout: 10000 });
+    await this.waitForSpinner();
     await expect(this.page.locator('text=Have you agreed these documents with the other party?')).toBeVisible();
     await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     try {
       switch (agreement) {
         case 'Yes':
           await this.prepDecYesOption.click();
-          await this.prepareDocContinueButton.click();
+          await this.clickContinue(expUrl, 3);
           break;
         case 'Agreed':
           await this.prepDocAgreeWithRes.check();
           await this.prepDocAgreeWithResTextField.fill('Testing prep document for hearing -- Agree with Res');
-          await this.prepareDocContinueButton.click();
           break;
         case 'NotAgreed':
           await this.prepDocNoAgreement.check();
           await this.prepDocNoAgreementTextField.fill('Testing prep document for hearing -- No agreement');
-          await this.prepareDocContinueButton.click();
           break;
         default:
           // ... check your options or add new option
@@ -82,12 +74,12 @@ export class LegalRepPage extends BasePage {
     } catch (error) {
       console.error('invalid option', error);
     }
-    await expect(this.loadingSpinner).toBeVisible({ timeout: 10000 });
-    await expect(this.respondentDocOnly).toBeVisible({ timeout: 10000 });
+    await this.clickContinue(expUrl, 3);
+    await this.waitForSpinner();
     await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await expect(this.page.locator('text=About your hearing documents')).toBeVisible();
     if (checkActiveHearing) {
-      const options = await this.selectHearingFromDropdown.locator('option');
+      const options = this.selectHearingFromDropdown.locator('option');
       const optionsCount = await options.count();
       expect(optionsCount).toBe(2);
       const optionText = await options.nth(1).textContent();
@@ -130,19 +122,18 @@ export class LegalRepPage extends BasePage {
     } catch (error) {
       console.error('invalid option', error);
     }
-    await this.continueLegalRepButton.click();
+    await this.clickContinue(expUrl, 4);
     await this.loadingSpinner.waitFor({ state: 'hidden', timeout: 10000 });
     await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await expect(this.page.locator('text=Upload your file of documents')).toBeVisible();
-    await this.uploadBundleDocument.setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
-    await this.page.waitForTimeout(10000);
-    await this.continueLegalRepButton.click();
+    await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.uploadBundleDocument, `playwrighte2e/resources/test_file/welshTest.pdf`);
+    await this.clickContinue(expUrl +'/submit');
     await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await expect(this.changeDocuUploaded).toBeVisible({ timeout: 10000 });
     await expect(this.page.locator('text=Check the information below carefully.')).toBeVisible();
     await expect(this.page.locator('text=Upload documents for hearing')).toBeVisible();
     await expect(this.page.locator('text=Check your answers')).toBeVisible();
-    await this.legalRepSubmit.click();
+    await this.clickSubmitButton();
     await this.closeReturnToCaseDetails.click();
     await this.page.waitForTimeout(10000);
   }

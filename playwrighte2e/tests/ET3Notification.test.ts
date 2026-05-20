@@ -30,10 +30,10 @@ test.describe('ET3 Notification', () => {
     //reject ET3 Response
     await caseDetailsPage.selectNextEvent(Events.respondentDetails);
     await respondentDetailsPage.processRespondentDetailsET3(false);
-0
+
     //attempt to send ET3 notification
     await caseDetailsPage.selectNextEvent(Events.et3Notification);
-    await et3NotificationPage.sendEt3Notification();
+    await et3NotificationPage.sendEt3Notification(false);
     await et3NotificationPage.verifyEt3NotificationErrorMessage();
   });
 

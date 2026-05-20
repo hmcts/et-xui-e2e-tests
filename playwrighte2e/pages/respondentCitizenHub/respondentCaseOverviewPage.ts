@@ -5,12 +5,14 @@ export default class RespondentCaseOverviewPage extends BasePage {
   private readonly et1FormLink: Locator;
   private readonly et1FormSubLink: Locator;
   private readonly claimantContactDetails: Locator;
+  private readonly contactApplicationFileUpload: Locator;
 
   constructor(page: Page) {
     super(page);
     this.et1FormLink = this.page.locator('[href="/claimant-et1-form?lng=en"]');
     this.et1FormSubLink = this.page.locator('[href="/claimant-et1-form-details?lng=en"]');
     this.claimantContactDetails = this.page.locator('[href="/claimant-contact-details"]');
+    this.contactApplicationFileUpload = this.page.locator(`#contactApplicationFile`);
   }
 
   async validateRespondentCaseOverviewPage() {
@@ -43,7 +45,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
         throw new Error('... Incorrect input, select correct application type');
     }
     await this.page.locator('#contactApplicationText').isVisible();
-    await this.page.setInputFiles('#contactApplicationFile', `playwrighte2e/resources/test_file/test.txt`);
+    await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.contactApplicationFileUpload, `playwrighte2e/resources/test_file/test.txt`)
     await this.page.getByRole('button', { name: 'Upload file' }).click();
     await expect(this.page.locator('#contactApplicationFile-hint')).toContainText('You have previously uploaded: test.txt');
     await this.page.locator('#contactApplicationText').fill('this is respondent application');
@@ -74,7 +76,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
         throw new Error('... Incorrect input, select correct application type');
     }
     await this.page.locator('#contactApplicationText').isVisible();
-    await this.page.setInputFiles('#contactApplicationFile', `playwrighte2e/resources/test_file/test.txt`);
+    await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.contactApplicationFileUpload, `playwrighte2e/resources/test_file/test.txt`)
     await this.page.getByRole('button', { name: 'Upload file' }).click();
     await expect(this.page.locator('#contactApplicationFile-hint')).toContainText('You have previously uploaded: test.txt');
     await this.page.locator('#contactApplicationText').fill('this is unrepresented respondent application');

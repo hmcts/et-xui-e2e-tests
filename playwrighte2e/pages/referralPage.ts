@@ -49,7 +49,6 @@ export default class ReferralPage extends BasePage {
 
     await this.addNewButtonClick();
     await this.docUploadEle.waitFor();
-    //await this.docUploadEle.setInputFiles('playwrighte2e/resources/test_file/test.txt');
     await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.docUploadEle, `playwrighte2e/resources/test_file/test.txt`);
 
     await this.clickContinue();
@@ -71,7 +70,11 @@ export default class ReferralPage extends BasePage {
 
     await this.addNewButtonClick();
     await this.replyDocUploadEle.waitFor();
-    await this.replyDocUploadEle.setInputFiles('playwrighte2e/resources/test_file/test.txt');
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
+      this.page,
+      this.replyDocUploadEle,
+      `playwrighte2e/resources/test_file/test.txt`
+    );
 
     await this.clickContinue();
     await this.clickSubmitButton();
