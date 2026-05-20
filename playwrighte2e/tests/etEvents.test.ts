@@ -15,8 +15,7 @@ test.describe('Various events in mange case application', () => {
     storageState: users.etCaseWorker.sessionFile,
   })
   test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
-   // ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
-    const caseId= '1779277496096299';
+    ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
     await manageCaseDashboardPage.visit();
     await loginPage.processLogin(users.etCaseWorker);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
