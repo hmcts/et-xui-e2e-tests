@@ -138,15 +138,6 @@ export abstract class BasePage {
         await this.page.waitForTimeout(2000); // wait 2s before retry
         continue;
       }
-      // 2) New check: landed on not-found page
-      const currentUrl = this.page.url();
-      if (currentUrl.includes('/not-found')) {
-        attempt++;
-        if(!process.env.CI) console.log(`Landed on '${currentUrl}'. Navigating back and retrying Submit... (Attempt ${attempt})`);
-        await this.page.goBack({ waitUntil: 'load' });
-        await this.waitForSpinner();
-        continue;
-      }
       // No error, break out of loop
       return;
     }

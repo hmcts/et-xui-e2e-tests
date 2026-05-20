@@ -5,7 +5,6 @@ import { config } from '../config/config.dynamic.ts';
 
 export class ManageCaseDashboardPage extends BasePage {
   private readonly url: string;
-  private readonly signOutButton: Locator;
   private readonly nocLink: Locator;
   private readonly caseListLink: Locator;
   private readonly myWorkLink: Locator;
@@ -13,7 +12,6 @@ export class ManageCaseDashboardPage extends BasePage {
   public constructor(page: Page) {
     super(page);
     this.url = config.manageCaseBaseUrl;
-    this.signOutButton = page.getByText('Sign out');
     this.nocLink = page.getByRole('link', { name: 'Notice of change' });
     this.caseListLink = page.getByText('Case list');
     this.myWorkLink = page.getByRole('link', { name: 'My work' });
@@ -64,10 +62,5 @@ export class ManageCaseDashboardPage extends BasePage {
 
   async visit() {
     await this.page.goto(`${this.url}`);
-  }
-
-  async signOut() {
-    await this.page.waitForLoadState();
-    await this.signOutButton.click();
   }
 }

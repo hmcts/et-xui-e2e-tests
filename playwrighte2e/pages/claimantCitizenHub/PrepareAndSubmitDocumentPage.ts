@@ -1,6 +1,4 @@
-import { BasePage } from '../basePage.ts';
 import { expect, Locator, Page } from '@playwright/test';
-import { CommonActionsHelper } from '../helpers/CommonActionsHelper.ts';
 import ContactTheTribunalPage from './ContactTheTribunalPage.ts';
 
 export default class PrepareAndSubmitDocumentPage extends ContactTheTribunalPage {

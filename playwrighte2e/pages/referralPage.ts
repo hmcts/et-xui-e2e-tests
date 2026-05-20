@@ -1,6 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './basePage';
-import { CommonActionsHelper } from './helpers/CommonActionsHelper.ts';
 
 export default class ReferralPage extends BasePage {
   private readonly judgeReferralOption: Locator;
