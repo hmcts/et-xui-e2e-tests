@@ -14,7 +14,7 @@ export default defineConfig({
   globalSetup: './playwrighte2e/config/global/global-setup',
   globalTeardown: './playwrighte2e/config/global/global-teardown',
   expect: {
-    timeout: 3 * 60 * 1000,
+    timeout: 1 * 60 * 1000, // 1 minute expect wait time
   },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

@@ -39,10 +39,9 @@ test.describe('Notification', () => {
     await citizenHubLoginPage.processCitizenHubLogin(users.etClaimant);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
-    await claimantBrowserPage.close();
-
     //claimant validates notification banner
     await citizenHubPage.verifyNotificationBanner('ET1 claim');
+    await claimantBrowserPage.close();
   });
 
   test('Tribunal/caseworker sends CMO notification to claimant', async ({

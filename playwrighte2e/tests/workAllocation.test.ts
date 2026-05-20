@@ -48,7 +48,7 @@ test.describe('Work Allocation', () => {
       {
         tabName: 'Referrals',
         tabContent: [
-          { tabItem: 'ET1', value: 'ET Caseworker1 | Judge | Yes', clickable: true },
+          { tabItem: 'ET1', value: 'ET | Judge | Yes', clickable: true, exact: false },
           'Awaiting instructions',
           { tabItem: 'Details of the referral', value: 'This is a test referral' },
         ]

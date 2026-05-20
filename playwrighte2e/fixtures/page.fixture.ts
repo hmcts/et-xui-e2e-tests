@@ -69,6 +69,7 @@ import { Et3EmploymentDetailsPage } from '../pages/legalRepresentative/Et3Employ
 import { Et3ResponseDetailsPage } from '../pages/legalRepresentative/Et3ResponseDetailsPage.ts';
 import InitialConsiderationPage from '../pages/initialConsiderationPage.ts';
 import AllocateHearingPage from '../pages/allocateHearingPage.ts';
+import ManageTelephoneNotePage from '../pages/manageTelephoneNotePage.ts';
 
 export type PageFixtures = {
   applicationTabPage: ApplicationTabPage;
@@ -119,6 +120,7 @@ export type PageFixtures = {
   et3NotificationPage: Et3NotificationPage;
   uploadHearingBundlePage: UploadHearingBundlePage;
   caseNotesPage: CaseNotesPage;
+  manageTelephoneNotePage: ManageTelephoneNotePage;
   claimantRepresentativePage: ClaimantRepresentativePage;
   closeCasePage: CloseCasePage;
   reinstateCasePage: ReinstateCasePage;
@@ -319,6 +321,9 @@ export const pageFixtures = base.extend<PageFixtures>({
     },
     caseNotesPage:async({page}, use)=>{
       await use(new CaseNotesPage(page));
+    },
+    manageTelephoneNotePage:async ({page}, use) => {
+      await use(new ManageTelephoneNotePage(page));
     },
     claimantRepresentativePage:async ({page}, use) => {
         await use(new ClaimantRepresentativePage(page));
