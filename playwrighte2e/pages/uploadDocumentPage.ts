@@ -17,8 +17,11 @@ export default class UploadDocumentPage extends BasePage {
     await this.addNewButtonBottom.click();
     await this.page.locator('#documentCollection_1_topLevelDocuments').selectOption({ label: 'Case Management' });
     await this.page.locator('#documentCollection_1_caseManagementDocuments').selectOption({ label: 'Deposit Order' });
-    await this.page.locator('#documentCollection_1_uploadedDocument').setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
-    await this.page.waitForTimeout(3000);
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
+      this.page,
+      this.page.locator('#documentCollection_1_uploadedDocument'),
+      'playwrighte2e/resources/test_file/welshTest.pdf',
+    )
     await this.clickSubmitButton();
   }
 
@@ -37,10 +40,12 @@ export default class UploadDocumentPage extends BasePage {
     await expect(this.page.locator(`#documentCollection_${docNumber}_miscDocuments`)).toBeVisible();
     await this.page.locator(`#documentCollection_${docNumber}_miscDocuments`).selectOption({ label: 'Tribunal case file' });
     await this.page.waitForSelector(`#documentCollection_${docNumber}_uploadedDocument`);
-    await this.page.locator(`#documentCollection_${docNumber}_uploadedDocument`).setInputFiles(`playwrighte2e/resources/test_file/${fileName}`);
-    await this.page.waitForTimeout(10000);
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
+      this.page,
+      this.page.locator(`#documentCollection_${docNumber}_uploadedDocument`),
+      `playwrighte2e/resources/test_file/${fileName}`,
+    );
     await this.clickSubmitButton();
-    await this.delay(4000);
   }
 
   async verifyUploadDocuments(fileName: string) {

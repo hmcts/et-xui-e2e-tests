@@ -4,11 +4,13 @@ import { Page, Locator, expect } from '@playwright/test';
 export default class RespContestClaim extends BasePage {
   private readonly contestClaimReason: Locator;
   private readonly clickContestClaimLink: Locator;
+  private readonly claimSummaryFile: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.contestClaimReason = page.locator("#et3ResponseContestClaimDetails");
-    this.clickContestClaimLink = page.locator('[href="/respondent-contest-claim"]');
+    this.contestClaimReason = this.page.locator("#et3ResponseContestClaimDetails");
+    this.clickContestClaimLink = this.page.locator('[href="/respondent-contest-claim"]');
+    this.claimSummaryFile = this.page.locator('#claimSummaryFile');
   }
 
   async et3Section3() {
@@ -33,7 +35,11 @@ export default class RespContestClaim extends BasePage {
     await this.page.getByLabel('Yes').check();
     await this.saveAndContinueButton();
     await this.page.locator('#et3ResponseEmployerClaimDetails').fill('Test ECC Text Box');
-    await this.page.setInputFiles('#claimSummaryFile', `playwrighte2e/resources/test_file/test.txt`);
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
+      this.page,
+      this.claimSummaryFile,
+      `playwrighte2e/resources/test_file/test.txt`
+    );
     await this.saveAndContinueButton();
     await this.page.getByText('Yes, I’ve completed this').click();
     await this.saveAndContinueButton();

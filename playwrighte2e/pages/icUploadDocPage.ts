@@ -42,12 +42,9 @@ export default class ICUploadDocPage extends BasePage {
 
         // Click and upload a document
         await this.addNewBtn.click();
-        const fileChooserPromise = this.page.waitForEvent('filechooser');
-        await this.fileUploadEle.click();
-        const fileChooser = await fileChooserPromise;
-        await fileChooser.setFiles(path.join(__dirname, '../resources/test_file/test-doc.pdf'));
+        await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.fileUploadEle,'playwrighte2e/resources/test_file/test-doc.pdf' )
         await this.delay(2000);
-        await this.clickContinue();
+        await this.clickContinue(expUrl+ '/submit');
 
         await this.clickSubmitButton();
         await expect(this.page.getByText(icPageData.icConfirmationText)).toBeVisible();
