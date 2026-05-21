@@ -45,26 +45,20 @@ test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
       //await citizenHubPage.validateApplicationBanner();
       await citizenHubPage.respondToRespondentApplication('TypeA');
   });
-});
 
-  test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
-    test.use({
-      storageState: users.etCaseWorker.sessionFile
-    })
+  test('Respondent makes Type A Application, review Application and review Application Response task generated',
+    async ({
+      page,
+           manageCaseDashboardPage,
+           loginPage,
+           caseDetailsPage
+    }) => {
+      await manageCaseDashboardPage.visit();
+      await loginPage.processLogin(users.etCaseWorker);
+      caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
-    test('Respondent makes Type A Application, review Application and review Application Response task generated',
-      async ({
-        page,
-             manageCaseDashboardPage,
-             loginPage,
-             caseDetailsPage
-      }) => {
-        await manageCaseDashboardPage.visit();
-        await loginPage.processLogin(users.etCaseWorker);
-        caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-
-        await caseDetailsPage.navigateToTab('Tasks');
-        await Helpers.waitForTask(page, 'Review Application - Amend response');
-        await Helpers.waitForTask(page, 'Review Application Response - Amend response');
-    });
+      await caseDetailsPage.navigateToTab('Tasks');
+      await Helpers.waitForTask(page, 'Review Application - Amend response');
+      await Helpers.waitForTask(page, 'Review Application Response - Amend response');
+  });
 });

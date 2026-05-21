@@ -5,7 +5,7 @@ import querystring from 'querystring';
 import { staticConfig } from '../../config/config.static.ts';
 
 const env = process.env.RUNNING_ENV && process.env.RUNNING_ENV.startsWith('pr-') ? 'aat' : (process.env.RUNNING_ENV || 'aat');
-const idamBaseUrl = `https://idam-api.${env}.platform.hmcts.net`;
+const idamBaseUrl = staticConfig.idamUrl;
 
 /**
  * Utility functions for obtaining authentication and service tokens for HMCTS IDAM and S2S.
@@ -31,7 +31,7 @@ export async function getUserAuthToken(username: string, password: string): Prom
     username: username,
     password: password,
   });
-  const loginUrl = "/loginUser";
+  const loginUrl = "loginUser";
   const authTokenResponse = await axiosRequest({
     method: 'post',
     url: idamBaseUrl + loginUrl,
@@ -65,7 +65,7 @@ export async function getUserId(authToken: string, username: string): Promise<st
     return cached.userId;
   }
 
-  const idamDetailsPath = '/details';
+  const idamDetailsPath = 'details';
 
   const userDetailsResponse = await axiosRequest({
     method: 'get',

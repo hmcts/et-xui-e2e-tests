@@ -3,14 +3,7 @@
 properties([
         pipelineTriggers([cron('45 17 * * 1-5')]),
         parameters([
-                choice(name: 'ENVIRONMENT_VARS', choices: ['aat', 'demo'], description: 'Environment to test'),
-                string(name: 'ET_SYA_URL_TO_TEST', defaultValue: 'https://et-sya.aat.platform.hmcts.net/', description: 'The URL you want to run these tests against'),
-                string(name: 'ET_SYR_URL_TO_TEST', defaultValue: 'https://et-syr.aat.platform.hmcts.net/', description: 'The URL you want to run these tests against'),
-                string(name: 'IDAM_URL', defaultValue: 'https://idam-api.aat.platform.hmcts.net/testing-support/accounts', description: 'Idam url'),
-                string(name: 'MANAGE_ORG_URL', defaultValue: 'https://manage-org.aat.platform.hmcts.net/', description: 'Manage org url'),
-                string(name: 'CCD_CALLBACKS_URL', defaultValue: 'https://manage-case.aat.platform.hmcts.net/', description: 'ccd url'),
-                string(name: 'ET_CASE_API_URL', defaultValue: 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/initiate-case/', description: 'The Url for creating draft cases'),
-                string(name: 'ET_SUBMIT_DRAFT_CASE_URL', defaultValue: 'http://et-sya-api-aat.service.core-compute-aat.internal/cases/submit-case/', description: 'The Endpoint for submitting a darft case'),
+                string(name: 'ENVIRONMENT_VARS', defaultValue: 'aat', description: 'Environment to test aat or demo or pr-5649'),
         ])
 ])
 
@@ -30,7 +23,6 @@ def inTestFalse = [
                 secret('', 'IN_TEST')
         ]
 ]
-
 
 def secrets = [
         'et-${env}': [
@@ -87,18 +79,12 @@ withNightlyPipeline("nodejs", product, component) {
 
     loadVaultSecrets(secrets)
 
-    env.TEST_URL_CITIZEN_UI = params.ET_SYA_URL_TO_TEST
-    env.IDAM_URL = params.IDAM_URL
-    env.TEST_MANAGE_CASE_URL = params.CCD_CALLBACKS_URL
-    env.ET_CASE_API_URL = params.ET_CASE_API_URL
     env.RUNNING_ENV = params.ENVIRONMENT_VARS
-    env.TEST_RESP_URL = params.ET_SYR_URL_TO_TEST
 
     before('DependencyCheckNightly') {
         yarnBuilder.yarn('yarn-update')
         yarnBuilder.yarn('install-dependencies')
     }
-
 
     afterAlways('DependencyCheckNightly') {
          stage('Smoke test') {
@@ -192,6 +178,3 @@ withNightlyPipeline("nodejs", product, component) {
         }
     }
 }
-
-
-

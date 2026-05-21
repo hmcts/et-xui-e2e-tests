@@ -34,7 +34,7 @@ export abstract class BasePage {
     await this.page.waitForTimeout(time);
   }
 
-  async clickContinue(url: string = '', pageNum?: number, canContinue?: boolean) {
+  async clickContinue(url: string = '', pageNum?: number, shouldContinue: boolean = true) {
     await this.page.waitForLoadState('load');
     const maxRetries = 3;
     let attempt = 0;
@@ -43,9 +43,9 @@ export abstract class BasePage {
       await expect(this.continueButton).toBeVisible();
       await expect(this.continueButton).toBeEnabled();
       await this.continueButton.click({force: true});
-      await this.page.waitForLoadState('load', {timeout: 5000});
-      await this.waitForSpinner(180000); // 3 mins dynamic wait time for spinner to disappear as some CCD callbacks can take time
-      if (!canContinue) return;
+      await this.page.waitForLoadState('load');
+      await this.waitForSpinner(180_000); // 3 mins dynamic wait time for spinner to disappear as some CCD callbacks can take time
+      if (!shouldContinue) return;
       // If url or url+pageNum is provided, check if current URL contains the expected string
       if (url || url?.length > 0) {
         const expected = `${url}${pageNum ? pageNum : ''}`;
@@ -54,7 +54,7 @@ export abstract class BasePage {
           await this.page.waitForURL(new RegExp(expected), {timeout: 2000});
           return;
         } catch (err) {
-          console.log(`URL - ${expected} check failed after clicking Continue. Retrying... (Attempt ${attempt})`);
+          if(!process.env.CI) console.log(`URL - ${expected} check failed after clicking Continue. Retrying... (Attempt ${attempt})`);
           continue;
         }
       }
@@ -64,24 +64,28 @@ export abstract class BasePage {
         // Check if Continue button is still visible
        const errStr = await this.errorHeading.textContent();
         attempt++;
-        console.log(`Error '${errStr}' detected after clicking Continue. Retrying... (Attempt ${attempt})`);
+        if(!process.env.CI) console.log(`Error '${errStr}' detected after clicking Continue. Retrying... (Attempt ${attempt})`);
         await this.page.waitForTimeout(2000); // wait 2s before retry
         continue;
       }
+      if(!process.env.CI) console.log('No error detected after clicking Continue.');
       // No error and URL is as expected, break out of loop
       return;
     }
-    if (canContinue && attempt === maxRetries) {
+    if (shouldContinue && attempt === maxRetries) {
       console.warn('Continue button retried maximum times, but error or URL mismatch still present.');
       throw new Error('Continue button retried maximum times, but error or URL mismatch still present.');
     }
   }
 
-  async waitForSpinner(timeout?: number) {
+  async waitForSpinner(timeoutWait: number = 60_000) {
     await expect
       .poll(
         async () => await this.spinner.count(),
-        timeout !== undefined ? { timeout } : undefined
+        {
+          intervals: [2_000],
+          timeout: timeoutWait,
+        }
         )
       .toBe(0);
   }
@@ -123,24 +127,15 @@ export abstract class BasePage {
     while (attempt < maxRetries) {
       await this.submitButton.click({clickCount:2, force: true });
       await this.page.waitForLoadState('load', { timeout: 4000 });
-      await this.waitForSpinner(180000);
+      await this.waitForSpinner(180_000);
       if (!submitted) return;
       // Check if error is visible
       const h3Visible = await this.errorHeading.isVisible().catch(() => false);
       if (h3Visible) {
         const errStr = await this.errorHeading.textContent();
         attempt++;
-        console.log(`Error '${errStr}' detected after clicking Submit. Retrying... (Attempt ${attempt})`);
+        if(!process.env.CI) console.log(`Error '${errStr}' detected after clicking Submit. Retrying... (Attempt ${attempt})`);
         await this.page.waitForTimeout(2000); // wait 2s before retry
-        continue;
-      }
-      // 2) New check: landed on not-found page
-      const currentUrl = this.page.url();
-      if (currentUrl.endsWith('/not-found')) {
-        attempt++;
-        console.log(`Landed on '${currentUrl}'. Navigating back and retrying Submit... (Attempt ${attempt})`);
-        await this.page.goBack({ waitUntil: 'load' });
-        await this.waitForSpinner();
         continue;
       }
       // No error, break out of loop

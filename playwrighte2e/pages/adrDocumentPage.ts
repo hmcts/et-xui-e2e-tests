@@ -16,11 +16,9 @@ export default class AdrDocumentPage extends BasePage {
 
     async adrUploadDocument() {
         await this.addNewButtonClick();
-        await this.uploadInput.setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
-        await this.page.waitForTimeout(3000);
+        await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.uploadInput, 'playwrighte2e/resources/test_file/welshTest.pdf')
         await this.shortDescriptionInput.fill('description');
         await this.clickSubmitButton();
-        await this.page.waitForTimeout(2000);
     }
 
 }
