@@ -7,6 +7,22 @@ import { users } from '../../../config/config.dynamic.ts';
  * Provides utility methods to create, update, submit, and progress cases for test automation.
  */
 export class CitizenClaimantFactory {
+
+  static async createAndUpdateClaim(caseTypeLocation: CaseTypeLocation): Promise<string> {
+    const case_id = await cuiApi.initiateCuiCase(users.etClaimant.email, users.etClaimant.password, caseTypeLocation);
+    console.log('case Id is:' + case_id);
+
+    // Update and submit the draft case
+    const updateResponse = await cuiApi.updateDraftCuiCase(
+      users.etClaimant.email,
+      users.etClaimant.password,
+      case_id,
+      CaseTypeLocation.EnglandAndWales,
+    );
+    console.log('CUI case updated successfully:' + updateResponse.id);
+    return case_id;
+  }
+
   /**
    * Creates a draft CUI case for a claimant, updates it, and submits it.
    *
@@ -22,18 +38,8 @@ export class CitizenClaimantFactory {
    *   const caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseJurisdiction.EnglandAndWales);
    */
   static async createAndSubmitClaim(caseTypeLocation: CaseTypeLocation): Promise<string> {
-    // Create a draft case
-    const case_id = await cuiApi.initiateCuiCase(users.etClaimant.email, users.etClaimant.password, caseTypeLocation);
-    console.log('case Id is:' + case_id);
-
-    // Update and submit the draft case
-    const updateResponse = await cuiApi.updateDraftCuiCase(
-      users.etClaimant.email,
-      users.etClaimant.password,
-      case_id,
-      CaseTypeLocation.EnglandAndWales,
-    );
-    console.log('CUI case updated successfully:' + updateResponse.id);
+    // Create and update a draft case
+    const case_id = await this.createAndUpdateClaim(caseTypeLocation);
 
     const submitResponse = await cuiApi.submitDraftCuiCase(
       users.etClaimant.email,

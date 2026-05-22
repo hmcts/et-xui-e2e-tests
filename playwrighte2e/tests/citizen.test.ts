@@ -1,4 +1,4 @@
-import {test} from "../fixtures/common.fixture";
+import { cuiApi, test} from "../fixtures/common.fixture";
 import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
 import { CaseTypeLocation } from '../config/case-data.ts';
 import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
@@ -18,7 +18,6 @@ test.describe('Various tests for Citizen application', () => {
     ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
   });
 
-
 //RET-5415
   test('Citizen varifies legal representative details', async ({
     citizenHubPage, citizenHubLoginPage
@@ -32,3 +31,20 @@ test.describe('Various tests for Citizen application', () => {
     await citizenHubPage.appointLegalRep(caseNumber, caseId);
   });
 });
+
+test.describe('Claimant navigate back to Case list', () => {
+  test.use({
+    storageState: users.etClaimant.sessionFile,
+  })
+
+  test('Claimant can navigate to Case list',
+    async ({
+             citizenHubPage,
+             citizenHubLoginPage
+  }) => {
+    caseId = await CitizenClaimantFactory.createAndUpdateClaim(CaseTypeLocation.EnglandAndWales);
+    await citizenHubLoginPage.processCitizenHubLogin(users.etClaimant);
+    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
+
+  })
+})
