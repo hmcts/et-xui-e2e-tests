@@ -9,6 +9,7 @@ export default class ContactTheTribunalPage extends BasePage {
   private readonly applicationFileUploadInput: Locator;
   private readonly yesOptionR92: Locator;
   private readonly noOptionR92: Locator;
+  private readonly storeButton: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -18,6 +19,7 @@ export default class ContactTheTribunalPage extends BasePage {
     this.applicationFileUploadInput = this.page.locator(`#contactApplicationFile`);
     this.yesOptionR92 = this.page.locator(`#copyToOtherPartyYesOrNo`);
     this.noOptionR92 = this.page.locator(`#copyToOtherPartyYesOrNo-2`);
+    this.storeButton = this.page.getByRole('button', { name: 'Store application' });
   }
 
   async assertContactTheTribunalPageIsDisplayed() {
@@ -154,6 +156,15 @@ export default class ContactTheTribunalPage extends BasePage {
     await this.clickContinue();
 
     await this.assertCheckYourAnswersPage(applicationTypeText, details, r92Option);
+  }
+
+  async clickStoreApplication() {
+    await this.storeButton.click();
+  }
+  async assertApplicationStoredSuccessPageIsDisplayed() {
+    await this.page.waitForLoadState('load');
+    const applicationSentSuccessPageTitle = this.page.getByRole('heading', {name: 'You have stored your application'});
+    await expect(applicationSentSuccessPageTitle).toBeVisible();
   }
 
 }
