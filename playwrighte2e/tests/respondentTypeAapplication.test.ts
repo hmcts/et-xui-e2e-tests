@@ -6,6 +6,9 @@ import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 import { users } from '../config/config.dynamic.ts';
 import CitizenHubLoginPage from '../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
 import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
+import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
+import LoginPage from '../pages/loginPage.ts';
+import CaseDetailsPage from '../pages/caseDetailsPage.ts';
 
 let caseNumber: string;
 let caseId: string;
@@ -48,17 +51,20 @@ test.describe.serial('ET3/Respondent Applications and verify WA tasks', () => {
 
   test('Respondent makes Type A Application, review Application and review Application Response task generated',
     async ({
-      page,
-           manageCaseDashboardPage,
-           loginPage,
-           caseDetailsPage
+      page, browserUtils
     }) => {
+      await page.close();
+      const caseworkerBrowserPage = await browserUtils.openNewBrowserContext(users.etCaseWorker.sessionFile);
+      const manageCaseDashboardPage = new ManageCaseDashboardPage(caseworkerBrowserPage);
+      const loginPage = new LoginPage(caseworkerBrowserPage);
+      const caseDetailsPage = new CaseDetailsPage(caseworkerBrowserPage);
+
       await manageCaseDashboardPage.visit();
       await loginPage.processLogin(users.etCaseWorker);
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
 
       await caseDetailsPage.navigateToTab('Tasks');
-      await Helpers.waitForTask(page, 'Review Application - Amend response');
-      await Helpers.waitForTask(page, 'Review Application Response - Amend response');
+      await Helpers.waitForTask(caseworkerBrowserPage, 'Review Application - Amend response');
+      await Helpers.waitForTask(caseworkerBrowserPage, 'Review Application Response - Amend response');
   });
 });
