@@ -29,6 +29,7 @@ export default defineConfig({
     {
       name: 'setup',
       testMatch: /user\.setups\.ts/,
+      workers: 1
     },
     {
       name: 'chromium',

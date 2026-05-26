@@ -2,7 +2,9 @@ import { test } from '../../fixtures/common.fixture.ts';
 import { users } from '../config.dynamic.ts';
 import { CookieUtils } from '../../data-utils/cookie.utils.ts';
 
-test.describe("set up user context", () => {
+test.describe.serial("set up user context", () => {
+  test.use({ storageState: { cookies: [], origins: [] } }); // start unauthenticated every setup test
+
   const cookieName = 'session-freshness-check';
   const xuiUsers = [
     { role: 'Case Worker', user: users.etCaseWorker },
