@@ -15,7 +15,8 @@ export default class Et3NotificationPage extends BasePage {
     await this.addNewButtonClick();
     await this.typeOfDocument.waitFor();
     await this.typeOfDocument.selectOption({ label: '2.11 Response accepted' });
-    await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.documentUpload, `playwrighte2e/resources/test_file/welshTest.pdf`);
+    const file = `playwrighte2e/resources/test_file/welshTest.pdf`;
+    await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.documentUpload, await this.commonActionsHelper.createAliasPDFPayload(file, 'ET3Form.pdf'));
     await this.page.waitForTimeout(5000);
     await this.clickContinue('', undefined, shouldContinue);
   }
