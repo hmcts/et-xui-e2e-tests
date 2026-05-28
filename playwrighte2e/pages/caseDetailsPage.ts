@@ -285,6 +285,7 @@ export default class CaseDetailsPage extends BasePage {
   async selectNextEvent(event: CaseEvent, navigate: boolean = true) {
     const maxRetries = 5;
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      if (!process.env.CI) console.log(`Trying at ${attempt}`);
       await this.page.waitForLoadState();
       await this.goButton.isVisible();
       await expect(this.selectNextStepDropDown).toBeVisible();

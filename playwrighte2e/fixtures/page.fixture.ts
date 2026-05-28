@@ -71,6 +71,7 @@ import InitialConsiderationPage from '../pages/initialConsiderationPage.ts';
 import AllocateHearingPage from '../pages/allocateHearingPage.ts';
 import ManageTelephoneNotePage from '../pages/manageTelephoneNotePage.ts';
 import { Et1ClaimsListPage } from '../pages/claimantCitizenHub/et1ClaimsListPage.ts';
+import AmendContactDetailsLrPage from '../pages/events/AmendContactDetailsLrPage.ts';
 
 export type PageFixtures = {
   applicationTabPage: ApplicationTabPage;
@@ -145,6 +146,7 @@ export type PageFixtures = {
   initialConsiderationPage: InitialConsiderationPage;
   allocateHearingPAge:AllocateHearingPage;
   et1ClaimsListPage: Et1ClaimsListPage;
+  amendContactDetailsLrPage: AmendContactDetailsLrPage;
 };
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -404,5 +406,8 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   et1ClaimsListPage:async({page}, use)=>{
       await use (new Et1ClaimsListPage (page));
+  },
+  amendContactDetailsLrPage:async({page}, use)=>{
+      await use (new AmendContactDetailsLrPage (page));
   }
 });
