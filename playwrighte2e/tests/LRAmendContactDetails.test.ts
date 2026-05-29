@@ -58,4 +58,43 @@ test.describe( 'Legal Rep updates update contact to colleagues in his org', () =
         }
       ]);
   });
+
+  //RET-6237 to be released before testing this for Respondent LR
+  test.skip('Respondent Legal Rep updates contact to colleagues in his org',
+    async ({
+             nocPage, manageCaseDashboardPage, caseDetailsPage, amendContactDetailsLrPage, checkYourAnswersPage
+           }) => {
+      await manageCaseDashboardPage.navigateToNoticeOfChange();
+      await nocPage.processNocRequest(caseId, CaseDetailsValues.respondentName, caseNumber);
+
+      await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
+      await caseDetailsPage.selectNextEvent(Events.amendContactDetails);
+      let addressDetails: AddressDetails;
+      let phNumber: string;
+      ({ addressDetails, phNumber} = await amendContactDetailsLrPage.amendLegalRepContactDetails('Amend contact details', checkYourAnswersPage));
+      await caseDetailsPage.assertTabData([
+        {
+          tabName: 'Respondent Representative',
+          tabContent: [
+            { tabItem: 'Phone number', value: phNumber },
+            { tabItem: 'Building and Street', value: addressDetails.addressLine1 },
+            { tabItem: 'Town or City', value: addressDetails?.townOrCity },
+            { tabItem: 'Postcode/Zipcode', value: addressDetails?.postcode },
+          ]
+        }
+      ]);
+
+      await caseDetailsPage.selectNextEvent(Events.amendContactDetailsClaimant);
+      ({ addressDetails,  phNumber} = await amendContactDetailsLrPage.amendLegalRepContactDetails('Use MyHMCTS details', checkYourAnswersPage));
+      await caseDetailsPage.assertTabData([
+        {
+          tabName: 'Respondent Representative',
+          tabContent: [
+            { tabItem: 'Building and Street', value: addressDetails.addressLine1 },
+            { tabItem: 'Town or City', value: addressDetails?.townOrCity },
+            { tabItem: 'Postcode/Zipcode', value: addressDetails?.postcode },
+          ]
+        }
+      ]);
+    });
 });
