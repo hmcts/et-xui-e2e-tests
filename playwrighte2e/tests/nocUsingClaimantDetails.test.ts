@@ -5,11 +5,13 @@ import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
 import { users } from '../config/config.dynamic.ts';
 import CitizenHubLoginPage from '../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
 import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
+import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
+import LoginPage from '../pages/loginPage.ts';
 
 let caseId: string;
 let caseNumber: string;
 
-test.describe('perform NOC for Claimant', () => {
+test.describe('Caseworker performs `Claimant Representative` event for Claimant', () => {
   test.use({
     storageState: users.etCaseWorker.sessionFile
   })
@@ -37,6 +39,7 @@ test.describe('perform NOC for Claimant', () => {
         tabContent: [
           { tabItem: 'Name of Representative', value: 'Test Claimant Representative' },
           { tabItem: 'Name:', value: 'ET Test Factory Solicitor' },
+          { tabItem: 'Email address', value: users.etLegalRepresentative.email },
         ],
       },
     ]);
@@ -51,5 +54,29 @@ test.describe('perform NOC for Claimant', () => {
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
     await citizenHubPage.verifyLegalRepNotificationBanner();
     await citizenHubPage.contactTheTribunalLink();
+
+    const legalRepBrowserPage = await browserUtils.openNewBrowserContext(users.etLegalRepresentative.sessionFile);
+    const legalRepLoginPage = new LoginPage(legalRepBrowserPage);
+    const legalRepDashboardPage = new ManageCaseDashboardPage(legalRepBrowserPage);
+
+    await legalRepLoginPage.processLogin(users.etLegalRepresentative);
+    await legalRepDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales, true);
+
+    // caseWorker removes Claimant representative
+    await caseDetailsPage.selectNextEvent(Events.claimantRepresentative);
+    await claimantRepresentativePage.assertClaimantRepresentativePageIsDisplayed();
+    await claimantRepresentativePage.selectIsClaimantRepresented('No');
+    await claimantRepresentativePage.clickSubmitButton();
+
+    //Legal Rep Should not have access to the case anymore
+    await legalRepDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales, false);
+
+    //Citizen UI shows no longer represented
+    await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
+    await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
+    await citizenHubPage.verifyLegalRepUnassignedNotificationBanner();
+
+    await claimantBrowserPage.close();
+    await legalRepBrowserPage.close();
   });
 });
