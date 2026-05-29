@@ -79,7 +79,6 @@ test.describe('NOC Notification Banner', () => {
     await nocPage.processNocRequest(caseId, `${firstName} ${lastName}`, caseNumber);
 
     //remove claimant legal rep
-
     const claimantBrowserPage = await browserUtils.openNewBrowserContext(users.etClaimant.sessionFile);
     const citizenHubLoginPage = new CitizenHubLoginPage(claimantBrowserPage);
     const citizenHubPage = new CitizenHubPage(claimantBrowserPage);
