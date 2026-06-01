@@ -33,7 +33,7 @@ export async function createCaseViaCitizenUI(
   employmentJourneyMethod?: (page: any) => Promise<void>,
 ) {
   await page.goto(config.etSyaUiUrl);
-  await citizenPreLoginPage.processPreLoginPagesForTheDraftApplication(region);
+  await citizenPreLoginPage.processPreLoginPagesForTheDraftApplication(region, typeOfClaim);
   await loginMethod();
   await citizenPostLoginPage.processPostLoginPagesForTheDraftApplication();
   const location = region === 'EnglandWales' ? 'England' : region;
@@ -46,11 +46,11 @@ export async function createCaseViaCitizenUI(
     }
     await claimDetailsPage.processClaimDetails();
   } else if (typeOfClaim == 'Claiming for someone else') {
-    //TODO-non-HMCTS journey here RET-6261
-    await personalDetailsPage.processRepresentativeDetails(userDetailsData.postcode, location, userDetailsData.addressOption);
-    await personalDetailsPage.processClaimantDetails();
+    //TODO-non-HMCTS journey here
+    await personalDetailsPage.processRepresentativeDetails(userDetailsData.representativePostcode, location, userDetailsData.representativeAddressOption);
+    await personalDetailsPage.processClaimantDetails(userDetailsData.postcode, userDetailsData.addressOption);
     if (employmentJourneyMethod) await employmentJourneyMethod(employmentAndRespondentDetailsPage);
-  }else if (typeOfClaim == 'Legal representative representing a claimant') {
+  }else if (typeOfClaim == 'legal representative representing a claimant') {
     // TODO: Update tests and logic here after introducing feature
   } else {
     throw new Error(`Option not found for who is making the claim question`);

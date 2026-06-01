@@ -7,9 +7,9 @@ import { createCaseViaCitizenUI, vetAndAcceptCitizenCase } from '../pages/helper
 test.describe('non-HMCTS claimant legal representative Case creation in Citizen UI', () => {
 
   test(
-    'Create a claim',
+    'Create a claim as a claimant representative',
     {
-      tag: [],
+      tag: ['@nk'],
     },
     async ({
              page,

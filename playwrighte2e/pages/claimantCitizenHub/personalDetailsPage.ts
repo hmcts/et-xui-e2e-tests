@@ -28,36 +28,50 @@ export default class PersonalDetailsPage extends CitizenHubPage {
   private readonly representativeType: Locator;
   private readonly representativeOrgName:Locator;
   private readonly representativeName: Locator;
+  private readonly claimantDetailsLink: Locator;
+  private readonly claimantEmailAddressHeading: Locator;
 
 
   constructor(page: Page) {
     super(page);
     this.personalDetailsLink = this.page.locator(`a[href="/dob-details?lng=en"]`);
-    this.dobHeading = this.page.locator(`fieldset:has(legend:text("What is your date of birth?"))`);
-    this.dobGroup = this.page.locator('#dobDate');
-    this.sexAndPreferredTitleHeading = this.page.getByRole('heading', { name: 'Sex and preferred title' });
-    this.homeAddressHeading = this.page.getByRole('heading', { name: '/What is your contact or home address?|Representative\'s contact address|What is the representative\'s contact address?/' });
-    this.postCodeInput = this.page.locator(`#addressEnterPostcode`);
+    this.dobHeading = this.page.locator(
+      'fieldset:has(legend:text-matches("^(What is your date of birth\\?|Claimant\'s date of birth \\(optional\\))$"))'
+    );
+    this.dobGroup = this.page.locator('#dobDate, #representedClaimantDateOfBirth');
+    this.sexAndPreferredTitleHeading = this.page.getByRole('heading', {
+      name: /^(Sex and preferred title|Claimant's sex and preferred title)$/
+    });
+    this.homeAddressHeading = this.page.getByRole('heading', {
+      name: /^(What is your contact or home address\?|Representative's contact address|What is the representative's contact address\?|What is the claimant's address\?)$/
+    });
+    this.postCodeInput = this.page.locator('#addressEnterPostcode, #representativeEnterPostcode, #representedClaimantEnterPostcode');
     this.selectAnAddressHeading = this.page.getByRole('heading', { name: 'Select an address' });
-    this.selectAddressDropdown = this.page.locator('#addressAddressTypes');
+    this.selectAddressDropdown = this.page.locator('#addressAddressTypes, #representativeAddressTypes');
     this.telephoneNumberHeading = this.page.getByRole('heading', { name: /What is your telephone number\? \(optional\)|What is the representative's phone number\? \(optional\)/
     });
     this.telephoneNumberInput = this.page.locator('#telephone-number, #representativePhoneNumber');
     this.communicationPreferenceHeading = this.page.getByRole('heading', { name: 'Communication preference (Optional)' });
-    this.formatOfContactRadioGroup = page.locator('fieldset:has(legend:text("What format would you like to be contacted in?"))');
+    this.formatOfContactRadioGroup = page.locator(
+      'fieldset:has(legend:text-matches("(What format would you like to be contacted in\\?|How would you like us to contact you\\?)", "i"))'
+    );
     this.languageRadioGroup = page.locator('fieldset:has(legend:text("What language do you want us to use when we contact you?"))');
     this.speakingLanguageRadioGroup = page.locator('fieldset:has(legend:text("If a hearing is required, what language do you want to speak at a hearing?"))');
     this.hearingFormatHeading = this.page.getByRole('heading', { name: 'Hearing format (Optional)' });
     this.hearingFormatQuestion = this.page.locator('fieldset:has(legend:text("Would you be able to take part in hearings by video and phone?"))');
     this.hearingFormatAudioOption = this.page.locator(`#hearingPreferences-2`);
     this.hearingFormatVideoOption = this.page.locator(`#hearingPreferences`);
-    this.extraSupportHeading = this.page.getByRole('heading', { name: 'Extra support during your case (Optional)' });
-    this.reasonableAdjustmentQuestion = this.page.locator('fieldset:has(legend:text("Do you have a physical, mental or learning disability or long term health condition that means you need support during your case?"))');
+    this.extraSupportHeading = this.page.getByRole('heading', { name: /extra support during (your case|the case) \(optional\)/i });
+    this.reasonableAdjustmentQuestion = this.page.locator(
+      'fieldset:has(legend:text-matches("Do you have a physical, mental or learning disability or long term health condition that means you need support during your case\\?|Does anyone in the claimant party have a physical, mental or learning disability or health condition that means they need support during the case\\?", "i"))'
+    );
     this.reasonableAdjustmentNo = this.page.locator('#reasonableAdjustments-2');
     this.contactDetailsLink = this.page.locator(`a[href="/representative-details?lng=en"]`);
+    this.claimantDetailsLink= this.page.locator(`a[href="/represented-claimant-name?lng=en"]`);
     this.representativeType = this.page.locator('#representativeType');
     this.representativeOrgName = this.page.locator('#representativeOrgName');
     this.representativeName = this.page.locator('#representativeName');
+    this.claimantEmailAddressHeading = this.page.getByRole('heading', { name: 'Claimant’s email address'});
   }
 
   //click personal details link and enter details
@@ -254,9 +268,25 @@ export default class PersonalDetailsPage extends CitizenHubPage {
     await this.saveAndContinueButton();
   }
 
-  async processClaimantDetails() {
-    //To do
+  async enterClaimantEmailAddress(){
+    await this.page.waitForLoadState('load');
+    await expect(this.claimantEmailAddressHeading).toBeVisible();
+    await this.page.locator(`#representedClaimantEmail`).fill('et.citizen2UI@testmail.com');
+    await this.saveAndContinueButton();
   }
 
+  async processClaimantDetails(postcode: string, addressOption: string) {
+    await this.page.waitForLoadState('load');
+    await this.claimantDetailsLink.click();
+    await expect(this.page.getByRole('heading', { name: 'Claimant\'s name' })).toBeVisible();
+    await this.page.locator('#representedClaimantFirstName').fill('Test');
+    await this.page.locator('#representedClaimantLastName').fill('Claimant');
+    await this.saveAndContinueButton();
+    await this.enterDob();
+    await this.selectSexAndTitle();
+    await this.enterPostcode(postcode, addressOption);
+    await this.enterClaimantEmailAddress();
+    await this.confirmHaveYouCompletedThisSection();
+  }
 
 }

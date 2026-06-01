@@ -74,7 +74,7 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
     this.employmentStatusLink = this.page.locator(
       'a[href="/past-employer?lng=en"], a[href="/did-claimant-work-for-employer?lng=en"]');
     this.workedForOrganisationGroup = this.page.locator(
-      'fieldset:has(legend:has(h1:text("Did you work for the organisation or person you’re making your claim against? (Optional)")))'
+      'fieldset:has(legend:has(h1:text-matches("Did (you|the claimant) work for the organisation or person you\'re making (your claim|a claim) against\\? \\(Optional\\)", "i")))'
     );
     this.stillWorkingFOrOrgGroup = this.page.locator(
       'fieldset:has(legend:has(h1:text("Are you still working for the organisation or person you\'re making your claim against?"))), fieldset:has(legend:has(h1:text("Is the claimant still working for the organisation or person you\'re making a claim against?")))'
@@ -178,9 +178,11 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
     await expect(this.workedForOrganisationGroup).toBeVisible();
 
     if (workedForOrg === 'Yes') {
-      await this.workedForOrganisationGroup.locator('#past-employer').click();
+      await this.workedForOrganisationGroup
+        .locator('#past-employer, #did-claimant-work-for-employer')
+        .click();
     } else if (workedForOrg === 'No') {
-      await this.workedForOrganisationGroup.locator('#past-employer-2').click();
+      await this.workedForOrganisationGroup.locator('#past-employer-2, #did-claimant-work-for-employer-2').click();
     }
     await this.saveAndContinueButton();
   }

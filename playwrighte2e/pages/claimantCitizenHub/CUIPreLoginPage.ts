@@ -22,10 +22,10 @@ export default class CUIPreLoginPage extends BasePage{
     this.legalRepMultipleClaimRadio = this.page.locator('input[id=lip-or-representative-4]');
   }
 
-  async processPreLoginPagesForTheDraftApplication(region: string) {
+  async processPreLoginPagesForTheDraftApplication(region: string, typeOfClaim:string) {
     await this.startDraftApplication();
     await this.processBeforeYourContinuePage();
-    await this.processAreYouMakingTheClaimForYourselfPage();
+    await this.processAreYouMakingTheClaimForYourselfPage(typeOfClaim);
     await this.processAreYouMakingTheClaimOnYourOwnPage();
     await this.whereYouMakeTheClaimPage(region);
     await this.processDoYouHaveAnACASEarlyConciliation();
@@ -45,26 +45,23 @@ export default class CUIPreLoginPage extends BasePage{
 
   async selectWhoIsMakingTheClaim(option: string) {
     switch(option) {
-      case 'representing myself':
+      case 'Claiming for myself':
         await this.representingMyselfRadio.click();
         break;
-      case 'claim for someone else':
+      case 'Claiming for someone else':
         await this.claimForSomeoneElseRadio.click();
         break;
-      case 'legal representative making a single claim':
+      case 'legal representative representing claimant':
         await this.legalRepSingleClaimRadio.click();
-        break;
-      case 'legal representative making multiple claims':
-        await this.legalRepMultipleClaimRadio.click();
         break;
        default:
          throw new Error(`Option ${option} not found for who is making the claim question`);
     }
   }
 
-  async processAreYouMakingTheClaimForYourselfPage() {
+  async processAreYouMakingTheClaimForYourselfPage(typeOfClaim:string) {
     await this.page.waitForLoadState('load');
-    await this.selectWhoIsMakingTheClaim('representing myself');
+    await this.selectWhoIsMakingTheClaim(typeOfClaim);
     await this.clickContinue();
   }
 
