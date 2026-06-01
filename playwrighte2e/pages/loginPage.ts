@@ -25,6 +25,7 @@ export default class LoginPage extends BasePage {
     await this.page.waitForTimeout(1000);
     await this.page.waitForLoadState('load');
     if (await this.signOutLink.count() > 0 || await this.username.count() === 0) {
+      await this.saveSession(user.sessionFile);
       return;
     }
     await this.username.fill(user.email);

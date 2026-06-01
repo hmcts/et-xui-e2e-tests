@@ -1,5 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BaseEventPage } from './BaseEventPage.ts';
+import { users } from '../../config/config.dynamic.ts';
 
 export default class ClaimantRepresentativePage extends BaseEventPage {
 
@@ -9,6 +10,7 @@ export default class ClaimantRepresentativePage extends BaseEventPage {
   private readonly ukAddressPostCodeLookup: Locator;
   private readonly ukAddressList: Locator;
   private readonly searchOrganisationField: Locator;
+  private readonly repEmailAddress: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -18,6 +20,7 @@ export default class ClaimantRepresentativePage extends BaseEventPage {
     this.ukAddressPostCodeLookup = this.page.locator('#representativeClaimantType_representative_address_representative_address_postcodeInput');
     this.ukAddressList = this.page.locator('#representativeClaimantType_representative_address_representative_address_addressList');
     this.searchOrganisationField = this.page.locator('#search-org-text');
+    this.repEmailAddress = this.page.locator(`#representativeClaimantType_representative_email_address`);
   }
 
   async assertClaimantRepresentativePageIsDisplayed() {
@@ -42,12 +45,17 @@ export default class ClaimantRepresentativePage extends BaseEventPage {
   }
 
   async selectRepresentativeAddress() {
-      await this.commonActionsHelper.enterUkAddressWithPostcode(this.ukAddressPostCodeLookup, this.ukAddressList);
+      await this.commonActionsHelper.enterUkAddressWithPostcode(this.ukAddressPostCodeLookup, this.ukAddressList, 'SN1 4ET');
   }
 
   async selectRepresentativeOrganisation(orgName: string) {
     await expect(this.searchOrganisationField).toBeVisible();
     await this.commonActionsHelper.selectOrganisation(this.page,  orgName);
+  }
+
+  async enterEmailAddress(email: string = users.etLegalRepresentative.email) {
+    await expect(this.repEmailAddress).toBeVisible();
+    await this.repEmailAddress.fill(email);
   }
 
   async addClaimantRepresentative() {
@@ -57,7 +65,7 @@ export default class ClaimantRepresentativePage extends BaseEventPage {
     await this.selectRepresentativeOccupation('1: Solicitor');
     await this.selectRepresentativeAddress();
     await this.selectRepresentativeOrganisation('ET Test Factory Solicitor');
+    await this.enterEmailAddress();
     await this.clickSubmitButton();
   }
-
 }

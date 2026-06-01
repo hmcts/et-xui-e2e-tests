@@ -70,6 +70,8 @@ import { Et3ResponseDetailsPage } from '../pages/legalRepresentative/Et3Response
 import InitialConsiderationPage from '../pages/initialConsiderationPage.ts';
 import AllocateHearingPage from '../pages/allocateHearingPage.ts';
 import ManageTelephoneNotePage from '../pages/manageTelephoneNotePage.ts';
+import { Et1ClaimsListPage } from '../pages/claimantCitizenHub/et1ClaimsListPage.ts';
+import AmendContactDetailsLrPage from '../pages/events/AmendContactDetailsLrPage.ts';
 
 export type PageFixtures = {
   applicationTabPage: ApplicationTabPage;
@@ -143,6 +145,8 @@ export type PageFixtures = {
   et3ResponseDetailsPage: Et3ResponseDetailsPage;
   initialConsiderationPage: InitialConsiderationPage;
   allocateHearingPAge:AllocateHearingPage;
+  et1ClaimsListPage: Et1ClaimsListPage;
+  amendContactDetailsLrPage: AmendContactDetailsLrPage;
 };
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -400,4 +404,10 @@ export const pageFixtures = base.extend<PageFixtures>({
   allocateHearingPAge:async({page}, use)=>{
     await use (new AllocateHearingPage(page));
   },
+  et1ClaimsListPage:async({page}, use)=>{
+      await use (new Et1ClaimsListPage (page));
+  },
+  amendContactDetailsLrPage:async({page}, use)=>{
+      await use (new AmendContactDetailsLrPage (page));
+  }
 });

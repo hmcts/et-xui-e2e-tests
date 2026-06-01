@@ -219,5 +219,13 @@ export const Events: Record<string, CaseEvent> = {
   uploadHearingDocuments: {
     listItem: 'Upload Hearing Documents',
     ccdCallback: 'uploadHearingDocuments',
+  },
+  amendContactDetails: {
+    listItem: 'Amend contact details',
+    ccdCallback: 'amendContactDetails',
+  },
+  amendContactDetailsClaimant: {
+    listItem: 'Amend contact details',
+    ccdCallback: 'amendClaimantRepresentativeContact',
   }
 };
