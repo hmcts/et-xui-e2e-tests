@@ -10,6 +10,7 @@ export default class CUIPreLoginPage extends BasePage{
   private readonly claimForSomeoneElseRadio: Locator;
   private readonly legalRepSingleClaimRadio: Locator;
   private readonly legalRepMultipleClaimRadio: Locator
+  private readonly signInOptionLink: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -20,15 +21,21 @@ export default class CUIPreLoginPage extends BasePage{
     this.claimForSomeoneElseRadio = this.page.locator('input[id=lip-or-representative-2]');
     this.legalRepSingleClaimRadio = this.page.locator('input[id=lip-or-representative-3]');
     this.legalRepMultipleClaimRadio = this.page.locator('input[id=lip-or-representative-4]');
+    this.signInOptionLink = page.locator('//a[@href="/enter-email"]');
   }
 
   async processPreLoginPagesForTheDraftApplication(region: string) {
     await this.startDraftApplication();
     await this.processBeforeYourContinuePage();
     await this.processAreYouMakingTheClaimForYourselfPage();
-    await this.processAreYouMakingTheClaimOnYourOwnPage();
+    await this.processAreYouMakingTheClaimOnYourOwnPage();// Remove this once latest changes are made in all env
     await this.whereYouMakeTheClaimPage(region);
     await this.processDoYouHaveAnACASEarlyConciliation();
+    const isNewIdam = await this.signInOptionLink.isVisible().catch(() => false);
+    if(isNewIdam) { // Remove if condition when new IDAM is rolled out to all environments
+      await this.signInOptionLink.click();
+      await this.page.waitForLoadState('load');
+    }
   }
 
   async startDraftApplication() {
@@ -70,8 +77,11 @@ export default class CUIPreLoginPage extends BasePage{
 
   async processAreYouMakingTheClaimOnYourOwnPage() {
     await this.page.waitForLoadState('load');
-    await this.page.check('input[id=single-or-multiple-claim]');
-    await this.clickContinue();
+    const heading = this.page.locator('h1');
+    if( (await heading.first().innerText()).trim() === 'Claiming on your own or with others') {
+      await this.page.check('input[id=single-or-multiple-claim]');
+      await this.clickContinue();
+    }
   }
 
   async whereYouMakeTheClaimPage(location: string = 'EnglandWales') {
