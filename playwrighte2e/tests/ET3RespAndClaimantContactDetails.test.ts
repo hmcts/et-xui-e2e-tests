@@ -4,7 +4,7 @@ import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import { users } from '../config/config.dynamic.ts';
 import CitizenHubLoginPage from '../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
 import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
-import Et3LoginPage from '../pages/et3LoginPage.ts';
+import Et3LoginPage from '../pages/respondentCitizenHub/et3LoginPage.ts';
 import RespondentCaseOverviewPage from '../pages/respondentCitizenHub/respondentCaseOverviewPage.ts';
 
 let caseNumber: string;

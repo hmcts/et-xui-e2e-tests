@@ -1,14 +1,14 @@
-import { test } from '../fixtures/common.fixture';
-import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
-import { CaseDetailsValues, CaseTypeLocation } from '../config/case-data.ts';
-import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
-import { users } from '../config/config.dynamic.ts';
-import CitizenHubLoginPage from '../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
-import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
-import ContactTheTribunalPage from '../pages/claimantCitizenHub/ContactTheTribunalPage.ts';
-import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
-import LoginPage from '../pages/loginPage.ts';
-import CaseDetailsPage from '../pages/caseDetailsPage.ts';
+import { test } from '../../fixtures/common.fixture.ts';
+import { CitizenClaimantFactory } from '../../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
+import { CaseDetailsValues, CaseTypeLocation } from '../../config/case-data.ts';
+import { CaseEventApi } from '../../data-utils/api/CaseEventApi.ts';
+import { users } from '../../config/config.dynamic.ts';
+import CitizenHubLoginPage from '../../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
+import CitizenHubPage from '../../pages/claimantCitizenHub/CitizenHubPage.ts';
+import ContactTheTribunalPage from '../../pages/claimantCitizenHub/ContactTheTribunalPage.ts';
+import { ManageCaseDashboardPage } from '../../pages/ManageCaseDashboardPage.ts';
+import LoginPage from '../../pages/loginPage.ts';
+import CaseDetailsPage from '../../pages/caseDetailsPage.ts';
 
 let caseId: string;
 let caseNumber: string;

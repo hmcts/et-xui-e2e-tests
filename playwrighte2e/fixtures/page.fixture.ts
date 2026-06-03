@@ -10,7 +10,7 @@ import { LegalRepPage } from '../pages/legalRepPage';
 import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
 import { CaseLinkPage } from '../pages/caseLinkPage';
 import RespondentRepPage from '../pages/respondentCitizenHub/respondentRepPage.ts';
-import ET3LoginPage from '../pages/et3LoginPage';
+import ET3LoginPage from '../pages/respondentCitizenHub/et3LoginPage.ts';
 import RespondentCaseOverviewPage from '../pages/respondentCitizenHub/respondentCaseOverviewPage.ts';
 import RespondentTaskListPage from '../pages/respondentCitizenHub/respondentTaskListPage.ts';
 import ResponseLandingPage from '../pages/respondentCitizenHub/responseLandingPage.ts';

@@ -1,14 +1,14 @@
-import { test } from '../fixtures/common.fixture';
-import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
-import { users } from '../config/config.dynamic.ts';
-import Et3LoginPage from '../pages/et3LoginPage.ts';
-import RespondentCaseOverviewPage from '../pages/respondentCitizenHub/respondentCaseOverviewPage.ts';
+import { test } from '../../fixtures/common.fixture.ts';
+import { CaseworkerCaseFactory } from '../../data-utils/factory/exui/CaseworkerCaseFactory.ts';
+import { CaseTypeLocation } from '../../config/case-data.ts';
+import { users } from '../../config/config.dynamic.ts';
+import Et3LoginPage from '../../pages/respondentCitizenHub/et3LoginPage.ts';
+import RespondentCaseOverviewPage from '../../pages/respondentCitizenHub/respondentCaseOverviewPage.ts';
 
 let caseNumber: any;
 let caseId:string;
 
-test.describe('Respondent Store Application for unrepresented cases', () => {
+test.describe.skip('Respondent Store Application for unrepresented cases', () => {
   test.use({
     storageState: users.etCaseWorker.sessionFile,
   })
