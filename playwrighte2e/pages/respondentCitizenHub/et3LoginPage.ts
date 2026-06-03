@@ -1,6 +1,6 @@
 import { expect, Page, Locator } from '@playwright/test';
-import LoginPage from './loginPage.ts';
-import { config, UserCredentials, users } from '../config/config.dynamic.ts';
+import LoginPage from '../loginPage.ts';
+import { config, UserCredentials, users } from '../../config/config.dynamic.ts';
 
 export default class Et3LoginPage extends LoginPage {
   private readonly returnToExistingResponse: Locator;

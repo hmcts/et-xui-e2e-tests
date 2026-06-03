@@ -2,7 +2,7 @@ import { test } from '../fixtures/common.fixture';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { users } from '../config/config.dynamic.ts';
 import { CaseDetailsValues } from '../config/case-data.ts';
-import Et3LoginPage from '../pages/et3LoginPage.ts';
+import Et3LoginPage from '../pages/respondentCitizenHub/et3LoginPage.ts';
 
 let caseNumber: string;
 let caseId: string;

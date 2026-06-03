@@ -8,7 +8,7 @@ export default class CitizenHubPage extends BasePage {
   private readonly contactTribunalLink: Locator;
   private readonly appointALegalRepLink: Locator;
   private readonly haveYouCompletedThisSectionHeading: Locator;
-  private readonly respondButton: Locator;
+  private readonly cuiRespondButton: Locator;
   private readonly responseTextElement: Locator;
   private readonly providingMaterialYes: Locator;
   private readonly addTextToResponse: Locator;
@@ -85,7 +85,7 @@ export default class CitizenHubPage extends BasePage {
     this.haveYouCompletedThisSectionHeading = this.page.locator(
       `fieldset:has(legend:has(h1:text("Have you completed this section?")))`,
     );
-    this.respondButton = this.page.locator('#respond-button');
+    this.cuiRespondButton = this.page.locator('#respond-button');
     this.responseTextElement = this.page.locator('.govuk-label--m');
     this.providingMaterialYes = this.page.locator('#supporting-material-yes-no');
     this.addTextToResponse = this.page.locator('#respond-to-application-text');
@@ -229,8 +229,8 @@ export default class CitizenHubPage extends BasePage {
     await this.page.getByRole('link', { name: 'Respond to the application' }).isVisible();
     await this.page.getByRole('link', { name: 'Respond to the application' }).click();
 
-    await this.respondButton.waitFor();
-    await this.respondButton.click();
+    await this.cuiRespondButton.waitFor();
+    await this.cuiRespondButton.click();
 
     await this.respondToApplicationText.waitFor();
     await this.respondToApplicationText.fill('This is response of an application');
@@ -264,7 +264,7 @@ export default class CitizenHubPage extends BasePage {
     await this.page.getByRole('link', { name: 'View the response' }).isVisible();
     await this.page.getByRole('link', { name: 'View the response' }).click();
     await this.delay(3000);
-    await expect(this.page.locator('body')).toContainText('Response of Response');
+    await expect(this.page.locator('body')).toContainText('Response of an application By Caseworker');
   }
   async validateRecordDecisionBanner() {
     await this.page.getByRole('link', { name: 'View the decision' }).click();

@@ -20,7 +20,7 @@ test.describe('Claimant details test', () => {
   });
 
   test('England - Claimant details', {tag: ['@ccd-callback-tests', '@demo']},
-    async ({manageCaseDashboardPage, loginPage, claimantDetailsPage, icUploadDocPage, caseDetailsPage,
+    async ({manageCaseDashboardPage, loginPage, claimantDetailsPage, caseDetailsPage,
       browserUtils
            }) => {
       await manageCaseDashboardPage.visit();

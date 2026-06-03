@@ -14,6 +14,7 @@ export abstract class BasePage {
   readonly submitButton: Locator;
   private readonly spinner: Locator;
   private readonly errorHeading: Locator;
+  private readonly respondButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -28,6 +29,7 @@ export abstract class BasePage {
     this.submitButton = page.getByRole('button', { name: 'Submit' });
     this.spinner = this.page.locator('xuilib-loading-spinner');
     this.errorHeading = this.page.locator(`#edit-case-event_error-summary-heading`);
+    this.respondButton = this.page.getByRole('button', { name: 'Respond' });
   }
 
   async wait(time: number) {
@@ -201,5 +203,24 @@ export abstract class BasePage {
 
   async addRespondentButton() {
     await this.page.getByRole('button', { name: 'Add another respondent' }).click();
+  }
+
+  /**
+   * Asserts that the dropdown contains the expected options.
+   *
+   * @param options - The expected list of option strings.
+   * @param dropDownLocator - The Playwright Locator for the dropdown element.
+   */
+  async assertDropDownOptionsAreVisible(options: string[], dropDownLocator: Locator) {
+    await expect(dropDownLocator).toBeVisible();
+    const optionsInDropDown = (await dropDownLocator.locator('option').allTextContents())
+      .filter(opt => {return opt.trim() !== '--Select a value--';});
+    expect(optionsInDropDown.sort()).toEqual(options.sort());
+  }
+
+  async clickRespondButton() {
+    await expect(this.respondButton).toBeVisible();
+    await this.respondButton.click();
+    await this.waitForSpinner();
   }
 }
