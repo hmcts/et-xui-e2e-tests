@@ -84,9 +84,10 @@ export default class DateUtilComponent {
   };
 
   /**
-   * Returns the current date and time formatted as "d MMM yyyy, HH:mm" (e.g. "6 August 2025 09:02").
+   * Returns the current UK date and time formatted using Europe/London timezone.
+   * DST is handled automatically by the runtime (BST in summer, GMT in winter).
    *
-   * @returns Formatted current date and time string.
+   * @returns Formatted UK date and time string including timezone abbreviation.
    */
   static getUtcDateTimeFormatted(): string {
     const now = new Date();
@@ -97,7 +98,7 @@ export default class DateUtilComponent {
       hour: '2-digit',
       minute: '2-digit',
       hour12: false,
-      timeZone: 'UTC'
+      timeZone: 'Europe/London',
     })
       .replace(/\b( am| pm)\b/i, '')
       .replace(/\bSept\b/, 'Sep')
