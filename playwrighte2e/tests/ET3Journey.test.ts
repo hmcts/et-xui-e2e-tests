@@ -39,7 +39,7 @@ test.describe('ET3/Respondent Journey', () => {
   });
 
   test('Validating the error message after the respondent tries to reassign the same case', async ({ et3LoginPage, browserUtils}) => {
-      await et3LoginPage.processRespondentLogin(users.etRespondent2);
+      await et3LoginPage.processRespondentLogin(users.etRespondent);
       await et3LoginPage.replyToNewClaim(caseId, caseNumber, CaseDetailsValues.respondentName, CaseDetailsValues.claimantFirstName, CaseDetailsValues.claimantLastName);
 
       const respondent2BrowserPage = await browserUtils.openNewBrowserContext(users.etRespondent2.sessionFile);

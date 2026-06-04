@@ -154,7 +154,7 @@ export class ApplicationTabPage extends BasePage {
     if(applicationType === 'Withdraw all or part of claim') {
       await expect(this.page.getByRole('heading',{ name: 'Withdrawal and dismissal'})).toBeVisible();
     } else {
-      await expect(this.page.getByRole('heading',{ name: 'Withdrawal and dismissal'})).toBeVisible();
+      await expect(this.page.getByRole('heading',{ name: 'Withdrawal and dismissal'})).not.toBeVisible();
     }
 
     const details = 'Details of application for ' + applicationType;

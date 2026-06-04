@@ -36,7 +36,7 @@ export default class LoginPage extends BasePage {
     }
     const currentHeading = await this.headingText();
 
-    if (currentHeading === 'Sign in or create an account') {
+    if (currentHeading === 'Sign in or create an account' || currentHeading === 'Sign in') {
       await this.username.fill(user.email);
       await this.password.fill(user.password);
       await this.signInOrContinueOrSubmitButton.click();
