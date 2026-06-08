@@ -50,12 +50,12 @@ export async function createCaseViaCitizenUI(
     await personalDetailsPage.processRepresentativeDetails(userDetailsData.representativePostcode, location, userDetailsData.representativeAddressOption);
     await personalDetailsPage.processClaimantDetails(userDetailsData.postcode, userDetailsData.addressOption);
     if (employmentJourneyMethod) await employmentJourneyMethod(employmentAndRespondentDetailsPage);
+    await claimDetailsPage.processClaimDetails();
   }else if (typeOfClaim == 'legal representative representing a claimant') {
     // TODO: Update tests and logic here after introducing feature
   } else {
     throw new Error(`Option not found for who is making the claim question`);
   }
-
   const submissionReference = await submitClaimPage.submitClaim();
   await submitClaimPage.signoutButton();
   return submissionReference;

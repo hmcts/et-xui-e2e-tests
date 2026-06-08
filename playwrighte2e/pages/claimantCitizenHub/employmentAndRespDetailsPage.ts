@@ -93,26 +93,28 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
       `fieldset:has(legend:has(h1:text("Is your notice period in weeks or months? (optional)"))), fieldset:has(legend:has(h1:text("Is your notice period in weeks or months? (optional)"))`
     );
     this.noticePeriodWeeksOption = this.page.locator(`#notice-type, #claimant-notice-type`);
-    this.noticePeriodInput = this.page.locator(`#notice-length`);
+    this.noticePeriodInput = this.page.locator(`#notice-length, #claimant-notice-length`);
     this.averageWeeklyHoursHeading = this.page.getByRole('heading', {
-      name: 'What are your average weekly hours? (optional)',
+      name: /^(What are your average weekly hours\? \(optional\)|Claimant's average weekly hours \(optional\))$/,
     });
     this.averageWeeklyHoursPastHeading = this.page.getByRole('heading', {
       name: 'What were your average weekly hours? (optional)',
     });
     this.averageWeeklyHoursInput = this.page.locator('#avg-weekly-hrs');
-    this.payHeading = this.page.getByRole('heading', { name: 'Your pay (optional)' });
+    this.payHeading = this.page.getByRole('heading', {
+      name: /^(Your pay \(optional\)|Claimant's pay \(optional\))$/,
+    });
     this.payBeforeTaxInput = this.page.locator('#pay-before-tax');
     this.payAfterTaxInput = this.page.locator('#pay-after-tax');
     this.payWeeklyOption = this.page.locator('#pay-interval');
     this.pensionContributionHeading = this.page.getByRole('heading', {
-      name: 'Did the respondent make any contributions to your pension? (optional)',
+      name: /^(Did the respondent make any contributions to your pension\? \(optional\)|Does the respondent make contributions to the claimant's pension\? \(optional\))$/,
     });
-    this.pensionYesOption = this.page.locator('#pension');
+    this.pensionYesOption = this.page.locator('#pension, #claimant-pension');
     this.pensionContributionInput = this.page.locator('#pension-contributions');
     this.employeeBenefitsHeading = this.page.getByRole('heading', { name: 'Employee benefits' });
     this.employeeBenefitsInputGroup = this.page.locator(
-      `fieldset:has(legend:text("Do you or did you receive any employee benefits? (optional)"))`
+      'fieldset:has(legend:has-text(/^(Do you or did you|Does - or did - the claimant) receive any employee benefits\? \(optional\)$/))'
     );
     this.employeeBenefitsNoLongerWorkingGroup = this.page.locator(
       `fieldset:has(legend:text("Did you receive any employee benefits? (optional)"))`
@@ -160,7 +162,7 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
       `fieldset:has(legend:text("Why do you not have an Acas number?"))`,
     );
     this.reasonForNoAcasCertificateFirstOption = this.page.locator('#no-acas-reason');
-    this.didYouWorkAtHeading = this.page.getByRole('heading', { name: 'Did you work at' });
+    this.didYouWorkAtHeading = this.page.getByRole('heading', { name: /^Did (you|the claimant) work at/i });
     this.didYouWorkAtYesOption = this.page.locator(`#work-address`);
     this.checkRespondentDetailsHeading = this.page.getByRole('heading', { name: 'Check the respondent details' });
   }
@@ -254,8 +256,8 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
   //enter notice length on /notice-length page
   async enterNoticePeriodLength(inNoticePeriod: boolean) {
     const noticePeriodText = inNoticePeriod
-      ? 'How many weeks of your notice period are you being paid for? (optional)'
-      : 'How many weeks in your notice period? (optional)';
+      ? "How many weeks of your notice period are you being paid for? (optional) How many weeks in the claimant's notice period? (optional)"
+      : "How many weeks in your notice period? (optional)";
 
     await expect(this.page.getByRole('heading', { name: noticePeriodText })).toBeVisible();
     await this.noticePeriodInput.fill('4');
