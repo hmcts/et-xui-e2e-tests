@@ -56,6 +56,7 @@ export default class RespondentCaseOverviewPage extends BasePage {
       await this.clickContinue();
     }
     await this.page.waitForSelector('text=Check your answers');
+    await this.page.waitForLoadState('load');
     await this.clickSubmitButton();
     await expect(this.page.locator('h1')).toContainText('You have sent your application to the tribunal');
     await this.clickCloseAndReturn();

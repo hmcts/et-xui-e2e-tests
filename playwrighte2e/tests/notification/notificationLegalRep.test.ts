@@ -1,10 +1,10 @@
-import { test } from '../fixtures/common.fixture';
-import { LegalRepCaseFactory } from '../data-utils/factory/exui/LegalRepCaseFactory.ts';
-import { CaseTypeLocation } from '../config/case-data.ts';
-import { users } from '../config/config.dynamic.ts';
-import LoginPage from '../pages/loginPage.ts';
-import CaseWorkerNotificationPage from '../pages/notifications/CaseWorkerNotificationPage.ts';
-import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
+import { test } from '../../fixtures/common.fixture.ts';
+import { LegalRepCaseFactory } from '../../data-utils/factory/exui/LegalRepCaseFactory.ts';
+import { CaseTypeLocation } from '../../config/case-data.ts';
+import { users } from '../../config/config.dynamic.ts';
+import LoginPage from '../../pages/loginPage.ts';
+import CaseWorkerNotificationPage from '../../pages/notifications/CaseWorkerNotificationPage.ts';
+import { ManageCaseDashboardPage } from '../../pages/ManageCaseDashboardPage.ts';
 
 let caseNumber: string;
 let caseId: string;

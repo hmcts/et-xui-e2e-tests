@@ -1,6 +1,6 @@
 import { expect, Page, Locator } from '@playwright/test';
-import LoginPage from './loginPage.ts';
-import { config, UserCredentials, users } from '../config/config.dynamic.ts';
+import LoginPage from '../loginPage.ts';
+import { config, UserCredentials, users } from '../../config/config.dynamic.ts';
 
 export default class Et3LoginPage extends LoginPage {
   private readonly returnToExistingResponse: Locator;
@@ -13,6 +13,8 @@ export default class Et3LoginPage extends LoginPage {
   private readonly claimantLastName: Locator;
   private readonly appointLegalRepLink: Locator;
   private readonly errorMessage = (text: string): Locator => this.page.getByText(text).first();
+  private readonly etAccountRadio: Locator;
+  private readonly signInOptionLink: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -25,6 +27,8 @@ export default class Et3LoginPage extends LoginPage {
     this.claimantFirstName = page.locator('#claimantFirstName');
     this.claimantLastName = page.locator('#claimantLastName');
     this.appointLegalRepLink = page.locator('[href="/appoint-legal-representative"]');
+    this.etAccountRadio = page.locator(`#return_number_or_account-2`);
+    this.signInOptionLink = page.locator('//a[@href="/enter-email"]');
   }
 
   async processRespondentLogin(user: UserCredentials) {
@@ -32,10 +36,22 @@ export default class Et3LoginPage extends LoginPage {
     await expect(this.page.locator('h1')).toHaveText(/Introduction/);
     await this.returnToExistingResponse.click();
     await this.page.waitForTimeout(1000);
-    await this.page.locator('#return_number_or_account-2').click();
+    await this.etAccountRadio.click();
     await this.clickContinue();
+    const isNewIdam = await this.signInOptionLink.isVisible().catch(() => false);
+    if(isNewIdam) { // Remove if condition when new IDAM is rolled out to all environments
+      await this.signInOptionLink.click();
+      await this.page.waitForLoadState('load');
+    }
     await this.processLogin(user, config.etSyrUiUrl);
     await this.page.waitForLoadState('load');
+  }
+
+  async processRespondentLoginForExistingCase(user: UserCredentials, caseNumber: string) {
+    await this.processRespondentLogin(user);
+    await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
+    await expect(this.respondToNewClaim).toBeVisible();
+    await this.page.getByLabel('view ' + caseNumber.toString() + ':').click();
   }
 
   async replyToNewClaim(
@@ -82,17 +98,6 @@ export default class Et3LoginPage extends LoginPage {
     await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
     await expect(this.respondToNewClaim).toBeVisible();
     await this.page.getByLabel('view ' + caseNumber + ': '+caseId.toString()).click();
-  }
-
-  async processRespondentLoginForExistingCase(user: UserCredentials, caseNumber: string) {
-    await this.page.goto(config.etSyrUiUrl);
-    await this.returnToExistingResponse.click();
-    await this.page.locator('#return_number_or_account-2').check();
-    await this.clickContinue();
-    await this.processLogin(user, config.etSyrUiUrl);
-    await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
-    await expect(this.respondToNewClaim).toBeVisible();
-    await this.page.getByLabel('view ' + caseNumber.toString() + ':').click();
   }
 
   async validateClaimantDetailsInRespondentApp(firstname: string, lastname: string) {

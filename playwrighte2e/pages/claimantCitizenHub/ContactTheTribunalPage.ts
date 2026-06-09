@@ -156,6 +156,7 @@ export default class ContactTheTribunalPage extends BasePage {
     await this.clickContinue();
 
     await this.assertCheckYourAnswersPage(applicationTypeText, details, r92Option);
+    await this.page.waitForLoadState('load');
   }
 
   async clickStoreApplication() {
