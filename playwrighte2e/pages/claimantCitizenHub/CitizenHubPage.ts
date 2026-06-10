@@ -4,7 +4,7 @@ import { config } from '../../config/config.dynamic.ts';
 
 export default class CitizenHubPage extends BasePage {
   private readonly caseOverviewPageTitle: Locator;
-  private readonly caseNumberText: Locator;
+  readonly caseNumberText: Locator;
   private readonly contactTribunalLink: Locator;
   private readonly appointALegalRepLink: Locator;
   private readonly haveYouCompletedThisSectionHeading: Locator;
@@ -385,5 +385,10 @@ export default class CitizenHubPage extends BasePage {
   async verifyLegalRepUnassignedNotificationBanner() {
     await expect(this.page.getByLabel('Important')).toContainText('You are no longer legally represented.');
     await expect(this.appointLegalRepLink).toBeVisible();
+  }
+
+  async closeAndReturnToCaseDetailsCui() {
+    await expect(this.returntoCUIcaseOverviewButton).toBeVisible();
+    this.returntoCUIcaseOverviewButton.click();
   }
 }

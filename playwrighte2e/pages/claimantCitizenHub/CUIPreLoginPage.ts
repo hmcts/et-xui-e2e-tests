@@ -77,8 +77,9 @@ export default class CUIPreLoginPage extends BasePage{
 
   async processAreYouMakingTheClaimOnYourOwnPage() {
     await this.page.waitForLoadState('load');
-    const heading = this.page.locator('h1');
-    if( (await heading.first().innerText()).trim() === 'Claiming on your own or with others') {
+    const heading = this.page.locator(`//h1[normalize-space()='Claiming on your own or with others']`);
+    if(await heading.isVisible().catch(() => false)) {
+      console.log('Claiming on your own or with other claim question');
       await this.page.check('input[id=single-or-multiple-claim]');
       await this.clickContinue();
     }

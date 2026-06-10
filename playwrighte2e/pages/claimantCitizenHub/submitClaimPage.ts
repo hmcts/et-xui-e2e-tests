@@ -1,7 +1,8 @@
 import { BasePage } from "../basePage.ts";
 import { expect, Locator, Page } from '@playwright/test';
+import CitizenHubPage from './CitizenHubPage.ts';
 
-export default class SubmitClaimPage extends BasePage{
+export default class SubmitClaimPage extends CitizenHubPage{
 
   private readonly checkYourAnswersLink: Locator;
   private readonly equalityAndDiversityHeading: Locator;
@@ -54,6 +55,17 @@ export default class SubmitClaimPage extends BasePage{
     await expect(this.submissionReferenceNumber).toBeVisible();
     const submissionRef = (await this.submissionReferenceNumber.innerText()).trim();
     console.log('you have successfully submitted claim...' +submissionRef);
-    return submissionRef;
+    return submissionRef.toString();
+  }
+
+  async returnToCaseOverviewAndReturnCaseNumber() {
+    await this.page.waitForLoadState('load');
+    await this.closeAndReturnToCaseDetailsCui();
+
+    const caseNumber = await this.caseNumberText.textContent();
+    const match = caseNumber?.match(/Case number (\d+\/\d+)/);
+    const caseNum = match ? match[1] : '';
+    console.log('Returned to case overview page for case number: ' + caseNum);
+    return caseNum;
   }
 }

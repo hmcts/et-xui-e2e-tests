@@ -29,6 +29,7 @@ export default class RespondentRepPage extends BasePage {
   private readonly respEccReplyYes: Locator;
   private readonly respHearingPanel: Locator;
   private readonly respHearingPanelReason: Locator;
+  private readonly removeRespondentRepresentative: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -58,6 +59,7 @@ export default class RespondentRepPage extends BasePage {
     this.respEccReplyYes = page.locator('#respondentCollection_0_respondentEccReply_Yes');
     this.respHearingPanel = page.locator('#respondentCollection_0_respondent_hearing_panel_preference-Judge');
     this.respHearingPanelReason = page.locator('#respondentCollection_0_respondent_hearing_panel_preference_reason');
+    this.removeRespondentRepresentative = this.page.locator(`xpath=//button[normalize-space()='Remove']`);
   }
 
   async addRespondentRepresentative(regOption: string, orgName: string) {
@@ -146,5 +148,13 @@ export default class RespondentRepPage extends BasePage {
     await expect(this.page.locator('#case-viewer-field-read--repCollection')).toContainText(
       'et.legalrep.superuser@gmail.com',
     );
+  }
+
+  async clickRemoveRespondentRepresentative(position: number = 0) {
+    await this.page.waitForLoadState('load');
+    await this.removeRespondentRepresentative.nth(position).click();
+    const removePopup = this.page.locator(`xpath=//button[normalize-space()='Remove' and @title='Remove']`);
+    await removePopup.click();
+    await this.page.waitForLoadState('load');
   }
 }

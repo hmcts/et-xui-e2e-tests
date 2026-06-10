@@ -36,9 +36,9 @@ export async function createCaseViaCitizenUI(
   await personalDetailsPage.processPersonalDetails(userDetailsData.postcode, location, userDetailsData.addressOption);
   if (employmentJourneyMethod) await employmentJourneyMethod(employmentAndRespondentDetailsPage);
   await claimDetailsPage.processClaimDetails();
-  const submissionReference = await submitClaimPage.submitClaim();
-  await submitClaimPage.signoutButton();
-  return submissionReference;
+  const caseId = await submitClaimPage.submitClaim();
+  const caseNumber = await submitClaimPage.returnToCaseOverviewAndReturnCaseNumber();
+  return {caseId, caseNumber};
 }
 
 async function assertTabData(caseDetailsPage: CaseDetailsPage, etiVetting: boolean = false) {

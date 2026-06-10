@@ -42,11 +42,10 @@ test.describe('ET3/Respondent Journey validates respondent/claimant details', ()
 
   //RET-5767
   test('Respondent validates claimant contact details', {tag: '@demo'},
-    async ({ browserUtils, loginPage, caseListPage, manageCaseDashboardPage}) => {
+    async ({ browserUtils, loginPage, manageCaseDashboardPage}) => {
     await manageCaseDashboardPage.visit();
     await loginPage.processLogin(users.etCaseWorker);
     caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(subRef.toString(), CaseTypeLocation.EnglandAndWales);
-    await caseListPage.signoutButton();
 
     //Assign a claim to respondent
     const respondentBrowserPage = await browserUtils.openNewBrowserContext(users.etRespondent.sessionFile);

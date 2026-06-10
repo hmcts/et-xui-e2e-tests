@@ -8,6 +8,7 @@ export const CaseDetailsValues = {
   claimantFirstName: 'Grayson',
   claimantLastName: 'Becker',
   respondentName: 'Mrs Test Auto',
+  respondentName2: 'Auto Test',
   respondentLegalName: 'ET Respondent Legal Name',
 }
 
