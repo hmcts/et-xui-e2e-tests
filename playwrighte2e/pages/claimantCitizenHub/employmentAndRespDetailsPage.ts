@@ -68,16 +68,17 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
   private readonly didYouWorkAtHeading: Locator;
   private readonly didYouWorkAtYesOption: Locator;
   private readonly checkRespondentDetailsHeading: Locator;
+  private readonly noticePeriodHeading: Locator;
 
   constructor(page: Page) {
     super(page);
     this.employmentStatusLink = this.page.locator(
       'a[href="/past-employer?lng=en"], a[href="/did-claimant-work-for-employer?lng=en"]');
     this.workedForOrganisationGroup = this.page.locator(
-      'fieldset:has(legend:has(h1:text-matches("Did (you|the claimant) work for the organisation or person you\'re making (your claim|a claim) against\\? \\(Optional\\)", "i")))'
+      'fieldset:has(h1:text-matches("work for the organisation or person", "i"))'
     );
     this.stillWorkingFOrOrgGroup = this.page.locator(
-      'fieldset:has(legend:has(h1:text("Are you still working for the organisation or person you\'re making your claim against?"))), fieldset:has(legend:has(h1:text("Is the claimant still working for the organisation or person you\'re making a claim against?")))'
+      'fieldset:has(h1:text-matches("still working for the organisation or person", "i"))'
     );
     this.stillWorkingOption = this.page.locator(`#still-working, #is-claimant-still-working`);
     this.workingNoticePeriodOption = this.page.locator(`#still-working-2, #is-claimant-still-working-2`);
@@ -87,10 +88,13 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
     this.employmentStartDateHeading = this.page.getByRole('heading', { name: 'Employment start date' });
     this.employmentStartDateInputGroup = this.page.locator(`#startDate`);
     this.writtenContractNoticePeriodGroup = this.page.locator(
-      `fieldset:has(legend:text("Do you have a written contract with a notice period? (optional)")), fieldset:has(legend:text("Does the claimant have a written contract with a notice period? (optional)"))`
+      'fieldset:has(h1:text-matches("written contract.*notice period", "i"))'
     );
     this.noticePeriodTypeGroup = this.page.locator(
-      `fieldset:has(legend:has(h1:text("Is your notice period in weeks or months? (optional)"))), fieldset:has(legend:has(h1:text("Is your notice period in weeks or months? (optional)"))`
+      'fieldset:has(h1:text-matches("notice period in weeks or months", "i"))'
+    );
+    this.noticePeriodHeading = this.page.locator(
+      'h1:text-matches("How many weeks.*notice period", "i")'
     );
     this.noticePeriodWeeksOption = this.page.locator(`#notice-type, #claimant-notice-type`);
     this.noticePeriodInput = this.page.locator(`#notice-length, #claimant-notice-length`);
@@ -114,7 +118,7 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
     this.pensionContributionInput = this.page.locator('#pension-contributions');
     this.employeeBenefitsHeading = this.page.getByRole('heading', { name: 'Employee benefits' });
     this.employeeBenefitsInputGroup = this.page.locator(
-      'fieldset:has(legend:has-text(/^(Do you or did you|Does - or did - the claimant) receive any employee benefits\? \(optional\)$/))'
+      'fieldset:has(legend:text-matches("employee benefits", "i"))'
     );
     this.employeeBenefitsNoLongerWorkingGroup = this.page.locator(
       `fieldset:has(legend:text("Did you receive any employee benefits? (optional)"))`
@@ -163,7 +167,7 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
     );
     this.reasonForNoAcasCertificateFirstOption = this.page.locator('#no-acas-reason');
     this.didYouWorkAtHeading = this.page.getByRole('heading', { name: /^Did (you|the claimant) work at/i });
-    this.didYouWorkAtYesOption = this.page.locator(`#work-address`);
+    this.didYouWorkAtYesOption = this.page.locator('#work-address, #claimant-work-address');
     this.checkRespondentDetailsHeading = this.page.getByRole('heading', { name: 'Check the respondent details' });
   }
 
@@ -254,12 +258,8 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
   }
 
   //enter notice length on /notice-length page
-  async enterNoticePeriodLength(inNoticePeriod: boolean) {
-    const noticePeriodText = inNoticePeriod
-      ? "How many weeks of your notice period are you being paid for? (optional) How many weeks in the claimant's notice period? (optional)"
-      : "How many weeks in your notice period? (optional)";
-
-    await expect(this.page.getByRole('heading', { name: noticePeriodText })).toBeVisible();
+  async enterNoticePeriodLength() {
+    await expect(this.noticePeriodHeading).toBeVisible();
     await this.noticePeriodInput.fill('4');
     await this.saveAndContinueButton();
   }
@@ -487,7 +487,7 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
     await this.enterEmploymentStartDate();
     await this.selectNoticePeriodWhilstStillWorkingFlow();
     await this.selectNoticeType();
-    await this.enterNoticePeriodLength(!inNoticePeriod);
+    await this.enterNoticePeriodLength();
     await this.enterAverageWeeklyHours();
     await this.enterPay();
     await this.enterPensionContribution();
@@ -514,7 +514,7 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
     await this.enterEmploymentStartDate();
     await this.noticePeriodEndDate();
     await this.selectNoticeType();
-    await this.enterNoticePeriodLength(inNoticePeriod);
+    await this.enterNoticePeriodLength();
     await this.enterAverageWeeklyHours();
     await this.enterPay();
     await this.enterPensionContribution();
@@ -576,7 +576,7 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
     await this.enterEmploymentStartDate();
     await this.noticePeriodEndDate();
     await this.selectNoticeType();
-    await this.enterNoticePeriodLength(inNoticePeriod);
+    await this.enterNoticePeriodLength();
     await this.enterAverageWeeklyHours();
     await this.enterPay();
     await this.enterPensionContribution();

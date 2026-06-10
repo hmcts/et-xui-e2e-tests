@@ -36,18 +36,18 @@ export default class PersonalDetailsPage extends CitizenHubPage {
     super(page);
     this.personalDetailsLink = this.page.locator(`a[href="/dob-details?lng=en"]`);
     this.dobHeading = this.page.locator(
-      'fieldset:has(legend:text-matches("^(What is your date of birth\\?|Claimant\'s date of birth \\(optional\\))$"))'
+      'fieldset:has(legend:text-matches("date of birth", "i"))'
     );
     this.dobGroup = this.page.locator('#dobDate, #representedClaimantDateOfBirth');
     this.sexAndPreferredTitleHeading = this.page.getByRole('heading', {
       name: /^(Sex and preferred title|Claimant's sex and preferred title)$/
     });
     this.homeAddressHeading = this.page.getByRole('heading', {
-      name: /^(What is your contact or home address\?|Representative's contact address|What is the representative's contact address\?|What is the claimant's address\?)$/
+      name: /address/i,
     });
     this.postCodeInput = this.page.locator('#addressEnterPostcode, #representativeEnterPostcode, #representedClaimantEnterPostcode');
     this.selectAnAddressHeading = this.page.getByRole('heading', { name: 'Select an address' });
-    this.selectAddressDropdown = this.page.locator('#addressAddressTypes, #representativeAddressTypes');
+    this.selectAddressDropdown = this.page.locator('#addressAddressTypes, #representativeAddressTypes, #representedClaimantAddressTypes');
     this.telephoneNumberHeading = this.page.getByRole('heading', { name: /What is your telephone number\? \(optional\)|What is the representative's phone number\? \(optional\)/
     });
     this.telephoneNumberInput = this.page.locator('#telephone-number, #representativePhoneNumber');
