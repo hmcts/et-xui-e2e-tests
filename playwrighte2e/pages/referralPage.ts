@@ -62,7 +62,7 @@ export default class ReferralPage extends BasePage {
     await this.referralSelectEle.selectOption({ label: '1 - ET1' });
     await this.clickContinue();
 
-    await expect(this.page.locator("//tr/td[contains(text(), 'Judge')]")).toBeVisible();
+    await expect(this.page.locator("//tr/td[normalize-space()='Judge']")).toBeVisible();
     await this.adminDirectionOption.click();
     await this.isUrgentReplyYes.check();
     await this.directionSubjEle.fill("This is a test direction");

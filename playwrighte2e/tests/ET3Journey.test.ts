@@ -37,7 +37,7 @@ test.describe('ET3/Respondent Journey', () => {
     await et3LoginPage.replyToNewClaim(caseId, caseNumber, CaseDetailsValues.respondentName, CaseDetailsValues.claimantFirstName, CaseDetailsValues.claimantLastName);
     await et3LoginPage.validateClaimantDetailsInRespondentApp(CaseDetailsValues.claimantFirstName, CaseDetailsValues.claimantLastName);
   });
-
+  //RET-6200
   test('Validating the error message after the respondent tries to reassign the same case', async ({ et3LoginPage, browserUtils}) => {
       await et3LoginPage.processRespondentLogin(users.etRespondent);
       await et3LoginPage.replyToNewClaim(caseId, caseNumber, CaseDetailsValues.respondentName, CaseDetailsValues.claimantFirstName, CaseDetailsValues.claimantLastName);
