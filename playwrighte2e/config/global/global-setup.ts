@@ -10,6 +10,7 @@ async function globalSetup() {
   // Create dynamic users using IdamApi
   const idamApi = new IdamApi();
   const etClaimant = await idamApi.createDynamicClaimantUser();
+  const etClaimant2 = await idamApi.createDynamicClaimantUser();
   const etRespondent = await idamApi.createDynamicRespondentUser();
   const etRespondent2 = await idamApi.createDynamicRespondentUser();
 
@@ -18,6 +19,10 @@ async function globalSetup() {
     etClaimant: {
       email: etClaimant.userEmail,
       password: etClaimant.userPassword,
+    },
+    etClaimant2: {
+      email: etClaimant2.userEmail,
+      password: etClaimant2.userPassword,
     },
     etRespondent: {
       email: etRespondent.userEmail,
@@ -34,8 +39,9 @@ async function globalSetup() {
   }
   fs.writeFileSync(path.join(tmpDir, 'test-users.json'), JSON.stringify(creds, null, 2));
   console.log(`Et Claimant created: ${etClaimant.userEmail}`);
+  console.log(`Et Claimant2 created: ${etClaimant2.userEmail}`);
   console.log(`Et Respondent created: ${etRespondent.userEmail}`);
-  console.log(`Et Respondent created: ${etRespondent2.userEmail}`);
+  console.log(`Et Respondent2 created: ${etRespondent2.userEmail}`);
 }
 
 export default globalSetup;

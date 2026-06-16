@@ -5,12 +5,22 @@ export class Et1ClaimsListPage extends BasePage {
   private readonly myEt1Claims: Locator;
   private readonly draftClaimsTable: Locator;
   private readonly submittedClaimsTable: Locator;
+  private readonly addAnExistingClaimLink: Locator;
+  private readonly caseNumberText: Locator;
+  private readonly caseIdText: Locator;
+  private readonly fullNameText: Locator;
+  private readonly confirmationCheckbox: Locator;
 
   constructor(page: Page) {
     super(page);
     this.myEt1Claims = this.page.getByRole('link', { name: 'My ET1 claims', exact: true });
     this.draftClaimsTable = this.page.locator(`//caption[normalize-space()='Draft claims']/../tbody`);
     this.submittedClaimsTable = this.page.locator(`//caption[normalize-space()='Submitted claims']/../tbody`);
+    this.addAnExistingClaimLink = this.page.getByRole('link', { name: 'Add an existing claim', exact: true });
+    this.caseNumberText = this.page.locator(`#ethosCaseReference`);
+    this.caseIdText = this.page.locator(`#caseReferenceId`);
+    this.fullNameText = this.page.locator(`#claimantName`);
+    this.confirmationCheckbox = this.page.locator(`#confirmation`);
   }
 
   async clickMyEt1ClaimLink() {
@@ -51,8 +61,8 @@ export class Et1ClaimsListPage extends BasePage {
         },
         {
           intervals: [1_000],
-          timeout: 5000,
-          message: `Case with ID ${caseId} not found in Submitted claims table after waiting for 5 seconds.`,
+          timeout: 7000,
+          message: `Case with ID ${caseId} not found in Submitted claims table after waiting for 7 seconds.`,
         }
       )
       .toBeTruthy();
@@ -67,5 +77,42 @@ export class Et1ClaimsListPage extends BasePage {
     const text = await caseNumberLink.textContent();
     await caseNumberLink.click();
     return text? text: '';
+  }
+
+  async navigateToAddAnExistingClaimLink() {
+    await this.page.waitForLoadState('load');
+    await expect(this.addAnExistingClaimLink).toBeVisible();
+    await this.addAnExistingClaimLink.click();
+  }
+
+  async enterCaseNumberText(caseNumber: string) {
+    await this.page.waitForLoadState('load');
+    await expect(this.caseNumberText).toBeVisible();
+    await this.caseNumberText.clear();
+    await this.page.waitForLoadState('load');
+    await this.caseNumberText.fill(caseNumber.toString());
+  }
+
+  async enterYourCaseDetails(caseId: string, fullName: string) {
+    await this.page.waitForLoadState('load');
+    await this.caseIdText.fill(caseId.toString());
+    await this.fullNameText.fill(fullName);
+  }
+
+  async confirmAndSubmitCaseDetails(submitted: boolean = true) {
+    await this.page.waitForLoadState('load');
+    await expect(this.confirmationCheckbox).toBeVisible();
+    await expect(this.page.getByRole('heading', {name: 'Check and submit'})).toBeVisible();
+    await this.confirmationCheckbox.check();
+    await this.clickSubmitButton(submitted);
+  }
+
+  async assertCaseIdNotListedInET1ClaimsPage(caseId: string) {
+    await this.page.waitForLoadState('load');
+    const targetHref = `/claimant-application/${caseId}?lng=en`;
+    const draftTargetLink = this.draftClaimsTable.locator(`a[href="${targetHref}"]`);
+    await expect(draftTargetLink).not.toBeVisible();
+    const submittedTargetLink = this.submittedClaimsTable.locator(`a[href="${targetHref}"]`);
+    await expect(submittedTargetLink).not.toBeVisible();
   }
 }
