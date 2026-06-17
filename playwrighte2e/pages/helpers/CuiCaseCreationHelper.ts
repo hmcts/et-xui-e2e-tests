@@ -134,3 +134,20 @@ export async function vetAndAcceptCitizenCase(
 
   return caseNumber;
 }
+
+export async function partiallyCreateCaseViaCitizenUI(
+  page: Page,
+  citizenPreLoginPage: CUIPreLoginPage,
+  citizenPostLoginPage: CUIPostLoginPages,
+  personalDetailsPage: PersonalDetailsPage,
+  region: string,
+  loginMethod: () => Promise<void>,
+) {
+  await page.goto(config.etSyaUiUrl);
+  await citizenPreLoginPage.processPreLoginPagesForTheDraftApplication(region);
+  await loginMethod();
+  await citizenPostLoginPage.processPostLoginPagesForTheDraftApplication();
+  const location = region === 'EnglandWales' ? 'England' : region;
+  await personalDetailsPage.processPersonalDetails(userDetailsData.postcode, location, userDetailsData.addressOption);
+  await page.getByRole('button', { name: 'Save as draft' }).click();
+}
