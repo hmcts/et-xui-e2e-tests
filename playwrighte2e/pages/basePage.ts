@@ -223,4 +223,19 @@ export abstract class BasePage {
     await this.respondButton.click();
     await this.waitForSpinner();
   }
+
+  /**
+   * Asserts that each error message in the provided array is visible on the page.
+   *
+   * @param errorMessages - An array of error message strings to check for visibility.
+   * Each message is expected to be present and visible on the current page.
+   */
+  async assertErrorMessage(errorMessages: string[]) {
+    for (const errorMessage of errorMessages) {
+      const errorLocators = this.page.getByText(errorMessage);
+      const count = await errorLocators.count();
+      const errorLocator = errorLocators.nth(0);
+      await expect(errorLocator).toBeVisible();
+    }
+  }
 }

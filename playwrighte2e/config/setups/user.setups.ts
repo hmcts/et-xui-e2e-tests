@@ -39,6 +39,16 @@ test.describe.serial("set up user context", () => {
       await citizenHubLoginPage.processCitizenHubLogin(user);
     });
 
+  test(
+    'Set up Citizen Claimant2 user context',
+    async({citizenHubLoginPage,})  => {
+      const user = users.etClaimant2;
+      if(CookieUtils.isSessionValid(user.sessionFile, cookieName)) {
+        console.log(`Valid session already exists for ${user.email}, skipping login.`);
+        return;}
+      await citizenHubLoginPage.processCitizenHubLogin(user);
+    });
+
   const respondentUsers = [
     { role: 'Respondent 1', user: users.etRespondent },
     { role: 'Respondent 2', user: users.etRespondent2 },
