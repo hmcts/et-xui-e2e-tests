@@ -46,7 +46,7 @@ test.describe('Claimant navigate back to Case list', () => {
       await et1ClaimsListPage.clickContinue();
       await et1ClaimsListPage.assertErrorMessage(['This case is not available online. Contact the tribunal if you want to know more about this case.']);
 
-      caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales, users.etClaimant2);
+      caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales,false, users.etClaimant2);
       const claimant2Browser = await browserUtils.openNewBrowserContext(users.etClaimant2.sessionFile);
       const claimant2CitizenHubLoginPage = new CitizenHubLoginPage(claimant2Browser);
       const claimant2Et1ClaimsListPage = new Et1ClaimsListPage(claimant2Browser);

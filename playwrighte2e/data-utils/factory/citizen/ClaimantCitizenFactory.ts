@@ -8,7 +8,7 @@ import { UserCredentials, users } from '../../../config/config.dynamic.ts';
  */
 export class CitizenClaimantFactory {
 
-  static async createAndUpdateClaim(caseTypeLocation: CaseTypeLocation, user: UserCredentials = users.etClaimant): Promise<string> {
+  static async createAndUpdateClaim(caseTypeLocation: CaseTypeLocation, multipleRespondent: boolean = false ,user: UserCredentials = users.etClaimant): Promise<string> {
     const case_id = await cuiApi.initiateCuiCase(user.email, user.password, caseTypeLocation);
     console.log('case Id is:' + case_id);
 
@@ -17,7 +17,7 @@ export class CitizenClaimantFactory {
       user.email,
       user.password,
       case_id,
-      CaseTypeLocation.EnglandAndWales,
+      CaseTypeLocation.EnglandAndWales, multipleRespondent
     );
     console.log('CUI case updated successfully:' + updateResponse.id);
     return case_id;
@@ -37,15 +37,15 @@ export class CitizenClaimantFactory {
    * Example usage:
    *   const caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseJurisdiction.EnglandAndWales);
    */
-  static async createAndSubmitClaim(caseTypeLocation: CaseTypeLocation, user: UserCredentials = users.etClaimant): Promise<string> {
+  static async createAndSubmitClaim(caseTypeLocation: CaseTypeLocation, multipleRespondent: boolean = false, user: UserCredentials = users.etClaimant): Promise<string> {
     // Create and update a draft case
-    const case_id = await this.createAndUpdateClaim(caseTypeLocation, user);
+    const case_id = await this.createAndUpdateClaim(caseTypeLocation, multipleRespondent, user);
 
     const submitResponse = await cuiApi.submitDraftCuiCase(
       user.email,
       user.password,
       case_id,
-      CaseTypeLocation.EnglandAndWales,
+      CaseTypeLocation.EnglandAndWales, multipleRespondent
     );
     console.log('CUI case submitted successfully:' + submitResponse.id);
     return case_id;
@@ -66,8 +66,8 @@ export class CitizenClaimantFactory {
    * Example usage:
    *   const caseId = await CitizenClaimantFactory.progressCaseFromCreateToEt3(CaseJurisdiction.EnglandAndWales);
    */
-  static async progressCaseFromCreateToEt3(caseTypeLocation: CaseTypeLocation, user: UserCredentials = users.etClaimant): Promise<string> {
-    const caseId = await this.createAndSubmitClaim(caseTypeLocation, user);
+  static async progressCaseFromCreateToEt3(caseTypeLocation: CaseTypeLocation, multipleRespondent: boolean = false, user: UserCredentials = users.etClaimant): Promise<string> {
+    const caseId = await this.createAndSubmitClaim(caseTypeLocation, multipleRespondent, user);
     await cuiApi.vetAndAcceptCuiCase(users.etApiUser.email, users.etApiUser.password, caseId);
     const respondentCcdId = await cuiApi.assignCaseToRespondent(
       users.etRespondent.email,
