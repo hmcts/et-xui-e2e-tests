@@ -68,4 +68,10 @@ export class Et1ClaimsListPage extends BasePage {
     await caseNumberLink.click();
     return text? text: '';
   }
+
+  async viewYourET1Claims() {
+    await expect(this.page.getByRole('heading', { name: 'Your claim has been saved' })).toBeVisible();
+    await this.page.getByRole('button', { name: 'View your ET1 claims' }).click();
+    await expect(this.page.getByRole('heading', { name: 'ET1 claims' })).toBeVisible();
+  }
 }

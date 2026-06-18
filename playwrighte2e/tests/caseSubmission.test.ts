@@ -1,6 +1,6 @@
 import { test } from '../fixtures/common.fixture';
 import userDetailsData from '../resources/payload/user-details.json';
-import { createCaseViaCitizenUI, vetAndAcceptCitizenCase } from '../pages/helpers/CuiCaseCreationHelper.ts';
+import { createCaseViaCitizenUI, vetAndAcceptCitizenCase, partiallyCreateCaseViaCitizenUI } from '../pages/helpers/CuiCaseCreationHelper.ts';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import { config, users } from '../config/config.dynamic.ts';
 
@@ -231,4 +231,23 @@ test.describe('Case creation in Citizen UI', () => {
       users.etManageCaseUser
     );
   });
+
+  test('Partially create a claim and return to viewing your et1 claims', async ({
+ page,
+    loginPage,
+    citizenPreLoginPage,
+    citizenPostLoginPage,
+    personalDetailsPage,
+    et1ClaimsListPage,
+  }) => {
+    await partiallyCreateCaseViaCitizenUI(
+      page,
+      citizenPreLoginPage,
+      citizenPostLoginPage,
+      personalDetailsPage,
+      'EnglandWales',
+      async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) }
+        )
+    await et1ClaimsListPage.viewYourET1Claims()
+    });
 });
