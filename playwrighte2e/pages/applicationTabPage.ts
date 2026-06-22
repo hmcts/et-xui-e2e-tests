@@ -24,6 +24,10 @@ export class ApplicationTabPage extends BasePage {
   private readonly fullNameOfDeciderText: Locator;
   private readonly partieToNotify: Locator;
   private readonly responseTitleTextArea: Locator;
+  private readonly madeByDropdown: Locator;
+  private readonly fullNameText: Locator;
+  private readonly responseToTribunalRequiredDropdown: Locator;
+  private readonly partiesToRespondDropdown: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -48,6 +52,10 @@ export class ApplicationTabPage extends BasePage {
     this.fullNameOfDeciderText = this.page.locator(`#tseAdminDecisionMadeByFullName`);
     this.partieToNotify = this.page.locator(`#tseAdminSelectPartyNotify`);
     this.responseTitleTextArea = this.page.locator(`#tseAdmReplyEnterResponseTitle`);
+    this.madeByDropdown = this.page.locator(`#tseAdmReplyRequestMadeBy:not([disabled]), #tseAdmReplyCmoMadeBy:not([disabled])`);
+    this.fullNameText = this.page.locator(`#tseAdmReplyRequestEnterFullName:not([type="hidden"]) ,#tseAdmReplyCmoEnterFullName:not([type="hidden"])`);
+    this.responseToTribunalRequiredDropdown = this.page.locator(`#tseAdmReplyRequestIsResponseRequired:not([disabled]), #tseAdmReplyCmoIsResponseRequired:not([disabled])`);
+    this.partiesToRespondDropdown = this.page.locator(`#tseAdmReplyCmoSelectPartyRespond:not([disabled]), #tseAdmReplyRequestSelectPartyRespond:not([disabled])`);
   }
 
   async selectEitherViewOrMakeOrRespondOrRecordADecisionLink(linkName: string) {
@@ -309,7 +317,7 @@ export class ApplicationTabPage extends BasePage {
     await this.clickCloseAndReturn();
   }
 
-  async caseWorkerRespondToAnApplication(applicationType:string) {
+  async caseWorkerRespondToAnApplication(applicationType:string, orderOrRequest: string = 'Case management order') {
     await this.page.waitForLoadState('load');
     await this.selectEitherViewOrMakeOrRespondOrRecordADecisionLink('Respond to an application');
     await this.selectApplicationType(applicationType);
@@ -319,7 +327,13 @@ export class ApplicationTabPage extends BasePage {
     await this.responseTitleTextArea.fill('Response of an application By Caseworker');
     await this.uploadSupportingMaterial();
 
-    await this.page.getByRole('radio', { name: 'Neither' }).check();
+    await this.page.getByRole('radio', { name: orderOrRequest }).check();
+    await this.madeByDropdown.selectOption('1: Legal officer');
+    await this.fullNameText.fill('LEGAL OFFICER');
+    await this.responseToTribunalRequiredDropdown.selectOption('1: Yes');
+    await this.partiesToRespondDropdown.selectOption('1: Both parties');
+
+    // parties to notify
     await this.page.getByRole('radio', { name: 'Both parties' }).check();
     await this.page.waitForLoadState('load');
     await this.clickContinue('tseAdmReply/submit'); // IT is very flaky or UI takes more time to load
