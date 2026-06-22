@@ -97,7 +97,7 @@ export default class Et3LoginPage extends LoginPage {
     await this.page.waitForLoadState('load');
     await expect(this.page.locator('#main-content')).toContainText('ET3 Responses');
     await expect(this.respondToNewClaim).toBeVisible();
-    await this.page.getByLabel('view ' + caseNumber + ': '+caseId.toString()).click();
+    await this.page.getByLabel('view ' + caseNumber + ': '+caseId.toString()).first().click();
   }
 
   async validateClaimantDetailsInRespondentApp(firstname: string, lastname: string) {
