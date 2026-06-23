@@ -15,8 +15,8 @@
   "claimantEmployeeBenefits": ["Yes"],
   "claimantBenefits": "child benefit",
   "respondentType": "Individual",
-  "respondentFirstName": "Mark",
-  "respondentLastName": "McDonald",
+  "respondentFirstName": "Mrs Test",
+  "respondentLastName": "Auto",
   "respondentAddress": {
     "AddressLine1": "The Deli",
     "AddressLine2": "1 Whitehall Place",

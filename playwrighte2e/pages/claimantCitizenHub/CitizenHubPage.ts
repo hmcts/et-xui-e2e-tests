@@ -4,11 +4,11 @@ import { config } from '../../config/config.dynamic.ts';
 
 export default class CitizenHubPage extends BasePage {
   private readonly caseOverviewPageTitle: Locator;
-  private readonly caseNumberText: Locator;
+  readonly caseNumberText: Locator;
   private readonly contactTribunalLink: Locator;
   private readonly appointALegalRepLink: Locator;
   private readonly haveYouCompletedThisSectionHeading: Locator;
-  private readonly respondButton: Locator;
+  private readonly cuiRespondButton: Locator;
   private readonly responseTextElement: Locator;
   private readonly providingMaterialYes: Locator;
   private readonly addTextToResponse: Locator;
@@ -85,37 +85,37 @@ export default class CitizenHubPage extends BasePage {
     this.haveYouCompletedThisSectionHeading = this.page.locator(
       `fieldset:has(legend:has(h1:text("Have you completed this section?")))`,
     );
-    this.respondButton = page.locator('#respond-button');
-    this.responseTextElement = page.locator('.govuk-label--m');
-    this.providingMaterialYes = page.locator('#supporting-material-yes-no');
-    this.addTextToResponse = page.locator('#respond-to-application-text');
-    this.supportingMaterialAttachment = page.locator('#supportingMaterialFile');
-    this.uploadButton = page.locator('#upload');
-    this.contactTribunalAboutMyCase = page.locator('[href="/contact-the-tribunal"]');
-    this.changeMyLegalRep = page.locator('[href="/change-legal-representative"]');
-    this.linkToET3Response = page.locator('[href="/case-document/response-from-respondent"]');
-    this.contactTribunalLinkRegistered = page.locator('[href="/contact-the-tribunal"]');
-    this.appointLegalRepLink = page.locator('[href="/appoint-legal-representative"]');
-    this.openAllApplicationType = page.locator('//span[@class="govuk-accordion__show-all-text"]');
-    this.welshContactTribunalLinkRegistered = page.locator('[href="/contact-the-tribunal?lng=cy"]');
-    this.showAllApplicationType = page.locator('#contact-options');
-    this.withdrawClaimLink = page.locator('[href="/contact-the-tribunal/withdraw?lng=en"]');
-    this.applicationTextField = page.locator('#Contact-Application-Text');
-    this.changePersonalDetail = page.locator('[href="/contact-the-tribunal/change-details?lng=en"]');
-    this.postponeMyHearing = page.locator('[href="/contact-the-tribunal/postpone"]');
-    this.revokeAnOrder = page.locator('[href="/contact-the-tribunal/vary"]');
-    this.reconsiderDecision = page.locator('[href="/contact-the-tribunal/reconsider-decision"]');
-    this.amendClaim = page.locator('[href="/contact-the-tribunal/amend"]');
-    this.orderRespondent = page.locator('[href="/contact-the-tribunal/respondent"]');
-    this.orderWitness = page.locator('[href="/contact-the-tribunal/witness"]');
-    this.respondentNotComplied = page.locator('[href="/contact-the-tribunal/non-compliance"]');
-    this.restrictPublicity = page.locator('[href="/contact-the-tribunal/publicity"]');
-    this.strikeOutResponse = page.locator('[href="/contact-the-tribunal/strike"]');
-    this.reconsiderJudgment = page.locator('[href="/contact-the-tribunal/reconsider-judgement"]');
-    this.somethingElse = page.locator('[href="/contact-the-tribunal/other"]');
-    this.submitHearingDocument = page.locator('[href="/prepare-documents?lng=en"]');
-    this.startPreparingHearingDoc = page.locator('//a[contains(.,"Start now")]');
-    this.hearingDocAgreeDoc = page.locator('#bundlesRespondentAgreedDocWith');
+    this.cuiRespondButton = this.page.locator('#respond-button');
+    this.responseTextElement = this.page.locator('.govuk-label--m');
+    this.providingMaterialYes = this.page.locator('#supporting-material-yes-no');
+    this.addTextToResponse = this.page.locator('#respond-to-application-text');
+    this.supportingMaterialAttachment = this.page.locator('#supportingMaterialFile');
+    this.uploadButton = this.page.locator('#upload');
+    this.contactTribunalAboutMyCase = this.page.locator('[href="/contact-the-tribunal"]');
+    this.changeMyLegalRep = this.page.locator('[href="/change-legal-representative"]');
+    this.linkToET3Response = this.page.locator('[href="/case-document/response-from-respondent"]');
+    this.contactTribunalLinkRegistered = this.page.locator('[href="/contact-the-tribunal"]');
+    this.appointLegalRepLink = this.page.locator('[href="/appoint-legal-representative"]');
+    this.openAllApplicationType = this.page.locator('//span[@class="govuk-accordion__show-all-text"]');
+    this.welshContactTribunalLinkRegistered = this.page.locator('[href="/contact-the-tribunal?lng=cy"]');
+    this.showAllApplicationType = this.page.locator('#contact-options');
+    this.withdrawClaimLink = this.page.locator('[href="/contact-the-tribunal/withdraw?lng=en"]');
+    this.applicationTextField = this.page.locator('#Contact-Application-Text');
+    this.changePersonalDetail = this.page.locator('[href="/contact-the-tribunal/change-details?lng=en"]');
+    this.postponeMyHearing = this.page.locator('[href="/contact-the-tribunal/postpone"]');
+    this.revokeAnOrder = this.page.locator('[href="/contact-the-tribunal/vary"]');
+    this.reconsiderDecision = this.page.locator('[href="/contact-the-tribunal/reconsider-decision"]');
+    this.amendClaim = this.page.locator('[href="/contact-the-tribunal/amend"]');
+    this.orderRespondent = this.page.locator('[href="/contact-the-tribunal/respondent"]');
+    this.orderWitness = this.page.locator('[href="/contact-the-tribunal/witness"]');
+    this.respondentNotComplied = this.page.locator('[href="/contact-the-tribunal/non-compliance"]');
+    this.restrictPublicity = this.page.locator('[href="/contact-the-tribunal/publicity"]');
+    this.strikeOutResponse = this.page.locator('[href="/contact-the-tribunal/strike"]');
+    this.reconsiderJudgment = this.page.locator('[href="/contact-the-tribunal/reconsider-judgement"]');
+    this.somethingElse = this.page.locator('[href="/contact-the-tribunal/other"]');
+    this.submitHearingDocument = this.page.locator('[href="/prepare-documents?lng=en"]');
+    this.startPreparingHearingDoc = this.page.locator('//a[contains(.,"Start now")]');
+    this.hearingDocAgreeDoc = this.page.locator('#bundlesRespondentAgreedDocWith');
     this.firstListedCase = page.locator('#about-hearing-documents1');
     this.myDocumentOption = page.locator('[value="My hearing documents only"]');
     this.witnessStatementOnly = page.locator('[value="Witness statements only"]');
@@ -229,8 +229,8 @@ export default class CitizenHubPage extends BasePage {
     await this.page.getByRole('link', { name: 'Respond to the application' }).isVisible();
     await this.page.getByRole('link', { name: 'Respond to the application' }).click();
 
-    await this.respondButton.waitFor();
-    await this.respondButton.click();
+    await this.cuiRespondButton.waitFor();
+    await this.cuiRespondButton.click();
 
     await this.respondToApplicationText.waitFor();
     await this.respondToApplicationText.fill('This is response of an application');
@@ -240,7 +240,11 @@ export default class CitizenHubPage extends BasePage {
     await this.clickContinue();
 
     await this.supportingMaterialFile.waitFor();
-    await this.supportingMaterialFile.setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
+      this.page,
+      this.supportingMaterialFile,
+      `playwrighte2e/resources/test_file/welshTest.pdf`
+    )
 
     await this.uploadFielButton.waitFor();
     await this.uploadFielButton.click();
@@ -260,7 +264,7 @@ export default class CitizenHubPage extends BasePage {
     await this.page.getByRole('link', { name: 'View the response' }).isVisible();
     await this.page.getByRole('link', { name: 'View the response' }).click();
     await this.delay(3000);
-    await expect(this.page.locator('body')).toContainText('Response of Response');
+    await expect(this.page.locator('body')).toContainText('Response of an application By Caseworker');
   }
   async validateRecordDecisionBanner() {
     await this.page.getByRole('link', { name: 'View the decision' }).click();
@@ -286,8 +290,8 @@ export default class CitizenHubPage extends BasePage {
     }
 
     await this.page.getByRole('button', { name: 'Respond' }).click();
-    await this.page.locator('#respond-to-application-text').isVisible();
-    await this.page.locator('#respond-to-application-text').fill('Response from claimant');
+    await this.respondToApplicationText.isVisible();
+    await this.respondToApplicationText.fill('Response from claimant');
     await this.page.locator('#supporting-material-yes-no-2').check();
     await this.clickContinue();
 
@@ -381,5 +385,10 @@ export default class CitizenHubPage extends BasePage {
   async verifyLegalRepUnassignedNotificationBanner() {
     await expect(this.page.getByLabel('Important')).toContainText('You are no longer legally represented.');
     await expect(this.appointLegalRepLink).toBeVisible();
+  }
+
+  async closeAndReturnToCaseDetailsCui() {
+    await expect(this.returntoCUIcaseOverviewButton).toBeVisible();
+    this.returntoCUIcaseOverviewButton.click();
   }
 }

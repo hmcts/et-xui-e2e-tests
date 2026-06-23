@@ -6,14 +6,14 @@
 import { axiosRequest } from './ApiHelper';
 import engCase from '../../resources/payload/citizen/et-england-case-data.json';
 import scotCase from '../../resources/payload/citizen/et-scotland-case-data.json';
+import eng2RespondentCase from '../../resources/payload/citizen/et-england-case-data-2-repondent.json';
 import et3 from '../../resources/payload/citizen/et3.json';
 import { CaseTypeLocation } from '../../config/case-data.ts';
 import { getUserAuthToken, getUserId } from './TokenHelperApi.ts';
 import { set, unset } from 'lodash';
 import { staticConfig } from '../../config/config.static.ts';
 
-const env = staticConfig.env;
-const syaApiBaseUrl = staticConfig.EtCosPreviewEtSyaApiUrl || `http://et-sya-api-${env}.service.core-compute-${env}.internal`;
+const syaApiBaseUrl = staticConfig.EtCosPreviewEtSyaApiUrl;
 const payloadMap: Record<CaseTypeLocation, any> = {
   [CaseTypeLocation.EnglandAndWales]: engCase.data,
   [CaseTypeLocation.Scotland]: scotCase.data,
@@ -29,7 +29,7 @@ export class CuiApi {
   async initiateCuiCase(userName: string, password: string, caseTypeLocation: CaseTypeLocation): Promise<string> {
     const authToken = await getUserAuthToken(userName, password);
 
-    const cuiDraftCasePath = '/cases/initiate-case';
+    const cuiDraftCasePath = 'cases/initiate-case';
     let initiateCaseUrl = syaApiBaseUrl + cuiDraftCasePath;
 
     //start case creation
@@ -69,13 +69,14 @@ export class CuiApi {
     password: string,
     case_id: string,
     caseTypeLocation: CaseTypeLocation,
+    multipleRespondent: boolean = false
   ): Promise<any> {
     const authToken = await getUserAuthToken(username, password);
-    let updateCaseUrl = `${syaApiBaseUrl}/cases/update-case`;
+    let updateCaseUrl = `${syaApiBaseUrl}cases/update-case`;
     let updateCaseBody = {
       case_id: case_id.toString(),
       case_type_id: caseTypeLocation.toString(),
-      case_data: payloadMap[caseTypeLocation],
+      case_data: multipleRespondent ? eng2RespondentCase.data : payloadMap[caseTypeLocation],
     };
     let apiConfig = {
       method: 'put',
@@ -104,14 +105,15 @@ export class CuiApi {
     password: string,
     case_id: string,
     caseTypeLocation: CaseTypeLocation,
+    multipleRespondent: boolean = false
   ): Promise<any> {
     const authToken = await getUserAuthToken(username, password);
-    let submitCaseUrl = `${syaApiBaseUrl}/cases/submit-case`;
+    let submitCaseUrl = `${syaApiBaseUrl}cases/submit-case`;
     //start case creation
     let updateCaseBody = {
       case_id: case_id.toString(),
       case_type_id: caseTypeLocation.toString(),
-      case_data: payloadMap[caseTypeLocation],
+      case_data: multipleRespondent ? eng2RespondentCase.data : payloadMap[caseTypeLocation],
     };
 
     let apiConfig = {
@@ -138,7 +140,7 @@ export class CuiApi {
    */
   async vetAndAcceptCuiCase(username: string, password: string, case_id: string): Promise<string> {
     const authToken = await getUserAuthToken(username, password);
-    const url = `/vetAndAcceptCase?caseId=${case_id}`;
+    const url = `vetAndAcceptCase?caseId=${case_id}`;
     let vetCaseUrl = syaApiBaseUrl + url;
 
     let apiConfig = {
@@ -164,7 +166,7 @@ export class CuiApi {
    */
   async getCaseData(username: string, password: string, case_id: string): Promise<any> {
     const authToken = await getUserAuthToken(username, password);
-    const getCaseDataUrl = `/getCaseData?caseIds=${case_id}`;
+    const getCaseDataUrl = `getCaseData?caseIds=${case_id}`;
     let etSyaApiGetCaseData = syaApiBaseUrl + getCaseDataUrl;
     let request = {
       method: 'GET',
@@ -190,7 +192,7 @@ export class CuiApi {
   async assignCaseToRespondent(username: string, password: string, case_id: string): Promise<string> {
     const authToken = await getUserAuthToken(username, password);
     const respondentUserId = await getUserId(authToken, username);
-    const modifyCasePath = `/manageCaseRole/modifyCaseUserRoles?modificationType=Assignment`;
+    const modifyCasePath = `manageCaseRole/modifyCaseUserRoles?modificationType=Assignment`;
     let createCaseUrl = syaApiBaseUrl + modifyCasePath;
 
     let data = JSON.stringify({
@@ -239,7 +241,7 @@ export class CuiApi {
     const authToken = await getUserAuthToken(username, password);
     const respondentUserId = await getUserId(authToken, username);
 
-    const modifyCasePath = `/et3/modifyEt3Data`;
+    const modifyCasePath = `et3/modifyEt3Data`;
     let createCaseUrl = syaApiBaseUrl + modifyCasePath;
     const replacementAction = [
       { action: 'delete', key: 'caseSubmissionReference' },
@@ -253,7 +255,7 @@ export class CuiApi {
     ];
 
     this.makeModifications(replacementAction, et3);
-0
+
     let apiConfig = {
       method: 'post',
       maxBodyLength: Infinity,

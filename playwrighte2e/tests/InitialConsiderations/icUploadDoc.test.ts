@@ -1,7 +1,7 @@
-import { test } from '../fixtures/common.fixture';
-import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
-import { CaseTypeLocation, Events } from '../config/case-data.ts';
-import { users } from '../config/config.dynamic.ts';
+import { test } from '../../fixtures/common.fixture.ts';
+import { CaseworkerCaseFactory } from '../../data-utils/factory/exui/CaseworkerCaseFactory.ts';
+import { CaseTypeLocation, Events } from '../../config/case-data.ts';
+import { users } from '../../config/config.dynamic.ts';
 
 test.describe('IC Upload documents', () => {
   let caseId: string, caseNumber: string;

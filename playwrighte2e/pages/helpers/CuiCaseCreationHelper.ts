@@ -56,9 +56,9 @@ export async function createCaseViaCitizenUI(
   } else {
     throw new Error(`Option not found for who is making the claim question`);
   }
-  const submissionReference = await submitClaimPage.submitClaim();
-  await submitClaimPage.signoutButton();
-  return submissionReference;
+  const caseId = await submitClaimPage.submitClaim();
+  const caseNumber = await submitClaimPage.returnToCaseOverviewAndReturnCaseNumber();
+  return {caseId, caseNumber};
 }
 
 async function assertTabData(caseDetailsPage: CaseDetailsPage, etiVetting: boolean = false) {
@@ -153,4 +153,21 @@ export async function vetAndAcceptCitizenCase(
   await et1CaseServingPage.processET1CaseServingPages();
 
   return caseNumber;
+}
+
+export async function partiallyCreateCaseViaCitizenUI(
+  page: Page,
+  citizenPreLoginPage: CUIPreLoginPage,
+  citizenPostLoginPage: CUIPostLoginPages,
+  personalDetailsPage: PersonalDetailsPage,
+  region: string,
+  loginMethod: () => Promise<void>,
+) {
+  await page.goto(config.etSyaUiUrl);
+  await citizenPreLoginPage.processPreLoginPagesForTheDraftApplication(region);
+  await loginMethod();
+  await citizenPostLoginPage.processPostLoginPagesForTheDraftApplication();
+  const location = region === 'EnglandWales' ? 'England' : region;
+  await personalDetailsPage.processPersonalDetails(userDetailsData.postcode, location, userDetailsData.addressOption);
+  await page.getByRole('button', { name: 'Save as draft' }).click();
 }

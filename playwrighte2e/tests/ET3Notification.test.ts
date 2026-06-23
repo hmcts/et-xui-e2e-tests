@@ -30,10 +30,30 @@ test.describe('ET3 Notification', () => {
     //reject ET3 Response
     await caseDetailsPage.selectNextEvent(Events.respondentDetails);
     await respondentDetailsPage.processRespondentDetailsET3(false);
-0
+    await caseDetailsPage.assertTabData([
+      {
+        tabName: 'Respondent',
+        tabContent: [
+          {tabItem: 'Mrs Test Auto', value: 'Yes', clickable: true},
+          { tabItem: 'Response', value:'Rejected'},
+          { tabItem: 'ET3 Form', value: 'ET3Form.pdf', position: 0}
+        ]
+      },
+      {
+        tabName: 'Documents',
+        tabContent: [
+          { tabItem: 'ET1 Vetting - Grayson Becker.pdf', value: 'Starting a Claim | ET1 Vetting', exact: false },
+        ],
+        excludedContent: [
+          'ET3 Form',
+          'ET3Form.pdf'
+        ]
+      }
+    ]);
+
     //attempt to send ET3 notification
     await caseDetailsPage.selectNextEvent(Events.et3Notification);
-    await et3NotificationPage.sendEt3Notification();
+    await et3NotificationPage.sendEt3Notification(false);
     await et3NotificationPage.verifyEt3NotificationErrorMessage();
   });
 
@@ -52,17 +72,45 @@ test.describe('ET3 Notification', () => {
     //reject ET3 Response
     await caseDetailsPage.selectNextEvent(Events.respondentDetails);
     await respondentDetailsPage.processRespondentDetailsET3(true);
+    await caseDetailsPage.assertTabData([
+      {
+        tabName: 'Respondent',
+        tabContent: [
+          {tabItem: 'Mrs Test Auto', value: 'Yes', clickable: true},
+          { tabItem: 'Response', value:'Accepted'},
+          { tabItem: 'ET3 Form', value: 'ET3Form.pdf', position: 0}
+        ]
+      },
+      {
+        tabName: 'Documents',
+        tabContent: [
+          { tabItem: 'ET1 Vetting - Grayson Becker.pdf', value: 'Starting a Claim | ET1 Vetting', exact: false },
+        ],
+        excludedContent: [
+          'ET3 Form',
+          'ET3Form.pdf'
+        ]
+      }
+    ]);
 
     await caseDetailsPage.selectNextEvent(Events.et3Notification);
     await et3NotificationPage.sendEt3Notification();
     await et3NotificationPage.processAcasPage();
+    await caseDetailsPage.assertTabData([
+      {
+        tabName: 'Documents',
+        tabContent: [
+          { tabItem: 'ET1 Vetting - Grayson Becker.pdf', value: 'Starting a Claim | ET1 Vetting', exact: false },
+          { tabItem: 'ET3Form.pdf', value: ' Response to a Claim | ET3', position: 0},
+          { tabItem: 'ET3Form.pdf', value: ' Response to a Claim | Response accepted', position: 1},
+        ]
+      }
+      ]);
 
     // Validate Initial Consideration Links RET-5796
     await manageCaseDashboardPage.navigateToCaseDetails(subRef.toString(), CaseTypeLocation.EnglandAndWales);
     await caseDetailsPage.selectNextEvent(Events.initialConsideration);
     await initialConsiderationPage.validateET1Links();
-
-
   });
 
   test('Respondent not Accepting or rejecting response and attempts to send ET3 Notification',

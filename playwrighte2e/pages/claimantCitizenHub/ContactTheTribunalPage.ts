@@ -23,7 +23,9 @@ export default class ContactTheTribunalPage extends BasePage {
   async assertContactTheTribunalPageIsDisplayed() {
     await this.page.waitForLoadState('load');
     await expect(this.contactTheTribunalPageTitle).toBeVisible();
-    await this.showAllSectionsLink.click();
+    if (await this.showAllSectionsLink.isVisible()) {
+      await this.showAllSectionsLink.click();
+    }
     await this.page.waitForLoadState('load');
   }
 
@@ -86,7 +88,11 @@ export default class ContactTheTribunalPage extends BasePage {
     await expect(this.applicationTextArea).toBeVisible();
     await this.applicationTextArea.fill(details);
 
-    await this.applicationFileUploadInput.setInputFiles(`playwrighte2e/resources/test_file/test.txt`);
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
+      this.page,
+      this.applicationFileUploadInput,
+      `playwrighte2e/resources/test_file/test.txt`
+    );
   }
 
   async selectR92Option(option: string) {
@@ -150,6 +156,7 @@ export default class ContactTheTribunalPage extends BasePage {
     await this.clickContinue();
 
     await this.assertCheckYourAnswersPage(applicationTypeText, details, r92Option);
+    await this.page.waitForLoadState('load');
   }
 
 }

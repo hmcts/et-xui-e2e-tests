@@ -1,6 +1,4 @@
-import { BasePage } from '../basePage.ts';
 import { expect, Locator, Page } from '@playwright/test';
-import { CommonActionsHelper } from '../helpers/CommonActionsHelper.ts';
 import ContactTheTribunalPage from './ContactTheTribunalPage.ts';
 
 export default class PrepareAndSubmitDocumentPage extends ContactTheTribunalPage {
@@ -120,7 +118,11 @@ export default class PrepareAndSubmitDocumentPage extends ContactTheTribunalPage
   async uploadYourFileOfDocuments(files: string[] = ['playwrighte2e/resources/test_file/welshTest.pdf']) {
       for (let file of files) {
         await expect(this.chooseFile).toBeVisible();
-        await this.chooseFile.setInputFiles(file);
+        await this.commonActionsHelper.uploadWithRateLimitRetry(
+          this.page,
+          this.chooseFile,
+          file
+        );
         await this.page.waitForLoadState('load');
         await this.uploadFile.click();
         await this.page.waitForLoadState('load');

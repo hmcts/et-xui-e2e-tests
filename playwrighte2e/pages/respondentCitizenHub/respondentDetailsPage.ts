@@ -41,6 +41,16 @@ export default class RespondentDetailsPage extends BasePage {
     await this.commonActionsHelper.enterUkAddressWithPostcode(postCodeLookup, selectAddress);
   }
 
+  async uploadET3Form(position: number =1, file: string = 'playwrighte2e/resources/test_file/welshTest.pdf' ){
+    const fileUpload = this.page.locator(`#respondentCollection_${position-1}_et3Form`);
+    await expect(fileUpload).toBeVisible();
+
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
+      this.page,
+      fileUpload,
+      await this.commonActionsHelper.createAliasPDFPayload(file, 'ET3Form.pdf'));
+  }
+
   async processRespondentDetails() {
     await expect(this.respondentName).toBeVisible();
     await this.respondentName.fill('Mr Mark Gill');
@@ -51,11 +61,6 @@ export default class RespondentDetailsPage extends BasePage {
     await expect(this.respondentName).toBeVisible();
     await this.page.locator('#respondentCollection_0_responseReceived_Yes').check();
     await this.enterResponseReceivedDate();
-    //RET-4726
-    // await this.page.locator('#respondentCollection_0_respondentType-Individual').check();
-    // await expect(this.page.locator('#respondentCollection_0_respondentFirstName')).toBeVisible();
-    // await this.page.locator('#respondentCollection_0_respondentFirstName').fill('Test');
-    // await this.page.locator('#respondentCollection_0_respondentLastName').fill('Respondent');
     await this.enterAddressForRespondentFromET3();
     if(et3accepted){
       await this.page.locator('#respondentCollection_0_response_status').selectOption('1: Accepted');
@@ -64,6 +69,7 @@ export default class RespondentDetailsPage extends BasePage {
     }
     await this.page.locator('#respondentCollection_0_respondent_email').fill('email@email.com');
     await this.page.locator('#respondentCollection_0_respondent_contact_preference').selectOption('Email');
+    await this.uploadET3Form();
     await this.clickSubmitButton();
   }
 

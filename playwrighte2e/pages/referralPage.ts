@@ -1,6 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './basePage';
-import { CommonActionsHelper } from './helpers/CommonActionsHelper.ts';
 
 export default class ReferralPage extends BasePage {
   private readonly judgeReferralOption: Locator;
@@ -49,7 +48,6 @@ export default class ReferralPage extends BasePage {
 
     await this.addNewButtonClick();
     await this.docUploadEle.waitFor();
-    //await this.docUploadEle.setInputFiles('playwrighte2e/resources/test_file/test.txt');
     await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.docUploadEle, `playwrighte2e/resources/test_file/test.txt`);
 
     await this.clickContinue();
@@ -64,14 +62,18 @@ export default class ReferralPage extends BasePage {
     await this.referralSelectEle.selectOption({ label: '1 - ET1' });
     await this.clickContinue();
 
-    await expect(this.page.locator("//tr/td[contains(text(), 'Judge')]")).toBeVisible();
+    await expect(this.page.locator("//tr/td[normalize-space()='Judge']")).toBeVisible();
     await this.adminDirectionOption.click();
     await this.isUrgentReplyYes.check();
     await this.directionSubjEle.fill("This is a test direction");
 
     await this.addNewButtonClick();
     await this.replyDocUploadEle.waitFor();
-    await this.replyDocUploadEle.setInputFiles('playwrighte2e/resources/test_file/test.txt');
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
+      this.page,
+      this.replyDocUploadEle,
+      `playwrighte2e/resources/test_file/test.txt`
+    );
 
     await this.clickContinue();
     await this.clickSubmitButton();

@@ -11,14 +11,14 @@ export default class Et3NotificationPage extends BasePage {
     this.typeOfDocument = page.locator('#et3NotificationDocCollection_0_typeOfDocument');
   }
 
-  async sendEt3Notification() {
+  async sendEt3Notification(shouldContinue:boolean = true) {
     await this.addNewButtonClick();
     await this.typeOfDocument.waitFor();
     await this.typeOfDocument.selectOption({ label: '2.11 Response accepted' });
-    // Can't upload file via playwright
-    await this.documentUpload.setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
+    const file = `playwrighte2e/resources/test_file/welshTest.pdf`;
+    await this.commonActionsHelper.uploadWithRateLimitRetry(this.page, this.documentUpload, await this.commonActionsHelper.createAliasPDFPayload(file, 'ET3Form.pdf'));
     await this.page.waitForTimeout(5000);
-    await this.clickContinue();
+    await this.clickContinue('', undefined, shouldContinue);
   }
 
   async processAcasPage() {

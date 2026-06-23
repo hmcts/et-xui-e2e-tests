@@ -410,11 +410,11 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
   }
 
   //verify user is on respondent-name page and then enters a respondent name
-  async enterRespondentName() {
+  async enterRespondentName(name: string = CaseDetailsValues.respondentName) {
     await this.page.waitForLoadState('load');
     await expect(this.respondentNameHeading).toBeVisible();
 
-    await this.respondentNameInput.fill(CaseDetailsValues.respondentName);
+    await this.respondentNameInput.fill(name);
     await this.saveAndContinueButton();
   }
 
@@ -476,7 +476,7 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
   }
 
   async addSecondRespondentDetails(workPostcode: string, selectedWorkAddress: string) {
-    await this.enterRespondentName();
+    await this.enterRespondentName(CaseDetailsValues.respondentName2);
     await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
     await this.selectYesToWorkingAtRespondentAddress();
     await this.selectYesToAcas();

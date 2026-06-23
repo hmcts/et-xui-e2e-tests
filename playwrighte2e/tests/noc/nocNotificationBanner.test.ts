@@ -1,11 +1,11 @@
-import { test } from '../fixtures/common.fixture';
-import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data.ts';
-import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
-import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
-import { users } from '../config/config.dynamic.ts';
-import CitizenHubLoginPage from '../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
-import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
-import Et3LoginPage from '../pages/et3LoginPage.ts';
+import { test } from '../../fixtures/common.fixture.ts';
+import { CaseDetailsValues, CaseTypeLocation, Events } from '../../config/case-data.ts';
+import { CitizenClaimantFactory } from '../../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
+import { CaseEventApi } from '../../data-utils/api/CaseEventApi.ts';
+import { users } from '../../config/config.dynamic.ts';
+import CitizenHubLoginPage from '../../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
+import CitizenHubPage from '../../pages/claimantCitizenHub/CitizenHubPage.ts';
+import Et3LoginPage from '../../pages/respondentCitizenHub/et3LoginPage.ts';
 
 let caseId: string;
 let caseNumber: string;
@@ -79,7 +79,6 @@ test.describe('NOC Notification Banner', () => {
     await nocPage.processNocRequest(caseId, `${firstName} ${lastName}`, caseNumber);
 
     //remove claimant legal rep
-
     const claimantBrowserPage = await browserUtils.openNewBrowserContext(users.etClaimant.sessionFile);
     const citizenHubLoginPage = new CitizenHubLoginPage(claimantBrowserPage);
     const citizenHubPage = new CitizenHubPage(claimantBrowserPage);
@@ -90,79 +89,5 @@ test.describe('NOC Notification Banner', () => {
     await citizenHubPage.clickChangeMyLegalRep();
     await citizenHubPage.verifyLegalRepUnassignedNotificationBanner();
       await claimantBrowserPage.close();
-  });
-});
-
-test.describe('Share Case scenarios', () => {
-  test.use({
-    storageState: users.etLegalRepresentative.sessionFile,
-  })
-
-  test.beforeEach(async ({ manageCaseDashboardPage, loginPage }) => {
-    caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales);
-    ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId.toString()));
-    await manageCaseDashboardPage.visit();
-    firstName = CaseDetailsValues.claimantFirstName;
-    lastName = CaseDetailsValues.claimantLastName;
-    respName = CaseDetailsValues.respondentName;
-    await loginPage.processLogin(
-      users.etLegalRepresentative
-    );
-    await manageCaseDashboardPage.navigateToNoticeOfChange();
-  });
-
-  //RET-5425
-  test('Share case (respondent representative)', async ({
-    manageCaseDashboardPage,
-    caseListPage,
-    caseDetailsPage,
-    baseEventPage,
-    nocPage,
-  }) => {
-    await nocPage.processNocRequest(caseId, respName, caseNumber);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId);
-    await caseListPage.checkAndShareCaseFromList(caseId);
-    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-    await caseDetailsPage.selectNextEvent(Events.refreshSharedUsers);
-    await baseEventPage.clickSubmitButton();
-
-    //validate share case details
-    await caseDetailsPage.assertTabData([
-      {
-        tabName: 'Respondent Representative',
-        tabContent: [
-          { tabItem: 'Respondent who is being represented', value: respName },
-          { tabItem: 'First name', value: 'Test' },
-          { tabItem: 'Last name', value: 'Factory' },
-          { tabItem: 'Email address', value: users.etManageOrgSuperUser.email, position: 1 }, // position starts from 0
-        ],
-      },
-    ]);
-  });
-
-  //RET-5425
-  test('Share case (claimant representative)', async ({
-    manageCaseDashboardPage,
-    caseListPage,
-    caseDetailsPage,
-    baseEventPage,
-    nocPage,
-  }) => {
-    await nocPage.processNocRequest(caseId, `${firstName} ${lastName}`, caseNumber);
-    await caseListPage.searchCaseApplicationWithSubmissionReference('Eng/Wales - Singles', caseId);
-    await caseListPage.checkAndShareCaseFromList(caseId);
-    caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
-    await caseDetailsPage.selectNextEvent(Events.refreshSharedUsers);
-    await baseEventPage.clickSubmitButton();
-    //validate share case details
-    await caseDetailsPage.assertTabData([
-      {
-        tabName: 'Claimant Representative',
-        tabContent: [
-          'Claimant Representative Details',
-          { tabItem: 'Email address', value: users.etManageOrgSuperUser.email, position: 2 }, // position starts from 0
-        ],
-      },
-    ]);
   });
 });

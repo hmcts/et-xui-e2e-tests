@@ -10,7 +10,7 @@ import { LegalRepPage } from '../pages/legalRepPage';
 import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
 import { CaseLinkPage } from '../pages/caseLinkPage';
 import RespondentRepPage from '../pages/respondentCitizenHub/respondentRepPage.ts';
-import ET3LoginPage from '../pages/et3LoginPage';
+import ET3LoginPage from '../pages/respondentCitizenHub/et3LoginPage.ts';
 import RespondentCaseOverviewPage from '../pages/respondentCitizenHub/respondentCaseOverviewPage.ts';
 import RespondentTaskListPage from '../pages/respondentCitizenHub/respondentTaskListPage.ts';
 import ResponseLandingPage from '../pages/respondentCitizenHub/responseLandingPage.ts';
@@ -69,6 +69,11 @@ import { Et3EmploymentDetailsPage } from '../pages/legalRepresentative/Et3Employ
 import { Et3ResponseDetailsPage } from '../pages/legalRepresentative/Et3ResponseDetailsPage.ts';
 import InitialConsiderationPage from '../pages/initialConsiderationPage.ts';
 import AllocateHearingPage from '../pages/allocateHearingPage.ts';
+import ManageTelephoneNotePage from '../pages/manageTelephoneNotePage.ts';
+import { Et1ClaimsListPage } from '../pages/claimantCitizenHub/et1ClaimsListPage.ts';
+import AmendContactDetailsLrPage from '../pages/events/AmendContactDetailsLrPage.ts';
+import CitizenApplicationsPage from '../pages/claimantCitizenHub/citizenApplicationsPage.ts';
+import ResClaimantsApplicationsPage from '../pages/respondentCitizenHub/resClaimantsApplicationsPage.ts';
 import SingleOrMultipleClaimPage from '../pages/claimantCitizenHub/singleOrMultipleClaimPage.ts';
 
 export type PageFixtures = {
@@ -120,6 +125,7 @@ export type PageFixtures = {
   et3NotificationPage: Et3NotificationPage;
   uploadHearingBundlePage: UploadHearingBundlePage;
   caseNotesPage: CaseNotesPage;
+  manageTelephoneNotePage: ManageTelephoneNotePage;
   claimantRepresentativePage: ClaimantRepresentativePage;
   closeCasePage: CloseCasePage;
   reinstateCasePage: ReinstateCasePage;
@@ -142,6 +148,10 @@ export type PageFixtures = {
   et3ResponseDetailsPage: Et3ResponseDetailsPage;
   initialConsiderationPage: InitialConsiderationPage;
   allocateHearingPAge:AllocateHearingPage;
+  et1ClaimsListPage: Et1ClaimsListPage;
+  amendContactDetailsLrPage: AmendContactDetailsLrPage;
+  citizenApplicationsPage: CitizenApplicationsPage;
+  resClaimantsApplicationsPage :ResClaimantsApplicationsPage;
   singleOrMultipleClaimPage: SingleOrMultipleClaimPage;
 };
 
@@ -322,6 +332,9 @@ export const pageFixtures = base.extend<PageFixtures>({
     caseNotesPage:async({page}, use)=>{
       await use(new CaseNotesPage(page));
     },
+    manageTelephoneNotePage:async ({page}, use) => {
+      await use(new ManageTelephoneNotePage(page));
+    },
     claimantRepresentativePage:async ({page}, use) => {
         await use(new ClaimantRepresentativePage(page));
     },
@@ -396,6 +409,18 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   allocateHearingPAge:async({page}, use)=>{
     await use (new AllocateHearingPage(page));
+  },
+  et1ClaimsListPage:async({page}, use)=>{
+      await use (new Et1ClaimsListPage (page));
+  },
+  amendContactDetailsLrPage:async({page}, use)=>{
+      await use (new AmendContactDetailsLrPage (page));
+  },
+  citizenApplicationsPage:async({page}, use)=>{
+      await use (new CitizenApplicationsPage (page));
+  },
+  resClaimantsApplicationsPage:async({page}, use)=>{
+      await use (new ResClaimantsApplicationsPage (page));
   },
   singleOrMultipleClaimPage:async({page}, use)=>{
     await use (new SingleOrMultipleClaimPage(page));

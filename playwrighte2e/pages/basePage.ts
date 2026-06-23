@@ -14,6 +14,7 @@ export abstract class BasePage {
   readonly submitButton: Locator;
   private readonly spinner: Locator;
   private readonly errorHeading: Locator;
+  private readonly respondButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -28,13 +29,14 @@ export abstract class BasePage {
     this.submitButton = page.getByRole('button', { name: 'Submit' });
     this.spinner = this.page.locator('xuilib-loading-spinner');
     this.errorHeading = this.page.locator(`#edit-case-event_error-summary-heading`);
+    this.respondButton = this.page.getByRole('button', { name: 'Respond' });
   }
 
   async wait(time: number) {
     await this.page.waitForTimeout(time);
   }
 
-  async clickContinue(url: string = '', pageNum?: number, canContinue?: boolean) {
+  async clickContinue(url: string = '', pageNum?: number, shouldContinue: boolean = true) {
     await this.page.waitForLoadState('load');
     const maxRetries = 3;
     let attempt = 0;
@@ -43,9 +45,9 @@ export abstract class BasePage {
       await expect(this.continueButton).toBeVisible();
       await expect(this.continueButton).toBeEnabled();
       await this.continueButton.click({force: true});
-      await this.page.waitForLoadState('load', {timeout: 5000});
-      await this.waitForSpinner();
-      if (!canContinue) return;
+      await this.page.waitForLoadState('load');
+      await this.waitForSpinner(180_000); // 3 mins dynamic wait time for spinner to disappear as some CCD callbacks can take time
+      if (!shouldContinue) return;
       // If url or url+pageNum is provided, check if current URL contains the expected string
       if (url || url?.length > 0) {
         const expected = `${url}${pageNum ? pageNum : ''}`;
@@ -54,7 +56,7 @@ export abstract class BasePage {
           await this.page.waitForURL(new RegExp(expected), {timeout: 2000});
           return;
         } catch (err) {
-          console.log(`URL - ${expected} check failed after clicking Continue. Retrying... (Attempt ${attempt})`);
+          if(!process.env.CI) console.log(`URL - ${expected} check failed after clicking Continue. Retrying... (Attempt ${attempt})`);
           continue;
         }
       }
@@ -64,25 +66,29 @@ export abstract class BasePage {
         // Check if Continue button is still visible
        const errStr = await this.errorHeading.textContent();
         attempt++;
-        console.log(`Error '${errStr}' detected after clicking Continue. Retrying... (Attempt ${attempt})`);
+        if(!process.env.CI) console.log(`Error '${errStr}' detected after clicking Continue. Retrying... (Attempt ${attempt})`);
         await this.page.waitForTimeout(2000); // wait 2s before retry
         continue;
       }
+      if(!process.env.CI) console.log('No error detected after clicking Continue.');
       // No error and URL is as expected, break out of loop
       return;
     }
-    if (canContinue && attempt === maxRetries) {
+    if (shouldContinue && attempt === maxRetries) {
       console.warn('Continue button retried maximum times, but error or URL mismatch still present.');
       throw new Error('Continue button retried maximum times, but error or URL mismatch still present.');
     }
   }
 
-  async waitForSpinner() {
+  async waitForSpinner(timeoutWait: number = 60_000) {
     await expect
       .poll(
-        async () => {
-          return await this.spinner.count();
-        })
+        async () => await this.spinner.count(),
+        {
+          intervals: [2_000],
+          timeout: timeoutWait,
+        }
+        )
       .toBe(0);
   }
 
@@ -116,24 +122,26 @@ export abstract class BasePage {
     await this.page.evaluate(el => el?.scrollIntoView({ block: 'center' }), await this.submitButton.elementHandle());
     await expect(this.submitButton).toBeVisible();
     await expect(this.submitButton).toBeEnabled();
+
     const maxRetries = submitted ? 3 : 1;
     let attempt = 0;
+
     while (attempt < maxRetries) {
       await this.submitButton.click({clickCount:2, force: true });
       await this.page.waitForLoadState('load', { timeout: 4000 });
-      await this.waitForSpinner();
+      await this.waitForSpinner(180_000);
       if (!submitted) return;
       // Check if error is visible
       const h3Visible = await this.errorHeading.isVisible().catch(() => false);
       if (h3Visible) {
         const errStr = await this.errorHeading.textContent();
         attempt++;
-        console.log(`Error '${errStr}' detected after clicking Submit. Retrying... (Attempt ${attempt})`);
+        if(!process.env.CI) console.log(`Error '${errStr}' detected after clicking Submit. Retrying... (Attempt ${attempt})`);
         await this.page.waitForTimeout(2000); // wait 2s before retry
         continue;
       }
       // No error, break out of loop
-      break;
+      return;
     }
     if (submitted && attempt === maxRetries) {
       console.warn('Submit button retried maximum times, but error still present.');
@@ -195,5 +203,47 @@ export abstract class BasePage {
 
   async addRespondentButton() {
     await this.page.getByRole('button', { name: 'Add another respondent' }).click();
+  }
+
+  /**
+   * Asserts that the dropdown contains the expected options.
+   *
+   * @param options - The expected list of option strings.
+   * @param dropDownLocator - The Playwright Locator for the dropdown element.
+   */
+  async assertDropDownOptionsAreVisible(options: string[], dropDownLocator: Locator) {
+    await expect(dropDownLocator).toBeVisible();
+    const optionsInDropDown = (await dropDownLocator.locator('option').allTextContents())
+      .filter(opt => {return opt.trim() !== '--Select a value--';});
+    expect(optionsInDropDown.sort()).toEqual(options.sort());
+  }
+
+  async clickRespondButton() {
+    await expect(this.respondButton).toBeVisible();
+    await this.respondButton.click();
+    await this.waitForSpinner();
+  }
+
+  /**
+   * Asserts that each error message in the provided array is visible on the page.
+   *
+   * @param errorMessages - An array of error message strings to check for visibility.
+   * Each message is expected to be present and visible on the current page.
+   */
+  async assertErrorMessage(errorMessages: string[]) {
+    for (const errorMessage of errorMessages) {
+      const errorLocators = this.page.getByText(errorMessage);
+      const count = await errorLocators.count();
+      const errorLocator = errorLocators.nth(0);
+      await expect(errorLocator).toBeVisible();
+    }
+  }
+
+  async assertTextNotVisibleInPage(texts: string[]) {
+    for (const text of texts) {
+      const textLocators = this.page.getByText(text);
+      const count = await textLocators.count();
+      expect(count).toBe(0);
+    }
   }
 }

@@ -2,7 +2,9 @@ import { test } from '../../fixtures/common.fixture.ts';
 import { users } from '../config.dynamic.ts';
 import { CookieUtils } from '../../data-utils/cookie.utils.ts';
 
-test.describe("set up user context", () => {
+test.describe.serial("set up user context", () => {
+  test.use({ storageState: { cookies: [], origins: [] } }); // start unauthenticated every setup test
+
   const cookieName = 'session-freshness-check';
   const xuiUsers = [
     { role: 'Case Worker', user: users.etCaseWorker },
@@ -31,6 +33,16 @@ test.describe("set up user context", () => {
     'Set up Citizen Claimant user context',
     async({citizenHubLoginPage,})  => {
       const user = users.etClaimant;
+      if(CookieUtils.isSessionValid(user.sessionFile, cookieName)) {
+        console.log(`Valid session already exists for ${user.email}, skipping login.`);
+        return;}
+      await citizenHubLoginPage.processCitizenHubLogin(user);
+    });
+
+  test(
+    'Set up Citizen Claimant2 user context',
+    async({citizenHubLoginPage,})  => {
+      const user = users.etClaimant2;
       if(CookieUtils.isSessionValid(user.sessionFile, cookieName)) {
         console.log(`Valid session already exists for ${user.email}, skipping login.`);
         return;}

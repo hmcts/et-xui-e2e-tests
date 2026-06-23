@@ -40,7 +40,11 @@ export default class Et1CaseServingPage extends BasePage {
   async et1ServingEvent(canContinue: boolean = false) {
     await this.addNewButtonClick();
     await this.servingDocType.selectOption({ label: '7.7 In person preliminary hearing - notice of case management discussion' });
-    await this.servingDocUpload.setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
+      this.page,
+      this.servingDocUpload,
+      `playwrighte2e/resources/test_file/welshTest.pdf`
+    );
     await this.page.waitForTimeout(3000);
     await this.servingDocShortDesc.fill('ET1 serving');
     await this.clickContinue('', -1, canContinue);
@@ -49,7 +53,11 @@ export default class Et1CaseServingPage extends BasePage {
   async et1ServingEventNoticeOfClaim() {
     await this.addNewButtonClick();
     await this.servingDocType.selectOption({ label: '2.7 ET2 short track claim' });
-    await this.servingDocUpload.setInputFiles('playwrighte2e/resources/test_file/welshTest.pdf');
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
+      this.page,
+      this.servingDocUpload,
+      `playwrighte2e/resources/test_file/welshTest.pdf`
+    );
     await this.page.waitForTimeout(3000);
     await this.servingDocShortDesc.fill('ET1 serving');
     await this.clickContinue();

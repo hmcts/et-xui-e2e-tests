@@ -1,6 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from "../basePage.ts";
-import { CommonActionsHelper } from '../helpers/CommonActionsHelper.ts';
 
 export default class DraftJudgementPage extends BasePage {
 

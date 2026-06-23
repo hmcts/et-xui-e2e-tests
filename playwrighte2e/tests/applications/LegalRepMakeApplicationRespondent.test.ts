@@ -1,21 +1,21 @@
-import { test } from '../fixtures/common.fixture';
-import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
-import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data.ts';
-import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
-import DateUtilComponent from '../data-utils/DateUtilComponent.ts';
-import { users } from '../config/config.dynamic.ts';
-import CitizenHubLoginPage from '../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
-import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
-import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
-import LoginPage from '../pages/loginPage.ts';
-import CaseDetailsPage from '../pages/caseDetailsPage.ts';
-import { ApplicationTabPage } from '../pages/applicationTabPage.ts';
-import { CheckYourAnswersPage } from '../pages/helpers/CheckYourAnswersPage.ts';
+import { test } from '../../fixtures/common.fixture.ts';
+import { CitizenClaimantFactory } from '../../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
+import { CaseDetailsValues, CaseTypeLocation, Events } from '../../config/case-data.ts';
+import { CaseEventApi } from '../../data-utils/api/CaseEventApi.ts';
+import DateUtilComponent from '../../data-utils/DateUtilComponent.ts';
+import { users } from '../../config/config.dynamic.ts';
+import CitizenHubLoginPage from '../../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
+import CitizenHubPage from '../../pages/claimantCitizenHub/CitizenHubPage.ts';
+import { ManageCaseDashboardPage } from '../../pages/ManageCaseDashboardPage.ts';
+import LoginPage from '../../pages/loginPage.ts';
+import CaseDetailsPage from '../../pages/caseDetailsPage.ts';
+import { ApplicationTabPage } from '../../pages/applicationTabPage.ts';
+import { CheckYourAnswersPage } from '../../pages/helpers/CheckYourAnswersPage.ts';
 
 let caseId: string;
 let caseNumber: string;
 
-test.describe('Make an application and view Recorded Decision', () => {
+test.describe('LR Make an application and view Recorded Decision for respondent', () => {
 
   test.use({
     storageState: users.etLegalRepresentative.sessionFile,
@@ -152,8 +152,11 @@ test.describe('Make an application and view Recorded Decision', () => {
     await caseDetailsPage.selectNextEvent(Events.et3RespondentDetails);
     await et3RespondentDetailsPage.enterEt3RespondentDetails(checkYourAnswersPage);
 
+    await et3DetailsPage.assertSubmitEt3ButtonNotVisible();
+
     await et3DetailsPage.navigateToEt3EmploymentDetailsPage();
     await et3EmploymentDetailsPage.enterEt3EmploymentDetails(checkYourAnswersPage);
+    await et3DetailsPage.assertSubmitEt3ButtonNotVisible();
 
     await et3DetailsPage.navigateToEt3ResponseDetailsPage();
     await et3ResponseDetailsPage.enterEt3ResponseDetails(checkYourAnswersPage);

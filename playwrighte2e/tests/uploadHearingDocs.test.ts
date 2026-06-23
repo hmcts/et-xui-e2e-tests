@@ -3,17 +3,27 @@ import { CaseDetailsValues, CaseTypeLocation, Events } from '../config/case-data
 import DateUtilComponent from '../data-utils/DateUtilComponent';
 import { CaseworkerCaseFactory } from '../data-utils/factory/exui/CaseworkerCaseFactory.ts';
 import { users } from '../config/config.dynamic.ts';
+import LoginPage from '../pages/loginPage.ts';
+import { ManageCaseDashboardPage } from '../pages/ManageCaseDashboardPage.ts';
+import CaseDetailsPage from '../pages/caseDetailsPage.ts';
+import { ListHearingPage } from '../pages/events/listHearingPage.ts';
 
 let caseId: string;
 let caseNumber: string;
 
 test.describe.serial('Upload hearing docs test', () =>  {
   test.use({
-    storageState: users.etCaseWorker.sessionFile
+    storageState: users.etLegalRepresentative.sessionFile
   })
 
-    test('Data setup - Caseworker lists hearing',async ({ manageCaseDashboardPage, loginPage, listHearingPage, caseDetailsPage }) => {
+    test.beforeEach('Data setup - Caseworker lists hearing',async ({ browserUtils }) => {
       ({ caseId, caseNumber } = await CaseworkerCaseFactory.createEnglandAndAcceptCase());
+      const caseWorkerBrowserPage = await browserUtils.openNewBrowserContext(users.etCaseWorker.sessionFile);
+      const loginPage = new LoginPage(caseWorkerBrowserPage);
+      const manageCaseDashboardPage = new ManageCaseDashboardPage(caseWorkerBrowserPage);
+      const caseDetailsPage = new CaseDetailsPage(caseWorkerBrowserPage);
+      const listHearingPage = new ListHearingPage(caseWorkerBrowserPage);
+
       await manageCaseDashboardPage.visit();
       await loginPage.processLogin(users.etCaseWorker);
       caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
@@ -24,13 +34,9 @@ test.describe.serial('Upload hearing docs test', () =>  {
         await listHearingPage.listCase('EnglandWales', number, 'Leeds ET');
         await caseDetailsPage.checkHasBeenCreated(Events.listHearing);
       }
+      await caseWorkerBrowserPage.close();
     });
-});
 
-  test.describe.serial('Upload hearing docs test', () =>  {
-    test.use({
-      storageState: users.etLegalRepresentative.sessionFile
-    })
   //RET-5787
     test(
       'for respondent - verify only future hearings are shown in options',
@@ -43,8 +49,6 @@ test.describe.serial('Upload hearing docs test', () =>  {
         nocPage,
         manageCaseDashboardPage,
       }) => {
-
-
         const date = DateUtilComponent.formatToDayMonthYear(DateUtilComponent.addWeekdays(new Date(), 21));
 
         await manageCaseDashboardPage.visit();
@@ -57,7 +61,7 @@ test.describe.serial('Upload hearing docs test', () =>  {
 
         await caseDetailsPage.selectNextEvent(Events.uploadDocumentsForHearing);
 
-        // //Verify only future hearings are shown in the options
+        //Verify only future hearings are shown in the options
         await uploadDocumentsForHearingPage.submitDocumentForHearing(
           {
             agreementOption: 'Yes',

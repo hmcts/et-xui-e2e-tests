@@ -1,10 +1,10 @@
-import { test } from '../fixtures/common.fixture';
-import { CitizenClaimantFactory } from '../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
-import { CaseTypeLocation, Events } from '../config/case-data.ts';
-import { CaseEventApi } from '../data-utils/api/CaseEventApi.ts';
-import { users } from '../config/config.dynamic.ts';
-import CitizenHubLoginPage from '../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
-import CitizenHubPage from '../pages/claimantCitizenHub/CitizenHubPage.ts';
+import { test } from '../../fixtures/common.fixture.ts';
+import { CitizenClaimantFactory } from '../../data-utils/factory/citizen/ClaimantCitizenFactory.ts';
+import { CaseTypeLocation, Events } from '../../config/case-data.ts';
+import { CaseEventApi } from '../../data-utils/api/CaseEventApi.ts';
+import { users } from '../../config/config.dynamic.ts';
+import CitizenHubLoginPage from '../../pages/claimantCitizenHub/CitizenHubLoginPage.ts';
+import CitizenHubPage from '../../pages/claimantCitizenHub/CitizenHubPage.ts';
 
 let caseNumber: any;
 let caseId: string;
@@ -39,10 +39,9 @@ test.describe('Notification', () => {
     await citizenHubLoginPage.processCitizenHubLogin(users.etClaimant);
     await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
     await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
-    await claimantBrowserPage.close();
-
     //claimant validates notification banner
     await citizenHubPage.verifyNotificationBanner('ET1 claim');
+    await claimantBrowserPage.close();
   });
 
   test('Tribunal/caseworker sends CMO notification to claimant', async ({

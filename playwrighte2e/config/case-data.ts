@@ -8,6 +8,7 @@ export const CaseDetailsValues = {
   claimantFirstName: 'Grayson',
   claimantLastName: 'Becker',
   respondentName: 'Mrs Test Auto',
+  respondentName2: 'Auto Test',
   respondentLegalName: 'ET Respondent Legal Name',
 }
 
@@ -212,9 +213,20 @@ export const Events: Record<string, CaseEvent> = {
     listItem: 'Add Telephone Note',
     ccdCallback: 'addCaseNote',
   },
+  manageTelephoneNote: {
+    listItem: 'Manage Telephone Note',
+    ccdCallback: 'manageTelephoneNote',
+  },
   uploadHearingDocuments: {
     listItem: 'Upload Hearing Documents',
     ccdCallback: 'uploadHearingDocuments',
+  },
+  amendContactDetails: {
+    listItem: 'Amend contact details',
+    ccdCallback: 'amendContactDetails',
+  },
+  amendContactDetailsClaimant: {
+    listItem: 'Amend contact details',
+    ccdCallback: 'amendClaimantRepresentativeContact',
   }
-
 };
