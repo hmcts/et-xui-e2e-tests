@@ -114,7 +114,7 @@ export class Et1ClaimsListPage extends BasePage {
     await expect(draftTargetLink).not.toBeVisible();
     const submittedTargetLink = this.submittedClaimsTable.locator(`a[href="${targetHref}"]`);
     await expect(submittedTargetLink).not.toBeVisible();
-    }
+}
 
   async viewYourET1Claims() {
     await expect(this.page.getByRole('heading', { name: 'Your claim has been saved' })).toBeVisible();
