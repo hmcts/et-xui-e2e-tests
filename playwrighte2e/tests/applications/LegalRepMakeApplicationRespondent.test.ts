@@ -152,8 +152,11 @@ test.describe('LR Make an application and view Recorded Decision for respondent'
     await caseDetailsPage.selectNextEvent(Events.et3RespondentDetails);
     await et3RespondentDetailsPage.enterEt3RespondentDetails(checkYourAnswersPage);
 
+    await et3DetailsPage.assertSubmitEt3ButtonNotVisible();
+
     await et3DetailsPage.navigateToEt3EmploymentDetailsPage();
     await et3EmploymentDetailsPage.enterEt3EmploymentDetails(checkYourAnswersPage);
+    await et3DetailsPage.assertSubmitEt3ButtonNotVisible();
 
     await et3DetailsPage.navigateToEt3ResponseDetailsPage();
     await et3ResponseDetailsPage.enterEt3ResponseDetails(checkYourAnswersPage);

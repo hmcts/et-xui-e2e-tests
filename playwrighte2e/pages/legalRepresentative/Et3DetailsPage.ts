@@ -9,6 +9,7 @@ export class Et3DetailsPage extends BasePage {
   private readonly whichRespondentDropdown: Locator;
   private readonly saveAsDraftEt3Button: Locator;
   private readonly submitEt3FormTitle: Locator;
+  readonly submitEt3FormButton: Locator;
   private readonly submitCheckBox: Locator;
   private readonly submitToTribunalButton: Locator;
 
@@ -19,6 +20,7 @@ export class Et3DetailsPage extends BasePage {
     this.whichRespondentDropdown = this.page.locator(`#submitEt3Respondent, #et3RepresentingRespondent_0_dynamicList`);
     this.saveAsDraftEt3Button = this.page.getByRole('button', { name: 'Save ET3 as draft' });
     this.submitEt3FormTitle = this.page.getByRole('heading', { name: 'Submit ET3 Form' });
+    this.submitEt3FormButton = this.page.getByRole('button', { name: 'Submit ET3 Form' });
     this.submitCheckBox = this.page.locator('#confirmEt3Submit-Yes');
     this.submitToTribunalButton = this.page.getByRole('button', { name: 'Submit ET3 to Tribunal' });
 
@@ -93,5 +95,10 @@ export class Et3DetailsPage extends BasePage {
     await expect(this.submitToTribunalButton).toBeVisible();
     await this.submitToTribunalButton.click();
     await this.clickCloseAndReturn();
+  }
+
+  async assertSubmitEt3ButtonNotVisible() {
+    await this.page.waitForLoadState('load');
+    await expect(this.submitEt3FormButton).not.toBeVisible();
   }
 }
