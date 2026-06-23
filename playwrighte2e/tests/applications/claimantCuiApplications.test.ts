@@ -260,7 +260,7 @@ test.describe.serial('Citizen with 2 respondent case applications', () => {
           { tabItem: 'Enter response title', value:'Response of an application By Caseworker'},
         ]
       }
-    ])
+    ]);
 
   });
 });
