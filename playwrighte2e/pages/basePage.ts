@@ -238,4 +238,12 @@ export abstract class BasePage {
       await expect(errorLocator).toBeVisible();
     }
   }
+
+  async assertTextNotVisibleInPage(texts: string[]) {
+    for (const text of texts) {
+      const textLocators = this.page.getByText(text);
+      const count = await textLocators.count();
+      expect(count).toBe(0);
+    }
+  }
 }

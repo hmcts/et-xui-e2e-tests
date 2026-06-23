@@ -49,7 +49,7 @@ export default class ResClaimantsApplicationsPage extends BasePage{
     for (const detail of details) {
       const key = detail.split('-')[0].trim();
       const value = detail.split('-')[1].trim();
-      const locators = this.page.locator(`//dt[normalize-space()='${key}']/following-sibling::dd[1]`);
+      const locators = this.page.locator(`//dt[normalize-space()='${key}']/following-sibling::dd[normalize-space()='${value}']`);
       await expect(locators).toHaveCount(1);
       await expect(locators.first()).toHaveText(value);
     }

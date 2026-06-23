@@ -23,7 +23,9 @@ export default class ContactTheTribunalPage extends BasePage {
   async assertContactTheTribunalPageIsDisplayed() {
     await this.page.waitForLoadState('load');
     await expect(this.contactTheTribunalPageTitle).toBeVisible();
-    await this.showAllSectionsLink.click();
+    if (await this.showAllSectionsLink.isVisible()) {
+      await this.showAllSectionsLink.click();
+    }
     await this.page.waitForLoadState('load');
   }
 

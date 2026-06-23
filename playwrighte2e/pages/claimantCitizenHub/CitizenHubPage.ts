@@ -290,8 +290,8 @@ export default class CitizenHubPage extends BasePage {
     }
 
     await this.page.getByRole('button', { name: 'Respond' }).click();
-    await this.page.locator('#respond-to-application-text').isVisible();
-    await this.page.locator('#respond-to-application-text').fill('Response from claimant');
+    await this.respondToApplicationText.isVisible();
+    await this.respondToApplicationText.fill('Response from claimant');
     await this.page.locator('#supporting-material-yes-no-2').check();
     await this.clickContinue();
 
