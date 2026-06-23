@@ -40,7 +40,9 @@ export default class ClaimDetailsPage extends CitizenHubPage{
     this.yourDiscriminationClaimHeading = this.page.getByRole('heading', { name: /^(?:Your\s+)?Discrimination claim\b/i });
     this.yourDiscriminationAgeOption = this.page.locator('#age');
     this.yourDiscriminationDisabilityOption = this.page.locator('#disability');
-    this.describeYourClaimHeading = this.page.getByRole('heading', { name: 'Describe your claim' });
+    this.describeYourClaimHeading = this.page.getByRole('heading', {
+      name: /^(Describe your claim|Describe the claim)$/,
+    });
     this.claimSummaryTextArea = this.page.locator(`#claim-summary-text`);
     this.whatDoYouWantHeading = this.page.getByRole('heading', { name: /^(?:What do you want from your claim|What does the claimant want from the claim\?(?: \(optional\))?)$/i });
     this.compensationOnlyOption = this.page.locator('#compensationOnly');

@@ -256,7 +256,7 @@ test.describe('Case creation in Citizen UI', () => {
       'EnglandWales','Claiming for myself', false,
       async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
       employmentAndRespondentDetailsPage =>
-        employmentAndRespondentDetailsPage.multipleAcasCertificate(
+        employmentAndRespondentDetailsPage.multipleAcasCertificateAndMultipleRespondents(
           userDetailsData.workPostcode,
           userDetailsData.selectedWorkAddress,
           userDetailsData.firstLineOfAddress,
