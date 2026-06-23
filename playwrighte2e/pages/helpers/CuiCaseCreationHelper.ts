@@ -161,10 +161,11 @@ export async function partiallyCreateCaseViaCitizenUI(
   citizenPostLoginPage: CUIPostLoginPages,
   personalDetailsPage: PersonalDetailsPage,
   region: string,
+  typeOfClaim:string,
   loginMethod: () => Promise<void>,
 ) {
   await page.goto(config.etSyaUiUrl);
-  await citizenPreLoginPage.processPreLoginPagesForTheDraftApplication(region);
+  await citizenPreLoginPage.processPreLoginPagesForTheDraftApplication(region, typeOfClaim);
   await loginMethod();
   await citizenPostLoginPage.processPostLoginPagesForTheDraftApplication();
   const location = region === 'EnglandWales' ? 'England' : region;

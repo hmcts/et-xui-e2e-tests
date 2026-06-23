@@ -243,9 +243,6 @@ test.describe('Case creation in Citizen UI', () => {
     citizenPreLoginPage,
     citizenPostLoginPage,
     personalDetailsPage,
-    employmentAndRespondentDetailsPage,
-    claimDetailsPage,
-    submitClaimPage, singleOrMultipleClaimPage,
     et1ClaimsListPage,
   }) => {
     await partiallyCreateCaseViaCitizenUI(
@@ -253,20 +250,6 @@ test.describe('Case creation in Citizen UI', () => {
       citizenPreLoginPage,
       citizenPostLoginPage,
       personalDetailsPage,
-      employmentAndRespondentDetailsPage,
-      claimDetailsPage,
-      submitClaimPage,
-       singleOrMultipleClaimPage,
-      'EnglandWales','Claiming for myself', false,
-      async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
-      employmentAndRespondentDetailsPage =>
-        employmentAndRespondentDetailsPage.multipleAcasCertificateAndMultipleRespondents(
-          userDetailsData.workPostcode,
-          userDetailsData.selectedWorkAddress,
-          userDetailsData.firstLineOfAddress,
-        ),
-    );
-  });
       'EnglandWales',
       async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) }
         )
