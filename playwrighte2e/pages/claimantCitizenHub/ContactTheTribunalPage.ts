@@ -9,6 +9,7 @@ export default class ContactTheTribunalPage extends BasePage {
   private readonly applicationFileUploadInput: Locator;
   private readonly yesOptionR92: Locator;
   private readonly noOptionR92: Locator;
+  private readonly moreInfoR92No: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -18,6 +19,7 @@ export default class ContactTheTribunalPage extends BasePage {
     this.applicationFileUploadInput = this.page.locator(`#contactApplicationFile`);
     this.yesOptionR92 = this.page.locator(`#copyToOtherPartyYesOrNo`);
     this.noOptionR92 = this.page.locator(`#copyToOtherPartyYesOrNo-2`);
+    this.moreInfoR92No = this.page.locator(`#copyToOtherPartyText`);
   }
 
   async assertContactTheTribunalPageIsDisplayed() {
@@ -107,6 +109,7 @@ export default class ContactTheTribunalPage extends BasePage {
         case 'no':
         await expect(this.noOptionR92).toBeVisible();
         await this.noOptionR92.check();
+        await this.moreInfoR92No.fill('This is Correspondence No Claimant')
         break;
       default:
         throw new Error(`R92 option: ${option} is not recognized.`);
