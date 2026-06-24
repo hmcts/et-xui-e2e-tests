@@ -478,7 +478,6 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
   async addSecondRespondentDetails(workPostcode: string, selectedWorkAddress: string) {
     await this.enterRespondentName(CaseDetailsValues.respondentName2);
     await this.enterRespondentAddress(workPostcode, selectedWorkAddress);
-    await this.selectYesToWorkingAtRespondentAddress();
     await this.selectYesToAcas();
   }
 

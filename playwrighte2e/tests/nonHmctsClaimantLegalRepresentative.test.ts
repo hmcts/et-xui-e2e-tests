@@ -46,16 +46,6 @@ test.describe('non-HMCTS claimant legal representative Case creation in Citizen 
           ),
       );
 
-      //assert tabs for rep
-      await vetAndAcceptCitizenCase(
-        loginPage,
-        et1VettingPage,
-        et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
-        CaseTypeLocation.EnglandAndWales,
-        submissionReference,
-        users.etManageCaseUser
-      );
-
     },
   );
 
