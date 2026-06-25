@@ -149,6 +149,11 @@ export abstract class BasePage {
     }
   }
 
+  async clickIgnoreAndContinueButton() {
+    await this.page.getByRole('button', { name: 'Ignore Warning and Continue' }).click();
+    await this.page.waitForLoadState('load', { timeout: 5000 });
+  }
+
   async delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
