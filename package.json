@@ -40,8 +40,8 @@
     "uuid": "^14.0.0"
   },
   "devDependencies": {
-    "@hmcts/playwright-common": "^1.0.36",
-    "@playwright/test": "^1.50.1",
+    "@hmcts/playwright-common": "^1.1.2",
+    "@playwright/test": "^1.61.0",
     "@types/fs-extra": "^11",
     "@types/lodash": "^4.17.24",
     "@types/node": "^22.0.0",

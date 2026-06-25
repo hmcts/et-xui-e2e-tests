@@ -54,6 +54,11 @@ export default class RespondentCaseOverviewPage extends BasePage {
       await this.page.locator('#copyToOtherPartyYesOrNo').isVisible();
       await this.page.getByLabel('Yes, I confirm I want to copy').check();
       await this.clickContinue();
+    } else {
+      await this.page.locator(`#copyToOtherPartyYesOrNo-2`).isVisible();
+      await this.page.locator(`#copyToOtherPartyYesOrNo-2`).check();
+      await this.page.locator(`#copyToOtherPartyText`).fill('Correspondence No Respondent');
+      await this.clickContinue();
     }
     await this.page.waitForSelector('text=Check your answers');
     await this.page.waitForLoadState('load');

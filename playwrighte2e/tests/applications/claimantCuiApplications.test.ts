@@ -12,6 +12,7 @@ import CaseDetailsPage from '../../pages/caseDetailsPage.ts';
 import { ApplicationTabPage } from '../../pages/applicationTabPage.ts';
 import Et3LoginPage from '../../pages/respondentCitizenHub/et3LoginPage.ts';
 import ResClaimantsApplicationsPage from '../../pages/respondentCitizenHub/resClaimantsApplicationsPage.ts';
+import RespondentCaseOverviewPage from '../../pages/respondentCitizenHub/respondentCaseOverviewPage.ts';
 
 test.describe('Citizen applications', () => {
   let caseId: string;
@@ -86,6 +87,90 @@ test.describe('Citizen applications', () => {
         ]
       }
     ]);
+  });
+});
+
+test.describe.serial('Claimant applications with correspondence No - Caseworker checks document', () => {
+  let caseId: string;
+  let caseNumber: string;
+
+  test.use({
+    storageState: users.etCaseWorker.sessionFile,
+  })
+
+  test('Respondent Makes an application with Correspondence No',
+    async ({
+             browserUtils
+           }) =>{
+    caseId = await CitizenClaimantFactory.createAndSubmitClaim(CaseTypeLocation.EnglandAndWales, true);
+    ({caseId, caseNumber} = await CaseEventApi.caseWorkerDoesEt1VettingAndAcceptCaseEngland(caseId));
+
+    const respondentBrowserPage = await browserUtils.openNewBrowserContext(users.etRespondent.sessionFile);
+    const et3LoginPage = new Et3LoginPage(respondentBrowserPage);
+    await et3LoginPage.processRespondentLogin(users.etRespondent);
+    await et3LoginPage.replyToNewClaim(
+      caseId,
+      caseNumber,
+      CaseDetailsValues.respondentName,
+      CaseDetailsValues.claimantFirstName,
+      CaseDetailsValues.claimantLastName
+    );
+    const respondentCaseOverviewPage = new RespondentCaseOverviewPage(respondentBrowserPage);
+    await respondentCaseOverviewPage.respondentMakeApplication('TypeA', false);
+    await respondentBrowserPage.close();
+  });
+
+  test('Claimant makes an application with correspondence No',
+    async ({
+             browserUtils
+           }) => {
+      // Citizen rep make an application
+      const citizenBrowserPage = await browserUtils.openNewBrowserContext(users.etClaimant.sessionFile);
+      const citizenHubLoginPage = new CitizenHubLoginPage(citizenBrowserPage);
+      await citizenHubLoginPage.processCitizenHubLogin(users.etClaimant);
+      const citizenHubPage = new CitizenHubPage(citizenBrowserPage);
+      await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
+      await citizenHubPage.navigateToContactTheTribunalPage();
+      const contactTheTribunalPage = new ContactTheTribunalPage(citizenBrowserPage);
+      await contactTheTribunalPage.makeApplicationToTribunal(
+        'change personal details',
+        'Citizen made an application',
+        'No',
+      );
+      await contactTheTribunalPage.clickSubmitButton();
+      await contactTheTribunalPage.assertApplicationSentSuccessPageIsDisplayed();
+      await contactTheTribunalPage.clickCloseAndReturn();
+      await citizenBrowserPage.close();
+    })
+
+  test('Caseworker checks document tab for application with Correspondence No',
+    async ({
+      manageCaseDashboardPage, loginPage, caseDetailsPage, context
+           }) => {
+      await manageCaseDashboardPage.visit();
+      await loginPage.processLogin(users.etCaseWorker);
+      caseNumber = await manageCaseDashboardPage.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
+      await caseDetailsPage.assertTabData([
+        {
+          tabName: 'Documents',
+          tabContent: [
+            { tabItem: 'Application 1 - Amend my claim.pdf', value: 'Case Management' },
+            { tabItem: 'Application 2 - Change my personal details.pdf', value: 'Case Management'}
+          ]
+        }
+      ]);
+
+      await caseDetailsPage.assertDocumentSnippet(
+        'Application 1 - Amend my claim.pdf',
+        ['Give details', 'Correspondence No Respondent'],
+        context
+      );
+      await caseDetailsPage.assertDocumentSnippet(
+        'Application 2 - Change my personal details.pdf',
+        ['Give details', 'This is Correspondence No Claimant'],
+        context
+      );
+
   });
 });
 
