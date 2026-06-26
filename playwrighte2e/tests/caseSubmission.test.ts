@@ -244,6 +244,7 @@ test.describe('Case creation in Citizen UI', () => {
     citizenPostLoginPage,
     personalDetailsPage,
     et1ClaimsListPage,
+
   }) => {
     await partiallyCreateCaseViaCitizenUI(
       page,
@@ -251,6 +252,7 @@ test.describe('Case creation in Citizen UI', () => {
       citizenPostLoginPage,
       personalDetailsPage,
       'EnglandWales',
+      'Claiming for myself',
       async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) }
         )
     await et1ClaimsListPage.viewYourET1Claims()

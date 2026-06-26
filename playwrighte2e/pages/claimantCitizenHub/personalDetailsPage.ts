@@ -30,6 +30,10 @@ export default class PersonalDetailsPage extends CitizenHubPage {
   private readonly representativeName: Locator;
   private readonly claimantDetailsLink: Locator;
   private readonly claimantEmailAddressHeading: Locator;
+  private readonly titlePersonalDetail:Locator;
+  private readonly firstNamePersonalDetail:Locator;
+  private readonly lastNamePersonalDetail:Locator;
+  private readonly emailAddress:Locator;
 
 
   constructor(page: Page) {
@@ -72,6 +76,10 @@ export default class PersonalDetailsPage extends CitizenHubPage {
     this.representativeOrgName = this.page.locator('#representativeOrgName');
     this.representativeName = this.page.locator('#representativeName');
     this.claimantEmailAddressHeading = this.page.getByRole('heading', { name: 'Claimant’s email address'});
+    this.titlePersonalDetail = this.page.locator('#additionalClaimantTitle');
+    this.firstNamePersonalDetail = this.page.locator('#additionalClaimantFirstName');
+    this.lastNamePersonalDetail = this.page.locator('#additionalClaimantLastName');
+    this.emailAddress = this.page.locator('#additionalClaimantLastName');
   }
 
   //click personal details link and enter details
@@ -287,6 +295,15 @@ export default class PersonalDetailsPage extends CitizenHubPage {
     await this.enterPostcode(postcode, addressOption);
     await this.enterClaimantEmailAddress();
     await this.confirmHaveYouCompletedThisSection();
+  }
+
+  async processPersonalDetailsForGroupClaim(){
+    await expect(this.page.getByRole('heading', { name: 'Personal details of another claimant' })).toBeVisible();
+    await this.titlePersonalDetail.fill('Mr');
+    await this.firstNamePersonalDetail.fill('Test');
+    await this.lastNamePersonalDetail.fill('Claimant');
+    await this.enterDob();
+    await this.saveAndContinueButton();
   }
 
 }

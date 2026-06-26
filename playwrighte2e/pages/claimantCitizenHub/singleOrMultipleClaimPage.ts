@@ -9,6 +9,9 @@ export default class SingleOrMultipleClaimPage extends CitizenHubPage{
   private readonly claimingWithOtherPersonRadio: Locator;
   private readonly addAnotherClaimantToYourGroupClaimLink: Locator;
   private readonly groupRepresentative: Locator;
+  private readonly wantToAddOtherClaimants: Locator;
+  private readonly addClaimantManually: Locator;
+  private readonly uploadSpreadsheet: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -16,6 +19,12 @@ export default class SingleOrMultipleClaimPage extends CitizenHubPage{
     this.claimingWithOtherPersonRadio = this.page.locator('#single-or-multiple-claim-2');
     this.addAnotherClaimantToYourGroupClaimLink = this.page.locator('a[href=""]');
     this.groupRepresentative = this.page.locator('a[href=""]');
+    this.wantToAddOtherClaimants = this.page.locator(
+      'fieldset:has(legend:text-matches("How do you want to add the other claimants?"))'
+    );
+    this.addClaimantManually= this.page.locator('#add-claimant-method');
+    this.uploadSpreadsheet= this.page.locator('#add-claimant-method-2');
+
   }
 
   async clickClaimingOnOwnOrOthersLink() {
@@ -27,10 +36,11 @@ export default class SingleOrMultipleClaimPage extends CitizenHubPage{
     await this.clickClaimingOnOwnOrOthersLink();
     await expect(this.page.locator('h1')).toContainText('Claiming on your own or with others');
     await this.claimingWithOtherPersonRadio.click();
-    await expect(this.page.locator('h1')).toContainText('Steps to making your claim');
-
-    //validate group claim link appears
-    await expect(this.addAnotherClaimantToYourGroupClaimLink).toBeVisible();
-    await expect(this.groupRepresentative).toBeVisible();
+    await this.clickContinue();
+    await expect(this.page.locator('h1')).toContainText('Add another claimant to your group claim');
+    await expect(this.wantToAddOtherClaimants).toBeVisible();
+    await this.addClaimantManually.check();
+    await this.clickContinue();
   }
+
 }

@@ -34,7 +34,6 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
   private readonly pensionYesOption: Locator;
   private readonly pensionContributionInput: Locator;
   private readonly employeeBenefitsHeading: Locator;
-  private readonly employeeBenefitsNoLongerWorkingGroup: Locator;
   private readonly employeeBenefitsInputGroup: Locator;
   private readonly employeeBenefitsYesOption: Locator;
   // working notice period properties
@@ -120,9 +119,6 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
     this.pensionContributionInput = this.page.locator('#pension-contributions');
     this.employeeBenefitsHeading = this.page.getByRole('heading', { name: 'Employee benefits' });
     this.employeeBenefitsInputGroup = this.page.locator(
-      'fieldset:has(legend:text-matches("employee benefits", "i"))'
-    );
-    this.employeeBenefitsNoLongerWorkingGroup = this.page.locator(
       'fieldset:has(legend:text-matches("employee benefits", "i"))'
     );
     this.employeeBenefitsYesOption = this.page.locator('#employee-benefits');
@@ -371,7 +367,7 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
   async enterEmployeeBenefitsForNoLongerWorking() {
     await this.page.waitForLoadState('load');
     await expect(this.employeeBenefitsHeading).toBeVisible();
-    await expect(this.employeeBenefitsNoLongerWorkingGroup).toBeVisible();
+    await expect(this.employeeBenefitsInputGroup).toBeVisible();
     await this.employeeBenefitsYesOption.check();
     await this.saveAndContinueButton();
   }

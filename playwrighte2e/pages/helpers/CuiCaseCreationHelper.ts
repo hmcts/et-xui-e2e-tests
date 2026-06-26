@@ -39,14 +39,18 @@ export async function createCaseViaCitizenUI(
   const location = region === 'EnglandWales' ? 'England' : region;
 
   if (typeOfClaim == 'Claiming for myself') {
+    //Section-1
     await personalDetailsPage.processPersonalDetails(userDetailsData.postcode, location, userDetailsData.addressOption);
-    if (employmentJourneyMethod) await employmentJourneyMethod(employmentAndRespondentDetailsPage);
+    //group claim logic
     if(groupClaim){
+      //Section-2
       await singleOrMultipleClaimPage.processClaimingWithOthers();
     }
+    //Section-3
+    if (employmentJourneyMethod) await employmentJourneyMethod(employmentAndRespondentDetailsPage);
     await claimDetailsPage.processClaimDetails();
   } else if (typeOfClaim == 'Claiming for someone else') {
-    //TODO-non-HMCTS journey here
+    //non-HMCTS- Section1,2,3,4
     await personalDetailsPage.processRepresentativeDetails(userDetailsData.representativePostcode, location, userDetailsData.representativeAddressOption);
     await personalDetailsPage.processClaimantDetails(userDetailsData.postcode, userDetailsData.addressOption);
     if (employmentJourneyMethod) await employmentJourneyMethod(employmentAndRespondentDetailsPage);
@@ -56,6 +60,7 @@ export async function createCaseViaCitizenUI(
   } else {
     throw new Error(`Option not found for who is making the claim question`);
   }
+   //Section-5
   const caseId = await submitClaimPage.submitClaim();
   const caseNumber = await submitClaimPage.returnToCaseOverviewAndReturnCaseNumber();
   return {caseId, caseNumber};
