@@ -74,6 +74,8 @@ import { Et1ClaimsListPage } from '../pages/claimantCitizenHub/et1ClaimsListPage
 import AmendContactDetailsLrPage from '../pages/events/AmendContactDetailsLrPage.ts';
 import CitizenApplicationsPage from '../pages/claimantCitizenHub/citizenApplicationsPage.ts';
 import ResClaimantsApplicationsPage from '../pages/respondentCitizenHub/resClaimantsApplicationsPage.ts';
+import RequestSupportPage from '../pages/requestSupportPage.ts';
+import ManageSupportPage from '../pages/manageSupportPage.ts';
 
 export type PageFixtures = {
   applicationTabPage: ApplicationTabPage;
@@ -151,6 +153,8 @@ export type PageFixtures = {
   amendContactDetailsLrPage: AmendContactDetailsLrPage;
   citizenApplicationsPage: CitizenApplicationsPage;
   resClaimantsApplicationsPage :ResClaimantsApplicationsPage;
+  requestSupportPage: RequestSupportPage;
+  manageSupportPage: ManageSupportPage;
 };
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -419,5 +423,12 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   resClaimantsApplicationsPage:async({page}, use)=>{
       await use (new ResClaimantsApplicationsPage (page));
+  },
+  requestSupportPage:async({page}, use) => {
+      await use (new RequestSupportPage (page));
+  },
+  manageSupportPage:async({page}, use) => {
+      await use (new ManageSupportPage (page));
   }
+
 });
