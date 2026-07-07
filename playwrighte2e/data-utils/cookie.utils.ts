@@ -2,6 +2,7 @@ import fs from "fs";
 import { Cookie } from "playwright-core";
 
 export class CookieUtils {
+  private static readonly sessionOwnerCookieName = 'session-owner-email';
 
   private static resolveHostname(url: string): string {
     try {
@@ -19,10 +20,15 @@ export class CookieUtils {
     }
   }
 
-  public static async addSessionFreshnessCookie(sessionPath: string, url: string): Promise<void> {
+  public static async addSessionFreshnessCookie(sessionPath: string, url: string, userEmail?: string): Promise<void> {
     const domain = this.resolveHostname(url);
     const state = JSON.parse(fs.readFileSync(sessionPath, "utf-8"));
     const expires = Math.floor(Date.now() / 1000) + (60 * 60);
+    const cookies = Array.isArray(state.cookies) ? state.cookies : [];
+    state.cookies = cookies.filter(
+      (cookie: Cookie) => cookie.name !== 'session-freshness-check' && cookie.name !== this.sessionOwnerCookieName
+    );
+
     state.cookies.push({
       name: 'session-freshness-check',
       value: 'valid',
@@ -33,10 +39,24 @@ export class CookieUtils {
       secure: true,
       sameSite: 'Lax',
     });
+
+    if (userEmail) {
+      state.cookies.push({
+        name: this.sessionOwnerCookieName,
+        value: userEmail,
+        domain: domain,
+        path: '/',
+        expires,
+        httpOnly: false,
+        secure: true,
+        sameSite: 'Lax',
+      });
+    }
+
     fs.writeFileSync(sessionPath, JSON.stringify(state, null, 2));
   }
 
-  public static isSessionValid(path: string, cookieName: string): boolean {
+  public static isSessionValid(path: string, cookieName: string, expectedUserEmail?: string): boolean {
     if (!fs.existsSync(path)) {
       return false;
     }
@@ -46,6 +66,9 @@ export class CookieUtils {
       const cookies = Array.isArray(data?.cookies) ? data.cookies : [];
       const targetCookie = cookies.find(
         (cookie: Cookie) => cookie.name === cookieName
+      );
+      const ownerCookie = cookies.find(
+        (cookie: Cookie) => cookie.name === this.sessionOwnerCookieName
       );
 
       if (!targetCookie || typeof targetCookie.expires !== "number") {
@@ -57,7 +80,15 @@ export class CookieUtils {
         return false;
       }
 
-      return expiryMs > Date.now();
+      if (expiryMs <= Date.now()) {
+        return false;
+      }
+
+      if (!expectedUserEmail) {
+        return true;
+      }
+
+      return ownerCookie?.value === expectedUserEmail;
     } catch (error) {
       throw new Error(
         `Could not read session data from ${path}: ${

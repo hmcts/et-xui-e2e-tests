@@ -6,6 +6,10 @@ export default class RespondentCaseOverviewPage extends BasePage {
   private readonly et1FormSubLink: Locator;
   private readonly claimantContactDetails: Locator;
   private readonly contactApplicationFileUpload: Locator;
+  private readonly allNotificationsFromTheTribunalLink: Locator;
+  private readonly tribunalResponseField: Locator;
+  private readonly supportingMaterialRadioYes: Locator;
+  private readonly supportingFileUpload: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -13,6 +17,11 @@ export default class RespondentCaseOverviewPage extends BasePage {
     this.et1FormSubLink = this.page.locator('[href="/claimant-et1-form-details?lng=en"]');
     this.claimantContactDetails = this.page.locator('[href="/claimant-contact-details"]');
     this.contactApplicationFileUpload = this.page.locator(`#contactApplicationFile`);
+    this.allNotificationsFromTheTribunalLink = this.page.locator('[href="/notifications"]');
+    this.tribunalResponseField = this.page.locator(`#responseText`);
+    this.supportingMaterialRadioYes = this.page.locator('#hasSupportingMaterial');
+    this.supportingFileUpload = this.page.locator('#supportingMaterialFile');
+
   }
 
   async validateRespondentCaseOverviewPage() {
@@ -55,10 +64,12 @@ export default class RespondentCaseOverviewPage extends BasePage {
       await this.page.getByLabel('Yes, I confirm I want to copy').check();
       await this.clickContinue();
     } else {
-      await this.page.locator(`#copyToOtherPartyYesOrNo-2`).isVisible();
-      await this.page.locator(`#copyToOtherPartyYesOrNo-2`).check();
-      await this.page.locator(`#copyToOtherPartyText`).fill('Correspondence No Respondent');
-      await this.clickContinue();
+      if(!await this.page.getByRole('heading', {name: 'Check your answers'}).isVisible()) {
+        await this.page.locator(`#copyToOtherPartyYesOrNo-2`).isVisible();
+        await this.page.locator(`#copyToOtherPartyYesOrNo-2`).check();
+        await this.page.locator(`#copyToOtherPartyText`).fill('Correspondence No Respondent');
+        await this.clickContinue();
+      }
     }
     await this.page.waitForSelector('text=Check your answers');
     await this.page.waitForLoadState('load');
@@ -162,4 +173,44 @@ export default class RespondentCaseOverviewPage extends BasePage {
     await expect(this.page.getByRole('heading', {name: 'The tribunal has sent you a notification', level: 3})).toBeVisible();
     await expect(this.page.getByRole('link', { name: 'View the notification - ' + notificationName })).toBeVisible();
   }
+
+  async respondToTribunalsNotification(notificationName: string, copyToCorrespondenceFlag: boolean = true) {
+    await this.page.waitForLoadState('load');
+    await expect(this.allNotificationsFromTheTribunalLink).toBeVisible();
+    await this.allNotificationsFromTheTribunalLink.click();
+
+    await this.page.waitForLoadState('load');
+    const notification = this.page.getByRole('link', { name: notificationName });
+    await expect(notification).toBeVisible();
+    await notification.click();
+
+    await this.page.waitForLoadState('load');
+    await this.clickRespondButton();
+
+    await this.tribunalResponseField.fill('Response to tribunal by Claimant');
+
+    await this.supportingMaterialRadioYes.waitFor();
+    await this.supportingMaterialRadioYes.check();
+
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
+      this.page,
+      this.supportingFileUpload,
+      `playwrighte2e/resources/test_file/welshTest.pdf`
+    )
+    await this.page.getByRole('button', { name: 'Upload file' }).click();
+    await this.page.waitForLoadState('load');
+    await this.clickContinue();
+
+    if (copyToCorrespondenceFlag) {
+      await this.page.locator('#copyToOtherPartyYesOrNo').isVisible();
+      await this.page.getByLabel('Yes, I confirm I want to copy').check();
+    } else {
+      await this.page.locator('#copyToOtherPartyYesOrNo-2').isVisible();
+      await this.page.getByLabel('No, I do not want to copy this correspondence to the other party').check();
+      await this.page.locator(`#copyToOtherPartyText`).fill('This is Correspondence No test');
+    }
+    await this.clickContinue();
+    await this.clickSubmitButton();
+  }
+
 }
