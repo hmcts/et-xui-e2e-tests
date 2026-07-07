@@ -230,7 +230,7 @@ export const Events: Record<string, CaseEvent> = {
     ccdCallback: 'amendClaimantRepresentativeContact',
   },
   requestSupport: {
-    listItem: 'Request support',
+    listItem: 'Request Support',
     ccdCallback: 'requestSupport',
   },
   manageSupport: {
