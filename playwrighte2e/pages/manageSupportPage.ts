@@ -59,4 +59,9 @@ export default class ManageSupportPage extends BasePage {
     await expect(this.caseFlagField).toContainText('Inactive');
   }
 
+  async validateSupportTab() {
+    await expect(this.caseFlagField).not.toContainText('Active');
+    //only external flag flag visible
+    await expect(this.caseFlagField).toContainText('Requested');
+  }
 }
