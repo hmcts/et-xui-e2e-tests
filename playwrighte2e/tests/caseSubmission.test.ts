@@ -1,8 +1,11 @@
 import { test } from '../fixtures/common.fixture';
 import userDetailsData from '../resources/payload/user-details.json';
-import { createCaseViaCitizenUI, vetAndAcceptCitizenCase } from '../pages/helpers/CuiCaseCreationHelper.ts';
+import { createCaseViaCitizenUI, vetAndAcceptCitizenCase, partiallyCreateCaseViaCitizenUI } from '../pages/helpers/CuiCaseCreationHelper.ts';
 import { CaseTypeLocation, Events } from '../config/case-data.ts';
 import { config, users } from '../config/config.dynamic.ts';
+
+let caseId: string;
+let caseNumber: string;
 
 test.describe('Case creation in Citizen UI', () => {
 
@@ -27,7 +30,7 @@ test.describe('Case creation in Citizen UI', () => {
       claimDetailsPage,
       submitClaimPage, caseDetailsPage, manageCaseDashboardPage
     }) => {
-      const submissionReference = await createCaseViaCitizenUI(
+      ({caseId, caseNumber}  = await createCaseViaCitizenUI(
         page,
         citizenPreLoginPage,
         citizenPostLoginPage,
@@ -43,14 +46,14 @@ test.describe('Case creation in Citizen UI', () => {
             userDetailsData.selectedWorkAddress,
             userDetailsData.firstLineOfAddress,
           ),
-      );
+      ));
 
-      const caseNumber = await vetAndAcceptCitizenCase(
+      caseNumber = await vetAndAcceptCitizenCase(
         loginPage,
         et1VettingPage,
         et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
         CaseTypeLocation.EnglandAndWales,
-        submissionReference,
+        caseId,
         users.etCaseWorker
       );
 
@@ -58,7 +61,7 @@ test.describe('Case creation in Citizen UI', () => {
       await respondentRepPage.addRespondentRepresentative('registered', 'ET Organisation');
 
       await citizenHubLoginPage.processCitizenHubLogin(users.etClaimant);
-      await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(submissionReference);
+      await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.navigateToContactTheTribunalPage();
       await contactTheTribunalPage.makeApplicationToTribunal('withdraw', 'Citizen withdrawing an application', 'Yes');
@@ -81,7 +84,7 @@ test.describe('Case creation in Citizen UI', () => {
       claimDetailsPage,
       submitClaimPage, manageCaseDashboardPage, caseDetailsPage,
   }) => {
-    const submissionReference = await createCaseViaCitizenUI(
+      ({caseId, caseNumber}  = await createCaseViaCitizenUI(
       page,
       citizenPreLoginPage,
       citizenPostLoginPage,
@@ -97,14 +100,14 @@ test.describe('Case creation in Citizen UI', () => {
           userDetailsData.selectedWorkAddress,
           userDetailsData.firstLineOfAddress,
         ),
-    );
+    ));
 
       await vetAndAcceptCitizenCase(
         loginPage,
         et1VettingPage,
         et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
         CaseTypeLocation.EnglandAndWales,
-        submissionReference,
+        caseId,
         users.etManageCaseUser
       );
   });
@@ -122,7 +125,7 @@ test.describe('Case creation in Citizen UI', () => {
       claimDetailsPage,
       submitClaimPage, manageCaseDashboardPage, caseDetailsPage,
   }) => {
-    const submissionReference = await createCaseViaCitizenUI(
+      ({caseId, caseNumber}  = await createCaseViaCitizenUI(
       page,
       citizenPreLoginPage,
       citizenPostLoginPage,
@@ -138,14 +141,14 @@ test.describe('Case creation in Citizen UI', () => {
           userDetailsData.selectedWorkAddress,
           userDetailsData.firstLineOfAddress,
         ),
-    );
+    ));
 
       await vetAndAcceptCitizenCase(
         loginPage,
         et1VettingPage,
         et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
         CaseTypeLocation.EnglandAndWales,
-        submissionReference,
+        caseId,
         users.etManageCaseUser
       );
   });
@@ -162,7 +165,7 @@ test.describe('Case creation in Citizen UI', () => {
     claimDetailsPage,
     submitClaimPage, manageCaseDashboardPage, caseDetailsPage,
   }) => {
-    const submissionReference = await createCaseViaCitizenUI(
+    ({caseId, caseNumber}  = await createCaseViaCitizenUI(
       page,
       citizenPreLoginPage,
       citizenPostLoginPage,
@@ -177,14 +180,14 @@ test.describe('Case creation in Citizen UI', () => {
           userDetailsData.workPostcode,
           userDetailsData.selectedWorkAddress,
         ),
-    );
+    ));
 
     await vetAndAcceptCitizenCase(
       loginPage,
       et1VettingPage,
       et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
       CaseTypeLocation.EnglandAndWales,
-      submissionReference,
+      caseId,
       users.etManageCaseUser
     );
   });
@@ -201,7 +204,7 @@ test.describe('Case creation in Citizen UI', () => {
     claimDetailsPage,
     submitClaimPage, manageCaseDashboardPage, caseDetailsPage,
   }) => {
-    const submissionReference = await createCaseViaCitizenUI(
+    ({caseId, caseNumber}  = await createCaseViaCitizenUI(
       page,
       citizenPreLoginPage,
       citizenPostLoginPage,
@@ -217,44 +220,34 @@ test.describe('Case creation in Citizen UI', () => {
           userDetailsData.scotSelectedWorkAddress,
           userDetailsData.scotFirstLineOfAddress,
         ),
-    );
+    ));
 
     await vetAndAcceptCitizenCase(
       loginPage,
       et1VettingPage,
       et1CaseServingPage, manageCaseDashboardPage, caseDetailsPage,
       CaseTypeLocation.Scotland,
-      submissionReference,
+      caseId,
       users.etManageCaseUser
     );
   });
 
-  test('Create a claim with multiple ACAS certificates, submit and process within manage cases', async ({
-    page,
+  test('Partially create a claim and return to viewing your et1 claims', async ({
+ page,
     loginPage,
     citizenPreLoginPage,
     citizenPostLoginPage,
     personalDetailsPage,
-    employmentAndRespondentDetailsPage,
-    claimDetailsPage,
-    submitClaimPage,
+    et1ClaimsListPage,
   }) => {
-     await createCaseViaCitizenUI(
+    await partiallyCreateCaseViaCitizenUI(
       page,
       citizenPreLoginPage,
       citizenPostLoginPage,
       personalDetailsPage,
-      employmentAndRespondentDetailsPage,
-      claimDetailsPage,
-      submitClaimPage,
       'EnglandWales',
-      async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) },
-      employmentAndRespondentDetailsPage =>
-        employmentAndRespondentDetailsPage.multipleAcasCertificate(
-          userDetailsData.workPostcode,
-          userDetailsData.selectedWorkAddress,
-          userDetailsData.firstLineOfAddress,
-        ),
-    );
-  });
+      async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl) }
+        )
+    await et1ClaimsListPage.viewYourET1Claims()
+    });
 });

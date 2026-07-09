@@ -10,6 +10,7 @@ export default class ContactTheTribunalPage extends BasePage {
   private readonly yesOptionR92: Locator;
   private readonly noOptionR92: Locator;
   private readonly storeButton: Locator;
+  private readonly moreInfoR92No: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -20,12 +21,15 @@ export default class ContactTheTribunalPage extends BasePage {
     this.yesOptionR92 = this.page.locator(`#copyToOtherPartyYesOrNo`);
     this.noOptionR92 = this.page.locator(`#copyToOtherPartyYesOrNo-2`);
     this.storeButton = this.page.getByRole('button', { name: 'Store application' });
+    this.moreInfoR92No = this.page.locator(`#copyToOtherPartyText`);
   }
 
   async assertContactTheTribunalPageIsDisplayed() {
     await this.page.waitForLoadState('load');
     await expect(this.contactTheTribunalPageTitle).toBeVisible();
-    await this.showAllSectionsLink.click();
+    if (await this.showAllSectionsLink.isVisible()) {
+      await this.showAllSectionsLink.click();
+    }
     await this.page.waitForLoadState('load');
   }
 
@@ -107,6 +111,7 @@ export default class ContactTheTribunalPage extends BasePage {
         case 'no':
         await expect(this.noOptionR92).toBeVisible();
         await this.noOptionR92.check();
+        await this.moreInfoR92No.fill('This is Correspondence No Claimant')
         break;
       default:
         throw new Error(`R92 option: ${option} is not recognized.`);

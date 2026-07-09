@@ -72,6 +72,8 @@ import AllocateHearingPage from '../pages/allocateHearingPage.ts';
 import ManageTelephoneNotePage from '../pages/manageTelephoneNotePage.ts';
 import { Et1ClaimsListPage } from '../pages/claimantCitizenHub/et1ClaimsListPage.ts';
 import AmendContactDetailsLrPage from '../pages/events/AmendContactDetailsLrPage.ts';
+import CitizenApplicationsPage from '../pages/claimantCitizenHub/citizenApplicationsPage.ts';
+import ResClaimantsApplicationsPage from '../pages/respondentCitizenHub/resClaimantsApplicationsPage.ts';
 
 export type PageFixtures = {
   applicationTabPage: ApplicationTabPage;
@@ -147,6 +149,8 @@ export type PageFixtures = {
   allocateHearingPAge:AllocateHearingPage;
   et1ClaimsListPage: Et1ClaimsListPage;
   amendContactDetailsLrPage: AmendContactDetailsLrPage;
+  citizenApplicationsPage: CitizenApplicationsPage;
+  resClaimantsApplicationsPage :ResClaimantsApplicationsPage;
 };
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -409,5 +413,11 @@ export const pageFixtures = base.extend<PageFixtures>({
   },
   amendContactDetailsLrPage:async({page}, use)=>{
       await use (new AmendContactDetailsLrPage (page));
+  },
+  citizenApplicationsPage:async({page}, use)=>{
+      await use (new CitizenApplicationsPage (page));
+  },
+  resClaimantsApplicationsPage:async({page}, use)=>{
+      await use (new ResClaimantsApplicationsPage (page));
   }
 });

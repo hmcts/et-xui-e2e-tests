@@ -24,8 +24,8 @@ export class Helpers {
         await page.waitForTimeout(2000);
     }
 
-    public static async waitForTask(page: Page, taskName: string) {
-        // refresh page until the task shows up - there can be some delay
+    public static async waitForTask(page: Page, taskName: string, position = 0) {
+        // refresh page until the task shows up at the requested position - there can be some delay
         await expect
             .poll(
                 async () => {
@@ -33,6 +33,7 @@ export class Helpers {
                         .locator(Selectors.strong, {
                             hasText: taskName,
                         })
+                        .nth(position)
                         .isVisible();
                     if (!visible) {
                         await page.reload();

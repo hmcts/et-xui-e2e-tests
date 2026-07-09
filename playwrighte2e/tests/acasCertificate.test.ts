@@ -9,7 +9,8 @@ test.describe('Add & Search ACAS certificate tests', () => {
   test.use({
     storageState: users.etCaseWorker.sessionFile
   })
-  let submissionReference: string;
+  let caseId: string;
+  let caseNumber: string;
 
   test.beforeEach(
     async ({
@@ -25,7 +26,7 @@ test.describe('Add & Search ACAS certificate tests', () => {
       submitClaimPage, manageCaseDashboardPage, caseDetailsPage, citizenHubLoginPage
     }) => {
 
-      submissionReference = await createCaseViaCitizenUI(
+      ({caseId, caseNumber} = await createCaseViaCitizenUI(
         page,
         citizenPreLoginPage,
         citizenPostLoginPage,
@@ -41,7 +42,7 @@ test.describe('Add & Search ACAS certificate tests', () => {
             userDetailsData.selectedWorkAddress,
             userDetailsData.firstLineOfAddress,
           ),
-      );
+      ));
 
       await vetAndAcceptCitizenCase(
         loginPage,
@@ -50,7 +51,7 @@ test.describe('Add & Search ACAS certificate tests', () => {
         manageCaseDashboardPage,
         caseDetailsPage,
         CaseTypeLocation.EnglandAndWales,
-        submissionReference,
+        caseId,
         users.etCaseWorker
       );
     },

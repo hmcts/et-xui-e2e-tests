@@ -6,6 +6,7 @@
 import { axiosRequest } from './ApiHelper';
 import engCase from '../../resources/payload/citizen/et-england-case-data.json';
 import scotCase from '../../resources/payload/citizen/et-scotland-case-data.json';
+import eng2RespondentCase from '../../resources/payload/citizen/et-england-case-data-2-repondent.json';
 import et3 from '../../resources/payload/citizen/et3.json';
 import { CaseTypeLocation } from '../../config/case-data.ts';
 import { getUserAuthToken, getUserId } from './TokenHelperApi.ts';
@@ -68,13 +69,14 @@ export class CuiApi {
     password: string,
     case_id: string,
     caseTypeLocation: CaseTypeLocation,
+    multipleRespondent: boolean = false
   ): Promise<any> {
     const authToken = await getUserAuthToken(username, password);
     let updateCaseUrl = `${syaApiBaseUrl}cases/update-case`;
     let updateCaseBody = {
       case_id: case_id.toString(),
       case_type_id: caseTypeLocation.toString(),
-      case_data: payloadMap[caseTypeLocation],
+      case_data: multipleRespondent ? eng2RespondentCase.data : payloadMap[caseTypeLocation],
     };
     let apiConfig = {
       method: 'put',
@@ -103,6 +105,7 @@ export class CuiApi {
     password: string,
     case_id: string,
     caseTypeLocation: CaseTypeLocation,
+    multipleRespondent: boolean = false
   ): Promise<any> {
     const authToken = await getUserAuthToken(username, password);
     let submitCaseUrl = `${syaApiBaseUrl}cases/submit-case`;
@@ -110,7 +113,7 @@ export class CuiApi {
     let updateCaseBody = {
       case_id: case_id.toString(),
       case_type_id: caseTypeLocation.toString(),
-      case_data: payloadMap[caseTypeLocation],
+      case_data: multipleRespondent ? eng2RespondentCase.data : payloadMap[caseTypeLocation],
     };
 
     let apiConfig = {

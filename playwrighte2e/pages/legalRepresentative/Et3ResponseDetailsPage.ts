@@ -120,6 +120,8 @@ export class Et3ResponseDetailsPage extends Et3DetailsPage {
     });
 
     await this.clickET3SaveAsDraftButton();
+    await expect(this.submitEt3FormButton).toBeVisible();
+
     await this.clickCloseAndReturn();
   }
 }

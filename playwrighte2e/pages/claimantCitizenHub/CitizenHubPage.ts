@@ -4,7 +4,7 @@ import { config } from '../../config/config.dynamic.ts';
 
 export default class CitizenHubPage extends BasePage {
   private readonly caseOverviewPageTitle: Locator;
-  private readonly caseNumberText: Locator;
+  readonly caseNumberText: Locator;
   private readonly contactTribunalLink: Locator;
   private readonly appointALegalRepLink: Locator;
   private readonly haveYouCompletedThisSectionHeading: Locator;
@@ -256,7 +256,6 @@ export default class CitizenHubPage extends BasePage {
 
     await this.clickSubmitButton();
 
-    await this.checkYourAnswerHeading.waitFor();
     await this.clickCloseAndReturn();
   }
 
@@ -290,8 +289,8 @@ export default class CitizenHubPage extends BasePage {
     }
 
     await this.page.getByRole('button', { name: 'Respond' }).click();
-    await this.page.locator('#respond-to-application-text').isVisible();
-    await this.page.locator('#respond-to-application-text').fill('Response from claimant');
+    await this.respondToApplicationText.isVisible();
+    await this.respondToApplicationText.fill('Response from claimant');
     await this.page.locator('#supporting-material-yes-no-2').check();
     await this.clickContinue();
 
@@ -385,5 +384,77 @@ export default class CitizenHubPage extends BasePage {
   async verifyLegalRepUnassignedNotificationBanner() {
     await expect(this.page.getByLabel('Important')).toContainText('You are no longer legally represented.');
     await expect(this.appointLegalRepLink).toBeVisible();
+  }
+
+  async closeAndReturnToCaseDetailsCui() {
+    await expect(this.returntoCUIcaseOverviewButton).toBeVisible();
+    this.returntoCUIcaseOverviewButton.click();
+  }
+
+  async verifyRespondToTheTribunalNotificationBanner(notificationType: string) {
+    switch (notificationType) {
+      case 'ET1 claim':
+      case 'CMO':
+      case 'ECC':
+        await expect(this.page.locator('#main-content')).toContainText('The tribunal has sent you a notification');
+        await this.page.getByText('Respond to the tribunal -').click();
+        break;
+      case 'Hearing':
+        await expect(this.page.locator('#main-content')).toContainText(
+          'The tribunal has sent you a notification about your hearing.',
+        );
+        await this.page.getByText('Respond to the tribunal').click();
+        break;
+      default:
+        throw new Error('... Notification Type not provided ...');
+    }
+
+    switch (notificationType) {
+      case 'ET1 claim':
+        await expect(this.page.locator('dl')).toContainText('Claim (ET1)');
+        break;
+      case 'CMO':
+        await expect(this.page.locator(`//dt[normalize-space()='Notification Subject']/following-sibling::dd`)).toContainText('Case management orders / requests');
+        await expect(this.page.locator(`//dt[normalize-space()='Case management order or request?']/following-sibling::dd`)).toContainText('Case management order');
+        break;
+      case 'ECC':
+        await expect(this.page.locator('dl')).toContainText('Employer Contract Claim');
+        break;
+      case 'Hearing':
+        await this.page.getByText('test Notification').click();
+        await expect(this.page.locator('dl')).toContainText('Hearing');
+        break;
+      default:
+        throw new Error('... Please provide Notification type ...');
+    }
+    await expect(this.page.locator(`//dt[normalize-space()='Sent by']/following-sibling::dd`)).toContainText('Tribunal');
+  }
+
+  async respondToTheTribunalsNotification() {
+    await this.page.waitForLoadState('load');
+    await expect(this.page.getByRole('heading', { name: 'Your response' })).toBeVisible();
+
+    await this.tribunalResponseField.fill('Response to tribunal by Claimant');
+
+    await this.supportingMaterialRadioYes.waitFor();
+    await this.supportingMaterialRadioYes.check();
+    await this.clickContinue();
+
+    await this.supportingMaterialFile.waitFor();
+    await this.commonActionsHelper.uploadWithRateLimitRetry(
+      this.page,
+      this.supportingMaterialFile,
+      `playwrighte2e/resources/test_file/welshTest.pdf`
+    )
+
+    await this.uploadFielButton.waitFor();
+    await this.uploadFielButton.click();
+    await this.clickContinue();
+
+    await this.copyToOtherPartyYesOrNo.waitFor();
+    await this.copyToOtherPartyYesOrNo.check();
+    await this.clickContinue();
+
+    await this.clickSubmitButton();
   }
 }

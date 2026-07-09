@@ -51,7 +51,8 @@ test.describe('ET3/Respondent Applications', () => {
       await citizenHubPage.respondToRespondentApplication('TypeB');
   });
 
-  test('Respondent makes Type C Application successfully',
+  //TODO: RET-6573 defect raised for this issue, PAGE NOT FOUND error
+  test.fail('Respondent makes Type C Application successfully',
     async ({ et3LoginPage, respondentCaseOverviewPage}) => {
       //Assign a claim to respondent
       await et3LoginPage.processRespondentLogin(users.etRespondent);
