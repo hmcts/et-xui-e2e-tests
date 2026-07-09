@@ -127,7 +127,7 @@ export abstract class BasePage {
     let attempt = 0;
 
     while (attempt < maxRetries) {
-      await this.submitButton.click({clickCount:2, force: true });
+      await this.submitButton.click({force: true });
       await this.page.waitForLoadState('load', { timeout: 4000 });
       await this.waitForSpinner(180_000);
       if (!submitted) return;
