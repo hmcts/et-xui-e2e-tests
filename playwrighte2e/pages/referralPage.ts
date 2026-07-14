@@ -1,9 +1,11 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { BasePage } from './basePage';
+import { ReferralOption } from '../config/case-data.ts';
 
 export default class ReferralPage extends BasePage {
   private readonly judgeReferralOption: Locator;
   private readonly adminReferralOption: Locator;
+  private readonly legalOfficerReferralOption: Locator;
   private readonly isUrgentYes: Locator;
   private readonly referralSubjOption: Locator;
   private readonly referralDetails: Locator;
@@ -19,11 +21,12 @@ export default class ReferralPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.judgeReferralOption = page.locator('#referCaseTo-Judge');
-    this.adminReferralOption = page.locator('#referCaseTo-Admin');
+    this.judgeReferralOption = page.locator('#referCaseTo-Judge, #updateReferCaseTo-Judge, #directionTo-Judge');
+    this.adminReferralOption = page.locator('#referCaseTo-Admin, #updateReferCaseTo-Admin, #directionTo-Admin');
+    this.legalOfficerReferralOption = page.locator('[id="referCaseTo-Legal officer"], [id="updateReferCaseTo-Legal officer"], [id="directionTo-Legal officer"]');
     this.isUrgentYes = page.locator('#isUrgent_Yes');
     this.referralSubjOption = page.locator('#referralSubject');
-    this.referralDetails = page.locator('#referralDetails');
+    this.referralDetails = page.locator('#referralDetails, #updateReferralDetails');
     this.docUploadEle = page.locator('#referralDocument_0_uploadedDocument');
     this.referralSelectEle = page.locator('#selectReferral');
     this.adminDirectionOption = page.locator('#directionTo-Admin');
@@ -35,12 +38,20 @@ export default class ReferralPage extends BasePage {
     this.markdownPara = page.locator('markdown p');
   }
 
-  async sendNewReferral(adminOption: boolean) {
+  async sendNewReferral(option: ReferralOption) {
     await expect(this.page.getByText('Refer to admin, legal officer or judge')).toBeVisible();
-    if (adminOption) {
+
+    switch (option) {
+    case 'Admin':
       await this.adminReferralOption.click();
-    } else {
+      break;
+    case 'Legal Officer':
+      await this.legalOfficerReferralOption.click();
+      break;
+    case 'Judge':
+    default:
       await this.judgeReferralOption.click();
+      break;
     }
     await this.isUrgentYes.check();
     await this.referralSubjOption.selectOption({ label: 'ET1' });
@@ -57,13 +68,23 @@ export default class ReferralPage extends BasePage {
     await this.clickCloseAndReturn();
   }
 
-  async replyToReferral() {
+  async replyToReferral(option: ReferralOption = 'Admin') {
     await this.referralSelectEle.waitFor();
     await this.referralSelectEle.selectOption({ label: '1 - ET1' });
     await this.clickContinue();
 
-    await expect(this.page.locator("//tr/td[normalize-space()='Judge']")).toBeVisible();
-    await this.adminDirectionOption.click();
+    switch (option) {
+      case 'Admin':
+        await this.adminReferralOption.click();
+        break;
+      case 'Legal Officer':
+        await this.legalOfficerReferralOption.click();
+        break;
+      case 'Judge':
+      default:
+        await this.judgeReferralOption.click();
+        break;
+    }
     await this.isUrgentReplyYes.check();
     await this.directionSubjEle.fill("This is a test direction");
 
@@ -80,6 +101,29 @@ export default class ReferralPage extends BasePage {
 
     await expect(this.markdownPara).toContainText("We have recorded your reply");
     await this.clickCloseAndReturn();
+  }
+
+  async updateTheReferral(referral: string = '1 - ET1', option: ReferralOption = 'Admin') {
+    await this.referralSelectEle.waitFor();
+    await this.referralSelectEle.selectOption({ label: referral });
+    await this.clickContinue();
+
+    switch (option) {
+      case 'Admin':
+        await this.adminReferralOption.click();
+        break;
+      case 'Legal Officer':
+        await this.legalOfficerReferralOption.click();
+        break;
+      case 'Judge':
+      default:
+        await this.judgeReferralOption.click();
+        break;
+    }
+    await this.referralDetails.fill("This is a test referral UPDATE");
+
+    await this.clickContinue();
+    await this.clickSubmitButton();
   }
 
   async closeAReferral() {

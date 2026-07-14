@@ -4,6 +4,8 @@ export enum CaseTypeLocation {
   Scotland = 'ET_Scotland',
 }
 
+export type ReferralOption = 'Admin' | 'Judge' | 'Legal Officer';
+
 export const CaseDetailsValues = {
   claimantFirstName: 'Grayson',
   claimantLastName: 'Becker',
