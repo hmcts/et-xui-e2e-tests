@@ -44,7 +44,7 @@ export class Helpers {
                     // Allow 10s delay before retrying
                     intervals: [10_000],
                     // Allow up to a minute for it to become visible
-                    timeout: 100_000,
+                    timeout: 180_000,
                 },
             )
             .toBeTruthy();

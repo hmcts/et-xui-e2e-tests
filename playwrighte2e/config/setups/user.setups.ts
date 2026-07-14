@@ -11,7 +11,7 @@ test.describe.serial("set up user context", () => {
     { role: 'Legal Rep1', user: users.etLegalRepresentative },
     { role: 'Legal Rep2', user: users.etLegalRepresentative2 },
     { role: 'Judge', user: users.etEnglandJudge },
-    { role: 'Legal Ops User', user: users.etManageCaseUser },
+    { role: 'Legal Ops User', user: users.etLegalOpsUser },
     { role: 'Judge Work Allocation', user: users.etWorkAllocationJudge}
   ];
   for (const { role, user } of xuiUsers) {

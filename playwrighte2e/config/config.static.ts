@@ -12,6 +12,11 @@ export const staticUsers = {
     email: process.env.ET_LEGAL_OPS_USER_NAME || '',
     password: process.env.ET_LEGAL_OPS_PASSWORD || '',
   },
+  etLegalOpsUser: {
+    email: process.env.ET_LEGAL_OPS2_USER_NAME || '',
+    password: process.env.ET_LEGAL_OPS2_PASSWORD || '',
+  },
+
   etLegalRepresentative: {
     email: process.env.ET_LEGALREP_USER_NAME || '',
     password: process.env.ET_LEGALREP_PASSWORD || '',

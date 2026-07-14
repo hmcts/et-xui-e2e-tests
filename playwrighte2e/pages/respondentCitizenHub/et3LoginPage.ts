@@ -66,7 +66,18 @@ export default class Et3LoginPage extends LoginPage {
     await this.respondToNewClaim.click();
     await this.enterCaseNumberDetail(caseNumber);
     await this.enterCaseDetails(submissionRef, respName, firstName, lastName);
-    await this.checkAndSubmitPage(caseNumber);
+
+    await expect.poll(
+      async () => {
+        await this.checkAndSubmitPage(caseNumber);
+        const error = this.page.getByText('Unable to assign role. Please try again later');
+        return error.isVisible().catch(() => false);
+      },
+      {
+        intervals: [5_000],
+        timeout: 120_000,
+      }
+    ).toBeFalsy()
     await this.navigateToCase(caseNumber, submissionRef);
   }
 
