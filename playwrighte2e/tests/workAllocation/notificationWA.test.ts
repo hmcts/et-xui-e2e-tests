@@ -10,7 +10,6 @@ import { expect } from '@playwright/test';
 import Et3LoginPage from '../../pages/respondentCitizenHub/et3LoginPage.ts';
 import RespondentCaseOverviewPage from '../../pages/respondentCitizenHub/respondentCaseOverviewPage.ts';
 
-
 let caseId: string;
 let caseNumber: string;
 let notificationTitle: string;
