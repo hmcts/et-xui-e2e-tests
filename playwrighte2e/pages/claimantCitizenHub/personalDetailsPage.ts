@@ -1,5 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
 import CitizenHubPage from './CitizenHubPage.ts';
+import userDetailsData from '../../resources/payload/user-details.json';
+
 
 export default class PersonalDetailsPage extends CitizenHubPage {
 
@@ -49,9 +51,9 @@ export default class PersonalDetailsPage extends CitizenHubPage {
     this.homeAddressHeading = this.page.getByRole('heading', {
       name: /address/i,
     });
-    this.postCodeInput = this.page.locator('#addressEnterPostcode, #representativeEnterPostcode, #representedClaimantEnterPostcode');
+    this.postCodeInput = this.page.locator('#addressEnterPostcode, #representativeEnterPostcode, #representedClaimantEnterPostcode, #postCodeInput');
     this.selectAnAddressHeading = this.page.getByRole('heading', { name: 'Select an address' });
-    this.selectAddressDropdown = this.page.locator('#addressAddressTypes, #representativeAddressTypes, #representedClaimantAddressTypes');
+    this.selectAddressDropdown = this.page.locator('#addressAddressTypes, #representativeAddressTypes, #representedClaimantAddressTypes, #additionalClaimantAddressTypes');
     this.telephoneNumberHeading = this.page.getByRole('heading', { name: /What is your telephone number\? \(optional\)|What is the representative's phone number\? \(optional\)/
     });
     this.telephoneNumberInput = this.page.locator('#telephone-number, #representativePhoneNumber');
@@ -297,13 +299,53 @@ export default class PersonalDetailsPage extends CitizenHubPage {
     await this.confirmHaveYouCompletedThisSection();
   }
 
-  async processPersonalDetailsForGroupClaim(){
+  async processPersonalDetailsForClaimant(claimantFirstname:string, climantLastname:string) {
     await expect(this.page.getByRole('heading', { name: 'Personal details of another claimant' })).toBeVisible();
     await this.titlePersonalDetail.fill('Mr');
-    await this.firstNamePersonalDetail.fill('Test');
-    await this.lastNamePersonalDetail.fill('Claimant');
+    await this.firstNamePersonalDetail.fill(claimantFirstname);
+    await this.lastNamePersonalDetail.fill(climantLastname);
     await this.enterDob();
     await this.saveAndContinueButton();
+  }
+
+  async enterClaimantHomeAddress(postcode:string, addressOption:string) {
+      await this.page.waitForLoadState('load');
+      await expect(this.homeAddressHeading).toBeVisible();
+      //Enter postcode for claimant address
+      await this.postCodeInput.fill(postcode);
+      await this.saveAndContinueButton();
+
+      await expect(this.selectAnAddressHeading).toBeVisible();
+      await this.selectAddressDropdown.selectOption(addressOption);
+      await this.saveAndContinueButton();
+  }
+
+  async enterAnotherClaimantDetails(addClaimant:boolean) {
+    await expect(this.page.locator('#add-another-claimant-radio')).toBeVisible();
+    if (addClaimant) {
+      await this.page.locator('#add-another-claimant-radio').check();
+    } else {
+      await this.page.locator('#add-another-claimant-radio-2').check();
+    }
+    await this.saveAndContinueButton();
+  }
+
+  async groupRepresentative() {
+    await expect(this.page.locator('#leadClaimant')).toBeVisible();
+    await this.page.locator('#leadClaimant-radio').check();
+    await this.saveAndContinueButton();
+  }
+
+
+  async addClaimantsDetailsManually() {
+    await this.processPersonalDetailsForClaimant(userDetailsData.claimantsFirstName, userDetailsData.claimantsLastName);
+    await this.enterClaimantHomeAddress(userDetailsData.postcode, userDetailsData.addressOption);
+    await this.enterAnotherClaimantDetails(true);
+    await this.processPersonalDetailsForClaimant(userDetailsData.secondClaimantsFirstName, userDetailsData.secondClaimantsLastName);
+    await this.enterClaimantHomeAddress(userDetailsData.representativePostcode, userDetailsData.representativeAddressOption);
+    await this.enterAnotherClaimantDetails(false);
+    await this.groupRepresentative();
+    await this.confirmHaveYouCompletedThisSection();
   }
 
 }

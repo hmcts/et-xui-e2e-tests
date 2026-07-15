@@ -7,7 +7,7 @@ import { CaseTypeLocation, Events } from '../config/case-data.ts';
 test.describe('Group Claim Case creation in Citizen UI', () => {
 
   test(
-    'Create a group claim',
+    'Create a group claim for still working for organisation',
     {
       tag: [],
     },
@@ -38,7 +38,12 @@ test.describe('Group Claim Case creation in Citizen UI', () => {
         singleOrMultipleClaimPage,
         'EnglandWales',
         'Claiming for myself', true,
-        async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl)}
+        async() => { await loginPage.processLogin(users.etClaimant, config.etSyaUiUrl)},  employmentAndRespondentDetailsPage =>
+          employmentAndRespondentDetailsPage.processStillWorkingJourney(
+            userDetailsData.workPostcode,
+            userDetailsData.selectedWorkAddress,
+            userDetailsData.firstLineOfAddress,
+          ),
       );
 
 

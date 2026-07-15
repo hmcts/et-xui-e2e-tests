@@ -42,9 +42,10 @@ export async function createCaseViaCitizenUI(
     //Section-1
     await personalDetailsPage.processPersonalDetails(userDetailsData.postcode, location, userDetailsData.addressOption);
     //group claim logic
+    //Section-2
     if(groupClaim){
-      //Section-2
       await singleOrMultipleClaimPage.processClaimingWithOthers();
+      await personalDetailsPage.addClaimantsDetailsManually();
     }
     //Section-3
     if (employmentJourneyMethod) await employmentJourneyMethod(employmentAndRespondentDetailsPage);
