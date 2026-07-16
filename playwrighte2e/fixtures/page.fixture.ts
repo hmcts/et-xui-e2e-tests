@@ -74,6 +74,7 @@ import { Et1ClaimsListPage } from '../pages/claimantCitizenHub/et1ClaimsListPage
 import AmendContactDetailsLrPage from '../pages/events/AmendContactDetailsLrPage.ts';
 import CitizenApplicationsPage from '../pages/claimantCitizenHub/citizenApplicationsPage.ts';
 import ResClaimantsApplicationsPage from '../pages/respondentCitizenHub/resClaimantsApplicationsPage.ts';
+import CaseTransferToEcmPage from '../pages/events/CaseTransferToEcmPage.ts';
 
 export type PageFixtures = {
   applicationTabPage: ApplicationTabPage;
@@ -101,6 +102,7 @@ export type PageFixtures = {
   bfActionPage: BfActionPage;
   jurisdictionPage: JurisdictionPage;
   caseTransferPage: CaseTransferPage;
+  caseTransferToEcmPage: CaseTransferToEcmPage;
   caseWorkerNotificationPage: CaseWorkerNotificationPage;
   legalRepNotificationPage: LegalRepNotificationPage;
   claimantDetailsPage: ClaimantDetailsPage;
@@ -245,6 +247,10 @@ export const pageFixtures = base.extend<PageFixtures>({
 
     caseTransferPage:async ({page}, use) => {
         await use(new CaseTransferPage(page));
+    },
+
+    caseTransferToEcmPage:async ({page}, use) => {
+      await use(new CaseTransferToEcmPage(page));
     },
 
     caseWorkerNotificationPage:async ({page}, use) => {

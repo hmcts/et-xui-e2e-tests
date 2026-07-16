@@ -211,6 +211,10 @@ export const Events: Record<string, CaseEvent> = {
     listItem: 'Case Transfer (Scotland)',
     ccdCallback: '',
   },
+  caseTransferToEcm: {
+    listItem: 'Case Transfer to ECM',
+    ccdCallback: 'caseTransferECM',
+  },
   addTelephoneNote: {
     listItem: 'Add Telephone Note',
     ccdCallback: 'addCaseNote',
