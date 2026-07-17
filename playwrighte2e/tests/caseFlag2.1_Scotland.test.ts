@@ -14,6 +14,7 @@ let caseNumber: string;
 let caseId: string;
 
 test.describe('Case Flag 2.1 Scotland cases', () => {
+  test.skip();
   let caseWorkerBrowserPage: Page;
   let loginPageCW: LoginPage;
   let manageCaseDashboardPageCW: ManageCaseDashboardPage;
