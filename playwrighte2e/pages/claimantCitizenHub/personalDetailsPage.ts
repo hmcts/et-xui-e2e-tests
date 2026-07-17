@@ -44,14 +44,14 @@ export default class PersonalDetailsPage extends CitizenHubPage {
     this.dobHeading = this.page.locator(
       'fieldset:has(legend:text-matches("date of birth", "i"))'
     );
-    this.dobGroup = this.page.locator('#dobDate, #representedClaimantDateOfBirth');
+    this.dobGroup = this.page.locator('#dobDate, #representedClaimantDateOfBirth, #additionalClaimantDob');
     this.sexAndPreferredTitleHeading = this.page.getByRole('heading', {
       name: /^(Sex and preferred title|Claimant's sex and preferred title)$/
     });
     this.homeAddressHeading = this.page.getByRole('heading', {
       name: /address/i,
     });
-    this.postCodeInput = this.page.locator('#addressEnterPostcode, #representativeEnterPostcode, #representedClaimantEnterPostcode, #postCodeInput');
+    this.postCodeInput = this.page.locator('#addressEnterPostcode, #representativeEnterPostcode, #representedClaimantEnterPostcode, #postCodeInput, #additionalClaimantEnterPostcode');
     this.selectAnAddressHeading = this.page.getByRole('heading', { name: 'Select an address' });
     this.selectAddressDropdown = this.page.locator('#addressAddressTypes, #representativeAddressTypes, #representedClaimantAddressTypes, #additionalClaimantAddressTypes');
     this.telephoneNumberHeading = this.page.getByRole('heading', { name: /What is your telephone number\? \(optional\)|What is the representative's phone number\? \(optional\)/
@@ -315,6 +315,7 @@ export default class PersonalDetailsPage extends CitizenHubPage {
       await this.postCodeInput.fill(postcode);
       await this.saveAndContinueButton();
 
+    await this.page.waitForLoadState('load');
       await expect(this.selectAnAddressHeading).toBeVisible();
       await this.selectAddressDropdown.selectOption(addressOption);
       await this.saveAndContinueButton();
@@ -332,14 +333,14 @@ export default class PersonalDetailsPage extends CitizenHubPage {
 
   async groupRepresentative() {
     await expect(this.page.locator('#leadClaimant')).toBeVisible();
-    await this.page.locator('#leadClaimant-radio').check();
+    await this.page.locator('#leadClaimant').check();
     await this.saveAndContinueButton();
   }
 
 
   async addClaimantsDetailsManually() {
     await this.processPersonalDetailsForClaimant(userDetailsData.claimantsFirstName, userDetailsData.claimantsLastName);
-    await this.enterClaimantHomeAddress(userDetailsData.postcode, userDetailsData.addressOption);
+    await this.enterClaimantHomeAddress(userDetailsData.workPostcode, userDetailsData.selectedWorkAddress);
     await this.enterAnotherClaimantDetails(true);
     await this.processPersonalDetailsForClaimant(userDetailsData.secondClaimantsFirstName, userDetailsData.secondClaimantsLastName);
     await this.enterClaimantHomeAddress(userDetailsData.representativePostcode, userDetailsData.representativeAddressOption);

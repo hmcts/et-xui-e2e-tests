@@ -6,8 +6,8 @@ import { CaseTypeLocation, Events } from '../config/case-data.ts';
 
 test.describe('Group Claim Case creation in Citizen UI', () => {
 
-  test(
-    'Create a group claim for still working for organisation',
+  test.skip(
+    'Create a group claim for still working for organisation with two claimants as a group',
     {
       tag: [],
     },

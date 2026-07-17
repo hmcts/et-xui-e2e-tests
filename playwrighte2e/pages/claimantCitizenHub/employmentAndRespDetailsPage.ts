@@ -74,7 +74,7 @@ export default class EmploymentAndRespDetailsPage extends CitizenHubPage {
   constructor(page: Page) {
     super(page);
     this.employmentStatusLink = this.page.locator(
-      'a[href="/past-employer?lng=en"], a[href="/did-claimant-work-for-employer?lng=en"]');
+      'a[href="/past-employer?lng=en"], a[href="/did-claimant-work-for-employer?lng=en"], a[href="/past-employer"]');
     this.workedForOrganisationGroup = this.page.locator(
       'fieldset:has(h1:text-matches("work for the organisation or person", "i"))'
     );

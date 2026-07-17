@@ -1,7 +1,7 @@
 import { BasePage } from "../basePage.ts";
 import { expect, Locator, Page } from '@playwright/test';
 import CitizenHubPage from './CitizenHubPage.ts';
-import { th } from '@faker-js/faker';
+
 
 export default class SingleOrMultipleClaimPage extends CitizenHubPage{
 

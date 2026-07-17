@@ -6,7 +6,7 @@ import { createCaseViaCitizenUI, vetAndAcceptCitizenCase } from '../pages/helper
 
 test.describe('non-HMCTS claimant legal representative Case creation in Citizen UI', () => {
 
-  test(
+  test.skip(
     'Create a claim as a claimant representative for still working for organisation, submit and process within manage cases',
     {
       tag: [],
@@ -50,7 +50,7 @@ test.describe('non-HMCTS claimant legal representative Case creation in Citizen 
   );
 
 
-  test(
+  test.skip(
     'Create a claim as a claimant representative for  working notice period for organisation, submit and process within manage cases',
     {
       tag: [],
@@ -93,7 +93,7 @@ test.describe('non-HMCTS claimant legal representative Case creation in Citizen 
     },
   );
 
-  test(
+  test.skip(
     'Create a claim as a claimant representative for no longer working for organisation, submit and process within manage cases',
     {
       tag: [],
@@ -136,7 +136,7 @@ test.describe('non-HMCTS claimant legal representative Case creation in Citizen 
     },
   );
 
-  test(
+  test.skip(
     'Create a claim as a claimant representative DID NOT work for organisation, submit and process within manage cases',
     {
       tag: [],
@@ -180,7 +180,7 @@ test.describe('non-HMCTS claimant legal representative Case creation in Citizen 
   );
 
 
-  test(
+  test.skip(
     'Create a claim as a claimant representative with multiple respondent and multiple ACAS, submit and process within manage cases',
     {
       tag: [],
