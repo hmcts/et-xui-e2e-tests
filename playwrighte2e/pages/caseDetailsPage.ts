@@ -151,7 +151,11 @@ export default class CaseDetailsPage extends BasePage {
    * 5. Throws an error if the requested visible position does not exist.
    */
   private async getVisibleTabContent(content: string, position: number = 0, exact: boolean = true): Promise<Locator> {
-    const locator = this.page.getByText(content, { exact });
+    // active tab area
+    const activeTabContent = this.page.locator('mat-tab-body.mat-tab-body-active .mat-tab-body-content');
+    await expect(activeTabContent).toBeVisible();
+
+    const locator = activeTabContent.getByText(content, { exact });
     // Wait for at least one matching element to be attached
     await locator.first().waitFor({ state: 'attached', timeout: 10000 }).catch(() => {});
     const count = await locator.count();

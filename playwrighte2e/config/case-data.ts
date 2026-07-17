@@ -4,6 +4,8 @@ export enum CaseTypeLocation {
   Scotland = 'ET_Scotland',
 }
 
+export type ReferralOption = 'Admin' | 'Judge' | 'Legal Officer';
+
 export const CaseDetailsValues = {
   claimantFirstName: 'Grayson',
   claimantLastName: 'Becker',
@@ -208,6 +210,10 @@ export const Events: Record<string, CaseEvent> = {
   caseTransferScotland: {
     listItem: 'Case Transfer (Scotland)',
     ccdCallback: '',
+  },
+  caseTransferToEcm: {
+    listItem: 'Case Transfer to ECM',
+    ccdCallback: 'caseTransferECM',
   },
   addTelephoneNote: {
     listItem: 'Add Telephone Note',

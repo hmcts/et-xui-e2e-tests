@@ -35,7 +35,7 @@ test.describe('Various events in mange case application', () => {
       {
         tabName: 'Jurisdictions',
         tabContent:[
-          'Jurisdictions',
+          'Jurisdiction',
           'DDA'
         ]
       }

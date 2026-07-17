@@ -127,7 +127,7 @@ export abstract class BasePage {
     let attempt = 0;
 
     while (attempt < maxRetries) {
-      await this.submitButton.click({clickCount:2, force: true });
+      await this.submitButton.click({force: true });
       await this.page.waitForLoadState('load', { timeout: 4000 });
       await this.waitForSpinner(180_000);
       if (!submitted) return;
@@ -147,6 +147,11 @@ export abstract class BasePage {
       console.warn('Submit button retried maximum times, but error still present.');
       throw new Error('Submit button retried maximum times, but error still present.');
     }
+  }
+
+  async clickIgnoreAndContinueButton() {
+    await this.page.getByRole('button', { name: 'Ignore Warning and Continue' }).click();
+    await this.page.waitForLoadState('load', { timeout: 5000 });
   }
 
   async delay(ms: number) {
@@ -245,5 +250,20 @@ export abstract class BasePage {
       const count = await textLocators.count();
       expect(count).toBe(0);
     }
+  }
+
+  async waitForWorkAllocationTasksToDisappear() {
+    await expect
+      .poll(
+        async () => {
+          const tasks = await this.page.locator(`exui-case-task`).count();
+          return tasks === 0;
+        },
+        {
+          intervals: [10_000],
+          timeout: 100_000,
+        }
+      )
+      .toBeTruthy();
   }
 }

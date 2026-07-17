@@ -45,6 +45,10 @@ export const users = {
     sessionFile: sessionDir + 'etManageCaseUser.json',
     ...staticUsers.etManageCaseUser,
   },
+  etLegalOpsUser: {
+    sessionFile: sessionDir + 'etLegalOpsUser.json',
+    ...staticUsers.etLegalOpsUser,
+  },
   etLegalRepresentative: {
     sessionFile: sessionDir + 'etLegalRepresentative.json',
     ...staticUsers.etLegalRepresentative,
