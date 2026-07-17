@@ -11,14 +11,14 @@ test.describe.serial("set up user context", () => {
     { role: 'Legal Rep1', user: users.etLegalRepresentative },
     { role: 'Legal Rep2', user: users.etLegalRepresentative2 },
     { role: 'Judge', user: users.etEnglandJudge },
-    { role: 'Legal Ops User', user: users.etManageCaseUser },
+    { role: 'Legal Ops User', user: users.etLegalOpsUser },
     { role: 'Judge Work Allocation', user: users.etWorkAllocationJudge}
   ];
   for (const { role, user } of xuiUsers) {
     test(
       `Set up ${role} user context`,
       async ({ loginPage, manageCaseDashboardPage }) => {
-        if (CookieUtils.isSessionValid(user.sessionFile, cookieName)) {
+        if (CookieUtils.isSessionValid(user.sessionFile, cookieName, user.email)) {
           console.log(`Valid session already exists for ${role} (${user.email}), skipping login.`);
           return;
         }
@@ -33,7 +33,7 @@ test.describe.serial("set up user context", () => {
     'Set up Citizen Claimant user context',
     async({citizenHubLoginPage,})  => {
       const user = users.etClaimant;
-      if(CookieUtils.isSessionValid(user.sessionFile, cookieName)) {
+      if(CookieUtils.isSessionValid(user.sessionFile, cookieName, user.email || undefined)) {
         console.log(`Valid session already exists for ${user.email}, skipping login.`);
         return;}
       await citizenHubLoginPage.processCitizenHubLogin(user);
@@ -43,7 +43,7 @@ test.describe.serial("set up user context", () => {
     'Set up Citizen Claimant2 user context',
     async({citizenHubLoginPage,})  => {
       const user = users.etClaimant2;
-      if(CookieUtils.isSessionValid(user.sessionFile, cookieName)) {
+      if(CookieUtils.isSessionValid(user.sessionFile, cookieName, user.email || undefined)) {
         console.log(`Valid session already exists for ${user.email}, skipping login.`);
         return;}
       await citizenHubLoginPage.processCitizenHubLogin(user);
@@ -58,7 +58,7 @@ test.describe.serial("set up user context", () => {
     test(
       `Set up Citizen ${role} user context`,
       async({et3LoginPage})  => {
-        if(CookieUtils.isSessionValid(user.sessionFile, cookieName)) {
+        if(CookieUtils.isSessionValid(user.sessionFile, cookieName, user.email || undefined)) {
           console.log(`Valid session already exists for ${role} ${user.email}, skipping login.`);
           return;
         }

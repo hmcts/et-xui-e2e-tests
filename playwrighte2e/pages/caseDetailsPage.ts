@@ -1,5 +1,5 @@
 import { BasePage } from "./basePage";
-import { expect, Locator, Page } from '@playwright/test';
+import { BrowserContext, expect, Locator, Page } from '@playwright/test';
 import { CaseEvent } from '../config/case-data';
 import { Tab, TabContentItem } from '../types/tab';
 import { FileTree } from '../types/case_file_view_tree.ts';
@@ -151,7 +151,11 @@ export default class CaseDetailsPage extends BasePage {
    * 5. Throws an error if the requested visible position does not exist.
    */
   private async getVisibleTabContent(content: string, position: number = 0, exact: boolean = true): Promise<Locator> {
-    const locator = this.page.getByText(content, { exact });
+    // active tab area
+    const activeTabContent = this.page.locator('mat-tab-body.mat-tab-body-active .mat-tab-body-content');
+    await expect(activeTabContent).toBeVisible();
+
+    const locator = activeTabContent.getByText(content, { exact });
     // Wait for at least one matching element to be attached
     await locator.first().waitFor({ state: 'attached', timeout: 10000 }).catch(() => {});
     const count = await locator.count();
@@ -316,5 +320,24 @@ export default class CaseDetailsPage extends BasePage {
     const elements = await this.page.locator('markdown p a').allTextContents();
     expect(elements).toContain(referralText);
     await this.page.getByText(referralText).click();
+  }
+
+  async assertDocumentSnippet(documentNameLink: string, snippet: string[], context: BrowserContext) {
+    await this.page.waitForLoadState('load');
+    const documentLink = this.page.getByRole('button', { name: documentNameLink });
+    await expect(documentLink).toBeVisible();
+    const [newPage] = await Promise.all([
+      context.waitForEvent('page'),
+      documentLink.click(),
+    ]);
+
+    await newPage.waitForLoadState('load');
+    for (const text of snippet) {
+      const snippetLocator = newPage.getByText(text);
+      await expect(snippetLocator).toBeVisible();
+    }
+
+    await this.page.bringToFront();
+    await newPage.close();
   }
 }

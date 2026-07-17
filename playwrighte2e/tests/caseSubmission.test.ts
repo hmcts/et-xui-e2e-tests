@@ -66,8 +66,8 @@ test.describe('Case creation in Citizen UI', () => {
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.navigateToContactTheTribunalPage();
       await contactTheTribunalPage.makeApplicationToTribunal('withdraw', 'Citizen withdrawing an application', 'Yes');
-      await contactTheTribunalPage.clickSubmitButton();
-      await contactTheTribunalPage.assertApplicationSentSuccessPageIsDisplayed();
+      await contactTheTribunalPage.clickStoreApplication();
+      await contactTheTribunalPage.assertApplicationStoredSuccessPageIsDisplayed();
       await contactTheTribunalPage.clickCloseAndReturn();
     },
   );

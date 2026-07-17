@@ -31,7 +31,7 @@ export default class LoginPage extends BasePage {
     await this.page.waitForTimeout(1000);
     await this.page.waitForLoadState('load');
     if (await this.signOutLink.count() > 0 || await this.username.count() === 0) {
-      await this.saveSession(user.sessionFile);
+      // Do not overwrite the canonical session file when a context is already authenticated.
       return;
     }
     const currentHeading = await this.headingText();
@@ -51,7 +51,7 @@ export default class LoginPage extends BasePage {
 
     await this.page.waitForURL(new RegExp(baseUrl), { timeout: 10000 });
     await this.saveSession(user.sessionFile);
-    await CookieUtils.addSessionFreshnessCookie(user.sessionFile, baseUrl);
+    await CookieUtils.addSessionFreshnessCookie(user.sessionFile, baseUrl, user.email);
     await this.page.waitForTimeout(2000);
     await this.page.waitForLoadState('load');
   }

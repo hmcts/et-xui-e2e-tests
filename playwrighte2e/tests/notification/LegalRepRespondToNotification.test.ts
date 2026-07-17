@@ -90,7 +90,7 @@ test.describe('Legal Rep Respond to an application made by caseworker', () => {
     await loginPageCW.processLogin(users.etCaseWorker);
     await manageCaseDashboardPageCW.navigateToCaseDetails(caseId, CaseTypeLocation.EnglandAndWales);
     await caseWorkerNotificationPageCW.navigateToSendANotifications();
-    const notificationTitle = await caseWorkerNotificationPageCW.sendNotification('ET1 claim', 'Yes', 'Both parties');
+    const notificationTitle = await caseWorkerNotificationPageCW.sendNotification('CMO', 'Yes', 'Both parties');
 
     //respond as a (respondent) Legal rep
     await manageCaseDashboardPage.visit();
