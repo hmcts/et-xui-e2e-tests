@@ -2,6 +2,7 @@ import { BasePage } from './basePage';
 import { Locator, Page, expect } from '@playwright/test';
 
 export class CaseLinkPage extends BasePage {
+  private readonly createCaseLinkButton: Locator;
   private readonly nextButton: Locator;
   private readonly caseLinkProposeButton: Locator;
   private readonly beforeYouStartCaseLinking: Locator;
@@ -20,6 +21,7 @@ export class CaseLinkPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
+    this.createCaseLinkButton = this.page.getByRole('button', {name: 'Create Case Link'})
     this.nextButton = page.locator('#next-button');
     this.caseLinkProposeButton = page.locator('#propose');
     this.beforeYouStartCaseLinking = page.locator('.govuk-heading-xl');
@@ -43,7 +45,7 @@ export class CaseLinkPage extends BasePage {
     await expect(this.page.getByText('If a group of linked cases has a lead case, you must start from the lead case.')).toBeVisible();
     await expect(this.page.getByText('If the cases to be linked has no lead, you can start the linking journey from any of those cases.')).toBeVisible();
     await this.delay(3000);
-    await this.clickSubmitButton();
+    await this.createCaseLinkButton.click();
   }
 
   async enterCaseLinkReferenceWithHearing(submissionReference: string) {

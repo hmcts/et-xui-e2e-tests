@@ -46,8 +46,8 @@ async function assertTabData(caseDetailsPage: CaseDetailsPage, etiVetting: boole
     {
       tabName: 'Case Details',
       tabContent: [
-        { tabItem: 'Claimant', value: `${CaseDetailsValues.claimantFirstName} ${CaseDetailsValues.claimantLastName}`, position: 1 },
-        { tabItem: 'Respondent', value: `${CaseDetailsValues.respondentName}`, position: 1 }
+        { tabItem: 'Claimant', value: `${CaseDetailsValues.claimantFirstName} ${CaseDetailsValues.claimantLastName}`, position: 0 },
+        { tabItem: 'Respondent', value: `${CaseDetailsValues.respondentName}`, position: 0 }
       ]
     },
     {

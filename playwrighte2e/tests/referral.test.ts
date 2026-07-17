@@ -39,7 +39,7 @@ test.describe.serial('England - Referral test - case worker sends referral, Judg
         //Send new referral
         await caseDetailsPage.navigateToTab('Referrals');
         await caseDetailsPage.verifyAndClickLinkInTab('Send a new referral');
-        await referralPage.sendNewReferral(false);
+        await referralPage.sendNewReferral('Judge');
 
         await caseDetailsPage.assertTabData([
           {
