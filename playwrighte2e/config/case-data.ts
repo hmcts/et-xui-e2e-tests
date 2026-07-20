@@ -234,5 +234,13 @@ export const Events: Record<string, CaseEvent> = {
   amendContactDetailsClaimant: {
     listItem: 'Amend contact details',
     ccdCallback: 'amendClaimantRepresentativeContact',
-  }
+  },
+  requestSupport: {
+    listItem: 'Request Support',
+    ccdCallback: 'requestSupport',
+  },
+  manageSupport: {
+    listItem: 'Manage Support',
+    ccdCallback: 'manageSupport',
+  },
 };

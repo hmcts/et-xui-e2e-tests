@@ -76,6 +76,8 @@ import CitizenApplicationsPage from '../pages/claimantCitizenHub/citizenApplicat
 import ResClaimantsApplicationsPage from '../pages/respondentCitizenHub/resClaimantsApplicationsPage.ts';
 import CaseTransferToEcmPage from '../pages/events/CaseTransferToEcmPage.ts';
 import SingleOrMultipleClaimPage from '../pages/claimantCitizenHub/singleOrMultipleClaimPage.ts';
+import RequestSupportPage from '../pages/requestSupportPage.ts';
+import ManageSupportPage from '../pages/manageSupportPage.ts';
 
 export type PageFixtures = {
   applicationTabPage: ApplicationTabPage;
@@ -155,6 +157,8 @@ export type PageFixtures = {
   citizenApplicationsPage: CitizenApplicationsPage;
   resClaimantsApplicationsPage :ResClaimantsApplicationsPage;
   singleOrMultipleClaimPage: SingleOrMultipleClaimPage;
+  requestSupportPage: RequestSupportPage;
+  manageSupportPage: ManageSupportPage;
 };
 
 export const pageFixtures = base.extend<PageFixtures>({
@@ -431,4 +435,11 @@ export const pageFixtures = base.extend<PageFixtures>({
   singleOrMultipleClaimPage:async({page}, use)=>{
     await use (new SingleOrMultipleClaimPage(page));
   },
+  requestSupportPage:async({page}, use) => {
+      await use (new RequestSupportPage (page));
+  },
+  manageSupportPage:async({page}, use) => {
+      await use (new ManageSupportPage (page));
+  }
+
 });
