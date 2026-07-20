@@ -67,7 +67,7 @@ export default class RespondentRepPage extends BasePage {
     await this.selectRespondent.selectOption(CaseDetailsValues.respondentName);
     await this.respondentName.fill(CaseDetailsValues.respondentName);
     await this.respondentRepresentativePhoneNumber.fill('01234657895');
-    await this.respondentRepresentativeEmailAddress.fill('et.tester@hmcts.net');
+    await this.respondentRepresentativeEmailAddress.fill('et.legalrep.1@gmail.com');
     await this.respondentRepresentativeContactPreference.selectOption('1: Email');
 
     try {
