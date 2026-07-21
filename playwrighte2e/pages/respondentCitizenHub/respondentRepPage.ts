@@ -75,7 +75,7 @@ export default class RespondentRepPage extends BasePage {
         case 'registered':
           await this.registeredLegalOrg.check();
           await expect(this.page.locator('ccd-write-organisation-field')).toContainText('Search for an organisation');
-          await this.searchForRegisteredOrg.fill(orgName);
+          await this.searchForRegisteredOrg.fill("ET Test Factory Solicitor");
           await this.selectOrgFromSearchResult.click();
           await this.clickSubmitButton(false);
           await this.clickIgnoreAndContinueButton();
