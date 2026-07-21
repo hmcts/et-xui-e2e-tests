@@ -59,15 +59,14 @@ test.describe('Case creation in Citizen UI', () => {
       );
 
       await caseDetailsPage.selectNextEvent(Events.respondentRepresentative);
-      await respondentRepPage.addRespondentRepresentative('registered', 'ET Organisation');
-
+      await respondentRepPage.addRespondentRepresentative('registered', 'ET Test Factory Solicitor');
       await citizenHubLoginPage.processCitizenHubLogin(users.etClaimant);
       await citizenHubPage.navigateToSubmittedCaseOverviewOfClaimant(caseId);
       await citizenHubPage.citizenHubCaseOverviewPage(caseNumber);
       await citizenHubPage.navigateToContactTheTribunalPage();
       await contactTheTribunalPage.makeApplicationToTribunal('withdraw', 'Citizen withdrawing an application', 'Yes');
-      await contactTheTribunalPage.clickStoreApplication();
-      await contactTheTribunalPage.assertApplicationStoredSuccessPageIsDisplayed();
+      await contactTheTribunalPage.clickSubmitButton();
+      await contactTheTribunalPage.assertApplicationSentSuccessPageIsDisplayed();
       await contactTheTribunalPage.clickCloseAndReturn();
     },
   );
