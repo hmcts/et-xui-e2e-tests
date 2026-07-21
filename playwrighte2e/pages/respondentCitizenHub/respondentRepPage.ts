@@ -62,7 +62,7 @@ export default class RespondentRepPage extends BasePage {
     this.removeRespondentRepresentative = this.page.locator(`xpath=//button[normalize-space()='Remove']`);
   }
 
-  async addRespondentRepresentative(regOption: string, orgName: string) {
+  async addRespondentRepresentative(regOption: string) {
     await expect(this.page.getByRole('heading', { name: 'Respondent Representative(s)', level: 2})).toBeVisible();
     await this.selectRespondent.selectOption(CaseDetailsValues.respondentName);
     await this.respondentName.fill(CaseDetailsValues.respondentName);

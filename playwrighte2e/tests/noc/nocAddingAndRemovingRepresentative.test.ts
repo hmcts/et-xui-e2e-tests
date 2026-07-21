@@ -115,7 +115,7 @@ test.describe('Legalrep/Caseworker add or remove Representative via NoC or manag
 
     //caseworker assign respondent representative via manage case event
     await caseDetailsPageCW.selectNextEvent(Events.respondentRepresentative);
-    await respondentRepPageCW.addRespondentRepresentative('registered', 'ET Test Factory Solicitor');
+    await respondentRepPageCW.addRespondentRepresentative('registered');
 
     //caseworker can see a Respondent representative
     await caseDetailsPageCW.navigateToTab('Respondent Representative');
