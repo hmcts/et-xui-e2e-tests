@@ -2217,7 +2217,7 @@ __metadata:
     lint-staged: "npm:17.0.4"
     lodash: "npm:^4.18.1"
     proper-lockfile: "npm:^4.1.2"
-    totp-generator: "npm:2.0.0"
+    totp-generator: "npm:2.0.1"
     typescript-logging: "npm:^2.2.0"
     typescript-logging-log4ts-style: "npm:^2.2.0"
     uuid: "npm:^14.0.0"
@@ -3980,12 +3980,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"totp-generator@npm:2.0.0":
-  version: 2.0.0
-  resolution: "totp-generator@npm:2.0.0"
+"totp-generator@npm:2.0.1":
+  version: 2.0.1
+  resolution: "totp-generator@npm:2.0.1"
   dependencies:
     jssha: "npm:^3.3.1"
-  checksum: 10/b035244e753d6e036242aecb82d12e690625bcee6d5923e31e0ee5532e291ba3bcfc4ddb3ddaeabbc86942f22d55b82f22e3d02fc4c19b42518333a3c8cf955a
+  checksum: 10/4f2eb67c3c3a04493638fbf12a977aad53833071cd3ebe0e6796592865c0428393d70325727b5afe2f45398df89c17f41e9a62d43311d662e8a9b7a35616a2f3
   languageName: node
   linkType: hard
 
